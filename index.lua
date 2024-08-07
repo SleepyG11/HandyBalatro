@@ -100,21 +100,21 @@ local CARD_SETS = {
 function handy_move_highlight_in_area(key)
     if not last_clicked_card then return end
     local area = last_clicked_card.area
-    if area and (area == G.consumeables or area == G.jokers) then
-        local dx = KEYS_DX[key]
-        if not dx then return end
-        local current_card = area.highlighted[1];
-        if current_card then
-            for current_index = #area.cards, 1, -1 do
-                if area.cards[current_index] == current_card then
-                    local next_index = ((#area.cards + current_index + dx - 1) % #area.cards) + 1
-                    if current_index == next_index then return end
-                    local next_card = area.cards[next_index]
+    if not area then return end
+    if area ~= G.consumeables and area ~= G.jokers and area ~= G.cine_quests then return end
+    local dx = KEYS_DX[key]
+    if not dx then return end
+    local current_card = area.highlighted[1];
+    if current_card then
+        for current_index = #area.cards, 1, -1 do
+            if area.cards[current_index] == current_card then
+                local next_index = ((#area.cards + current_index + dx - 1) % #area.cards) + 1
+                if current_index == next_index then return end
+                local next_card = area.cards[next_index]
 
-                    area:remove_from_highlighted(current_card)
-                    area:add_to_highlighted(next_card)
-                    return
-                end
+                area:remove_from_highlighted(current_card)
+                area:add_to_highlighted(next_card)
+                return
             end
         end
     end
