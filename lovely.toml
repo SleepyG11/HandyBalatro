@@ -1,0 +1,50 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["index.lua"]
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''self.held_key_times[key] = 0'''
+position = "after"
+payload = '''
+handy_move_highlight_in_area(key)
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:click()'''
+position = "after"
+payload = '''
+if handy_check_shop_insta_actions(self) then return end
+if handy_check_booster_insta_actions(self) then return end
+if handy_check_jokers_insta_actions(self) then return end
+if handy_check_consumeables_insta_actions(self) then return end
+last_clicked_card = self
+'''
+match_indent = true
+overwrite = false
+
+
+# [[patches]]
+# [patches.pattern]
+# target = "game.lua"
+# pattern = "if v.id == 'no_reward' then"
+# position = "before"
+# payload = '''
+# 	if v.id == "set_seed" then
+# 		self.GAME.modifiers.set_seed = v.value
+# 	end
+# '''
+# match_indent = true
+# overwrite = false
