@@ -35,6 +35,17 @@ last_clicked_card = self
 match_indent = true
 overwrite = false
 
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:hover()'''
+position = "after"
+payload = '''
+if handy_insta_highlight_card(self) then return end
+'''
+match_indent = true
+overwrite = false
+
 
 # [[patches]]
 # [patches.pattern]

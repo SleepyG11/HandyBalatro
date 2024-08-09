@@ -120,6 +120,17 @@ function handy_move_highlight_in_area(key)
     end
 end
 
+function handy_insta_highlight_card(card)
+    if not card.area then return false end
+    if card.area ~= G.hand then return false end
+    if not love.mouse.isDown(1) then return false end
+    if not card.highlighted then
+        card.area:add_to_highlighted(card)
+        return false
+    end
+    return false
+end
+
 -- 
 
 function fake_check_card_event(func, card)
