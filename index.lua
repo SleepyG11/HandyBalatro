@@ -150,8 +150,8 @@ function handy_check_shop_insta_actions(card)
     if not area then return false end
     if area ~= G.shop_jokers and area ~= G.shop_booster and area ~= G.shop_vouchers then return false end
 
-    local is_shift_pressed = love.keyboard.isDown("lshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl")
+    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
+    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
 
     if CARD_SETS.SHOP.TARGET[card.ability.set] or card.ability.consumeable then
         local can_process = false
@@ -208,8 +208,8 @@ function handy_check_booster_insta_actions(card)
     if not area then return false end
     if area ~= G.pack_cards then return false end
 
-    local is_shift_pressed = love.keyboard.isDown("lshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl")
+    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
+    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
 
     if CARD_SETS.BOOSTER_PACK.TARGET[card.ability.set] or card.ability.consumeable then
         local can_process = false
@@ -241,8 +241,8 @@ function handy_check_jokers_insta_actions(card)
     if not area then return false end
     if area ~= G.jokers then return false end
 
-    local is_shift_pressed = love.keyboard.isDown("lshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl")
+    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
+    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
 
     if CARD_SETS.JOKERS.TARGET[card.ability.set] then
         local can_process = false
@@ -265,8 +265,8 @@ function handy_check_consumeables_insta_actions(card)
     if not area then return false end
     if area ~= G.consumeables then return false end
 
-    local is_shift_pressed = love.keyboard.isDown("lshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl")
+    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
+    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
 
     if CARD_SETS.CONSUMEABLES.TARGET[card.ability.set] or card.ability.consumeable then
         local can_process = false
