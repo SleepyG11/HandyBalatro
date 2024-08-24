@@ -5,96 +5,6 @@ local KEYS_DX = {
     right = 1
 }
 
-local CARD_SETS = {
-    SHOP = {
-        TARGET = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-            Voucher = true,
-            Booster = true,
-        },
-
-        BUY = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-        },
-        USE = {
-            Voucher = true,
-            Booster = true,
-        },
-        BUY_AND_USE = {
-
-        },
-
-        CAN_BUY = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-        },
-        CAN_OPEN = {
-            Booster = true,
-        },
-        CAN_REDEEM = {
-            Voucher = true,
-        },
-    },
-    BOOSTER_PACK = {
-        TARGET = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-            Voucher = true,
-            Booster = true,
-        },
-        CAN_SELECT = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-            Voucher = true,
-            Booster = true,
-        },
-        USE = {
-            Joker = true,
-            Enhanced = true,
-            Default = true,
-            Voucher = true,
-            Booster = true,
-        }
-    },
-    JOKERS = {
-        TARGET = {
-            Joker = true,
-        },
-
-        CAN_SELL = {
-            Joker = true,
-        },
-
-        SELL = {
-            Joker = true,
-        },
-    },
-    CONSUMEABLES = {
-        TARGET = {
-
-        },
-
-        CAN_SELL = {
-
-        },
-
-        SELL = {
-
-        },
-
-        USE = {
-
-        },
-    }
-}
-
 -- 
 
 function handy_move_highlight_in_area(key)
@@ -123,7 +33,12 @@ end
 function handy_insta_highlight_card(card)
     if not card.area then return false end
     if card.area ~= G.hand then return false end
+
+    -- Do nothing if touchscreen is used
+    -- TODO: fix it
+    if next(love.touch.getTouches()) then return false end
     if not love.mouse.isDown(1) then return false end
+
     if not card.highlighted then
         card.area:add_to_highlighted(card)
         return false
@@ -133,165 +48,64 @@ end
 
 -- 
 
-function fake_check_card_event(func, card)
+function fake_check_card_event(func, card, id)
     local fake_event = {
         UIBox = {},
         config = {
             ref_table = card,
-            button = nil
+            button = nil,
+            id = id,
         }
     }
     func(fake_event)
     return fake_event.config.button ~= nil
 end
+function fake_execute_card_event(func, card, id)
+    local fake_event = {
+        UIBox = {},
+        config = {
+            ref_table = card,
+            button = nil,
+            id = id,
+        }
+    }
+    func(fake_event)
+end
 
-function handy_check_shop_insta_actions(card)
+function handy_insta_actions(card)
     local area = card.area
     if not area then return false end
-    if area ~= G.shop_jokers and area ~= G.shop_booster and area ~= G.shop_vouchers then return false end
 
     local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
     local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
 
-    if CARD_SETS.SHOP.TARGET[card.ability.set] or card.ability.consumeable then
-        local can_process = false
-        local can_use_consumeable = false
-        if card.ability.consumeable then
-            if is_ctrl_pressed then
-                can_process = fake_check_card_event(G.FUNCS.can_buy, card) and card:can_use_consumeable()
-                can_use_consumeable = can_process
-            elseif is_shift_pressed then
-                can_process = fake_check_card_event(G.FUNCS.can_buy, card)
-            end
-        elseif CARD_SETS.SHOP.CAN_BUY[card.ability.set] or card.ability.consumeable then
-            can_process = is_shift_pressed and fake_check_card_event(G.FUNCS.can_buy, card)
-        elseif CARD_SETS.SHOP.CAN_REDEEM[card.ability.set] then
-            can_process = is_shift_pressed and fake_check_card_event(G.FUNCS.can_redeem, card)
-        elseif CARD_SETS.SHOP.CAN_OPEN[card.ability.set] then
-            can_process = is_shift_pressed and fake_check_card_event(G.FUNCS.can_open, card)
-        end
+    if not (is_shift_pressed or is_ctrl_pressed) then return false end
 
-        if not can_process then return false end
+    local base_background = G.UIDEF.card_focus_ui(card)
+    local base_attach = base_background:get_UIE_by_ID('ATTACH_TO_ME').children
 
-        local result = false
-        if CARD_SETS.SHOP.BUY_AND_USE[card.ability.set] or (card.ability.consumeable and can_use_consumeable) then
-            result = G.FUNCS.buy_from_shop({
-                UIBox = {},
-                config = {
-                    ref_table = card,
-                    id = "buy_and_use"
-                }
-            })
-        elseif CARD_SETS.SHOP.USE[card.ability.set] then
-            result = G.FUNCS.use_card({
-                UIBox = {},
-                config = {
-                    ref_table = card
-                }
-            })
-        elseif CARD_SETS.SHOP.BUY[card.ability.set] or (card.ability.consumeable and not can_use_consumeable) then
-            result = G.FUNCS.buy_from_shop({
-                UIBox = {},
-                config = {
-                    ref_table = card,
-                    id = "buy_from_shop"
-                }
-            })
-        end
-        return true
+    local target_button = nil
+    local is_booster_pack_card = (card.area == G.pack_cards and G.pack_cards) and not card.ability.consumeable
+    
+    if is_ctrl_pressed then
+        target_button = base_attach.buy_and_use or (not is_booster_pack_card and base_attach.use)
+    elseif is_shift_pressed then
+        target_button = base_attach.buy or base_attach.redeem or base_attach.sell or (is_booster_pack_card and base_attach.use)
     end
+
+    if target_button then
+        local target_button_definition = target_button.definition.nodes[1]
+        local func = target_button_definition.config.func
+        local button = target_button_definition.config.button
+        local id = target_button_definition.config.id
+
+        if fake_check_card_event(G.FUNCS[func], card, id) then 
+            fake_execute_card_event(G.FUNCS[button], card, id)
+            base_background:remove()
+            return true
+        end
+    end
+
+    base_background:remove()
     return false
-end
-
-function handy_check_booster_insta_actions(card)
-    local area = card.area
-    if not area then return false end
-    if area ~= G.pack_cards then return false end
-
-    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
-
-    if CARD_SETS.BOOSTER_PACK.TARGET[card.ability.set] or card.ability.consumeable then
-        local can_process = false
-        local can_use_consumeable = false
-        if CARD_SETS.BOOSTER_PACK.CAN_SELECT[card.ability.set] then
-            can_process = is_shift_pressed and fake_check_card_event(G.FUNCS.can_select_card, card)
-        elseif card.ability.consumeable then
-            can_process = is_ctrl_pressed and card:can_use_consumeable()
-            can_use_consumeable = can_process
-        end
-
-        if not can_process then return false end
-
-        local result = false
-        if CARD_SETS.BOOSTER_PACK.USE[card.ability.set] or (card.ability.consumeable and can_use_consumeable) then
-            result = G.FUNCS.use_card({
-                UIBox = {},
-                config = {
-                    ref_table = card
-                }
-            })
-        end
-        return true
-    end
-end
-
-function handy_check_jokers_insta_actions(card)
-    local area = card.area
-    if not area then return false end
-    if area ~= G.jokers then return false end
-
-    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
-
-    if CARD_SETS.JOKERS.TARGET[card.ability.set] then
-        local can_process = false
-        if CARD_SETS.JOKERS.CAN_SELL[card.ability.set] then
-            can_process = is_shift_pressed and card:can_sell_card()
-        end
-
-        if not can_process then return false end
-
-        local result = false
-        if CARD_SETS.JOKERS.SELL[card.ability.set] then
-            result = card:sell_card()
-        end
-        return true
-    end
-end
-
-function handy_check_consumeables_insta_actions(card)
-    local area = card.area
-    if not area then return false end
-    if area ~= G.consumeables then return false end
-
-    local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
-    local is_ctrl_pressed = love.keyboard.isDown("lctrl", "rctrl")
-
-    if CARD_SETS.CONSUMEABLES.TARGET[card.ability.set] or card.ability.consumeable then
-        local can_process = false
-        local can_use_consumeable = false
-        if CARD_SETS.CONSUMEABLES.CAN_SELL[card.ability.set] or card.ability.consumeable then
-            can_process = is_shift_pressed and card:can_sell_card()
-            if card.ability.consumeable and is_ctrl_pressed then
-                can_process = card:can_use_consumeable()
-                can_use_consumeable = can_process
-            end
-        end
-
-        if not can_process then return false end
-
-        local result = false
-        if CARD_SETS.CONSUMEABLES.USE[card.ability.set] or (card.ability.consumeable and can_use_consumeable) then
-            result = G.FUNCS.use_card({
-                UIBox = {},
-                config = {
-                    ref_table = card
-                }
-            })
-        elseif CARD_SETS.CONSUMEABLES.SELL[card.ability.set] or (card.ability.consumeable and not can_use_consumeable) then
-            result = card:sell_card()
-        end
-        return true
-    end
 end
