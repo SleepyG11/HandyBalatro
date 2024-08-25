@@ -103,55 +103,33 @@ function handy_insta_actions(card)
 		return false
 	end
 
-	local func = nil
-	local button = nil
-	local id = nil
-
-	-- Shop button check
-
-	local shop_button = nil
-	if is_ctrl_pressed then
-		shop_button = card.children.buy_and_use_button
-	elseif is_shift_pressed then
-		shop_button = card.children.buy_button
-	end
-
-	if shop_button then
-		local shop_button_definition = shop_button.definition
-		func = shop_button_definition.config.func
-		button = shop_button_definition.config.button
-		id = shop_button_definition.config.id
-
-		if fake_check_card_event(G.FUNCS[func], card, shop_button, id) then
-			fake_execute_card_event(G.FUNCS[button], card, shop_button, id)
-			return true
-		end
-
-		return false
-	end
-
-	-- Sell/Use button check
+	local target_button = nil
+	local is_shop_button = false
 
 	local base_background = G.UIDEF.card_focus_ui(card)
 	local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
-
-	local target_button = nil
 	local is_booster_pack_card = (card.area == G.pack_cards and G.pack_cards) and not card.ability.consumeable
 
 	if is_ctrl_pressed then
-		target_button = base_attach.buy_and_use or (not is_booster_pack_card and base_attach.use)
+		target_button = base_attach.buy_and_use
+			or (not is_booster_pack_card and base_attach.use)
+			or card.children.buy_and_use_button
+		is_shop_button = target_button == card.children.buy_and_use_button
 	elseif is_shift_pressed then
-		target_button = base_attach.buy
+		target_button = card.children.buy_button
+			or base_attach.buy
 			or base_attach.redeem
 			or base_attach.sell
 			or (is_booster_pack_card and base_attach.use)
+		is_shop_button = target_button == card.children.buy_button
 	end
 
 	if target_button then
-		local target_button_definition = target_button.definition.nodes[1]
-		func = target_button_definition.config.func
-		button = target_button_definition.config.button
-		id = target_button_definition.config.id
+		local target_button_definition = is_shop_button and target_button.definition
+			or target_button.definition.nodes[1]
+		local func = target_button_definition.config.func
+		local button = target_button_definition.config.button
+		local id = target_button_definition.config.id
 
 		if fake_check_card_event(G.FUNCS[func], card, target_button, id) then
 			fake_execute_card_event(G.FUNCS[button], card, target_button, id)
