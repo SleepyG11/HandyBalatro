@@ -16,10 +16,12 @@ It's a small [Lovely](https://github.com/ethangreen-dev/lovely-injector) mod tha
 - `LMB` to select a card and then `Left/Right arrow` to:
     - Move highlight in direction between jokers or consumables
     - Hold `Shift` to move card instead
-    - Hold `Ctrl` to move to the start or end of card area
+    - Hold `Ctrl` to move to the first/last card
 
     ![Balatro_DzMBOVTCHs](https://github.com/user-attachments/assets/8b47044b-0f52-47be-9f21-5bb9ba24c12c)
     ![Balatro_PtJz1mQjgs](https://github.com/user-attachments/assets/6ea9593a-d250-488c-978b-258bae652e45)
+    ![Balatro_dmpwlY03Kd](https://github.com/user-attachments/assets/aa9a537e-271b-4b61-9bc5-608f9735958b)
+
 
 - Hold `LMB` and move to:
     - Select cards in hand
