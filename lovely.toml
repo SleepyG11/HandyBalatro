@@ -43,3 +43,15 @@ if handy_dangerous_insta_actions(self) then return end
 '''
 match_indent = true
 overwrite = false
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''if e.config.id == 'buy_and_use' then'''
+position = "before"
+payload = '''
+if c1.ability then c1.ability.handy_dangerous_actions_used = nil end
+'''
+match_indent = true
+overwrite = false
