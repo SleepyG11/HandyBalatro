@@ -39,20 +39,7 @@ pattern = '''function Card:hover()'''
 position = "after"
 payload = '''
 if handy_insta_highlight_card(self) then return end
+if handy_dangerous_insta_actions(self) then return end
 '''
 match_indent = true
 overwrite = false
-
-
-# [[patches]]
-# [patches.pattern]
-# target = "game.lua"
-# pattern = "if v.id == 'no_reward' then"
-# position = "before"
-# payload = '''
-# 	if v.id == "set_seed" then
-# 		self.GAME.modifiers.set_seed = v.value
-# 	end
-# '''
-# match_indent = true
-# overwrite = false

@@ -47,10 +47,7 @@ function handy_move_highlight_in_area(key)
 end
 
 function handy_insta_highlight_card(card)
-	if not card.area then
-		return false
-	end
-	if card.area ~= G.hand then
+	if not card.area or card.area ~= G.hand then
 		return false
 	end
 
@@ -114,7 +111,7 @@ function handy_insta_actions(card)
 
 	local base_background = G.UIDEF.card_focus_ui(card)
 	local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
-	local is_booster_pack_card = (card.area == G.pack_cards and G.pack_cards) and not card.ability.consumeable
+	local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 	if is_ctrl_pressed then
 		target_button = base_attach.buy_and_use
@@ -146,4 +143,23 @@ function handy_insta_actions(card)
 
 	base_background:remove()
 	return false
+end
+
+function handy_dangerous_insta_actions(card)
+	if next(love.touch.getTouches()) then
+		return false
+	end
+
+	local is_shift_pressed = love.keyboard.isDown("lshift", "rshift")
+
+	if not love.mouse.isDown(3) or not is_shift_pressed then
+		return false
+	end
+	local result = handy_insta_actions(card)
+	if result then
+		G.CONTROLLER.locks.selling_card = nil
+		G.CONTROLLER.locks.use = nil
+		G.GAME.STOP_USE = 0
+	end
+	return result
 end
