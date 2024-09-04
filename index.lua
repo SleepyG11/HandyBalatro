@@ -94,6 +94,10 @@ function fake_execute_card_event(func, card, button, id)
 end
 
 function handy_insta_actions(card)
+	if card.ability and card.ability.handy_dangerous_actions_used then
+		return true
+	end
+
 	local area = card.area
 	if not area then
 		return false
@@ -146,6 +150,10 @@ function handy_insta_actions(card)
 end
 
 function handy_dangerous_insta_actions(card)
+	if card.ability and card.ability.handy_dangerous_actions_used then
+		return true
+	end
+
 	if next(love.touch.getTouches()) then
 		return false
 	end
@@ -160,6 +168,11 @@ function handy_dangerous_insta_actions(card)
 		G.CONTROLLER.locks.selling_card = nil
 		G.CONTROLLER.locks.use = nil
 		G.GAME.STOP_USE = 0
+
+		if not card.ability then
+			card.ability = {}
+		end
+		card.ability.handy_dangerous_actions_used = true
 	end
 	return result
 end
