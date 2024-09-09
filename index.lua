@@ -173,6 +173,14 @@ function handy_dangerous_insta_actions(card)
 			card.ability = {}
 		end
 		card.ability.handy_dangerous_actions_used = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if card.ability then
+					card.ability.handy_dangerous_actions_used = nil
+				end
+				return true
+			end,
+		}))
 	end
 	return result
 end
