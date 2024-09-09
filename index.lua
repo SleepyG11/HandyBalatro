@@ -1,4 +1,5 @@
 last_clicked_card = nil
+last_clicked_card_area = nil
 
 local KEYS_DX = {
 	left = -1,
@@ -7,13 +8,41 @@ local KEYS_DX = {
 
 --
 
+local function table_contains(t, value)
+	for i = #t, 1, -1 do
+		if t[i] and t[i] == value then
+			return true
+		end
+	end
+	return false
+end
+
+local function get_moveable_areas()
+	return {
+		G.consumeables,
+		G.jokers,
+		G.cine_quests,
+		G.pack_cards,
+		G.shop_jokers,
+		G.shop_booster,
+		G.shop_vouchers,
+	}
+end
+
+local function get_only_highlight_moveable_areas()
+	return {
+		G.pack_cards,
+		G.shop_jokers,
+		G.shop_booster,
+		G.shop_vouchers,
+	}
+end
+
 function handy_move_highlight_in_area(key)
 	local dx = KEYS_DX[key]
-	if not dx or not last_clicked_card then
-		return
-	end
-	local area = last_clicked_card.area
-	if not area or (area ~= G.consumeables and area ~= G.jokers and area ~= G.cine_quests) then
+	local area = last_clicked_card_area
+
+	if not dx or not area or not table_contains(get_moveable_areas(), area) then
 		return
 	end
 
@@ -33,7 +62,7 @@ function handy_move_highlight_in_area(key)
 				if not next_card then
 					return
 				end
-				if is_shift_pressed then
+				if is_shift_pressed and not table_contains(get_only_highlight_moveable_areas(), area) then
 					area.cards[next_index] = current_card
 					area.cards[current_index] = next_card
 				else

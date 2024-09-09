@@ -28,6 +28,7 @@ position = "after"
 payload = '''
 if handy_insta_actions(self) then return end
 last_clicked_card = self
+last_clicked_card_area = self.area
 '''
 match_indent = true
 overwrite = false
