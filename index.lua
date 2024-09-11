@@ -1,5 +1,5 @@
-last_clicked_card = nil
-last_clicked_card_area = nil
+handy_last_clicked_card = nil
+handy_last_clicked_card_area = nil
 
 local KEYS_DX = {
 	left = -1,
@@ -40,7 +40,7 @@ end
 
 function handy_move_highlight_in_area(key)
 	local dx = KEYS_DX[key]
-	local area = last_clicked_card_area
+	local area = handy_last_clicked_card_area
 
 	if not dx or not area or not table_contains(get_moveable_areas(), area) then
 		return
@@ -212,4 +212,50 @@ function handy_dangerous_insta_actions(card)
 		}))
 	end
 	return result
+end
+
+handy_is_cashout_skipped = false
+handy_is_cashout_button_created = false
+handy_cashout_skip_dollars = nil
+
+function handy_cash_out(key)
+	if
+		handy_is_cashout_skipped
+		or not handy_cashout_skip_dollars
+		or G.SETTINGS.paused
+		or key ~= "return"
+		or not G.round_eval
+	then
+		return false
+	end
+
+	handy_is_cashout_skipped = true
+
+	if handy_is_cashout_button_created then
+		G.GAME.current_round.dollars = handy_cashout_skip_dollars
+		handy_cashout_skip_dollars = nil
+	end
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		func = function()
+			G.FUNCS.cash_out({
+				config = {
+					id = "cash_out_button",
+				},
+			})
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							handy_is_cashout_skipped = false
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
+	return true
 end
