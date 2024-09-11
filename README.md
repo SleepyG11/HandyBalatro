@@ -28,6 +28,11 @@ https://github.com/user-attachments/assets/2d40e4a6-9ea1-4ffa-a7fd-e0e8b9856b2b
  
 https://github.com/user-attachments/assets/9ec9dfba-a7df-4ecf-a3e0-67dc802c310d
 
+- `Enter` to:
+    - Skip "Cash Out" stage
+ 
+https://github.com/user-attachments/assets/771f92bd-7542-4066-a157-cbdb503781b6
+
 ## Dangerous controls
 - Hold `Shift + MMB (Mouse 3, Wheel Button)` and move to:
     - Mass-sell jokers or consumables
