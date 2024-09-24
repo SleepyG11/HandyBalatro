@@ -115,6 +115,11 @@ Handy.config = {
 }
 Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 
+function Handy.emplace_steamodded()
+	Handy.current_mod = SMODS.current_mod
+	Handy.config.current = Handy.utils.table_merge({}, Handy.config.current, SMODS.current_mod.config)
+end
+
 --
 
 Handy.fake_events = {
@@ -243,6 +248,39 @@ Handy.controller = {
 	is_module_key = function(module, raw_key)
 		return module and module.enabled and Handy.controller.is(raw_key, module.key_1, module.key_2)
 	end,
+
+	process_key = function(key, released)
+		Handy.UI.state_panel.update(key, nil, released)
+		if not released then
+			Handy.move_highlight.use(key)
+			Handy.insta_cash_out.use(key)
+		end
+		return false
+	end,
+	process_mouse = function(mouse, released)
+		Handy.UI.state_panel.update(nil, mouse, released)
+		return false
+	end,
+	process_card_click = function(card)
+		if Handy.insta_actions.use(card) then
+			return true
+		end
+		Handy.last_clicked_card = card
+		Handy.last_clicked_area = card.area
+		return false
+	end,
+	process_card_hover = function(card)
+		if Handy.insta_highlight.use(card) then
+			return true
+		end
+		if Handy.dangerous_actions.use(card) then
+			return true
+		end
+		return false
+	end,
+	process_update = function(dt)
+		Handy.UI.update(dt)
+	end,
 }
 
 --
@@ -254,7 +292,8 @@ Handy.insta_cash_out = {
 
 	can_execute = function(key)
 		return not not (
-			not Handy.insta_cash_out.is_skipped
+			G.STAGE == G.STAGES.RUN
+			and not Handy.insta_cash_out.is_skipped
 			and Handy.insta_cash_out.dollars
 			and not G.SETTINGS.paused
 			and G.round_eval
@@ -296,11 +335,24 @@ Handy.insta_cash_out = {
 	use = function(key)
 		return Handy.insta_cash_out.can_execute(key) and Handy.insta_cash_out.execute(key) or false
 	end,
+
+	update_state_panel = function(state, key, mouse, released)
+		if Handy.insta_cash_out.can_execute(key) then
+			state.items.insta_cash_out = {
+				text = "Skip Cash Out",
+				hold = false,
+				order = 10,
+			}
+			return true
+		end
+		return false
+	end,
 }
 
 Handy.insta_highlight = {
 	can_execute = function(card)
-		return Handy.config.current.insta_highlight.enabled
+		return G.STAGE == G.STAGES.RUN
+			and Handy.config.current.insta_highlight.enabled
 			and card
 			and card.area == G.hand
 			-- TODO: fix it
@@ -316,6 +368,8 @@ Handy.insta_highlight = {
 	use = function(card)
 		return Handy.insta_highlight.can_execute(card) and Handy.insta_highlight.execute(card) or false
 	end,
+
+	update_state_panel = function(state, key, mouse, released) end,
 }
 
 Handy.insta_actions = {
@@ -326,7 +380,7 @@ Handy.insta_actions = {
 		}
 	end,
 	can_execute = function(card, buy_or_sell, use)
-		return not not ((buy_or_sell or use) and card and card.area)
+		return not not (G.STAGE == G.STAGES.RUN and (buy_or_sell or use) and card and card.area)
 	end,
 	execute = function(card, buy_or_sell, use)
 		local target_button = nil
@@ -398,6 +452,31 @@ Handy.insta_actions = {
 				and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
 			or false
 	end,
+
+	update_state_panel = function(state, key, mouse, released)
+		if G.STAGE ~= G.STAGES.RUN then
+			return false
+		end
+		local result = false
+		local actions = Handy.insta_actions.get_actions()
+		if actions.use then
+			state.items.insta_use = {
+				text = "Quick use",
+				hold = true,
+				order = 10,
+			}
+			result = true
+		end
+		if actions.buy_or_sell then
+			state.items.quick_buy_and_sell = {
+				text = "Quick buy and sell",
+				hold = true,
+				order = 11,
+			}
+			result = true
+		end
+		return result
+	end,
 }
 
 Handy.move_highlight = {
@@ -433,7 +512,7 @@ Handy.move_highlight = {
 		}, area)
 	end,
 	cen_execute = function(key, area)
-		if not (area and area.highlighted and area.highlighted[1]) then
+		if not (G.STAGE == G.STAGES.RUN and area and area.highlighted and area.highlighted[1]) then
 			return false
 		end
 		return Handy.utils.table_contains({
@@ -481,11 +560,14 @@ Handy.move_highlight = {
 		area = area or Handy.last_clicked_area
 		return Handy.move_highlight.cen_execute(key, area) and Handy.move_highlight.execute(key, area) or false
 	end,
+
+	update_state_panel = function(state, key, mouse, released) end,
 }
 
 Handy.dangerous_actions = {
 	can_execute = function(card)
-		return Handy.config.default.dangerous_actions.enabled
+		return G.STAGE == G.STAGES.RUN
+			and Handy.config.default.dangerous_actions.enabled
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
@@ -518,11 +600,256 @@ Handy.dangerous_actions = {
 	use = function(card)
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute(card) or false
 	end,
+
+	update_state_panel = function(state, key, mouse, released)
+		if not Handy.config.default.dangerous_actions.enabled then
+			return false
+		end
+		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell) then
+			state.dangerous = true
+			state.items.dangerous_hint = {
+				text = "[Unsafe] Bugs can appear!",
+				dangerous = true,
+				hold = true,
+				order = 99999999,
+			}
+			if state.items.quick_buy_and_sell then
+				state.items.quick_buy_and_sell.dangerous = true
+			end
+			return true
+		end
+	end,
 }
 
 --
 
-function Handy.emplace_steamodded()
-	Handy.current_mod = SMODS.current_mod
-	Handy.config.current = Handy.utils.table_merge({}, Handy.config.current, SMODS.current_mod.config)
+--
+
+Handy.UI = {
+	counter = 1,
+	C = {
+		TEXT = HEX("FFFFFF"),
+		BLACK = HEX("000000"),
+		RED = HEX("FF0000"),
+
+		DYN_BASE_APLHA = {
+			CONTAINER = 0.6,
+
+			TEXT = 1,
+			TEXT_DANGEROUS = 1,
+		},
+
+		DYN = {
+			CONTAINER = HEX("000000"),
+
+			TEXT = HEX("FFFFFF"),
+			TEXT_DANGEROUS = HEX("FFEEEE"),
+		},
+	},
+	state_panel = {
+		element = nil,
+
+		title = nil,
+		items = nil,
+
+		previous_state = {
+			dangerous = false,
+			title = {},
+			items = {},
+			sub_items = {},
+			hold = false,
+		},
+		current_state = {
+			dangerous = false,
+			title = {},
+			items = {},
+			sub_items = {},
+			hold = false,
+		},
+
+		get_definition = function()
+			local state_panel = Handy.UI.state_panel
+
+			local items_raw = {}
+			for _, item in pairs(state_panel.current_state.items) do
+				table.insert(items_raw, item)
+			end
+
+			table.sort(items_raw, function(a, b)
+				return a.order < b.order
+			end)
+
+			local items = {}
+			for _, item in ipairs(items_raw) do
+				table.insert(items, {
+					n = G.UIT.R,
+					config = {
+						align = "cm",
+						padding = 0.035,
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = item.text,
+								scale = 0.225,
+								colour = item.dangerous and Handy.UI.C.DYN.TEXT_DANGEROUS or Handy.UI.C.DYN.TEXT,
+								shadow = true,
+							},
+						},
+					},
+				})
+			end
+
+			return {
+				n = G.UIT.ROOT,
+				config = { align = "cm", padding = 0.1, r = 0.1, colour = G.C.CLEAR, id = "handy_state_panel" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = {
+							align = "cm",
+							padding = 0.125,
+							r = 0.1,
+							colour = Handy.UI.C.DYN.CONTAINER,
+						},
+						nodes = {
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+								},
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = state_panel.current_state.title.text,
+											scale = 0.3,
+											colour = Handy.UI.C.DYN.TEXT,
+											shadow = true,
+											id = "handy_state_title",
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+								},
+								nodes = {
+									{
+										n = G.UIT.C,
+										config = {
+											align = "cm",
+											id = "handy_state_items",
+										},
+										nodes = items,
+									},
+								},
+							},
+						},
+					},
+				},
+			}
+		end,
+		emplace = function()
+			if Handy.UI.state_panel.element then
+				Handy.UI.state_panel.element:remove()
+			end
+			local element = UIBox({
+				definition = Handy.UI.state_panel.get_definition(),
+				config = {
+					instance_type = "ALERT",
+					align = "cm",
+					major = G.ROOM_ATTACH,
+					can_collide = false,
+					offset = {
+						x = 0,
+						y = 3.5,
+					},
+				},
+			})
+			Handy.UI.state_panel.element = element
+			Handy.UI.state_panel.title = element:get_UIE_by_ID("handy_state_title")
+			Handy.UI.state_panel.items = element:get_UIE_by_ID("handy_state_items")
+		end,
+
+		update = function(key, mouse, released)
+			local state_panel = Handy.UI.state_panel
+
+			local state = {
+				dangerous = false,
+				title = {},
+				items = {},
+				sub_items = {},
+			}
+
+			local is_changed = false
+
+			for _, part in ipairs({
+				Handy.insta_cash_out,
+				Handy.insta_actions,
+				Handy.insta_highlight,
+				Handy.move_highlight,
+				Handy.dangerous_actions,
+			}) do
+				local temp_result = part.update_state_panel(state, key, mouse, released)
+				is_changed = is_changed or temp_result or false
+			end
+
+			if is_changed then
+				if state.dangerous then
+					state.title.text = "Dangerous actions"
+				else
+					state.title.text = "Quick actions"
+				end
+
+				for _, item in pairs(state.items) do
+					if item.hold then
+						state.hold = true
+					end
+				end
+
+				local color = Handy.UI.C.DYN.CONTAINER
+				local target_color = state.dangerous and Handy.UI.C.RED or Handy.UI.C.BLACK
+				color[1] = target_color[1]
+				color[2] = target_color[2]
+				color[3] = target_color[3]
+
+				Handy.UI.counter = 0
+				state_panel.previous_state = state_panel.current_state
+				state_panel.current_state = state
+
+				state_panel.emplace()
+			else
+				state_panel.current_state.hold = false
+			end
+		end,
+	},
+
+	update = function(dt)
+		if Handy.UI.state_panel.current_state.hold then
+			Handy.UI.counter = 0
+		elseif Handy.UI.counter < 1 then
+			Handy.UI.counter = Handy.UI.counter + dt
+		end
+		local multiplier = math.min(1, math.max(0, (1 - Handy.UI.counter) * 2))
+		for key, color in pairs(Handy.UI.C.DYN) do
+			color[4] = (Handy.UI.C.DYN_BASE_APLHA[key] or 1) * multiplier
+		end
+	end,
+}
+
+function Handy.UI.init()
+	Handy.UI.counter = 1
+	Handy.UI.state_panel.emplace()
+end
+
+--
+
+local love_update_ref = love.update
+function love.update(dt, ...)
+	love_update_ref(dt, ...)
+	Handy.controller.process_update(dt)
 end

@@ -9,46 +9,6 @@ target = "main.lua"
 position = "append"
 sources = ["index.lua"]
 
-# Handling key inputs
-[[patches]]
-[patches.pattern]
-target = "engine/controller.lua"
-pattern = '''self.held_key_times[key] = 0'''
-position = "after"
-payload = '''
-Handy.move_highlight.use(key)
-Handy.insta_cash_out.use(key)
-'''
-match_indent = true
-overwrite = false
-
-# Insta-actions
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''function Card:click()'''
-position = "after"
-payload = '''
-if Handy.insta_actions.use(self) then return end
-Handy.last_clicked_card = self
-Handy.last_clicked_area = self.area
-'''
-match_indent = true
-overwrite = false
-
-# Dangerous insta-actions and cards highlightning
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''function Card:hover()'''
-position = "after"
-payload = '''
-if Handy.insta_highlight.use(self) then return end
-if Handy.dangerous_actions.use(self) then return end
-'''
-match_indent = true
-overwrite = false
-
 # Skipping Cash Out stage
 [[patches]]
 [patches.pattern]
@@ -101,6 +61,88 @@ pattern = '''G.ACC = math.min((G.ACC or 0) + dt*0.2*self.SETTINGS.GAMESPEED, 16)
 position = "after"
 payload = '''
  elseif Handy.insta_cash_out.is_skipped then G.ACC = 999 
+'''
+match_indent = true
+overwrite = false
+
+# Draw UI
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
+position = "after"
+payload = '''
+Handy.UI.init()
+'''
+match_indent = true
+overwrite = false
+
+# Mouse listeners
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousepressed(x, y, button, touch)'''
+position = "after"
+payload = '''
+if not touch then Handy.controller.process_mouse(button, false) end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousereleased(x, y, button)'''
+position = "after"
+payload = '''
+Handy.controller.process_mouse(button, true)
+'''
+match_indent = true
+overwrite = false
+
+# Key listeners
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.keypressed(key)'''
+position = "after"
+payload = '''
+Handy.controller.process_key(key, false)
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.keyreleased(key)'''
+position = "after"
+payload = '''
+Handy.controller.process_key(key, true)
+'''
+match_indent = true
+overwrite = false
+
+# Handle card click
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:click()'''
+position = "after"
+payload = '''
+if Handy.controller.process_card_click(self) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Handle card hover
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:hover()'''
+position = "after"
+payload = '''
+if Handy.controller.process_card_hover(self) then return end
 '''
 match_indent = true
 overwrite = false
