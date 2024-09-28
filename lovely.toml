@@ -9,6 +9,12 @@ target = "main.lua"
 position = "append"
 sources = ["index.lua"]
 
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["config_ui.lua"]
+
 # Skipping Cash Out stage
 [[patches]]
 [patches.pattern]
@@ -143,6 +149,18 @@ pattern = '''function Card:hover()'''
 position = "after"
 payload = '''
 if Handy.controller.process_card_hover(self) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Apply multiplier to speed
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
+position = "after"
+payload = '''
+self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.value or 1
 '''
 match_indent = true
 overwrite = false

@@ -54,6 +54,8 @@ end
 
 Handy.config = {
 	default = {
+		notifications_level = 3,
+
 		insta_highlight = {
 			enabled = true,
 		},
@@ -106,19 +108,28 @@ Handy.config = {
 
 			immediate_buy_and_sell = {
 				enabled = true,
-				key_1 = "Wheel Mouse Button",
+				key_1 = "Middle Mouse",
 				key_2 = nil,
 			},
 		},
+
+		speed_multiplier = {
+			enabled = true,
+
+			key_1 = "Alt",
+			key_2 = nil,
+		},
 	},
 	current = {},
+
+	save = function()
+		if Handy.current_mod then
+			Handy.current_mod.config = Handy.config.current
+			SMODS.save_mod_config(Handy.current_mod)
+		end
+	end,
 }
 Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
-
-function Handy.emplace_steamodded()
-	Handy.current_mod = SMODS.current_mod
-	Handy.config.current = Handy.utils.table_merge({}, Handy.config.current, SMODS.current_mod.config)
-end
 
 --
 
@@ -147,32 +158,82 @@ Handy.fake_events = {
 	end,
 }
 Handy.controller = {
+	parse_table = {
+		["mouse1"] = "Left Mouse",
+		["mouse2"] = "Right Mouse",
+		["mouse3"] = "Middle Mouse",
+		["mouse4"] = "Mouse 4",
+		["mouse5"] = "Mouse 5",
+		["wheelup"] = "Wheel Up",
+		["wheeldown"] = "Wheel Down",
+		["lshift"] = "Shift",
+		["rshift"] = "Shift",
+		["lctrl"] = "Ctrl",
+		["rctrl"] = "Ctrl",
+		["lalt"] = "Alt",
+		["ralt"] = "Alt",
+		["lgui"] = "GUI",
+		["rgui"] = "GUI",
+		["return"] = "Enter",
+		["kpenter"] = "Enter",
+		["pageup"] = "Page Up",
+		["pagedown"] = "Page Down",
+		["numlock"] = "Num Lock",
+		["capslock"] = "Caps Lock",
+		["scrolllock"] = "Scroll Lock",
+	},
+	resolve_table = {
+		["Left Mouse"] = { "mouse1" },
+		["Right Mouse"] = { "mouse2" },
+		["Middle Mouse"] = { "mouse3" },
+		["Mouse 4"] = { "mouse4" },
+		["Mouse 5"] = { "mouse5" },
+		["Wheel Up"] = { "wheelup" },
+		["Wheel Down"] = { "wheeldown" },
+		["Shift"] = { "lshift", "rshift" },
+		["Ctrl"] = { "lctrl", "rctrl" },
+		["Alt"] = { "lalt", "ralt" },
+		["GUI"] = { "lgui", "rgui" },
+		["Enter"] = { "return", "kpenter" },
+		["Page Up"] = { "pageup" },
+		["Page Down"] = { "pagedown" },
+		["Num Lock"] = { "numlock" },
+		["Caps Lock"] = { "capslock" },
+		["Scroll Lock"] = { "scrolllock" },
+	},
+
+	mouse_to_key_table = {
+		[1] = "mouse1",
+		[2] = "mouse2",
+		[3] = "mouse3",
+		[4] = "mouse4",
+		[5] = "mouse5",
+	},
+	wheel_to_key_table = {
+		[1] = "wheelup",
+		[2] = "wheeldown",
+	},
+
+	mouse_buttons = {
+		["Left Mouse"] = 1,
+		["Right Mouse"] = 2,
+		["Middle Mouse"] = 3,
+		["Mouse 4"] = 4,
+		["Mouse 5"] = 5,
+	},
+	wheel_buttons = {
+		["Wheel Up"] = 1,
+		["Wheel Down"] = 2,
+	},
+
 	parse = function(raw_key)
 		if not raw_key then
 			return nil
 		end
-		if raw_key == "lshift" or raw_key == "rshift" then
-			return "Shift"
-		elseif raw_key == "lctrl" or raw_key == "rctrl" then
-			return "Ctrl"
-		elseif raw_key == "lalt" or raw_key == "ralt" then
-			return "Alt"
-		elseif raw_key == "lgui" or raw_key == "rgui" then
-			return "GUI"
-		elseif raw_key == "return" or raw_key == "kpenter" then
-			return "Enter"
+		if Handy.controller.parse_table[raw_key] then
+			return Handy.controller.parse_table[raw_key]
 		elseif string.sub(raw_key, 1, 2) == "kp" then
 			return "NUM " .. string.sub(raw_key, 3)
-		elseif raw_key == "pageup" then
-			return "Page Up"
-		elseif raw_key == "pagedown" then
-			return "Page Down"
-		elseif raw_key == "numlock" then
-			return "Num Lock"
-		elseif raw_key == "capslock" then
-			return "Caps Lock"
-		elseif raw_key == "scrolllock" then
-			return "Scroll Lock"
 		else
 			return string.upper(string.sub(raw_key, 1, 1)) .. string.sub(raw_key, 2)
 		end
@@ -181,16 +242,8 @@ Handy.controller = {
 		if not parsed_key then
 			return nil
 		end
-		if parsed_key == "Shift" then
-			return "lshift", "rshift"
-		elseif parsed_key == "Ctrl" then
-			return "lctrl", "rctrl"
-		elseif parsed_key == "Alt" then
-			return "lalt", "ralt"
-		elseif parsed_key == "GUI" then
-			return "lgui", "rgui"
-		elseif parsed_key == "Enter" then
-			return "return", "kpenter"
+		if Handy.controller.resolve_table[parsed_key] then
+			return unpack(Handy.controller.resolve_table[parsed_key])
 		elseif string.sub(parsed_key, 1, 4) == "NUM " then
 			return "kp" .. string.sub(parsed_key, 5)
 		else
@@ -203,23 +256,19 @@ Handy.controller = {
 		for i = 1, #parsed_keys do
 			local parsed_key = parsed_keys[i]
 			if parsed_key then
-				local skip = false
-				for j, key in ipairs({
-					"Left Mouse Button",
-					"Right Mouse Button",
-					"Wheel Mouse Button",
-					"Mouse 4",
-					"Mouse 5",
-				}) do
-					if parsed_key == key then
-						skip = true
-						if love.mouse.isDown(j) then
-							return true
-						end
+				if Handy.controller.wheel_buttons[parsed_key] then
+					-- Well, skip
+				elseif Handy.controller.mouse_buttons[parsed_key] then
+					if love.mouse.isDown(Handy.controller.mouse_buttons[parsed_key]) then
+						return true
 					end
-				end
-				if not skip and love.keyboard.isDown(Handy.controller.resolve(parsed_key)) then
-					return true
+				else
+					local success, is_down = pcall(function()
+						return love.keyboard.isDown(Handy.controller.resolve(parsed_key))
+					end)
+					if success and is_down then
+						return true
+					end
 				end
 			end
 		end
@@ -250,16 +299,30 @@ Handy.controller = {
 	end,
 
 	process_key = function(key, released)
-		Handy.UI.state_panel.update(key, nil, released)
 		if not released then
 			Handy.move_highlight.use(key)
 			Handy.insta_cash_out.use(key)
+			Handy.speed_multiplier.use(key)
 		end
+		Handy.UI.state_panel.update(key, released)
 		return false
 	end,
 	process_mouse = function(mouse, released)
-		Handy.UI.state_panel.update(nil, mouse, released)
+		local key = Handy.controller.mouse_to_key_table[mouse]
+		if not released then
+			Handy.move_highlight.use(key)
+			Handy.insta_cash_out.use(key)
+			Handy.speed_multiplier.use(key)
+		end
+		Handy.UI.state_panel.update(key, released)
 		return false
+	end,
+	process_wheel = function(wheel)
+		local key = Handy.controller.wheel_to_key_table[wheel]
+		Handy.move_highlight.use(key)
+		Handy.insta_cash_out.use(key)
+		Handy.speed_multiplier.use(key)
+		Handy.UI.state_panel.update(key, false)
 	end,
 	process_card_click = function(card)
 		if Handy.insta_actions.use(card) then
@@ -290,15 +353,25 @@ Handy.insta_cash_out = {
 	is_button_created = false,
 	dollars = nil,
 
-	can_execute = function(key)
-		return not not (
-			G.STAGE == G.STAGES.RUN
-			and not Handy.insta_cash_out.is_skipped
-			and Handy.insta_cash_out.dollars
-			and not G.SETTINGS.paused
-			and G.round_eval
-			and Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key)
-		)
+	can_execute = function(key, check)
+		if check then
+			return not not (
+				G.STAGE == G.STAGES.RUN
+				and Handy.insta_cash_out.is_skipped
+				and not G.SETTINGS.paused
+				and G.round_eval
+				and Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key)
+			)
+		else
+			return not not (
+				G.STAGE == G.STAGES.RUN
+				and not Handy.insta_cash_out.is_skipped
+				and Handy.insta_cash_out.dollars
+				and not G.SETTINGS.paused
+				and G.round_eval
+				and Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key)
+			)
+		end
 	end,
 	execute = function(key)
 		Handy.insta_cash_out.is_skipped = true
@@ -336,8 +409,14 @@ Handy.insta_cash_out = {
 		return Handy.insta_cash_out.can_execute(key) and Handy.insta_cash_out.execute(key) or false
 	end,
 
-	update_state_panel = function(state, key, mouse, released)
-		if Handy.insta_cash_out.can_execute(key) then
+	update_state_panel = function(state, key, released)
+		if G.STAGE ~= G.STAGES.RUN then
+			return false
+		end
+		if Handy.config.current.notifications_level < 3 then
+			return false
+		end
+		if Handy.insta_cash_out.can_execute(key, true) then
 			state.items.insta_cash_out = {
 				text = "Skip Cash Out",
 				hold = false,
@@ -369,7 +448,7 @@ Handy.insta_highlight = {
 		return Handy.insta_highlight.can_execute(card) and Handy.insta_highlight.execute(card) or false
 	end,
 
-	update_state_panel = function(state, key, mouse, released) end,
+	update_state_panel = function(state, key, released) end,
 }
 
 Handy.insta_actions = {
@@ -453,8 +532,11 @@ Handy.insta_actions = {
 			or false
 	end,
 
-	update_state_panel = function(state, key, mouse, released)
+	update_state_panel = function(state, key, released)
 		if G.STAGE ~= G.STAGES.RUN then
+			return false
+		end
+		if Handy.config.current.notifications_level < 3 then
 			return false
 		end
 		local result = false
@@ -495,8 +577,8 @@ Handy.move_highlight = {
 	end,
 	get_actions = function(key, area)
 		return {
-			swap = Handy.controller.is_module_key_down(Handy.config.default.move_highlight.swap),
-			to_end = Handy.controller.is_module_key_down(Handy.config.default.move_highlight.to_end),
+			swap = Handy.controller.is_module_key_down(Handy.config.current.move_highlight.swap),
+			to_end = Handy.controller.is_module_key_down(Handy.config.current.move_highlight.to_end),
 		}
 	end,
 
@@ -512,18 +594,22 @@ Handy.move_highlight = {
 		}, area)
 	end,
 	cen_execute = function(key, area)
-		if not (G.STAGE == G.STAGES.RUN and area and area.highlighted and area.highlighted[1]) then
-			return false
-		end
-		return Handy.utils.table_contains({
-			G.consumeables,
-			G.jokers,
-			G.cine_quests,
-			G.pack_cards,
-			G.shop_jokers,
-			G.shop_booster,
-			G.shop_vouchers,
-		}, area)
+		return not not (
+			Handy.config.current.move_highlight.enabled
+			and G.STAGE == G.STAGES.RUN
+			and area
+			and area.highlighted
+			and area.highlighted[1]
+			and Handy.utils.table_contains({
+				G.consumeables,
+				G.jokers,
+				G.cine_quests,
+				G.pack_cards,
+				G.shop_jokers,
+				G.shop_booster,
+				G.shop_vouchers,
+			}, area)
+		)
 	end,
 	execute = function(key, area)
 		local dx = Handy.move_highlight.get_dx(key, area)
@@ -561,13 +647,13 @@ Handy.move_highlight = {
 		return Handy.move_highlight.cen_execute(key, area) and Handy.move_highlight.execute(key, area) or false
 	end,
 
-	update_state_panel = function(state, key, mouse, released) end,
+	update_state_panel = function(state, key, released) end,
 }
 
 Handy.dangerous_actions = {
 	can_execute = function(card)
 		return G.STAGE == G.STAGES.RUN
-			and Handy.config.default.dangerous_actions.enabled
+			and Handy.config.current.dangerous_actions.enabled
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
@@ -601,8 +687,14 @@ Handy.dangerous_actions = {
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute(card) or false
 	end,
 
-	update_state_panel = function(state, key, mouse, released)
-		if not Handy.config.default.dangerous_actions.enabled then
+	update_state_panel = function(state, key, released)
+		if G.STAGE == G.STAGES.RUN then
+			return false
+		end
+		if not Handy.config.current.dangerous_actions.enabled then
+			return false
+		end
+		if Handy.config.current.notifications_level < 2 then
 			return false
 		end
 		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell) then
@@ -615,9 +707,76 @@ Handy.dangerous_actions = {
 			}
 			if state.items.quick_buy_and_sell then
 				state.items.quick_buy_and_sell.dangerous = true
+			elseif Handy.insta_actions.get_actions().buy_or_sell then
+				state.items.quick_buy_and_sell = {
+					text = "Quick buy and sell",
+					hold = true,
+					order = 11,
+					dangerous = true,
+				}
 			end
 			return true
 		end
+		return false
+	end,
+}
+
+Handy.speed_multiplier = {
+	value = 1,
+
+	get_actions = function(key)
+		return {
+			multiply = key == Handy.controller.wheel_to_key_table[1],
+			divide = key == Handy.controller.wheel_to_key_table[2],
+		}
+	end,
+	can_execute = function(key)
+		return Handy.config.current.speed_multiplier.enabled
+			and Handy.controller.is_module_key_down(Handy.config.current.speed_multiplier)
+	end,
+
+	execute = function(key)
+		local actions = Handy.speed_multiplier.get_actions(key)
+		if actions.multiply then
+			Handy.speed_multiplier.multiply()
+		end
+		if actions.divide then
+			Handy.speed_multiplier.divide()
+		end
+		return false
+	end,
+
+	multiply = function()
+		Handy.speed_multiplier.value = math.min(512, Handy.speed_multiplier.value * 2)
+	end,
+	divide = function()
+		Handy.speed_multiplier.value = math.max(0.001953125, Handy.speed_multiplier.value / 2)
+	end,
+
+	use = function(key)
+		return Handy.speed_multiplier.can_execute(key) and Handy.speed_multiplier.execute(key) or false
+	end,
+
+	update_state_panel = function(state, key, released)
+		if not Handy.speed_multiplier.can_execute(key) then
+			return false
+		end
+
+		local actions = Handy.speed_multiplier.get_actions(key)
+
+		if actions.multiply or actions.divide then
+			state.items.change_speed_multiplier = {
+				text = "Game speed multiplier: "
+					.. (
+						Handy.speed_multiplier.value >= 1 and Handy.speed_multiplier.value
+						or ("1/" .. (1 / Handy.speed_multiplier.value))
+					),
+				hold = false,
+				order = 5,
+			}
+			return true
+		end
+		return false
 	end,
 }
 
@@ -775,7 +934,7 @@ Handy.UI = {
 			Handy.UI.state_panel.items = element:get_UIE_by_ID("handy_state_items")
 		end,
 
-		update = function(key, mouse, released)
+		update = function(key, released)
 			local state_panel = Handy.UI.state_panel
 
 			local state = {
@@ -788,13 +947,14 @@ Handy.UI = {
 			local is_changed = false
 
 			for _, part in ipairs({
+				Handy.speed_multiplier,
 				Handy.insta_cash_out,
 				Handy.insta_actions,
 				Handy.insta_highlight,
 				Handy.move_highlight,
 				Handy.dangerous_actions,
 			}) do
-				local temp_result = part.update_state_panel(state, key, mouse, released)
+				local temp_result = part.update_state_panel(state, key, released)
 				is_changed = is_changed or temp_result or false
 			end
 
@@ -844,6 +1004,7 @@ Handy.UI = {
 function Handy.UI.init()
 	Handy.UI.counter = 1
 	Handy.UI.state_panel.emplace()
+	Handy.UI.update(0)
 end
 
 --
@@ -852,4 +1013,50 @@ local love_update_ref = love.update
 function love.update(dt, ...)
 	love_update_ref(dt, ...)
 	Handy.controller.process_update(dt)
+end
+
+local wheel_moved_ref = love.wheelmoved or function() end
+function love.wheelmoved(x, y)
+	wheel_moved_ref(x, y)
+	Handy.controller.process_wheel(y > 0 and 1 or 2)
+end
+
+--
+
+function Handy.emplace_steamodded()
+	Handy.current_mod = SMODS.current_mod
+	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, SMODS.current_mod.config)
+
+	Handy.current_mod.extra_tabs = function()
+		return {
+			{
+				label = "Overall",
+				tab_definition_function = function()
+					return Handy.UI.get_config_tab("Overall")
+				end,
+			},
+			{
+				label = "Dangerous",
+				tab_definition_function = function()
+					return Handy.UI.get_config_tab("Dangerous")
+				end,
+			},
+		}
+	end
+end
+
+function G.FUNCS.handy_toggle_module_enabled(arg, module)
+	if not module then
+		return
+	end
+	module.enabled = arg
+	if module == Handy.config.current.speed_multiplier then
+		Handy.speed_multiplier.value = 1
+	end
+	Handy.config.save()
+end
+
+function G.FUNCS.handy_change_notifications_level(arg)
+	Handy.config.current.notifications_level = arg.to_key
+	Handy.config.save()
 end
