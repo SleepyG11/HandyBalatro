@@ -104,12 +104,16 @@ Handy.config = {
 		},
 
 		dangerous_actions = {
-			enabled = true,
+			enabled = false,
 
 			immediate_buy_and_sell = {
 				enabled = true,
 				key_1 = "Middle Mouse",
 				key_2 = nil,
+			},
+
+			nopeus_unsafe = {
+				enabled = true,
 			},
 		},
 
@@ -117,6 +121,13 @@ Handy.config = {
 			enabled = true,
 
 			key_1 = "Alt",
+			key_2 = nil,
+		},
+
+		nopeus_interaction = {
+			enabled = true,
+
+			key_1 = "]",
 			key_2 = nil,
 		},
 	},
@@ -322,6 +333,7 @@ Handy.controller = {
 		Handy.move_highlight.use(key)
 		Handy.insta_cash_out.use(key)
 		Handy.speed_multiplier.use(key)
+		Handy.nopeus_interaction.use(key)
 		Handy.UI.state_panel.update(key, false)
 	end,
 	process_card_click = function(card)
@@ -780,6 +792,88 @@ Handy.speed_multiplier = {
 	end,
 }
 
+Handy.nopeus_interaction = {
+	is_present = function()
+		return type(Nopeus) == "table"
+	end,
+
+	get_actions = function(key)
+		return {
+			increase = key == Handy.controller.wheel_to_key_table[1],
+			decrease = key == Handy.controller.wheel_to_key_table[2],
+		}
+	end,
+
+	can_dangerous = function()
+		return not not (
+			Handy.config.current.dangerous_actions.enabled
+			and Handy.config.current.dangerous_actions.nopeus_unsafe.enabled
+		)
+	end,
+	can_execute = function(key)
+		return not not (
+			Handy.config.current.nopeus_interaction.enabled
+			and Handy.nopeus_interaction.is_present()
+			and not G.OVERLAY_MENU
+			and Handy.controller.is_module_key_down(Handy.config.current.nopeus_interaction)
+		)
+	end,
+	execute = function(key)
+		local actions = Handy.nopeus_interaction.get_actions(key)
+		if actions.increase then
+			Handy.nopeus_interaction.increase()
+		end
+		if actions.decrease then
+			Handy.nopeus_interaction.decrease()
+		end
+	end,
+
+	change = function(dx)
+		G.SETTINGS.FASTFORWARD = math.min(
+			Handy.nopeus_interaction.can_dangerous() and 3 or 2,
+			math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
+		)
+	end,
+	increase = function()
+		Handy.nopeus_interaction.change(1)
+	end,
+	decrease = function()
+		Handy.nopeus_interaction.change(-1)
+	end,
+
+	use = function(key)
+		return Handy.nopeus_interaction.can_execute(key) and Handy.nopeus_interaction.execute(key) or false
+	end,
+
+	update_state_panel = function(state, key, released)
+		if not Handy.nopeus_interaction.can_execute(key) then
+			return false
+		end
+
+		local actions = Handy.nopeus_interaction.get_actions(key)
+
+		if actions.increase or actions.decrease then
+			if G.SETTINGS.FASTFORWARD == 3 then
+				state.dangerous = true
+			end
+			local states = {
+				Nopeus.Off,
+				Nopeus.Planets,
+				Nopeus.On,
+				Nopeus.Unsafe,
+			}
+			state.items.change_nopeus_fastforward = {
+				text = "Nopeus fast-forward: " .. states[(G.SETTINGS.FASTFORWARD or 0) + 1],
+				hold = false,
+				order = 4,
+				dangerous = G.SETTINGS.FASTFORWARD == 3,
+			}
+			return true
+		end
+		return false
+	end,
+}
+
 --
 
 --
@@ -952,6 +1046,7 @@ Handy.UI = {
 				Handy.insta_actions,
 				Handy.insta_highlight,
 				Handy.move_highlight,
+				Handy.nopeus_interaction,
 				Handy.dangerous_actions,
 			}) do
 				local temp_result = part.update_state_panel(state, key, released)
@@ -1052,6 +1147,12 @@ function G.FUNCS.handy_toggle_module_enabled(arg, module)
 	module.enabled = arg
 	if module == Handy.config.current.speed_multiplier then
 		Handy.speed_multiplier.value = 1
+	elseif
+		module == Handy.config.current.dangerous_actions
+		or module == Handy.config.current.nopeus_interaction
+		or module == Handy.config.current.dangerous_actions.nopeus_unsafe
+	then
+		Handy.nopeus_interaction.change(0)
 	end
 	Handy.config.save()
 end
