@@ -169,6 +169,58 @@ Handy.fake_events = {
 	end,
 }
 Handy.controller = {
+	bind_module = nil,
+	bind_key = nil,
+	bind_button = nil,
+
+	update_bind_button_text = function(text)
+		local button_text = Handy.controller.bind_button.children[1].children[1]
+		button_text.config.text_drawable = nil
+		button_text.config.text = text
+		button_text:update_text()
+		button_text.UIBox:recalculate()
+	end,
+	init_bind = function(button)
+		button.config.button = nil
+		Handy.controller.bind_button = button
+		Handy.controller.bind_module = button.config.ref_table.module
+		Handy.controller.bind_key = button.config.ref_table.key
+
+		Handy.controller.update_bind_button_text(
+			"[" .. (Handy.controller.bind_module[Handy.controller.bind_key] or "None") .. "]"
+		)
+	end,
+	complete_bind = function(key)
+		Handy.controller.bind_module[Handy.controller.bind_key] = key
+		Handy.controller.update_bind_button_text(key or "None")
+
+		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
+		Handy.controller.bind_button = nil
+		Handy.controller.bind_module = nil
+		Handy.controller.bind_key = nil
+	end,
+	cancel_bind = function()
+		Handy.controller.update_bind_button_text(Handy.controller.bind_module[Handy.controller.bind_key] or "None")
+
+		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
+		Handy.controller.bind_button = nil
+		Handy.controller.bind_module = nil
+		Handy.controller.bind_key = nil
+	end,
+
+	process_bind = function(key)
+		if not Handy.controller.bind_button then
+			return false
+		end
+		local parsed_key = Handy.controller.parse(key)
+		if parsed_key == "Escape" then
+			parsed_key = nil
+		end
+		Handy.controller.complete_bind(parsed_key)
+		Handy.config.save()
+		return true
+	end,
+
 	parse_table = {
 		["mouse1"] = "Left Mouse",
 		["mouse2"] = "Right Mouse",
@@ -311,6 +363,10 @@ Handy.controller = {
 
 	process_key = function(key, released)
 		if not released then
+			if Handy.controller.process_bind(key) then
+				return true
+			end
+
 			Handy.move_highlight.use(key)
 			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
@@ -321,6 +377,10 @@ Handy.controller = {
 	process_mouse = function(mouse, released)
 		local key = Handy.controller.mouse_to_key_table[mouse]
 		if not released then
+			if Handy.controller.process_bind(key) then
+				return true
+			end
+
 			Handy.move_highlight.use(key)
 			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
@@ -330,6 +390,11 @@ Handy.controller = {
 	end,
 	process_wheel = function(wheel)
 		local key = Handy.controller.wheel_to_key_table[wheel]
+
+		if Handy.controller.process_bind(key) then
+			return true
+		end
+
 		Handy.move_highlight.use(key)
 		Handy.insta_cash_out.use(key)
 		Handy.speed_multiplier.use(key)
@@ -425,7 +490,7 @@ Handy.insta_cash_out = {
 		if G.STAGE ~= G.STAGES.RUN then
 			return false
 		end
-		if Handy.config.current.notifications_level < 3 then
+		if Handy.config.current.notifications_level < 4 then
 			return false
 		end
 		if Handy.insta_cash_out.can_execute(key, true) then
@@ -548,7 +613,7 @@ Handy.insta_actions = {
 		if G.STAGE ~= G.STAGES.RUN then
 			return false
 		end
-		if Handy.config.current.notifications_level < 3 then
+		if Handy.config.current.notifications_level < 4 then
 			return false
 		end
 		local result = false
@@ -700,9 +765,10 @@ Handy.dangerous_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE == G.STAGES.RUN then
+		if G.STAGE ~= G.STAGES.RUN then
 			return false
 		end
+
 		if not Handy.config.current.dangerous_actions.enabled then
 			return false
 		end
@@ -744,6 +810,7 @@ Handy.speed_multiplier = {
 	end,
 	can_execute = function(key)
 		return Handy.config.current.speed_multiplier.enabled
+			and not G.OVERLAY_MENU
 			and Handy.controller.is_module_key_down(Handy.config.current.speed_multiplier)
 	end,
 
@@ -771,6 +838,9 @@ Handy.speed_multiplier = {
 
 	update_state_panel = function(state, key, released)
 		if not Handy.speed_multiplier.can_execute(key) then
+			return false
+		end
+		if Handy.config.current.notifications_level < 3 then
 			return false
 		end
 
@@ -855,6 +925,13 @@ Handy.nopeus_interaction = {
 		if actions.increase or actions.decrease then
 			if G.SETTINGS.FASTFORWARD == 3 then
 				state.dangerous = true
+				if Handy.config.current.notifications_level < 2 then
+					return false
+				end
+			else
+				if Handy.config.current.notifications_level < 3 then
+					return false
+				end
 			end
 			local states = {
 				Nopeus.Off,
@@ -1136,6 +1213,12 @@ function Handy.emplace_steamodded()
 					return Handy.UI.get_config_tab("Dangerous")
 				end,
 			},
+			{
+				label = "Keybinds",
+				tab_definition_function = function()
+					return Handy.UI.get_config_tab("Keybinds")
+				end,
+			},
 		}
 	end
 end
@@ -1160,4 +1243,8 @@ end
 function G.FUNCS.handy_change_notifications_level(arg)
 	Handy.config.current.notifications_level = arg.to_key
 	Handy.config.save()
+end
+
+function G.FUNCS.handy_init_keybind_change(e)
+	Handy.controller.init_bind(e)
 end

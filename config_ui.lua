@@ -174,6 +174,77 @@ Handy.UI.PARTS = {
 			},
 		}
 	end,
+
+	create_module_section = function(label)
+		return {
+			n = G.UIT.R,
+			config = { align = "cm", padding = 0.1 },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = { text = label, colour = G.C.WHITE, scale = 0.4, align = "cm" },
+				},
+			},
+		}
+	end,
+	create_module_keybind = function(module, label, plus, dangerous)
+		return {
+			n = G.UIT.R,
+			config = { align = "cm", padding = 0.05 },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "c", minw = 4 },
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = { text = label, colour = G.C.WHITE, scale = 0.35 },
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.75 },
+				},
+				UIBox_button({
+					label = { module.key_1 or "None" },
+					col = true,
+					colour = dangerous and G.C.MULT or G.C.CHIPS,
+					scale = 0.35,
+					minw = 2.75,
+					minh = 0.45,
+					ref_table = {
+						module = module,
+						key = "key_1",
+					},
+					button = "handy_init_keybind_change",
+				}),
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.6 },
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = { text = plus and "+" or "or", colour = G.C.WHITE, scale = 0.3 },
+						},
+					},
+				},
+				UIBox_button({
+					label = { module.key_2 or "None" },
+					col = true,
+					colour = dangerous and G.C.MULT or G.C.CHIPS,
+					scale = 0.35,
+					minw = 2.75,
+					minh = 0.45,
+					ref_table = {
+						module = module,
+						key = "key_2",
+					},
+					button = "handy_init_keybind_change",
+				}),
+			},
+		}
+	end,
 }
 
 Handy.UI.get_config_tab_overall = function()
@@ -183,12 +254,13 @@ Handy.UI.get_config_tab_overall = function()
 			config = { padding = 0.05, align = "cm" },
 			nodes = {
 				create_option_cycle({
-					minw = 2,
+					minw = 3,
 					label = "Notifications level",
 					scale = 0.8,
 					options = {
 						"None",
 						"Dangerous",
+						"Game state",
 						"All",
 					},
 					opt_callback = "handy_change_notifications_level",
@@ -295,30 +367,32 @@ end
 
 Handy.UI.get_config_tab_dangerous = function()
 	return {
-		{
-			n = G.UIT.R,
-			config = { padding = 0.05, align = "cm" },
-			nodes = {
-				Handy.UI.PARTS.create_module_checkbox(
-					Handy.config.current.dangerous_actions,
-					{ "Dangerous", "actions" },
-					"Enable",
-					{
-						"unsafe controls. They're",
-						"designed to be speed-first,",
-						"which can cause bugs or crashes",
-					},
-					true
-				),
-			},
-		},
-		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
+		-- {
+		-- 	n = G.UIT.R,
+		-- 	config = { padding = 0.05, align = "cm" },
+		-- 	nodes = {
+
+		-- 	},
+		-- },
+		-- { n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
 		{
 			n = G.UIT.R,
 			nodes = {
 				{
 					n = G.UIT.C,
 					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions,
+							{ "Dangerous", "actions" },
+							"Enable",
+							{
+								"unsafe controls. They're",
+								"designed to be speed-first,",
+								"which can cause bugs or crashes",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.immediate_buy_and_sell,
 							"Instant Buy/Sell",
@@ -347,6 +421,32 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 
+Handy.UI.get_config_tab_keybinds = function()
+	return {
+		Handy.UI.PARTS.create_module_section("Quick Actions"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Quick Cash Out"),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
+			"Instant Buy/Sell",
+			false,
+			true
+		),
+		Handy.UI.PARTS.create_module_section("Game state"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
+		Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.nopeus_interaction,
+			"Nopeus: fast-forward"
+		) or nil,
+		Handy.UI.PARTS.create_module_section("Move highlight"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_left, "Move one left"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_right, "Move one right"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.swap, "Move card"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.to_end, "Move to end"),
+	}
+end
+
 Handy.UI.get_config_tab = function(_tab)
 	local result = {
 		n = G.UIT.ROOT,
@@ -357,6 +457,8 @@ Handy.UI.get_config_tab = function(_tab)
 		result.nodes = Handy.UI.get_config_tab_overall()
 	elseif _tab == "Dangerous" then
 		result.nodes = Handy.UI.get_config_tab_dangerous()
+	elseif _tab == "Keybinds" then
+		result.nodes = Handy.UI.get_config_tab_keybinds()
 	end
 	return result
 end

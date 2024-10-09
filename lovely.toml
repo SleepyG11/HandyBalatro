@@ -90,7 +90,7 @@ target = "main.lua"
 pattern = '''function love.mousepressed(x, y, button, touch)'''
 position = "after"
 payload = '''
-if not touch then Handy.controller.process_mouse(button, false) end
+if not touch and Handy.controller.process_mouse(button, false) then return end
 '''
 match_indent = true
 overwrite = false
@@ -101,7 +101,7 @@ target = "main.lua"
 pattern = '''function love.mousereleased(x, y, button)'''
 position = "after"
 payload = '''
-Handy.controller.process_mouse(button, true)
+if Handy.controller.process_mouse(button, true) then return end
 '''
 match_indent = true
 overwrite = false
@@ -113,7 +113,7 @@ target = "main.lua"
 pattern = '''function love.keypressed(key)'''
 position = "after"
 payload = '''
-Handy.controller.process_key(key, false)
+if Handy.controller.process_key(key, false) then return end
 '''
 match_indent = true
 overwrite = false
@@ -124,7 +124,7 @@ target = "main.lua"
 pattern = '''function love.keyreleased(key)'''
 position = "after"
 payload = '''
-Handy.controller.process_key(key, true)
+if Handy.controller.process_key(key, true) then return end
 '''
 match_indent = true
 overwrite = false

@@ -7,11 +7,18 @@
 --- PRIORITY: 0
 --- DISPLAY_NAME: Handy
 --- PREFIX: handy
---- VERSION: 1.1.0-pre.2
+--- VERSION: 1.1.0
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
 Handy.emplace_steamodded()
+
+SMODS.Atlas({
+	key = "modicon",
+	path = "icon.png",
+	px = 32,
+	py = 32,
+})
 
 ----------------------------------------------
 ------------MOD CODE END----------------------
