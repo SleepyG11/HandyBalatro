@@ -318,7 +318,7 @@ Handy.controller = {
 		local parsed_keys = { ... }
 		for i = 1, #parsed_keys do
 			local parsed_key = parsed_keys[i]
-			if parsed_key then
+			if parsed_key and parsed_key ~= "Unknown" then
 				if Handy.controller.wheel_buttons[parsed_key] then
 					-- Well, skip
 				elseif Handy.controller.mouse_buttons[parsed_key] then
@@ -346,7 +346,7 @@ Handy.controller = {
 			local parsed_key = parsed_keys[i]
 			if parsed_key then
 				local resolved_key_1, resolved_key_2 = Handy.controller.resolve(parsed_key)
-				if raw_key and (raw_key == resolved_key_1 or raw_key == resolved_key_2) then
+				if raw_key and raw_key ~= "Unknown" and (raw_key == resolved_key_1 or raw_key == resolved_key_2) then
 					return true
 				end
 			end
