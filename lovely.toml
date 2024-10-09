@@ -9,45 +9,11 @@ target = "main.lua"
 position = "append"
 sources = ["index.lua"]
 
-# Handling key inputs
 [[patches]]
-[patches.pattern]
-target = "engine/controller.lua"
-pattern = '''self.held_key_times[key] = 0'''
-position = "after"
-payload = '''
-handy_move_highlight_in_area(key)
-handy_cash_out(key)
-'''
-match_indent = true
-overwrite = false
-
-# Insta-actions
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''function Card:click()'''
-position = "after"
-payload = '''
-if handy_insta_actions(self) then return end
-handy_last_clicked_card = self
-handy_last_clicked_card_area = self.area
-'''
-match_indent = true
-overwrite = false
-
-# Dangerous insta-actions and cards highlightning
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''function Card:hover()'''
-position = "after"
-payload = '''
-if handy_insta_highlight_card(self) then return end
-if handy_dangerous_insta_actions(self) then return end
-'''
-match_indent = true
-overwrite = false
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["config_ui.lua"]
 
 # Skipping Cash Out stage
 [[patches]]
@@ -56,7 +22,7 @@ target = "functions/common_events.lua"
 pattern = '''local num_dollars = config.dollars or 1'''
 position = "after"
 payload = '''
-handy_cashout_skip_dollars = config.dollars or 1
+Handy.insta_cash_out.dollars = config.dollars or 1
 '''
 match_indent = true
 overwrite = false
@@ -67,7 +33,7 @@ target = "functions/common_events.lua"
 pattern = '''G.GAME.current_round.dollars = config.dollars'''
 position = "before"
 payload = '''
-handy_is_cashout_button_created = true
+Handy.insta_cash_out.is_button_created = true
 '''
 match_indent = true
 overwrite = false
@@ -78,7 +44,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.deck:shuffle('cashout'..G.GAME.round_resets.ante)'''
 position = "before"
 payload = '''
-handy_is_cashout_button_created = false
+Handy.insta_cash_out.is_button_created = false
 '''
 match_indent = true
 overwrite = false
@@ -89,7 +55,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.FUNCS.cash_out = function(e)'''
 position = "after"
 payload = '''
-if handy_is_cashout_skipped and e.config.button then return end
+if Handy.insta_cash_out.is_skipped and e.config.button then return end
 '''
 match_indent = true
 overwrite = false
@@ -100,7 +66,101 @@ target = "game.lua"
 pattern = '''G.ACC = math.min((G.ACC or 0) + dt*0.2*self.SETTINGS.GAMESPEED, 16)'''
 position = "after"
 payload = '''
- elseif handy_is_cashout_skipped then G.ACC = 999 
+ elseif Handy.insta_cash_out.is_skipped then G.ACC = 999 
+'''
+match_indent = true
+overwrite = false
+
+# Draw UI
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
+position = "after"
+payload = '''
+Handy.UI.init()
+'''
+match_indent = true
+overwrite = false
+
+# Mouse listeners
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousepressed(x, y, button, touch)'''
+position = "after"
+payload = '''
+if not touch and Handy.controller.process_mouse(button, false) then return end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousereleased(x, y, button)'''
+position = "after"
+payload = '''
+if Handy.controller.process_mouse(button, true) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Key listeners
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.keypressed(key)'''
+position = "after"
+payload = '''
+if Handy.controller.process_key(key, false) then return end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.keyreleased(key)'''
+position = "after"
+payload = '''
+if Handy.controller.process_key(key, true) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Handle card click
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:click()'''
+position = "after"
+payload = '''
+if Handy.controller.process_card_click(self) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Handle card hover
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:hover()'''
+position = "after"
+payload = '''
+if Handy.controller.process_card_hover(self) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Apply multiplier to speed
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
+position = "after"
+payload = '''
+self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.value or 1
 '''
 match_indent = true
 overwrite = false
