@@ -130,6 +130,12 @@ Handy.config = {
 			key_1 = "]",
 			key_2 = nil,
 		},
+
+		not_just_yet_interaction = {
+			enabled = true,
+			key_1 = "Enter",
+			key_2 = nil,
+		},
 	},
 	current = {},
 
@@ -368,9 +374,11 @@ Handy.controller = {
 			end
 
 			Handy.move_highlight.use(key)
-			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
 		end
+
+		Handy.insta_cash_out.use(key, released)
+		Handy.not_just_yet_interaction.use(key, released)
 		Handy.UI.state_panel.update(key, released)
 		return false
 	end,
@@ -385,6 +393,9 @@ Handy.controller = {
 			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
 		end
+
+		Handy.insta_cash_out.use(key, released)
+		Handy.not_just_yet_interaction.use(key, released)
 		Handy.UI.state_panel.update(key, released)
 		return false
 	end,
@@ -419,6 +430,8 @@ Handy.controller = {
 		return false
 	end,
 	process_update = function(dt)
+		Handy.insta_cash_out.update()
+		Handy.not_just_yet_interaction.update()
 		Handy.UI.update(dt)
 	end,
 }
@@ -426,31 +439,33 @@ Handy.controller = {
 --
 
 Handy.insta_cash_out = {
+	is_hold = false,
+
 	is_skipped = false,
 	is_button_created = false,
 	dollars = nil,
 
-	can_execute = function(key, check)
+	can_execute = function(check)
 		if check then
 			return not not (
-				G.STAGE == G.STAGES.RUN
+				Handy.insta_cash_out.is_hold
+				and G.STAGE == G.STAGES.RUN
 				and Handy.insta_cash_out.is_skipped
 				and not G.SETTINGS.paused
 				and G.round_eval
-				and Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key)
 			)
 		else
 			return not not (
-				G.STAGE == G.STAGES.RUN
+				Handy.insta_cash_out.is_hold
+				and G.STAGE == G.STAGES.RUN
 				and not Handy.insta_cash_out.is_skipped
 				and Handy.insta_cash_out.dollars
 				and not G.SETTINGS.paused
 				and G.round_eval
-				and Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key)
 			)
 		end
 	end,
-	execute = function(key)
+	execute = function()
 		Handy.insta_cash_out.is_skipped = true
 
 		if Handy.insta_cash_out.is_button_created then
@@ -482,26 +497,36 @@ Handy.insta_cash_out = {
 		return true
 	end,
 
-	use = function(key)
-		return Handy.insta_cash_out.can_execute(key) and Handy.insta_cash_out.execute(key) or false
+	use = function(key, released)
+		if Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key) then
+			Handy.insta_cash_out.is_hold = not released
+		end
+		return false
+	end,
+
+	update = function()
+		if not Handy.config.current.insta_cash_out.enabled then
+			Handy.insta_cash_out.is_hold = false
+		end
+		return Handy.insta_cash_out.can_execute() and Handy.insta_cash_out.execute() or false
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN then
-			return false
-		end
-		if Handy.config.current.notifications_level < 4 then
-			return false
-		end
-		if Handy.insta_cash_out.can_execute(key, true) then
-			state.items.insta_cash_out = {
-				text = "Skip Cash Out",
-				hold = false,
-				order = 10,
-			}
-			return true
-		end
-		return false
+		-- if G.STAGE ~= G.STAGES.RUN then
+		-- 	return false
+		-- end
+		-- if Handy.config.current.notifications_level < 4 then
+		-- 	return false
+		-- end
+		-- if Handy.insta_cash_out.can_execute(true) then
+		-- 	state.items.insta_cash_out = {
+		-- 		text = "Skip Cash Out",
+		-- 		hold = false,
+		-- 		order = 10,
+		-- 	}
+		-- 	return true
+		-- end
+		-- return false
 	end,
 }
 
@@ -862,9 +887,10 @@ Handy.speed_multiplier = {
 	end,
 }
 
+local is_nopeus = false
 Handy.nopeus_interaction = {
 	is_present = function()
-		return type(Nopeus) == "table"
+		return is_nopeus
 	end,
 
 	get_actions = function(key)
@@ -948,6 +974,48 @@ Handy.nopeus_interaction = {
 			return true
 		end
 		return false
+	end,
+}
+
+local is_njy = false
+Handy.not_just_yet_interaction = {
+	is_present = function()
+		return is_njy
+	end,
+
+	can_execute = function(check)
+		return not not (
+			Handy.not_just_yet_interaction.is_present()
+			and GLOBAL_njy_vanilla_override
+			and G.STATE_COMPLETE
+			and G.buttons
+			and G.buttons.states
+			and G.buttons.states.visible
+			and G.GAME
+			and G.GAME.chips
+			and G.GAME.blind
+			and G.GAME.blind.chips
+			and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
+		)
+	end,
+	execute = function()
+		stop_use()
+		G.STATE = G.STATES.NEW_ROUND
+		end_round()
+	end,
+
+	use = function(key, released)
+		if Handy.controller.is_module_key(Handy.config.current.not_just_yet_interaction, key) then
+			GLOBAL_njy_vanilla_override = not released
+		end
+		return false
+	end,
+
+	update = function()
+		if not Handy.config.current.not_just_yet_interaction.enabled then
+			GLOBAL_njy_vanilla_override = nil
+		end
+		return Handy.not_just_yet_interaction.can_execute() and Handy.not_just_yet_interaction.execute() or false
 	end,
 }
 
@@ -1208,6 +1276,12 @@ function Handy.emplace_steamodded()
 				end,
 			},
 			{
+				label = "Interactions",
+				tab_definition_function = function()
+					return Handy.UI.get_config_tab("Interactions")
+				end,
+			},
+			{
 				label = "Dangerous",
 				tab_definition_function = function()
 					return Handy.UI.get_config_tab("Dangerous")
@@ -1221,6 +1295,19 @@ function Handy.emplace_steamodded()
 			},
 		}
 	end
+
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			if type(Nopeus) == "table" then
+				is_nopeus = true
+			end
+			if G.FUNCS.njy_endround then
+				is_njy = true
+				G.njy_keybind = nil
+			end
+			return true
+		end,
+	}))
 end
 
 function G.FUNCS.handy_toggle_module_enabled(arg, module)

@@ -344,10 +344,22 @@ Handy.UI.get_config_tab_overall = function()
 								"[Wheel Down] to divide game speed",
 							}
 						),
-						-- TODO: make it properly too
-						Nopeus and { n = G.UIT.R, config = { minh = 0.25 } } or nil,
+					},
+				},
+			},
+		},
+	}
+end
 
-						Nopeus and Handy.UI.PARTS.create_module_checkbox(
+Handy.UI.get_config_tab_interactions = function()
+	return {
+		{
+			n = G.UIT.R,
+			nodes = {
+				{
+					n = G.UIT.C,
+					nodes = {
+						Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.nopeus_interaction,
 							{ "Nopeus:", "fast-forward" },
 							"Hold",
@@ -356,6 +368,19 @@ Handy.UI.get_config_tab_overall = function()
 								"[Wheel Up] to increase or",
 								"[Wheel Down] to decrease",
 								"fast-forward setting",
+							}
+						) or nil,
+						Handy.not_just_yet_interaction.is_present() and Handy.nopeus_interaction.is_present() and {
+							n = G.UIT.R,
+							config = { minh = 0.25 },
+						} or nil,
+						Handy.not_just_yet_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.not_just_yet_interaction,
+							{ "NotJustYet:", "End round" },
+							"Press",
+							{
+								"to",
+								"end round",
 							}
 						) or nil,
 					},
@@ -403,8 +428,8 @@ Handy.UI.get_config_tab_dangerous = function()
 								"without any delay",
 							}
 						),
-						Nopeus and { n = G.UIT.R, config = { minh = 0.25 } } or nil,
-						Nopeus and Handy.UI.PARTS.create_module_checkbox(
+						Handy.nopeus_interaction.is_present() and { n = G.UIT.R, config = { minh = 0.25 } } or nil,
+						Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.nopeus_unsafe,
 							{ "Nopeus: Unsafe", "fast-forward" },
 							"Allow",
@@ -433,6 +458,10 @@ Handy.UI.get_config_tab_keybinds = function()
 			false,
 			true
 		),
+		Handy.not_just_yet_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.not_just_yet_interaction,
+			"NotJustYet: End round"
+		) or nil,
 		Handy.UI.PARTS.create_module_section("Game state"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
 		Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
@@ -455,6 +484,8 @@ Handy.UI.get_config_tab = function(_tab)
 	}
 	if _tab == "Overall" then
 		result.nodes = Handy.UI.get_config_tab_overall()
+	elseif _tab == "Interactions" then
+		result.nodes = Handy.UI.get_config_tab_interactions()
 	elseif _tab == "Dangerous" then
 		result.nodes = Handy.UI.get_config_tab_dangerous()
 	elseif _tab == "Keybinds" then
