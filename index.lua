@@ -917,10 +917,9 @@ Handy.shop_reroll = {
 	end,
 }
 
-local is_nopeus = false
 Handy.nopeus_interaction = {
 	is_present = function()
-		return is_nopeus
+		return type(Nopeus) == "table"
 	end,
 
 	get_actions = function(key)
@@ -1023,10 +1022,9 @@ Handy.nopeus_interaction = {
 	end,
 }
 
-local is_njy = false
 Handy.not_just_yet_interaction = {
 	is_present = function()
-		return is_njy
+		return G and G.FUNCS and G.FUNCS.njy_endround ~= nil
 	end,
 
 	can_execute = function(check)
@@ -1344,13 +1342,7 @@ function Handy.emplace_steamodded()
 
 	G.E_MANAGER:add_event(Event({
 		func = function()
-			if type(Nopeus) == "table" then
-				is_nopeus = true
-			end
-			if G.FUNCS.njy_endround then
-				is_njy = true
-				G.njy_keybind = nil
-			end
+			G.njy_keybind = nil
 			return true
 		end,
 	}))
