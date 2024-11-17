@@ -925,10 +925,17 @@ Handy.nopeus_interaction = {
 	end,
 
 	change = function(dx)
-		G.SETTINGS.FASTFORWARD = math.min(
-			Handy.nopeus_interaction.can_dangerous() and 3 or 2,
-			math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
-		)
+		if Nopeus.Optimised then
+			G.SETTINGS.FASTFORWARD = math.min(
+				Handy.nopeus_interaction.can_dangerous() and 4 or 3,
+				math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
+			)
+		else
+			G.SETTINGS.FASTFORWARD = math.min(
+				Handy.nopeus_interaction.can_dangerous() and 3 or 2,
+				math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
+			)
+		end
 	end,
 	increase = function()
 		Handy.nopeus_interaction.change(1)
@@ -965,6 +972,15 @@ Handy.nopeus_interaction = {
 				Nopeus.On,
 				Nopeus.Unsafe,
 			}
+			if Nopeus.Optimised then
+				states = {
+					Nopeus.Off,
+					Nopeus.Planets,
+					Nopeus.On,
+					Nopeus.Optimised,
+					Nopeus.Unsafe,
+				}
+			end
 			state.items.change_nopeus_fastforward = {
 				text = "Nopeus fast-forward: " .. states[(G.SETTINGS.FASTFORWARD or 0) + 1],
 				hold = false,
