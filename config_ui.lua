@@ -293,7 +293,6 @@ Handy.UI.get_config_tab_overall = function()
 							"(overrides Quick Buy/Sell)",
 						}),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						-- TODO: make it properly
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.move_highlight,
 							"Move highlight",
