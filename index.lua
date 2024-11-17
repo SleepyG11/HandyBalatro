@@ -124,6 +124,12 @@ Handy.config = {
 			key_2 = nil,
 		},
 
+		shop_reroll = {
+			enabled = true,
+			key_1 = "Q",
+			key_2 = nil,
+		},
+
 		nopeus_interaction = {
 			enabled = true,
 
@@ -375,6 +381,7 @@ Handy.controller = {
 
 			Handy.move_highlight.use(key)
 			Handy.speed_multiplier.use(key)
+			Handy.shop_reroll.use(key)
 		end
 
 		Handy.insta_cash_out.use(key, released)
@@ -392,6 +399,7 @@ Handy.controller = {
 			Handy.move_highlight.use(key)
 			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
+			Handy.shop_reroll.use(key)
 		end
 
 		Handy.insta_cash_out.use(key, released)
@@ -410,6 +418,7 @@ Handy.controller = {
 		Handy.insta_cash_out.use(key)
 		Handy.speed_multiplier.use(key)
 		Handy.nopeus_interaction.use(key)
+		Handy.shop_reroll.use(key)
 		Handy.UI.state_panel.update(key, false)
 	end,
 	process_card_click = function(card)
@@ -733,8 +742,13 @@ Handy.move_highlight = {
 					return
 				end
 				if actions.swap and Handy.move_highlight.can_swap(key, area) then
-					area.cards[next_index] = current_card
-					area.cards[current_index] = next_card
+					if actions.to_end or next_index == 1 or next_index == #area.cards then
+						table.remove(area.cards, current_index)
+						table.insert(area.cards, next_index, current_card)
+					else
+						area.cards[next_index] = current_card
+						area.cards[current_index] = next_card
+					end
 				else
 					area:remove_from_highlighted(current_card)
 					area:add_to_highlighted(next_card)
@@ -884,6 +898,22 @@ Handy.speed_multiplier = {
 			return true
 		end
 		return false
+	end,
+}
+
+Handy.shop_reroll = {
+	can_execute = function(key)
+		return G.STATE == G.STATES.SHOP
+			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
+			and Handy.controller.is_module_key(Handy.config.current.shop_reroll, key)
+	end,
+	execute = function(key)
+		G.FUNCS.reroll_shop()
+		return false
+	end,
+
+	use = function(key)
+		return Handy.shop_reroll.can_execute(key) and Handy.shop_reroll.execute(key) or false
 	end,
 }
 

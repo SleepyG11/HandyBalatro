@@ -299,10 +299,16 @@ Handy.UI.get_config_tab_overall = function()
 							"Move highlight",
 							"Press",
 							{
-								"[Left Arrow] or [Right Arrow]",
+								"["
+									.. Handy.config.current.move_highlight.dx.one_left.key_1
+									.. "] or ["
+									.. Handy.config.current.move_highlight.dx.one_right.key_1
+									.. "]",
 								"to move highlight in card area.",
-								"Hold [Shift] to move card instead.",
-								"Hold [Ctrl] to move to first/last card",
+								"Hold [" .. Handy.config.current.move_highlight.swap.key_1 .. "] to move card instead.",
+								"Hold ["
+									.. Handy.config.current.move_highlight.to_end.key_1
+									.. "] to move to first/last card",
 							},
 							true
 						),
@@ -342,6 +348,16 @@ Handy.UI.get_config_tab_overall = function()
 								"and",
 								"[Wheel Up] to multiply or",
 								"[Wheel Down] to divide game speed",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.shop_reroll,
+							"Shop Reroll",
+							"Press",
+							{
+								"to",
+								"reroll a shop",
 							}
 						),
 					},
@@ -452,6 +468,7 @@ Handy.UI.get_config_tab_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Quick Cash Out"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.shop_reroll, "Shop reroll"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
 			"Instant Buy/Sell",
