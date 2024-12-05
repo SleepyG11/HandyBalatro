@@ -129,6 +129,19 @@ Handy.config = {
 			key_1 = "Q",
 			key_2 = nil,
 		},
+		play_and_discard = {
+			enabled = true,
+			play = {
+				enabled = true,
+				key_1 = nil,
+				key_2 = nil,
+			},
+			discard = {
+				enabled = true,
+				key_1 = nil,
+				key_2 = nil,
+			},
+		},
 
 		nopeus_interaction = {
 			enabled = true,
@@ -382,6 +395,7 @@ Handy.controller = {
 			Handy.move_highlight.use(key)
 			Handy.speed_multiplier.use(key)
 			Handy.shop_reroll.use(key)
+			Handy.play_and_discard.use(key)
 		end
 
 		Handy.insta_cash_out.use(key, released)
@@ -400,6 +414,7 @@ Handy.controller = {
 			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
 			Handy.shop_reroll.use(key)
+			Handy.play_and_discard.use(key)
 		end
 
 		Handy.insta_cash_out.use(key, released)
@@ -419,6 +434,7 @@ Handy.controller = {
 		Handy.speed_multiplier.use(key)
 		Handy.nopeus_interaction.use(key)
 		Handy.shop_reroll.use(key)
+		Handy.play_and_discard.use(key)
 		Handy.UI.state_panel.update(key, false)
 	end,
 	process_card_click = function(card)
@@ -917,6 +933,48 @@ Handy.shop_reroll = {
 	end,
 }
 
+Handy.play_and_discard = {
+	get_actions = function(key)
+		return {
+			discard = Handy.controller.is_module_key(Handy.config.current.play_and_discard.discard, key),
+			play = Handy.controller.is_module_key(Handy.config.current.play_and_discard.play, key),
+		}
+	end,
+
+	can_execute = function(play, discard)
+		return not not (
+			Handy.config.current.play_and_discard.enabled
+			and G.STATE == G.STATES.SELECTING_HAND
+			and (
+				(discard and Handy.fake_events.check({
+					func = G.FUNCS.can_discard,
+				})) or (play and Handy.fake_events.check({
+					func = G.FUNCS.can_play,
+				}))
+			)
+		)
+	end,
+	execute = function(play, discard)
+		if discard then
+			Handy.fake_events.execute({
+				func = G.FUNCS.discard_cards_from_highlighted,
+			})
+		elseif play then
+			Handy.fake_events.execute({
+				func = G.FUNCS.play_cards_from_highlighted,
+			})
+		end
+		return false
+	end,
+
+	use = function(key)
+		local actions = Handy.play_and_discard.get_actions(key)
+		return Handy.play_and_discard.can_execute(actions.play, actions.discard)
+				and Handy.play_and_discard.execute(actions.play, actions.discard)
+			or false
+	end,
+}
+
 Handy.nopeus_interaction = {
 	is_present = function()
 		return type(Nopeus) == "table"
@@ -1335,6 +1393,12 @@ function Handy.emplace_steamodded()
 				label = "Keybinds",
 				tab_definition_function = function()
 					return Handy.UI.get_config_tab("Keybinds")
+				end,
+			},
+			{
+				label = "More keybinds",
+				tab_definition_function = function()
+					return Handy.UI.get_config_tab("Keybinds 2")
 				end,
 			},
 		}

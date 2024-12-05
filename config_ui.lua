@@ -359,6 +359,17 @@ Handy.UI.get_config_tab_overall = function()
 								"reroll a shop",
 							}
 						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.play_and_discard,
+							"Play/Discard",
+							"Press",
+							{
+								"[" .. Handy.config.current.play_and_discard.play.key_1 .. "] to play a hand",
+								"or [" .. Handy.config.current.play_and_discard.discard.key_1 .. "] to discard",
+							},
+							true
+						),
 					},
 				},
 			},
@@ -468,6 +479,8 @@ Handy.UI.get_config_tab_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Quick Cash Out"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.shop_reroll, "Shop reroll"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.play, "Play hand"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.discard, "Discard"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
 			"Instant Buy/Sell",
@@ -478,6 +491,11 @@ Handy.UI.get_config_tab_keybinds = function()
 			Handy.config.current.not_just_yet_interaction,
 			"NotJustYet: End round"
 		) or nil,
+	}
+end
+
+Handy.UI.get_config_tab_keybinds_2 = function()
+	return {
 		Handy.UI.PARTS.create_module_section("Game state"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
 		Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
@@ -506,6 +524,8 @@ Handy.UI.get_config_tab = function(_tab)
 		result.nodes = Handy.UI.get_config_tab_dangerous()
 	elseif _tab == "Keybinds" then
 		result.nodes = Handy.UI.get_config_tab_keybinds()
+	elseif _tab == "Keybinds 2" then
+		result.nodes = Handy.UI.get_config_tab_keybinds_2()
 	end
 	return result
 end
