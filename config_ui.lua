@@ -299,14 +299,16 @@ Handy.UI.get_config_tab_overall = function()
 							"Press",
 							{
 								"["
-									.. Handy.config.current.move_highlight.dx.one_left.key_1
+									.. tostring(Handy.config.current.move_highlight.dx.one_left.key_1)
 									.. "] or ["
-									.. Handy.config.current.move_highlight.dx.one_right.key_1
+									.. tostring(Handy.config.current.move_highlight.dx.one_right.key_1)
 									.. "]",
 								"to move highlight in card area.",
-								"Hold [" .. Handy.config.current.move_highlight.swap.key_1 .. "] to move card instead.",
 								"Hold ["
-									.. Handy.config.current.move_highlight.to_end.key_1
+									.. tostring(Handy.config.current.move_highlight.swap.key_1)
+									.. "] to move card instead.",
+								"Hold ["
+									.. tostring(Handy.config.current.move_highlight.to_end.key_1)
 									.. "] to move to first/last card",
 							},
 							true
@@ -365,8 +367,10 @@ Handy.UI.get_config_tab_overall = function()
 							"Play/Discard",
 							"Press",
 							{
-								"[" .. Handy.config.current.play_and_discard.play.key_1 .. "] to play a hand",
-								"or [" .. Handy.config.current.play_and_discard.discard.key_1 .. "] to discard",
+								"[" .. tostring(Handy.config.current.play_and_discard.play.key_1) .. "] to play a hand",
+								"or ["
+									.. tostring(Handy.config.current.play_and_discard.discard.key_1)
+									.. "] to discard",
 							},
 							true
 						),
