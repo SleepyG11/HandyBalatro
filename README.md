@@ -36,7 +36,6 @@ https://github.com/user-attachments/assets/85082445-052a-4f96-aaf0-51e1af1fdaf3
 ## Dangerous controls
 - Hold `Shift + MMB (Mouse 3, Wheel Button)` and move to:
     - Mass-sell jokers or consumables
-    - Mass-buy jokers or consumables
 
 https://github.com/user-attachments/assets/4c958f09-74c3-4c11-88ab-48989c41dfde
 
