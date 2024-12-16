@@ -110,6 +110,10 @@ Handy.config = {
 				enabled = true,
 				key_1 = "Middle Mouse",
 				key_2 = nil,
+
+				queue = {
+					enabled = false,
+				},
 			},
 
 			nopeus_unsafe = {
@@ -400,6 +404,7 @@ Handy.controller = {
 
 		Handy.insta_cash_out.use(key, released)
 		Handy.not_just_yet_interaction.use(key, released)
+		Handy.dangerous_actions.toggle_queue(key, released)
 		Handy.UI.state_panel.update(key, released)
 		return false
 	end,
@@ -419,6 +424,7 @@ Handy.controller = {
 
 		Handy.insta_cash_out.use(key, released)
 		Handy.not_just_yet_interaction.use(key, released)
+		Handy.dangerous_actions.toggle_queue(key, released)
 		Handy.UI.state_panel.update(key, released)
 		return false
 	end,
@@ -783,6 +789,32 @@ Handy.move_highlight = {
 }
 
 Handy.dangerous_actions = {
+	sell_queue = {},
+
+	sell_next_card = function()
+		local card = table.remove(Handy.dangerous_actions.sell_queue, 1)
+		if not card then
+			if not G.GAME.STOP_USE or G.GAME.STOP_USE == 0 then
+				G.GAME.STOP_USE = 1
+			end
+			return
+		end
+
+		G.GAME.STOP_USE = 0
+		Handy.insta_actions.execute(card, true, false)
+
+		Handy.dangerous_actions.sell_next_card()
+		G.E_MANAGER:add_event(Event({
+			blocking = false,
+			func = function()
+				if card.ability then
+					card.ability.handy_dangerous_actions_used = nil
+				end
+				return true
+			end,
+		}))
+	end,
+
 	can_execute = function(card)
 		return G.STAGE == G.STAGES.RUN
 			and Handy.config.current.dangerous_actions.enabled
@@ -791,32 +823,54 @@ Handy.dangerous_actions = {
 	end,
 	execute = function(card)
 		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell) then
-			local result = Handy.insta_actions.use(card)
-			if result then
-				G.CONTROLLER.locks.selling_card = nil
-				G.CONTROLLER.locks.use = nil
-				G.GAME.STOP_USE = 0
-
+			if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
 				if not card.ability then
 					card.ability = {}
 				end
 				card.ability.handy_dangerous_actions_used = true
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						if card.ability then
-							card.ability.handy_dangerous_actions_used = nil
-						end
-						return true
-					end,
-				}))
+
+				table.insert(Handy.dangerous_actions.sell_queue, card)
+				Handy.UI.state_panel.update(nil, nil)
+				return false
+			else
+				local result = Handy.insta_actions.execute(card, true, false)
+				if result then
+					if not card.ability then
+						card.ability = {}
+					end
+					card.ability.handy_dangerous_actions_used = true
+
+					G.CONTROLLER.locks.selling_card = nil
+					G.CONTROLLER.locks.use = nil
+					G.GAME.STOP_USE = 0
+
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							if card.ability then
+								card.ability.handy_dangerous_actions_used = nil
+							end
+							return true
+						end,
+					}))
+				end
+				return result
 			end
-			return result
 		end
 		return false
 	end,
 
 	use = function(card)
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute(card) or false
+	end,
+
+	toggle_queue = function(key, released)
+		if Handy.controller.is_module_key(Handy.config.current.dangerous_actions.immediate_buy_and_sell, key) then
+			if released then
+				Handy.dangerous_actions.sell_next_card()
+			else
+				Handy.dangerous_actions.sell_queue = {}
+			end
+		end
 	end,
 
 	update_state_panel = function(state, key, released)
@@ -841,8 +895,12 @@ Handy.dangerous_actions = {
 			if state.items.quick_buy_and_sell then
 				state.items.quick_buy_and_sell.dangerous = true
 			elseif Handy.insta_actions.get_actions().buy_or_sell then
+				local text = "Quick buy and sell"
+				if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
+					text = text .. " [" .. #Handy.dangerous_actions.sell_queue .. " in queue]"
+				end
 				state.items.quick_buy_and_sell = {
-					text = "Quick buy and sell",
+					text = text,
 					hold = true,
 					order = 11,
 					dangerous = true,
@@ -892,7 +950,7 @@ Handy.speed_multiplier = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if not Handy.speed_multiplier.can_execute(key) then
+		if not key or not Handy.speed_multiplier.can_execute(key) then
 			return false
 		end
 		if Handy.config.current.notifications_level < 3 then
@@ -1036,7 +1094,7 @@ Handy.nopeus_interaction = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if not Handy.nopeus_interaction.can_execute(key) then
+		if not key or not Handy.nopeus_interaction.can_execute(key) then
 			return false
 		end
 
