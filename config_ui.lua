@@ -447,16 +447,27 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						{ n = G.UIT.R, config = { minh = 0.5 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.immediate_buy_and_sell,
-							"Instant Buy/Sell",
+							"Instant Sell",
 							"Hold",
 							{
 								"to",
-								"buy or sell card on hover",
-								"without any delay",
+								"sell card on hover",
+								"very fast",
 							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.1 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue,
+							"Sell Queue",
+							"Start",
+							{
+								"selling cards only when",
+								"keybind was released",
+							},
+							true
 						),
 						Handy.nopeus_interaction.is_present() and { n = G.UIT.R, config = { minh = 0.25 } } or nil,
 						Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
@@ -465,7 +476,7 @@ Handy.UI.get_config_tab_dangerous = function()
 							"Allow",
 							{
 								"increase fast-forward",
-								"setting to Unsafe",
+								'setting to "Unsafe"',
 							},
 							true
 						) or nil,
