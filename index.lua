@@ -597,12 +597,18 @@ Handy.insta_actions = {
 	execute = function(card, buy_or_sell, use, only_sell)
 		local target_button = nil
 		local is_shop_button = false
+		local is_custom_button = false
 
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
+		local card_buttons = G.UIDEF.use_and_sell_buttons(card)
+		local result_funcs = {}
+		for _, node in ipairs(card_buttons.nodes) do
+			if node.config and node.config.func then
+				result_funcs[node.config.func] = node
+			end
+		end
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
-
-		local compat = nil
 
 		if use then
 			target_button = base_attach.buy_and_use
@@ -611,24 +617,25 @@ Handy.insta_actions = {
 			is_shop_button = target_button == card.children.buy_and_use_button
 		elseif buy_or_sell then
 			target_button = card.children.buy_button
+				or result_funcs.can_use_mupack
+				or result_funcs.can_reserve_card
 				or base_attach.buy
 				or base_attach.redeem
 				or base_attach.sell
 				or (is_booster_pack_card and base_attach.use)
 
-			if not only_sell and G.FUNCS.can_use_mupack then
-				local card_buttons = G.UIDEF.use_and_sell_buttons(card)
-				for _, node in ipairs(card_buttons.nodes) do
-					if node.config and node.config.func == "can_use_mupack" then
-						target_button = node
-						compat = "multipack"
-					end
-				end
-			end
 			if only_sell and target_button ~= base_attach.sell then
 				target_button = nil
 			end
 			is_shop_button = target_button == card.children.buy_button
+		end
+
+		if target_button then
+			for _, node in ipairs(card_buttons.nodes) do
+				if target_button == node then
+					is_custom_button = true
+				end
+			end
 		end
 
 		local target_button_UIBox
@@ -636,20 +643,18 @@ Handy.insta_actions = {
 
 		local cleanup = function()
 			base_background:remove()
-			if compat == "multipack" then
+			if target_button_UIBox and is_custom_button then
 				target_button_UIBox:remove()
 			end
 		end
 
 		if target_button then
-			target_button_UIBox = (
-				compat == "multipack" and UIBox({
-					definition = target_button,
-					config = {},
-				})
-			) or target_button
-			target_button_definition = (is_shop_button and target_button.definition)
-				or (compat == "multipack" and target_button)
+			target_button_UIBox = (is_custom_button and UIBox({
+				definition = target_button,
+				config = {},
+			})) or target_button
+			target_button_definition = (is_custom_button and target_button)
+				or (is_shop_button and target_button.definition)
 				or target_button.definition.nodes[1]
 
 			if
