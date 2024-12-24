@@ -594,13 +594,15 @@ Handy.insta_actions = {
 	can_execute = function(card, buy_or_sell, use)
 		return not not (G.STAGE == G.STAGES.RUN and (buy_or_sell or use) and card and card.area)
 	end,
-	execute = function(card, buy_or_sell, use)
+	execute = function(card, buy_or_sell, use, only_sell)
 		local target_button = nil
 		local is_shop_button = false
 
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
+
+		local compat = nil
 
 		if use then
 			target_button = base_attach.buy_and_use
@@ -613,20 +615,42 @@ Handy.insta_actions = {
 				or base_attach.redeem
 				or base_attach.sell
 				or (is_booster_pack_card and base_attach.use)
+
+			if not only_sell and G.FUNCS.can_use_mupack then
+				local card_buttons = G.UIDEF.use_and_sell_buttons(card)
+				for _, node in ipairs(card_buttons.nodes) do
+					if node.config and node.config.func == "can_use_mupack" then
+						target_button = node
+						compat = "multipack"
+					end
+				end
+			end
+			if only_sell and target_button ~= base_attach.sell then
+				target_button = nil
+			end
 			is_shop_button = target_button == card.children.buy_button
 		end
 
-		if target_button then
-			local target_button_definition = is_shop_button and target_button.definition
-				or target_button.definition.nodes[1]
+		local target_button_UIBox
+		local target_button_definition
 
-			local result_data = {
-				func = target_button_definition.config.func,
-				button = target_button_definition.config.button,
-				id = target_button_definition.config.id,
-				card = card,
-				UIBox = target_button,
-			}
+		local cleanup = function()
+			base_background:remove()
+			if compat == "multipack" then
+				target_button_UIBox:remove()
+			end
+		end
+
+		if target_button then
+			target_button_UIBox = (
+				compat == "multipack" and UIBox({
+					definition = target_button,
+					config = {},
+				})
+			) or target_button
+			target_button_definition = (is_shop_button and target_button.definition)
+				or (compat == "multipack" and target_button)
+				or target_button.definition.nodes[1]
 
 			if
 				Handy.fake_events.check({
@@ -634,7 +658,7 @@ Handy.insta_actions = {
 					button = nil,
 					id = target_button_definition.config.id,
 					card = card,
-					UIBox = target_button,
+					UIBox = target_button_UIBox,
 				})
 			then
 				Handy.fake_events.execute({
@@ -642,14 +666,14 @@ Handy.insta_actions = {
 					button = nil,
 					id = target_button_definition.config.id,
 					card = card,
-					UIBox = target_button,
+					UIBox = target_button_UIBox,
 				})
-				base_background:remove()
+				cleanup()
 				return true
 			end
 		end
 
-		base_background:remove()
+		cleanup()
 		return false
 	end,
 
@@ -801,7 +825,7 @@ Handy.dangerous_actions = {
 		end
 
 		G.GAME.STOP_USE = 0
-		Handy.insta_actions.execute(card, true, false)
+		Handy.insta_actions.execute(card, true, false, true)
 
 		Handy.dangerous_actions.sell_next_card()
 		G.E_MANAGER:add_event(Event({
@@ -895,7 +919,7 @@ Handy.dangerous_actions = {
 			if state.items.quick_buy_and_sell then
 				state.items.quick_buy_and_sell.dangerous = true
 			elseif Handy.insta_actions.get_actions().buy_or_sell then
-				local text = "Quick buy and sell"
+				local text = "Quick sell"
 				if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
 					text = text .. " [" .. #Handy.dangerous_actions.sell_queue .. " in queue]"
 				end
@@ -1070,7 +1094,9 @@ Handy.nopeus_interaction = {
 	end,
 
 	change = function(dx)
-		if Nopeus.Optimised then
+		if not Handy.nopeus_interaction.is_present() then
+			G.SETTINGS.FASTFORWARD = 0
+		elseif Nopeus.Optimised then
 			G.SETTINGS.FASTFORWARD = math.min(
 				Handy.nopeus_interaction.can_dangerous() and 4 or 3,
 				math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
@@ -1094,6 +1120,9 @@ Handy.nopeus_interaction = {
 	end,
 
 	update_state_panel = function(state, key, released)
+		if not Handy.nopeus_interaction.is_present() then
+			return false
+		end
 		if not key or not Handy.nopeus_interaction.can_execute(key) then
 			return false
 		end
