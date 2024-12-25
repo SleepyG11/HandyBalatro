@@ -184,17 +184,19 @@ Handy.fake_events = {
 			},
 		}
 		arg.func(fake_event)
-		return fake_event.config.button ~= nil
+		return fake_event.config.button ~= nil, fake_event.config.button
 	end,
 	execute = function(arg)
-		arg.func({
-			UIBox = arg.UIBox,
-			config = {
-				ref_table = arg.card,
-				button = arg.button,
-				id = arg.id,
-			},
-		})
+		if type(arg.func) == "function" then
+			arg.func({
+				UIBox = arg.UIBox,
+				config = {
+					ref_table = arg.card,
+					button = arg.button,
+					id = arg.id,
+				},
+			})
+		end
 	end,
 }
 Handy.controller = {
@@ -598,6 +600,7 @@ Handy.insta_actions = {
 		local target_button = nil
 		local is_shop_button = false
 		local is_custom_button = false
+		local is_playable_consumeable = false
 
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
@@ -611,10 +614,22 @@ Handy.insta_actions = {
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 		if use then
-			target_button = base_attach.buy_and_use
-				or (not is_booster_pack_card and base_attach.use)
-				or card.children.buy_and_use_button
-			is_shop_button = target_button == card.children.buy_and_use_button
+			if card.area == G.hand and card.ability.consumeable then
+				local success, playale_consumeable_button = pcall(function()
+					-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
+					return card_buttons.nodes[1].nodes[2].nodes[1].nodes[1]
+				end)
+				if success and playale_consumeable_button then
+					target_button = playale_consumeable_button
+					is_custom_button = true
+					is_playable_consumeable = true
+				end
+			else
+				target_button = base_attach.buy_and_use
+					or (not is_booster_pack_card and base_attach.use)
+					or card.children.buy_and_use_button
+				is_shop_button = target_button == card.children.buy_and_use_button
+			end
 		elseif buy_or_sell then
 			target_button = card.children.buy_button
 				or result_funcs.can_use_mupack
@@ -630,7 +645,7 @@ Handy.insta_actions = {
 			is_shop_button = target_button == card.children.buy_button
 		end
 
-		if target_button then
+		if target_button and not is_custom_button and not is_shop_button then
 			for _, node in ipairs(card_buttons.nodes) do
 				if target_button == node then
 					is_custom_button = true
@@ -649,6 +664,14 @@ Handy.insta_actions = {
 		end
 
 		if target_button then
+			if is_playable_consumeable then
+				card.area:add_to_highlighted(card)
+				if not card.highlighted then
+					cleanup()
+					return false
+				end
+			end
+
 			target_button_UIBox = (is_custom_button and UIBox({
 				definition = target_button,
 				config = {},
@@ -657,17 +680,16 @@ Handy.insta_actions = {
 				or (is_shop_button and target_button.definition)
 				or target_button.definition.nodes[1]
 
-			if
-				Handy.fake_events.check({
-					func = G.FUNCS[target_button_definition.config.func],
-					button = nil,
-					id = target_button_definition.config.id,
-					card = card,
-					UIBox = target_button_UIBox,
-				})
-			then
+			local check, button = Handy.fake_events.check({
+				func = G.FUNCS[target_button_definition.config.func],
+				button = nil,
+				id = target_button_definition.config.id,
+				card = card,
+				UIBox = target_button_UIBox,
+			})
+			if check then
 				Handy.fake_events.execute({
-					func = G.FUNCS[target_button_definition.config.button],
+					func = G.FUNCS[button or target_button_definition.config.button],
 					button = nil,
 					id = target_button_definition.config.id,
 					card = card,
