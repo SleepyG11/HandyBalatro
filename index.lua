@@ -624,6 +624,7 @@ Handy.insta_actions = {
 					is_custom_button = true
 					is_playable_consumeable = true
 				end
+			elseif result_funcs.can_select_alchemical then
 			else
 				target_button = base_attach.buy_and_use
 					or (not is_booster_pack_card and base_attach.use)
@@ -632,6 +633,7 @@ Handy.insta_actions = {
 			end
 		elseif buy_or_sell then
 			target_button = card.children.buy_button
+				or result_funcs.can_select_alchemical
 				or result_funcs.can_use_mupack
 				or result_funcs.can_reserve_card
 				or base_attach.buy
