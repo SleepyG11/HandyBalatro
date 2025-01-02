@@ -624,7 +624,9 @@ Handy.insta_actions = {
 					is_custom_button = true
 					is_playable_consumeable = true
 				end
-			elseif result_funcs.can_select_alchemical then
+			elseif result_funcs.can_select_alchemical or result_funcs.can_select_crazy_card then
+				-- Prevent cards to be selected when usage is required:
+				-- Alchemical cards, Cines
 			else
 				target_button = base_attach.buy_and_use
 					or (not is_booster_pack_card and base_attach.use)
@@ -633,9 +635,10 @@ Handy.insta_actions = {
 			end
 		elseif buy_or_sell then
 			target_button = card.children.buy_button
-				or result_funcs.can_select_alchemical
-				or result_funcs.can_use_mupack
-				or result_funcs.can_reserve_card
+				or result_funcs.can_select_crazy_card -- Cines
+				or result_funcs.can_select_alchemical -- Alchemical cards
+				or result_funcs.can_use_mupack -- Multipacks
+				or result_funcs.can_reserve_card -- Code cards, for example
 				or base_attach.buy
 				or base_attach.redeem
 				or base_attach.sell
