@@ -276,6 +276,17 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_highlight,
+							"Quick Highlight",
+							"Hold [Left Mouse]",
+							{
+								"and",
+								"hover cards in hand to highlight",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_buy_or_sell,
 							"Quick Buy/Sell",
 							"Hold",
@@ -331,14 +342,13 @@ Handy.UI.get_config_tab_overall = function()
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_highlight,
-							"Quick Highlight",
-							"Hold [Left Mouse]",
+							Handy.config.current.insta_booster_skip,
+							{ "Quick skip", "Booster Packs" },
+							"Hold",
 							{
-								"and",
-								"hover cards in hand to highlight",
-							},
-							true
+								"to",
+								"skip booster pack",
+							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -389,7 +399,7 @@ Handy.UI.get_config_tab_interactions = function()
 				{
 					n = G.UIT.C,
 					nodes = {
-						Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
+						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.nopeus_interaction,
 							{ "Nopeus:", "fast-forward" },
 							"Hold",
@@ -399,12 +409,12 @@ Handy.UI.get_config_tab_interactions = function()
 								"[Wheel Down] to decrease",
 								"fast-forward setting",
 							}
-						) or nil,
-						Handy.not_just_yet_interaction.is_present() and Handy.nopeus_interaction.is_present() and {
+						),
+						{
 							n = G.UIT.R,
 							config = { minh = 0.25 },
-						} or nil,
-						Handy.not_just_yet_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
+						},
+						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.not_just_yet_interaction,
 							{ "NotJustYet:", "End round" },
 							"Press",
@@ -412,7 +422,7 @@ Handy.UI.get_config_tab_interactions = function()
 								"to",
 								"end round",
 							}
-						) or nil,
+						),
 					},
 				},
 			},
@@ -469,8 +479,8 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						Handy.nopeus_interaction.is_present() and { n = G.UIT.R, config = { minh = 0.25 } } or nil,
-						Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_checkbox(
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.nopeus_unsafe,
 							{ "Nopeus: Unsafe", "fast-forward" },
 							"Allow",
@@ -479,7 +489,7 @@ Handy.UI.get_config_tab_dangerous = function()
 								'setting to "Unsafe"',
 							},
 							true
-						) or nil,
+						),
 					},
 				},
 			},
@@ -493,6 +503,7 @@ Handy.UI.get_config_tab_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Quick Cash Out"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Quick skip Booster Packs"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.shop_reroll, "Shop reroll"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.play, "Play hand"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.discard, "Discard"),
@@ -502,10 +513,7 @@ Handy.UI.get_config_tab_keybinds = function()
 			false,
 			true
 		),
-		Handy.not_just_yet_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
-			Handy.config.current.not_just_yet_interaction,
-			"NotJustYet: End round"
-		) or nil,
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
 	}
 end
 
@@ -513,10 +521,7 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 	return {
 		Handy.UI.PARTS.create_module_section("Game state"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
-		Handy.nopeus_interaction.is_present() and Handy.UI.PARTS.create_module_keybind(
-			Handy.config.current.nopeus_interaction,
-			"Nopeus: fast-forward"
-		) or nil,
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.nopeus_interaction, "Nopeus: fast-forward"),
 		Handy.UI.PARTS.create_module_section("Move highlight"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_left, "Move one left"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_right, "Move one right"),

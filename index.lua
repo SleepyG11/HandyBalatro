@@ -102,6 +102,11 @@ Handy.config = {
 			key_1 = "Enter",
 			key_2 = nil,
 		},
+		insta_booster_skip = {
+			enabled = true,
+			key_1 = "Enter",
+			key_2 = nil,
+		},
 
 		dangerous_actions = {
 			enabled = false,
@@ -403,7 +408,7 @@ Handy.controller = {
 			Handy.shop_reroll.use(key)
 			Handy.play_and_discard.use(key)
 		end
-
+		Handy.insta_booster_skip.use(key, released)
 		Handy.insta_cash_out.use(key, released)
 		Handy.not_just_yet_interaction.use(key, released)
 		Handy.dangerous_actions.toggle_queue(key, released)
@@ -418,12 +423,11 @@ Handy.controller = {
 			end
 
 			Handy.move_highlight.use(key)
-			Handy.insta_cash_out.use(key)
 			Handy.speed_multiplier.use(key)
 			Handy.shop_reroll.use(key)
 			Handy.play_and_discard.use(key)
 		end
-
+		Handy.insta_booster_skip.use(key, released)
 		Handy.insta_cash_out.use(key, released)
 		Handy.not_just_yet_interaction.use(key, released)
 		Handy.dangerous_actions.toggle_queue(key, released)
@@ -438,7 +442,6 @@ Handy.controller = {
 		end
 
 		Handy.move_highlight.use(key)
-		Handy.insta_cash_out.use(key)
 		Handy.speed_multiplier.use(key)
 		Handy.nopeus_interaction.use(key)
 		Handy.shop_reroll.use(key)
@@ -463,6 +466,7 @@ Handy.controller = {
 		return false
 	end,
 	process_update = function(dt)
+		Handy.insta_booster_skip.update()
 		Handy.insta_cash_out.update()
 		Handy.not_just_yet_interaction.update()
 		Handy.UI.update(dt)
@@ -513,17 +517,6 @@ Handy.insta_cash_out = {
 						id = "cash_out_button",
 					},
 				})
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								Handy.insta_cash_out.is_skipped = false
-								return true
-							end,
-						}))
-						return true
-					end,
-				}))
 				return true
 			end,
 		}))
@@ -560,6 +553,74 @@ Handy.insta_cash_out = {
 		-- 	return true
 		-- end
 		-- return false
+	end,
+}
+
+Handy.insta_booster_skip = {
+	is_hold = false,
+	is_skipped = false,
+
+	can_execute = function(check)
+		if check then
+			return not not (
+				Handy.insta_booster_skip.is_hold
+				and G.STAGE == G.STAGES.RUN
+				and not G.SETTINGS.paused
+				and G.booster_pack
+			)
+		end
+		return not not (
+			Handy.insta_booster_skip.is_hold
+			and not Handy.insta_booster_skip.is_skipped
+			and G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
+			and G.booster_pack
+			and Handy.fake_events.check({
+				func = G.FUNCS.can_skip_booster,
+			})
+		)
+	end,
+	execute = function()
+		Handy.insta_booster_skip.is_skipped = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.FUNCS.skip_booster()
+				return true
+			end,
+		}))
+		return true
+	end,
+
+	use = function(key, released)
+		if Handy.controller.is_module_key(Handy.config.current.insta_booster_skip, key) then
+			Handy.insta_booster_skip.is_hold = not released
+		end
+		return false
+	end,
+
+	update = function()
+		if not Handy.config.current.insta_booster_skip.enabled then
+			Handy.insta_booster_skip.is_hold = false
+		end
+		return Handy.insta_booster_skip.can_execute() and Handy.insta_booster_skip.execute() or false
+	end,
+
+	update_state_panel = function(state, key, released)
+		if G.STAGE ~= G.STAGES.RUN then
+			return false
+		end
+		if Handy.config.current.notifications_level < 4 then
+			return false
+		end
+		if Handy.insta_booster_skip.can_execute(true) then
+			state.items.insta_booster_skip = {
+				text = "Skip Booster Packs",
+				hold = Handy.insta_booster_skip.is_hold,
+				order = 10,
+			}
+			return true
+		end
+		return false
 	end,
 }
 
@@ -1408,6 +1469,7 @@ Handy.UI = {
 
 			for _, part in ipairs({
 				Handy.speed_multiplier,
+				Handy.insta_booster_skip,
 				Handy.insta_cash_out,
 				Handy.insta_actions,
 				Handy.insta_highlight,

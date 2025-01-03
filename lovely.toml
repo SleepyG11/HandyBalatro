@@ -71,6 +71,29 @@ payload = '''
 match_indent = true
 overwrite = false
 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.STATE = G.STATES.SHOP'''
+position = "after"
+payload = '''
+Handy.insta_cash_out.is_skipped = false
+'''
+match_indent = true
+overwrite = false
+
+# Skipping booster
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.GAME.PACK_INTERRUPT = nil'''
+position = "after"
+payload = '''
+Handy.insta_booster_skip.is_skipped = false
+'''
+match_indent = true
+overwrite = false
+
 # Draw UI
 [[patches]]
 [patches.pattern]
