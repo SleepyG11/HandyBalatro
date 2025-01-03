@@ -1252,7 +1252,7 @@ Handy.nopeus_interaction = {
 				text = "Nopeus fast-forward: " .. states[(G.SETTINGS.FASTFORWARD or 0) + 1],
 				hold = false,
 				order = 4,
-				dangerous = G.SETTINGS.FASTFORWARD == 3,
+				dangerous = G.SETTINGS.FASTFORWARD == (Nopeus.Optimised and 4 or 3),
 			}
 			return true
 		end
