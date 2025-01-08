@@ -911,16 +911,13 @@ Handy.dangerous_actions = {
 	sell_next_card = function()
 		local card = table.remove(Handy.dangerous_actions.sell_queue, 1)
 		if not card then
-			if not G.GAME.STOP_USE or G.GAME.STOP_USE == 0 then
-				G.GAME.STOP_USE = 1
-			end
+			stop_use()
 			return
 		end
 
 		G.GAME.STOP_USE = 0
 		Handy.insta_actions.execute(card, true, false, true)
 
-		Handy.dangerous_actions.sell_next_card()
 		G.E_MANAGER:add_event(Event({
 			blocking = false,
 			func = function()
@@ -930,6 +927,7 @@ Handy.dangerous_actions = {
 				return true
 			end,
 		}))
+		Handy.dangerous_actions.sell_next_card()
 	end,
 
 	can_execute = function(card)
@@ -1223,16 +1221,6 @@ Handy.nopeus_interaction = {
 		local actions = Handy.nopeus_interaction.get_actions(key)
 
 		if actions.increase or actions.decrease then
-			if G.SETTINGS.FASTFORWARD == 3 then
-				state.dangerous = true
-				if Handy.config.current.notifications_level < 2 then
-					return false
-				end
-			else
-				if Handy.config.current.notifications_level < 3 then
-					return false
-				end
-			end
 			local states = {
 				Nopeus.Off,
 				Nopeus.Planets,
@@ -1248,11 +1236,25 @@ Handy.nopeus_interaction = {
 					Nopeus.Unsafe,
 				}
 			end
+
+			local is_dangerous = G.SETTINGS.FASTFORWARD == (#states - 1)
+
+			if is_dangerous then
+				state.dangerous = true
+				if Handy.config.current.notifications_level < 2 then
+					return false
+				end
+			else
+				if Handy.config.current.notifications_level < 3 then
+					return false
+				end
+			end
+
 			state.items.change_nopeus_fastforward = {
 				text = "Nopeus fast-forward: " .. states[(G.SETTINGS.FASTFORWARD or 0) + 1],
 				hold = false,
 				order = 4,
-				dangerous = G.SETTINGS.FASTFORWARD == (Nopeus.Optimised and 4 or 3),
+				dangerous = is_dangerous,
 			}
 			return true
 		end
