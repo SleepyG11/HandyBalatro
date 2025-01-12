@@ -275,17 +275,7 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.C,
 					nodes = {
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_highlight,
-							"Quick Highlight",
-							"Hold [Left Mouse]",
-							{
-								"and",
-								"hover cards in hand to highlight",
-							},
-							true
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_buy_or_sell,
 							"Quick Buy/Sell",
@@ -323,6 +313,16 @@ Handy.UI.get_config_tab_overall = function()
 									.. "] to move to first/last card",
 							},
 							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_highlight_entire_f_hand,
+							{ "Highlight", "entire hand" },
+							"Press",
+							{
+								"to",
+								"highlight entire hand",
+							}
 						),
 					},
 				},
@@ -388,6 +388,17 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_module_checkbox(
+			Handy.config.current.insta_highlight,
+			"Quick Highlight",
+			"Hold [Left Mouse]",
+			{
+				"and",
+				"hover cards in hand to highlight",
+			},
+			true
+		),
 	}
 end
 
@@ -512,6 +523,10 @@ Handy.UI.get_config_tab_keybinds = function()
 			"Instant Buy/Sell",
 			false,
 			true
+		),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.insta_highlight_entire_f_hand,
+			"Highlight entire hand"
 		),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
 	}

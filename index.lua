@@ -59,6 +59,11 @@ Handy.config = {
 		insta_highlight = {
 			enabled = true,
 		},
+		insta_highlight_entire_f_hand = {
+			enabled = true,
+			key_1 = nil,
+			key_2 = nil,
+		},
 		insta_buy_or_sell = {
 			enabled = true,
 			key_1 = "Shift",
@@ -407,6 +412,7 @@ Handy.controller = {
 			Handy.speed_multiplier.use(key)
 			Handy.shop_reroll.use(key)
 			Handy.play_and_discard.use(key)
+			Handy.insta_highlight_entire_f_hand.use(key)
 		end
 		Handy.insta_booster_skip.use(key, released)
 		Handy.insta_cash_out.use(key, released)
@@ -426,6 +432,7 @@ Handy.controller = {
 			Handy.speed_multiplier.use(key)
 			Handy.shop_reroll.use(key)
 			Handy.play_and_discard.use(key)
+			Handy.insta_highlight_entire_f_hand.use(key)
 		end
 		Handy.insta_booster_skip.use(key, released)
 		Handy.insta_cash_out.use(key, released)
@@ -446,6 +453,7 @@ Handy.controller = {
 		Handy.nopeus_interaction.use(key)
 		Handy.shop_reroll.use(key)
 		Handy.play_and_discard.use(key)
+		Handy.insta_highlight_entire_f_hand.use(key)
 		Handy.UI.state_panel.update(key, false)
 	end,
 	process_card_click = function(card)
@@ -645,6 +653,32 @@ Handy.insta_highlight = {
 	end,
 
 	update_state_panel = function(state, key, released) end,
+}
+
+Handy.insta_highlight_entire_f_hand = {
+	can_execute = function(key)
+		return G.STAGE == G.STAGES.RUN
+			and G.hand
+			and Handy.controller.is_module_key(Handy.config.current.insta_highlight_entire_f_hand, key)
+	end,
+	execute = function(key)
+		G.hand:unhighlight_all()
+		local cards_count = math.min(G.hand.config.highlighted_limit, #G.hand.cards)
+		for i = 1, cards_count do
+			local card = G.hand.cards[i]
+			G.hand.cards[i]:highlight(true)
+			G.hand.highlighted[#G.hand.highlighted + 1] = card
+		end
+		if G.STATE == G.STATES.SELECTING_HAND then
+			G.hand:parse_highlighted()
+		end
+		return false
+	end,
+
+	use = function(key)
+		return Handy.insta_highlight_entire_f_hand.can_execute(key) and Handy.insta_highlight_entire_f_hand.execute(key)
+			or false
+	end,
 }
 
 Handy.insta_actions = {
