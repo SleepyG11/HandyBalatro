@@ -486,15 +486,15 @@ Handy.controller = {
 Handy.insta_cash_out = {
 	is_hold = false,
 
+	can_skip = false,
 	is_skipped = false,
-	is_button_created = false,
-	dollars = nil,
 
 	can_execute = function(check)
 		if check then
 			return not not (
 				Handy.insta_cash_out.is_hold
 				and G.STAGE == G.STAGES.RUN
+				and Handy.insta_cash_out.can_skip
 				and Handy.insta_cash_out.is_skipped
 				and not G.SETTINGS.paused
 				and G.round_eval
@@ -503,8 +503,8 @@ Handy.insta_cash_out = {
 			return not not (
 				Handy.insta_cash_out.is_hold
 				and G.STAGE == G.STAGES.RUN
+				and Handy.insta_cash_out.can_skip
 				and not Handy.insta_cash_out.is_skipped
-				and Handy.insta_cash_out.dollars
 				and not G.SETTINGS.paused
 				and G.round_eval
 			)
@@ -513,10 +513,6 @@ Handy.insta_cash_out = {
 	execute = function()
 		Handy.insta_cash_out.is_skipped = true
 
-		if Handy.insta_cash_out.is_button_created then
-			G.GAME.current_round.dollars = Handy.insta_cash_out.dollars
-			Handy.insta_cash_out.dollars = nil
-		end
 		G.E_MANAGER:add_event(Event({
 			trigger = "immediate",
 			func = function()

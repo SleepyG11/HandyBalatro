@@ -18,33 +18,11 @@ sources = ["config_ui.lua"]
 # Skipping Cash Out stage
 [[patches]]
 [patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''local num_dollars = config.dollars or 1'''
+target = "game.lua"
+pattern = '''G.FUNCS.evaluate_round()'''
 position = "after"
 payload = '''
-Handy.insta_cash_out.dollars = config.dollars or 1
-'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''G.GAME.current_round.dollars = config.dollars'''
-position = "before"
-payload = '''
-Handy.insta_cash_out.is_button_created = true
-'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''G.deck:shuffle('cashout'..G.GAME.round_resets.ante)'''
-position = "before"
-payload = '''
-Handy.insta_cash_out.is_button_created = false
+Handy.insta_cash_out.can_skip = true
 '''
 match_indent = true
 overwrite = false
@@ -78,6 +56,7 @@ pattern = '''G.STATE = G.STATES.SHOP'''
 position = "after"
 payload = '''
 Handy.insta_cash_out.is_skipped = false
+Handy.insta_cash_out.can_skip = false
 '''
 match_indent = true
 overwrite = false
