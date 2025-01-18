@@ -705,7 +705,16 @@ Handy.insta_actions = {
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 		if use then
-			if card.area == G.hand and card.ability.consumeable then
+			if type(card.ability.extra) == "table" and card.ability.extra.charges then
+				local success, isaac_changeable_item = pcall(function()
+					-- G.UIDEF.use_and_sell_buttons(G.jokers.highlighted[1]).nodes[1].nodes[3].nodes[1].nodes[1]
+					return card_buttons.nodes[1].nodes[3].nodes[1].nodes[1]
+				end)
+				if success and isaac_changeable_item then
+					target_button = isaac_changeable_item
+					is_custom_button = true
+				end
+			elseif card.area == G.hand and card.ability.consumeable then
 				local success, playale_consumeable_button = pcall(function()
 					-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
 					return card_buttons.nodes[1].nodes[2].nodes[1].nodes[1]
