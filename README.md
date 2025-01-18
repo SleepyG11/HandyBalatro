@@ -12,7 +12,7 @@ Handy - a [lovely](https://github.com/ethangreen-dev/lovely-injector) mod which 
 - Mods support:
     - Not Just Yet: keybind for End round button
     - Nopeus: In-game ability to adjust "Fast-Forward" setting *(from "Off" to "Unsafe")*
-- *Each individual feature can be toggled and/or reassigned to any keyboard buttons, mouse buttons and mouse wheel<br/>No run or game restarts required*
+- *Each feature can be toggled and/or reassigned to any keyboard buttons, mouse buttons and mouse wheel<br/>No run or game restarts required*
 - *All listed controls and assigned keybinds listed in mod settings*
 - *__Unsafe controls designed to be speed-first, which can cause bugs/crashes.__ Needs to be enabled separately in mod settings*
 
