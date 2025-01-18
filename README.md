@@ -1,8 +1,26 @@
-# Handy - Balatro QoL controls mod
+# Handy - Quality of Life controls for Balatro
+Handy - a [lovely](https://github.com/ethangreen-dev/lovely-injector) mod which adds a bunch of new controls designed to make playing [Balatro](https://store.steampowered.com/app/2379780/Balatro/) much easier.
+<br/>Especially useful with other mods where using or selling thousands of cards and opening hundreds of booster packs is a common gameplay.
 
-It's a small [Lovely](https://github.com/ethangreen-dev/lovely-injector) mod that adds additional controls to Balatro.
+## Key features
+- Keybinds for common buttons: Play, Discard, Reroll shop, Cash Out
+- Hold keybind to skip Booster packs
+- Highlight cards in hand on hover + keybind for highlight entire hand
+- Keybinds to move highlight/card in card areas: Jokers, Consumabled, Shop, Booster packs, etc.
+- Hold keybinds to quick buy/sell/use cards + unsafe versions for maximum speed
+- In-game ability to adjust game speed *(from x0.004 to x256)*
+- Mods support:
+    - Not Just Yet: keybind for End round button
+    - Nopeus: In-game ability to adjust "Fast-Forward" setting *(from "Off" to "Unsafe")*
+- *Each individual feature can be toggled and/or reassigned to any keyboard buttons, mouse buttons and mouse wheel<br/>No run or game restarts required*
+- *All listed controls and assigned keybinds listed in mod settings*
+- *__Unsafe controls designed to be speed-first, which can cause bugs/crashes.__ Needs to be enabled separately in mod settings*
 
-## New Controls
+## Contribute
+Want new features to be implemented? Want add mod support? Found a bug?
+[Create an issue](https://github.com/SleepyG11/HandyBalatro/issues/) or let me know in [Discord mod's thread](https://discord.com/channels/1116389027176787968/1270746376312979456)!
+
+## Some controls preview
 - `Shift + LMB` on card to:
     - Buy joker, card, booster pack, voucher or consumable in shop
     - Select joker or card in booster pack
@@ -27,11 +45,6 @@ https://github.com/user-attachments/assets/2d40e4a6-9ea1-4ffa-a7fd-e0e8b9856b2b
     - Select cards in hand
  
 https://github.com/user-attachments/assets/9ec9dfba-a7df-4ecf-a3e0-67dc802c310d
-
-- `Enter` to:
-    - Skip "Cash Out" stage
-
-https://github.com/user-attachments/assets/85082445-052a-4f96-aaf0-51e1af1fdaf3
 
 ## Dangerous controls
 - Hold `Shift + MMB (Mouse 3, Wheel Button)` and move to:
