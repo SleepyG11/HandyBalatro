@@ -3,14 +3,14 @@ Handy - a [lovely](https://github.com/ethangreen-dev/lovely-injector) mod which 
 <br/>Especially useful with other mods where using or selling thousands of cards and opening hundreds of booster packs is a common gameplay.
 
 ## Key features
-- Keybinds for common buttons: Play, Discard, Reroll shop, Cash Out
+- Keybinds for common buttons: "Play", "Discard", "Reroll shop", "Cash out"
 - Hold keybind to skip Booster packs
 - Highlight cards in hand on hover + keybind for highlight entire hand
 - Keybinds to move highlight/card in card areas: Jokers, Consumabled, Shop, Booster packs, etc.
 - Hold keybinds to quick buy/sell/use cards + unsafe versions for maximum speed
 - In-game ability to adjust game speed *(from x0.004 to x256)*
 - Mods support:
-    - Not Just Yet: keybind for End round button
+    - Not Just Yet: keybind for "End round" button
     - Nopeus: In-game ability to adjust "Fast-Forward" setting *(from "Off" to "Unsafe")*
 - *Each feature can be toggled and/or reassigned to any keyboard buttons, mouse buttons and mouse wheel<br/>No run or game restarts required*
 - *All listed controls and assigned keybinds listed in mod settings*
