@@ -564,3 +564,79 @@ Handy.UI.get_config_tab = function(_tab)
 	end
 	return result
 end
+
+function Handy.UI.get_options_tabs()
+	return {
+		{
+			label = "Overall",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Overall")
+			end,
+		},
+		{
+			label = "Interactions",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Interactions")
+			end,
+		},
+		{
+			label = "Dangerous",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Dangerous")
+			end,
+		},
+		{
+			label = "Keybinds",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Keybinds")
+			end,
+		},
+		{
+			label = "More keybinds",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Keybinds 2")
+			end,
+		},
+	}
+end
+
+function G.UIDEF.handy_options()
+	local tabs = Handy.UI.get_options_tabs()
+	tabs[1].chosen = true
+	local t = create_UIBox_generic_options({
+		contents = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0 },
+				nodes = {
+					create_tabs({
+						tabs = tabs,
+						snap_to_nav = true,
+					}),
+				},
+			},
+		},
+	})
+	return t
+end
+
+function G.FUNCS.handy_open_options()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = G.UIDEF.handy_options(),
+	})
+end
+
+function Handy.UI.get_options_button()
+	return UIBox_button({ label = { "Handy" }, button = "handy_open_options", minw = 5, colour = G.C.CHIPS })
+end
+
+-- Code taken from Anhk by MathIsFun
+local create_uibox_options_ref = create_UIBox_options
+function create_UIBox_options()
+	local contents = create_uibox_options_ref()
+	if Handy.UI.show_options_button then
+		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, Handy.UI.get_options_button())
+	end
+	return contents
+end

@@ -173,13 +173,24 @@ Handy.config = {
 	current = {},
 
 	save = function()
-		if Handy.current_mod then
+		if false and Handy.current_mod then
 			Handy.current_mod.config = Handy.config.current
 			SMODS.save_mod_config(Handy.current_mod)
+		else
+			love.filesystem.createDirectory("config")
+			compress_and_save("config/Handy.jkr", Handy.config.current)
+		end
+	end,
+	load = function()
+		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
+		local lovely_mod_config = get_compressed("config/Handy.jkr")
+		if lovely_mod_config then
+			Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, STR_UNPACK(lovely_mod_config))
 		end
 	end,
 }
-Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
+
+Handy.config.load()
 
 --
 
@@ -1347,6 +1358,7 @@ Handy.not_just_yet_interaction = {
 --
 
 Handy.UI = {
+	show_options_button = true,
 	counter = 1,
 	C = {
 		TEXT = HEX("FFFFFF"),
@@ -1590,40 +1602,10 @@ end
 function Handy.emplace_steamodded()
 	Handy.current_mod = SMODS.current_mod
 	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, SMODS.current_mod.config)
+	Handy.UI.show_options_button = false
 
 	Handy.current_mod.extra_tabs = function()
-		return {
-			{
-				label = "Overall",
-				tab_definition_function = function()
-					return Handy.UI.get_config_tab("Overall")
-				end,
-			},
-			{
-				label = "Interactions",
-				tab_definition_function = function()
-					return Handy.UI.get_config_tab("Interactions")
-				end,
-			},
-			{
-				label = "Dangerous",
-				tab_definition_function = function()
-					return Handy.UI.get_config_tab("Dangerous")
-				end,
-			},
-			{
-				label = "Keybinds",
-				tab_definition_function = function()
-					return Handy.UI.get_config_tab("Keybinds")
-				end,
-			},
-			{
-				label = "More keybinds",
-				tab_definition_function = function()
-					return Handy.UI.get_config_tab("Keybinds 2")
-				end,
-			},
-		}
+		return Handy.UI.get_options_tabs()
 	end
 
 	G.E_MANAGER:add_event(Event({
