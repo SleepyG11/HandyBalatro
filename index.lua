@@ -642,6 +642,7 @@ Handy.insta_booster_skip = {
 Handy.insta_highlight = {
 	can_execute = function(card)
 		return G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
 			and Handy.config.current.insta_highlight.enabled
 			and card
 			and card.area == G.hand
@@ -665,6 +666,7 @@ Handy.insta_highlight = {
 Handy.insta_highlight_entire_f_hand = {
 	can_execute = function(key)
 		return G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
 			and G.hand
 			and Handy.controller.is_module_key(Handy.config.current.insta_highlight_entire_f_hand, key)
 	end,
@@ -696,7 +698,13 @@ Handy.insta_actions = {
 		}
 	end,
 	can_execute = function(card, buy_or_sell, use)
-		return not not (G.STAGE == G.STAGES.RUN and (buy_or_sell or use) and card and card.area)
+		return not not (
+			G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
+			and (buy_or_sell or use)
+			and card
+			and card.area
+		)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
 		local target_button = nil
@@ -897,6 +905,7 @@ Handy.move_highlight = {
 		return not not (
 			Handy.config.current.move_highlight.enabled
 			and G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
 			and area
 			and area.highlighted
 			and area.highlighted[1]
@@ -982,6 +991,7 @@ Handy.dangerous_actions = {
 
 	can_execute = function(card)
 		return G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
 			and Handy.config.current.dangerous_actions.enabled
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
@@ -1039,7 +1049,7 @@ Handy.dangerous_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN then
+		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused then
 			return false
 		end
 
@@ -1088,6 +1098,7 @@ Handy.speed_multiplier = {
 	end,
 	can_execute = function(key)
 		return Handy.config.current.speed_multiplier.enabled
+			and not G.SETTINGS.paused
 			and not G.OVERLAY_MENU
 			and Handy.controller.is_module_key_down(Handy.config.current.speed_multiplier)
 	end,
@@ -1143,6 +1154,7 @@ Handy.speed_multiplier = {
 Handy.shop_reroll = {
 	can_execute = function(key)
 		return G.STATE == G.STATES.SHOP
+			and not G.SETTINGS.paused
 			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
 			and Handy.controller.is_module_key(Handy.config.current.shop_reroll, key)
 	end,
@@ -1168,6 +1180,7 @@ Handy.play_and_discard = {
 		return not not (
 			Handy.config.current.play_and_discard.enabled
 			and G.STATE == G.STATES.SELECTING_HAND
+			and not G.SETTINGS.paused
 			and (
 				(discard and Handy.fake_events.check({
 					func = G.FUNCS.can_discard,
@@ -1221,6 +1234,7 @@ Handy.nopeus_interaction = {
 			Handy.config.current.nopeus_interaction.enabled
 			and Handy.nopeus_interaction.is_present()
 			and not G.OVERLAY_MENU
+			and not G.SETTINGS.paused
 			and Handy.controller.is_module_key_down(Handy.config.current.nopeus_interaction)
 		)
 	end,
@@ -1320,6 +1334,7 @@ Handy.not_just_yet_interaction = {
 	can_execute = function(check)
 		return not not (
 			Handy.not_just_yet_interaction.is_present()
+			and not G.SETTINGS.paused
 			and GLOBAL_njy_vanilla_override
 			and G.STATE_COMPLETE
 			and G.buttons
@@ -1601,6 +1616,7 @@ end
 
 function Handy.emplace_steamodded()
 	Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
+	Handy.current_mod.config_tab = true
 	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, Handy.current_mod.config)
 	Handy.UI.show_options_button = false
 
