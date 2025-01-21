@@ -11,7 +11,13 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-Handy.emplace_steamodded()
+if Handy then
+	Handy.emplace_steamodded()
+else
+	Handy_Preload = {
+		current_mod = SMODS.current_mod,
+	}
+end
 
 SMODS.Atlas({
 	key = "modicon",

@@ -1600,8 +1600,8 @@ end
 --
 
 function Handy.emplace_steamodded()
-	Handy.current_mod = SMODS.current_mod
-	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, SMODS.current_mod.config)
+	Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
+	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, Handy.current_mod.config)
 	Handy.UI.show_options_button = false
 
 	Handy.current_mod.extra_tabs = function()
@@ -1614,6 +1614,10 @@ function Handy.emplace_steamodded()
 			return true
 		end,
 	}))
+
+	if Handy_Preload then
+		Handy_Preload = nil
+	end
 end
 
 function G.FUNCS.handy_toggle_module_enabled(arg, module)
@@ -1640,4 +1644,8 @@ end
 
 function G.FUNCS.handy_init_keybind_change(e)
 	Handy.controller.init_bind(e)
+end
+
+if Handy_Preload then
+	Handy.emplace_steamodded()
 end
