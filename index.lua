@@ -173,19 +173,15 @@ Handy.config = {
 	current = {},
 
 	save = function()
-		if false and Handy.current_mod then
-			Handy.current_mod.config = Handy.config.current
-			SMODS.save_mod_config(Handy.current_mod)
-		else
-			love.filesystem.createDirectory("config")
-			compress_and_save("config/Handy.jkr", Handy.config.current)
-		end
+		love.filesystem.createDirectory("config")
+		compress_and_save("config/Handy.jkr", Handy.config.current)
 	end,
 	load = function()
-		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 		local lovely_mod_config = get_compressed("config/Handy.jkr")
 		if lovely_mod_config then
-			Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, STR_UNPACK(lovely_mod_config))
+			Handy.config.current = loadstring(lovely_mod_config)()
+		else
+			Handy.config.current = Handy.config.default
 		end
 	end,
 }
@@ -1617,7 +1613,6 @@ end
 function Handy.emplace_steamodded()
 	Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
 	Handy.current_mod.config_tab = true
-	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default, Handy.current_mod.config)
 	Handy.UI.show_options_button = false
 
 	Handy.current_mod.extra_tabs = function()
