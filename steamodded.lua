@@ -7,24 +7,26 @@
 --- PRIORITY: 0
 --- DISPLAY_NAME: Handy
 --- PREFIX: handy
---- VERSION: 1.2.0b
+--- VERSION: 1.2.0c
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-if Handy then
-	Handy.emplace_steamodded()
-else
-	Handy_Preload = {
-		current_mod = SMODS.current_mod,
-	}
-end
+if SMODS and SMODS.current_mod then
+	if Handy then
+		Handy.emplace_steamodded()
+	else
+		Handy_Preload = {
+			current_mod = SMODS.current_mod,
+		}
+	end
 
-SMODS.Atlas({
-	key = "modicon",
-	path = "icon.png",
-	px = 32,
-	py = 32,
-})
+	SMODS.Atlas({
+		key = "modicon",
+		path = "icon.png",
+		px = 32,
+		py = 32,
+	})
+end
 
 ----------------------------------------------
 ------------MOD CODE END----------------------
