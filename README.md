@@ -18,7 +18,7 @@ Handy - a lovely mod which adds a bunch of new controls designed to make playing
 
 ## Installation
 1. Install [lovely](https://github.com/ethangreen-dev/lovely-injector) by following instructions in repository page. Make sure your antivirus is not removing it;
-2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod;
+2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod by selecting an archive named `Handy-[version].zip`;
 3. Put `HandyBalatro` folder from archive into game's `Mods` folder (can be found in `%appdata%/Balatro/Mods`);
 4. Start a game. If all done correctly, new button should appear in options menu. If Steamodded installed, check mods menu instead;
 5. Configure each feature and keybind as you want. All of them listed in mod settings;
