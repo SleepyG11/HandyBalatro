@@ -187,7 +187,7 @@ Handy.UI.PARTS = {
 			},
 		}
 	end,
-	create_module_keybind = function(module, label, plus, dangerous)
+	create_module_keybind = function(module, label, dangerous)
 		return {
 			n = G.UIT.R,
 			config = { align = "cm", padding = 0.05 },
@@ -225,7 +225,7 @@ Handy.UI.PARTS = {
 					nodes = {
 						{
 							n = G.UIT.T,
-							config = { text = plus and "+" or "or", colour = G.C.WHITE, scale = 0.3 },
+							config = { text = "or", colour = G.C.WHITE, scale = 0.3 },
 						},
 					},
 				},
@@ -247,25 +247,120 @@ Handy.UI.PARTS = {
 	end,
 }
 
+--
+
 Handy.UI.get_config_tab_overall = function()
 	return {
 		{
 			n = G.UIT.R,
 			config = { padding = 0.05, align = "cm" },
 			nodes = {
-				create_option_cycle({
-					minw = 3,
-					label = "Notifications level",
-					scale = 0.8,
-					options = {
-						"None",
-						"Dangerous",
-						"Game state",
-						"All",
+				Handy.current_mod and {
+					n = G.UIT.C,
+					config = {
+						align = "cm",
+						padding = 0.1,
 					},
-					opt_callback = "handy_change_notifications_level",
-					current_option = Handy.config.current.notifications_level,
-				}),
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = {
+								padding = 0.15,
+							},
+							nodes = {},
+						},
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.C,
+									config = { align = "cm" },
+									nodes = {
+										{
+											n = G.UIT.R,
+											config = { minw = 2.5 },
+											nodes = {
+												{
+													n = G.UIT.T,
+													config = {
+														text = "Hide mod button",
+														scale = 0.4,
+														colour = G.C.WHITE,
+													},
+												},
+											},
+										},
+										{
+											n = G.UIT.R,
+											config = { minw = 2.5 },
+											nodes = {
+												{
+													n = G.UIT.T,
+													config = {
+														text = "in options menu",
+														scale = 0.4,
+														colour = G.C.WHITE,
+													},
+												},
+											},
+										},
+									},
+								},
+								{
+									n = G.UIT.C,
+									config = { align = "cm" },
+									nodes = {
+										create_toggle({
+											callback = function(b)
+												return G.FUNCS.handy_toggle_menu_button(b)
+											end,
+											label_scale = 0.4,
+											label = "",
+											ref_table = Handy.config.current,
+											ref_value = "hide_in_menu",
+											w = 0,
+										}),
+									},
+								},
+							},
+						},
+					},
+				} or nil,
+				{
+					n = G.UIT.C,
+					nodes = {
+						create_option_cycle({
+							w = 6,
+							label = "Mode popups level",
+							scale = 0.8,
+							options = {
+								"None",
+								"Dangerous only",
+								"Features-related",
+								"All",
+							},
+							opt_callback = "handy_change_notifications_level",
+							current_option = Handy.config.current.notifications_level,
+						}),
+					},
+				},
+				{
+					n = G.UIT.C,
+					nodes = {
+						create_option_cycle({
+							w = 6,
+							label = "Keybinds trigger mode",
+							scale = 0.8,
+							options = {
+								"On key press",
+								"On key release",
+							},
+							opt_callback = "handy_change_keybinds_trigger_mode",
+							current_option = Handy.config.current.keybinds_trigger_mode,
+						}),
+					},
+				},
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
@@ -275,24 +370,17 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.C,
 					nodes = {
-
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_buy_or_sell,
-							"Quick Buy/Sell",
-							"Hold",
+							Handy.config.current.regular_keybinds,
+							"Regular keybinds",
+							"Use",
 							{
-								"to",
-								"buy or sell card on Left-Click",
-								"instead of selection",
-							}
+								"keybinds for",
+								"common game actions",
+								"(Play, Discard, Reroll, Skip blind, etc.)",
+							},
+							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Hold", {
-							"to",
-							"use (if possible) card on Left-Click",
-							"instead of selection",
-							"(overrides Quick Buy/Sell)",
-						}),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.move_highlight,
@@ -316,6 +404,40 @@ Handy.UI.get_config_tab_overall = function()
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_buy_or_sell,
+							"Quick Buy/Sell",
+							"Hold",
+							{
+								"to",
+								"buy or sell card on Left-Click",
+								"instead of selection",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Hold", {
+							"to",
+							"use (if possible) card on Left-Click",
+							"instead of selection",
+							"(overrides Quick Buy/Sell)",
+						}),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 4 },
+					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_highlight,
+							"Quick Highlight",
+							"Hold [Left Mouse]",
+							{
+								"and",
+								"hover cards in hand to highlight",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_highlight_entire_f_hand,
 							{ "Highlight", "entire hand" },
 							"Press",
@@ -324,12 +446,7 @@ Handy.UI.get_config_tab_overall = function()
 								"highlight entire hand",
 							}
 						),
-					},
-				},
-				{
-					n = G.UIT.C,
-					config = { minw = 4 },
-					nodes = {
+						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_cash_out,
 							"Quick Cash Out",
@@ -361,44 +478,11 @@ Handy.UI.get_config_tab_overall = function()
 								"[Wheel Down] to divide game speed",
 							}
 						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.shop_reroll,
-							"Shop Reroll",
-							"Press",
-							{
-								"to",
-								"reroll a shop",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.play_and_discard,
-							"Play/Discard",
-							"Press",
-							{
-								"[" .. tostring(Handy.config.current.play_and_discard.play.key_1) .. "] to play a hand",
-								"or ["
-									.. tostring(Handy.config.current.play_and_discard.discard.key_1)
-									.. "] to discard",
-							},
-							true
-						),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
-		Handy.UI.PARTS.create_module_checkbox(
-			Handy.config.current.insta_highlight,
-			"Quick Highlight",
-			"Hold [Left Mouse]",
-			{
-				"and",
-				"hover cards in hand to highlight",
-			},
-			true
-		),
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
 	}
 end
 
@@ -510,34 +594,41 @@ end
 
 Handy.UI.get_config_tab_keybinds = function()
 	return {
-		Handy.UI.PARTS.create_module_section("Quick Actions"),
+		Handy.UI.PARTS.create_module_section("Regular actions"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.play, "Play hand"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.discard, "Discard"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_rank, "Sort by rank"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_suit, "Sort by suit"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.reroll_shop, "Shop reroll"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.leave_shop, "Leave shop"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.skip_blind, "Skip blind"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.select_blind, "Select blind"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.run_info, "Run info"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
+		Handy.UI.PARTS.create_module_section("Hold actions"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Cash Out"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Skip Booster Pack"),
+	}
+end
+
+Handy.UI.get_config_tab_keybinds_2 = function()
+	return {
+		Handy.UI.PARTS.create_module_section("Quick actions"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Quick Cash Out"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Quick skip Booster Packs"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.shop_reroll, "Shop reroll"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.play, "Play hand"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.play_and_discard.discard, "Discard"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
 			"Instant Buy/Sell",
-			false,
 			true
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.insta_highlight_entire_f_hand,
 			"Highlight entire hand"
 		),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
-	}
-end
-
-Handy.UI.get_config_tab_keybinds_2 = function()
-	return {
-		Handy.UI.PARTS.create_module_section("Game state"),
+		Handy.UI.PARTS.create_module_section("Game speed and animations"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.nopeus_interaction, "Nopeus: fast-forward"),
-		Handy.UI.PARTS.create_module_section("Move highlight"),
+		Handy.UI.PARTS.create_module_section("Highlight movement"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_left, "Move one left"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.dx.one_right, "Move one right"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.move_highlight.swap, "Move card"),
@@ -564,6 +655,8 @@ Handy.UI.get_config_tab = function(_tab)
 	end
 	return result
 end
+
+--
 
 function Handy.UI.get_options_tabs()
 	return {
@@ -600,10 +693,13 @@ function Handy.UI.get_options_tabs()
 	}
 end
 
+--
+
 function G.UIDEF.handy_options()
 	local tabs = Handy.UI.get_options_tabs()
 	tabs[1].chosen = true
 	local t = create_UIBox_generic_options({
+		back_func = "options",
 		contents = {
 			{
 				n = G.UIT.R,
