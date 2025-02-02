@@ -1232,7 +1232,7 @@ Handy.regular_keybinds = {
 		)
 	end,
 	reroll_shop = function()
-		Handy.fake_events({
+		Handy.fake_events.execute({
 			func = G.FUNCS.reroll_shop,
 		})
 	end,
