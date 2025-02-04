@@ -63,18 +63,18 @@ Handy.config = {
 		},
 		insta_highlight_entire_f_hand = {
 			enabled = true,
-			key_1 = nil,
-			key_2 = nil,
+			key_1 = "None",
+			key_2 = "None",
 		},
 		insta_buy_or_sell = {
 			enabled = true,
 			key_1 = "Shift",
-			key_2 = nil,
+			key_2 = "None",
 		},
 		insta_use = {
 			enabled = true,
 			key_1 = "Ctrl",
-			key_2 = nil,
+			key_2 = "None",
 		},
 		move_highlight = {
 			enabled = true,
@@ -82,24 +82,24 @@ Handy.config = {
 			swap = {
 				enabled = true,
 				key_1 = "Shift",
-				key_2 = nil,
+				key_2 = "None",
 			},
 			to_end = {
 				enabled = true,
 				key_1 = "Ctrl",
-				key_2 = nil,
+				key_2 = "None",
 			},
 
 			dx = {
 				one_left = {
 					enabled = true,
 					key_1 = "Left",
-					key_2 = nil,
+					key_2 = "None",
 				},
 				one_right = {
 					enabled = true,
 					key_1 = "Right",
-					key_2 = nil,
+					key_2 = "None",
 				},
 			},
 		},
@@ -107,12 +107,12 @@ Handy.config = {
 		insta_cash_out = {
 			enabled = true,
 			key_1 = "Enter",
-			key_2 = nil,
+			key_2 = "None",
 		},
 		insta_booster_skip = {
 			enabled = true,
 			key_1 = "Enter",
-			key_2 = nil,
+			key_2 = "None",
 		},
 
 		dangerous_actions = {
@@ -121,7 +121,7 @@ Handy.config = {
 			immediate_buy_and_sell = {
 				enabled = true,
 				key_1 = "Middle Mouse",
-				key_2 = nil,
+				key_2 = "None",
 
 				queue = {
 					enabled = false,
@@ -137,7 +137,7 @@ Handy.config = {
 			enabled = true,
 
 			key_1 = "Alt",
-			key_2 = nil,
+			key_2 = "None",
 		},
 
 		regular_keybinds = {
@@ -145,51 +145,51 @@ Handy.config = {
 
 			play = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 			discard = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 			sort_by_rank = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 			sort_by_suit = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 
 			reroll_shop = {
 				enabled = true,
 				key_1 = "Q",
-				key_2 = nil,
+				key_2 = "None",
 			},
 			leave_shop = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 
 			skip_blind = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 			select_blind = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 
 			run_info = {
 				enabled = true,
-				key_1 = nil,
-				key_2 = nil,
+				key_1 = "None",
+				key_2 = "None",
 			},
 		},
 
@@ -197,13 +197,13 @@ Handy.config = {
 			enabled = true,
 
 			key_1 = "]",
-			key_2 = nil,
+			key_2 = "None",
 		},
 
 		not_just_yet_interaction = {
 			enabled = true,
 			key_1 = "Enter",
-			key_2 = nil,
+			key_2 = "None",
 		},
 	},
 	current = {},
@@ -297,7 +297,7 @@ Handy.controller = {
 		end
 		local parsed_key = Handy.controller.parse(key)
 		if parsed_key == "Escape" then
-			parsed_key = nil
+			parsed_key = "None"
 		end
 		Handy.controller.complete_bind(parsed_key)
 		Handy.config.save()
@@ -401,7 +401,7 @@ Handy.controller = {
 		local parsed_keys = { ... }
 		for i = 1, #parsed_keys do
 			local parsed_key = parsed_keys[i]
-			if parsed_key and parsed_key ~= "Unknown" then
+			if parsed_key and parsed_key ~= "Unknown" and parsed_key ~= "None" then
 				if Handy.controller.wheel_buttons[parsed_key] then
 					-- Well, skip
 				elseif Handy.controller.mouse_buttons[parsed_key] then
@@ -429,7 +429,12 @@ Handy.controller = {
 			local parsed_key = parsed_keys[i]
 			if parsed_key then
 				local resolved_key_1, resolved_key_2 = Handy.controller.resolve(parsed_key)
-				if raw_key and raw_key ~= "Unknown" and (raw_key == resolved_key_1 or raw_key == resolved_key_2) then
+				if
+					raw_key
+					and raw_key ~= "Unknown"
+					and raw_key ~= "None"
+					and (raw_key == resolved_key_1 or raw_key == resolved_key_2)
+				then
 					return true
 				end
 			end
@@ -459,6 +464,10 @@ Handy.controller = {
 	process_key = function(key, released)
 		if not released and Handy.controller.process_bind(key) then
 			return true
+		end
+
+		if key == "escape" then
+			return false
 		end
 
 		if not released then
@@ -864,7 +873,7 @@ Handy.insta_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN then
+		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused then
 			return false
 		end
 		if Handy.config.current.notifications_level < 4 then
@@ -1178,6 +1187,8 @@ Handy.speed_multiplier = {
 }
 
 Handy.regular_keybinds = {
+	shop_reroll_blocker = false,
+
 	can_play = function(key)
 		return not not (
 			Handy.fake_events.check({
@@ -1227,14 +1238,22 @@ Handy.regular_keybinds = {
 
 	can_reroll_shop = function(key)
 		return not not (
-			Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
+			not Handy.regular_keybinds.shop_reroll_blocker
+			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
 			and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.reroll_shop, key)
 		)
 	end,
 	reroll_shop = function()
+		Handy.regular_keybinds.shop_reroll_blocker = true
 		Handy.fake_events.execute({
 			func = G.FUNCS.reroll_shop,
 		})
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				Handy.regular_keybinds.shop_reroll_blocker = false
+				return true
+			end,
+		}))
 	end,
 
 	can_leave_shop = function(key)

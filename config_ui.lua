@@ -21,6 +21,7 @@ Handy.UI.PARTS = {
 			})
 		else
 			local key_desc = module.key_2
+					and module.key_2 ~= "None"
 					and {
 						{
 							n = G.UIT.T,
@@ -332,7 +333,7 @@ Handy.UI.get_config_tab_overall = function()
 					nodes = {
 						create_option_cycle({
 							w = 6,
-							label = "Mode popups level",
+							label = "Info popups level",
 							scale = 0.8,
 							options = {
 								"None",
