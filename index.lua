@@ -462,6 +462,9 @@ Handy.controller = {
 	end,
 
 	process_key = function(key, released)
+		if G.CONTROLLER.text_input_hook then
+			return false
+		end
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
@@ -492,6 +495,9 @@ Handy.controller = {
 		return false
 	end,
 	process_mouse = function(mouse, released)
+		if G.CONTROLLER.text_input_hook then
+			return false
+		end
 		local key = Handy.controller.mouse_to_key_table[mouse]
 
 		if not released and Handy.controller.process_bind(key) then
@@ -520,6 +526,9 @@ Handy.controller = {
 		return false
 	end,
 	process_wheel = function(wheel)
+		if G.CONTROLLER.text_input_hook then
+			return false
+		end
 		local key = Handy.controller.wheel_to_key_table[wheel]
 
 		if Handy.controller.process_bind(key) then
