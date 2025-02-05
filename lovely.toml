@@ -166,3 +166,16 @@ self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.value or 1
 '''
 match_indent = true
 overwrite = false
+
+# Show deck preview
+[[patches]]
+[patches.regex]
+target = "game.lua"
+pattern = '''G.CONTROLLER.held_buttons.triggerleft'''
+position = "after"
+payload = '''
+ or Handy.show_deck_preview.is_hold
+'''
+match_indent = true
+overwrite = false
+times = 2

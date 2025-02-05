@@ -365,6 +365,12 @@ Handy.UI.get_config_tab_overall = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
+		Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
+			"keybinds for",
+			"common game actions",
+			"(Play, Discard, Reroll, Skip blind, etc.)",
+		}, true),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -372,15 +378,13 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.regular_keybinds,
-							"Regular keybinds",
-							"Use",
+							Handy.config.current.show_deck_preview,
+							"Deck preview",
+							"Hold",
 							{
-								"keybinds for",
-								"common game actions",
-								"(Play, Discard, Reroll, Skip blind, etc.)",
-							},
-							true
+								"to",
+								"show deck preview",
+							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -605,10 +609,12 @@ Handy.UI.get_config_tab_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.skip_blind, "Skip blind"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.select_blind, "Select blind"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.run_info, "Run info"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.view_deck, "View deck"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
 		Handy.UI.PARTS.create_module_section("Hold actions"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Cash Out"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Skip Booster Pack"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.show_deck_preview, "Deck preview"),
 	}
 end
 
