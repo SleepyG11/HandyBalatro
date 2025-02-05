@@ -114,6 +114,11 @@ Handy.config = {
 			key_1 = "Enter",
 			key_2 = "None",
 		},
+		show_deck_preview = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+		},
 
 		dangerous_actions = {
 			enabled = false,
@@ -187,6 +192,12 @@ Handy.config = {
 			},
 
 			run_info = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+			},
+
+			view_deck = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
@@ -484,9 +495,6 @@ Handy.controller = {
 				Handy.insta_highlight_entire_f_hand.use(key)
 			end
 
-			Handy.insta_booster_skip.use(key, released)
-			Handy.insta_cash_out.use(key, released)
-			Handy.not_just_yet_interaction.use(key, released)
 			Handy.dangerous_actions.toggle_queue(key, released)
 		end
 
@@ -515,9 +523,6 @@ Handy.controller = {
 				Handy.insta_highlight_entire_f_hand.use(key)
 			end
 
-			Handy.insta_booster_skip.use(key, released)
-			Handy.insta_cash_out.use(key, released)
-			Handy.not_just_yet_interaction.use(key, released)
 			Handy.dangerous_actions.toggle_queue(key, released)
 		end
 
@@ -573,6 +578,7 @@ Handy.controller = {
 	process_update = function(dt)
 		Handy.insta_booster_skip.update()
 		Handy.insta_cash_out.update()
+		Handy.show_deck_preview.update()
 		Handy.not_just_yet_interaction.update()
 
 		Handy.UI.update(dt)
@@ -611,17 +617,10 @@ Handy.insta_cash_out = {
 		return true
 	end,
 
-	use = function(key, released)
-		if Handy.controller.is_module_key(Handy.config.current.insta_cash_out, key) then
-			Handy.insta_cash_out.is_hold = not released
-		end
-		return false
-	end,
-
 	update = function()
-		if G.STAGE ~= G.STAGES.RUN or not Handy.config.current.insta_cash_out.enabled then
-			Handy.insta_cash_out.is_hold = false
-		end
+		Handy.insta_cash_out.is_hold = (
+			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.insta_cash_out)
+		)
 		return Handy.insta_cash_out.can_execute() and Handy.insta_cash_out.execute() or false
 	end,
 
@@ -658,17 +657,10 @@ Handy.insta_booster_skip = {
 		return true
 	end,
 
-	use = function(key, released)
-		if Handy.controller.is_module_key(Handy.config.current.insta_booster_skip, key) then
-			Handy.insta_booster_skip.is_hold = not released
-		end
-		return false
-	end,
-
 	update = function()
-		if G.STAGE ~= G.STAGES.RUN or not Handy.config.current.insta_booster_skip.enabled then
-			Handy.insta_booster_skip.is_hold = false
-		end
+		Handy.insta_booster_skip.is_hold = (
+			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.insta_booster_skip)
+		)
 		return Handy.insta_booster_skip.can_execute() and Handy.insta_booster_skip.execute() or false
 	end,
 
@@ -690,6 +682,184 @@ Handy.insta_booster_skip = {
 		return false
 	end,
 }
+
+Handy.show_deck_preview = {
+	is_hold = false,
+
+	update = function()
+		Handy.show_deck_preview.is_hold = (
+			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.show_deck_preview)
+		)
+	end,
+}
+
+--
+
+Handy.regular_keybinds = {
+	shop_reroll_blocker = false,
+
+	can_play = function(key)
+		return not not (
+			Handy.fake_events.check({
+				func = G.FUNCS.can_play,
+			}) and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.play, key)
+		)
+	end,
+	play = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.play_cards_from_highlighted,
+		})
+	end,
+
+	can_discard = function(key)
+		return not not (
+			Handy.fake_events.check({
+				func = G.FUNCS.can_discard,
+			}) and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.discard, key)
+		)
+	end,
+	discard = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.discard_cards_from_highlighted,
+		})
+	end,
+
+	can_change_sort = function(key)
+		if Handy.controller.is_module_key(Handy.config.current.regular_keybinds.sort_by_rank, key) then
+			return true, "rank"
+		elseif Handy.controller.is_module_key(Handy.config.current.regular_keybinds.sort_by_suit, key) then
+			return true, "suit"
+		else
+			return false, nil
+		end
+	end,
+	change_sort = function(sorter)
+		if sorter == "rank" then
+			Handy.fake_events.execute({
+				func = G.FUNCS.sort_hand_value,
+			})
+		elseif sorter == "suit" then
+			Handy.fake_events.execute({
+				func = G.FUNCS.sort_hand_suit,
+			})
+		end
+	end,
+
+	can_reroll_shop = function(key)
+		return not not (
+			not Handy.regular_keybinds.shop_reroll_blocker
+			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
+			and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.reroll_shop, key)
+		)
+	end,
+	reroll_shop = function()
+		Handy.regular_keybinds.shop_reroll_blocker = true
+		Handy.fake_events.execute({
+			func = G.FUNCS.reroll_shop,
+		})
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				Handy.regular_keybinds.shop_reroll_blocker = false
+				return true
+			end,
+		}))
+	end,
+
+	can_leave_shop = function(key)
+		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.leave_shop, key))
+	end,
+	leave_shop = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.toggle_shop,
+		})
+	end,
+
+	can_select_blind = function(key)
+		return not not (
+			Handy.controller.is_module_key(Handy.config.current.regular_keybinds.select_blind, key)
+			and G.GAME.blind_on_deck
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+		)
+	end,
+	select_blind = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.select_blind,
+			card = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]],
+		})
+	end,
+
+	can_skip_blind = function(key)
+		return not not (
+			Handy.controller.is_module_key(Handy.config.current.regular_keybinds.skip_blind, key)
+			and G.GAME.blind_on_deck
+			and G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]
+		)
+	end,
+	skip_blind = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.skip_blind,
+			UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
+		})
+	end,
+
+	can_open_run_info = function(key)
+		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.run_info, key))
+	end,
+	open_run_info = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.run_info,
+		})
+	end,
+
+	can_view_deck = function(key)
+		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.view_deck, key))
+	end,
+	view_deck = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.deck_info,
+		})
+	end,
+
+	use = function(key)
+		if not Handy.config.current.regular_keybinds.enabled then
+			return false
+		end
+		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN then
+			if Handy.regular_keybinds.can_open_run_info(key) then
+				Handy.regular_keybinds.open_run_info()
+			elseif Handy.regular_keybinds.can_view_deck(key) then
+				Handy.regular_keybinds.view_deck()
+			elseif G.STATE == G.STATES.SELECTING_HAND then
+				local need_sort, sorter = Handy.regular_keybinds.can_change_sort(key)
+				if need_sort then
+					Handy.regular_keybinds.change_sort(sorter)
+				elseif Handy.regular_keybinds.can_discard(key) then
+					Handy.regular_keybinds.discard()
+				elseif Handy.regular_keybinds.can_play(key) then
+					Handy.regular_keybinds.play()
+				end
+				return false
+			elseif G.STATE == G.STATES.SHOP then
+				if Handy.regular_keybinds.can_reroll_shop(key) then
+					Handy.regular_keybinds.reroll_shop()
+				elseif Handy.regular_keybinds.can_leave_shop(key) then
+					Handy.regular_keybinds.leave_shop()
+				end
+				return false
+			elseif G.STATE == G.STATES.BLIND_SELECT then
+				if Handy.regular_keybinds.can_skip_blind(key) then
+					Handy.regular_keybinds.skip_blind()
+				elseif Handy.regular_keybinds.can_select_blind(key) then
+					Handy.regular_keybinds.select_blind()
+				end
+				return false
+			end
+		end
+		return false
+	end,
+}
+
+--
 
 Handy.insta_highlight = {
 	can_execute = function(card)
@@ -1195,158 +1365,7 @@ Handy.speed_multiplier = {
 	end,
 }
 
-Handy.regular_keybinds = {
-	shop_reroll_blocker = false,
-
-	can_play = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_play,
-			}) and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.play, key)
-		)
-	end,
-	play = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.play_cards_from_highlighted,
-		})
-	end,
-
-	can_discard = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_discard,
-			}) and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.discard, key)
-		)
-	end,
-	discard = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.discard_cards_from_highlighted,
-		})
-	end,
-
-	can_change_sort = function(key)
-		if Handy.controller.is_module_key(Handy.config.current.regular_keybinds.sort_by_rank, key) then
-			return true, "rank"
-		elseif Handy.controller.is_module_key(Handy.config.current.regular_keybinds.sort_by_suit, key) then
-			return true, "suit"
-		else
-			return false, nil
-		end
-	end,
-	change_sort = function(sorter)
-		if sorter == "rank" then
-			Handy.fake_events.execute({
-				func = G.FUNCS.sort_hand_value,
-			})
-		elseif sorter == "suit" then
-			Handy.fake_events.execute({
-				func = G.FUNCS.sort_hand_suit,
-			})
-		end
-	end,
-
-	can_reroll_shop = function(key)
-		return not not (
-			not Handy.regular_keybinds.shop_reroll_blocker
-			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
-			and Handy.controller.is_module_key(Handy.config.current.regular_keybinds.reroll_shop, key)
-		)
-	end,
-	reroll_shop = function()
-		Handy.regular_keybinds.shop_reroll_blocker = true
-		Handy.fake_events.execute({
-			func = G.FUNCS.reroll_shop,
-		})
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				Handy.regular_keybinds.shop_reroll_blocker = false
-				return true
-			end,
-		}))
-	end,
-
-	can_leave_shop = function(key)
-		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.leave_shop, key))
-	end,
-	leave_shop = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.toggle_shop,
-		})
-	end,
-
-	can_select_blind = function(key)
-		return not not (
-			Handy.controller.is_module_key(Handy.config.current.regular_keybinds.select_blind, key)
-			and G.GAME.blind_on_deck
-			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
-		)
-	end,
-	select_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.select_blind,
-			card = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]],
-		})
-	end,
-
-	can_skip_blind = function(key)
-		return not not (
-			Handy.controller.is_module_key(Handy.config.current.regular_keybinds.skip_blind, key)
-			and G.GAME.blind_on_deck
-			and G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]
-		)
-	end,
-	skip_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.skip_blind,
-			UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
-		})
-	end,
-
-	can_open_run_info = function(key)
-		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.run_info, key))
-	end,
-	open_run_info = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.run_info,
-		})
-	end,
-
-	use = function(key)
-		if not Handy.config.current.regular_keybinds.enabled then
-			return false
-		end
-		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN then
-			if Handy.regular_keybinds.can_open_run_info(key) then
-				Handy.regular_keybinds.open_run_info()
-			elseif G.STATE == G.STATES.SELECTING_HAND then
-				local need_sort, sorter = Handy.regular_keybinds.can_change_sort(key)
-				if need_sort then
-					Handy.regular_keybinds.change_sort(sorter)
-				elseif Handy.regular_keybinds.can_discard(key) then
-					Handy.regular_keybinds.discard()
-				elseif Handy.regular_keybinds.can_play(key) then
-					Handy.regular_keybinds.play()
-				end
-				return false
-			elseif G.STATE == G.STATES.SHOP then
-				if Handy.regular_keybinds.can_reroll_shop(key) then
-					Handy.regular_keybinds.reroll_shop()
-				elseif Handy.regular_keybinds.can_leave_shop(key) then
-					Handy.regular_keybinds.leave_shop()
-				end
-				return false
-			elseif G.STATE == G.STATES.BLIND_SELECT then
-				if Handy.regular_keybinds.can_skip_blind(key) then
-					Handy.regular_keybinds.skip_blind()
-				elseif Handy.regular_keybinds.can_select_blind(key) then
-					Handy.regular_keybinds.select_blind()
-				end
-				return false
-			end
-		end
-		return false
-	end,
-}
+--
 
 Handy.nopeus_interaction = {
 	is_present = function()
@@ -1498,17 +1517,11 @@ Handy.not_just_yet_interaction = {
 		end_round()
 	end,
 
-	use = function(key, released)
-		if Handy.controller.is_module_key(Handy.config.current.not_just_yet_interaction, key) then
-			GLOBAL_njy_vanilla_override = not released
-		end
-		return false
-	end,
-
 	update = function()
-		if G.STAGE ~= G.STAGES.RUN or not Handy.config.current.not_just_yet_interaction.enabled then
-			GLOBAL_njy_vanilla_override = nil
-		end
+		GLOBAL_njy_vanilla_override = (
+			G.STAGE == G.STAGES.RUN
+			or Handy.controller.is_module_key_down(Handy.config.current.not_just_yet_interaction)
+		)
 		return Handy.not_just_yet_interaction.can_execute() and Handy.not_just_yet_interaction.execute() or false
 	end,
 }
