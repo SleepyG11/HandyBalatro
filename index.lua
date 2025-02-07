@@ -1520,7 +1520,7 @@ Handy.not_just_yet_interaction = {
 	update = function()
 		GLOBAL_njy_vanilla_override = (
 			G.STAGE == G.STAGES.RUN
-			or Handy.controller.is_module_key_down(Handy.config.current.not_just_yet_interaction)
+			and Handy.controller.is_module_key_down(Handy.config.current.not_just_yet_interaction)
 		)
 		return Handy.not_just_yet_interaction.can_execute() and Handy.not_just_yet_interaction.execute() or false
 	end,
