@@ -3,7 +3,7 @@ Handy - a lovely mod which adds a bunch of new controls designed to make playing
 <br/>Especially useful with other mods where using or selling thousands of cards and opening hundreds of booster packs is a common gameplay.
 
 ## Key features
-- Keybinds for common buttons: "Play", "Discard", "Reroll shop", "Leave shop", "Skip Booster pack", "Skip blind", "Select blind", "Sort hand by rank/suit", "Cash out", "Run info", "View deck", "Deck preview";
+- Keybinds for common buttons: "Play", "Discard", "Reroll shop", "Leave shop", "Skip Booster pack", "Skip blind", "Select blind", "Sort hand by rank/suit", "Deselect hand", "Cash out", "Run info", "View deck", "Deck preview";
 - Highlight cards in hand on hover + keybind for highlight entire hand;
 - Keybinds to move highlight/card in card areas: Jokers, Consumabled, Shop, Booster packs, etc;
 - Hold keybinds to quick buy/sell/use cards + unsafe versions for maximum speed;
