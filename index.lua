@@ -145,6 +145,12 @@ Handy.config = {
 			key_2 = "None",
 		},
 
+		deselect_hand = {
+			enabled = true,
+			key_1 = "Right Mouse",
+			key_2 = "None",
+		},
+
 		regular_keybinds = {
 			enabled = true,
 
@@ -493,6 +499,7 @@ Handy.controller = {
 				Handy.move_highlight.use(key)
 				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
+				Handy.deselect_hand.use(key)
 			end
 
 			Handy.dangerous_actions.toggle_queue(key, released)
@@ -521,6 +528,7 @@ Handy.controller = {
 				Handy.move_highlight.use(key)
 				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
+				Handy.deselect_hand.use(key)
 			end
 
 			Handy.dangerous_actions.toggle_queue(key, released)
@@ -547,6 +555,7 @@ Handy.controller = {
 			Handy.move_highlight.use(key)
 			Handy.regular_keybinds.use(key)
 			Handy.insta_highlight_entire_f_hand.use(key)
+			Handy.deselect_hand.use(key)
 		end
 
 		Handy.UI.state_panel.update(key, false)
@@ -694,6 +703,29 @@ Handy.show_deck_preview = {
 }
 
 --
+
+Handy.deselect_hand = {
+	should_prevent = function()
+		return Handy.config.current.deselect_hand.enabled
+	end,
+
+	can_execute = function(key)
+		return not not (
+			G.hand
+			and G.hand.highlighted[1]
+			-- Vanilla check
+			and not ((G.play and #G.play.cards > 0) or G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+			and Handy.controller.is_module_key(Handy.config.current.deselect_hand, key)
+		)
+	end,
+	execute = function()
+		G.hand:unhighlight_all()
+	end,
+
+	use = function(key)
+		return Handy.deselect_hand.can_execute(key) and Handy.deselect_hand.execute() or false
+	end,
+}
 
 Handy.regular_keybinds = {
 	shop_reroll_blocker = false,

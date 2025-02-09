@@ -191,7 +191,7 @@ Handy.UI.PARTS = {
 	create_module_keybind = function(module, label, dangerous)
 		return {
 			n = G.UIT.R,
-			config = { align = "cm", padding = 0.05 },
+			config = { align = "cm", padding = 0.01 },
 			nodes = {
 				{
 					n = G.UIT.C,
@@ -365,18 +365,30 @@ Handy.UI.get_config_tab_overall = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
-			"keybinds for",
-			"common game actions",
-			"(Play, Discard, Reroll, Skip blind, etc.)",
-		}, true),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		-- Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
+		-- 	"keybinds for",
+		-- 	"common game actions",
+		-- 	"(Play, Discard, Reroll, Skip blind, etc.)",
+		-- }, true),
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
 				{
 					n = G.UIT.C,
 					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.regular_keybinds,
+							"Regular keybinds",
+							"Use",
+							{
+								"keybinds for",
+								"common game actions",
+								"(Play, Discard, Reroll, Skip blind, etc.)",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.show_deck_preview,
 							"Deck preview",
@@ -449,6 +461,17 @@ Handy.UI.get_config_tab_overall = function()
 							{
 								"to",
 								"highlight entire hand",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.deselect_hand,
+							"Deselect hand",
+							"Press",
+							{
+								"to",
+								"deselect hand.",
+								"Overrides vanilla keybind",
 							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
@@ -604,6 +627,7 @@ Handy.UI.get_config_tab_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.discard, "Discard"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_rank, "Sort by rank"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_suit, "Sort by suit"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.deselect_hand, "Deselect hand"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.reroll_shop, "Shop reroll"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.leave_shop, "Leave shop"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.skip_blind, "Skip blind"),
