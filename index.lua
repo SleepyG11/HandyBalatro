@@ -227,7 +227,7 @@ Handy.config = {
 
 	save = function()
 		love.filesystem.createDirectory("config")
-		compress_and_save("config/Handy.jkr", Handy.config.current)
+		love.filesystem.write("config/Handy.jkr", STR_PACK(Handy.config.current))
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
