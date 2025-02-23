@@ -790,6 +790,7 @@ Handy.regular_keybinds = {
 			func = G.FUNCS.reroll_shop,
 		})
 		G.E_MANAGER:add_event(Event({
+			no_delete = true,
 			func = function()
 				Handy.regular_keybinds.shop_reroll_blocker = false
 				return true
@@ -940,6 +941,8 @@ Handy.insta_highlight_entire_f_hand = {
 }
 
 Handy.insta_actions = {
+	action_blocker = false,
+
 	get_actions = function()
 		return {
 			buy_or_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_or_sell),
@@ -947,7 +950,7 @@ Handy.insta_actions = {
 		}
 	end,
 	can_execute = function(card, buy_or_sell, use)
-		return not not ((buy_or_sell or use) and card and card.area)
+		return not not (not Handy.insta_actions.action_blocker and (buy_or_sell or use) and card and card.area)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
 		local target_button = nil
@@ -1055,6 +1058,7 @@ Handy.insta_actions = {
 				UIBox = target_button_UIBox,
 			})
 			if check then
+				Handy.insta_actions.action_blocker = true
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
 					button = nil,
@@ -1062,6 +1066,13 @@ Handy.insta_actions = {
 					card = card,
 					UIBox = target_button_UIBox,
 				})
+				G.E_MANAGER:add_event(Event({
+					no_delete = true,
+					func = function()
+						Handy.insta_actions.action_blocker = false
+						return true
+					end,
+				}))
 				cleanup()
 				return true
 			end
@@ -1259,6 +1270,7 @@ Handy.dangerous_actions = {
 					G.GAME.STOP_USE = 0
 
 					G.E_MANAGER:add_event(Event({
+						no_delete = true,
 						func = function()
 							if card.ability then
 								card.ability.handy_dangerous_actions_used = nil
