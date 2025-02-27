@@ -272,9 +272,14 @@ Handy.config = {
 	current = {},
 
 	save = function()
-		love.filesystem.createDirectory("config")
-		local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
-		love.filesystem.write("config/Handy.jkr", serialized)
+		if SMODS and SMODS.save_mod_config and Handy.current_mod then
+			Handy.current_mod.config = Handy.config.current
+			SMODS.save_mod_config(Handy.current_mod)
+		else
+			love.filesystem.createDirectory("config")
+			local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
+			love.filesystem.write("config/Handy.jkr", serialized)
+		end
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
