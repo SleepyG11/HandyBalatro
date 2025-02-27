@@ -50,6 +50,52 @@ function Handy.utils.table_contains(t, value)
 	return false
 end
 
+function Handy.utils.serialize_string(s)
+	return string.format("%q", s)
+end
+
+function Handy.utils.serialize(t, indent)
+	indent = indent or ""
+	local str = "{\n"
+	for k, v in ipairs(t) do
+		str = str .. indent .. "\t"
+		if type(v) == "number" then
+			str = str .. v
+		elseif type(v) == "boolean" then
+			str = str .. (v and "true" or "false")
+		elseif type(v) == "string" then
+			str = str .. Handy.utils.serialize_string(v)
+		elseif type(v) == "table" then
+			str = str .. Handy.utils.serialize(v, indent .. "\t")
+		else
+			-- not serializable
+			str = str .. "nil"
+		end
+		str = str .. ",\n"
+	end
+	for k, v in pairs(t) do
+		if type(k) == "string" then
+			str = str .. indent .. "\t" .. "[" .. Handy.utils.serialize_string(k) .. "] = "
+
+			if type(v) == "number" then
+				str = str .. v
+			elseif type(v) == "boolean" then
+				str = str .. (v and "true" or "false")
+			elseif type(v) == "string" then
+				str = str .. Handy.utils.serialize_string(v)
+			elseif type(v) == "table" then
+				str = str .. Handy.utils.serialize(v, indent .. "\t")
+			else
+				-- not serializable
+				str = str .. "nil"
+			end
+			str = str .. ",\n"
+		end
+	end
+	str = str .. indent .. "}"
+	return str
+end
+
 --
 
 Handy.config = {
@@ -226,8 +272,14 @@ Handy.config = {
 	current = {},
 
 	save = function()
-		love.filesystem.createDirectory("config")
-		compress_and_save("config/Handy.jkr", Handy.config.current)
+		if SMODS and SMODS.save_mod_config and Handy.current_mod then
+			Handy.current_mod.config = Handy.config.current
+			SMODS.save_mod_config(Handy.current_mod)
+		else
+			love.filesystem.createDirectory("config")
+			local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
+			love.filesystem.write("config/Handy.jkr", serialized)
+		end
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
@@ -790,6 +842,7 @@ Handy.regular_keybinds = {
 			func = G.FUNCS.reroll_shop,
 		})
 		G.E_MANAGER:add_event(Event({
+			no_delete = true,
 			func = function()
 				Handy.regular_keybinds.shop_reroll_blocker = false
 				return true
@@ -940,6 +993,8 @@ Handy.insta_highlight_entire_f_hand = {
 }
 
 Handy.insta_actions = {
+	action_blocker = false,
+
 	get_actions = function()
 		return {
 			buy_or_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_or_sell),
@@ -947,7 +1002,7 @@ Handy.insta_actions = {
 		}
 	end,
 	can_execute = function(card, buy_or_sell, use)
-		return not not ((buy_or_sell or use) and card and card.area)
+		return not not (not Handy.insta_actions.action_blocker and (buy_or_sell or use) and card and card.area)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
 		local target_button = nil
@@ -1055,6 +1110,7 @@ Handy.insta_actions = {
 				UIBox = target_button_UIBox,
 			})
 			if check then
+				Handy.insta_actions.action_blocker = true
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
 					button = nil,
@@ -1062,6 +1118,13 @@ Handy.insta_actions = {
 					card = card,
 					UIBox = target_button_UIBox,
 				})
+				G.E_MANAGER:add_event(Event({
+					no_delete = true,
+					func = function()
+						Handy.insta_actions.action_blocker = false
+						return true
+					end,
+				}))
 				cleanup()
 				return true
 			end
@@ -1259,6 +1322,7 @@ Handy.dangerous_actions = {
 					G.GAME.STOP_USE = 0
 
 					G.E_MANAGER:add_event(Event({
+						no_delete = true,
 						func = function()
 							if card.ability then
 								card.ability.handy_dangerous_actions_used = nil
