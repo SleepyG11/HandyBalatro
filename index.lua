@@ -50,6 +50,52 @@ function Handy.utils.table_contains(t, value)
 	return false
 end
 
+function Handy.utils.serialize_string(s)
+	return string.format("%q", s)
+end
+
+function Handy.utils.serialize(t, indent)
+	indent = indent or ""
+	local str = "{\n"
+	for k, v in ipairs(t) do
+		str = str .. indent .. "\t"
+		if type(v) == "number" then
+			str = str .. v
+		elseif type(v) == "boolean" then
+			str = str .. (v and "true" or "false")
+		elseif type(v) == "string" then
+			str = str .. Handy.utils.serialize_string(v)
+		elseif type(v) == "table" then
+			str = str .. Handy.utils.serialize(v, indent .. "\t")
+		else
+			-- not serializable
+			str = str .. "nil"
+		end
+		str = str .. ",\n"
+	end
+	for k, v in pairs(t) do
+		if type(k) == "string" then
+			str = str .. indent .. "\t" .. "[" .. Handy.utils.serialize_string(k) .. "] = "
+
+			if type(v) == "number" then
+				str = str .. v
+			elseif type(v) == "boolean" then
+				str = str .. (v and "true" or "false")
+			elseif type(v) == "string" then
+				str = str .. Handy.utils.serialize_string(v)
+			elseif type(v) == "table" then
+				str = str .. Handy.utils.serialize(v, indent .. "\t")
+			else
+				-- not serializable
+				str = str .. "nil"
+			end
+			str = str .. ",\n"
+		end
+	end
+	str = str .. indent .. "}"
+	return str
+end
+
 --
 
 Handy.config = {
@@ -227,7 +273,8 @@ Handy.config = {
 
 	save = function()
 		love.filesystem.createDirectory("config")
-		love.filesystem.write("config/Handy.jkr", STR_PACK(Handy.config.current))
+		local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
+		love.filesystem.write("config/Handy.jkr", serialized)
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
