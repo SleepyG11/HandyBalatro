@@ -169,6 +169,8 @@ Handy.config = {
 		dangerous_actions = {
 			enabled = false,
 
+			-- Use it as basic modifier for all dangerous controls
+			-- Maybe I should change this but idk, backwards compatibility
 			immediate_buy_and_sell = {
 				enabled = true,
 				key_1 = "Middle Mouse",
@@ -177,6 +179,18 @@ Handy.config = {
 				queue = {
 					enabled = false,
 				},
+			},
+
+			sell_all_same = {
+				enabled = false,
+				key_1 = "None",
+				key_2 = "None",
+			},
+
+			card_remove = {
+				enabled = false,
+				key_1 = "None",
+				key_2 = "None",
 			},
 
 			nopeus_unsafe = {
@@ -619,6 +633,9 @@ Handy.controller = {
 			if Handy.insta_actions.use(card) then
 				return true
 			end
+			if Handy.dangerous_actions.use_click(card) then
+				return true
+			end
 			Handy.last_clicked_card = card
 			Handy.last_clicked_area = card.area
 		end
@@ -629,7 +646,7 @@ Handy.controller = {
 			if Handy.insta_highlight.use(card) then
 				return true
 			end
-			if Handy.dangerous_actions.use(card) then
+			if Handy.dangerous_actions.use_hover(card) then
 				return true
 			end
 		end
@@ -1005,6 +1022,10 @@ Handy.insta_actions = {
 		return not not (not Handy.insta_actions.action_blocker and (buy_or_sell or use) and card and card.area)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
+		if card.REMOVED then
+			return false
+		end
+
 		local target_button = nil
 		local is_shop_button = false
 		local is_custom_button = false
@@ -1272,25 +1293,79 @@ Handy.dangerous_actions = {
 	sell_queue = {},
 
 	sell_next_card = function()
-		local card = table.remove(Handy.dangerous_actions.sell_queue, 1)
-		if not card then
+		local target = table.remove(Handy.dangerous_actions.sell_queue, 1)
+		if not target then
 			stop_use()
 			return
 		end
 
-		G.GAME.STOP_USE = 0
-		Handy.insta_actions.execute(card, true, false, true)
+		local card = target.card
+		if target.remove then
+			card:stop_hover()
+			card:remove()
+		else
+			G.GAME.STOP_USE = 0
+			Handy.insta_actions.execute(card, true, false, true)
 
-		G.E_MANAGER:add_event(Event({
-			blocking = false,
-			func = function()
-				if card.ability then
-					card.ability.handy_dangerous_actions_used = nil
-				end
-				return true
-			end,
-		}))
+			G.E_MANAGER:add_event(Event({
+				blocking = false,
+				func = function()
+					if card.ability then
+						card.ability.handy_dangerous_actions_used = nil
+					end
+					return true
+				end,
+			}))
+		end
 		Handy.dangerous_actions.sell_next_card()
+	end,
+
+	get_options = function(card)
+		return {
+			use_queue = Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled,
+			remove = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.card_remove)
+				and (card.area == G.jokers or card.area == G.consumeables),
+		}
+	end,
+
+	process_card = function(card, use_queue, remove)
+		if use_queue then
+			if not card.ability then
+				card.ability = {}
+			end
+			card.ability.handy_dangerous_actions_used = true
+
+			table.insert(Handy.dangerous_actions.sell_queue, { card = card, remove = remove })
+			Handy.UI.state_panel.update(nil, nil)
+			return false
+		elseif remove then
+			card:stop_hover()
+			card:remove()
+			return true
+		else
+			local result = Handy.insta_actions.execute(card, true, false)
+			if result then
+				if not card.ability then
+					card.ability = {}
+				end
+				card.ability.handy_dangerous_actions_used = true
+
+				G.CONTROLLER.locks.selling_card = nil
+				G.CONTROLLER.locks.use = nil
+				G.GAME.STOP_USE = 0
+
+				G.E_MANAGER:add_event(Event({
+					no_delete = true,
+					func = function()
+						if card.ability then
+							card.ability.handy_dangerous_actions_used = nil
+						end
+						return true
+					end,
+				}))
+			end
+			return result
+		end
 	end,
 
 	can_execute = function(card)
@@ -1298,47 +1373,51 @@ Handy.dangerous_actions = {
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
-	execute = function(card)
-		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell) then
-			if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
-				if not card.ability then
-					card.ability = {}
-				end
-				card.ability.handy_dangerous_actions_used = true
-
-				table.insert(Handy.dangerous_actions.sell_queue, card)
-				Handy.UI.state_panel.update(nil, nil)
-				return false
-			else
-				local result = Handy.insta_actions.execute(card, true, false)
-				if result then
-					if not card.ability then
-						card.ability = {}
+	execute_click = function(card)
+		if
+			Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same)
+			and Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell, true)
+		then
+			local target_cards = {}
+			local success, card_center_key = pcall(function()
+				return card.config.center.key
+			end)
+			if success and card_center_key then
+				for _, area_card in ipairs(card.area.cards) do
+					local _success, area_card_center_key = pcall(function()
+						return area_card.config.center.key
+					end)
+					if _success and area_card_center_key == card_center_key then
+						table.insert(target_cards, area_card)
 					end
-					card.ability.handy_dangerous_actions_used = true
-
-					G.CONTROLLER.locks.selling_card = nil
-					G.CONTROLLER.locks.use = nil
-					G.GAME.STOP_USE = 0
-
-					G.E_MANAGER:add_event(Event({
-						no_delete = true,
-						func = function()
-							if card.ability then
-								card.ability.handy_dangerous_actions_used = nil
-							end
-							return true
-						end,
-					}))
 				end
-				return result
 			end
+
+			local options = Handy.dangerous_actions.get_options(card)
+			for _, target_card in ipairs(target_cards) do
+				Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				Handy.dangerous_actions.sell_next_card()
+			end
+			return true
 		end
 		return false
 	end,
+	execute_hover = function(card)
+		if not Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell) then
+			return false
+		end
+		if not Handy.insta_actions.get_actions().buy_or_sell then
+			return false
+		end
+		local options = Handy.dangerous_actions.get_options(card)
+		return Handy.dangerous_actions.process_card(card, options.use_queue, options.remove)
+	end,
 
-	use = function(card)
-		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute(card) or false
+	use_click = function(card)
+		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute_click(card) or false
+	end,
+	use_hover = function(card)
+		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute_hover(card) or false
 	end,
 
 	toggle_queue = function(key, released)
@@ -1359,43 +1438,55 @@ Handy.dangerous_actions = {
 			return false
 		end
 
-		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell, true) then
-			if
-				not Handy.config.current.dangerous_actions.enabled
-				or not Handy.config.current.dangerous_actions.immediate_buy_and_sell.enabled
-			then
-				state.items.prevented_dangerous_actions = {
-					text = "Unsafe insta-sell disabled in mod settings",
-					hold = true,
-					order = 99999999,
-				}
-				return true
-			end
+		local is_sell =
+			Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell, true)
+		if not is_sell then
+			return false
+		end
 
-			state.dangerous = true
-			state.items.dangerous_hint = {
-				text = "[Unsafe] Bugs can appear!",
-				dangerous = true,
+		if not Handy.config.current.dangerous_actions.enabled then
+			state.items.prevented_dangerous_actions = {
+				text = "Unsafe actions disabled in mod settings",
 				hold = true,
 				order = 99999999,
 			}
-			if state.items.quick_buy_and_sell then
-				state.items.quick_buy_and_sell.dangerous = true
-			elseif Handy.insta_actions.get_actions().buy_or_sell then
-				local text = "Quick sell"
-				if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
-					text = text .. " [" .. #Handy.dangerous_actions.sell_queue .. " in queue]"
-				end
-				state.items.quick_buy_and_sell = {
-					text = text,
-					hold = true,
-					order = 11,
-					dangerous = true,
-				}
-			end
 			return true
 		end
-		return false
+
+		local is_insta_sell = Handy.insta_actions.get_actions().buy_or_sell
+			and Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell)
+		local is_all_same = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same)
+		local is_remove = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.card_remove)
+
+		state.dangerous = true
+		state.items.dangerous_hint = {
+			text = "[Unsafe] Bugs can appear!",
+			dangerous = true,
+			hold = true,
+			order = 99999999,
+		}
+
+		if is_insta_sell then
+			local text = is_remove and "Instant REMOVE" or "Instant sell"
+			if Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue.enabled then
+				text = text .. " [" .. #Handy.dangerous_actions.sell_queue .. " in queue]"
+			end
+			state.items.quick_buy_and_sell = {
+				text = text,
+				hold = true,
+				order = 11,
+				dangerous = true,
+			}
+		elseif is_all_same then
+			local text = is_remove and "REMOVE all copies of clicked card" or "Sell all copies of clicked card"
+			state.items.sell_all_same = {
+				text = text,
+				hold = true,
+				order = 12,
+				dangerous = true,
+			}
+		end
+		return true
 	end,
 }
 

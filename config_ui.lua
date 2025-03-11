@@ -1,4 +1,11 @@
 Handy.UI.PARTS = {
+	format_module_keys = function(module, only_first)
+		local result = "[" .. module.key_1 .. "]"
+		if only_first or not module.key_2 or module.key_2 == "None" then
+			return result
+		end
+		return result .. "or [" .. module.key_2 .. "]"
+	end,
 	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds)
 		local desc_lines = {
 			{ n = G.UIT.R, config = { minw = 5.25 } },
@@ -20,83 +27,23 @@ Handy.UI.PARTS = {
 				},
 			})
 		else
-			local key_desc = module.key_2
-					and module.key_2 ~= "None"
-					and {
-						{
-							n = G.UIT.T,
-							config = {
-								text = text_prefix .. " [",
-								scale = 0.3,
-								colour = G.C.TEXT_LIGHT,
-							},
-						},
-						{
-							n = G.UIT.T,
-							config = {
-								ref_table = module,
-								ref_value = "key_1",
-								scale = 0.3,
-								colour = G.C.TEXT_LIGHT,
-							},
-						},
-						{
-							n = G.UIT.T,
-							config = {
-								text = "] or [",
-								scale = 0.3,
-								colour = G.C.TEXT_LIGHT,
-							},
-						},
-						{
-							n = G.UIT.T,
-							config = {
-								ref_table = module,
-								ref_value = "key_2",
-								scale = 0.3,
-								colour = G.C.TEXT_LIGHT,
-							},
-						},
-						{
-							n = G.UIT.T,
-							config = {
-								text = "] " .. text_lines[1],
-								scale = 0.3,
-								colour = G.C.TEXT_LIGHT,
-							},
-						},
-					}
-				or {
-					{
-						n = G.UIT.T,
-						config = {
-							text = text_prefix .. " [",
-							scale = 0.3,
-							colour = G.C.TEXT_LIGHT,
-						},
-					},
-					{
-						n = G.UIT.T,
-						config = {
-							ref_table = module,
-							ref_value = "key_1",
-							scale = 0.3,
-							colour = G.C.TEXT_LIGHT,
-						},
-					},
-					{
-						n = G.UIT.T,
-						config = {
-							text = "] " .. text_lines[1],
-							scale = 0.3,
-							colour = G.C.TEXT_LIGHT,
-						},
-					},
-				}
 			table.insert(desc_lines, {
 				n = G.UIT.R,
 				config = { padding = 0.025 },
-				nodes = key_desc,
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = text_prefix
+								.. " "
+								.. Handy.UI.PARTS.format_module_keys(module)
+								.. " "
+								.. text_lines[1],
+							scale = 0.3,
+							colour = G.C.TEXT_LIGHT,
+						},
+					},
+				},
 			})
 		end
 
@@ -565,6 +512,7 @@ Handy.UI.get_config_tab_dangerous = function()
 		-- { n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
 		{
 			n = G.UIT.R,
+			config = { padding = 0.05, align = "cm" },
 			nodes = {
 				{
 					n = G.UIT.C,
@@ -580,18 +528,67 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.5 } },
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.5 } },
+		{
+			n = G.UIT.R,
+			nodes = {
+				{
+					n = G.UIT.C,
+					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.immediate_buy_and_sell,
 							"Instant Sell",
 							"Hold",
 							{
-								"to",
-								"sell card on hover",
-								"very fast",
-							}
+								Handy.UI.PARTS.format_module_keys(
+									Handy.config.current.dangerous_actions.immediate_buy_and_sell
+								) .. ",",
+								"hold "
+									.. Handy.UI.PARTS.format_module_keys(Handy.config.current.insta_buy_or_sell)
+									.. "",
+								"and hover card to sell it",
+							},
+							true
 						),
 						{ n = G.UIT.R, config = { minh = 0.1 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions.card_remove,
+							"Remove cards",
+							"Hold",
+							{
+								"to",
+								"REMOVE cards instead",
+								"of selling",
+							}
+						),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 4 },
+					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions.sell_all_same,
+							{ "Sell all", "card copies" },
+							"Hold",
+							{
+								Handy.UI.PARTS.format_module_keys(
+									Handy.config.current.dangerous_actions.immediate_buy_and_sell
+								) .. ",",
+								"hold " .. Handy.UI.PARTS.format_module_keys(
+									Handy.config.current.dangerous_actions.sell_all_same
+								) .. ",",
+								"and click on card to sell",
+								"all of their copies",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.1 } },
+
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue,
 							"Sell Queue",
@@ -602,21 +599,21 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.dangerous_actions.nopeus_unsafe,
-							{ "Nopeus: Unsafe", "fast-forward" },
-							"Allow",
-							{
-								"increase fast-forward",
-								'setting to "Unsafe"',
-							},
-							true
-						),
 					},
 				},
 			},
 		},
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_module_checkbox(
+			Handy.config.current.dangerous_actions.nopeus_unsafe,
+			{ "Nopeus: Unsafe", "fast-forward" },
+			"Allow",
+			{
+				"increase fast-forward",
+				'setting to "Unsafe"',
+			},
+			true
+		),
 	}
 end
 
@@ -649,9 +646,15 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
-			"Instant Buy/Sell",
+			"Dangerous actions/sell",
 			true
 		),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.dangerous_actions.sell_all_same,
+			"Sell all copies of card",
+			true
+		),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.card_remove, "Remove cards", true),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.insta_highlight_entire_f_hand,
 			"Highlight entire hand"
