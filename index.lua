@@ -268,6 +268,11 @@ Handy.config = {
 				key_1 = "None",
 				key_2 = "None",
 			},
+			run_info_blinds = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+			},
 
 			view_deck = {
 				enabled = true,
@@ -921,12 +926,19 @@ Handy.regular_keybinds = {
 	end,
 
 	can_open_run_info = function(key)
-		return not not (Handy.controller.is_module_key(Handy.config.current.regular_keybinds.run_info, key))
+		if Handy.controller.is_module_key(Handy.config.current.regular_keybinds.run_info, key) then
+			return true, 1
+		elseif Handy.controller.is_module_key(Handy.config.current.regular_keybinds.run_info_blinds, key) then
+			return true, 2
+		end
+		return false, nil
 	end,
-	open_run_info = function()
+	open_run_info = function(tab_index)
+		Handy.override_create_tabs_chosen = tab_index or 1
 		Handy.fake_events.execute({
 			func = G.FUNCS.run_info,
 		})
+		Handy.override_create_tabs_chosen = nil
 	end,
 
 	can_view_deck = function(key)
@@ -943,8 +955,9 @@ Handy.regular_keybinds = {
 			return false
 		end
 		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN then
-			if Handy.regular_keybinds.can_open_run_info(key) then
-				Handy.regular_keybinds.open_run_info()
+			local can_open_info, info_tab_index = Handy.regular_keybinds.can_open_run_info(key)
+			if can_open_info then
+				Handy.regular_keybinds.open_run_info(info_tab_index)
 			elseif Handy.regular_keybinds.can_view_deck(key) then
 				Handy.regular_keybinds.view_deck()
 			elseif G.STATE == G.STATES.SELECTING_HAND then

@@ -209,3 +209,15 @@ Handy.deselect_hand.should_prevent() or
 '''
 match_indent = true
 overwrite = false
+
+# Add ability to override chosen tab in create_tabs
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
+position = "before"
+payload = '''
+if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen end
+'''
+match_indent = true
+overwrite = false

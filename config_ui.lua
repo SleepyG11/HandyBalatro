@@ -126,11 +126,11 @@ Handy.UI.PARTS = {
 	create_module_section = function(label)
 		return {
 			n = G.UIT.R,
-			config = { align = "cm", padding = 0.1 },
+			config = { align = "cm", padding = 0.075 },
 			nodes = {
 				{
 					n = G.UIT.T,
-					config = { text = label, colour = G.C.WHITE, scale = 0.4, align = "cm" },
+					config = { text = label, colour = G.C.WHITE, scale = 0.35, align = "cm" },
 				},
 			},
 		}
@@ -146,7 +146,7 @@ Handy.UI.PARTS = {
 					nodes = {
 						{
 							n = G.UIT.T,
-							config = { text = label, colour = G.C.WHITE, scale = 0.35 },
+							config = { text = label, colour = G.C.WHITE, scale = 0.3 },
 						},
 					},
 				},
@@ -158,9 +158,9 @@ Handy.UI.PARTS = {
 					label = { module.key_1 or "None" },
 					col = true,
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
-					scale = 0.35,
+					scale = 0.3,
 					minw = 2.75,
-					minh = 0.45,
+					minh = 0.4,
 					ref_table = {
 						module = module,
 						key = "key_1",
@@ -181,9 +181,9 @@ Handy.UI.PARTS = {
 					label = { module.key_2 or "None" },
 					col = true,
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
-					scale = 0.35,
+					scale = 0.3,
 					minw = 2.75,
-					minh = 0.45,
+					minh = 0.4,
 					ref_table = {
 						module = module,
 						key = "key_2",
@@ -627,24 +627,26 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 
-Handy.UI.get_config_tab_keybinds = function()
+Handy.UI.get_config_tab_regular_keybinds = function()
 	return {
-		Handy.UI.PARTS.create_module_section("Regular actions"),
+		Handy.UI.PARTS.create_module_section("Round"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.play, "Play hand"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.discard, "Discard"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_rank, "Sort by rank"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.sort_by_suit, "Sort by suit"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.deselect_hand, "Deselect hand"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Cash Out"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
+		Handy.UI.PARTS.create_module_section("Shop and Blinds"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Skip Booster Pack"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.reroll_shop, "Shop reroll"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.leave_shop, "Leave shop"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.skip_blind, "Skip blind"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.select_blind, "Select blind"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.run_info, "Run info"),
+		Handy.UI.PARTS.create_module_section("Menus"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.run_info, "Run info: Poker hands"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.run_info_blinds, "Run info: Blinds"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.regular_keybinds.view_deck, "View deck"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.not_just_yet_interaction, "NotJustYet: End round"),
-		Handy.UI.PARTS.create_module_section("Hold actions"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_cash_out, "Cash Out"),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_booster_skip, "Skip Booster Pack"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.show_deck_preview, "Deck preview"),
 	}
 end
@@ -655,8 +657,13 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.insta_highlight_entire_f_hand,
+			"Highlight entire hand"
+		),
+		Handy.UI.PARTS.create_module_section("Dangerous actions"),
+		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.dangerous_actions.immediate_buy_and_sell,
-			"Dangerous actions/sell",
+			"Dangerous modifier",
 			true
 		),
 		Handy.UI.PARTS.create_module_keybind(
@@ -666,10 +673,6 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.sell_all, "Sell ALL cards", true),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.card_remove, "REMOVE cards", true),
-		Handy.UI.PARTS.create_module_keybind(
-			Handy.config.current.insta_highlight_entire_f_hand,
-			"Highlight entire hand"
-		),
 		Handy.UI.PARTS.create_module_section("Game speed and animations"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.speed_multiplier, "Speed Multiplier"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.nopeus_interaction, "Nopeus: fast-forward"),
@@ -693,8 +696,8 @@ Handy.UI.get_config_tab = function(_tab)
 		result.nodes = Handy.UI.get_config_tab_interactions()
 	elseif _tab == "Dangerous" then
 		result.nodes = Handy.UI.get_config_tab_dangerous()
-	elseif _tab == "Keybinds" then
-		result.nodes = Handy.UI.get_config_tab_keybinds()
+	elseif _tab == "Regular" then
+		result.nodes = Handy.UI.get_config_tab_regular_keybinds()
 	elseif _tab == "Keybinds 2" then
 		result.nodes = Handy.UI.get_config_tab_keybinds_2()
 	end
@@ -724,13 +727,13 @@ function Handy.UI.get_options_tabs()
 			end,
 		},
 		{
-			label = "Keybinds",
+			label = "Regular keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds")
+				return Handy.UI.get_config_tab("Regular")
 			end,
 		},
 		{
-			label = "More keybinds",
+			label = "Other keybinds",
 			tab_definition_function = function()
 				return Handy.UI.get_config_tab("Keybinds 2")
 			end,
