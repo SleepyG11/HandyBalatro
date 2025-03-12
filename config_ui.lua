@@ -386,19 +386,19 @@ Handy.UI.get_config_tab_overall = function()
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_buy_or_sell,
 							"Quick Buy/Sell",
-							"Hold",
+							"Use",
 							{
 								"to",
-								"buy or sell card on Left-Click",
-								"instead of selection",
+								"buy or sell card",
+								"(check Buy/Sell/Use mode)",
 							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Hold", {
+						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Use", {
 							"to",
-							"use (if possible) card on Left-Click",
-							"instead of selection",
+							"use card if possible",
 							"(overrides Quick Buy/Sell)",
+							"(check Buy/Sell/Use mode)",
 						}),
 					},
 				},
