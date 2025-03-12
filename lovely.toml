@@ -155,6 +155,22 @@ if Handy.controller.process_card_hover(self) then return end
 match_indent = true
 overwrite = false
 
+# Handle card stop hover
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:stop_hover()'''
+position = "after"
+payload = '''
+if Handy.last_hovered_card == self then
+    Handy.last_hovered_card = nil
+    Handy.last_hovered_area = nil
+end
+'''
+match_indent = true
+overwrite = false
+
+
 # Handle skip tag click
 [[patches]]
 [patches.pattern]

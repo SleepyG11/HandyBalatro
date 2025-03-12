@@ -8,7 +8,7 @@ Handy.UI.PARTS = {
 	end,
 	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds)
 		local desc_lines = {
-			{ n = G.UIT.R, config = { minw = 5.25 } },
+			{ n = G.UIT.R, config = { minw = 5.5 } },
 		}
 
 		if skip_keybinds then
@@ -279,7 +279,7 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						create_option_cycle({
-							w = 6,
+							w = 4.25,
 							label = "Info popups level",
 							scale = 0.8,
 							options = {
@@ -297,7 +297,7 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						create_option_cycle({
-							w = 6,
+							w = 4.25,
 							label = "Keybinds trigger mode",
 							scale = 0.8,
 							options = {
@@ -306,6 +306,22 @@ Handy.UI.get_config_tab_overall = function()
 							},
 							opt_callback = "handy_change_keybinds_trigger_mode",
 							current_option = Handy.config.current.keybinds_trigger_mode,
+						}),
+					},
+				},
+				{
+					n = G.UIT.C,
+					nodes = {
+						create_option_cycle({
+							w = 4.25,
+							label = "Buy/Sell/Use mode",
+							scale = 0.8,
+							options = {
+								"Hold + Card click",
+								"Card hover + Press",
+							},
+							opt_callback = "handy_change_insta_actions_trigger_mode",
+							current_option = Handy.config.current.insta_actions_trigger_mode,
 						}),
 					},
 				},

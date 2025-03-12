@@ -2,6 +2,9 @@ Handy = setmetatable({
 	last_clicked_area = nil,
 	last_clicked_card = nil,
 
+	last_hovered_area = nil,
+	last_hovered_card = nil,
+
 	utils = {},
 }, {})
 
@@ -102,6 +105,7 @@ Handy.config = {
 	default = {
 		notifications_level = 3,
 		keybinds_trigger_mode = 1,
+		insta_actions_trigger_mode = 1,
 		hide_in_menu = false,
 
 		insta_highlight = {
@@ -573,6 +577,7 @@ Handy.controller = {
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.controller.is_triggered(released) then
+				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
 				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
@@ -602,6 +607,7 @@ Handy.controller = {
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.controller.is_triggered(released) then
+				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
 				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
@@ -660,6 +666,8 @@ Handy.controller = {
 			if Handy.dangerous_actions.use_hover(card) then
 				return true
 			end
+			Handy.last_hovered_card = card
+			Handy.last_hovered_area = card.area
 		end
 
 		return false
@@ -1047,6 +1055,13 @@ Handy.insta_actions = {
 			use = Handy.controller.is_module_key_down(Handy.config.current.insta_use),
 		}
 	end,
+	get_alt_actions = function(key)
+		return {
+			buy_or_sell = Handy.controller.is_module_key(Handy.config.current.insta_buy_or_sell, key),
+			use = Handy.controller.is_module_key(Handy.config.current.insta_use, key),
+		}
+	end,
+
 	can_execute = function(card, buy_or_sell, use)
 		return not not (not Handy.insta_actions.action_blocker and (buy_or_sell or use) and card and card.area)
 	end,
@@ -1161,6 +1176,14 @@ Handy.insta_actions = {
 			})
 			if check then
 				Handy.insta_actions.action_blocker = true
+				if Handy.last_clicked_card == card then
+					Handy.last_clicked_card = nil
+					Handy.last_clicked_area = nil
+				end
+				if Handy.last_hovered_card == card then
+					Handy.last_hovered_card = nil
+					Handy.last_hovered_area = nil
+				end
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
 					button = nil,
@@ -1185,11 +1208,37 @@ Handy.insta_actions = {
 	end,
 
 	use = function(card)
+		if Handy.config.current.insta_actions_trigger_mode ~= 1 then
+			return false
+		end
+
+		if card.REMOVED then
+			return false
+		end
 		if card.ability and card.ability.handy_dangerous_actions_used then
 			return true
 		end
 
 		local actions = Handy.insta_actions.get_actions()
+
+		return Handy.insta_actions.can_execute(card, actions.buy_or_sell, actions.use)
+				and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
+			or false
+	end,
+	use_alt = function(key)
+		if Handy.config.current.insta_actions_trigger_mode ~= 2 then
+			return false
+		end
+
+		local card = Handy.last_hovered_card
+		if not card or card.REMOVED then
+			return false
+		end
+		if card.ability and card.ability.handy_dangerous_actions_used then
+			return true
+		end
+
+		local actions = Handy.insta_actions.get_alt_actions(key)
 
 		return Handy.insta_actions.can_execute(card, actions.buy_or_sell, actions.use)
 				and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
@@ -1204,11 +1253,15 @@ Handy.insta_actions = {
 			return false
 		end
 		local result = false
-		local actions = Handy.insta_actions.get_actions()
+		local is_alt_action = Handy.config.current.insta_actions_trigger_mode == 2
+		if is_alt_action and not Handy.controller.is_triggered(released) then
+			return false
+		end
+		local actions = is_alt_action and Handy.insta_actions.get_alt_actions(key) or Handy.insta_actions.get_actions()
 		if actions.use then
 			state.items.insta_use = {
 				text = "Quick use",
-				hold = true,
+				hold = not is_alt_action,
 				order = 10,
 			}
 			result = true
@@ -1216,7 +1269,7 @@ Handy.insta_actions = {
 		if actions.buy_or_sell then
 			state.items.quick_buy_and_sell = {
 				text = "Quick buy and sell",
-				hold = true,
+				hold = not is_alt_action,
 				order = 11,
 			}
 			result = true
@@ -1345,6 +1398,14 @@ Handy.dangerous_actions = {
 					return true
 				end,
 			}))
+		end
+		if Handy.last_clicked_card == card then
+			Handy.last_clicked_card = nil
+			Handy.last_clicked_area = nil
+		end
+		if Handy.last_hovered_card == card then
+			Handy.last_hovered_card = nil
+			Handy.last_hovered_area = nil
 		end
 		Handy.dangerous_actions.sell_next_card()
 	end,
@@ -2086,6 +2147,11 @@ end
 
 function G.FUNCS.handy_change_keybinds_trigger_mode(arg)
 	Handy.config.current.keybinds_trigger_mode = arg.to_key
+	Handy.config.save()
+end
+
+function G.FUNCS.handy_change_insta_actions_trigger_mode(arg)
+	Handy.config.current.insta_actions_trigger_mode = arg.to_key
 	Handy.config.save()
 end
 
