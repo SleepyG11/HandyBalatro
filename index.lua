@@ -187,6 +187,12 @@ Handy.config = {
 				key_2 = "None",
 			},
 
+			sell_all = {
+				enabled = false,
+				key_1 = "None",
+				key_2 = "None",
+			},
+
 			card_remove = {
 				enabled = false,
 				key_1 = "None",
@@ -653,6 +659,16 @@ Handy.controller = {
 
 		return false
 	end,
+
+	process_tag_click = function(tag)
+		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+			if Handy.dangerous_actions.use_tag_click(tag) then
+				return true
+			end
+		end
+		return false
+	end,
+
 	process_update = function(dt)
 		Handy.insta_booster_skip.update()
 		Handy.insta_cash_out.update()
@@ -1374,31 +1390,37 @@ Handy.dangerous_actions = {
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
 	execute_click = function(card)
-		if
-			Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same)
-			and Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell, true)
-		then
-			local target_cards = {}
-			local success, card_center_key = pcall(function()
-				return card.config.center.key
-			end)
-			if success and card_center_key then
-				for _, area_card in ipairs(card.area.cards) do
-					local _success, area_card_center_key = pcall(function()
-						return area_card.config.center.key
-					end)
-					if _success and area_card_center_key == card_center_key then
-						table.insert(target_cards, area_card)
+		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell, true) then
+			if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all) then
+				local options = Handy.dangerous_actions.get_options(card)
+				for _, target_card in ipairs(card.area.cards) do
+					Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				end
+				Handy.dangerous_actions.sell_next_card()
+				return true
+			elseif Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same) then
+				local target_cards = {}
+				local success, card_center_key = pcall(function()
+					return card.config.center.key
+				end)
+				if success and card_center_key then
+					for _, area_card in ipairs(card.area.cards) do
+						local _success, area_card_center_key = pcall(function()
+							return area_card.config.center.key
+						end)
+						if _success and area_card_center_key == card_center_key then
+							table.insert(target_cards, area_card)
+						end
 					end
 				end
-			end
 
-			local options = Handy.dangerous_actions.get_options(card)
-			for _, target_card in ipairs(target_cards) do
-				Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				local options = Handy.dangerous_actions.get_options(card)
+				for _, target_card in ipairs(target_cards) do
+					Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				end
 				Handy.dangerous_actions.sell_next_card()
+				return true
 			end
-			return true
 		end
 		return false
 	end,
@@ -1418,6 +1440,36 @@ Handy.dangerous_actions = {
 	end,
 	use_hover = function(card)
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute_hover(card) or false
+	end,
+
+	can_execute_tag = function(tag)
+		return Handy.config.current.dangerous_actions.enabled and tag
+	end,
+	execute_tag_click = function(tag)
+		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.card_remove) then
+			local target_tags = {}
+			for _, target_tag in ipairs(G.GAME.tags) do
+				table.insert(target_tags, target_tag)
+			end
+			if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all) then
+				for _, target_tag in ipairs(target_tags) do
+					target_tag:remove()
+				end
+				return true
+			elseif Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same) then
+				local tag_key = tag.key
+				for _, target_tag in ipairs(target_tags) do
+					if target_tag.key == tag_key then
+						target_tag:remove()
+					end
+				end
+				return true
+			end
+		end
+		return false
+	end,
+	use_tag_click = function(tag)
+		return Handy.dangerous_actions.can_execute_tag(tag) and Handy.dangerous_actions.execute_tag_click(tag) or false
 	end,
 
 	toggle_queue = function(key, released)
@@ -1455,6 +1507,7 @@ Handy.dangerous_actions = {
 
 		local is_insta_sell = Handy.insta_actions.get_actions().buy_or_sell
 			and Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.immediate_buy_and_sell)
+		local is_all = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all)
 		local is_all_same = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.sell_all_same)
 		local is_remove = Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.card_remove)
 
@@ -1477,8 +1530,16 @@ Handy.dangerous_actions = {
 				order = 11,
 				dangerous = true,
 			}
+		elseif is_all then
+			local text = is_remove and "REMOVE ALL cards/tags in clicked area" or "Sell ALL cards in clicked area"
+			state.items.sell_all_same = {
+				text = text,
+				hold = true,
+				order = 12,
+				dangerous = true,
+			}
 		elseif is_all_same then
-			local text = is_remove and "REMOVE all copies of clicked card" or "Sell all copies of clicked card"
+			local text = is_remove and "REMOVE all copies of clicked card/tag" or "Sell all copies of clicked card"
 			state.items.sell_all_same = {
 				text = text,
 				hold = true,

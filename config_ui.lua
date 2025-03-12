@@ -556,14 +556,25 @@ Handy.UI.get_config_tab_dangerous = function()
 						),
 						{ n = G.UIT.R, config = { minh = 0.1 } },
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.dangerous_actions.card_remove,
-							"Remove cards",
-							"Hold",
+							Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue,
+							"Sell Queue",
+							"Start",
 							{
-								"to",
-								"REMOVE cards instead",
-								"of selling",
-							}
+								"selling cards only when",
+								"keybind was released",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.45 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions.nopeus_unsafe,
+							{ "Nopeus: Unsafe", "fast-forward" },
+							"Allow",
+							{
+								"increase fast-forward",
+								'setting to "Unsafe"',
+							},
+							true
 						),
 					},
 				},
@@ -588,32 +599,31 @@ Handy.UI.get_config_tab_dangerous = function()
 							true
 						),
 						{ n = G.UIT.R, config = { minh = 0.1 } },
-
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue,
-							"Sell Queue",
-							"Start",
+							Handy.config.current.dangerous_actions.sell_all,
+							"Sell ALL",
+							"Hold",
 							{
-								"selling cards only when",
-								"keybind was released",
-							},
-							true
+								"to",
+								"sell ALL cards in area instead",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.1 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.dangerous_actions.card_remove,
+							{ "Remove cards", "or skip tags" },
+							"Hold",
+							{
+								"to",
+								"REMOVE cards instead",
+								"of selling, works for skip tags",
+							}
 						),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
-		Handy.UI.PARTS.create_module_checkbox(
-			Handy.config.current.dangerous_actions.nopeus_unsafe,
-			{ "Nopeus: Unsafe", "fast-forward" },
-			"Allow",
-			{
-				"increase fast-forward",
-				'setting to "Unsafe"',
-			},
-			true
-		),
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
 	}
 end
 
@@ -654,7 +664,8 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 			"Sell all copies of card",
 			true
 		),
-		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.card_remove, "Remove cards", true),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.sell_all, "Sell ALL cards", true),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.dangerous_actions.card_remove, "REMOVE cards", true),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.insta_highlight_entire_f_hand,
 			"Highlight entire hand"

@@ -155,6 +155,24 @@ if Handy.controller.process_card_hover(self) then return end
 match_indent = true
 overwrite = false
 
+# Handle skip tag click
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local tag_sprite_ui = _tag:generate_UI()'''
+position = "after"
+payload = '''
+local _handy_tag_click_target = _tag.tag_sprite
+local _handy_tag_click_ref = _handy_tag_click_target.click
+_handy_tag_click_target.click = function(...)
+    if Handy.controller.process_tag_click(_tag) then return end
+    return _handy_tag_click_ref(...)
+end
+'''
+match_indent = true
+overwrite = false
+
+
 # Apply multiplier to speed
 [[patches]]
 [patches.pattern]
