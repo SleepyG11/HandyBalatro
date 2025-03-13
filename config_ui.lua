@@ -328,30 +328,18 @@ Handy.UI.get_config_tab_overall = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		-- Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
-		-- 	"keybinds for",
-		-- 	"common game actions",
-		-- 	"(Play, Discard, Reroll, Skip blind, etc.)",
-		-- }, true),
-		-- { n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
+			"keybinds for",
+			"common game actions",
+			"(Play, Discard, Reroll, Skip blind, etc.)",
+		}, true),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
 				{
 					n = G.UIT.C,
 					nodes = {
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.regular_keybinds,
-							"Regular keybinds",
-							"Use",
-							{
-								"keybinds for",
-								"common game actions",
-								"(Play, Discard, Reroll, Skip blind, etc.)",
-							},
-							true
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.show_deck_preview,
 							"Deck preview",
@@ -390,6 +378,18 @@ Handy.UI.get_config_tab_overall = function()
 							{
 								"to",
 								"buy or sell card",
+								"(check Buy/Sell/Use mode)",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_buy_n_sell,
+							"Quick Buy'n'Sell",
+							"Use",
+							{
+								"to",
+								"buy card and sell",
+								"immediately after",
 								"(check Buy/Sell/Use mode)",
 							}
 						),
@@ -672,6 +672,7 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_section("Quick actions"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_use, "Quick Use"),
+		Handy.UI.PARTS.create_module_keybind(Handy.config.current.insta_buy_n_sell, "Quick Buy'n'Sell"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.insta_highlight_entire_f_hand,
 			"Highlight entire hand"

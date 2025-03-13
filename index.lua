@@ -116,6 +116,11 @@ Handy.config = {
 			key_1 = "None",
 			key_2 = "None",
 		},
+		insta_buy_n_sell = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+		},
 		insta_buy_or_sell = {
 			enabled = true,
 			key_1 = "Shift",
@@ -739,9 +744,13 @@ Handy.insta_booster_skip = {
 	is_skipped = false,
 
 	can_execute = function(check)
-		if check then
-			return not not (Handy.insta_booster_skip.is_hold and G.booster_pack)
-		end
+		-- if check then
+		-- 	return not not (
+		-- 		Handy.insta_booster_skip.is_hold
+		-- 		and not Handy.insta_booster_skip.is_skipped
+		-- 		and G.booster_pack
+		-- 	)
+		-- end
 		return not not (
 			Handy.insta_booster_skip.is_hold
 			and not Handy.insta_booster_skip.is_skipped
@@ -772,21 +781,21 @@ Handy.insta_booster_skip = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN then
-			return false
-		end
-		if Handy.config.current.notifications_level < 4 then
-			return false
-		end
-		if Handy.insta_booster_skip.can_execute(true) then
-			state.items.insta_booster_skip = {
-				text = "Skip Booster Packs",
-				hold = Handy.insta_booster_skip.is_hold,
-				order = 10,
-			}
-			return true
-		end
-		return false
+		-- if G.STAGE ~= G.STAGES.RUN then
+		-- 	return false
+		-- end
+		-- if Handy.config.current.notifications_level < 4 then
+		-- 	return false
+		-- end
+		-- if Handy.insta_booster_skip.can_execute(true) then
+		-- 	state.items.insta_booster_skip = {
+		-- 		text = "Skip Booster Packs",
+		-- 		hold = Handy.insta_booster_skip.is_hold,
+		-- 		order = 10,
+		-- 	}
+		-- 	return true
+		-- end
+		-- return false
 	end,
 }
 
@@ -1051,12 +1060,14 @@ Handy.insta_actions = {
 
 	get_actions = function()
 		return {
+			buy_n_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_n_sell),
 			buy_or_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_or_sell),
 			use = Handy.controller.is_module_key_down(Handy.config.current.insta_use),
 		}
 	end,
 	get_alt_actions = function(key)
 		return {
+			buy_n_sell = Handy.controller.is_module_key(Handy.config.current.insta_buy_n_sell, key),
 			buy_or_sell = Handy.controller.is_module_key(Handy.config.current.insta_buy_or_sell, key),
 			use = Handy.controller.is_module_key(Handy.config.current.insta_use, key),
 		}
@@ -1207,30 +1218,7 @@ Handy.insta_actions = {
 		return false
 	end,
 
-	use = function(card)
-		if Handy.config.current.insta_actions_trigger_mode ~= 1 then
-			return false
-		end
-
-		if card.REMOVED then
-			return false
-		end
-		if card.ability and card.ability.handy_dangerous_actions_used then
-			return true
-		end
-
-		local actions = Handy.insta_actions.get_actions()
-
-		return Handy.insta_actions.can_execute(card, actions.buy_or_sell, actions.use)
-				and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
-			or false
-	end,
-	use_alt = function(key)
-		if Handy.config.current.insta_actions_trigger_mode ~= 2 then
-			return false
-		end
-
-		local card = Handy.last_hovered_card
+	process_card = function(card, actions)
 		if not card or card.REMOVED then
 			return false
 		end
@@ -1238,11 +1226,52 @@ Handy.insta_actions = {
 			return true
 		end
 
-		local actions = Handy.insta_actions.get_alt_actions(key)
+		if actions.buy_n_sell then
+			if
+				Handy.utils.table_contains({
+					G.pack_cards,
+					G.shop_jokers,
+					G.shop_booster,
+					G.shop_vouchers,
+				}, card.area)
+				and card.ability
+				and (card.ability.set == "Joker" or card.ability.consumeable)
+			then
+				local is_buyed = Handy.insta_actions.can_execute(card, true, false)
+						and Handy.insta_actions.execute(card, true, false)
+					or false
+				if is_buyed then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									return (
+										Handy.insta_actions.can_execute(card, true, false)
+										and Handy.insta_actions.execute(card, true, false)
+									) or true
+								end,
+							}))
+							return true
+						end,
+					}))
+				end
+				return is_buyed
+			end
+			return false
+		else
+			return Handy.insta_actions.can_execute(card, actions.buy_or_sell, actions.use)
+					and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
+				or false
+		end
+	end,
 
-		return Handy.insta_actions.can_execute(card, actions.buy_or_sell, actions.use)
-				and Handy.insta_actions.execute(card, actions.buy_or_sell, actions.use)
-			or false
+	use = function(card)
+		return Handy.config.current.insta_actions_trigger_mode == 1
+			and Handy.insta_actions.process_card(card, Handy.insta_actions.get_actions())
+	end,
+	use_alt = function(key)
+		return Handy.config.current.insta_actions_trigger_mode == 2
+			and Handy.insta_actions.process_card(Handy.last_hovered_card, Handy.insta_actions.get_alt_actions(key))
 	end,
 
 	update_state_panel = function(state, key, released)
@@ -1271,6 +1300,14 @@ Handy.insta_actions = {
 				text = "Quick buy and sell",
 				hold = not is_alt_action,
 				order = 11,
+			}
+			result = true
+		end
+		if actions.buy_n_sell then
+			state.items.quick_buy_n_sell = {
+				text = "Quick buy and immediately sell",
+				hold = not is_alt_action,
+				order = 12,
 			}
 			result = true
 		end
