@@ -308,6 +308,12 @@ Handy.config = {
 			key_1 = "Enter",
 			key_2 = "None",
 		},
+
+		cryptid_code_use_last_interaction = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+		},
 	},
 	current = {},
 
@@ -1100,6 +1106,9 @@ Handy.insta_actions = {
 			buy_n_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_n_sell),
 			buy_or_sell = Handy.controller.is_module_key_down(Handy.config.current.insta_buy_or_sell),
 			use = Handy.controller.is_module_key_down(Handy.config.current.insta_use),
+			cryptid_code_use_last_interaction = Handy.controller.is_module_key_down(
+				Handy.config.current.cryptid_code_use_last_interaction
+			),
 		}
 	end,
 	get_alt_actions = function(key)
@@ -1107,6 +1116,10 @@ Handy.insta_actions = {
 			buy_n_sell = Handy.controller.is_module_key(Handy.config.current.insta_buy_n_sell, key),
 			buy_or_sell = Handy.controller.is_module_key(Handy.config.current.insta_buy_or_sell, key),
 			use = Handy.controller.is_module_key(Handy.config.current.insta_use, key),
+			cryptid_code_use_last_interaction = Handy.controller.is_module_key(
+				Handy.config.current.cryptid_code_use_last_interaction,
+				key
+			),
 		}
 	end,
 
@@ -1263,7 +1276,29 @@ Handy.insta_actions = {
 			return true
 		end
 
-		if actions.buy_n_sell then
+		if actions.cryptid_code_use_last_interaction then
+			local cards_events_list = {
+				c_cry_variable = "variable_apply_previous",
+				c_cry_pointer = "pointer_apply_previous",
+				c_cry_class = "class_apply_previous",
+				c_cry_exploit = "exploit_apply_previous",
+			}
+			local success, card_center = pcall(function()
+				return card.config.center.key
+			end)
+			if success and card_center and cards_events_list[card_center] then
+				local is_code_card_used = Handy.insta_actions.can_execute(card, false, true)
+						and Handy.insta_actions.execute(card, false, true)
+					or false
+				if is_code_card_used then
+					Handy.fake_events.execute({
+						func = G.FUNCS[cards_events_list[card_center]],
+					})
+					return true
+				end
+			end
+			return false
+		elseif actions.buy_n_sell then
 			if
 				Handy.utils.table_contains({
 					G.pack_cards,

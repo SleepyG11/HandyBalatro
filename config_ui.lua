@@ -446,12 +446,15 @@ Handy.UI.get_config_tab_quick = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		-- Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
-		-- 	"keybinds for",
-		-- 	"common game actions",
-		-- 	"(Play, Discard, Reroll, Skip blind, etc.)",
-		-- }, true),
-		-- { n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_module_checkbox(Handy.config.current.move_highlight, "Move highlight", "Press", {
+			"[" .. tostring(Handy.config.current.move_highlight.dx.one_left.key_1) .. "] or [" .. tostring(
+				Handy.config.current.move_highlight.dx.one_right.key_1
+			) .. "]",
+			"to move highlight in card area.",
+			"Hold [" .. tostring(Handy.config.current.move_highlight.swap.key_1) .. "] to move card instead.",
+			"Hold [" .. tostring(Handy.config.current.move_highlight.to_end.key_1) .. "] to move to first/last card",
+		}, true),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -486,14 +489,13 @@ Handy.UI.get_config_tab_quick = function()
 						}),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.nopeus_interaction,
-							{ "Nopeus:", "fast-forward" },
-							"Hold",
+							Handy.config.current.cryptid_code_use_last_interaction,
+							{ "Cryptid: input's", '"Use previous"' },
+							"Use",
 							{
-								"and",
-								"[Wheel Up] to increase or",
-								"[Wheel Down] to decrease",
-								"fast-forward setting",
+								"to",
+								"use card with text input like",
+								"://POINTER with previous value",
 							}
 						),
 					},
@@ -503,24 +505,15 @@ Handy.UI.get_config_tab_quick = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.move_highlight,
-							"Move highlight",
-							"Press",
+							Handy.config.current.nopeus_interaction,
+							{ "Nopeus:", "fast-forward" },
+							"Hold",
 							{
-								"["
-									.. tostring(Handy.config.current.move_highlight.dx.one_left.key_1)
-									.. "] or ["
-									.. tostring(Handy.config.current.move_highlight.dx.one_right.key_1)
-									.. "]",
-								"to move highlight in card area.",
-								"Hold ["
-									.. tostring(Handy.config.current.move_highlight.swap.key_1)
-									.. "] to move card instead.",
-								"Hold ["
-									.. tostring(Handy.config.current.move_highlight.to_end.key_1)
-									.. "] to move to first/last card",
-							},
-							true
+								"and",
+								"[Wheel Up] to increase or",
+								"[Wheel Down] to decrease",
+								"fast-forward setting",
+							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -776,6 +769,10 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.insta_highlight_entire_f_hand,
 			"Highlight entire hand"
+		),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.config.current.cryptid_code_use_last_interaction,
+			'Cryptid: Code card\'s "Use previous"'
 		),
 		Handy.UI.PARTS.create_module_section("Dangerous actions"),
 		Handy.UI.PARTS.create_module_keybind(
