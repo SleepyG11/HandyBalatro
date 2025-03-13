@@ -490,12 +490,13 @@ Handy.UI.get_config_tab_quick = function()
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.cryptid_code_use_last_interaction,
-							{ "Cryptid: input's", '"Use previous"' },
+							{ "Cryptid: use", "previous input" },
 							"Use",
 							{
 								"to",
-								"use card with text input like",
-								"://POINTER with previous value",
+								"input the previously inputted",
+								"value inside a Cryptid's code card",
+								"and use it if possible",
 							}
 						),
 					},
