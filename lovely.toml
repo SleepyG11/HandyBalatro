@@ -196,7 +196,7 @@ target = "game.lua"
 pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
 position = "after"
 payload = '''
-self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.value or 1
+self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.get_value() or 1
 '''
 match_indent = true
 overwrite = false

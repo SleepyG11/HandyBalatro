@@ -1,4 +1,6 @@
 Handy = setmetatable({
+	version = "1.4.0",
+
 	last_clicked_area = nil,
 	last_clicked_card = nil,
 
@@ -103,6 +105,10 @@ end
 
 Handy.config = {
 	default = {
+		handy = {
+			enabled = true,
+		},
+
 		notifications_level = 3,
 		keybinds_trigger_mode = 1,
 		insta_actions_trigger_mode = 1,
@@ -325,6 +331,13 @@ Handy.config = {
 }
 
 Handy.config.load()
+
+function Handy.is_mod_active()
+	return Handy.config.current.handy.enabled
+end
+function Handy.is_dangerous_actions_active()
+	return Handy.config.current.dangerous_actions.enabled
+end
 
 --
 
@@ -565,6 +578,9 @@ Handy.controller = {
 	end,
 
 	process_key = function(key, released)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.CONTROLLER.text_input_hook then
 			return false
 		end
@@ -597,6 +613,9 @@ Handy.controller = {
 		return false
 	end,
 	process_mouse = function(mouse, released)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.CONTROLLER.text_input_hook then
 			return false
 		end
@@ -627,6 +646,9 @@ Handy.controller = {
 		return false
 	end,
 	process_wheel = function(wheel)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.CONTROLLER.text_input_hook then
 			return false
 		end
@@ -651,6 +673,9 @@ Handy.controller = {
 		return false
 	end,
 	process_card_click = function(card)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.insta_actions.use(card) then
 				return true
@@ -664,6 +689,9 @@ Handy.controller = {
 		return false
 	end,
 	process_card_hover = function(card)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.insta_highlight.use(card) then
 				return true
@@ -679,6 +707,9 @@ Handy.controller = {
 	end,
 
 	process_tag_click = function(tag)
+		if not Handy.is_mod_active() then
+			return false
+		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.dangerous_actions.use_tag_click(tag) then
 				return true
@@ -731,7 +762,9 @@ Handy.insta_cash_out = {
 
 	update = function()
 		Handy.insta_cash_out.is_hold = (
-			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.insta_cash_out)
+			G.STAGE == G.STAGES.RUN
+			and Handy.is_mod_active()
+			and Handy.controller.is_module_key_down(Handy.config.current.insta_cash_out)
 		)
 		return Handy.insta_cash_out.can_execute() and Handy.insta_cash_out.execute() or false
 	end,
@@ -775,7 +808,9 @@ Handy.insta_booster_skip = {
 
 	update = function()
 		Handy.insta_booster_skip.is_hold = (
-			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.insta_booster_skip)
+			G.STAGE == G.STAGES.RUN
+			and Handy.is_mod_active()
+			and Handy.controller.is_module_key_down(Handy.config.current.insta_booster_skip)
 		)
 		return Handy.insta_booster_skip.can_execute() and Handy.insta_booster_skip.execute() or false
 	end,
@@ -804,7 +839,9 @@ Handy.show_deck_preview = {
 
 	update = function()
 		Handy.show_deck_preview.is_hold = (
-			G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.config.current.show_deck_preview)
+			G.STAGE == G.STAGES.RUN
+			and Handy.is_mod_active()
+			and Handy.controller.is_module_key_down(Handy.config.current.show_deck_preview)
 		)
 	end,
 }
@@ -1496,7 +1533,7 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute = function(card)
-		return Handy.config.current.dangerous_actions.enabled
+		return Handy.is_dangerous_actions_active()
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
@@ -1554,7 +1591,7 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute_tag = function(tag)
-		return Handy.config.current.dangerous_actions.enabled and tag
+		return Handy.is_dangerous_actions_active() and tag
 	end,
 	execute_tag_click = function(tag)
 		if Handy.controller.is_module_key_down(Handy.config.current.dangerous_actions.card_remove) then
@@ -1614,6 +1651,13 @@ Handy.dangerous_actions = {
 				order = 99999999,
 			}
 			return true
+		elseif not Handy.is_dangerous_actions_active() then
+			state.items.prevented_dangerous_actions = {
+				text = "Unsafe actions disabled by other mod",
+				hold = true,
+				order = 99999999,
+			}
+			return true
 		end
 
 		local is_insta_sell = Handy.insta_actions.get_actions().buy_or_sell
@@ -1664,6 +1708,13 @@ Handy.dangerous_actions = {
 
 Handy.speed_multiplier = {
 	value = 1,
+
+	get_value = function()
+		if not Handy.is_mod_active() then
+			return 1
+		end
+		return Handy.speed_multiplier.value
+	end,
 
 	get_actions = function(key)
 		return {
@@ -1740,7 +1791,8 @@ Handy.nopeus_interaction = {
 
 	can_dangerous = function()
 		return not not (
-			Handy.config.current.dangerous_actions.enabled
+			Handy.is_mod_active()
+			and Handy.is_dangerous_actions_active()
 			and Handy.config.current.dangerous_actions.nopeus_unsafe.enabled
 		)
 	end,
@@ -1879,6 +1931,7 @@ Handy.not_just_yet_interaction = {
 	update = function()
 		GLOBAL_njy_vanilla_override = (
 			G.STAGE == G.STAGES.RUN
+			and Handy.is_mod_active()
 			and Handy.controller.is_module_key_down(Handy.config.current.not_just_yet_interaction)
 		)
 		return Handy.not_just_yet_interaction.can_execute() and Handy.not_just_yet_interaction.execute() or false
@@ -2157,15 +2210,7 @@ function G.FUNCS.handy_toggle_module_enabled(arg, module)
 		return
 	end
 	module.enabled = arg
-	if module == Handy.config.current.speed_multiplier then
-		Handy.speed_multiplier.value = 1
-	elseif
-		module == Handy.config.current.dangerous_actions
-		or module == Handy.config.current.nopeus_interaction
-		or module == Handy.config.current.dangerous_actions.nopeus_unsafe
-	then
-		Handy.nopeus_interaction.change(0)
-	end
+	Handy.nopeus_interaction.change(0)
 	Handy.config.save()
 end
 
