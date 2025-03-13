@@ -8,7 +8,7 @@ Handy.UI.PARTS = {
 	end,
 	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds)
 		local desc_lines = {
-			{ n = G.UIT.R, config = { minw = 5.5 } },
+			{ n = G.UIT.R, config = { minw = 5 } },
 		}
 
 		if skip_keybinds then
@@ -279,7 +279,7 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						create_option_cycle({
-							w = 4.25,
+							w = 6,
 							label = "Info popups level",
 							scale = 0.8,
 							options = {
@@ -297,7 +297,7 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						create_option_cycle({
-							w = 4.25,
+							w = 6,
 							label = "Keybinds trigger mode",
 							scale = 0.8,
 							options = {
@@ -309,11 +309,124 @@ Handy.UI.get_config_tab_overall = function()
 						}),
 					},
 				},
+			},
+		},
+		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
+		-- Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
+		-- 	"keybinds for",
+		-- 	"common game actions",
+		-- 	"(Play, Discard, Reroll, Skip blind, etc.)",
+		-- }, true),
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
+		{
+			n = G.UIT.R,
+			nodes = {
+				{
+					n = G.UIT.C,
+					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.regular_keybinds,
+							"Regular keybinds",
+							"Use",
+							{
+								"keybinds for",
+								"common game actions",
+								"(Play, Discard, Reroll, Skip blind, etc.)",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_highlight,
+							"Quick Highlight",
+							"Hold [Left Mouse]",
+							{
+								"and",
+								"hover cards in hand to highlight",
+							},
+							true
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.show_deck_preview,
+							"Deck preview",
+							"Hold",
+							{
+								"to",
+								"show deck preview",
+							}
+						),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 4 },
+					nodes = {
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.deselect_hand,
+							"Deselect hand",
+							"Press",
+							{
+								"to",
+								"deselect hand",
+								"(disable to use vanilla)",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_cash_out,
+							"Quick Cash Out",
+							"Press/hold",
+							{
+								"to",
+								"skip Cash Out stage",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_booster_skip,
+							{ "Quick skip", "Booster Packs" },
+							"Press/hold",
+							{
+								"to",
+								"skip booster pack",
+							}
+						),
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.4 } },
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs',
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
+	}
+end
+
+Handy.UI.get_config_tab_quick = function()
+	return {
+		{
+			n = G.UIT.R,
+			config = { padding = 0.05, align = "cm" },
+			nodes = {
 				{
 					n = G.UIT.C,
 					nodes = {
 						create_option_cycle({
-							w = 4.25,
+							w = 6,
 							label = "Buy/Sell/Use mode",
 							scale = 0.8,
 							options = {
@@ -328,12 +441,12 @@ Handy.UI.get_config_tab_overall = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
-			"keybinds for",
-			"common game actions",
-			"(Play, Discard, Reroll, Skip blind, etc.)",
-		}, true),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		-- Handy.UI.PARTS.create_module_checkbox(Handy.config.current.regular_keybinds, "Regular keybinds", "Use", {
+		-- 	"keybinds for",
+		-- 	"common game actions",
+		-- 	"(Play, Discard, Reroll, Skip blind, etc.)",
+		-- }, true),
+		-- { n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -341,15 +454,49 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.show_deck_preview,
-							"Deck preview",
-							"Hold",
+							Handy.config.current.insta_buy_or_sell,
+							"Quick Buy/Sell",
+							"Use",
 							{
 								"to",
-								"show deck preview",
+								"buy or sell card",
 							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.insta_buy_n_sell,
+							"Quick Buy'n'Sell",
+							"Use",
+							{
+								"to",
+								"buy card and sell",
+								"immediately after",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Use", {
+							"to",
+							"use card if possible",
+							"(overrides Quick Buy/Sell)",
+						}),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.nopeus_interaction,
+							{ "Nopeus:", "fast-forward" },
+							"Hold",
+							{
+								"and",
+								"[Wheel Up] to increase or",
+								"[Wheel Down] to decrease",
+								"fast-forward setting",
+							}
+						),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 4 },
+					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.move_highlight,
 							"Move highlight",
@@ -372,90 +519,12 @@ Handy.UI.get_config_tab_overall = function()
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_buy_or_sell,
-							"Quick Buy/Sell",
-							"Use",
-							{
-								"to",
-								"buy or sell card",
-								"(check Buy/Sell/Use mode)",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_buy_n_sell,
-							"Quick Buy'n'Sell",
-							"Use",
-							{
-								"to",
-								"buy card and sell",
-								"immediately after",
-								"(check Buy/Sell/Use mode)",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(Handy.config.current.insta_use, "Quick use", "Use", {
-							"to",
-							"use card if possible",
-							"(overrides Quick Buy/Sell)",
-							"(check Buy/Sell/Use mode)",
-						}),
-					},
-				},
-				{
-					n = G.UIT.C,
-					config = { minw = 4 },
-					nodes = {
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_highlight,
-							"Quick Highlight",
-							"Hold [Left Mouse]",
-							{
-								"and",
-								"hover cards in hand to highlight",
-							},
-							true
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.insta_highlight_entire_f_hand,
 							{ "Highlight", "entire hand" },
 							"Press",
 							{
 								"to",
 								"highlight entire hand",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.deselect_hand,
-							"Deselect hand",
-							"Press",
-							{
-								"to",
-								"deselect hand.",
-								"Overrides vanilla keybind",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_cash_out,
-							"Quick Cash Out",
-							"Press",
-							{
-								"to",
-								"speedup animation and",
-								"skip Cash Out stage",
-							}
-						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.config.current.insta_booster_skip,
-							{ "Quick skip", "Booster Packs" },
-							"Hold",
-							{
-								"to",
-								"skip booster pack",
 							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
@@ -467,6 +536,16 @@ Handy.UI.get_config_tab_overall = function()
 								"and",
 								"[Wheel Up] to multiply or",
 								"[Wheel Down] to divide game speed",
+							}
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.config.current.not_just_yet_interaction,
+							{ "NotJustYet:", "End round" },
+							"Press",
+							{
+								"to",
+								"end round",
 							}
 						),
 					},
@@ -570,7 +649,7 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.1 } },
+						{ n = G.UIT.R, config = { minh = 0.275 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.immediate_buy_and_sell.queue,
 							"Sell Queue",
@@ -581,7 +660,7 @@ Handy.UI.get_config_tab_dangerous = function()
 							},
 							true
 						),
-						{ n = G.UIT.R, config = { minh = 0.45 } },
+						{ n = G.UIT.R, config = { minh = 0.275 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.nopeus_unsafe,
 							{ "Nopeus: Unsafe", "fast-forward" },
@@ -627,7 +706,7 @@ Handy.UI.get_config_tab_dangerous = function()
 						{ n = G.UIT.R, config = { minh = 0.1 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.dangerous_actions.card_remove,
-							{ "Remove cards", "or skip tags" },
+							{ "REMOVE* cards", "or skip tags" },
 							"Hold",
 							{
 								"to",
@@ -635,6 +714,22 @@ Handy.UI.get_config_tab_dangerous = function()
 								"of selling, works for skip tags",
 							}
 						),
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.4 } },
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds",
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
 					},
 				},
 			},
@@ -709,11 +804,13 @@ Handy.UI.get_config_tab = function(_tab)
 	}
 	if _tab == "Overall" then
 		result.nodes = Handy.UI.get_config_tab_overall()
+	elseif _tab == "Quick" then
+		result.nodes = Handy.UI.get_config_tab_quick()
 	elseif _tab == "Interactions" then
 		result.nodes = Handy.UI.get_config_tab_interactions()
 	elseif _tab == "Dangerous" then
 		result.nodes = Handy.UI.get_config_tab_dangerous()
-	elseif _tab == "Regular" then
+	elseif _tab == "Keybinds" then
 		result.nodes = Handy.UI.get_config_tab_regular_keybinds()
 	elseif _tab == "Keybinds 2" then
 		result.nodes = Handy.UI.get_config_tab_keybinds_2()
@@ -726,19 +823,19 @@ end
 function Handy.UI.get_options_tabs()
 	return {
 		{
-			label = "Overall",
+			label = "General & Vanilla",
 			tab_definition_function = function()
 				return Handy.UI.get_config_tab("Overall")
 			end,
 		},
 		{
-			label = "Interactions",
+			label = "Quick actions",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Interactions")
+				return Handy.UI.get_config_tab("Quick")
 			end,
 		},
 		{
-			label = "Dangerous",
+			label = "Danger zone",
 			tab_definition_function = function()
 				return Handy.UI.get_config_tab("Dangerous")
 			end,
@@ -746,7 +843,7 @@ function Handy.UI.get_options_tabs()
 		{
 			label = "Regular keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Regular")
+				return Handy.UI.get_config_tab("Keybinds")
 			end,
 		},
 		{
@@ -773,6 +870,7 @@ function G.UIDEF.handy_options()
 					create_tabs({
 						tabs = tabs,
 						snap_to_nav = true,
+						colour = G.C.BOOSTER,
 					}),
 				},
 			},
