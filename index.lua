@@ -994,11 +994,11 @@ Handy.regular_keybinds = {
 		return false, nil
 	end,
 	open_run_info = function(tab_index)
-		Handy.override_create_tabs_chosen = tab_index or 1
+		Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
 		Handy.fake_events.execute({
 			func = G.FUNCS.run_info,
 		})
-		Handy.override_create_tabs_chosen = nil
+		Handy.override_create_tabs_chosen_by_label = nil
 	end,
 
 	can_view_deck = function(key)

@@ -233,7 +233,8 @@ target = "functions/UI_definitions.lua"
 pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
 position = "before"
 payload = '''
-if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen end
+if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen
+elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
 '''
 match_indent = true
 overwrite = false
