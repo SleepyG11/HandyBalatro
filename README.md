@@ -60,7 +60,7 @@ Especially useful with mods where dealing with thousands of cards and booster pa
 
 ## Contribute
 
-Want new features to be implemented? Want add mod support? Found a bug?
+Want new features to be implemented? Want add mod support? Found a bug?<br/>
 [Create an issue](https://github.com/SleepyG11/HandyBalatro/issues/) or let me know in [Discord mod's thread](https://discord.com/channels/1116389027176787968/1270746376312979456)!
 
 ## For developers
