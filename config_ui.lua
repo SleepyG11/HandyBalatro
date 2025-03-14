@@ -4,7 +4,7 @@ Handy.UI.PARTS = {
 		if only_first or not module.key_2 or module.key_2 == "None" then
 			return result
 		end
-		return result .. "or [" .. module.key_2 .. "]"
+		return result .. " or [" .. module.key_2 .. "]"
 	end,
 	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds)
 		local desc_lines = {
@@ -487,16 +487,15 @@ Handy.UI.get_config_tab_quick = function()
 							"use card if possible",
 							"(overrides Quick Buy/Sell)",
 						}),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						{ n = G.UIT.R, config = { minh = 0.3 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.config.current.cryptid_code_use_last_interaction,
 							{ "Cryptid: use", "previous input" },
 							"Use",
 							{
 								"to",
-								"input the previously inputted",
-								"value inside a Cryptid's code card",
-								"and use it if possible",
+								"use code card if possible with",
+								"previously inputted value",
 							}
 						),
 					},
@@ -773,7 +772,7 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.config.current.cryptid_code_use_last_interaction,
-			'Cryptid: Code card\'s "Use previous"'
+			"Cryptid: use previous input"
 		),
 		Handy.UI.PARTS.create_module_section("Dangerous actions"),
 		Handy.UI.PARTS.create_module_keybind(
