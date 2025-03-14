@@ -994,7 +994,9 @@ Handy.regular_keybinds = {
 		return false, nil
 	end,
 	open_run_info = function(tab_index)
-		Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
+		if tab_index == 2 then
+			Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
+		end
 		Handy.fake_events.execute({
 			func = G.FUNCS.run_info,
 		})
