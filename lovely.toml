@@ -155,6 +155,40 @@ if Handy.controller.process_card_hover(self) then return end
 match_indent = true
 overwrite = false
 
+# Handle card stop hover
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:stop_hover()'''
+position = "after"
+payload = '''
+if Handy.last_hovered_card == self then
+    Handy.last_hovered_card = nil
+    Handy.last_hovered_area = nil
+end
+'''
+match_indent = true
+overwrite = false
+
+
+# Handle skip tag click
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local tag_sprite_ui = _tag:generate_UI()'''
+position = "after"
+payload = '''
+local _handy_tag_click_target = _tag.tag_sprite
+local _handy_tag_click_ref = _handy_tag_click_target.click
+_handy_tag_click_target.click = function(...)
+    if Handy.controller.process_tag_click(_tag) then return end
+    return _handy_tag_click_ref(...)
+end
+'''
+match_indent = true
+overwrite = false
+
+
 # Apply multiplier to speed
 [[patches]]
 [patches.pattern]
@@ -162,7 +196,7 @@ target = "game.lua"
 pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
 position = "after"
 payload = '''
-self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.value or 1
+self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.get_value() or 1
 '''
 match_indent = true
 overwrite = false
@@ -188,6 +222,19 @@ pattern = '''if (G.play and #G.play.cards > 0) or'''
 position = "after"
 payload = '''
 Handy.deselect_hand.should_prevent() or
+'''
+match_indent = true
+overwrite = false
+
+# Add ability to override chosen tab in create_tabs
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
+position = "before"
+payload = '''
+if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen
+elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
 '''
 match_indent = true
 overwrite = false
