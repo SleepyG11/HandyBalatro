@@ -1,7 +1,7 @@
 # Handy - Quality of Life controls for Balatro
 
-Handy - a lovely mod which adds a bunch of new controls designed to make playing [Balatro](https://store.steampowered.com/app/2379780/Balatro/) much faster easier.
-<br/>Especially useful with other mods where using or selling thousands of cards and opening hundreds of booster packs is a common gameplay.
+Handy - a lovely mod which adds new game controls to make playing [Balatro](https://store.steampowered.com/app/2379780/Balatro/) much faster and easier.<br/>
+Especially useful with mods where dealing with thousands of cards and booster packs is a common gameplay.
 
 ## Key features
 
@@ -26,18 +26,19 @@ Handy - a lovely mod which adds a bunch of new controls designed to make playing
 > For keybinds, "On press" or "On release" mode can be selected.<br/>
 > For buy/sell/use controls, "On card click" or "On button press" mode can be selected.
 
-## Mods interactions
+## Specific controls for other mods
 
--   Popular mods support
--   [Not Just Yet](https://github.com/Toneblock/balatro-NotJustYet): keybind for "End round" button
--   Nopeus: In-game ability to adjust "Fast-Forward" setting
+-   [Not Just Yet](https://github.com/Toneblock/balatro-NotJustYet) - keybind for "End round" button
+-   [Nopeus](https://github.com/jenwalter666/JensBalatroCollection) - In-game ability to adjust "Fast-Forward" setting
+-   [Cryptid](https://github.com/MathIsFun0/Cryptid) - Use code card with previously inputted value
 
 ## Danger zone
 
 > [!CAUTION]
 > This controls designed to be speed-first, which **can cause bugs or crashes**!<br/>
-> Avoid their usage to prevent accidental cards selling, removing, or potential game breaking.<br/>
-> Must be enabled separately in mod settings.
+> Also, their usage can lead to accidental cards selling or removing if do it not carefully!<br/>
+> Hovewer, they're really useful for dealing with huge amount of Jokers, Consumables or Skip tags.<br/>
+> Must be enabled in mod settings.
 
 -   Advanced sell and REMOVE controls:
     -   Sell/remove multiple cards
@@ -61,6 +62,30 @@ Handy - a lovely mod which adds a bunch of new controls designed to make playing
 
 Want new features to be implemented? Want add mod support? Found a bug?
 [Create an issue](https://github.com/SleepyG11/HandyBalatro/issues/) or let me know in [Discord mod's thread](https://discord.com/channels/1116389027176787968/1270746376312979456)!
+
+## For developers
+
+If your mod needs to disable Handy's dangerous controls on certain conditions, you can hook check function to do so:
+
+```lua
+if Handy and Handy.is_dangerous_actions_active then
+    local funcRef = Handy.is_dangerous_actions_active
+    function Handy.is_dangerous_actions_active()
+        return funcRef() and not MyMod.only_safe_controls
+    end
+end
+```
+
+Similar for cases when needed to disable mod entirely:
+
+```lua
+if Handy and Handy.is_mod_active then
+    local funcRef = Handy.is_mod_active
+    function Handy.is_mod_active()
+        return funcRef() and not MyMod.allow_only_vanilla_controls
+    end
+end
+```
 
 ## Some controls preview
 
