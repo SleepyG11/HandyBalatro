@@ -87,6 +87,22 @@ if Handy and Handy.is_mod_active then
 end
 ```
 
+Also, specific feature's config can be overrided:
+
+```lua
+if Handy and Handy.get_module_override then
+    local funcRef = Handy.get_module_override
+    function Handy.get_module_override(module)
+        if module == Handy.cc.speed_multiplier and not MyMod.allow_change_game_speed then
+            return {
+                enabled = false
+            }
+        end
+        return funcRef()
+    end
+end
+```
+
 ## Some controls preview
 
 https://github.com/user-attachments/assets/6406309f-f629-41c5-851d-90f99cb35cfa
