@@ -478,17 +478,11 @@ Handy.UI.get_config_tab_quick = function()
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.cc.nopeus_interaction,
-							{ "Nopeus:", "fast-forward" },
-							"Hold",
-							{
-								"and",
-								"[Wheel Up] to increase or",
-								"[Wheel Down] to decrease",
-								"fast-forward setting",
-							}
-						),
+						Handy.UI.PARTS.create_module_checkbox(Handy.cc.speed_multiplier, "Speed Multiplier", "Hold", {
+							"and",
+							"[Wheel Up] to multiply or",
+							"[Wheel Down] to divide game speed",
+						}),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.cc.insta_highlight_entire_f_hand,
@@ -500,11 +494,17 @@ Handy.UI.get_config_tab_quick = function()
 							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(Handy.cc.speed_multiplier, "Speed Multiplier", "Hold", {
-							"and",
-							"[Wheel Up] to multiply or",
-							"[Wheel Down] to divide game speed",
-						}),
+						Handy.UI.PARTS.create_module_checkbox(
+							Handy.cc.nopeus_interaction,
+							{ "Nopeus:", "fast-forward" },
+							"Hold",
+							{
+								"and",
+								"[Wheel Up] to increase or",
+								"[Wheel Down] to decrease",
+								"fast-forward setting",
+							}
+						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.cc.not_just_yet_interaction,
