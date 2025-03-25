@@ -1086,6 +1086,7 @@ Handy.regular_keybinds = {
 Handy.insta_highlight = {
 	can_execute = function(card)
 		return Handy.controller.is_module_enabled(Handy.cc.insta_highlight)
+			and G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and card.area == G.hand
 			-- TODO: fix it
