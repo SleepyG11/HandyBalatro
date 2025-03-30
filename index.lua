@@ -613,6 +613,8 @@ Handy.controller = {
 	end,
 
 	process_key = function(key, released)
+		G.njy_keybind = nil
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -648,6 +650,8 @@ Handy.controller = {
 		return false
 	end,
 	process_mouse = function(mouse, released)
+		G.njy_keybind = nil
+
 		if not Handy.is_mod_active() then
 			return false
 		end
