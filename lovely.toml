@@ -170,6 +170,28 @@ end
 match_indent = true
 overwrite = false
 
+# Gamepad button listeners
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.gamepadpressed(joystick, button)'''
+position = "after"
+payload = '''
+if Handy.controller.process_gamepad_key(joystick, button, false) then return end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.gamepadreleased(joystick, button)'''
+position = "after"
+payload = '''
+if Handy.controller.process_gamepad_key(joystick, button, true) then return end
+'''
+match_indent = true
+overwrite = false
 
 # Handle skip tag click
 [[patches]]
