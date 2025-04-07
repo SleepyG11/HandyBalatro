@@ -462,7 +462,8 @@ Handy.controller = {
 	device_type = "keyboard",
 
 	get_device_type = function(options)
-		if options.joystick or G.HID.controller then
+		options = options or {}
+		if options.joystick or G.CONTROLLER.HID.controller then
 			return "gamepad"
 		elseif options.mouse or options.keyboard then
 			return "keyboard"
@@ -470,6 +471,7 @@ Handy.controller = {
 		return "keyboard"
 	end,
 	update_device_type = function(options)
+		options = options or {}
 		local new_type = Handy.controller.get_device_type(options)
 		if Handy.controller.device_type == new_type then
 			return false
