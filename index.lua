@@ -696,7 +696,7 @@ Handy.controller = {
 
 		if options.gamepad or options.any then
 			local result = Handy.controller.resolve_gamepad_table[parsed_key]
-			if result or options.any then
+			if result or options.gamepad then
 				return unpack(result or { nil })
 			end
 		end
