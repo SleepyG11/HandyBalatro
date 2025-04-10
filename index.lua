@@ -397,14 +397,18 @@ Handy.fake_events = {
 	end,
 	execute = function(arg)
 		if type(arg.func) == "function" then
-			arg.func({
-				UIBox = arg.UIBox,
-				config = {
-					ref_table = arg.card,
-					button = arg.button,
-					id = arg.id,
-				},
-			})
+			if arg.node then
+				arg.func(arg.node)
+			else
+				arg.func({
+					UIBox = arg.UIBox,
+					config = {
+						ref_table = arg.card,
+						button = arg.button,
+						id = arg.id,
+					},
+				})
+			end
 		end
 	end,
 }
