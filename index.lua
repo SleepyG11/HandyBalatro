@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.1a",
+	version = "1.4.1b",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -8,6 +8,10 @@ Handy = setmetatable({
 	last_hovered_card = nil,
 
 	utils = {},
+
+	meta = {
+		["1.4.1b_patched_select_blind_and_skip"] = true,
+	},
 }, {})
 
 --- @generic T
@@ -372,6 +376,9 @@ end
 
 Handy.fake_events = {
 	check = function(arg)
+		if type(arg.func) ~= "function" then
+			return false
+		end
 		local fake_event = {
 			UIBox = arg.UIBox,
 			config = {
@@ -991,17 +998,40 @@ Handy.regular_keybinds = {
 	end,
 
 	can_select_blind = function(key)
-		return not not (
-			Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
-			and G.GAME.blind_on_deck
-			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
-		)
-	end,
-	select_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.select_blind,
+		if
+			not (
+				Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
+				and G.GAME.blind_on_deck
+				and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			)
+		then
+			return false
+		end
+
+		local success, button_func = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button").config.func
+		end)
+		if not success then
+			return false
+		end
+		if not button_func then
+			return true
+		end
+		return Handy.fake_events.check({
+			func = G.FUNCS[button_func],
 			card = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]],
 		})
+	end,
+	select_blind = function()
+		local success, button_func = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button").config.button
+		end)
+		if success and button_func then
+			Handy.fake_events.execute({
+				func = G.FUNCS[button_func],
+				card = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]],
+			})
+		end
 	end,
 
 	can_skip_blind = function(key)
@@ -1012,10 +1042,22 @@ Handy.regular_keybinds = {
 		)
 	end,
 	skip_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.skip_blind,
-			UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
-		})
+		local success, tag_UIBox = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck)
+		end)
+		if not success or not tag_UIBox then
+			return false
+		end
+		local success, button_func = pcall(function()
+			return tag_UIBox.children[2].config.button
+		end)
+		if success and button_func then
+			Handy.fake_events.execute({
+				func = G.FUNCS[button_func],
+				card = tag_UIBox.config.ref_table,
+				UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
+			})
+		end
 	end,
 
 	can_open_run_info = function(key)
