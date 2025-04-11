@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.1a",
+	version = "1.4.1b",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -8,6 +8,10 @@ Handy = setmetatable({
 	last_hovered_card = nil,
 
 	utils = {},
+
+	meta = {
+		["1.4.1b_patched_select_blind_and_skip"] = true,
+	},
 }, {})
 
 --- @generic T
@@ -434,27 +438,39 @@ end
 
 Handy.fake_events = {
 	check = function(arg)
-		local fake_event = {
-			UIBox = arg.UIBox,
-			config = {
-				ref_table = arg.card,
-				button = arg.button,
-				id = arg.id,
-			},
-		}
-		arg.func(fake_event)
-		return fake_event.config.button ~= nil, fake_event.config.button
-	end,
-	execute = function(arg)
-		if type(arg.func) == "function" then
-			arg.func({
+		if type(arg.func) ~= "function" then
+			return false
+		end
+		if arg.node then
+			arg.func(arg.node)
+			return arg.node.config.button ~= nil, arg.node.config.button
+		else
+			local fake_event = {
 				UIBox = arg.UIBox,
 				config = {
 					ref_table = arg.card,
 					button = arg.button,
 					id = arg.id,
 				},
-			})
+			}
+			arg.func(fake_event)
+			return fake_event.config.button ~= nil, fake_event.config.button
+		end
+	end,
+	execute = function(arg)
+		if type(arg.func) == "function" then
+			if arg.node then
+				arg.func(arg.node)
+			else
+				arg.func({
+					UIBox = arg.UIBox,
+					config = {
+						ref_table = arg.card,
+						button = arg.button,
+						id = arg.id,
+					},
+				})
+			end
 		end
 	end,
 }
@@ -1173,8 +1189,8 @@ Handy.regular_keybinds = {
 	can_reroll_shop = function(key)
 		return not not (
 			not Handy.regular_keybinds.shop_reroll_blocker
-			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_shop, key)
+			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
 		)
 	end,
 	reroll_shop = function()
@@ -1201,17 +1217,42 @@ Handy.regular_keybinds = {
 	end,
 
 	can_select_blind = function(key)
-		return not not (
-			Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
-			and G.GAME.blind_on_deck
-			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
-		)
+		if
+			not (
+				Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
+				and G.GAME.blind_on_deck
+				and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			)
+		then
+			return false
+		end
+
+		local success, button = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+		end)
+		if not success or not button then
+			return false
+		end
+		if button.config and button.config.func then
+			return Handy.fake_events.check({
+				func = G.FUNCS[button.config.func],
+				node = button,
+			})
+		else
+			return true
+		end
 	end,
 	select_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.select_blind,
-			card = G.P_BLINDS[G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]],
-		})
+		local success, button = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+		end)
+
+		if success and button and button.config and button.config.button then
+			Handy.fake_events.execute({
+				func = G.FUNCS[button.config.button],
+				node = button,
+			})
+		end
 	end,
 
 	can_skip_blind = function(key)
@@ -1222,10 +1263,22 @@ Handy.regular_keybinds = {
 		)
 	end,
 	skip_blind = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.skip_blind,
-			UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
-		})
+		local success, tag_UIBox = pcall(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck)
+		end)
+		if not success or not tag_UIBox then
+			return false
+		end
+		local success, button_func = pcall(function()
+			return tag_UIBox.children[2].config.button
+		end)
+		if success and button_func then
+			Handy.fake_events.execute({
+				func = G.FUNCS[button_func],
+				card = tag_UIBox.config.ref_table,
+				UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
+			})
+		end
 	end,
 
 	can_open_run_info = function(key)
