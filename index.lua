@@ -120,6 +120,11 @@ Handy.config = {
 
 		insta_highlight = {
 			enabled = true,
+
+			key_1 = "Left Mouse",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		insta_highlight_entire_f_hand = {
 			enabled = true,
@@ -260,6 +265,25 @@ Handy.config = {
 			key_2 = "None",
 			key_1_gamepad = "None",
 			key_2_gamepad = "None",
+
+			no_hold = {
+				enabled = false,
+			},
+
+			multiply = {
+				enabled = true,
+				key_1 = "Wheel Up",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+			divide = {
+				enabled = true,
+				key_1 = "Wheel Down",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
 		},
 
 		deselect_hand = {
@@ -363,6 +387,25 @@ Handy.config = {
 			key_2 = "None",
 			key_1_gamepad = "None",
 			key_2_gamepad = "None",
+
+			no_hold = {
+				enabled = false,
+			},
+
+			increase = {
+				enabled = true,
+				key_1 = "Wheel Up",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+			decrease = {
+				enabled = true,
+				key_1 = "Wheel Down",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
 		},
 
 		not_just_yet_interaction = {
@@ -501,7 +544,8 @@ Handy.controller = {
 			blockable = false,
 			no_delete = true,
 			func = function()
-				-- TODO: update opened settings to new type on a run
+				Handy.UI.rerender()
+				return true
 			end,
 		}))
 		return true
@@ -540,6 +584,16 @@ Handy.controller = {
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
+
+		G.E_MANAGER:add_event(Event({
+			blocking = false,
+			blockable = false,
+			no_delete = true,
+			func = function()
+				Handy.UI.rerender(true)
+				return true
+			end,
+		}))
 	end,
 	cancel_bind = function()
 		if not Handy.controller.bind_module or not Handy.controller.bind_key or not Handy.controller.bind_button then
@@ -1352,13 +1406,12 @@ Handy.regular_keybinds = {
 
 Handy.insta_highlight = {
 	can_execute = function(card)
-		return Handy.controller.is_module_enabled(Handy.cc.insta_highlight)
-			and G.STATE ~= G.STATES.HAND_PLAYED
+		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and card.area == G.hand
 			-- TODO: fix it
 			and not next(love.touch.getTouches())
-			and love.mouse.isDown(1)
+			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 			and not card.highlighted
 	end,
 	execute = function(card)
@@ -2051,12 +2104,13 @@ Handy.speed_multiplier = {
 
 	get_actions = function(key)
 		return {
-			multiply = key == Handy.controller.wheel_to_key_table[1],
-			divide = key == Handy.controller.wheel_to_key_table[2],
+			multiply = Handy.controller.is_module_key(Handy.cc.speed_multiplier.multiply, key),
+			divide = Handy.controller.is_module_key(Handy.cc.speed_multiplier.divide, key),
 		}
 	end,
 	can_execute = function(key)
-		return Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
+		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
+			or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
 	end,
 
 	execute = function(key)
@@ -2116,8 +2170,8 @@ Handy.nopeus_interaction = {
 
 	get_actions = function(key)
 		return {
-			increase = key == Handy.controller.wheel_to_key_table[1],
-			decrease = key == Handy.controller.wheel_to_key_table[2],
+			increase = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.increase, key),
+			decrease = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.decrease, key),
 		}
 	end,
 
@@ -2131,7 +2185,10 @@ Handy.nopeus_interaction = {
 	can_execute = function(key)
 		return not not (
 			Handy.nopeus_interaction.is_present()
-			and Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
+			and (
+				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
+				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
+			)
 		)
 	end,
 	execute = function(key)

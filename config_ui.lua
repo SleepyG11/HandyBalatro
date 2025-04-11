@@ -335,16 +335,10 @@ Handy.UI.get_config_tab_overall = function()
 							"(Play, Discard, Reroll, Skip blind, etc.)",
 						}, true),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_module_checkbox(
-							Handy.cc.insta_highlight,
-							"Quick Highlight",
-							"Hold [Left Mouse]",
-							{
-								"and",
-								"hover cards in hand to highlight",
-							},
-							true
-						),
+						Handy.UI.PARTS.create_module_checkbox(Handy.cc.insta_highlight, "Quick Highlight", "Hold", {
+							"and",
+							"hover cards in hand to highlight",
+						}),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.show_deck_preview, "Deck preview", "Hold", {
 							"to",
@@ -431,12 +425,16 @@ Handy.UI.get_config_tab_quick = function()
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
 		Handy.UI.PARTS.create_module_checkbox(Handy.cc.move_highlight, "Move highlight", "Press", {
-			"[" .. tostring(Handy.cc.move_highlight.dx.one_left.key_1) .. "] or [" .. tostring(
-				Handy.cc.move_highlight.dx.one_right.key_1
-			) .. "]",
+			Handy.UI.PARTS.format_module_keys(Handy.cc.move_highlight.dx.one_left, true)
+				.. " or "
+				.. Handy.UI.PARTS.format_module_keys(Handy.cc.move_highlight.dx.one_right, true),
 			"to move highlight in card area.",
-			"Hold [" .. tostring(Handy.cc.move_highlight.swap.key_1) .. "] to move card instead.",
-			"Hold [" .. tostring(Handy.cc.move_highlight.to_end.key_1) .. "] to move to first/last card",
+			"Hold "
+				.. Handy.UI.PARTS.format_module_keys(Handy.cc.move_highlight.swap, true)
+				.. " to move card instead.",
+			"Hold "
+				.. Handy.UI.PARTS.format_module_keys(Handy.cc.move_highlight.to_end, true)
+				.. " to move to first/last card",
 		}, true),
 		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
@@ -537,8 +535,10 @@ Handy.UI.get_config_tab_interactions = function()
 							"Hold",
 							{
 								"and",
-								"[Wheel Up] to increase or",
-								"[Wheel Down] to decrease",
+								Handy.UI.PARTS.format_module_keys(Handy.cc.nopeus_interaction.increase, true)
+									.. " to increase or",
+								Handy.UI.PARTS.format_module_keys(Handy.cc.nopeus_interaction.decrease, true)
+									.. " to decrease",
 								"fast-forward setting",
 							}
 						),
@@ -681,6 +681,15 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
+		{ n = G.UIT.R, config = { minh = 0.5 } },
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.cc.dangerous_actions.immediate_buy_and_sell,
+			"Dangerous modifier",
+			true
+		),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all_same, "Sell all copies of card", true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all, "Sell ALL cards", true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.card_remove, "REMOVE cards", true),
 		{ n = G.UIT.R, config = { minh = 0.4 } },
 		{
 			n = G.UIT.R,
@@ -733,15 +742,6 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "Quick Buy'n'Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "Highlight entire hand"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.cryptid_code_use_last_interaction, "Cryptid: use previous input"),
-		Handy.UI.PARTS.create_module_section("Dangerous actions"),
-		Handy.UI.PARTS.create_module_keybind(
-			Handy.cc.dangerous_actions.immediate_buy_and_sell,
-			"Dangerous modifier",
-			true
-		),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all_same, "Sell all copies of card", true),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all, "Sell ALL cards", true),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.card_remove, "REMOVE cards", true),
 		Handy.UI.PARTS.create_module_section("Game speed and animations"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier, "Speed Multiplier"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "Nopeus: fast-forward"),
@@ -753,12 +753,13 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 	}
 end
 
-Handy.UI.get_config_tab = function(_tab)
+Handy.UI.get_config_tab = function(_tab, _index)
 	local result = {
 		n = G.UIT.ROOT,
 		config = { align = "cm", padding = 0.05, colour = G.C.CLEAR, minh = 5, minw = 5 },
 		nodes = {},
 	}
+	Handy.UI.config_tab_index = _index
 	if _tab == "Overall" then
 		result.nodes = Handy.UI.get_config_tab_overall()
 	elseif _tab == "Quick" then
@@ -782,31 +783,31 @@ function Handy.UI.get_options_tabs()
 		{
 			label = "General & Vanilla",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Overall")
+				return Handy.UI.get_config_tab("Overall", 1)
 			end,
 		},
 		{
 			label = "Quick actions",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Quick")
+				return Handy.UI.get_config_tab("Quick", 2)
 			end,
 		},
 		{
 			label = "Danger zone",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Dangerous")
+				return Handy.UI.get_config_tab("Dangerous", 3)
 			end,
 		},
 		{
 			label = "Regular keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds")
+				return Handy.UI.get_config_tab("Keybinds", 4)
 			end,
 		},
 		{
 			label = "Other keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds 2")
+				return Handy.UI.get_config_tab("Keybinds 2", 5)
 			end,
 		},
 	}
@@ -816,9 +817,9 @@ end
 
 function G.UIDEF.handy_options()
 	local tabs = Handy.UI.get_options_tabs()
-	tabs[1].chosen = true
+	tabs[Handy.UI.config_tab_index or 1].chosen = true
 	local t = create_UIBox_generic_options({
-		back_func = "options",
+		back_func = "handy_exit_options",
 		contents = {
 			{
 				n = G.UIT.R,
@@ -836,11 +837,21 @@ function G.UIDEF.handy_options()
 	return t
 end
 
-function G.FUNCS.handy_open_options()
+function G.FUNCS.handy_open_options(e)
 	G.SETTINGS.paused = true
+	Handy.UI.config_opened = true
+	Handy.UI.config_tab_index = 1
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
+end
+
+function G.FUNCS.handy_exit_options(e)
+	Handy.UI.config_opened = nil
+	Handy.UI.config_tab_index = nil
+	if e then
+		return G.FUNCS.options(e)
+	end
 end
 
 function Handy.UI.get_options_button()
@@ -855,4 +866,36 @@ function create_UIBox_options()
 		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, Handy.UI.get_options_button())
 	end
 	return contents
+end
+
+function Handy.UI.rerender(silent)
+	local result
+	if SMODS and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
+		result = {
+			definition = create_UIBox_mods(e),
+		}
+	elseif Handy.UI.config_opened then
+		result = {
+			definition = G.UIDEF.handy_options(),
+		}
+	end
+	if result then
+		if silent then
+			G.ROOM.jiggle = G.ROOM.jiggle - 1
+			result.config = {
+				offset = {
+					x = 0,
+					y = 0,
+				},
+			}
+		end
+		G.FUNCS.overlay_menu(result)
+	end
+end
+
+local exit_overlay_ref = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu(...)
+	Handy.UI.config_opened = nil
+	Handy.UI.config_tab_index = nil
+	return exit_overlay_ref(...)
 end
