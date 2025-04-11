@@ -1164,21 +1164,21 @@ function Handy.UI.get_options_tabs()
 			end,
 		},
 		{
-			label = "Danger zone",
-			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Dangerous", 3)
-			end,
-		},
-		{
 			label = "Regular keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds", 4)
+				return Handy.UI.get_config_tab("Keybinds", 3)
 			end,
 		},
 		{
 			label = "Other keybinds",
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds 2", 5)
+				return Handy.UI.get_config_tab("Keybinds 2", 4)
+			end,
+		},
+		{
+			label = "Danger zone",
+			tab_definition_function = function()
+				return Handy.UI.get_config_tab("Dangerous", 5)
 			end,
 		},
 	}
