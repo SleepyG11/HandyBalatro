@@ -1,12 +1,271 @@
 Handy.UI.PARTS = {
+	popups = {
+		["insta_highlight"] = function()
+			return {
+				"Start holding key {C:attention}outside{} of cards",
+				"and then hover them to highlight",
+			}
+		end,
+		["deselect_hand"] = function()
+			return {
+				"Replaces vanilla [Right Mouse]",
+				"but works the same and",
+				"can be reassigned to other key",
+			}
+		end,
+		["affected_by_buy_sell_use"] = function()
+			return {
+				"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+			}
+		end,
+		["affected_by_buy_sell_use_1"] = function()
+			return Handy.UI.PARTS.popups["affected_by_buy_sell_use"]()
+		end,
+		["affected_by_buy_sell_use_2"] = function()
+			return Handy.UI.PARTS.popups["affected_by_buy_sell_use"]()
+		end,
+		["affected_by_buy_sell_use_3"] = function()
+			return Handy.UI.PARTS.popups["affected_by_buy_sell_use"]()
+		end,
+		["affected_by_buy_sell_use_4"] = function()
+			return Handy.UI.PARTS.popups["affected_by_buy_sell_use"]()
+		end,
+		["affected_by_buy_sell_use_5"] = function()
+			return Handy.UI.PARTS.popups["affected_by_buy_sell_use"]()
+		end,
+
+		["speed_multiplier"] = function()
+			return {
+				"Game speed can be changed in",
+				"range from {C:attention}x1/512{} to {C:attention}x512{}",
+			}
+		end,
+		["nopeus_interaction"] = function()
+			return {
+				"Required mod {C:attention}Nopeus{} to work",
+				" ",
+				"{C:mult}Unsafe{} option must be",
+				"enabled in {C:attention}Danger Zone{} tab",
+			}
+		end,
+		["not_jut_yet_interaction"] = function()
+			return {
+				"Required mod {C:attention}NotJustYet{} to work",
+			}
+		end,
+		["cryptid_code_use_last_interaction"] = function()
+			return {
+				"Required mod {C:attention}Cryptid{} to work",
+				" ",
+				"Shortcut for using a code card and selecting",
+				"[Input previous value] option for:",
+				"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+				" ",
+				"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+			}
+		end,
+	},
+	parse_popup_description = function(content)
+		local parsed_lines = {}
+		for _, line in ipairs(content) do
+			table.insert(parsed_lines, {
+				n = G.UIT.R,
+				config = {
+					align = "cm",
+					padding = 0.01,
+				},
+				nodes = Handy.UI.PARTS.parse_popup_description_line(line),
+			})
+		end
+
+		return { desc_from_rows({ parsed_lines }) }
+	end,
+	parse_popup_description_line = function(content_line)
+		local loc_target = { loc_parse_string(content_line) }
+		local args = {
+			type = "text",
+			vars = {},
+			nodes = {},
+		}
+		for _, lines in ipairs(loc_target) do
+			local final_line = {}
+			for _, part in ipairs(lines) do
+				local assembled_string = ""
+				for _, subpart in ipairs(part.strings) do
+					assembled_string = assembled_string
+						.. (type(subpart) == "string" and subpart or args.vars[tonumber(subpart[1])] or "ERROR")
+				end
+				local desc_scale = G.LANG.font.DESCSCALE
+				if G.F_MOBILE_UI then
+					desc_scale = desc_scale * 1.5
+				end
+				if args.type == "name" then
+					final_line[#final_line + 1] = {
+						n = G.UIT.O,
+						config = {
+							object = DynaText({
+								string = { assembled_string },
+								colours = {
+									(part.control.V and args.vars.colours[tonumber(part.control.V)])
+										or (part.control.C and loc_colour(part.control.C))
+										or G.C.UI.TEXT_LIGHT,
+								},
+								bump = true,
+								silent = true,
+								pop_in = 0,
+								pop_in_rate = 4,
+								maxw = 5,
+								shadow = true,
+								y_offset = -0.6,
+								spacing = math.max(0, 0.32 * (17 - #assembled_string)),
+								scale = (0.55 - 0.004 * #assembled_string)
+									* (part.control.s and tonumber(part.control.s) or 1),
+							}),
+						},
+					}
+				elseif part.control.E then
+					local _float, _silent, _pop_in, _bump, _spacing = nil, true, nil, nil, nil
+					if part.control.E == "1" then
+						_float = true
+						_silent = true
+						_pop_in = 0
+					elseif part.control.E == "2" then
+						_bump = true
+						_spacing = 1
+					end
+					final_line[#final_line + 1] = {
+						n = G.UIT.O,
+						config = {
+							object = DynaText({
+								string = { assembled_string },
+								colours = {
+									part.control.V and args.vars.colours[tonumber(part.control.V)]
+										or loc_colour(part.control.C or nil),
+								},
+								float = _float,
+								silent = _silent,
+								pop_in = _pop_in,
+								bump = _bump,
+								spacing = _spacing,
+								scale = 0.32 * (part.control.s and tonumber(part.control.s) or 1) * desc_scale,
+							}),
+						},
+					}
+				elseif part.control.X then
+					final_line[#final_line + 1] = {
+						n = G.UIT.C,
+						config = {
+							align = "m",
+							colour = loc_colour(part.control.X),
+							r = 0.05,
+							padding = 0.03,
+							res = 0.15,
+						},
+						nodes = {
+							{
+								n = G.UIT.T,
+								config = {
+									text = assembled_string,
+									colour = loc_colour(part.control.C or nil),
+									scale = 0.32 * (part.control.s and tonumber(part.control.s) or 1) * desc_scale,
+								},
+							},
+						},
+					}
+				else
+					final_line[#final_line + 1] = {
+						n = G.UIT.T,
+						config = {
+							detailed_tooltip = part.control.T
+									and (G.P_CENTERS[part.control.T] or G.P_TAGS[part.control.T])
+								or nil,
+							text = assembled_string,
+							shadow = args.shadow,
+							colour = part.control.V and args.vars.colours[tonumber(part.control.V)]
+								or loc_colour(part.control.C or nil, args.default_col),
+							scale = 0.32 * (part.control.s and tonumber(part.control.s) or 1) * desc_scale,
+						},
+					}
+				end
+			end
+			if args.type == "name" or args.type == "text" then
+				return final_line
+			end
+			args.nodes[#args.nodes + 1] = final_line
+		end
+	end,
+	init_popups = function()
+		if not G.OVERLAY_MENU then
+			return
+		end
+		for k, content in pairs(Handy.UI.PARTS.popups) do
+			local element = G.OVERLAY_MENU:get_UIE_by_ID("handy_popup_" .. k)
+			if element then
+				element.float = true
+				element.states.hover.can = true
+				element.states.collide.can = true
+				element.hover = function()
+					local popup_content = content()
+					if popup_content then
+						element.config.h_popup_config = { align = "mt", offset = { x = 0, y = -0.1 }, parent = element }
+						element.config.h_popup = {
+							n = G.UIT.ROOT,
+							config = { align = "cm", colour = G.C.CLEAR },
+							nodes = {
+								{
+									n = G.UIT.C,
+									config = {
+										align = "cm",
+									},
+									nodes = {
+										{
+											n = G.UIT.R,
+											config = {
+												padding = 0.05,
+												r = 0.12,
+												colour = lighten(G.C.JOKER_GREY, 0.5),
+												emboss = 0.07,
+											},
+											nodes = {
+												{
+													n = G.UIT.R,
+													config = {
+														align = "cm",
+														padding = 0.07,
+														r = 0.1,
+														colour = adjust_alpha(darken(G.C.BLACK, 0.1), 0.8),
+													},
+													nodes = Handy.UI.PARTS.parse_popup_description(popup_content),
+												},
+											},
+										},
+									},
+								},
+							},
+						}
+					else
+						element.config.h_popup_config = nil
+						element.config.h_popup = nil
+					end
+					Node.hover(element)
+				end
+			end
+		end
+	end,
+
 	format_module_keys = function(module, only_first)
-		local result = "[" .. module.key_1 .. "]"
-		if only_first or not module.key_2 or module.key_2 == "None" then
+		local key_1, key_2 = "key_1", "key_2"
+		if Handy.controller.is_gamepad() then
+			key_1, key_2 = "key_1_gamepad", "key_2_gamepad"
+		end
+
+		local result = "[" .. module[key_1] .. "]"
+		if only_first or not module[key_2] or module[key_2] == "None" then
 			return result
 		end
-		return result .. " or [" .. module.key_2 .. "]"
+		return result .. " or [" .. module[key_2] .. "]"
 	end,
-	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds)
+	create_module_checkbox = function(module, label, text_prefix, text_lines, skip_keybinds, popup_id)
 		local desc_lines = {
 			{ n = G.UIT.R, config = { minw = 5 } },
 		}
@@ -87,7 +346,7 @@ Handy.UI.PARTS = {
 
 		return {
 			n = G.UIT.R,
-			config = { align = "cm" },
+			config = { align = "cm", id = (popup_id and "handy_popup_" .. popup_id) or nil },
 			nodes = {
 				{
 					n = G.UIT.C,
@@ -136,6 +395,11 @@ Handy.UI.PARTS = {
 		}
 	end,
 	create_module_keybind = function(module, label, dangerous)
+		local key_1, key_2 = "key_1", "key_2"
+		if Handy.controller.is_gamepad() then
+			key_1, key_2 = "key_1_gamepad", "key_2_gamepad"
+		end
+
 		return {
 			n = G.UIT.R,
 			config = { align = "cm", padding = 0.01 },
@@ -155,7 +419,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm", minw = 0.75 },
 				},
 				UIBox_button({
-					label = { module.key_1 or "None" },
+					label = { module[key_1] or "None" },
 					col = true,
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
 					scale = 0.3,
@@ -163,7 +427,7 @@ Handy.UI.PARTS = {
 					minh = 0.4,
 					ref_table = {
 						module = module,
-						key = "key_1",
+						key = key_1,
 					},
 					button = "handy_init_keybind_change",
 				}),
@@ -178,7 +442,7 @@ Handy.UI.PARTS = {
 					},
 				},
 				UIBox_button({
-					label = { module.key_2 or "None" },
+					label = { module[key_2] or "None" },
 					col = true,
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
 					scale = 0.3,
@@ -186,7 +450,7 @@ Handy.UI.PARTS = {
 					minh = 0.4,
 					ref_table = {
 						module = module,
-						key = "key_2",
+						key = key_2,
 					},
 					button = "handy_init_keybind_change",
 				}),
@@ -333,12 +597,12 @@ Handy.UI.get_config_tab_overall = function()
 							"keybinds for",
 							"common game actions",
 							"(Play, Discard, Reroll, Skip blind, etc.)",
-						}, true),
+						}, true, "regular_keybinds"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.insta_highlight, "Quick Highlight", "Hold", {
 							"and",
 							"hover cards in hand to highlight",
-						}),
+						}, false, "insta_highlight"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.show_deck_preview, "Deck preview", "Hold", {
 							"to",
@@ -353,8 +617,7 @@ Handy.UI.get_config_tab_overall = function()
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.deselect_hand, "Deselect hand", "Press", {
 							"to",
 							"deselect hand",
-							"(disable to use vanilla)",
-						}),
+						}, false, "deselect_hand"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.cc.insta_cash_out,
@@ -413,8 +676,8 @@ Handy.UI.get_config_tab_quick = function()
 							label = "Buy/Sell/Use mode",
 							scale = 0.8,
 							options = {
-								"Hold + Card click",
-								"Card hover + Press",
+								"Hold key + Click card",
+								"Hover card + Press key",
 							},
 							opt_callback = "handy_change_insta_actions_trigger_mode",
 							current_option = Handy.cc.insta_actions_trigger_mode,
@@ -446,19 +709,19 @@ Handy.UI.get_config_tab_quick = function()
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.insta_buy_or_sell, "Quick Buy/Sell", "Use", {
 							"to",
 							"buy or sell card",
-						}),
+						}, false, "affected_by_buy_sell_use_1"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.insta_buy_n_sell, "Quick Buy'n'Sell", "Use", {
 							"to",
 							"buy card and sell",
 							"immediately after",
-						}),
+						}, false, "affected_by_buy_sell_use_2"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.insta_use, "Quick use", "Use", {
 							"to",
 							"use card if possible",
 							"(overrides Quick Buy/Sell)",
-						}),
+						}, false, "affected_by_buy_sell_use_3"),
 						{ n = G.UIT.R, config = { minh = 0.3 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.cc.cryptid_code_use_last_interaction,
@@ -468,7 +731,9 @@ Handy.UI.get_config_tab_quick = function()
 								"to",
 								"use code card if possible with",
 								"previously inputted value",
-							}
+							},
+							false,
+							"cryptid_code_use_last_interaction"
 						),
 					},
 				},
@@ -478,9 +743,11 @@ Handy.UI.get_config_tab_quick = function()
 					nodes = {
 						Handy.UI.PARTS.create_module_checkbox(Handy.cc.speed_multiplier, "Speed Multiplier", "Hold", {
 							"and",
-							"[Wheel Up] to multiply or",
-							"[Wheel Down] to divide game speed",
-						}),
+							Handy.UI.PARTS.format_module_keys(Handy.cc.speed_multiplier.multiply, true)
+								.. " to multiply or",
+							Handy.UI.PARTS.format_module_keys(Handy.cc.speed_multiplier.divide, true)
+								.. " to divide game speed",
+						}, false, "speed_multiplier"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
 							Handy.cc.insta_highlight_entire_f_hand,
@@ -498,10 +765,14 @@ Handy.UI.get_config_tab_quick = function()
 							"Hold",
 							{
 								"and",
-								"[Wheel Up] to increase or",
-								"[Wheel Down] to decrease",
+								Handy.UI.PARTS.format_module_keys(Handy.cc.nopeus_interaction.increase, true)
+									.. " to increase or",
+								Handy.UI.PARTS.format_module_keys(Handy.cc.nopeus_interaction.decrease, true)
+									.. " to decrease",
 								"fast-forward setting",
-							}
+							},
+							false,
+							"nopeus_interaction"
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -511,7 +782,9 @@ Handy.UI.get_config_tab_quick = function()
 							{
 								"to",
 								"end round",
-							}
+							},
+							false,
+							"not_jut_yet_interaction"
 						),
 					},
 				},
@@ -773,6 +1046,17 @@ Handy.UI.get_config_tab = function(_tab, _index)
 	elseif _tab == "Keybinds 2" then
 		result.nodes = Handy.UI.get_config_tab_keybinds_2()
 	end
+
+	G.E_MANAGER:add_event(Event({
+		blocking = false,
+		blockable = false,
+		no_delete = true,
+		func = function()
+			Handy.UI.PARTS.init_popups()
+			return true
+		end,
+	}))
+
 	return result
 end
 
