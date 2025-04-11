@@ -8,9 +8,29 @@ Handy.UI.PARTS = {
 		end,
 		["deselect_hand"] = function()
 			return {
-				"Replaces vanilla [Right Mouse]",
+				"Replaces vanilla {C:chips}[Right Mouse]{}",
 				"but works the same and",
 				"can be reassigned to other key",
+				" ",
+				"Uncheck to use vanilla control",
+			}
+		end,
+		["insta_cash_out"] = function()
+			return {
+				"Holding a keybind will trigger it",
+				"as soon as it will be available",
+			}
+		end,
+		["insta_booster_skip"] = function()
+			return {
+				"Holding a keybind will trigger it",
+				"as soon as it will be available",
+			}
+		end,
+		["move_hightlight"] = function()
+			return {
+				"Select card in area and",
+				"then use listed controls",
 			}
 		end,
 		["affected_by_buy_sell_use"] = function()
@@ -58,10 +78,59 @@ Handy.UI.PARTS = {
 				"Required mod {C:attention}Cryptid{} to work",
 				" ",
 				"Shortcut for using a code card and selecting",
-				"[Input previous value] option for:",
+				"{C:green}[Input previous value]{} option for:",
 				"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				" ",
 				"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+			}
+		end,
+		["instant_sell"] = function()
+			return {
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick Buy/Sell]{},',
+				"and hover cards to sell them immediately",
+			}
+		end,
+		["sell_queue"] = function()
+			return {
+				"Instead of selling immediately, {C:mult}[Instant Sell]{}",
+				"will put all hovered cards in a list and",
+				"all of them will be sold after keybind release",
+				" ",
+				"Allow more precise cards selection, but slower",
+			}
+		end,
+		["nopeus_interaction_unsafe"] = function()
+			return {
+				"Required mod {C:attention}Nopeus{} to work",
+				" ",
+				"Even if this unchecked, {C:mult}Unsafe{} option",
+				"can be set normally via game settings",
+			}
+		end,
+		["sell_all_same"] = function()
+			return {
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["All copies" modifier]{},',
+				"and click on card to sell all of their copies",
+			}
+		end,
+		["sell_all"] = function()
+			return {
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["Sell ALL" modifier]{},',
+				"and click on card to sell {C:attention}ALL{} cards in area",
+			}
+		end,
+		["card_remove"] = function()
+			return {
+				"When hold, instead of selling cards will be {C:attention,E:1}REMOVED{}",
+				" ",
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick Buy/Sell]{}, {C:mult}["REMOVE" modifier]{}',
+				"and hover cards to {C:attention,E:1}REMOVE{} them (queue also applied)",
+				" ",
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["All copies" modifier]{}, {C:mult}["REMOVE" modifier]{}',
+				"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} all of their copies",
+				" ",
+				'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["ALL" modifier]{}, {C:mult}["REMOVE" modifier]{}',
+				"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} {C:attention}ALL{} cards or skip tags",
 			}
 		end,
 	},
@@ -626,7 +695,9 @@ Handy.UI.get_config_tab_overall = function()
 							{
 								"to",
 								"skip Cash Out stage",
-							}
+							},
+							false,
+							"insta_cash_out"
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -636,7 +707,9 @@ Handy.UI.get_config_tab_overall = function()
 							{
 								"to",
 								"skip booster pack",
-							}
+							},
+							false,
+							"insta_booster_skip"
 						),
 					},
 				},
@@ -698,7 +771,7 @@ Handy.UI.get_config_tab_quick = function()
 			"Hold "
 				.. Handy.UI.PARTS.format_module_keys(Handy.cc.move_highlight.to_end, true)
 				.. " to move to first/last card",
-		}, true),
+		}, true, "move_hightlight"),
 		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
@@ -884,7 +957,8 @@ Handy.UI.get_config_tab_dangerous = function()
 								"hold " .. Handy.UI.PARTS.format_module_keys(Handy.cc.insta_buy_or_sell) .. "",
 								"and hover card to sell it",
 							},
-							true
+							true,
+							"instant_sell"
 						),
 						{ n = G.UIT.R, config = { minh = 0.275 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -895,7 +969,8 @@ Handy.UI.get_config_tab_dangerous = function()
 								"selling cards only when",
 								"keybind was released",
 							},
-							true
+							true,
+							"sell_queue"
 						),
 						{ n = G.UIT.R, config = { minh = 0.275 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -906,7 +981,8 @@ Handy.UI.get_config_tab_dangerous = function()
 								"increase fast-forward",
 								'setting to "Unsafe"',
 							},
-							true
+							true,
+							"nopeus_interaction_unsafe"
 						),
 					},
 				},
@@ -927,7 +1003,8 @@ Handy.UI.get_config_tab_dangerous = function()
 								"and click on card to sell",
 								"all of their copies",
 							},
-							true
+							true,
+							"sell_all_same"
 						),
 						{ n = G.UIT.R, config = { minh = 0.1 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -937,7 +1014,9 @@ Handy.UI.get_config_tab_dangerous = function()
 							{
 								"to",
 								"sell ALL cards in area instead",
-							}
+							},
+							false,
+							"sell_all"
 						),
 						{ n = G.UIT.R, config = { minh = 0.1 } },
 						Handy.UI.PARTS.create_module_checkbox(
@@ -948,21 +1027,24 @@ Handy.UI.get_config_tab_dangerous = function()
 								"to",
 								"REMOVE cards instead",
 								"of selling, works for skip tags",
-							}
+							},
+							false,
+							"card_remove"
 						),
 					},
 				},
 			},
 		},
 		{ n = G.UIT.R, config = { minh = 0.5 } },
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.immediate_buy_and_sell,
-			"Dangerous modifier",
+			'"Dangerous" modifier',
 			true
 		),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all_same, "Sell all copies of card", true),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all, "Sell ALL cards", true),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.card_remove, "REMOVE cards", true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all_same, '"All copies" modifier', true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all, '"ALL" modifier', true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.card_remove, '"REMOVE" modifier', true),
 		{ n = G.UIT.R, config = { minh = 0.4 } },
 		{
 			n = G.UIT.R,
@@ -1010,6 +1092,7 @@ end
 Handy.UI.get_config_tab_keybinds_2 = function()
 	return {
 		Handy.UI.PARTS.create_module_section("Quick actions"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "Quick highlight"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "Quick Buy/Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "Quick Use"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "Quick Buy'n'Sell"),
@@ -1017,7 +1100,11 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.cryptid_code_use_last_interaction, "Cryptid: use previous input"),
 		Handy.UI.PARTS.create_module_section("Game speed and animations"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier, "Speed Multiplier"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "Multiply"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "Divide"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "Nopeus: fast-forward"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "Increase"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "Decrease"),
 		Handy.UI.PARTS.create_module_section("Highlight movement"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_left, "Move one left"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_right, "Move one right"),
