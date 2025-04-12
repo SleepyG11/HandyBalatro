@@ -482,7 +482,7 @@ end
 Handy.fake_events = {
 	check = function(arg)
 		if type(arg.func) ~= "function" then
-			return false
+			return false, nil
 		end
 		if arg.node then
 			arg.func(arg.node)
@@ -512,6 +512,47 @@ Handy.fake_events = {
 						button = arg.button,
 						id = arg.id,
 					},
+				})
+			end
+		end
+	end,
+	check_button = function(selector, options)
+		options = options or {}
+		local success, button = pcall(selector)
+		if not success or not button or not button.config or not button.states then
+			return false, button and button.config and button.config.button or nil
+		end
+		if options.visible and not button.states.visible then
+			return false, button.config.button
+		end
+		local check_func = button.config.func
+		if (options.require_func or options.require_exact_func) and not check_func then
+			return false, button.config.button
+		end
+		if options.require_exact_func and check_func ~= options.require_exact_func then
+			return false, button.config.button
+		end
+		if check_func then
+			return Handy.fake_events.check({
+				func = G.FUNCS[check_func],
+				node = button,
+			})
+		else
+			return true, button.config.button
+		end
+	end,
+	execute_button = function(selector)
+		local success, button = pcall(selector)
+		if not success or not button or not button.config then
+			return
+		end
+		if type(button.click) == "function" then
+			button:click()
+		else
+			if button.config.button then
+				Handy.fake_events.check({
+					func = G.FUNCS[button.config.button],
+					node = button,
 				})
 			end
 		end
@@ -1194,29 +1235,27 @@ Handy.regular_keybinds = {
 	shop_reroll_blocker = false,
 
 	can_play = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_play,
-			}) and Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
-		)
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
+			end, { visible = true })
 	end,
 	play = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.play_cards_from_highlighted,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("play_button")
+		end)
 	end,
 
 	can_discard = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_discard,
-			}) and Handy.controller.is_module_key(Handy.cc.regular_keybinds.discard, key)
-		)
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.discard, key)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
+			end, { visible = true })
 	end,
 	discard = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.discard_cards_from_highlighted,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("discard_button")
+		end)
 	end,
 
 	can_change_sort = function(key)
@@ -1244,14 +1283,16 @@ Handy.regular_keybinds = {
 		return not not (
 			not Handy.regular_keybinds.shop_reroll_blocker
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_shop, key)
-			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+			end, { visible = true, require_exact_func = "can_reroll" })
 		)
 	end,
 	reroll_shop = function()
 		Handy.regular_keybinds.shop_reroll_blocker = true
-		Handy.fake_events.execute({
-			func = G.FUNCS.reroll_shop,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+		end)
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
 			func = function()
@@ -1262,77 +1303,47 @@ Handy.regular_keybinds = {
 	end,
 
 	can_leave_shop = function(key)
-		return not not (Handy.controller.is_module_key(Handy.cc.regular_keybinds.leave_shop, key))
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.leave_shop, key)
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button")
+			end, { visible = true })
 	end,
 	leave_shop = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.toggle_shop,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button")
+		end)
 	end,
 
 	can_select_blind = function(key)
-		if
-			not (
-				Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
-				and G.GAME.blind_on_deck
-				and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
-			)
-		then
-			return false
-		end
-
-		local success, button = pcall(function()
-			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
-		end)
-		if not success or not button then
-			return false
-		end
-		if button.config and button.config.func then
-			return Handy.fake_events.check({
-				func = G.FUNCS[button.config.func],
-				node = button,
-			})
-		else
-			return true
-		end
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
+			and G.GAME
+			and G.GAME.blind_on_deck
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and Handy.fake_events.check_button(function()
+				return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+			end)
 	end,
 	select_blind = function()
-		local success, button = pcall(function()
+		Handy.fake_events.execute_button(function()
 			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
 		end)
-
-		if success and button and button.config and button.config.button then
-			Handy.fake_events.execute({
-				func = G.FUNCS[button.config.button],
-				node = button,
-			})
-		end
 	end,
 
 	can_skip_blind = function(key)
 		return not not (
 			Handy.controller.is_module_key(Handy.cc.regular_keybinds.skip_blind, key)
-			and G.GAME.blind_on_deck
-			and G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]
+			and Handy.fake_events.check_button(function()
+				local container = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID(
+					"tag_" .. G.GAME.blind_on_deck
+				)
+				return container.states.visible and container.children[2]
+			end, { visible = true })
 		)
 	end,
 	skip_blind = function()
-		local success, tag_UIBox = pcall(function()
-			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck)
+		Handy.fake_events.execute_button(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck).children[2]
 		end)
-		if not success or not tag_UIBox then
-			return false
-		end
-		local success, button_func = pcall(function()
-			return tag_UIBox.children[2].config.button
-		end)
-		if success and button_func then
-			Handy.fake_events.execute({
-				func = G.FUNCS[button_func],
-				card = tag_UIBox.config.ref_table,
-				UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
-			})
-		end
 	end,
 
 	can_open_run_info = function(key)
@@ -1415,7 +1426,7 @@ Handy.insta_highlight = {
 			and not card.highlighted
 	end,
 	execute = function(card)
-		card.area:add_to_highlighted(card)
+		card:click()
 		return false
 	end,
 
