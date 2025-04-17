@@ -2,7 +2,8 @@ Handy.UI.PARTS = {
 	popups = {
 		["insta_highlight"] = function()
 			return {
-				"Start holding key {C:attention}outside{} of cards",
+				"If key set to {C:chips}[Left Mouse]{},",
+				"start holding key {C:attention}outside{} of cards",
 				"and then hover them to highlight",
 			}
 		end,
@@ -86,6 +87,12 @@ Handy.UI.PARTS = {
 				table.insert(result, "Usage determined by {C:attention}Buy/Sell/Use mode{}")
 			end
 			return result
+		end,
+		["insta_highlight_entire_f_hand"] = function()
+			return {
+				"Select max possible amount of cards",
+				"in hand, from left to right",
+			}
 		end,
 		["instant_sell"] = function()
 			return {
@@ -868,7 +875,9 @@ Handy.UI.get_config_tab_quick = function()
 							{
 								"to",
 								"highlight entire hand",
-							}
+							},
+							false,
+							"insta_highlight_entire_f_hand"
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_module_checkbox(

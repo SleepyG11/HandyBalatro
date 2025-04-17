@@ -248,3 +248,15 @@ elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Han
 '''
 match_indent = true
 overwrite = false
+
+# A point where we can leave shop
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if math.abs(G.shop.T.y - G.shop.VT.y) < 3 then'''
+position = "after"
+payload = '''
+Handy.regular_keybinds.on_shop_loaded()
+'''
+match_indent = true
+overwrite = false
