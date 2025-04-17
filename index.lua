@@ -2897,7 +2897,7 @@ end
 local controller_update_axis_ref = Controller.update_axis
 function Controller:update_axis(...)
 	local axis_interpretation = controller_update_axis_ref(self, ...)
-	if axis_interpretation == "axis_cursor" then
+	if not Handy.__disable_gamepad and axis_interpretation == "axis_cursor" then
 		Handy.controller.cancel_bind()
 	end
 	return axis_interpretation
