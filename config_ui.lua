@@ -1,5 +1,12 @@
 Handy.UI.PARTS = {
 	popups = {
+		["regular_keybinds"] = function()
+			return {
+				"Play hand, Discard, hand sorting,",
+				"Reroll shop, Leave shop, Select blind,",
+				"Skip blind, Select blind, View deck, Run info",
+			}
+		end,
 		["insta_highlight"] = function()
 			return {
 				"If key set to {C:chips}[Left Mouse]{},",
@@ -131,7 +138,7 @@ Handy.UI.PARTS = {
 		end,
 		["card_remove"] = function()
 			return {
-				"When hold, instead of selling cards will be {C:attention,E:1}REMOVED{}",
+				"When hold, instead of selling cards {C:attention}or skip tags{} will be {C:attention,E:1}REMOVED{}",
 				" ",
 				'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick Buy/Sell]{}, {C:mult}["REMOVE" modifier]{}',
 				"and hover cards to {C:attention,E:1}REMOVE{} them (queue also applied)",
@@ -1140,6 +1147,22 @@ Handy.UI.get_config_tab_regular_keybinds = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "Run info: Blinds"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "View deck"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "Deck preview"),
+		{ n = G.UIT.R, config = { minh = 0.15 } },
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
 	}
 end
 
@@ -1164,6 +1187,22 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_right, "Move one right"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.swap, "Move card"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.to_end, "Move to end"),
+		{ n = G.UIT.R, config = { minh = 0.15 } },
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
 	}
 end
 

@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.2-pre1",
+	version = "1.4.2",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
