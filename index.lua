@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.1b",
+	version = "1.4.2",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -12,6 +12,8 @@ Handy = setmetatable({
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
 	},
+
+	__disable_gamepad = true,
 }, {})
 
 --- @generic T
@@ -120,26 +122,39 @@ Handy.config = {
 
 		insta_highlight = {
 			enabled = true,
+
+			key_1 = "Left Mouse",
+			key_2 = "None",
+			-- key_1_gamepad = "(A)",
+			-- key_2_gamepad = "None",
 		},
 		insta_highlight_entire_f_hand = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 		insta_buy_n_sell = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 		insta_buy_or_sell = {
 			enabled = true,
 			key_1 = "Shift",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 		insta_use = {
 			enabled = true,
 			key_1 = "Ctrl",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 		move_highlight = {
 			enabled = true,
@@ -148,11 +163,15 @@ Handy.config = {
 				enabled = true,
 				key_1 = "Shift",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 			to_end = {
 				enabled = true,
 				key_1 = "Ctrl",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			dx = {
@@ -160,11 +179,15 @@ Handy.config = {
 					enabled = true,
 					key_1 = "Left",
 					key_2 = "None",
+					-- key_1_gamepad = "None",
+					-- key_2_gamepad = "None",
 				},
 				one_right = {
 					enabled = true,
 					key_1 = "Right",
 					key_2 = "None",
+					-- key_1_gamepad = "None",
+					-- key_2_gamepad = "None",
 				},
 			},
 		},
@@ -173,16 +196,22 @@ Handy.config = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 		insta_booster_skip = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
+			-- key_1_gamepad = "(Y)",
+			-- key_2_gamepad = "None",
 		},
 		show_deck_preview = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
+			-- key_1_gamepad = "Left Trigger",
+			-- key_2_gamepad = "None",
 		},
 
 		dangerous_actions = {
@@ -191,9 +220,11 @@ Handy.config = {
 			-- Use it as basic modifier for all dangerous controls
 			-- Maybe I should change this but idk, backwards compatibility
 			immediate_buy_and_sell = {
-				enabled = true,
+				enabled = false,
 				key_1 = "Middle Mouse",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 
 				queue = {
 					enabled = false,
@@ -204,22 +235,28 @@ Handy.config = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			sell_all = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			card_remove = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			nopeus_unsafe = {
-				enabled = true,
+				enabled = false,
 			},
 		},
 
@@ -228,12 +265,35 @@ Handy.config = {
 
 			key_1 = "Alt",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
+
+			no_hold = {
+				enabled = false,
+			},
+
+			multiply = {
+				enabled = true,
+				key_1 = "Wheel Up",
+				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
+			},
+			divide = {
+				enabled = true,
+				key_1 = "Wheel Down",
+				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
+			},
 		},
 
 		deselect_hand = {
 			enabled = true,
 			key_1 = "Right Mouse",
 			key_2 = "None",
+			-- key_1_gamepad = "Right Stick",
+			-- key_2_gamepad = "None",
 		},
 
 		regular_keybinds = {
@@ -243,60 +303,82 @@ Handy.config = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "(X)",
+				-- key_2_gamepad = "None",
 			},
 			discard = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "(Y)",
+				-- key_2_gamepad = "None",
 			},
 			sort_by_rank = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "Right Bumper",
+				-- key_2_gamepad = "None",
 			},
 			sort_by_suit = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "Left Bumper",
+				-- key_2_gamepad = "None",
 			},
 
 			reroll_shop = {
 				enabled = true,
 				key_1 = "Q",
 				key_2 = "None",
+				-- key_1_gamepad = "(X)",
+				-- key_2_gamepad = "None",
 			},
 			leave_shop = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "(Y)",
+				-- key_2_gamepad = "None",
 			},
 
 			skip_blind = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 			select_blind = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			run_info = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "(Guide)",
+				-- key_2_gamepad = "None",
 			},
 			run_info_blinds = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
 			},
 
 			view_deck = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
+				-- key_1_gamepad = "Right Trigger",
+				-- key_2_gamepad = "None",
 			},
 		},
 
@@ -305,18 +387,43 @@ Handy.config = {
 
 			key_1 = "]",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
+
+			no_hold = {
+				enabled = false,
+			},
+
+			increase = {
+				enabled = true,
+				key_1 = "Wheel Up",
+				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
+			},
+			decrease = {
+				enabled = true,
+				key_1 = "Wheel Down",
+				key_2 = "None",
+				-- key_1_gamepad = "None",
+				-- key_2_gamepad = "None",
+			},
 		},
 
 		not_just_yet_interaction = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 
 		cryptid_code_use_last_interaction = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
+			-- key_1_gamepad = "None",
+			-- key_2_gamepad = "None",
 		},
 	},
 	current = {},
@@ -377,7 +484,7 @@ end
 Handy.fake_events = {
 	check = function(arg)
 		if type(arg.func) ~= "function" then
-			return false
+			return false, nil
 		end
 		if arg.node then
 			arg.func(arg.node)
@@ -411,11 +518,239 @@ Handy.fake_events = {
 			end
 		end
 	end,
+	check_button = function(selector, options)
+		options = options or {}
+		local success, button = pcall(selector)
+		if not success or not button or not button.config or not button.states then
+			return false, button and button.config and button.config.button or nil
+		end
+		if options.visible and not button.states.visible then
+			return false, button.config.button
+		end
+		local check_func = button.config.func
+		if (options.require_func or options.require_exact_func) and not check_func then
+			return false, button.config.button
+		end
+		if options.require_exact_func and check_func ~= options.require_exact_func then
+			return false, button.config.button
+		end
+		if check_func then
+			return Handy.fake_events.check({
+				func = G.FUNCS[check_func],
+				node = button,
+			})
+		else
+			return true, button.config.button
+		end
+	end,
+	execute_button = function(selector)
+		local success, button = pcall(selector)
+		if not success or not button or not button.config then
+			return
+		end
+		if type(button.click) == "function" then
+			button:click()
+		else
+			if button.config.button then
+				Handy.fake_events.check({
+					func = G.FUNCS[button.config.button],
+					node = button,
+				})
+			end
+		end
+	end,
 }
 Handy.controller = {
+	device_type = "keyboard",
+
+	get_device_type = function(options)
+		if Handy.__disable_gamepad then
+			return "keyboard"
+		end
+		options = options or {}
+		if options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
+			return "gamepad"
+		elseif options.mouse or options.keyboard then
+			return "keyboard"
+		end
+		return "keyboard"
+	end,
+	update_device_type = function(options)
+		if Handy.__disable_gamepad then
+			return false
+		end
+		options = options or {}
+		local new_type = Handy.controller.get_device_type(options)
+		if Handy.controller.device_type == new_type then
+			return false
+		end
+		Handy.controller.device_type = new_type
+
+		Handy.controller.cancel_bind()
+
+		G.E_MANAGER:add_event(Event({
+			blocking = false,
+			blockable = false,
+			no_delete = true,
+			func = function()
+				Handy.UI.rerender(false)
+				return true
+			end,
+		}))
+		return true
+	end,
+
+	is_gamepad = function()
+		if Handy.__disable_gamepad then
+			return false
+		end
+		return Handy.controller.device_type == "gamepad"
+	end,
+
+	gamepad_patched_buttons = {},
+
+	override_node_button = function(e)
+		if e.REMOVED or Handy.__disable_gamepad then
+			return false
+		end
+
+		local remove_from_registry = function()
+			for k, registry in pairs(G.CONTROLLER.button_registry) do
+				for i = #registry, 1, -1 do
+					if registry[i].node == (e.config.button_UIE or e) then
+						table.remove(registry, i)
+						return true
+					end
+				end
+			end
+		end
+		local add_to_registry = function()
+			-- TODO: fix it
+			for k, registry in pairs(G.CONTROLLER.button_registry) do
+				for i = #registry, 1, -1 do
+					if registry[i].node == (e.config.button_UIE or e) then
+						return false
+					end
+				end
+			end
+			G.CONTROLLER:add_to_registry(e.config.button_UIE or e, e.config.focus_args.button)
+		end
+
+		local patched_button = e.handy_gamepad_override
+			and Handy.controller.gamepad_patched_buttons[e.handy_gamepad_override]
+		if patched_button and patched_button.node == e then
+			local new_button
+			if Handy.is_mod_active() and patched_button.enabled_func() then
+				remove_from_registry()
+				new_button = Handy.controller.resolve_first_module_key(patched_button.module)
+				e.config.focus_args.button = new_button
+			else
+				new_button = e.handy_replaced_button
+				e.config.focus_args.button = e.handy_replaced_button
+				add_to_registry()
+			end
+			if e.handy_previous_button ~= new_button then
+				e.handy_previous_button = new_button
+				if e.children.button_pip then
+					e.children.button_pip:remove()
+					e.children.button_pip = nil
+				end
+				if not e.config.focus_args.button then
+					return true
+				end
+			end
+			return false
+		end
+
+		local override_key, override_module, override_enabled_func = nil, nil, nil
+		if e.config.focus_args and not e.handy_gamepad_override and not G.OVERLAY_MENU then
+			local button = e.config.focus_args.button
+			if button == "triggerleft" then
+				override_key, override_module = "show_deck_preview", Handy.cc.show_deck_preview
+			elseif button == "triggerright" then
+				override_key, override_module, override_enabled_func =
+					"view_deck", Handy.cc.regular_keybinds.view_deck, function()
+						return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.view_deck)
+					end
+			elseif button == "y" then
+				if e.parent then
+					if e.parent.config.id == "next_round_button" then
+						override_key, override_module, override_enabled_func =
+							"leave_shop", Handy.cc.regular_keybinds.leave_shop, function()
+								return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.leave_shop)
+							end
+					elseif e.parent.config.func == "can_skip_booster" then
+						override_key, override_module = "skip_booster", Handy.cc.insta_booster_skip
+					elseif e.parent.parent then
+						if e.parent.parent.config.id == "discard_button" then
+							override_key, override_module, override_enabled_func =
+								"discard", Handy.cc.regular_keybinds.discard, function()
+									return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.discard)
+								end
+						end
+					end
+				end
+			elseif button == "x" then
+				if e.parent then
+					if e.parent.config.func == "can_reroll" then
+						override_key, override_module, override_enabled_func =
+							"reroll_shop", Handy.cc.regular_keybinds.reroll_shop, function()
+								return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.reroll_shop)
+							end
+					elseif e.parent.parent then
+						if e.parent.parent.config.id == "play_button" then
+							override_key, override_module, override_enabled_func =
+								"play", Handy.cc.regular_keybinds.play, function()
+									return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.play)
+								end
+						end
+					end
+				end
+			elseif button == G.F_GUIDE and "guide" or "back" then
+				if e.parent then
+					if e.parent.parent then
+						if e.parent.parent.config.id == "run_info_button" then
+							override_key, override_module, override_enabled_func =
+								"run_info", Handy.cc.regular_keybinds.run_info, function()
+									return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.run_info)
+								end
+						end
+					end
+				end
+			end
+		end
+		if override_key and override_module then
+			local enabled_func = override_enabled_func
+				or function()
+					return Handy.controller.is_module_enabled(override_module)
+				end
+			e.handy_gamepad_override = override_key
+			e.handy_replaced_button = e.config.focus_args.button
+
+			if Handy.is_mod_active() and enabled_func() then
+				remove_from_registry()
+				local new_button = Handy.controller.resolve_first_module_key(override_module)
+				e.config.focus_args.button = new_button
+				e.handy_previous_button = new_button
+			end
+			Handy.controller.gamepad_patched_buttons[override_key] = {
+				node = e,
+				module = override_module,
+				enabled_func = enabled_func,
+			}
+		end
+		if not e.config.focus_args.button and e.children.button_pip then
+			e.children.button_pip:remove()
+			e.children.button_pip = nil
+			return true
+		end
+		return false
+	end,
+
 	bind_module = nil,
 	bind_key = nil,
 	bind_button = nil,
+	rerender_after_bind = nil,
 
 	update_bind_button_text = function(text)
 		local button_text = Handy.controller.bind_button.children[1].children[1]
@@ -429,35 +764,53 @@ Handy.controller = {
 		Handy.controller.bind_button = button
 		Handy.controller.bind_module = button.config.ref_table.module
 		Handy.controller.bind_key = button.config.ref_table.key
+		Handy.controller.rerender_after_bind = button.config.ref_table.rerender or nil
 
 		Handy.controller.update_bind_button_text(
 			"[" .. (Handy.controller.bind_module[Handy.controller.bind_key] or "None") .. "]"
 		)
 	end,
 	complete_bind = function(key)
-		Handy.controller.bind_module[Handy.controller.bind_key] = key
+		Handy.controller.bind_module[Handy.controller.bind_key] = key or "None"
 		Handy.controller.update_bind_button_text(key or "None")
 
 		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
+
+		if Handy.controller.rerender_after_bind then
+			Handy.controller.rerender_after_bind = nil
+			G.E_MANAGER:add_event(Event({
+				blocking = false,
+				blockable = false,
+				no_delete = true,
+				func = function()
+					Handy.UI.rerender(true)
+					return true
+				end,
+			}))
+		end
 	end,
 	cancel_bind = function()
+		if not Handy.controller.bind_module or not Handy.controller.bind_key or not Handy.controller.bind_button then
+			return
+		end
 		Handy.controller.update_bind_button_text(Handy.controller.bind_module[Handy.controller.bind_key] or "None")
 
 		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
+		Handy.controller.rerender_after_bind = nil
 	end,
 
-	process_bind = function(key)
+	process_bind = function(key, options)
 		if not Handy.controller.bind_button then
 			return false
 		end
-		local parsed_key = Handy.controller.parse(key)
-		if parsed_key == "Escape" then
+		local parsed_key, is_discard_key = Handy.controller.parse(key, options)
+		if is_discard_key then
 			parsed_key = "None"
 		end
 		Handy.controller.complete_bind(parsed_key)
@@ -509,6 +862,71 @@ Handy.controller = {
 		["Scroll Lock"] = { "scrolllock" },
 	},
 
+	parse_gamepad_table = {
+		["a"] = "(A)",
+		["b"] = "(B)",
+		["x"] = "(X)",
+		["y"] = "(Y)",
+		["back"] = "(Back)",
+		["guide"] = "(Guide)",
+		["start"] = "(Start)",
+		["leftstick"] = "Left Stick",
+		["rightstick"] = "Right Stick",
+		["leftshoulder"] = "Left Bumper",
+		["rightshoulder"] = "Right Bumper",
+		["dpup"] = "(Up)",
+		["dpdown"] = "(Down)",
+		["dpleft"] = "(Left)",
+		["dpright"] = "(Right)",
+		-- Not present in current Love version (11.5.0)
+		["misc1"] = "Misc. Button",
+		["paddle1"] = "First Paddle",
+		["paddle2"] = "Second Paddle",
+		["paddle3"] = "Third Paddle",
+		["paddle4"] = "Fourth Paddle",
+		["touchpad"] = "Touchpad Press",
+		-- Axis as button
+		["triggerleft"] = "Left Trigger",
+		["triggerright"] = "Right Trigger",
+	},
+	resolve_gamepad_table = {
+		["(A)"] = { "a" },
+		["(B)"] = { "b" },
+		["(X)"] = { "x" },
+		["(Y)"] = { "y" },
+		["(Back)"] = { "back" },
+		["(Guide)"] = { "guide" },
+		["(Start)"] = { "start" },
+		["Left Stick"] = { "leftstick" },
+		["Right Stick"] = { "rightstick" },
+		["Left Bumper"] = { "leftshoulder" },
+		["Right Bumper"] = { "rightshoulder" },
+		["(Up)"] = { "dpup" },
+		["(Down)"] = { "dpdown" },
+		["(Left)"] = { "dpleft" },
+		["(Right)"] = { "dpright" },
+		-- Not present in current Love version (11.5.0)
+		["Misc. Button"] = { "misc1" },
+		["First Paddle"] = { "paddle1" },
+		["Second Paddle"] = { "paddle2" },
+		["Third Paddle"] = { "paddle3" },
+		["Fourth Paddle"] = { "paddle4" },
+		["Touchpad Press"] = { "touchpad" },
+		-- Axis as button
+		["Left Trigger"] = {
+			"triggerleft",
+			axis_check = function()
+				return G.CONTROLLER.axis_buttons.l_trig.current == "triggerleft"
+			end,
+		},
+		["Right Trigger"] = {
+			"triggerright",
+			axis_check = function()
+				return G.CONTROLLER.axis_buttons.r_trig.current == "triggerright"
+			end,
+		},
+	},
+
 	mouse_to_key_table = {
 		[1] = "mouse1",
 		[2] = "mouse2",
@@ -533,30 +951,59 @@ Handy.controller = {
 		["Wheel Down"] = 2,
 	},
 
-	parse = function(raw_key)
+	parse = function(raw_key, options)
 		if not raw_key then
-			return nil
+			return nil, false
 		end
+		options = options or {}
+
+		if options.gamepad or options.any then
+			local gamepad_result = Handy.controller.parse_gamepad_table[raw_key]
+			if gamepad_result or options.gamepad then
+				return gamepad_result, gamepad_result == "(Back)"
+			end
+		end
+
+		local result
 		if Handy.controller.parse_table[raw_key] then
-			return Handy.controller.parse_table[raw_key]
+			result = Handy.controller.parse_table[raw_key]
 		elseif string.sub(raw_key, 1, 2) == "kp" then
-			return "NUM " .. string.sub(raw_key, 3)
+			result = "NUM " .. string.sub(raw_key, 3)
 		else
-			return string.upper(string.sub(raw_key, 1, 1)) .. string.sub(raw_key, 2)
+			result = string.upper(string.sub(raw_key, 1, 1)) .. string.sub(raw_key, 2)
 		end
+		return result, result == "Escape"
 	end,
-	resolve = function(parsed_key)
+	resolve = function(parsed_key, options)
 		if not parsed_key then
 			return nil
+		end
+		options = options or {}
+
+		if options.gamepad or options.any then
+			local result = Handy.controller.resolve_gamepad_table[parsed_key]
+			if result or options.gamepad then
+				return unpack(result or { nil })
+			end
 		end
 		if Handy.controller.resolve_table[parsed_key] then
 			return unpack(Handy.controller.resolve_table[parsed_key])
 		elseif string.sub(parsed_key, 1, 4) == "NUM " then
 			return "kp" .. string.sub(parsed_key, 5)
 		else
-			local str = string.gsub(string.lower(parsed_key), "%s+", "")
-			return str
+			return string.gsub(string.lower(parsed_key), "%s+", "")
 		end
+	end,
+	resolve_first_module_key = function(module)
+		module = Handy.m(module)
+		if module and (allow_disabled or module.enabled) then
+			if force_gamepad or Handy.controller.is_gamepad() then
+				return Handy.controller.resolve(module.key_1_gamepad, { gamepad = true })
+					or Handy.controller.resolve(module.key_2_gamepad, { gamepad = true })
+			end
+			return Handy.controller.resolve(module.key_1) or Handy.controller.resolve(module.key_2)
+		end
+		return nil
 	end,
 	is_down = function(...)
 		local parsed_keys = { ... }
@@ -568,6 +1015,23 @@ Handy.controller = {
 				elseif Handy.controller.mouse_buttons[parsed_key] then
 					if love.mouse.isDown(Handy.controller.mouse_buttons[parsed_key]) then
 						return true
+					end
+				elseif Handy.controller.resolve(parsed_key, { gamepad = true }) then
+					local resolved_raw_value = Handy.controller.resolve_gamepad_table[parsed_key]
+					if resolved_raw_value and resolved_raw_value.axis_check then
+						local success, is_active = pcall(resolved_raw_value.axis_check)
+						if success and is_active then
+							return true
+						end
+					else
+						local success, is_down = pcall(function()
+							return G.GAMEPAD.object:isGamepadDown(
+								Handy.controller.resolve(parsed_key, { gamepad = true })
+							)
+						end)
+						if success and is_down then
+							return true
+						end
 					end
 				else
 					local success, is_down = pcall(function()
@@ -582,20 +1046,15 @@ Handy.controller = {
 		return false
 	end,
 	is = function(raw_key, ...)
-		if not raw_key then
+		if not raw_key or raw_key == "Unknown" or raw_key == "None" then
 			return false
 		end
 		local parsed_keys = { ... }
 		for i = 1, #parsed_keys do
 			local parsed_key = parsed_keys[i]
 			if parsed_key then
-				local resolved_key_1, resolved_key_2 = Handy.controller.resolve(parsed_key)
-				if
-					raw_key
-					and raw_key ~= "Unknown"
-					and raw_key ~= "None"
-					and (raw_key == resolved_key_1 or raw_key == resolved_key_2)
-				then
+				local resolved_key_1, resolved_key_2 = Handy.controller.resolve(parsed_key, { any = true })
+				if raw_key == resolved_key_1 or raw_key == resolved_key_2 then
 					return true
 				end
 			end
@@ -603,15 +1062,26 @@ Handy.controller = {
 		return false
 	end,
 
-	is_module_key_down = function(module, allow_disabled)
+	is_module_key_down = function(module, allow_disabled, force_gamepad)
 		module = Handy.m(module)
-		return module and (allow_disabled or module.enabled) and Handy.controller.is_down(module.key_1, module.key_2)
+		if module and (allow_disabled or module.enabled) then
+			if force_gamepad or Handy.controller.is_gamepad() then
+				return Handy.controller.is_down(module.key_1_gamepad, module.key_2_gamepad)
+			end
+			return Handy.controller.is_down(module.key_1, module.key_2)
+		end
+		return false
 	end,
-	is_module_key = function(module, raw_key, allow_disabled)
+	is_module_key = function(module, raw_key, allow_disabled, force_gamepad)
 		module = Handy.m(module)
-		return module
-			and (allow_disabled or module.enabled)
-			and Handy.controller.is(raw_key, module.key_1, module.key_2)
+		if module and (allow_disabled or module.enabled) then
+			if force_gamepad or Handy.controller.is_gamepad() then
+				return Handy.controller.is(raw_key, module.key_1_gamepad, module.key_2_gamepad)
+			else
+				return Handy.controller.is(raw_key, module.key_1, module.key_2)
+			end
+		end
+		return false
 	end,
 	is_module_enabled = function(module)
 		module = Handy.m(module)
@@ -631,6 +1101,8 @@ Handy.controller = {
 	process_key = function(key, released)
 		G.njy_keybind = nil
 
+		Handy.controller.update_device_type({ keyboard = true })
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -647,6 +1119,7 @@ Handy.controller = {
 
 		if not released then
 			Handy.speed_multiplier.use(key)
+			Handy.insta_highlight.use_on_hovered(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
@@ -668,6 +1141,8 @@ Handy.controller = {
 	process_mouse = function(mouse, released)
 		G.njy_keybind = nil
 
+		Handy.controller.update_device_type({ mouse = true })
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -682,6 +1157,7 @@ Handy.controller = {
 
 		if not released then
 			Handy.speed_multiplier.use(key)
+			Handy.insta_highlight.use_on_hovered(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
@@ -701,6 +1177,8 @@ Handy.controller = {
 		return false
 	end,
 	process_wheel = function(wheel)
+		Handy.controller.update_device_type({ mouse = true })
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -725,6 +1203,51 @@ Handy.controller = {
 
 		Handy.UI.state_panel.update(key, false)
 
+		return false
+	end,
+	process_gamepad_button = function(joystick, button, released)
+		if Handy.__disable_gamepad then
+			return false
+		end
+		Handy.controller.update_device_type({ gamepad = true })
+
+		if not Handy.is_mod_active() then
+			return false
+		end
+		if G.CONTROLLER.text_input_hook then
+			return false
+		end
+
+		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
+			return true
+		end
+
+		if button == "back" then
+			return false
+		end
+
+		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+			if Handy.controller.is_triggered(released) then
+				local _ = false
+					-- or Handy.insta_actions.use_alt(button)
+					-- or Handy.move_highlight.use(key)
+					or Handy.regular_keybinds.use(button)
+					or Handy.insta_highlight_entire_f_hand.use(button)
+					or Handy.deselect_hand.use(button)
+			end
+
+			-- Handy.dangerous_actions.toggle_queue(button, released)
+		end
+
+		Handy.UI.state_panel.update(button, released)
+
+		return false
+	end,
+	process_gamepad_axis = function(joystick, axis, value)
+		if Handy.__disable_gamepad then
+			return false
+		end
+		Handy.controller.update_device_type({ gamepad = true })
 		return false
 	end,
 	process_card_click = function(card)
@@ -774,10 +1297,18 @@ Handy.controller = {
 	end,
 
 	process_update = function(dt)
+		Handy.controller.update_device_type()
+
 		Handy.insta_booster_skip.update()
 		Handy.insta_cash_out.update()
 		Handy.show_deck_preview.update()
 		Handy.not_just_yet_interaction.update()
+
+		for key, button in pairs(Handy.controller.gamepad_patched_buttons) do
+			if button.node.REMOVED then
+				Handy.controller.gamepad_patched_buttons[key] = nil
+			end
+		end
 
 		Handy.UI.update(dt)
 	end,
@@ -892,12 +1423,17 @@ Handy.insta_booster_skip = {
 Handy.show_deck_preview = {
 	is_hold = false,
 
+	get_is_hold = function()
+		if Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.show_deck_preview) then
+			return G.STAGE == G.STAGES.RUN and (Handy.__disable_gamepad and G.CONTROLLER.held_buttons.triggerleft)
+				or Handy.controller.is_module_key_down(Handy.cc.show_deck_preview)
+		else
+			return G.CONTROLLER.held_buttons.triggerleft
+		end
+	end,
+
 	update = function()
-		Handy.show_deck_preview.is_hold = (
-			G.STAGE == G.STAGES.RUN
-			and Handy.is_mod_active()
-			and Handy.controller.is_module_key_down(Handy.cc.show_deck_preview)
-		)
+		Handy.show_deck_preview.is_hold = Handy.show_deck_preview.get_is_hold()
 	end,
 }
 
@@ -905,7 +1441,7 @@ Handy.show_deck_preview = {
 
 Handy.deselect_hand = {
 	should_prevent = function()
-		return Handy.controller.is_module_enabled(Handy.cc.deselect_hand)
+		return Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.deselect_hand)
 	end,
 
 	can_execute = function(key)
@@ -914,11 +1450,13 @@ Handy.deselect_hand = {
 			and G.hand.highlighted[1]
 			-- Vanilla check
 			and not ((G.play and #G.play.cards > 0) or G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+			and Handy.is_mod_active()
 			and Handy.controller.is_module_key(Handy.cc.deselect_hand, key)
 		)
 	end,
 	execute = function()
 		G.hand:unhighlight_all()
+		return true
 	end,
 
 	use = function(key)
@@ -928,31 +1466,53 @@ Handy.deselect_hand = {
 
 Handy.regular_keybinds = {
 	shop_reroll_blocker = false,
+	play_blocker = false,
+	discard_blocker = false,
+
+	shop_loaded = false,
 
 	can_play = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_play,
-			}) and Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
-		)
+		return not Handy.regular_keybinds.play_blocker
+			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
+			end, { visible = true })
 	end,
 	play = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.play_cards_from_highlighted,
-		})
+		Handy.regular_keybinds.play_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("play_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			func = function()
+				Handy.regular_keybinds.play_blocker = false
+				return true
+			end,
+		}))
+		return true
 	end,
 
 	can_discard = function(key)
-		return not not (
-			Handy.fake_events.check({
-				func = G.FUNCS.can_discard,
-			}) and Handy.controller.is_module_key(Handy.cc.regular_keybinds.discard, key)
-		)
+		return not Handy.regular_keybinds.discard_blocker
+			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.discard, key)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
+			end, { visible = true })
 	end,
 	discard = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.discard_cards_from_highlighted,
-		})
+		Handy.regular_keybinds.discard_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("discard_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			func = function()
+				Handy.regular_keybinds.discard_blocker = false
+				return true
+			end,
+		}))
+		return true
 	end,
 
 	can_change_sort = function(key)
@@ -969,25 +1529,41 @@ Handy.regular_keybinds = {
 			Handy.fake_events.execute({
 				func = G.FUNCS.sort_hand_value,
 			})
+			return true
 		elseif sorter == "suit" then
 			Handy.fake_events.execute({
 				func = G.FUNCS.sort_hand_suit,
 			})
+			return true
 		end
 	end,
 
+	on_shop_loaded = function()
+		if not G.shop then
+			return
+		end
+		Handy.regular_keybinds.shop_loaded = true
+		local remove_func_ref = G.shop.remove
+		function G.shop:remove(...)
+			Handy.regular_keybinds.shop_loaded = false
+			return remove_func_ref(self, ...)
+		end
+	end,
 	can_reroll_shop = function(key)
 		return not not (
 			not Handy.regular_keybinds.shop_reroll_blocker
+			and Handy.regular_keybinds.shop_loaded
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_shop, key)
-			and Handy.fake_events.check({ func = G.FUNCS.can_reroll, button = "reroll_shop" })
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+			end, { visible = true, require_exact_func = "can_reroll" })
 		)
 	end,
 	reroll_shop = function()
 		Handy.regular_keybinds.shop_reroll_blocker = true
-		Handy.fake_events.execute({
-			func = G.FUNCS.reroll_shop,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+		end)
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
 			func = function()
@@ -995,80 +1571,57 @@ Handy.regular_keybinds = {
 				return true
 			end,
 		}))
+		return true
 	end,
 
 	can_leave_shop = function(key)
-		return not not (Handy.controller.is_module_key(Handy.cc.regular_keybinds.leave_shop, key))
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.leave_shop, key)
+			and Handy.regular_keybinds.shop_loaded
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button")
+			end, { visible = true })
 	end,
 	leave_shop = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.toggle_shop,
-		})
+		Handy.regular_keybinds.shop_loaded = false
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button")
+		end)
+		return true
 	end,
 
 	can_select_blind = function(key)
-		if
-			not (
-				Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
-				and G.GAME.blind_on_deck
-				and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
-			)
-		then
-			return false
-		end
-
-		local success, button = pcall(function()
-			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
-		end)
-		if not success or not button then
-			return false
-		end
-		if button.config and button.config.func then
-			return Handy.fake_events.check({
-				func = G.FUNCS[button.config.func],
-				node = button,
-			})
-		else
-			return true
-		end
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.select_blind, key)
+			and G.GAME
+			and G.GAME.blind_on_deck
+			and G.blind_select
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and Handy.fake_events.check_button(function()
+				return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+			end)
 	end,
 	select_blind = function()
-		local success, button = pcall(function()
+		Handy.fake_events.execute_button(function()
 			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
 		end)
-
-		if success and button and button.config and button.config.button then
-			Handy.fake_events.execute({
-				func = G.FUNCS[button.config.button],
-				node = button,
-			})
-		end
+		return true
 	end,
 
 	can_skip_blind = function(key)
 		return not not (
 			Handy.controller.is_module_key(Handy.cc.regular_keybinds.skip_blind, key)
-			and G.GAME.blind_on_deck
-			and G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]
+			and Handy.fake_events.check_button(function()
+				local container = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID(
+					"tag_" .. G.GAME.blind_on_deck
+				)
+				return container.states.visible and container.children[2]
+			end, { visible = true })
 		)
 	end,
 	skip_blind = function()
-		local success, tag_UIBox = pcall(function()
-			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck)
+		Handy.fake_events.execute_button(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck).children[2]
 		end)
-		if not success or not tag_UIBox then
-			return false
-		end
-		local success, button_func = pcall(function()
-			return tag_UIBox.children[2].config.button
-		end)
-		if success and button_func then
-			Handy.fake_events.execute({
-				func = G.FUNCS[button_func],
-				card = tag_UIBox.config.ref_table,
-				UIBox = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)],
-			})
-		end
+		return true
 	end,
 
 	can_open_run_info = function(key)
@@ -1087,6 +1640,7 @@ Handy.regular_keybinds = {
 			func = G.FUNCS.run_info,
 		})
 		Handy.override_create_tabs_chosen_by_label = nil
+		return true
 	end,
 
 	can_view_deck = function(key)
@@ -1096,6 +1650,7 @@ Handy.regular_keybinds = {
 		Handy.fake_events.execute({
 			func = G.FUNCS.deck_info,
 		})
+		return true
 	end,
 
 	use = function(key)
@@ -1105,31 +1660,31 @@ Handy.regular_keybinds = {
 		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN then
 			local can_open_info, info_tab_index = Handy.regular_keybinds.can_open_run_info(key)
 			if can_open_info then
-				Handy.regular_keybinds.open_run_info(info_tab_index)
+				return Handy.regular_keybinds.open_run_info(info_tab_index)
 			elseif Handy.regular_keybinds.can_view_deck(key) then
-				Handy.regular_keybinds.view_deck()
+				return Handy.regular_keybinds.view_deck()
 			elseif G.STATE == G.STATES.SELECTING_HAND then
 				local need_sort, sorter = Handy.regular_keybinds.can_change_sort(key)
 				if need_sort then
-					Handy.regular_keybinds.change_sort(sorter)
+					return Handy.regular_keybinds.change_sort(sorter)
 				elseif Handy.regular_keybinds.can_discard(key) then
-					Handy.regular_keybinds.discard()
+					return Handy.regular_keybinds.discard()
 				elseif Handy.regular_keybinds.can_play(key) then
-					Handy.regular_keybinds.play()
+					return Handy.regular_keybinds.play()
 				end
 				return false
 			elseif G.STATE == G.STATES.SHOP then
 				if Handy.regular_keybinds.can_reroll_shop(key) then
-					Handy.regular_keybinds.reroll_shop()
+					return Handy.regular_keybinds.reroll_shop()
 				elseif Handy.regular_keybinds.can_leave_shop(key) then
-					Handy.regular_keybinds.leave_shop()
+					return Handy.regular_keybinds.leave_shop()
 				end
 				return false
 			elseif G.STATE == G.STATES.BLIND_SELECT then
 				if Handy.regular_keybinds.can_skip_blind(key) then
-					Handy.regular_keybinds.skip_blind()
+					return Handy.regular_keybinds.skip_blind()
 				elseif Handy.regular_keybinds.can_select_blind(key) then
-					Handy.regular_keybinds.select_blind()
+					return Handy.regular_keybinds.select_blind()
 				end
 				return false
 			end
@@ -1142,22 +1697,35 @@ Handy.regular_keybinds = {
 
 Handy.insta_highlight = {
 	can_execute = function(card)
-		return Handy.controller.is_module_enabled(Handy.cc.insta_highlight)
-			and G.STATE ~= G.STATES.HAND_PLAYED
+		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and card.area == G.hand
 			-- TODO: fix it
 			and not next(love.touch.getTouches())
-			and love.mouse.isDown(1)
+			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 			and not card.highlighted
 	end,
 	execute = function(card)
-		card.area:add_to_highlighted(card)
+		card:click()
 		return false
 	end,
 
 	use = function(card)
 		return Handy.insta_highlight.can_execute(card) and Handy.insta_highlight.execute(card) or false
+	end,
+
+	use_on_hovered = function(key)
+		if key == "mouse1" then
+			return false
+		end
+		G.E_MANAGER:add_event(Event({
+			type = "immediate",
+			func = function()
+				Handy.insta_highlight.use(G.CONTROLLER.hovering.target)
+				return true
+			end,
+		}))
+		return false
 	end,
 
 	update_state_panel = function(state, key, released) end,
@@ -1193,8 +1761,9 @@ Handy.insta_actions = {
 	get_actions = function()
 		return {
 			buy_n_sell = Handy.controller.is_module_key_down(Handy.cc.insta_buy_n_sell),
-			buy_or_sell = Handy.controller.is_module_key_down(Handy.cc.insta_buy_or_sell),
-			use = Handy.controller.is_module_key_down(Handy.cc.insta_use),
+			buy_or_sell = not Handy.controller.is_gamepad()
+				and Handy.controller.is_module_key_down(Handy.cc.insta_buy_or_sell),
+			use = not Handy.controller.is_gamepad() and Handy.controller.is_module_key_down(Handy.cc.insta_use),
 			cryptid_code_use_last_interaction = Handy.controller.is_module_key_down(
 				Handy.cc.cryptid_code_use_last_interaction
 			),
@@ -1203,8 +1772,9 @@ Handy.insta_actions = {
 	get_alt_actions = function(key)
 		return {
 			buy_n_sell = Handy.controller.is_module_key(Handy.cc.insta_buy_n_sell, key),
-			buy_or_sell = Handy.controller.is_module_key(Handy.cc.insta_buy_or_sell, key),
-			use = Handy.controller.is_module_key(Handy.cc.insta_use, key),
+			buy_or_sell = not Handy.controller.is_gamepad()
+				and Handy.controller.is_module_key(Handy.cc.insta_buy_or_sell, key),
+			use = not Handy.controller.is_gamepad() and Handy.controller.is_module_key(Handy.cc.insta_use, key),
 			cryptid_code_use_last_interaction = Handy.controller.is_module_key(
 				Handy.cc.cryptid_code_use_last_interaction,
 				key
@@ -1428,6 +1998,7 @@ Handy.insta_actions = {
 
 	use = function(card)
 		return Handy.cc.insta_actions_trigger_mode == 1
+			and not Handy.controller.is_gamepad()
 			and Handy.insta_actions.process_card(card, Handy.insta_actions.get_actions())
 	end,
 	use_alt = function(key)
@@ -1841,12 +2412,13 @@ Handy.speed_multiplier = {
 
 	get_actions = function(key)
 		return {
-			multiply = key == Handy.controller.wheel_to_key_table[1],
-			divide = key == Handy.controller.wheel_to_key_table[2],
+			multiply = Handy.controller.is_module_key(Handy.cc.speed_multiplier.multiply, key),
+			divide = Handy.controller.is_module_key(Handy.cc.speed_multiplier.divide, key),
 		}
 	end,
 	can_execute = function(key)
-		return Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
+		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
+			or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
 	end,
 
 	execute = function(key)
@@ -1906,8 +2478,8 @@ Handy.nopeus_interaction = {
 
 	get_actions = function(key)
 		return {
-			increase = key == Handy.controller.wheel_to_key_table[1],
-			decrease = key == Handy.controller.wheel_to_key_table[2],
+			increase = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.increase, key),
+			decrease = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.decrease, key),
 		}
 	end,
 
@@ -1921,7 +2493,10 @@ Handy.nopeus_interaction = {
 	can_execute = function(key)
 		return not not (
 			Handy.nopeus_interaction.is_present()
-			and Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
+			and (
+				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
+				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
+			)
 		)
 	end,
 	execute = function(key)
@@ -2303,6 +2878,31 @@ function love.wheelmoved(x, y)
 	Handy.controller.process_wheel(y > 0 and 1 or 2)
 end
 
+local controller_button_press_ref = Controller.button_press
+function Controller:button_press(button, ...)
+	if Handy.controller.process_gamepad_button(self.GAMEPAD.object, button, false) then
+		return
+	end
+	return controller_button_press_ref(self, button, ...)
+end
+
+local controller_button_release_ref = Controller.button_release
+function Controller:button_release(button, ...)
+	if Handy.controller.process_gamepad_button(self.GAMEPAD.object, button, true) then
+		return
+	end
+	return controller_button_release_ref(self, button, ...)
+end
+
+local controller_update_axis_ref = Controller.update_axis
+function Controller:update_axis(...)
+	local axis_interpretation = controller_update_axis_ref(self, ...)
+	if not Handy.__disable_gamepad and axis_interpretation == "axis_cursor" then
+		Handy.controller.cancel_bind()
+	end
+	return axis_interpretation
+end
+
 --
 
 function Handy.emplace_steamodded()
@@ -2331,7 +2931,9 @@ function G.FUNCS.handy_toggle_module_enabled(arg, module)
 		return
 	end
 	module.enabled = arg
-	Handy.nopeus_interaction.change(0)
+	if module == Handy.cc.nopeus_interaction then
+		Handy.nopeus_interaction.change(0)
+	end
 	Handy.config.save()
 end
 

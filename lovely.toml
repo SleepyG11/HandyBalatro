@@ -1,7 +1,7 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 0
+priority = -1
 
 [[patches]]
 [patches.copy]
@@ -170,7 +170,6 @@ end
 match_indent = true
 overwrite = false
 
-
 # Handle skip tag click
 [[patches]]
 [patches.pattern]
@@ -184,6 +183,18 @@ _handy_tag_click_target.click = function(...)
     if Handy.controller.process_tag_click(_tag) then return end
     return _handy_tag_click_ref(...)
 end
+'''
+match_indent = true
+overwrite = false
+
+# Override gamepad buttons
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.set_button_pip = function(e)'''
+position = "after"
+payload = '''
+if Handy.controller.override_node_button(e) then return end
 '''
 match_indent = true
 overwrite = false
@@ -206,11 +217,10 @@ overwrite = false
 [patches.regex]
 target = "game.lua"
 pattern = '''G.CONTROLLER.held_buttons.triggerleft'''
-position = "after"
+position = "at"
 payload = '''
- or Handy.show_deck_preview.is_hold
+Handy.show_deck_preview.is_hold
 '''
-match_indent = true
 overwrite = false
 times = 2
 
@@ -235,6 +245,18 @@ position = "before"
 payload = '''
 if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen
 elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
+'''
+match_indent = true
+overwrite = false
+
+# A point where we can leave shop
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if math.abs(G.shop.T.y - G.shop.VT.y) < 3 then'''
+position = "after"
+payload = '''
+Handy.regular_keybinds.on_shop_loaded()
 '''
 match_indent = true
 overwrite = false
