@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.2",
+	version = "1.4.2a",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -1195,6 +1195,7 @@ Handy.controller = {
 		Handy.nopeus_interaction.use(key)
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			Handy.insta_actions.use_alt(key)
 			Handy.move_highlight.use(key)
 			Handy.regular_keybinds.use(key)
 			Handy.insta_highlight_entire_f_hand.use(key)
