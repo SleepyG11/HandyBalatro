@@ -13,7 +13,7 @@ Handy = setmetatable({
 		["1.4.1b_patched_select_blind_and_skip"] = true,
 	},
 
-	__disable_gamepad = true,
+	__disable_gamepad = false,
 }, {})
 
 --- @generic T
@@ -125,36 +125,36 @@ Handy.config = {
 
 			key_1 = "Left Mouse",
 			key_2 = "None",
-			-- key_1_gamepad = "(A)",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "(A)",
+			key_2_gamepad = "None",
 		},
 		insta_highlight_entire_f_hand = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		insta_buy_n_sell = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		insta_buy_or_sell = {
 			enabled = true,
 			key_1 = "Shift",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		insta_use = {
 			enabled = true,
 			key_1 = "Ctrl",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		move_highlight = {
 			enabled = true,
@@ -163,15 +163,15 @@ Handy.config = {
 				enabled = true,
 				key_1 = "Shift",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 			to_end = {
 				enabled = true,
 				key_1 = "Ctrl",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			dx = {
@@ -179,15 +179,15 @@ Handy.config = {
 					enabled = true,
 					key_1 = "Left",
 					key_2 = "None",
-					-- key_1_gamepad = "None",
-					-- key_2_gamepad = "None",
+					key_1_gamepad = "None",
+					key_2_gamepad = "None",
 				},
 				one_right = {
 					enabled = true,
 					key_1 = "Right",
 					key_2 = "None",
-					-- key_1_gamepad = "None",
-					-- key_2_gamepad = "None",
+					key_1_gamepad = "None",
+					key_2_gamepad = "None",
 				},
 			},
 		},
@@ -196,22 +196,22 @@ Handy.config = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 		insta_booster_skip = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
-			-- key_1_gamepad = "(Y)",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "(Y)",
+			key_2_gamepad = "None",
 		},
 		show_deck_preview = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
-			-- key_1_gamepad = "Left Trigger",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "Left Trigger",
+			key_2_gamepad = "None",
 		},
 
 		dangerous_actions = {
@@ -223,8 +223,8 @@ Handy.config = {
 				enabled = false,
 				key_1 = "Middle Mouse",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 
 				queue = {
 					enabled = false,
@@ -235,24 +235,24 @@ Handy.config = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			sell_all = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			card_remove = {
 				enabled = false,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			nopeus_unsafe = {
@@ -265,8 +265,8 @@ Handy.config = {
 
 			key_1 = "Alt",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 
 			no_hold = {
 				enabled = false,
@@ -276,15 +276,15 @@ Handy.config = {
 				enabled = true,
 				key_1 = "Wheel Up",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 			divide = {
 				enabled = true,
 				key_1 = "Wheel Down",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 		},
 
@@ -292,8 +292,8 @@ Handy.config = {
 			enabled = true,
 			key_1 = "Right Mouse",
 			key_2 = "None",
-			-- key_1_gamepad = "Right Stick",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "Right Stick",
+			key_2_gamepad = "None",
 		},
 
 		regular_keybinds = {
@@ -303,82 +303,82 @@ Handy.config = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "(X)",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "(X)",
+				key_2_gamepad = "None",
 			},
 			discard = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "(Y)",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "(Y)",
+				key_2_gamepad = "None",
 			},
 			sort_by_rank = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "Right Bumper",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "Right Bumper",
+				key_2_gamepad = "None",
 			},
 			sort_by_suit = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "Left Bumper",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "Left Bumper",
+				key_2_gamepad = "None",
 			},
 
 			reroll_shop = {
 				enabled = true,
 				key_1 = "Q",
 				key_2 = "None",
-				-- key_1_gamepad = "(X)",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "(X)",
+				key_2_gamepad = "None",
 			},
 			leave_shop = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "(Y)",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "(Y)",
+				key_2_gamepad = "None",
 			},
 
 			skip_blind = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 			select_blind = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			run_info = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "(Guide)",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "(Guide)",
+				key_2_gamepad = "None",
 			},
 			run_info_blinds = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 
 			view_deck = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				-- key_1_gamepad = "Right Trigger",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "Right Trigger",
+				key_2_gamepad = "None",
 			},
 		},
 
@@ -387,8 +387,8 @@ Handy.config = {
 
 			key_1 = "]",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 
 			no_hold = {
 				enabled = false,
@@ -398,15 +398,15 @@ Handy.config = {
 				enabled = true,
 				key_1 = "Wheel Up",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 			decrease = {
 				enabled = true,
 				key_1 = "Wheel Down",
 				key_2 = "None",
-				-- key_1_gamepad = "None",
-				-- key_2_gamepad = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
 			},
 		},
 
@@ -414,16 +414,16 @@ Handy.config = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 
 		cryptid_code_use_last_interaction = {
 			enabled = true,
 			key_1 = "None",
 			key_2 = "None",
-			-- key_1_gamepad = "None",
-			-- key_2_gamepad = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
 		},
 	},
 	current = {},
@@ -609,31 +609,29 @@ Handy.controller = {
 
 	gamepad_patched_buttons = {},
 
+	add_button_to_registry = function(e, menu)
+		local registry = e.config.focus_args.button
+		G.CONTROLLER.button_registry[registry] = G.CONTROLLER.button_registry[registry] or {}
+		table.insert(
+			G.CONTROLLER.button_registry[registry],
+			1,
+			{ node = e.config.button_UIE or e, menu = menu or false }
+		)
+		return true
+	end,
+	remove_button_from_registry = function(e)
+		for k, registry in pairs(G.CONTROLLER.button_registry) do
+			for i = #registry, 1, -1 do
+				if registry[i].node == (e.config.button_UIE or e) then
+					table.remove(registry, i)
+				end
+			end
+		end
+	end,
+
 	override_node_button = function(e)
 		if e.REMOVED or Handy.__disable_gamepad then
 			return false
-		end
-
-		local remove_from_registry = function()
-			for k, registry in pairs(G.CONTROLLER.button_registry) do
-				for i = #registry, 1, -1 do
-					if registry[i].node == (e.config.button_UIE or e) then
-						table.remove(registry, i)
-						return true
-					end
-				end
-			end
-		end
-		local add_to_registry = function()
-			-- TODO: fix it
-			for k, registry in pairs(G.CONTROLLER.button_registry) do
-				for i = #registry, 1, -1 do
-					if registry[i].node == (e.config.button_UIE or e) then
-						return false
-					end
-				end
-			end
-			G.CONTROLLER:add_to_registry(e.config.button_UIE or e, e.config.focus_args.button)
 		end
 
 		local patched_button = e.handy_gamepad_override
@@ -641,13 +639,13 @@ Handy.controller = {
 		if patched_button and patched_button.node == e then
 			local new_button
 			if Handy.is_mod_active() and patched_button.enabled_func() then
-				remove_from_registry()
+				Handy.controller.remove_button_from_registry(e)
 				new_button = Handy.controller.resolve_first_module_key(patched_button.module)
 				e.config.focus_args.button = new_button
 			else
 				new_button = e.handy_replaced_button
-				e.config.focus_args.button = e.handy_replaced_button
-				add_to_registry()
+				e.config.focus_args.button = new_button
+				Handy.controller.add_button_to_registry(e, e.handy_replaced_registry_menu_value)
 			end
 			if e.handy_previous_button ~= new_button then
 				e.handy_previous_button = new_button
@@ -726,9 +724,10 @@ Handy.controller = {
 				end
 			e.handy_gamepad_override = override_key
 			e.handy_replaced_button = e.config.focus_args.button
+			e.handy_replaced_registry_menu_value = (not not G.OVERLAY_MENU) or not not G.SETTINGS.paused
 
 			if Handy.is_mod_active() and enabled_func() then
-				remove_from_registry()
+				Handy.controller.remove_button_from_registry(e)
 				local new_button = Handy.controller.resolve_first_module_key(override_module)
 				e.config.focus_args.button = new_button
 				e.handy_previous_button = new_button
@@ -1025,7 +1024,7 @@ Handy.controller = {
 						end
 					else
 						local success, is_down = pcall(function()
-							return G.GAMEPAD.object:isGamepadDown(
+							return G.CONTROLLER.GAMEPAD.object:isGamepadDown(
 								Handy.controller.resolve(parsed_key, { gamepad = true })
 							)
 						end)
