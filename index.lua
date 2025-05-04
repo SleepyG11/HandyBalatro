@@ -125,7 +125,7 @@ Handy.config = {
 
 			key_1 = "Left Mouse",
 			key_2 = "None",
-			key_1_gamepad = "(A)",
+			key_1_gamepad = "Left Stick",
 			key_2_gamepad = "None",
 		},
 		insta_highlight_entire_f_hand = {
@@ -738,9 +738,11 @@ Handy.controller = {
 				enabled_func = enabled_func,
 			}
 		end
-		if not e.config.focus_args.button and e.children.button_pip then
-			e.children.button_pip:remove()
-			e.children.button_pip = nil
+		if not e.config.focus_args.button then
+			if e.children.button_pip then
+				e.children.button_pip:remove()
+				e.children.button_pip = nil
+			end
 			return true
 		end
 		return false
@@ -1102,14 +1104,15 @@ Handy.controller = {
 
 		Handy.controller.update_device_type({ keyboard = true })
 
+		if not released and Handy.controller.process_bind(key) then
+			return true
+		end
+
 		if not Handy.is_mod_active() then
 			return false
 		end
 		if G.CONTROLLER.text_input_hook then
 			return false
-		end
-		if not released and Handy.controller.process_bind(key) then
-			return true
 		end
 
 		if key == "escape" then
@@ -1142,6 +1145,10 @@ Handy.controller = {
 
 		Handy.controller.update_device_type({ mouse = true })
 
+		if not released and Handy.controller.process_bind(key) then
+			return true
+		end
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -1149,10 +1156,6 @@ Handy.controller = {
 			return false
 		end
 		local key = Handy.controller.mouse_to_key_table[mouse]
-
-		if not released and Handy.controller.process_bind(key) then
-			return true
-		end
 
 		if not released then
 			Handy.speed_multiplier.use(key)
@@ -1178,6 +1181,10 @@ Handy.controller = {
 	process_wheel = function(wheel)
 		Handy.controller.update_device_type({ mouse = true })
 
+		if Handy.controller.process_bind(key) then
+			return true
+		end
+
 		if not Handy.is_mod_active() then
 			return false
 		end
@@ -1185,10 +1192,6 @@ Handy.controller = {
 			return false
 		end
 		local key = Handy.controller.wheel_to_key_table[wheel]
-
-		if Handy.controller.process_bind(key) then
-			return true
-		end
 
 		Handy.speed_multiplier.use(key)
 		Handy.nopeus_interaction.use(key)
@@ -1210,15 +1213,15 @@ Handy.controller = {
 		end
 		Handy.controller.update_device_type({ gamepad = true })
 
+		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
+			return true
+		end
+
 		if not Handy.is_mod_active() then
 			return false
 		end
 		if G.CONTROLLER.text_input_hook then
 			return false
-		end
-
-		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
-			return true
 		end
 
 		if button == "back" then
@@ -2900,6 +2903,20 @@ function Controller:update_axis(...)
 		Handy.controller.cancel_bind()
 	end
 	return axis_interpretation
+end
+
+local create_button_binding_pip_ref = create_button_binding_pip
+function create_button_binding_pip(args, ...)
+	if not args or not args.button then
+		return {
+			n = G.UIT.ROOT,
+			config = { align = "cm", colour = G.C.CLEAR },
+			nodes = {
+				{ n = G.UIT.O, config = { object = Moveable() } },
+			},
+		}
+	end
+	return create_button_binding_pip_ref(args, ...)
 end
 
 --
