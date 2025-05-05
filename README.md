@@ -98,7 +98,7 @@ if Handy and Handy.get_module_override then
                 enabled = false
             }
         end
-        return funcRef()
+        return funcRef(module)
     end
 end
 ```
