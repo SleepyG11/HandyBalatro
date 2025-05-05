@@ -13,7 +13,9 @@
 
 if SMODS and SMODS.current_mod then
 	if Handy then
-		Handy.emplace_steamodded()
+		if not Handy.current_mod then
+			Handy.emplace_steamodded()
+		end
 	else
 		Handy_Preload = {
 			current_mod = SMODS.current_mod,

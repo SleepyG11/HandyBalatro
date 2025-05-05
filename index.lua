@@ -754,6 +754,9 @@ Handy.controller = {
 	rerender_after_bind = nil,
 
 	update_bind_button_text = function(text)
+		if not Handy.controller.bind_button then
+			return
+		end
 		local button_text = Handy.controller.bind_button.children[1].children[1]
 		button_text.config.text_drawable = nil
 		button_text.config.text = text
@@ -775,7 +778,9 @@ Handy.controller = {
 		Handy.controller.bind_module[Handy.controller.bind_key] = key or "None"
 		Handy.controller.update_bind_button_text(key or "None")
 
-		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
+		if Handy.controller.bind_button then
+			Handy.controller.bind_button.config.button = "handy_init_keybind_change"
+		end
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
