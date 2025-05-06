@@ -8,6 +8,12 @@ Handy.UI.PARTS = {
 			}
 		end,
 		["insta_highlight"] = function()
+			if Handy.controller.is_gamepad() then
+				return {
+					"Works both for cursor and movement",
+					"via direction buttons",
+				}
+			end
 			return {
 				"If key set to {C:chips}[Left Mouse]{},",
 				"start holding key {C:attention}outside{} of cards",
@@ -108,13 +114,18 @@ Handy.UI.PARTS = {
 			}
 		end,
 		["sell_queue"] = function()
-			return {
+			local result = {
 				"Instead of selling immediately, {C:mult}[Instant Sell]{}",
 				"will put all hovered cards in a list and",
 				"all of them will be sold after keybind release",
 				" ",
 				"Allow more precise cards selection, but slower",
 			}
+			if Handy.controller.is_gamepad() then
+				table.insert(result, " ")
+				table.insert(result, "{C:attention}Always active for gamepad{}")
+			end
+			return result
 		end,
 		["nopeus_interaction_unsafe"] = function()
 			return {
@@ -1127,6 +1138,7 @@ Handy.UI.get_config_tab_dangerous = function()
 end
 
 Handy.UI.get_config_tab_regular_keybinds = function()
+	local gamepad = Handy.controller.is_gamepad()
 	return {
 		Handy.UI.PARTS.create_module_section("Round"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "Play hand"),
@@ -1155,7 +1167,9 @@ Handy.UI.get_config_tab_regular_keybinds = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
+						text = "Click on a button and next inputted key will be assigned. "
+							.. (gamepad and "[(Back)]" or "[Escape]")
+							.. " to unbind.",
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -1167,11 +1181,12 @@ Handy.UI.get_config_tab_regular_keybinds = function()
 end
 
 Handy.UI.get_config_tab_keybinds_2 = function()
+	local gamepad = Handy.controller.is_gamepad()
 	return {
 		Handy.UI.PARTS.create_module_section("Quick actions"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "Quick highlight"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "Quick Buy/Sell"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "Quick Use"),
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "Quick Buy/Sell") or nil,
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "Quick Use") or nil,
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "Quick Buy'n'Sell"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "Highlight entire hand"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.cryptid_code_use_last_interaction, "Cryptid: use previous input"),
@@ -1182,11 +1197,13 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "Nopeus: fast-forward"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "Increase"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "Decrease"),
-		Handy.UI.PARTS.create_module_section("Highlight movement"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_left, "Move one left"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_right, "Move one right"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.swap, "Move card"),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.to_end, "Move to end"),
+		not gamepad and Handy.UI.PARTS.create_module_section("Highlight movement") or nil,
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_left, "Move one left")
+			or nil,
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_right, "Move one right")
+			or nil,
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.swap, "Move card") or nil,
+		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.to_end, "Move to end") or nil,
 		{ n = G.UIT.R, config = { minh = 0.15 } },
 		{
 			n = G.UIT.R,
@@ -1195,7 +1212,9 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
+						text = "Click on a button and next inputted key will be assigned. "
+							.. (gamepad and "[(Back)]" or "[Escape]")
+							.. " to unbind.",
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",

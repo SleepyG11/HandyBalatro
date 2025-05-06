@@ -14,6 +14,7 @@ Handy = setmetatable({
 	},
 
 	__disable_gamepad = false,
+	__force_gamepad = false,
 }, {})
 
 --- @generic T
@@ -196,7 +197,7 @@ Handy.config = {
 			enabled = true,
 			key_1 = "Enter",
 			key_2 = "None",
-			key_1_gamepad = "None",
+			key_1_gamepad = "(Y)",
 			key_2_gamepad = "None",
 		},
 		insta_booster_skip = {
@@ -347,14 +348,14 @@ Handy.config = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				key_1_gamepad = "None",
+				key_1_gamepad = "(X)",
 				key_2_gamepad = "None",
 			},
 			select_blind = {
 				enabled = true,
 				key_1 = "None",
 				key_2 = "None",
-				key_1_gamepad = "None",
+				key_1_gamepad = "(Y)",
 				key_2_gamepad = "None",
 			},
 
@@ -567,6 +568,9 @@ Handy.controller = {
 		if Handy.__disable_gamepad then
 			return "keyboard"
 		end
+		if Handy.__force_gamepad then
+			return "gamepad"
+		end
 		options = options or {}
 		if options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
 			return "gamepad"
@@ -603,6 +607,9 @@ Handy.controller = {
 	is_gamepad = function()
 		if Handy.__disable_gamepad then
 			return false
+		end
+		if Handy.__force_gamepad then
+			return true
 		end
 		return Handy.controller.device_type == "gamepad"
 	end,
@@ -1105,27 +1112,26 @@ Handy.controller = {
 	end,
 
 	process_key = function(key, released)
+		Handy.controller.update_device_type({ keyboard = true })
 		G.njy_keybind = nil
 
-		Handy.controller.update_device_type({ keyboard = true })
+		-----
 
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
+		if key == "escape" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+			return false
+		end
+		local finish = function(result)
+			Handy.UI.state_panel.update(key, released)
+			return result
+		end
 
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if G.CONTROLLER.text_input_hook then
-			return false
-		end
-
-		if key == "escape" then
-			return false
-		end
+		-----
 
 		if not released then
-			Handy.speed_multiplier.use(key)
+			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
 			Handy.insta_highlight.use_on_hovered(key)
 		end
 
@@ -1141,29 +1147,31 @@ Handy.controller = {
 			Handy.dangerous_actions.toggle_queue(key, released)
 		end
 
-		Handy.UI.state_panel.update(key, released)
-
-		return false
+		return finish(false)
 	end,
 	process_mouse = function(mouse, released)
-		G.njy_keybind = nil
-
 		Handy.controller.update_device_type({ mouse = true })
+		G.njy_keybind = nil
+		local key = Handy.controller.mouse_to_key_table[mouse]
+
+		-----
 
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
+		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+			return false
+		end
 
-		if not Handy.is_mod_active() then
-			return false
+		local finish = function(result)
+			Handy.UI.state_panel.update(key, released)
+			return result
 		end
-		if G.CONTROLLER.text_input_hook then
-			return false
-		end
-		local key = Handy.controller.mouse_to_key_table[mouse]
+
+		-----
 
 		if not released then
-			Handy.speed_multiplier.use(key)
+			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
 			Handy.insta_highlight.use_on_hovered(key)
 		end
 
@@ -1179,27 +1187,31 @@ Handy.controller = {
 			Handy.dangerous_actions.toggle_queue(key, released)
 		end
 
-		Handy.UI.state_panel.update(key, released)
-
-		return false
+		return finish(false)
 	end,
 	process_wheel = function(wheel)
 		Handy.controller.update_device_type({ mouse = true })
+		local key = Handy.controller.wheel_to_key_table[wheel]
+
+		-----
 
 		if Handy.controller.process_bind(key) then
 			return true
 		end
-
-		if not Handy.is_mod_active() then
+		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
 			return false
 		end
-		if G.CONTROLLER.text_input_hook then
-			return false
-		end
-		local key = Handy.controller.wheel_to_key_table[wheel]
 
-		Handy.speed_multiplier.use(key)
-		Handy.nopeus_interaction.use(key)
+		local finish = function(result)
+			Handy.UI.state_panel.update(key, false)
+			return result
+		end
+
+		-----
+
+		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) then
+			return finish(false)
+		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			Handy.insta_actions.use_alt(key)
@@ -1209,9 +1221,7 @@ Handy.controller = {
 			Handy.deselect_hand.use(key)
 		end
 
-		Handy.UI.state_panel.update(key, false)
-
-		return false
+		return finish(false)
 	end,
 	process_gamepad_button = function(joystick, button, released)
 		if Handy.__disable_gamepad then
@@ -1219,32 +1229,28 @@ Handy.controller = {
 		end
 		Handy.controller.update_device_type({ gamepad = true })
 
+		-----
+
 		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
 			return true
 		end
-
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if G.CONTROLLER.text_input_hook then
+		if button == "back" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
 			return false
 		end
 
-		if button == "back" then
-			return false
-		end
+		-----
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.controller.is_triggered(released) then
 				local _ = false
-					-- or Handy.insta_actions.use_alt(button)
+					or Handy.insta_actions.use_alt(button)
 					-- or Handy.move_highlight.use(key)
 					or Handy.regular_keybinds.use(button)
 					or Handy.insta_highlight_entire_f_hand.use(button)
 					or Handy.deselect_hand.use(button)
 			end
 
-			-- Handy.dangerous_actions.toggle_queue(button, released)
+			Handy.dangerous_actions.toggle_queue(button, released)
 		end
 
 		Handy.UI.state_panel.update(button, released)
@@ -1263,10 +1269,7 @@ Handy.controller = {
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if Handy.insta_actions.use(card) then
-				return true
-			end
-			if Handy.dangerous_actions.use_click(card) then
+			if Handy.insta_actions.use(card) or Handy.dangerous_actions.use_click(card) then
 				return true
 			end
 			Handy.last_clicked_card = card
@@ -1279,10 +1282,7 @@ Handy.controller = {
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if Handy.insta_highlight.use(card) then
-				return true
-			end
-			if Handy.dangerous_actions.use_hover(card) then
+			if Handy.insta_highlight.use(card) or Handy.dangerous_actions.use_hover(card) then
 				return true
 			end
 			Handy.last_hovered_card = card
@@ -1844,20 +1844,20 @@ Handy.insta_actions = {
 				is_shop_button = target_button == card.children.buy_and_use_button
 			end
 		elseif buy_or_sell then
-			target_button = card.children.buy_button
-				or result_funcs.can_select_crazy_card -- Cines
-				or result_funcs.can_select_alchemical -- Alchemical cards
-				or result_funcs.can_use_mupack -- Multipacks
-				or result_funcs.can_reserve_card -- Code cards, for example
-				or base_attach.buy
-				or base_attach.redeem
-				or base_attach.sell
-				or (is_booster_pack_card and base_attach.use)
-
-			if only_sell and target_button ~= base_attach.sell then
-				target_button = nil
+			if only_sell then
+				target_button = base_attach.sell or nil
+			else
+				target_button = card.children.buy_button
+					or result_funcs.can_select_crazy_card -- Cines
+					or result_funcs.can_select_alchemical -- Alchemical cards
+					or result_funcs.can_use_mupack -- Multipacks
+					or result_funcs.can_reserve_card -- Code cards, for example
+					or base_attach.buy
+					or base_attach.redeem
+					or base_attach.sell
+					or (is_booster_pack_card and base_attach.use)
 			end
-			is_shop_button = target_button == card.children.buy_button
+			is_shop_button = target_button ~= nil and target_button == card.children.buy_button
 		end
 
 		if target_button and not is_custom_button and not is_shop_button then
@@ -2005,12 +2005,11 @@ Handy.insta_actions = {
 	end,
 
 	use = function(card)
-		return Handy.cc.insta_actions_trigger_mode == 1
-			and not Handy.controller.is_gamepad()
+		return (not Handy.controller.is_gamepad() and Handy.cc.insta_actions_trigger_mode == 1)
 			and Handy.insta_actions.process_card(card, Handy.insta_actions.get_actions())
 	end,
 	use_alt = function(key)
-		return Handy.cc.insta_actions_trigger_mode == 2
+		return (Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode == 2)
 			and Handy.insta_actions.process_card(Handy.last_hovered_card, Handy.insta_actions.get_alt_actions(key))
 	end,
 
@@ -2090,6 +2089,7 @@ Handy.move_highlight = {
 	cen_execute = function(key, area)
 		return not not (
 			Handy.controller.is_module_enabled(Handy.cc.move_highlight)
+			and not Handy.controller.is_gamepad()
 			and area
 			and area.highlighted
 			and area.highlighted[1]
@@ -2189,7 +2189,8 @@ Handy.dangerous_actions = {
 
 	get_options = function(card)
 		return {
-			use_queue = Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.immediate_buy_and_sell.queue),
+			use_queue = Handy.controller.is_gamepad()
+				or Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.immediate_buy_and_sell.queue),
 			remove = Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.card_remove)
 				and (card.area == G.jokers or card.area == G.consumeables),
 		}
@@ -2433,9 +2434,11 @@ Handy.speed_multiplier = {
 		local actions = Handy.speed_multiplier.get_actions(key)
 		if actions.multiply then
 			Handy.speed_multiplier.multiply()
+			return not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
 		end
 		if actions.divide then
 			Handy.speed_multiplier.divide()
+			return not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
 		end
 		return false
 	end,
@@ -2511,25 +2514,28 @@ Handy.nopeus_interaction = {
 		local actions = Handy.nopeus_interaction.get_actions(key)
 		if actions.increase then
 			Handy.nopeus_interaction.increase()
+			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
 		if actions.decrease then
 			Handy.nopeus_interaction.decrease()
+			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
+		return false
 	end,
 
 	change = function(dx)
 		if not Handy.nopeus_interaction.is_present() then
 			G.SETTINGS.FASTFORWARD = 0
-		elseif Nopeus.Optimised then
-			G.SETTINGS.FASTFORWARD = math.min(
-				Handy.nopeus_interaction.can_dangerous() and 4 or 3,
-				math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
-			)
 		else
-			G.SETTINGS.FASTFORWARD = math.min(
-				Handy.nopeus_interaction.can_dangerous() and 3 or 2,
-				math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
-			)
+			local increment = Nopeus.Optimised and 1 or 0
+			if G.SETTINGS.FASTFORWARD == (3 + increment) and dx > 0 then
+				-- It's already unsafe, so leave it as it is
+			else
+				G.SETTINGS.FASTFORWARD = math.min(
+					(Handy.nopeus_interaction.can_dangerous() and 3 or 2) + increment,
+					math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
+				)
+			end
 		end
 	end,
 	increase = function()
@@ -2573,10 +2579,10 @@ Handy.nopeus_interaction = {
 			local is_dangerous = G.SETTINGS.FASTFORWARD == (#states - 1)
 
 			if is_dangerous then
-				state.dangerous = true
 				if Handy.cc.notifications_level < 2 then
 					return false
 				end
+				state.dangerous = true
 			else
 				if Handy.cc.notifications_level < 3 then
 					return false
