@@ -301,14 +301,9 @@ Handy.UI.get_config_tab_overall = function()
 					nodes = {
 						create_option_cycle({
 							w = 6,
-							label = "Info popups level",
+							label = localize("b_handy_info_popups_level_select"),
 							scale = 0.8,
-							options = {
-								"None",
-								"Dangerous only",
-								"Features-related",
-								"All",
-							},
+							options = localize("handy_info_popups_level_opt"),
 							opt_callback = "handy_change_notifications_level",
 							current_option = Handy.cc.notifications_level,
 						}),
@@ -319,12 +314,9 @@ Handy.UI.get_config_tab_overall = function()
 					nodes = {
 						create_option_cycle({
 							w = 6,
-							label = "Keybinds trigger mode",
+							label = localize("b_handy_keybinds_trigger_mode_select"),
 							scale = 0.8,
-							options = {
-								"On key press",
-								"On key release",
-							},
+							options = localize("handy_keybinds_trigger_mode_opt"),
 							opt_callback = "handy_change_keybinds_trigger_mode",
 							current_option = Handy.cc.keybinds_trigger_mode,
 						}),
@@ -394,12 +386,9 @@ Handy.UI.get_config_tab_quick = function()
 					nodes = {
 						create_option_cycle({
 							w = 6,
-							label = "Buy/Sell/Use mode",
+							label = localize("b_handy_buy_sell_use_mode_select"),
 							scale = 0.8,
-							options = {
-								"Hold key + Click card",
-								"Hover card + Press key",
-							},
+							options = localize("handy_buy_sell_use_mode_opt"),
 							opt_callback = "handy_change_insta_actions_trigger_mode",
 							current_option = Handy.cc.insta_actions_trigger_mode,
 						}),

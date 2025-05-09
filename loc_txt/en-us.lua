@@ -351,5 +351,24 @@ return {
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
 		},
+		dictionary = {
+			b_handy_info_popups_level_select = "Info popups level",
+			handy_info_popups_level_opt = {
+				"None",
+				"Dangerous only",
+				"Features-related",
+				"All",
+			},
+			b_handy_keybinds_trigger_mode_select = "Keybinds trigger mode",
+			handy_keybinds_trigger_mode_opt = {
+				"On key press",
+				"On key release",
+			},
+			b_handy_buy_sell_use_mode_select = "Buy/Sell/Use mode",
+			handy_buy_sell_use_mode_opt = {
+				"Hold key + Click card",
+				"Hover card + Press key",
+			},
+		},
 	},
 }
