@@ -1,5 +1,9 @@
+if Handy then
+	return
+end
+
 Handy = setmetatable({
-	version = "1.4.2a",
+	version = "1.5.0-pre1",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -37,15 +41,11 @@ function Handy.utils.table_merge(target, source, ...)
 	for i = 1, #tables_to_merge do
 		local from = tables_to_merge[i]
 		for k, v in pairs(from) do
-			if type(k) == "number" then
-				table.insert(target, v)
-			elseif type(k) == "string" then
-				if type(v) == "table" then
-					target[k] = target[k] or {}
-					target[k] = Handy.utils.table_merge(target[k], v)
-				else
-					target[k] = v
-				end
+			if type(v) == "table" then
+				target[k] = target[k] or {}
+				target[k] = Handy.utils.table_merge(target[k], v)
+			else
+				target[k] = v
 			end
 		end
 	end
@@ -2032,7 +2032,7 @@ Handy.insta_actions = {
 		local actions = is_alt_action and Handy.insta_actions.get_alt_actions(key) or Handy.insta_actions.get_actions()
 		if actions.use then
 			state.items.insta_use = {
-				text = "Quick use",
+				text = localize("ph_handy_notif_quick_use"),
 				hold = not is_alt_action,
 				order = 10,
 			}
@@ -2040,7 +2040,7 @@ Handy.insta_actions = {
 		end
 		if actions.buy_or_sell then
 			state.items.quick_buy_and_sell = {
-				text = "Quick buy and sell",
+				text = localize("ph_handy_notif_quick_buy_or_sell"),
 				hold = not is_alt_action,
 				order = 11,
 			}
@@ -2048,7 +2048,7 @@ Handy.insta_actions = {
 		end
 		if actions.buy_n_sell then
 			state.items.quick_buy_n_sell = {
-				text = "Quick buy and immediately sell",
+				text = localize("ph_handy_notif_quick_buy_n_sell"),
 				hold = not is_alt_action,
 				order = 12,
 			}
@@ -2353,14 +2353,14 @@ Handy.dangerous_actions = {
 
 		if not Handy.controller.is_module_enabled(Handy.cc.dangerous_actions) then
 			state.items.prevented_dangerous_actions = {
-				text = "Unsafe actions disabled in mod settings",
+				text = localize("ph_handy_notif_unsafe_disabled"),
 				hold = true,
 				order = 99999999,
 			}
 			return true
 		elseif not Handy.is_dangerous_actions_active() then
 			state.items.prevented_dangerous_actions = {
-				text = "Unsafe actions disabled by other mod",
+				text = localize("ph_handy_notif_unsafe_disabled_by_other_mod"),
 				hold = true,
 				order = 99999999,
 			}
@@ -2375,16 +2375,22 @@ Handy.dangerous_actions = {
 
 		state.dangerous = true
 		state.items.dangerous_hint = {
-			text = "[Unsafe] Bugs can appear!",
+			text = localize("ph_handy_notif_unsafe"),
 			dangerous = true,
 			hold = true,
 			order = 99999999,
 		}
 
 		if is_insta_sell then
-			local text = is_remove and "Instant REMOVE" or "Instant sell"
+			local text = localize(is_remove and "ph_handy_notif_insta_remove" or "ph_handy_notif_insta_sell")
 			if Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.immediate_buy_and_sell.queue) then
-				text = text .. " [" .. #Handy.dangerous_actions.sell_queue .. " in queue]"
+				text = text
+					.. " "
+					.. localize({
+						type = "variable",
+						key = "Handy_items_in_queue",
+						vars = { #Handy.dangerous_actions.sell_queue },
+					})
 			end
 			state.items.quick_buy_and_sell = {
 				text = text,
@@ -2393,7 +2399,7 @@ Handy.dangerous_actions = {
 				dangerous = true,
 			}
 		elseif is_all then
-			local text = is_remove and "REMOVE ALL cards/tags in clicked area" or "Sell ALL cards in clicked area"
+			local text = localize(is_remove and "ph_handy_notif_remove_all" or "ph_handy_notif_sell_all")
 			state.items.sell_all_same = {
 				text = text,
 				hold = true,
@@ -2401,7 +2407,7 @@ Handy.dangerous_actions = {
 				dangerous = true,
 			}
 		elseif is_all_same then
-			local text = is_remove and "REMOVE all copies of clicked card/tag" or "Sell all copies of clicked card"
+			local text = localize(is_remove and "ph_handy_notif_remove_all_same" or "ph_handy_notif_sell_all_same")
 			state.items.sell_all_same = {
 				text = text,
 				hold = true,
@@ -2470,11 +2476,14 @@ Handy.speed_multiplier = {
 
 		if actions.multiply or actions.divide then
 			state.items.change_speed_multiplier = {
-				text = "Game speed multiplier: "
-					.. (
+				text = localize({
+					type = "variable",
+					key = "Handy_gamespeed_multiplier",
+					vars = {
 						Handy.speed_multiplier.value >= 1 and Handy.speed_multiplier.value
-						or ("1/" .. (1 / Handy.speed_multiplier.value))
-					),
+							or ("1/" .. (1 / Handy.speed_multiplier.value)),
+					},
+				}),
 				hold = false,
 				order = 5,
 			}
@@ -2594,7 +2603,11 @@ Handy.nopeus_interaction = {
 			end
 
 			state.items.change_nopeus_fastforward = {
-				text = "Nopeus fast-forward: " .. states[(G.SETTINGS.FASTFORWARD or 0) + 1],
+				text = localize({
+					type = "variable",
+					key = "Handy_nopeus_fastforward",
+					vars = { states[(G.SETTINGS.FASTFORWARD or 0) + 1] },
+				}),
 				hold = false,
 				order = 4,
 				dangerous = is_dangerous,
@@ -2605,7 +2618,7 @@ Handy.nopeus_interaction = {
 				and G.SETTINGS.FASTFORWARD == (#states - 2)
 			then
 				state.items.prevent_nopeus_unsafe = {
-					text = "Unsafe option disabled in mod settings",
+					text = localize("ph_handy_notif_nopeus_unsafe_disabled"),
 					hold = false,
 					order = 4.05,
 				}
@@ -2838,9 +2851,9 @@ Handy.UI = {
 
 			if is_changed then
 				if state.dangerous then
-					state.title.text = "Dangerous actions"
+					state.title.text = localize("b_handy_notif_dangerous")
 				else
-					state.title.text = "Quick actions"
+					state.title.text = localize("b_handy_notif_quick")
 				end
 
 				for _, item in pairs(state.items) do
@@ -2943,6 +2956,14 @@ function init_localization(...)
 	if not G.localization.__handy_injected then
 		local en_loc = require("handy/localization/en-us")
 		Handy.utils.table_merge(G.localization, en_loc)
+		if G.SETTINGS.language ~= "en-us" then
+			local success, current_loc = pcall(function()
+				return require("handy/localization/" .. G.SETTINGS.language)
+			end)
+			if success and current_loc then
+				Handy.utils.table_merge(G.localization, current_loc)
+			end
+		end
 		G.localization.__handy_injected = true
 	end
 	return init_localization_ref(...)
@@ -2956,6 +2977,9 @@ end
 --
 
 function Handy.emplace_steamodded()
+	if Handy.current_mod then
+		return
+	end
 	Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
 	Handy.current_mod.config_tab = true
 	Handy.UI.show_options_button = not Handy.cc.hide_in_menu

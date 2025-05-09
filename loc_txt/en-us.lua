@@ -2,7 +2,7 @@ return {
 	descriptions = {
 		Handy_ConfigCheckbox = {
 			handy = {
-				unlock = { "HandyBalatro v#2#", "by SleepyG11" },
+				unlock = { "HandyBalatro v#2#", "by {C:white,E:2,s:1.15}#3#{}" },
 				text = {
 					"Uncheck to disable {C:attention}ALL{} mod features",
 					"{C:handy_secondary}(no restart required){}",
@@ -241,17 +241,17 @@ return {
 					"Required mod {C:attention}NotJustYet{} to work",
 				},
 			},
-			insta_buy_or_sell = {
+			insta_buy_or_sell_desktop = {
 				text = {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 				},
 			},
-			insta_buy_n_sell = {
+			insta_buy_n_sell_desktop = {
 				text = {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 				},
 			},
-			insta_use = {
+			insta_use_desktop = {
 				text = {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 				},
@@ -274,8 +274,6 @@ return {
 					"Shortcut for using a code card and selecting",
 					"{C:green}[Input previous value]{} option for:",
 					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
-					" ",
-					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -405,6 +403,9 @@ return {
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
+			Handy_items_in_queue = "[#1# in queue]",
+			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
+			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 		},
 		dictionary = {
 			handy_or = "or",
@@ -412,11 +413,28 @@ return {
 			b_handy_hide_mod_button_1 = "Hide mod button",
 			b_handy_hide_mod_button_2 = "in options menu",
 
+			b_handy_notif_quick = "Quick actions",
+			b_handy_notif_dangerous = "Dangerous actions",
+
 			ph_handy_any_button_hint = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs',
 			ph_handy_any_gamepad_hint = 'Each control can be assigned to any gamepad buttons in "Keybinds" tabs',
 			ph_handy_remove_hint = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds",
 			ph_handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
 			ph_handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. [(Back)] to unbind.",
+
+			ph_handy_notif_quick_use = "Quick use",
+			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",
+			ph_handy_notif_quick_buy_n_sell = "Quick buy and immediately sell",
+			ph_handy_notif_unsafe_disabled = "Unsafe actions disabled in mod settings",
+			ph_handy_notif_unsafe_disabled_by_other_mod = "Unsafe actions disabled by other mod",
+			ph_handy_notif_unsafe = "[Unsafe] Bugs can appear!",
+			ph_handy_notif_insta_remove = "Instant REMOVE",
+			ph_handy_notif_insta_sell = "Instant sell",
+			ph_handy_notif_remove_all = "REMOVE ALL cards/tags in clicked area",
+			ph_handy_notif_sell_all = "Sell ALL cards in clicked area",
+			ph_handy_notif_remove_all_same = "REMOVE all copies of clicked card/tag",
+			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
+			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 
 			b_handy_info_popups_level_select = "Info popups level",
 			handy_info_popups_level_opt = {

@@ -335,7 +335,12 @@ Handy.UI.get_config_tab_overall = function()
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.handy, "handy", { Handy.version }, { full_width = true }),
+		Handy.UI.PARTS.create_new_module_checkbox(
+			Handy.cc.handy,
+			"handy",
+			{ Handy.version, "SleepyG11" },
+			{ full_width = true }
+		),
 		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
