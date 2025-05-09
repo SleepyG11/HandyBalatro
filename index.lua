@@ -553,7 +553,7 @@ Handy.fake_events = {
 			button:click()
 		else
 			if button.config.button then
-				Handy.fake_events.check({
+				Handy.fake_events.execute({
 					func = G.FUNCS[button.config.button],
 					node = button,
 				})
@@ -2674,6 +2674,9 @@ Handy.UI = {
 			TEXT_DANGEROUS = HEX("FFEEEE"),
 		},
 	},
+	LOC_COLOURS = {
+		handy_secondary = HEX("BBBBBB"),
+	},
 	state_panel = {
 		element = nil,
 
@@ -2929,6 +2932,21 @@ function create_button_binding_pip(args, ...)
 		}
 	end
 	return create_button_binding_pip_ref(args, ...)
+end
+
+local init_localization_ref = init_localization
+function init_localization(...)
+	if not G.localization.__handy_injected then
+		local en_loc = require("handy/localization/en-us")
+		Handy.utils.table_merge(G.localization, en_loc)
+		G.localization.__handy_injected = true
+	end
+	return init_localization_ref(...)
+end
+
+local loc_colour_ref = loc_colour
+function loc_colour(_c, _default, ...)
+	return Handy.UI.LOC_COLOURS[_c] or loc_colour_ref(_c, _default, ...)
 end
 
 --

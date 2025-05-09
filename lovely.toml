@@ -15,6 +15,13 @@ target = "main.lua"
 position = "append"
 sources = ["config_ui.lua"]
 
+# Localization
+[[patches]]
+[patches.module]
+source = 'loc_txt/en-us.lua'
+before = 'main.lua'
+name = 'handy/localization/en-us'
+
 # Skipping Cash Out stage
 [[patches]]
 [patches.pattern]
