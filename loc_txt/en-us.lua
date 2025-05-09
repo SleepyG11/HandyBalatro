@@ -16,10 +16,10 @@ return {
 				},
 			},
 			insta_highlight = {
-				unlock = { "Quick Highlight" },
+				unlock = { "Quick highlight" },
 				text = {
 					"Hold {C:chips}#1#{} and",
-					"hover cards in hand to highlight",
+					"hover cards in hand to highlight them",
 				},
 			},
 			show_deck_preview = {
@@ -33,18 +33,18 @@ return {
 				unlock = { "Deselect hand" },
 				text = {
 					"Press {C:chips}#1#{} to",
-					"deselect hand",
+					"deselect cards in hand",
 				},
 			},
 			insta_cash_out = {
-				unlock = { "Quick Cash Out" },
+				unlock = { "Quick cash out" },
 				text = {
 					"Press/hold {C:chips}#1#{} to",
 					"speed up Cash Out stage",
 				},
 			},
 			insta_booster_skip = {
-				unlock = { "Quick skip", "Booster Pack" },
+				unlock = { "Quick skip", "booster pack" },
 				text = {
 					"Press/hold {C:chips}#1#{} to",
 					"skip booster pack",
@@ -60,14 +60,14 @@ return {
 				},
 			},
 			insta_buy_or_sell = {
-				unlock = { "Quick Buy/Sell" },
+				unlock = { "Quick buy/sell" },
 				text = {
 					"Use {C:chips}#1#{} to",
 					"buy or sell card",
 				},
 			},
 			insta_buy_n_sell = {
-				unlock = { "Quick Buy'n'Sell" },
+				unlock = { "Quick buy'n'sell" },
 				text = {
 					"Use {C:chips}#1#{} to",
 					"buy card and sell",
@@ -86,19 +86,19 @@ return {
 				unlock = { "Cryptid: use", "previous input" },
 				text = {
 					"Use {C:chips}#1#{} to",
-					"use code card if possible with",
+					"use Code card if possible with",
 					"previously inputted value",
 				},
 			},
 			not_just_yet_interaction = {
-				unlock = { "NotJustYet:", "End round" },
+				unlock = { "NotJustYet:", "end round" },
 				text = {
 					"Press {C:chips}#1#{} to",
 					"end round",
 				},
 			},
 			speed_multiplier = {
-				unlock = { "Speed Multiplier" },
+				unlock = { "Speed multiplier" },
 				text = {
 					"Hold {C:chips}#1#{} and",
 					"{C:chips}#2#{} to multiply or",
@@ -130,7 +130,7 @@ return {
 				},
 			},
 			immediate_buy_and_sell = {
-				unlock = { "Instant Sell" },
+				unlock = { "Instant sell" },
 				text = {
 					"Hold {C:mult}#1#{},",
 					"hold {C:chips}#2#{},",
@@ -138,14 +138,14 @@ return {
 				},
 			},
 			immediate_buy_and_sell_queue = {
-				unlock = { "Sell Queue" },
+				unlock = { "Sell queue" },
 				text = {
 					"Start selling cards only when",
 					"keybind was released",
 				},
 			},
 			nopeus_unsafe = {
-				unlock = { "Nopeus: Unsafe", "fast-forward" },
+				unlock = { "Nopeus: unsafe", "fast-forward" },
 				text = {
 					"Allow increase fast-forward",
 					"setting to {C:mult}Unsafe{}",
@@ -284,13 +284,13 @@ return {
 			},
 			immediate_buy_and_sell = {
 				text = {
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick Buy/Sell]{},',
+					'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick buy/sell]{},',
 					"and hover cards to sell them immediately",
 				},
 			},
 			immediate_buy_and_sell_queue = {
 				text = {
-					"Instead of selling immediately, {C:mult}[Instant Sell]{}",
+					"Instead of selling immediately, {C:mult}[Instant sell]{}",
 					"will put all hovered cards in a list and",
 					"all of them will be sold after keybind release",
 					" ",
@@ -299,7 +299,7 @@ return {
 			},
 			immediate_buy_and_sell_queue_gamepad = {
 				text = {
-					"Instead of selling immediately, {C:mult}[Instant Sell]{}",
+					"Instead of selling immediately, {C:mult}[Instant sell]{}",
 					"will put all hovered cards in a list and",
 					"all of them will be sold after keybind release",
 					" ",
@@ -332,14 +332,14 @@ return {
 				text = {
 					"When hold, instead of selling cards {C:attention}or skip tags{} will be {C:attention,E:1}REMOVED{}",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick Buy/Sell]{}, {C:mult}["REMOVE" modifier]{}',
+					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:chips}[Quick buy/sell]{}',
 					"and hover cards to {C:attention,E:1}REMOVE{} them (queue also applied)",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["All copies" modifier]{}, {C:mult}["REMOVE" modifier]{}',
+					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:mult}["All copies" modifier]{}',
 					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} all of their copies",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["ALL" modifier]{}, {C:mult}["REMOVE" modifier]{}',
-					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} {C:attention}ALL{} cards or skip tags",
+					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:mult}["ALL" modifier]{},',
+					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} {C:attention}ALL{} of them",
 				},
 			},
 		},
@@ -356,14 +356,14 @@ return {
 			sort_by_suit = "Sort by suit",
 			deselect_hand = "Deselect hand",
 			cash_out = "Cash out",
-			not_just_yet_end_round = "NotJustYet: End round",
+			not_just_yet_end_round = "NotJustYet: end round",
 			skip_booster = "Skip booster pack",
 			reroll_shop = "Shop reroll",
 			leave_shop = "Leave shop",
 			skip_blind = "Skip blind",
 			select_blind = "Select blind",
-			run_info_hands = "Run info: Poker hands",
-			run_info_blinds = "Run info: Blinds",
+			run_info_hands = "Run info: poker hands",
+			run_info_blinds = "Run info: blinds",
 			view_deck = "View deck",
 			deck_preview = "Deck preview",
 			quick_highlight = "Quick highlight",
@@ -423,9 +423,9 @@ return {
 			b_handy_notif_quick = "Quick actions",
 			b_handy_notif_dangerous = "Dangerous actions",
 
-			ph_handy_any_button_hint = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs',
-			ph_handy_any_gamepad_hint = 'Each control can be assigned to any gamepad buttons in "Keybinds" tabs',
-			ph_handy_remove_hint = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds",
+			ph_handy_any_button_hint = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs.',
+			ph_handy_any_gamepad_hint = 'Each control can be assigned to any gamepad buttons in "Keybinds" tabs.',
+			ph_handy_remove_hint = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
 			ph_handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
 			ph_handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. [(Back)] to unbind.",
 
