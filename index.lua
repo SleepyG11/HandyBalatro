@@ -778,12 +778,14 @@ Handy.controller = {
 		Handy.controller.rerender_after_bind = button.config.ref_table.rerender or nil
 
 		Handy.controller.update_bind_button_text(
-			"[" .. (Handy.controller.bind_module[Handy.controller.bind_key] or "None") .. "]"
+			"["
+				.. Handy.UI.PARTS.localize_keybind(Handy.controller.bind_module[Handy.controller.bind_key] or "None")
+				.. "]"
 		)
 	end,
 	complete_bind = function(key)
 		Handy.controller.bind_module[Handy.controller.bind_key] = key or "None"
-		Handy.controller.update_bind_button_text(key or "None")
+		Handy.controller.update_bind_button_text(Handy.UI.PARTS.localize_keybind(key or "None"))
 
 		if Handy.controller.bind_button then
 			Handy.controller.bind_button.config.button = "handy_init_keybind_change"
@@ -809,7 +811,9 @@ Handy.controller = {
 		if not Handy.controller.bind_module or not Handy.controller.bind_key or not Handy.controller.bind_button then
 			return
 		end
-		Handy.controller.update_bind_button_text(Handy.controller.bind_module[Handy.controller.bind_key] or "None")
+		Handy.controller.update_bind_button_text(
+			Handy.UI.PARTS.localize_keybind(Handy.controller.bind_module[Handy.controller.bind_key] or "None")
+		)
 
 		Handy.controller.bind_button.config.button = "handy_init_keybind_change"
 		Handy.controller.bind_button = nil
