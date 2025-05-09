@@ -400,6 +400,13 @@ return {
 			shop_and_blinds = "Shop and Blinds",
 			gamespeed_and_animations = "Game speed and animations",
 		},
+		handy_tabs = {
+			["Overall"] = "General & Vanilla",
+			["Quick"] = "Quick actions",
+			["Keybinds"] = "Regular keybinds",
+			["Keybinds 2"] = "Other keybinds",
+			["Dangerous"] = "Danger zone",
+		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",

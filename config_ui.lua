@@ -697,6 +697,43 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 	}
 end
 
+--
+
+Handy.UI.PARTS.tabs_list = {
+	["Overall"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_overall()
+		end,
+	},
+	["Quick"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_quick()
+		end,
+	},
+	["Keybinds"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_regular_keybinds()
+		end,
+	},
+	["Keybinds 2"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_keybinds_2()
+		end,
+	},
+	["Dangerous"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_dangerous()
+		end,
+	},
+}
+Handy.UI.PARTS.tabs_order = {
+	"Overall",
+	"Quick",
+	"Keybinds",
+	"Keybinds 2",
+	"Dangerous",
+}
+
 Handy.UI.get_config_tab = function(_tab, _index)
 	local result = {
 		n = G.UIT.ROOT,
@@ -704,56 +741,21 @@ Handy.UI.get_config_tab = function(_tab, _index)
 		nodes = {},
 	}
 	Handy.UI.config_tab_index = _index
-	if _tab == "Overall" then
-		result.nodes = Handy.UI.get_config_tab_overall()
-	elseif _tab == "Quick" then
-		result.nodes = Handy.UI.get_config_tab_quick()
-	elseif _tab == "Dangerous" then
-		result.nodes = Handy.UI.get_config_tab_dangerous()
-	elseif _tab == "Keybinds" then
-		result.nodes = Handy.UI.get_config_tab_regular_keybinds()
-	elseif _tab == "Keybinds 2" then
-		result.nodes = Handy.UI.get_config_tab_keybinds_2()
-	end
-
+	result.nodes = Handy.UI.PARTS.tabs_list[_tab].definition()
 	return result
 end
 
---
-
 function Handy.UI.get_options_tabs()
-	return {
-		{
-			label = "General & Vanilla",
+	local result = {}
+	for index, k in ipairs(Handy.UI.PARTS.tabs_order) do
+		table.insert(result, {
+			label = localize(k, "handy_tabs"),
 			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Overall", 1)
+				return Handy.UI.get_config_tab(k, index)
 			end,
-		},
-		{
-			label = "Quick actions",
-			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Quick", 2)
-			end,
-		},
-		{
-			label = "Regular keybinds",
-			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds", 3)
-			end,
-		},
-		{
-			label = "Other keybinds",
-			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Keybinds 2", 4)
-			end,
-		},
-		{
-			label = "Danger zone",
-			tab_definition_function = function()
-				return Handy.UI.get_config_tab("Dangerous", 5)
-			end,
-		},
-	}
+		})
+	end
+	return result
 end
 
 --
