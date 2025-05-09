@@ -91,8 +91,6 @@ Handy.UI.PARTS = {
 			})
 		end
 
-		-- local gamepad = Handy.controller.is_gamepad()
-		-- local result_popup_id = (popup_id and "handy_popup_" .. popup_id) or nil
 		local result_toggle = create_toggle({
 			callback = function(b)
 				return G.FUNCS.handy_toggle_module_enabled(b, module)
@@ -103,7 +101,6 @@ Handy.UI.PARTS = {
 			ref_value = "enabled",
 			w = 0,
 		})
-		result_toggle.nodes[2].nodes[1].nodes[1].config.funnel_to = true
 
 		return {
 			n = G.UIT.R,
@@ -789,9 +786,9 @@ function G.FUNCS.handy_setup_config_popup(e)
 		return
 	end
 
+	local loc_key = e.config.handy_loc_key
 	local popup_hover = function(self)
 		local is_gamepad = Handy.controller.is_gamepad()
-		local loc_key = self.config.handy_loc_key
 		local loc_suffix = ""
 		local is_popup_present = G.localization.descriptions.Handy_ConfigPopup[loc_key]
 		if is_gamepad then
@@ -872,6 +869,12 @@ function G.FUNCS.handy_setup_config_popup(e)
 	e.states.hover.can = true
 	e.states.collide.can = true
 	e.hover = popup_hover
+	-- Well... it works xd
+	pcall(function()
+		if Handy.controller.is_gamepad() then
+			e.children[2].children[1].children[2].children[1].children[1].hover = popup_hover
+		end
+	end)
 	e.handy_popup_processed = true
 end
 
