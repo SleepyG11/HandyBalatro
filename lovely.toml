@@ -22,6 +22,12 @@ source = 'loc_txt/en-us.lua'
 before = 'main.lua'
 name = 'handy/localization/en-us'
 
+[[patches]]
+[patches.module]
+source = 'loc_txt/ru.lua'
+before = 'main.lua'
+name = 'handy/localization/ru'
+
 # Skipping Cash Out stage
 [[patches]]
 [patches.pattern]

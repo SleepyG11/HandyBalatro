@@ -992,7 +992,7 @@ Handy.controller = {
 		return result, result == "Escape"
 	end,
 	resolve = function(parsed_key, options)
-		if not parsed_key then
+		if not parsed_key or parsed_key == "None" then
 			return nil
 		end
 		options = options or {}

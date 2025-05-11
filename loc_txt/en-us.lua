@@ -16,10 +16,23 @@ return {
 				},
 			},
 			insta_highlight = {
-				unlock = { "Quick highlight" },
+				unlock = {
+					"{C:edition}Fast hand selection{}",
+					"{C:handy_secondary,s:0.75}(drag, hover, swipe, slide){}",
+				},
 				text = {
 					"Hold {C:chips}#1#{} and",
-					"hover cards in hand to highlight them",
+					"hover cards in hand to select them",
+				},
+			},
+			insta_highlight_OUTSIDE = {
+				unlock = {
+					"{C:edition}Fast hand selection{}",
+					"{C:handy_secondary,s:0.75}(drag, hover, swipe, slide){}",
+				},
+				text = {
+					"Start hold {C:chips}#1#{} {C:attention}OUTSIDE{} of cards,",
+					"and then hover them in hand to select",
 				},
 			},
 			show_deck_preview = {
@@ -185,7 +198,7 @@ return {
 			insta_highlight = {
 				text = {
 					"If key set to {C:chips}[Left Mouse]{},",
-					"start holding key {C:attention}outside{} of cards",
+					"start holding key {C:attention}OUTSIDE{} of cards",
 					"and then hover them to highlight",
 				},
 			},
@@ -366,7 +379,7 @@ return {
 			run_info_blinds = "Run info: blinds",
 			view_deck = "View deck",
 			deck_preview = "Deck preview",
-			quick_highlight = "Quick highlight",
+			quick_highlight = "Fast hand selection",
 			quick_buy_or_sell = "Quick buy/sell",
 			quick_buy_n_sell = "Quick buy'n'sell",
 			quick_use = "Quick use",

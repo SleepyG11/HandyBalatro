@@ -166,7 +166,7 @@ Handy.UI.PARTS = {
 			nodes = {
 				{
 					n = G.UIT.C,
-					config = { align = "c", minw = 4 },
+					config = { align = "c", minw = 4, maxw = 4 },
 					nodes = {
 						{
 							n = G.UIT.T,
@@ -188,7 +188,9 @@ Handy.UI.PARTS = {
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
 					scale = 0.3,
 					minw = 2.75,
+					maxw = 2.75,
 					minh = 0.4,
+					maxh = 0.4,
 					ref_table = {
 						module = module,
 						key = key_1,
@@ -212,7 +214,9 @@ Handy.UI.PARTS = {
 					colour = dangerous and G.C.MULT or G.C.CHIPS,
 					scale = 0.3,
 					minw = 2.75,
+					maxw = 2.75,
 					minh = 0.4,
+					maxh = 0.4,
 					ref_table = {
 						module = module,
 						key = key_2,
@@ -350,7 +354,18 @@ Handy.UI.get_config_tab_overall = function()
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_highlight, "insta_highlight"),
+						Handy.UI.PARTS.create_new_module_checkbox(
+							Handy.cc.insta_highlight,
+							(
+								Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight) == "mouse1"
+									and "insta_highlight_OUTSIDE"
+								or "insta_highlight"
+							),
+							nil,
+							{
+								only_first = true,
+							}
+						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview"),
 					},
