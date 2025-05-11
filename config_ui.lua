@@ -346,6 +346,19 @@ Handy.UI.get_config_tab_overall = function()
 			{ full_width = true }
 		),
 		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_new_module_checkbox(
+			Handy.cc.insta_highlight,
+			(
+				Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight) == "mouse1"
+					and "insta_highlight_OUTSIDE"
+				or "insta_highlight"
+			),
+			nil,
+			{
+				only_first = true,
+			}
+		),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -355,16 +368,8 @@ Handy.UI.get_config_tab_overall = function()
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.insta_highlight,
-							(
-								Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight) == "mouse1"
-									and "insta_highlight_OUTSIDE"
-								or "insta_highlight"
-							),
-							nil,
-							{
-								only_first = true,
-							}
+							Handy.cc.insta_highlight.allow_deselect,
+							"insta_unhighlight"
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview"),

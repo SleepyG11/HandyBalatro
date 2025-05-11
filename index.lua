@@ -128,6 +128,10 @@ Handy.config = {
 			key_2 = "None",
 			key_1_gamepad = "Left Stick",
 			key_2_gamepad = "None",
+
+			allow_deselect = {
+				enabled = false,
+			},
 		},
 		insta_highlight_entire_f_hand = {
 			enabled = true,
@@ -1311,6 +1315,7 @@ Handy.controller = {
 	process_update = function(dt)
 		Handy.controller.update_device_type()
 
+		Handy.insta_highlight.update()
 		Handy.insta_booster_skip.update()
 		Handy.insta_cash_out.update()
 		Handy.show_deck_preview.update()
@@ -1708,6 +1713,8 @@ Handy.regular_keybinds = {
 --
 
 Handy.insta_highlight = {
+	first_card_highlighted = nil,
+
 	can_execute = function(card)
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
@@ -1715,10 +1722,16 @@ Handy.insta_highlight = {
 			-- TODO: fix it
 			and not next(love.touch.getTouches())
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
-			and not card.highlighted
 	end,
 	execute = function(card)
-		card:click()
+		if Handy.insta_highlight.first_card_highlighted == nil then
+			Handy.insta_highlight.first_card_highlighted = card.highlighted
+				and Handy.controller.is_module_enabled(Handy.cc.insta_highlight.allow_deselect)
+		end
+		if not not card.highlighted == not not Handy.insta_highlight.first_card_highlighted then
+			card:click()
+			return false
+		end
 		return false
 	end,
 
@@ -1738,6 +1751,12 @@ Handy.insta_highlight = {
 			end,
 		}))
 		return false
+	end,
+
+	update = function()
+		if not Handy.controller.is_module_key_down(Handy.cc.insta_highlight, true) then
+			Handy.insta_highlight.first_card_highlighted = nil
+		end
 	end,
 
 	update_state_panel = function(state, key, released) end,

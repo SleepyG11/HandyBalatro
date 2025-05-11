@@ -25,6 +25,16 @@ return {
 					"hover cards in hand to select them",
 				},
 			},
+			insta_unhighlight = {
+				unlock = {
+					"Fast hand",
+					"deselection",
+				},
+				text = {
+					"Allow {C:edition}[Fast hand selection]{}",
+					"to deselect cards aswell",
+				},
+			},
 			insta_highlight_OUTSIDE = {
 				unlock = {
 					"{C:edition}Fast hand selection{}",
@@ -200,6 +210,12 @@ return {
 					"If key set to {C:chips}[Left Mouse]{},",
 					"start holding key {C:attention}OUTSIDE{} of cards",
 					"and then hover them to highlight",
+				},
+			},
+			insta_unhighlight = {
+				text = {
+					"Select cards if first card was not selected.",
+					"Deselect cards if first card was selected.",
 				},
 			},
 			insta_highlight_gamepad = {
