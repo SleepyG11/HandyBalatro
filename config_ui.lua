@@ -207,7 +207,7 @@ Handy.UI.PARTS = {
 							config = { text = localize("handy_or"), colour = G.C.WHITE, scale = 0.3 },
 						},
 					},
-				},
+				} or nil,
 				UIBox_button({
 					label = { Handy.UI.PARTS.localize_keybind(module[key_2] or "None") },
 					col = true,
@@ -223,6 +223,188 @@ Handy.UI.PARTS = {
 						rerender = rerender,
 					},
 					button = "handy_init_keybind_change",
+				}),
+			},
+		}
+	end,
+
+	create_example_preset = function(key)
+		local checkbox_text = {}
+		localize({
+			type = "descriptions",
+			set = "Handy_Preset",
+			key = key,
+			vars = {},
+			nodes = checkbox_text,
+			default_col = G.C.UI.TEXT_LIGHT,
+		})
+
+		local desc_lines = {
+			{ n = G.UIT.R, config = { minw = 6, maxw = 6 } },
+		}
+		for _, line in ipairs(checkbox_text) do
+			table.insert(desc_lines, {
+				n = G.UIT.R,
+				config = { padding = 0.025, minw = 6, maxw = 6 },
+				nodes = line,
+			})
+		end
+
+		return {
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = {
+						UIBox_button({
+							label = { localize({ type = "name_text", set = "Handy_Preset", key = key, vars = {} }) },
+							col = true,
+							colour = G.C.ORANGE,
+							scale = 0.3,
+							minw = 4,
+							maxw = 4,
+							minh = 0.4,
+							maxh = 0.4,
+							ref_table = {
+								key = key,
+							},
+							button = "handy_apply_preset_key",
+						}),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 0.3 },
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = desc_lines,
+				},
+			},
+		}
+	end,
+	create_user_preset = function(index)
+		local preset = Handy.presets.current.user[index]
+		local name_object = {
+			name = preset.name,
+		}
+
+		return {
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {},
+					nodes = {
+						create_toggle({
+							callback = function(b)
+								return G.FUNCS.handy_toggle_preset_enabled(b, index)
+							end,
+							label_scale = 0.4,
+							label = "",
+							ref_table = preset,
+							ref_value = "enabled",
+							w = 0,
+						}),
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.15 },
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "c", minw = 2, maxw = 2 },
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = localize({
+									type = "variable",
+									key = "Handy_preset_index",
+									vars = { index },
+								}),
+								colour = G.C.WHITE,
+								scale = 0.4,
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.75 },
+				},
+				create_text_input({
+					id = "handy_preset_name_" .. tostring(index),
+					prompt_text = localize("handy_preset_name_placeholder"),
+					extended_corpus = true,
+					ref_table = name_object,
+					ref_value = "name",
+					text_scale = 0.3,
+					max_length = 16,
+					w = 3.5,
+					h = 0.4,
+				}),
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.4 },
+				},
+				UIBox_button({
+					label = { localize("b_handy_preset_save") },
+					col = true,
+					colour = G.C.CHIPS,
+					scale = 0.3,
+					minw = 1.75,
+					maxw = 1.75,
+					minh = 0.5,
+					maxh = 0.5,
+					ref_table = {
+						index = index,
+						name_object = name_object,
+					},
+					button = "handy_save_preset_index_with_name",
+				}),
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.05 },
+				},
+				UIBox_button({
+					label = { localize("b_handy_preset_load") },
+					col = true,
+					colour = preset.config and G.C.GREEN or G.C.UI.BACKGROUND_INACTIVE,
+					scale = 0.3,
+					minw = 1.75,
+					maxw = 1.75,
+					minh = 0.5,
+					maxh = 0.5,
+					ref_table = {
+						index = index,
+					},
+					button = preset.config and "handy_load_preset_index" or "handy_empty",
+				}),
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 0.05 },
+				},
+				UIBox_button({
+					label = { localize("b_handy_preset_clear") },
+					col = true,
+					colour = preset.config and G.C.MULT or G.C.UI.BACKGROUND_INACTIVE,
+					scale = 0.3,
+					minw = 1.75,
+					maxw = 1.75,
+					minh = 0.5,
+					maxh = 0.5,
+					ref_table = {
+						index = index,
+					},
+					button = preset.config and "handy_clear_preset_index" or "handy_empty",
 				}),
 			},
 		}
@@ -717,6 +899,70 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 	}
 end
 
+Handy.UI.get_config_tab_presets = function()
+	return {
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = localize("ph_handy_premade_presets"),
+						scale = 0.4,
+						colour = G.C.WHITE,
+						align = "cm",
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.1 } },
+		Handy.UI.PARTS.create_example_preset("default"),
+		Handy.UI.PARTS.create_example_preset("better_mouse_and_gamepad"),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = localize("ph_handy_custom_presets"),
+						scale = 0.4,
+						colour = G.C.WHITE,
+						align = "cm",
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.1 } },
+		Handy.UI.PARTS.create_user_preset(1),
+		Handy.UI.PARTS.create_user_preset(2),
+		Handy.UI.PARTS.create_user_preset(3),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3"),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next"),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		{
+			n = G.UIT.R,
+			config = { padding = 0.1, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = localize("ph_handy_presets_description"),
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
+	}
+end
+
 --
 
 Handy.UI.PARTS.tabs_list = {
@@ -745,12 +991,18 @@ Handy.UI.PARTS.tabs_list = {
 			return Handy.UI.get_config_tab_dangerous()
 		end,
 	},
+	["Presets"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_presets()
+		end,
+	},
 }
 Handy.UI.PARTS.tabs_order = {
 	"Overall",
 	"Quick",
 	"Keybinds",
 	"Keybinds 2",
+	"Presets",
 	"Dangerous",
 }
 
@@ -801,6 +1053,8 @@ function G.UIDEF.handy_options()
 	})
 	return t
 end
+
+function G.FUNCS.handy_empty() end
 
 function G.FUNCS.handy_open_options(e)
 	G.SETTINGS.paused = true
@@ -960,4 +1214,51 @@ function G.FUNCS.exit_overlay_menu(...)
 	Handy.UI.config_opened = nil
 	Handy.UI.config_tab_index = nil
 	return exit_overlay_ref(...)
+end
+
+function G.FUNCS.handy_rerender_after_input()
+	G.E_MANAGER:add_event(Event({
+		blocking = false,
+		blockable = false,
+		no_delete = true,
+		func = function()
+			Handy.UI.rerender(true)
+			G.E_MANAGER:add_event(Event({
+				blocking = false,
+				blockable = false,
+				no_delete = true,
+				func = function()
+					Handy.UI.rerender(true)
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
+end
+
+function G.FUNCS.handy_toggle_preset_enabled(b, index)
+	Handy.presets.save_index(index, { enabled = b })
+	G.FUNCS.handy_rerender_after_input()
+end
+function G.FUNCS.handy_save_preset_index_with_name(e)
+	local index = e.config.ref_table.index
+	local new_name = e.config.ref_table.name_object.name
+	Handy.presets.save_index(index, { name = new_name, apply = true })
+	G.FUNCS.handy_rerender_after_input()
+end
+function G.FUNCS.handy_load_preset_index(e)
+	local index = e.config.ref_table.index
+	Handy.presets.apply_index(index)
+	G.FUNCS.handy_rerender_after_input()
+end
+function G.FUNCS.handy_apply_preset_key(e)
+	local key = e.config.ref_table.key
+	Handy.presets.apply_example(key)
+	G.FUNCS.handy_rerender_after_input()
+end
+function G.FUNCS.handy_clear_preset_index(e)
+	local index = e.config.ref_table.index
+	Handy.presets.clear_index(index)
+	G.FUNCS.handy_rerender_after_input()
 end

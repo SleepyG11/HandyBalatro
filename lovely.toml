@@ -13,6 +13,12 @@ sources = ["index.lua"]
 [patches.copy]
 target = "main.lua"
 position = "append"
+sources = ["presets.lua"]
+
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
 sources = ["config_ui.lua"]
 
 # Localization
@@ -27,6 +33,12 @@ name = 'handy/localization/en-us'
 source = 'loc_txt/ru.lua'
 before = 'main.lua'
 name = 'handy/localization/ru'
+
+[[patches]]
+[patches.module]
+source = 'loc_txt/es_419.lua'
+before = 'main.lua'
+name = 'handy/localization/es_419'
 
 # Skipping Cash Out stage
 [[patches]]
@@ -274,3 +286,19 @@ Handy.regular_keybinds.on_shop_loaded()
 '''
 match_indent = true
 overwrite = false
+
+# # Performance issue "fix"
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''for k, v in pairs(self.MOVEABLES) do'''
+position = "before"
+payload = '''
+local __new_moveables = {}
+for k, v in pairs(self.MOVEABLES) do
+    if not v.REMOVED then table.insert(__new_moveables, v) end
+end
+self.MOVEABLES = __new_moveables
+'''
+match_indent = true
+times = 1

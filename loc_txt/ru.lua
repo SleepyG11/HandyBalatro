@@ -379,6 +379,20 @@ return {
 				},
 			},
 		},
+		Handy_Preset = {
+			["default"] = {
+				name = "По умолчанию",
+				text = {
+					"Назначения мода по умолчанию",
+				},
+			},
+			["better_mouse_and_gamepad"] = {
+				name = "Better Mouse and Gamepad",
+				text = {
+					"Управления подобны моду Better Mouse and Gamepad",
+				},
+			},
+		},
 	},
 	misc = {
 		handy_keybinds = {
@@ -431,6 +445,11 @@ return {
 			dangerous_all_same_modifier = '"Все копии" модификатор',
 			dangerous_all_modifier = '"ВСЕ" модификатор',
 			dangerous_remove_modifier = '"УДАЛИТЬ" модификатор',
+
+			presets_load_1 = "Загрузить профиль 1",
+			presets_load_2 = "Загрузить профиль 2",
+			presets_load_3 = "Загрузить профиль 3",
+			presets_load_next = "Загрузить след. профиль",
 		},
 		handy_keybind_sections = {
 			round = "Раунд",
@@ -450,6 +469,7 @@ return {
 			["Keybinds"] = "Основные назначения",
 			["Keybinds 2"] = "Другие назначения",
 			["Dangerous"] = "Опасная зона",
+			["Presets"] = "Профили",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
@@ -457,9 +477,24 @@ return {
 			Handy_items_in_queue = "[#1# в очереди]",
 			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+
+			Handy_preset_index = "Профиль #1#",
+			Handy_preset_loaded = "Профиль #1# [#2#] загружен",
+			Handy_preset_empty = "Профиль #1# [#2#] пуст",
+			Handy_preset_disabled = "Профиль #1# [#2#] выключен",
+			Handy_preset_nothing_to_load = "Нет профилей для загрузки",
 		},
 		dictionary = {
 			handy_or = "или",
+
+			ph_handy_premade_presets = "Пре-созданные профили",
+			ph_handy_custom_presets = "Пользовательские профили",
+			ph_handy_presets_description = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
+			b_handy_preset_save = "Сохранить",
+			b_handy_preset_load = "Загрузить",
+			b_handy_preset_clear = "Очистить",
+
+			handy_preset_name_placeholder = "Название профиля",
 
 			b_handy_hide_mod_button_1 = "Спрятать кнопку",
 			b_handy_hide_mod_button_2 = "в меню настроек",

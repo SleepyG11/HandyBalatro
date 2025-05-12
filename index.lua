@@ -430,6 +430,39 @@ Handy.config = {
 			key_1_gamepad = "None",
 			key_2_gamepad = "None",
 		},
+
+		presets = {
+			enabled = true,
+
+			load_1 = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+			load_2 = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+			load_3 = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+			load_next = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
+		},
 	},
 	current = {},
 
@@ -1138,6 +1171,10 @@ Handy.controller = {
 
 		-----
 
+		if not released and Handy.presets_switch.use(key) then
+			return finish(true)
+		end
+
 		if not released then
 			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
 			Handy.insta_highlight.use_on_hovered(key)
@@ -1178,6 +1215,10 @@ Handy.controller = {
 
 		-----
 
+		if not released and Handy.presets_switch.use(key) then
+			return finish(true)
+		end
+
 		if not released then
 			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
 			Handy.insta_highlight.use_on_hovered(key)
@@ -1217,6 +1258,10 @@ Handy.controller = {
 
 		-----
 
+		if Handy.presets_switch.use(key) then
+			return finish(true)
+		end
+
 		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) then
 			return finish(false)
 		end
@@ -1246,7 +1291,16 @@ Handy.controller = {
 			return false
 		end
 
+		local finish = function(result)
+			Handy.UI.state_panel.update(button, released)
+			return result
+		end
+
 		-----
+
+		if Handy.presets_switch.use(button) then
+			return finish(true)
+		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
 			if Handy.controller.is_triggered(released) then
@@ -2855,6 +2909,7 @@ Handy.UI = {
 			local is_changed = false
 
 			for _, part in ipairs({
+				Handy.presets_switch,
 				Handy.speed_multiplier,
 				Handy.insta_booster_skip,
 				Handy.insta_cash_out,

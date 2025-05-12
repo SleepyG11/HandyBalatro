@@ -25,16 +25,6 @@ return {
 					"hover cards in hand to select them",
 				},
 			},
-			insta_unhighlight = {
-				unlock = {
-					"Fast hand",
-					"deselection",
-				},
-				text = {
-					"Allow {C:edition}[Fast hand selection]{}",
-					"to deselect cards aswell",
-				},
-			},
 			insta_highlight_OUTSIDE = {
 				unlock = {
 					"{C:edition}Fast hand selection{}",
@@ -43,6 +33,16 @@ return {
 				text = {
 					"Start hold {C:chips}#1#{} {C:attention}OUTSIDE{} of cards,",
 					"and then hover them in hand to select",
+				},
+			},
+			insta_unhighlight = {
+				unlock = {
+					"Быстрое снятие",
+					"выделения",
+				},
+				text = {
+					"Разрешить {C:edition}[Быстрое выделение руки]{}",
+					"также и снимать выделение с карт",
 				},
 			},
 			show_deck_preview = {
@@ -372,6 +372,20 @@ return {
 				},
 			},
 		},
+		Handy_Preset = {
+			["default"] = {
+				name = "Default",
+				text = {
+					"Default mod controls",
+				},
+			},
+			["better_mouse_and_gamepad"] = {
+				name = "Better Mouse and Gamepad",
+				text = {
+					"Controls similar to Better Mouse and Gamepad mod",
+				},
+			},
+		},
 	},
 	misc = {
 		handy_keybinds = {
@@ -416,6 +430,11 @@ return {
 			dangerous_all_same_modifier = '"All copies" modifier',
 			dangerous_all_modifier = '"ALL" modifier',
 			dangerous_remove_modifier = '"REMOVE" modifier',
+
+			presets_load_1 = "Load preset 1",
+			presets_load_2 = "Load preset 2",
+			presets_load_3 = "Load preset 3",
+			presets_load_next = "Load next preset",
 		},
 		handy_keybind_sections = {
 			round = "Round",
@@ -435,6 +454,7 @@ return {
 			["Keybinds"] = "Regular keybinds",
 			["Keybinds 2"] = "Other keybinds",
 			["Dangerous"] = "Danger zone",
+			["Presets"] = "Presets",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
@@ -442,9 +462,24 @@ return {
 			Handy_items_in_queue = "[#1# in queue]",
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+
+			Handy_preset_index = "Preset #1#",
+			Handy_preset_loaded = "Preset #1# [#2#] loaded",
+			Handy_preset_empty = "Preset #1# [#2#] is empty",
+			Handy_preset_disabled = "Preset #1# [#2#] is disabled",
+			Handy_preset_nothing_to_load = "No presets to load",
 		},
 		dictionary = {
 			handy_or = "or",
+
+			ph_handy_premade_presets = "Pre-made presets",
+			ph_handy_custom_presets = "Custom presets",
+			ph_handy_presets_description = "Preset - set of configs and keybinds which can be applied in any time",
+			b_handy_preset_save = "Save",
+			b_handy_preset_load = "Load",
+			b_handy_preset_clear = "Clear",
+
+			handy_preset_name_placeholder = "Preset name",
 
 			b_handy_hide_mod_button_1 = "Hide mod button",
 			b_handy_hide_mod_button_2 = "in options menu",
