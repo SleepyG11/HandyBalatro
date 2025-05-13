@@ -1048,7 +1048,7 @@ Handy.controller = {
 			return string.gsub(string.lower(parsed_key), "%s+", "")
 		end
 	end,
-	resolve_first_module_key = function(module)
+	resolve_first_module_key = function(module, allow_disabled)
 		module = Handy.m(module)
 		if module and (allow_disabled or module.enabled) then
 			if force_gamepad or Handy.controller.is_gamepad() then

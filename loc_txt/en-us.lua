@@ -37,12 +37,12 @@ return {
 			},
 			insta_unhighlight = {
 				unlock = {
-					"Быстрое снятие",
-					"выделения",
+					"Fast hand",
+					"deselection",
 				},
 				text = {
-					"Разрешить {C:edition}[Быстрое выделение руки]{}",
-					"также и снимать выделение с карт",
+					"Allow {C:edition}[Fast hand selection]{}",
+					"to deselect cards aswell",
 				},
 			},
 			show_deck_preview = {

@@ -531,7 +531,7 @@ Handy.UI.get_config_tab_overall = function()
 		Handy.UI.PARTS.create_new_module_checkbox(
 			Handy.cc.insta_highlight,
 			(
-				Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight) == "mouse1"
+				Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight, true) == "mouse1"
 					and "insta_highlight_OUTSIDE"
 				or "insta_highlight"
 			),
