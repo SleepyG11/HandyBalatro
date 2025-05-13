@@ -447,6 +447,7 @@ return {
 			highlight_movement = "Highlight movement",
 			shop_and_blinds = "Shop and Blinds",
 			gamespeed_and_animations = "Game speed and animations",
+			hand_selection = "Hand selection",
 		},
 		handy_tabs = {
 			["Overall"] = "General & Vanilla",
@@ -455,6 +456,7 @@ return {
 			["Keybinds 2"] = "Other keybinds",
 			["Dangerous"] = "Danger zone",
 			["Presets"] = "Presets",
+			["Keybinds Paginated"] = "Keybinds",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",

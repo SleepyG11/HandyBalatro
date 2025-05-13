@@ -154,7 +154,12 @@ Handy.UI.PARTS = {
 			},
 		}
 	end,
-	create_module_keybind = function(module, loc_key, dangerous, rerender)
+	create_module_keybind = function(module, loc_key, options)
+		options = options or {}
+		local dangerous = options.dangerous
+		local rerender = options.rerender
+		local disabled = options.disabled
+
 		local key_1, key_2 = "key_1", "key_2"
 		if Handy.controller.is_gamepad() then
 			key_1, key_2 = "key_1_gamepad", "key_2_gamepad"
@@ -185,7 +190,7 @@ Handy.UI.PARTS = {
 				UIBox_button({
 					label = { Handy.UI.PARTS.localize_keybind(module[key_1] or "None") },
 					col = true,
-					colour = dangerous and G.C.MULT or G.C.CHIPS,
+					colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS,
 					scale = 0.3,
 					minw = 2.75,
 					maxw = 2.75,
@@ -196,7 +201,7 @@ Handy.UI.PARTS = {
 						key = key_1,
 						rerender = rerender,
 					},
-					button = "handy_init_keybind_change",
+					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 				{
 					n = G.UIT.C,
@@ -211,7 +216,7 @@ Handy.UI.PARTS = {
 				UIBox_button({
 					label = { Handy.UI.PARTS.localize_keybind(module[key_2] or "None") },
 					col = true,
-					colour = dangerous and G.C.MULT or G.C.CHIPS,
+					colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS,
 					scale = 0.3,
 					minw = 2.75,
 					maxw = 2.75,
@@ -222,7 +227,7 @@ Handy.UI.PARTS = {
 						key = key_2,
 						rerender = rerender,
 					},
-					button = "handy_init_keybind_change",
+					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 			},
 		}
@@ -410,6 +415,93 @@ Handy.UI.PARTS = {
 		}
 	end,
 }
+
+Handy.UI.get_keybinds_page = function(page)
+	local gamepad = Handy.controller.is_gamepad()
+	local result = {}
+	if page == 1 then
+		result = {
+			Handy.UI.PARTS.create_module_section("round"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.not_just_yet_interaction, "not_just_yet_end_round"),
+			Handy.UI.PARTS.create_module_section("shop"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_booster_skip, "skip_booster"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_shop, "reroll_shop"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.leave_shop, "leave_shop"),
+			Handy.UI.PARTS.create_module_section("blinds"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.skip_blind, "skip_blind"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.select_blind, "select_blind"),
+		}
+	elseif page == 2 then
+		result = {
+			Handy.UI.PARTS.create_module_section("menus"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview"),
+			Handy.UI.PARTS.create_module_section("hand_selection"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
+			Handy.UI.PARTS.create_module_section("quick_actions"),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.insta_buy_or_sell,
+				"quick_buy_or_sell",
+				{ disabled = gamepad }
+			),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use", { disabled = gamepad }),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.cryptid_code_use_last_interaction,
+				"cryptid_code_use_last_interaction"
+			),
+		}
+	elseif page == 3 then
+		result = {
+			Handy.UI.PARTS.create_module_section("gamespeed"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier, "speed_multiplier"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "speed_multiplier_multiply"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "speed_multiplier_divide"),
+			Handy.UI.PARTS.create_module_section("animations"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "nopeus_interaction"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
+			Handy.UI.PARTS.create_module_section("highlight_movement"),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.move_highlight.dx.one_left,
+				"move_highlight_one_left",
+				{ disabled = gamepad }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.move_highlight.dx.one_right,
+				"move_highlight_one_right",
+				{ disabled = gamepad }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.move_highlight.swap,
+				"move_highlight_move_card",
+				{ disabled = gamepad }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.move_highlight.to_end,
+				"move_highlight_to_end",
+				{ disabled = gamepad }
+			),
+		}
+	end
+	if result then
+		result = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05 },
+			nodes = result,
+		}
+	end
+	return result, 3
+end
 
 --
 
@@ -763,25 +855,26 @@ Handy.UI.get_config_tab_dangerous = function()
 			},
 		},
 		{ n = G.UIT.R, config = { minh = 0.5 } },
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell", false, true),
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell", { rerender = true }),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.immediate_buy_and_sell,
 			"dangerous_modifier",
-			true,
-			true
+			{ dangerous = true, rerender = true }
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.sell_all_same,
 			"dangerous_all_same_modifier",
-			true,
-			true
+			{ dangerous = true, rerender = true }
 		),
-		Handy.UI.PARTS.create_module_keybind(Handy.cc.dangerous_actions.sell_all, "dangerous_all_modifier", true, true),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.cc.dangerous_actions.sell_all,
+			"dangerous_all_modifier",
+			{ dangerous = true, rerender = true }
+		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.card_remove,
 			"dangerous_remove_modifier",
-			true,
-			true
+			{ dangerous = true, rerender = true }
 		),
 		{ n = G.UIT.R, config = { minh = 0.4 } },
 		{
@@ -846,14 +939,80 @@ Handy.UI.get_config_tab_regular_keybinds = function()
 	}
 end
 
+Handy.UI.get_config_tab_keybinds_paginated = function()
+	local page_definition, max_page = Handy.UI.get_keybinds_page(1)
+	local options = {}
+	for i = 1, max_page do
+		table.insert(options, localize("k_page") .. " " .. tostring(i) .. "/" .. tostring(max_page))
+	end
+	return {
+		{
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						id = "handy_keybinds_page_content",
+						object = UIBox({
+							definition = page_definition,
+							config = {
+								colour = G.C.CLEAR,
+								align = "cm",
+							},
+						}),
+						align = "cm",
+					},
+				},
+			},
+		},
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				create_option_cycle({
+					options = options,
+					w = 4.5,
+					cycle_shoulders = true,
+					opt_callback = "handy_change_keybinds_page",
+					current_option = 1,
+					colour = G.C.RED,
+					no_pips = true,
+					focus_args = { nav = "wide" },
+				}),
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.15 } },
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = localize(
+							gamepad and "ph_handy_keybinds_guide_gamepad" or "ph_handy_keybinds_guide_desktop"
+						),
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
+	}
+end
+
 Handy.UI.get_config_tab_keybinds_2 = function()
 	local gamepad = Handy.controller.is_gamepad()
 	return {
 		Handy.UI.PARTS.create_module_section("quick_actions"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight"),
-		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell") or nil,
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell", { disabled = gamepad }),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell"),
-		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use") or nil,
+		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use", { disabled = gamepad }),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.cryptid_code_use_last_interaction,
@@ -866,18 +1025,27 @@ Handy.UI.get_config_tab_keybinds_2 = function()
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "nopeus_interaction"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
 		Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
-		not gamepad and Handy.UI.PARTS.create_module_section("highlight_movement") or nil,
-		not gamepad
-				and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.dx.one_left, "move_highlight_one_left")
-			or nil,
-		not gamepad and Handy.UI.PARTS.create_module_keybind(
+		Handy.UI.PARTS.create_module_section("highlight_movement"),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.cc.move_highlight.dx.one_left,
+			"move_highlight_one_left",
+			{ disabled = gamepad }
+		),
+		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.move_highlight.dx.one_right,
-			"move_highlight_one_right"
-		) or nil,
-		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.swap, "move_highlight_move_card")
-			or nil,
-		not gamepad and Handy.UI.PARTS.create_module_keybind(Handy.cc.move_highlight.to_end, "move_highlight_to_end")
-			or nil,
+			"move_highlight_one_right",
+			{ disabled = gamepad }
+		),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.cc.move_highlight.swap,
+			"move_highlight_move_card",
+			{ disabled = gamepad }
+		),
+		Handy.UI.PARTS.create_module_keybind(
+			Handy.cc.move_highlight.to_end,
+			"move_highlight_to_end",
+			{ disabled = gamepad }
+		),
 		{ n = G.UIT.R, config = { minh = 0.15 } },
 		{
 			n = G.UIT.R,
@@ -986,6 +1154,11 @@ Handy.UI.PARTS.tabs_list = {
 			return Handy.UI.get_config_tab_keybinds_2()
 		end,
 	},
+	["Keybinds Paginated"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_keybinds_paginated()
+		end,
+	},
 	["Dangerous"] = {
 		definition = function()
 			return Handy.UI.get_config_tab_dangerous()
@@ -1000,8 +1173,9 @@ Handy.UI.PARTS.tabs_list = {
 Handy.UI.PARTS.tabs_order = {
 	"Overall",
 	"Quick",
-	"Keybinds",
-	"Keybinds 2",
+	-- "Keybinds",
+	-- "Keybinds 2",
+	"Keybinds Paginated",
 	"Presets",
 	"Dangerous",
 }
@@ -1261,4 +1435,23 @@ function G.FUNCS.handy_clear_preset_index(e)
 	local index = e.config.ref_table.index
 	Handy.presets.clear_index(index)
 	G.FUNCS.handy_rerender_after_input()
+end
+function G.FUNCS.handy_change_keybinds_page(arg)
+	if not G.OVERLAY_MENU then
+		return
+	end
+	local page_definition = Handy.UI.get_keybinds_page(arg.to_key)
+	local object_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_keybinds_page_content")
+	if object_container then
+		object_container.config.object:remove()
+		object_container.config.object = UIBox({
+			definition = page_definition,
+			config = {
+				colour = G.C.CLEAR,
+				parent = object_container,
+				align = "cm",
+			},
+		})
+		object_container.config.object:recalculate()
+	end
 end

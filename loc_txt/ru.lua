@@ -462,6 +462,7 @@ return {
 			highlight_movement = "Движение выделения",
 			shop_and_blinds = "Магазин и блайнды",
 			gamespeed_and_animations = "Скорость игры и анимации",
+			hand_selection = "Выделение руки",
 		},
 		handy_tabs = {
 			["Overall"] = "Основные & Ванилла",
@@ -470,6 +471,7 @@ return {
 			["Keybinds 2"] = "Другие назначения",
 			["Dangerous"] = "Опасная зона",
 			["Presets"] = "Профили",
+			["Keybinds Paginated"] = "Назначения",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
