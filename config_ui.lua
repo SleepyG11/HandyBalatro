@@ -940,7 +940,7 @@ Handy.UI.get_config_tab_regular_keybinds = function()
 end
 
 Handy.UI.get_config_tab_keybinds_paginated = function()
-	local page_definition, max_page = Handy.UI.get_keybinds_page(1)
+	local page_definition, max_page = Handy.UI.get_keybinds_page(Handy.UI.keybinds_page or 1)
 	local options = {}
 	for i = 1, max_page do
 		table.insert(options, localize("k_page") .. " " .. tostring(i) .. "/" .. tostring(max_page))
@@ -977,7 +977,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 					w = 4.5,
 					cycle_shoulders = true,
 					opt_callback = "handy_change_keybinds_page",
-					current_option = 1,
+					current_option = Handy.UI.keybinds_page or 1,
 					colour = G.C.RED,
 					no_pips = true,
 					focus_args = { nav = "wide" },
@@ -1234,6 +1234,7 @@ function G.FUNCS.handy_open_options(e)
 	G.SETTINGS.paused = true
 	Handy.UI.config_opened = true
 	Handy.UI.config_tab_index = 1
+	Handy.UI.keybinds_page = 1
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
@@ -1242,6 +1243,7 @@ end
 function G.FUNCS.handy_exit_options(e)
 	Handy.UI.config_opened = nil
 	Handy.UI.config_tab_index = nil
+	Handy.UI.keybinds_page = nil
 	if e then
 		return G.FUNCS.options(e)
 	end
@@ -1440,6 +1442,7 @@ function G.FUNCS.handy_change_keybinds_page(arg)
 	if not G.OVERLAY_MENU then
 		return
 	end
+	Handy.UI.keybinds_page = arg.to_key
 	local page_definition = Handy.UI.get_keybinds_page(arg.to_key)
 	local object_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_keybinds_page_content")
 	if object_container then
