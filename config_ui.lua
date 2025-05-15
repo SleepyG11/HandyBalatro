@@ -1382,6 +1382,7 @@ function Handy.UI.rerender(silent)
 			}
 		end
 		G.FUNCS.overlay_menu(result)
+		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 	end
 end
 
