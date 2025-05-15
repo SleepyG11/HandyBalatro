@@ -1,5 +1,5 @@
 Handy = setmetatable({
-	version = "1.4.2a",
+	version = "1.4.2b",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
@@ -2404,11 +2404,13 @@ Handy.dangerous_actions = {
 Handy.speed_multiplier = {
 	value = 1,
 
+	throttle = false,
+
 	get_value = function()
 		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
 			return 1
 		end
-		return Handy.speed_multiplier.value
+		return math.min(Handy.speed_multiplier.value, Handy.speed_multiplier.throttle and 4 or math.huge)
 	end,
 
 	get_actions = function(key)
@@ -2902,6 +2904,29 @@ function Controller:update_axis(...)
 		Handy.controller.cancel_bind()
 	end
 	return axis_interpretation
+end
+
+local card_open_ref = Card.open
+function Card:open(...)
+	local result = card_open_ref(self, ...)
+	if self.ability.set == "Booster" then
+		Handy.speed_multiplier.throttle = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1.5 * math.sqrt(G.SETTINGS.GAMESPEED),
+					no_delete = true,
+					func = function()
+						Handy.speed_multiplier.throttle = false
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+	end
+	return result
 end
 
 --
