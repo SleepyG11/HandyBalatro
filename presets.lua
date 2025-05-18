@@ -257,19 +257,19 @@ Handy.presets_switch = {
 				result_string = localize({
 					type = "variable",
 					key = "Handy_preset_loaded",
-					vars = { current_index, preset.name or "" },
+					vars = { load_index, preset.name or "" },
 				})
 			elseif not preset.enabled then
 				result_string = localize({
 					type = "variable",
 					key = "Handy_preset_disabled",
-					vars = { current_index, preset.name or "" },
+					vars = { load_index, preset.name or "" },
 				})
 			elseif not preset.config then
 				result_string = localize({
 					type = "variable",
 					key = "Handy_preset_empty",
-					vars = { current_index, preset.name or "" },
+					vars = { load_index, preset.name or "" },
 				})
 			end
 			state.items.presets_change = {

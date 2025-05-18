@@ -492,15 +492,44 @@ Handy.UI.get_keybinds_page = function(page)
 				{ disabled = gamepad }
 			),
 		}
+	elseif page == 4 then
+		result = {
+			Handy.UI.PARTS.create_module_section("presets"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next"),
+			Handy.UI.PARTS.create_module_section("dangerous_actions"),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.dangerous_actions.immediate_buy_and_sell,
+				"dangerous_modifier",
+				{ dangerous = true }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.dangerous_actions.sell_all_same,
+				"dangerous_all_same_modifier",
+				{ dangerous = true }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.dangerous_actions.sell_all,
+				"dangerous_all_modifier",
+				{ dangerous = true }
+			),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.dangerous_actions.card_remove,
+				"dangerous_remove_modifier",
+				{ dangerous = true }
+			),
+		}
 	end
 	if result then
 		result = {
 			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05 },
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 7, maxh = 7 },
 			nodes = result,
 		}
 	end
-	return result, 3
+	return result, 4
 end
 
 --
@@ -968,6 +997,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 				},
 			},
 		},
+		{ n = G.UIT.R, config = { minh = 0.1 } },
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -1360,6 +1390,7 @@ function create_UIBox_options()
 	return contents
 end
 
+-- TODO: fix optimization here at some point
 function Handy.UI.rerender(silent)
 	local result
 	if SMODS and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then

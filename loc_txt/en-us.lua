@@ -448,6 +448,8 @@ return {
 			shop_and_blinds = "Shop and Blinds",
 			gamespeed_and_animations = "Game speed and animations",
 			hand_selection = "Hand selection",
+			presets = "Presets",
+			dangerous_actions = "Dangerous actions",
 		},
 		handy_tabs = {
 			["Overall"] = "General & Vanilla",

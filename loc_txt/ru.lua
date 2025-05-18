@@ -463,6 +463,8 @@ return {
 			shop_and_blinds = "Магазин и блайнды",
 			gamespeed_and_animations = "Скорость игры и анимации",
 			hand_selection = "Выделение руки",
+			presets = "Профили",
+			dangerous_actions = "Опасные действия",
 		},
 		handy_tabs = {
 			["Overall"] = "Основные & Ванилла",
