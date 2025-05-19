@@ -266,6 +266,11 @@ return {
 					"then use listed controls",
 				},
 			},
+			move_highlight_gamepad = {
+				text = {
+					"{C:mult}Have no effect for gamepad{}",
+				},
+			},
 			speed_multiplier = {
 				text = {
 					"Game speed can be changed in",
@@ -290,6 +295,11 @@ return {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 				},
 			},
+			insta_buy_or_sell_gamepad = {
+				text = {
+					"{C:mult}Have no effect for gamepad{}",
+				},
+			},
 			insta_buy_n_sell_desktop = {
 				text = {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
@@ -300,6 +310,11 @@ return {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
 					" ",
 					"Takes priority over {C:chips}[Quick buy/sell]{}",
+				},
+			},
+			insta_use_gamepad = {
+				text = {
+					"{C:mult}Have no effect for gamepad{}",
 				},
 			},
 			cryptid_code_use_last_interaction = {
