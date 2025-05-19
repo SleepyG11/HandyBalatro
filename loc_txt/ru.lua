@@ -525,6 +525,7 @@ return {
 			ph_handy_notif_remove_all_same = "УДАЛИТЬ все копии кликнутой карты/тэга",
 			ph_handy_notif_sell_all_same = "Продать все копии кликнутой карты",
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
+			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
 
 			b_handy_info_popups_level_select = "Уровень нотификаций",
 			handy_info_popups_level_opt = {

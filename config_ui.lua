@@ -159,6 +159,7 @@ Handy.UI.PARTS = {
 		local dangerous = options.dangerous
 		local rerender = options.rerender
 		local disabled = options.disabled
+		local only_holdable = options.only_holdable
 
 		local key_1, key_2 = "key_1", "key_2"
 		if Handy.controller.is_gamepad() then
@@ -200,6 +201,7 @@ Handy.UI.PARTS = {
 						module = module,
 						key = key_1,
 						rerender = rerender,
+						only_holdable = only_holdable,
 					},
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
@@ -226,6 +228,7 @@ Handy.UI.PARTS = {
 						module = module,
 						key = key_2,
 						rerender = rerender,
+						only_holdable = only_holdable,
 					},
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
@@ -426,10 +429,14 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.not_just_yet_interaction, "not_just_yet_end_round"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out", { only_holdable = true }),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.not_just_yet_interaction,
+				"not_just_yet_end_round",
+				{ only_holdable = true }
+			),
 			Handy.UI.PARTS.create_module_section("shop"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_booster_skip, "skip_booster"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_booster_skip, "skip_booster", { only_holdable = true }),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_shop, "reroll_shop"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.leave_shop, "leave_shop"),
 			Handy.UI.PARTS.create_module_section("blinds"),
@@ -442,9 +449,9 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview", { only_holdable = true }),
 			Handy.UI.PARTS.create_module_section("hand_selection"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight", { only_holdable = true }),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
 			Handy.UI.PARTS.create_module_section("quick_actions"),
@@ -463,11 +470,19 @@ Handy.UI.get_keybinds_page = function(page)
 	elseif page == 3 then
 		result = {
 			Handy.UI.PARTS.create_module_section("gamespeed"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier, "speed_multiplier"),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.speed_multiplier,
+				"speed_multiplier",
+				{ only_holdable = true }
+			),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "speed_multiplier_multiply"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "speed_multiplier_divide"),
 			Handy.UI.PARTS.create_module_section("animations"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction, "nopeus_interaction"),
+			Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.nopeus_interaction,
+				"nopeus_interaction",
+				{ only_holdable = true }
+			),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
 			Handy.UI.PARTS.create_module_section("highlight_movement"),
@@ -484,12 +499,12 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.swap,
 				"move_highlight_move_card",
-				{ disabled = gamepad }
+				{ disabled = gamepad, only_holdable = true }
 			),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.to_end,
 				"move_highlight_to_end",
-				{ disabled = gamepad }
+				{ disabled = gamepad, only_holdable = true }
 			),
 		}
 	elseif page == 4 then
@@ -503,22 +518,22 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell,
 				"dangerous_modifier",
-				{ dangerous = true }
+				{ dangerous = true, only_holdable = true }
 			),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.sell_all_same,
 				"dangerous_all_same_modifier",
-				{ dangerous = true }
+				{ dangerous = true, only_holdable = true }
 			),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.sell_all,
 				"dangerous_all_modifier",
-				{ dangerous = true }
+				{ dangerous = true, only_holdable = true }
 			),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.card_remove,
 				"dangerous_remove_modifier",
-				{ dangerous = true }
+				{ dangerous = true, only_holdable = true }
 			),
 		}
 	end
@@ -888,22 +903,22 @@ Handy.UI.get_config_tab_dangerous = function()
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.immediate_buy_and_sell,
 			"dangerous_modifier",
-			{ dangerous = true, rerender = true }
+			{ dangerous = true, rerender = true, only_holdable = true }
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.sell_all_same,
 			"dangerous_all_same_modifier",
-			{ dangerous = true, rerender = true }
+			{ dangerous = true, rerender = true, only_holdable = true }
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.sell_all,
 			"dangerous_all_modifier",
-			{ dangerous = true, rerender = true }
+			{ dangerous = true, rerender = true, only_holdable = true }
 		),
 		Handy.UI.PARTS.create_module_keybind(
 			Handy.cc.dangerous_actions.card_remove,
 			"dangerous_remove_modifier",
-			{ dangerous = true, rerender = true }
+			{ dangerous = true, rerender = true, only_holdable = true }
 		),
 		{ n = G.UIT.R, config = { minh = 0.4 } },
 		{

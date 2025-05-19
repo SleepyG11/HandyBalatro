@@ -827,6 +827,7 @@ Handy.controller = {
 		Handy.controller.bind_button = button
 		Handy.controller.bind_module = button.config.ref_table.module
 		Handy.controller.bind_key = button.config.ref_table.key
+		Handy.controller.only_holdable = button.config.ref_table.only_holdable or false
 		Handy.controller.rerender_after_bind = button.config.ref_table.rerender or nil
 
 		Handy.controller.update_bind_button_text(
@@ -836,6 +837,17 @@ Handy.controller = {
 		)
 	end,
 	complete_bind = function(key)
+		if Handy.controller.only_holdable and Handy.controller.non_holdable[key] then
+			Handy.UI.state_panel.display(function(state)
+				state.items.non_holdable = {
+					text = localize("ph_handy_notif_cannot_bind_non_holdable"),
+					hold = false,
+					order = 0,
+				}
+				return true
+			end)
+			return Handy.controller.cancel_bind()
+		end
 		Handy.controller.bind_module[Handy.controller.bind_key] = key or "None"
 		Handy.controller.update_bind_button_text(Handy.UI.PARTS.localize_keybind(key or "None"))
 
@@ -845,6 +857,7 @@ Handy.controller = {
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
+		Handy.controller.only_holdable = nil
 
 		if Handy.controller.rerender_after_bind then
 			Handy.controller.rerender_after_bind = nil
@@ -871,6 +884,7 @@ Handy.controller = {
 		Handy.controller.bind_button = nil
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
+		Handy.controller.only_holdable = nil
 		Handy.controller.rerender_after_bind = nil
 	end,
 
@@ -994,6 +1008,10 @@ Handy.controller = {
 				return G.CONTROLLER.axis_buttons.r_trig.current == "triggerright"
 			end,
 		},
+	},
+	non_holdable = {
+		["Wheel Up"] = true,
+		["Wheel Down"] = true,
 	},
 
 	mouse_to_key_table = {
@@ -1192,10 +1210,12 @@ Handy.controller = {
 
 		if not released then
 			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
-			Handy.insta_highlight.use_on_hovered(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+			if not released then
+				Handy.insta_highlight.use_on_hovered(key)
+			end
 			if Handy.controller.is_triggered(released) then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
@@ -1236,10 +1256,12 @@ Handy.controller = {
 
 		if not released then
 			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
-			Handy.insta_highlight.use_on_hovered(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			if not released then
+				Handy.insta_highlight.use_on_hovered(key)
+			end
 			if Handy.controller.is_triggered(released) then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
@@ -2768,7 +2790,7 @@ Handy.UI = {
 		RED = HEX("FF0000"),
 
 		DYN_BASE_APLHA = {
-			CONTAINER = 0.6,
+			CONTAINER = 0.7,
 
 			TEXT = 1,
 			TEXT_DANGEROUS = 1,
@@ -2892,6 +2914,8 @@ Handy.UI = {
 			}
 		end,
 		emplace = function()
+			-- Need to remake it at some point
+			-- Like come on, create new panel every frame?
 			if Handy.UI.state_panel.element then
 				Handy.UI.state_panel.element:remove()
 			end
@@ -2911,6 +2935,35 @@ Handy.UI = {
 			Handy.UI.state_panel.element = element
 			Handy.UI.state_panel.title = element:get_UIE_by_ID("handy_state_title")
 			Handy.UI.state_panel.items = element:get_UIE_by_ID("handy_state_items")
+		end,
+
+		render = function()
+			local state_panel = Handy.UI.state_panel
+			local state = state_panel.current_state
+
+			if not state.title.text then
+				if state.dangerous then
+					state.title.text = localize("b_handy_notif_dangerous")
+				else
+					state.title.text = localize("b_handy_notif_quick")
+				end
+			end
+
+			for _, item in pairs(state.items) do
+				if item.hold then
+					state.hold = true
+				end
+			end
+
+			local color = Handy.UI.C.DYN.CONTAINER
+			local target_color = state.dangerous and Handy.UI.C.RED or Handy.UI.C.BLACK
+			color[1] = target_color[1]
+			color[2] = target_color[2]
+			color[3] = target_color[3]
+
+			Handy.UI.counter = 0
+
+			state_panel.emplace()
 		end,
 
 		update = function(key, released)
@@ -2941,31 +2994,34 @@ Handy.UI = {
 			end
 
 			if is_changed then
-				if state.dangerous then
-					state.title.text = localize("b_handy_notif_dangerous")
-				else
-					state.title.text = localize("b_handy_notif_quick")
-				end
-
-				for _, item in pairs(state.items) do
-					if item.hold then
-						state.hold = true
-					end
-				end
-
-				local color = Handy.UI.C.DYN.CONTAINER
-				local target_color = state.dangerous and Handy.UI.C.RED or Handy.UI.C.BLACK
-				color[1] = target_color[1]
-				color[2] = target_color[2]
-				color[3] = target_color[3]
-
-				Handy.UI.counter = 0
 				state_panel.previous_state = state_panel.current_state
 				state_panel.current_state = state
 
-				state_panel.emplace()
+				state_panel.render()
 			else
 				state_panel.current_state.hold = false
+			end
+		end,
+
+		display = function(state_func, override)
+			local state_panel = Handy.UI.state_panel
+
+			local should_replace_state = override or not state_panel.current_state.hold
+			local state_to_apply = should_replace_state
+					and {
+						dangerous = false,
+						title = {},
+						items = {},
+						sub_items = {},
+					}
+				or state_panel.current_state
+			local is_changed = state_func(state_to_apply)
+			if is_changed then
+				if should_replace_state then
+					state_panel.previous_state = state_panel.current_state
+					state_panel.current_state = state_to_apply
+				end
+				state_panel.render()
 			end
 		end,
 	},

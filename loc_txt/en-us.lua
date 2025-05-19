@@ -510,6 +510,7 @@ return {
 			ph_handy_notif_remove_all_same = "REMOVE all copies of clicked card/tag",
 			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
+			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
 
 			b_handy_info_popups_level_select = "Info popups level",
 			handy_info_popups_level_opt = {
