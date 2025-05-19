@@ -15,10 +15,11 @@ Handy = setmetatable({
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
+		["1.5.0_update"] = true,
 	},
 
 	__disable_gamepad = false,
-	__force_gamepad = false,
+	__force_gamepad = true,
 }, {})
 
 --- @generic T
@@ -2548,8 +2549,11 @@ Handy.speed_multiplier = {
 		}
 	end,
 	can_execute = function(key)
-		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
-			or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
+		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+			and (
+				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
+				or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
+			)
 	end,
 
 	execute = function(key)
@@ -2629,6 +2633,7 @@ Handy.nopeus_interaction = {
 	can_execute = function(key)
 		return not not (
 			Handy.nopeus_interaction.is_present()
+			and Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction)
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)

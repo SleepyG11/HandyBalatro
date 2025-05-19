@@ -102,7 +102,7 @@ return {
 				text = {
 					"Use {C:chips}#1#{} to",
 					"use card if possible",
-					"{C:handy_secondary}(overrides Quick Buy/Sell){}",
+					-- "{C:handy_secondary}(overrides Quick Buy/Sell){}",
 				},
 			},
 			cryptid_code_use_last_interaction = {
@@ -124,8 +124,16 @@ return {
 				unlock = { "Speed multiplier" },
 				text = {
 					"Hold {C:chips}#1#{} and",
-					"{C:chips}#2#{} to multiply or",
-					"{C:chips}#3#{} to divide game speed",
+					"{C:chips}#2#{}/{C:chips}#3#{} to",
+					"multiply/divide game speed",
+				},
+			},
+			speed_multiplier_no_hold = {
+				unlock = { "Speed multiplier:", "No hold" },
+				text = {
+					"Decrease amount of",
+					"keybinds needed to use",
+					"[Speed multplier]",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -139,9 +147,16 @@ return {
 				unlock = { "Nopeus:", "fast-forward" },
 				text = {
 					"Hold {C:chips}#1#{} and",
-					"{C:chips}#2#{} to increase or",
-					"{C:chips}#3#{} to decrease",
-					"fast-forward setting",
+					"{C:chips}#2#{}/{C:chips}#3#{} to",
+					"increase/decrease fast-forward setting",
+				},
+			},
+			nopeus_interaction_no_hold = {
+				unlock = { "Nopeus:", "No hold" },
+				text = {
+					"Decrease amount of",
+					"keybinds needed to use",
+					"[Nopeus: fast-forward]",
 				},
 			},
 			dangerous_actions = {
@@ -283,6 +298,8 @@ return {
 			insta_use_desktop = {
 				text = {
 					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+					" ",
+					"Takes priority over {C:chips}[Quick buy/sell]{}",
 				},
 			},
 			cryptid_code_use_last_interaction = {

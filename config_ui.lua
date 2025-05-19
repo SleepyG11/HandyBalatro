@@ -455,13 +455,9 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
 			Handy.UI.PARTS.create_module_section("quick_actions"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.insta_buy_or_sell,
-				"quick_buy_or_sell",
-				{ disabled = gamepad }
-			),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use", { disabled = gamepad }),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use"),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.cryptid_code_use_last_interaction,
 				"cryptid_code_use_last_interaction"
@@ -545,6 +541,129 @@ Handy.UI.get_keybinds_page = function(page)
 		}
 	end
 	return result, 4
+end
+Handy.UI.get_quick_page = function(page)
+	local gamepad = Handy.controller.is_gamepad()
+	local result = {}
+	if page == 1 then
+		result = {
+			not gamepad and {
+				n = G.UIT.R,
+				config = { padding = 0.05, align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						nodes = {
+							create_option_cycle({
+								w = 6,
+								label = localize("b_handy_buy_sell_use_mode_select"),
+								scale = 0.8,
+								options = localize("handy_buy_sell_use_mode_opt"),
+								opt_callback = "handy_change_insta_actions_trigger_mode",
+								current_option = Handy.cc.insta_actions_trigger_mode,
+							}),
+						},
+					},
+				},
+			} or nil,
+			not gamepad and { n = G.UIT.R, config = { padding = 0.05 }, nodes = {} } or nil,
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_or_sell, "insta_buy_or_sell"),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_n_sell, "insta_buy_n_sell"),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use"),
+						},
+					},
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.insta_highlight_entire_f_hand,
+								"insta_highlight_entire_f_hand"
+							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.cryptid_code_use_last_interaction,
+								"cryptid_code_use_last_interaction"
+							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.not_just_yet_interaction,
+								"not_just_yet_interaction"
+							),
+						},
+					},
+				},
+			},
+			-- { n = G.UIT.R, config = { minh = 0.25 } },
+		}
+	elseif page == 2 then
+		result = {
+			Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.move_highlight, "move_highlight", {
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_left, true),
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_right, true),
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.swap, true),
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.to_end, true),
+			}, { full_width = true }),
+			{ n = G.UIT.R, config = { minh = 0.25 } },
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, "speed_multiplier", {
+								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.multiply, true),
+								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.divide, true),
+							}),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.speed_multiplier.no_hold,
+								"speed_multiplier_no_hold"
+							),
+						},
+					},
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.nopeus_interaction,
+								"nopeus_interaction",
+								{
+									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
+									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
+								}
+							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.nopeus_interaction.no_hold,
+								"nopeus_interaction_no_hold"
+							),
+						},
+					},
+				},
+			},
+			-- { n = G.UIT.R, config = { minh = 0.25 } },
+		}
+	end
+	if result then
+		result = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 5.9, maxh = 5.9 },
+			nodes = result,
+		}
+	end
+	return result, 2
 end
 
 --
@@ -682,6 +801,7 @@ Handy.UI.get_config_tab_overall = function()
 			nodes = {
 				{
 					n = G.UIT.C,
+					config = { minw = 4 },
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
@@ -761,6 +881,7 @@ Handy.UI.get_config_tab_quick = function()
 			nodes = {
 				{
 					n = G.UIT.C,
+					config = { minw = 4 },
 					nodes = {
 						not gamepad and Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.insta_buy_or_sell,
@@ -839,6 +960,7 @@ Handy.UI.get_config_tab_dangerous = function()
 			nodes = {
 				{
 					n = G.UIT.C,
+					config = { minw = 4 },
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.dangerous_actions.immediate_buy_and_sell,
@@ -1050,6 +1172,55 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 	}
 end
 
+Handy.UI.get_config_tab_quick_paginated = function()
+	local page_definition, max_page = Handy.UI.get_quick_page(Handy.UI.quick_page or 1)
+	local options = {}
+	for i = 1, max_page do
+		table.insert(options, localize("k_page") .. " " .. tostring(i) .. "/" .. tostring(max_page))
+	end
+	return {
+		{
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						id = "handy_quick_page_content",
+						object = UIBox({
+							definition = page_definition,
+							config = {
+								colour = G.C.CLEAR,
+								align = "cm",
+							},
+						}),
+						align = "cm",
+					},
+				},
+			},
+		},
+		{ n = G.UIT.R, config = { minh = 0.1 } },
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				create_option_cycle({
+					options = options,
+					w = 4.5,
+					cycle_shoulders = true,
+					opt_callback = "handy_change_quick_page",
+					current_option = Handy.UI.quick_page or 1,
+					colour = G.C.RED,
+					no_pips = true,
+					focus_args = { nav = "wide" },
+				}),
+			},
+		},
+	}
+end
+
 Handy.UI.get_config_tab_keybinds_2 = function()
 	local gamepad = Handy.controller.is_gamepad()
 	return {
@@ -1186,7 +1357,7 @@ Handy.UI.PARTS.tabs_list = {
 	},
 	["Quick"] = {
 		definition = function()
-			return Handy.UI.get_config_tab_quick()
+			return Handy.UI.get_config_tab_quick_paginated()
 		end,
 	},
 	["Keybinds"] = {
@@ -1280,6 +1451,7 @@ function G.FUNCS.handy_open_options(e)
 	Handy.UI.config_opened = true
 	Handy.UI.config_tab_index = 1
 	Handy.UI.keybinds_page = 1
+	Handy.UI.quickmmmmmmmmmmm_page = 1
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
@@ -1492,6 +1664,26 @@ function G.FUNCS.handy_change_keybinds_page(arg)
 	Handy.UI.keybinds_page = arg.to_key
 	local page_definition = Handy.UI.get_keybinds_page(arg.to_key)
 	local object_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_keybinds_page_content")
+	if object_container then
+		object_container.config.object:remove()
+		object_container.config.object = UIBox({
+			definition = page_definition,
+			config = {
+				colour = G.C.CLEAR,
+				parent = object_container,
+				align = "cm",
+			},
+		})
+		object_container.config.object:recalculate()
+	end
+end
+function G.FUNCS.handy_change_quick_page(arg)
+	if not G.OVERLAY_MENU then
+		return
+	end
+	Handy.UI.quick_page = arg.to_key
+	local page_definition = Handy.UI.get_quick_page(arg.to_key)
+	local object_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_quick_page_content")
 	if object_container then
 		object_container.config.object:remove()
 		object_container.config.object = UIBox({
