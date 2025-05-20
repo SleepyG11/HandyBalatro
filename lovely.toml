@@ -286,3 +286,23 @@ Handy.regular_keybinds.on_shop_loaded()
 '''
 match_indent = true
 overwrite = false
+
+# Prevent button pip crash
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local BUTTON_SPRITE = Sprite(0,0,args.scale or 0.45,args.scale or 0.45,G.ASSET_ATLAS["gamepad_ui"],'''
+position = "before"
+payload = '''
+if not args.button or not button_sprite_map[args.button] then
+    return {
+        n = G.UIT.ROOT,
+        config = { align = "cm", colour = G.C.CLEAR },
+        nodes = {
+            { n = G.UIT.O, config = { object = Moveable() } },
+        },
+    }
+end
+'''
+match_indent = true
+overwrite = false
