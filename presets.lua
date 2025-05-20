@@ -151,8 +151,11 @@ Handy.presets = {
 		config_to_apply.presets = nil
 		-- Keep hide in menu button value
 		config_to_apply.hide_in_menu = nil
+		config_to_apply.hide_options_button = nil
 		-- Keep notifications level
 		config_to_apply.notifications_level = nil
+		-- Keep current device setting
+		config_to_apply.current_device = nil
 		-- Bad idea
 		config_to_apply.__empty = nil
 

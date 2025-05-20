@@ -536,8 +536,23 @@ Handy.UI.get_keybinds_page = function(page)
 	if result then
 		result = {
 			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 7, maxh = 7 },
-			nodes = result,
+			config = {
+				colour = adjust_alpha(HEX("000000"), 0.1),
+				align = "cm",
+				padding = 0.25,
+				r = 0.5,
+				minh = 7.25,
+				maxh = 7.25,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						padding = 0.05,
+					},
+					nodes = result,
+				},
+			},
 		}
 	end
 	return result, 4
@@ -675,78 +690,6 @@ Handy.UI.get_config_tab_overall = function()
 			n = G.UIT.R,
 			config = { padding = 0.05, align = "cm" },
 			nodes = {
-				Handy.current_mod and {
-					n = G.UIT.C,
-					config = {
-						align = "cm",
-						padding = 0.1,
-					},
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = {
-								padding = 0.15,
-							},
-							nodes = {},
-						},
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = {
-								{
-									n = G.UIT.C,
-									config = { align = "cm" },
-									nodes = {
-										{
-											n = G.UIT.R,
-											config = { minw = 2.5 },
-											nodes = {
-												{
-													n = G.UIT.T,
-													config = {
-														text = localize("b_handy_hide_mod_button_1"),
-														scale = 0.4,
-														colour = G.C.WHITE,
-													},
-												},
-											},
-										},
-										{
-											n = G.UIT.R,
-											config = { minw = 2.5 },
-											nodes = {
-												{
-													n = G.UIT.T,
-													config = {
-														text = localize("b_handy_hide_mod_button_2"),
-														scale = 0.4,
-														colour = G.C.WHITE,
-													},
-												},
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.C,
-									config = { align = "cm" },
-									nodes = {
-										create_toggle({
-											callback = function(b)
-												return G.FUNCS.handy_toggle_menu_button(b)
-											end,
-											label_scale = 0.4,
-											label = "",
-											ref_table = Handy.cc,
-											ref_value = "hide_in_menu",
-											w = 0,
-										}),
-									},
-								},
-							},
-						},
-					},
-				} or nil,
 				{
 					n = G.UIT.C,
 					nodes = {
@@ -773,42 +716,75 @@ Handy.UI.get_config_tab_overall = function()
 						}),
 					},
 				},
+				{
+					n = G.UIT.C,
+					nodes = {
+						create_option_cycle({
+							w = 6,
+							label = localize("b_handy_device_select"),
+							scale = 0.8,
+							options = localize("handy_device_opt"),
+							opt_callback = "handy_change_current_device",
+							current_option = Handy.cc.current_device,
+						}),
+					},
+				},
 			},
 		},
 		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
-		Handy.UI.PARTS.create_new_module_checkbox(
-			Handy.cc.handy,
-			"handy",
-			{ Handy.version, "SleepyG11" },
-			{ full_width = true }
-		),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
-		Handy.UI.PARTS.create_new_module_checkbox(
-			Handy.cc.insta_highlight,
-			(
-				Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight, true) == "mouse1"
-					and "insta_highlight_OUTSIDE"
-				or "insta_highlight"
-			),
-			nil,
-			{
-				only_first = true,
-			}
-		),
+		{
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = {
+						padding = 0.25,
+						r = 0.5,
+						colour = adjust_alpha(HEX("000000"), 0.1),
+					},
+					nodes = {
+						Handy.UI.PARTS.create_new_module_checkbox(
+							Handy.cc.handy,
+							"handy",
+							{ Handy.version, "SleepyG11" },
+							{ full_width = true }
+						),
+					},
+				},
+			},
+		},
 		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
+			config = { align = "cm" },
 			nodes = {
 				{
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
+						Handy.UI.PARTS.create_new_module_checkbox(
+							Handy.cc.insta_highlight,
+							(
+								Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight, true)
+										== "mouse1"
+									and "insta_highlight_OUTSIDE"
+								or "insta_highlight"
+							),
+							nil,
+							{
+								only_first = true,
+							}
+						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.insta_highlight.allow_deselect,
 							"insta_unhighlight"
 						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview"),
 					},
@@ -817,6 +793,8 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
+						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.hide_options_button, "hide_options_button"),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand"),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_cash_out, "insta_cash_out"),
@@ -939,10 +917,17 @@ Handy.UI.get_config_tab_dangerous = function()
 	return {
 		{
 			n = G.UIT.R,
-			config = { padding = 0.05, align = "cm" },
+			config = {
+				align = "cm",
+			},
 			nodes = {
 				{
-					n = G.UIT.C,
+					n = G.UIT.R,
+					config = {
+						padding = 0.25,
+						r = 0.5,
+						colour = adjust_alpha(HEX("000000"), 0.1),
+					},
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.dangerous_actions,
@@ -954,7 +939,7 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.5 } },
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -1451,7 +1436,7 @@ function G.FUNCS.handy_open_options(e)
 	Handy.UI.config_opened = true
 	Handy.UI.config_tab_index = 1
 	Handy.UI.keybinds_page = 1
-	Handy.UI.quickmmmmmmmmmmm_page = 1
+	Handy.UI.quick_page = 1
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
@@ -1608,6 +1593,7 @@ local exit_overlay_ref = G.FUNCS.exit_overlay_menu
 function G.FUNCS.exit_overlay_menu(...)
 	Handy.UI.config_opened = nil
 	Handy.UI.config_tab_index = nil
+	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 	return exit_overlay_ref(...)
 end
 

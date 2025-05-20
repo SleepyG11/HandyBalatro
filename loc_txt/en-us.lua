@@ -8,6 +8,12 @@ return {
 					"{C:handy_secondary}(no restart required){}",
 				},
 			},
+			hide_options_button = {
+				unlock = { "Hide mod button", "in options menu" },
+				text = {
+					"{C:handy_secondary}Only when Steamodded installed{}",
+				},
+			},
 			regular_keybinds = {
 				unlock = { "Regular keybinds" },
 				text = {
@@ -517,9 +523,6 @@ return {
 
 			handy_preset_name_placeholder = "Preset name",
 
-			b_handy_hide_mod_button_1 = "Hide mod button",
-			b_handy_hide_mod_button_2 = "in options menu",
-
 			b_handy_notif_quick = "Quick actions",
 			b_handy_notif_dangerous = "Dangerous actions",
 
@@ -560,6 +563,13 @@ return {
 			handy_buy_sell_use_mode_opt = {
 				[1] = "Hold key + Click card",
 				[2] = "Hover card + Press key",
+			},
+
+			b_handy_device_select = "Input device",
+			handy_device_opt = {
+				[1] = "Auto",
+				[2] = "Mouse + Keyboard",
+				[3] = "Gamepad",
 			},
 		},
 	},

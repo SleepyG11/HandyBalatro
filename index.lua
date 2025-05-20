@@ -17,9 +17,6 @@ Handy = setmetatable({
 		["1.4.1b_patched_select_blind_and_skip"] = true,
 		["1.5.0_update"] = true,
 	},
-
-	__disable_gamepad = false,
-	__force_gamepad = false,
 }, {})
 
 --- @generic T
@@ -135,7 +132,12 @@ Handy.config = {
 		notifications_level = 3,
 		keybinds_trigger_mode = 1,
 		insta_actions_trigger_mode = 1,
+		current_device = 1,
 		hide_in_menu = false,
+
+		hide_options_button = {
+			enabled = false,
+		},
 
 		insta_highlight = {
 			enabled = true,
@@ -618,26 +620,23 @@ Handy.controller = {
 	device_type = "keyboard",
 
 	get_device_type = function(options)
-		if Handy.__disable_gamepad then
-			return "keyboard"
-		end
-		if Handy.__force_gamepad then
-			return "gamepad"
-		end
 		options = options or {}
-		if options.touch then
-			return Handy.controller.device_type
-		elseif options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
-			return "gamepad"
-		elseif options.mouse or options.keyboard then
+		if Handy.cc.current_device == 2 then
 			return "keyboard"
+		elseif Handy.cc.current_device == 3 then
+			return "gamepad"
+		elseif Handy.cc.current_device == 1 then
+			if options.touch or options.check then
+				return Handy.controller.device_type
+			elseif options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
+				return "gamepad"
+			elseif options.mouse or options.keyboard then
+				return "keyboard"
+			end
 		end
 		return "keyboard"
 	end,
 	update_device_type = function(options)
-		if Handy.__disable_gamepad then
-			return false
-		end
 		options = options or {}
 		local new_type = Handy.controller.get_device_type(options)
 		if Handy.controller.device_type == new_type then
@@ -660,12 +659,6 @@ Handy.controller = {
 	end,
 
 	is_gamepad = function()
-		if Handy.__disable_gamepad then
-			return false
-		end
-		if Handy.__force_gamepad then
-			return true
-		end
 		return Handy.controller.device_type == "gamepad"
 	end,
 
@@ -692,7 +685,7 @@ Handy.controller = {
 	end,
 
 	override_node_button = function(e)
-		if e.REMOVED or Handy.__disable_gamepad then
+		if e.REMOVED then
 			return false
 		end
 
@@ -1324,9 +1317,6 @@ Handy.controller = {
 		return finish(false)
 	end,
 	process_gamepad_button = function(joystick, button, released)
-		if Handy.__disable_gamepad then
-			return false
-		end
 		Handy.controller.update_device_type({ gamepad = true })
 
 		-----
@@ -1367,9 +1357,6 @@ Handy.controller = {
 		return false
 	end,
 	process_gamepad_axis = function(joystick, axis, value)
-		if Handy.__disable_gamepad then
-			return false
-		end
 		Handy.controller.update_device_type({ gamepad = true })
 		return false
 	end,
@@ -1543,8 +1530,7 @@ Handy.show_deck_preview = {
 
 	get_is_hold = function()
 		if Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.show_deck_preview) then
-			return G.STAGE == G.STAGES.RUN and (Handy.__disable_gamepad and G.CONTROLLER.held_buttons.triggerleft)
-				or Handy.controller.is_module_key_down(Handy.cc.show_deck_preview)
+			return G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.cc.show_deck_preview)
 		else
 			return G.CONTROLLER.held_buttons.triggerleft
 		end
@@ -3102,7 +3088,7 @@ end
 local controller_update_axis_ref = Controller.update_axis
 function Controller:update_axis(...)
 	local axis_interpretation = controller_update_axis_ref(self, ...)
-	if not Handy.__disable_gamepad and axis_interpretation == "axis_cursor" then
+	if axis_interpretation == "axis_cursor" then
 		Handy.controller.cancel_bind()
 	end
 	return axis_interpretation
@@ -3176,7 +3162,7 @@ function Handy.emplace_steamodded()
 	end
 	Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
 	Handy.current_mod.config_tab = true
-	Handy.UI.show_options_button = not Handy.cc.hide_in_menu
+	Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
 
 	Handy.current_mod.extra_tabs = function()
 		return Handy.UI.get_options_tabs()
@@ -3201,16 +3187,10 @@ function G.FUNCS.handy_toggle_module_enabled(arg, module)
 	module.enabled = arg
 	if module == Handy.cc.nopeus_interaction then
 		Handy.nopeus_interaction.change(0)
+	elseif module == Handy.cc.hide_options_button then
+		Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
 	end
 	Handy.config.save()
-end
-
-function G.FUNCS.handy_toggle_menu_button(arg)
-	Handy.cc.hide_in_menu = arg
-	Handy.config.save()
-	if Handy.current_mod then
-		Handy.UI.show_options_button = not Handy.cc.hide_in_menu
-	end
 end
 
 function G.FUNCS.handy_change_notifications_level(arg)
@@ -3226,6 +3206,12 @@ end
 function G.FUNCS.handy_change_insta_actions_trigger_mode(arg)
 	Handy.cc.insta_actions_trigger_mode = arg.to_key
 	Handy.config.save()
+end
+
+function G.FUNCS.handy_change_current_device(arg)
+	Handy.cc.current_device = arg.to_key
+	Handy.config.save()
+	Handy.controller.update_device_type({ check = true })
 end
 
 function G.FUNCS.handy_init_keybind_change(e)
