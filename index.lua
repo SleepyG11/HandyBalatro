@@ -625,7 +625,9 @@ Handy.controller = {
 			return "gamepad"
 		end
 		options = options or {}
-		if options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
+		if options.touch then
+			return Handy.controller.device_type
+		elseif options.joystick or options.gamepad or G.CONTROLLER.HID.controller then
 			return "gamepad"
 		elseif options.mouse or options.keyboard then
 			return "keyboard"
@@ -1101,7 +1103,10 @@ Handy.controller = {
 				if Handy.controller.wheel_buttons[parsed_key] then
 					-- Well, skip
 				elseif Handy.controller.mouse_buttons[parsed_key] then
-					if love.mouse.isDown(Handy.controller.mouse_buttons[parsed_key]) then
+					if
+						love.mouse.isDown(Handy.controller.mouse_buttons[parsed_key])
+						or (parsed_key == "Left Mouse" and (next(love.touch.getTouches())))
+					then
 						return true
 					end
 				elseif Handy.controller.resolve(parsed_key, { gamepad = true }) then
@@ -1230,8 +1235,8 @@ Handy.controller = {
 
 		return finish(false)
 	end,
-	process_mouse = function(mouse, released)
-		Handy.controller.update_device_type({ mouse = true })
+	process_mouse = function(mouse, released, touch)
+		Handy.controller.update_device_type({ mouse = not touch, touch = touch })
 		G.njy_keybind = nil
 		local key = Handy.controller.mouse_to_key_table[mouse]
 
@@ -1250,6 +1255,10 @@ Handy.controller = {
 		end
 
 		-----
+
+		if touch then
+			return finish(false)
+		end
 
 		if not released and Handy.presets_switch.use(key) then
 			return finish(true)
@@ -1811,8 +1820,6 @@ Handy.insta_highlight = {
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and card.area == G.hand
-			-- TODO: fix it
-			and not next(love.touch.getTouches())
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 	end,
 	execute = function(card)

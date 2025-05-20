@@ -117,7 +117,7 @@ target = "main.lua"
 pattern = '''function love.mousepressed(x, y, button, touch)'''
 position = "after"
 payload = '''
-if not touch and Handy.controller.process_mouse(button, false) then return end
+if Handy.controller.process_mouse(button, false, touch) then return end
 '''
 match_indent = true
 overwrite = false
