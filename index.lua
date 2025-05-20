@@ -19,7 +19,7 @@ Handy = setmetatable({
 	},
 
 	__disable_gamepad = false,
-	__force_gamepad = true,
+	__force_gamepad = false,
 }, {})
 
 --- @generic T
