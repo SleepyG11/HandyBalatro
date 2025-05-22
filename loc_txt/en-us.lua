@@ -296,7 +296,7 @@ return {
 			},
 			move_highlight_gamepad = {
 				text = {
-					"{C:mult}Have no effect for gamepad{}",
+					"{C:mult}Have no effect on gamepad{}",
 				},
 			},
 			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
@@ -329,7 +329,7 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}Have no effect for gamepad{}",
+					"{C:mult}Have no effect on gamepad{}",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -347,7 +347,7 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}Have no effect for gamepad{}",
+					"{C:mult}Have no effect on gamepad{}",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -402,7 +402,7 @@ return {
 					" ",
 					"Allow more precise cards selection, but slower",
 					" ",
-					"{C:attention}Always active for gamepad{}",
+					"{C:attention}Always active on gamepad{}",
 				},
 			},
 			nopeus_unsafe = {
@@ -459,6 +459,7 @@ return {
 		},
 	},
 	misc = {
+		-- You don't need to translate all of them, only necessary ones
 		handy_keybinds = {
 			["Left"] = "Left",
 			["(A)"] = "(A)",

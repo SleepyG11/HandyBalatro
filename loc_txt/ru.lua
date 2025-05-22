@@ -1,11 +1,20 @@
 return {
 	descriptions = {
+		-- For all checkboxes and popups, first var is keybind
+		-- Further mentioned vars starts from #2#
 		Handy_ConfigCheckbox = {
+			-- Vars: version, author
 			handy = {
 				unlock = { "HandyBalatro v#2#", "от {C:white,E:2,s:1.15}#3#{}" },
 				text = {
 					"Снимите галочку чтобы выключить {C:attention}ВСЕ{} функции мода",
 					"{C:handy_secondary}(без необходимости перезапускать игру){}",
+				},
+			},
+			hide_options_button = {
+				unlock = { "Спрятать кнопку", "в меню настроек" },
+				text = {
+					"{C:handy_secondary}Только если установлен Steamodded{}",
 				},
 			},
 			regular_keybinds = {
@@ -15,13 +24,18 @@ return {
 					"основных игровых действий",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight = {
-				unlock = { "Быстрое", "выделение" },
+				unlock = {
+					"{C:edition}Быстрое выделение руки{}",
+					"{C:handy_secondary}(свайп, наведение, перетаскивание){}",
+				},
 				text = {
 					"Удерж. {C:chips}#1#{} и",
 					"наводитесь на карты чтобы выделить их",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight_OUTSIDE = {
 				unlock = {
 					"{C:edition}Быстрое выделение руки{}",
@@ -32,23 +46,25 @@ return {
 					"а затем наводитесь на карты чтобы выделить их",
 				},
 			},
+			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				unlock = {
 					"Быстрое снятие",
 					"выделения",
 				},
 				text = {
-					"Разрешить {C:edition}[Быстрое выделение руки]{}",
-					"также и снимать выделение с карт",
+					"{C:edition}#2#{} также",
+					"будет и снимать выделение с карт",
 				},
 			},
 			show_deck_preview = {
-				unlock = { "Превью колоды" },
+				unlock = { "Предпросмотр колоды" },
 				text = {
 					"Удерж. {C:chips}#1#{} чтобы",
-					"показать превью колоды",
+					"показать предпросмотр колоды",
 				},
 			},
+			-- Vars: [Right Mouse]
 			deselect_hand = {
 				unlock = { "Снять выделение руки" },
 				text = {
@@ -79,6 +95,7 @@ return {
 					"Удерж. {C:chips}#5#{} чтобы передвинуть к первой/последней карте",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell = {
 				unlock = { "Быстрая покупка", "или продажа" },
 				text = {
@@ -86,6 +103,7 @@ return {
 					"купить или продать карту",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell = {
 				unlock = { "Быстрая", "покупка-и-продажа" },
 				text = {
@@ -94,14 +112,15 @@ return {
 					"её продать",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use = {
 				unlock = { "Быстрое", "использование" },
 				text = {
 					"Используйте {C:chips}#1#{} чтобы",
 					"использовать карту, если возможно",
-					"{C:handy_secondary}(в приоритете над покупкой/продажей){}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				unlock = { "Cryptid: использовать", "предыдущее значение" },
 				text = {
@@ -117,12 +136,22 @@ return {
 					"закончить раунд",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
-				unlock = { "Множитель скорость" },
+				unlock = { "Множитель скорости" },
 				text = {
 					"Нажмите {C:chips}#1#{} и",
-					"{C:chips}#2#{} или {C:chips}#3#{} чтобы",
+					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
 					"умножить/поделить скорость игры",
+				},
+			},
+			-- Vars: [Speed Multiplier]
+			speed_multiplier_no_hold = {
+				unlock = { "Множитель скорость:", "без удержания" },
+				text = {
+					"Уменьшает кол-во",
+					"необходимых клавиш для",
+					"#2#",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -132,13 +161,22 @@ return {
 					"выделить всю руку",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				unlock = { "Nopeus:", "fast-forward" },
 				text = {
 					"Удерж. {C:chips}#1#{} и",
-					"{C:chips}#2#{} или {C:chips}#3#{} чтобы",
-					"увеличить/уменьшить значение",
-					"настройки fast-forward",
+					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
+					"увеличить/уменьшить настройку fast-forward",
+				},
+			},
+			-- Vars: [Nopeus: fast-forward]
+			nopeus_interaction_no_hold = {
+				unlock = { "Nopeus:", "без удержания" },
+				text = {
+					"Уменьшает кол-во",
+					"необходимых клавиш для",
+					"#2#",
 				},
 			},
 			dangerous_actions = {
@@ -149,13 +187,14 @@ return {
 					"{C:mult}может вызывать баги или краши!{}",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				unlock = { "Моментальная", "продажа" },
 				text = {
 					"Удерж. {C:mult}#1#{},",
 					"удерж. {C:chips}#2#{},",
-					"и наводитесь на карты чтобы",
-					"продать их",
+					"и наводитесь на карты",
+					"чтобы продать их",
 				},
 			},
 			immediate_buy_and_sell_queue = {
@@ -172,6 +211,7 @@ return {
 					"настройку до {C:mult}Unsafe{}",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				unlock = { "Продать все", "копии карты" },
 				text = {
@@ -181,6 +221,7 @@ return {
 					"продать все её копии",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				unlock = { "Продать ВСЕ" },
 				text = {
@@ -188,6 +229,7 @@ return {
 					"продать {C:attention}ВСЕ{} карты в области",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				unlock = { "УДАЛИТЬ* карты", "или тэги" },
 				text = {
@@ -204,28 +246,32 @@ return {
 					"Пропустить или выбрать блайнд, Просмотр колоды",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight = {
 				text = {
-					"Если назначено на {C:chips}[ЛКМ]{},",
+					"Если назначено на {C:chips}#1#{},",
 					"начните удерж. {C:attention}НА ПУСТОМ МЕСТЕ{}",
 					"а затем наводитесь на карты чтобы выделить их",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight_gamepad = {
 				text = {
 					"Работает и для курсора, и для выделения",
 					"с помощью кнопок движения",
 				},
 			},
+			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				text = {
 					"Выделять карты, если первая не была выделена.",
 					"Снимать выделение, если первая карта была выделена.",
 				},
 			},
+			-- Vars: [Right Mouse]
 			deselect_hand_desktop = {
 				text = {
-					"Заменяет ванильный {C:chips}[ПКМ]{}",
+					"Заменяет ванильный {C:chips}#2#{}",
 					"но работает идентично и может",
 					"быть переназначен на другую кнопку",
 					" ",
@@ -251,18 +297,25 @@ return {
 					"хотите взаимодействовать",
 				},
 			},
+			move_highlight_gamepad = {
+				text = {
+					"{C:mult}Не действует на геймпаде{}",
+				},
+			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
 				text = {
 					"Скорость игры может быть изменена",
-					"от {C:attention}x1/512{} до {C:attention}x512{}",
+					"от {C:attention}#4#{} до {C:attention}#5#{}",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				text = {
 					"Требуется мод {C:attention}Nopeus{}",
 					" ",
 					"{C:mult}Unsafe{} значение должно быть",
-					"включено во вкладке {C:attention}Опасная зона{}",
+					"включено во вкладке {C:attention}#4#{}",
 				},
 			},
 			not_just_yet_interaction = {
@@ -270,24 +323,40 @@ return {
 					"Требуется мод {C:attention}NotJustYet{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_desktop = {
 				text = {
-					"Использование определяется",
-					"{C:attention}Режимом покупки/продажи/использования{}",
+					"Использование определяет",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
+			insta_buy_or_sell_gamepad = {
+				text = {
+					"{C:mult}Не действует на геймпаде{}",
+				},
+			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell_desktop = {
 				text = {
-					"Использование определяется",
-					"{C:attention}Режимом покупки/продажи/использования{}",
+					"Использование определяет",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use_desktop = {
 				text = {
-					"Использование определяется",
-					"{C:attention}Режимом покупки/продажи/использования{}",
+					"Использование определяет",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
+			insta_use_gamepad = {
+				text = {
+					"{C:mult}Не действует на геймпаде{}",
+				},
+			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				text = {
 					"Требуется мод {C:attention}Cryptid{}",
@@ -296,10 +365,11 @@ return {
 					"{C:green}[Input previous value]{} для таких карт как:",
 					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
-					"Использование определяется",
-					"{C:attention}Режимом покупки/продажи/использования{}",
+					"Использование определяет",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction_gamepad = {
 				text = {
 					"Требуется мод {C:attention}Cryptid{}",
@@ -315,9 +385,10 @@ return {
 					"карт в руке, слева направо",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				text = {
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:chips}[Быстрая покупка/продажа]{},',
+					"Удерж. {C:mult}#3#{}, {C:chips}#4#{},",
 					"и наводитесь на карты чтобы сразу же их продать",
 				},
 			},
@@ -338,7 +409,7 @@ return {
 					" ",
 					"Более удобное, но менее быстрое",
 					" ",
-					"{C:attention}Всегда активно для геймпада{}",
+					"{C:attention}Всегда активно на геймпаде{}",
 				},
 			},
 			nopeus_unsafe = {
@@ -349,32 +420,35 @@ return {
 					"может быть включена нормально через настройки",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				text = {
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:mult}["Все копии" модификатор]{},',
+					"Удерж. {C:mult}#3#{}, {C:mult}#4#{},",
 					"и нажмите на карту чтобы продать все её копии",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				text = {
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:mult}["ВСЕ" модификатор]{},',
+					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
 					"и нажмите на карту чтобы продать {C:attention}ВСЕ{} карты в области",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				text = {
 					"При удерж. карты {C:attention}или тэги{} будут {C:attention,E:1}УДАЛЕНЫ{}",
 					" ",
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:mult}["УДАЛИТЬ" модификатор]{},',
-					"{C:chips}[Быстрая покупка/продажа]{} и наводитесь на карты",
+					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
+					"{C:chips}#4#{} и наводитесь на карты",
 					"чтобы {C:attention,E:1}УДАЛИТЬ{} их (очередь тоже работает)",
 					" ",
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:mult}["УДАЛИТЬ" модификатор]{},',
-					'{C:mult}["Все копии" модификатор]{} и нажмите на карту {C:attention}или тэг{}',
+					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
+					"{C:mult}#5#{} и нажмите на карту {C:attention}или тэг{}",
 					"чтобы {C:attention,E:1}УДАЛИТЬ{} все их копии",
 					" ",
-					'Удерж. {C:mult}["Опасный" модификатор]{}, {C:mult}["УДАЛИТЬ" модификатор]{},',
-					'{C:mult}["ВСЕ" модификатор]{}, и нажмите на карту {C:attention}или тэг{}',
+					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
+					"{C:mult}#6#{}, и нажмите на карту {C:attention}или тэг{}",
 					"чтобы {C:attention,E:1}УДАЛИТЬ{} их {C:attention}ВСЕ{}",
 				},
 			},
@@ -459,7 +533,7 @@ return {
 			quick_actions = "Быстрые действия",
 			gamespeed = "Скорость игры",
 			animations = "Анимации",
-			highlight_movement = "Движение выделения",
+			highlight_movement = "Передвижение выделения",
 			shop_and_blinds = "Магазин и блайнды",
 			gamespeed_and_animations = "Скорость игры и анимации",
 			hand_selection = "Выделение руки",
@@ -487,30 +561,28 @@ return {
 			Handy_preset_empty = "Профиль #1# [#2#] пуст",
 			Handy_preset_disabled = "Профиль #1# [#2#] выключен",
 			Handy_preset_nothing_to_load = "Нет профилей для загрузки",
+
+			Handy_overall_guide_button = 'Каждая настройка может быть назначена на мышь, колёсико мыши или клавиатуру во вкладке "#1#".',
+			Handy_overall_guide_gamepad = 'Каждая настройка может быть назначена на любую кнопку геймпада во вкладке "#1#".',
+			Handy_keybinds_guide_desktop = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
+			Handy_keybinds_guide_gamepad = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
+			Handy_presets_guide = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
+			Handy_danger_zone_guide = "*УДАЛИТЬ карту/тэг - убрать без каких-либо проверок, эффектов, триггеров или возврата денег..",
 		},
 		dictionary = {
 			handy_or = "или",
 
 			ph_handy_premade_presets = "Пре-созданные профили",
 			ph_handy_custom_presets = "Пользовательские профили",
-			ph_handy_presets_description = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
+
 			b_handy_preset_save = "Сохранить",
 			b_handy_preset_load = "Загрузить",
 			b_handy_preset_clear = "Очистить",
 
 			handy_preset_name_placeholder = "Название профиля",
 
-			b_handy_hide_mod_button_1 = "Спрятать кнопку",
-			b_handy_hide_mod_button_2 = "в меню настроек",
-
 			b_handy_notif_quick = "Быстрые действия",
 			b_handy_notif_dangerous = "Опасные действия",
-
-			ph_handy_any_button_hint = 'Каждая настройка может быть назначена на мышь, колёсико мыши или клавиатуру во вкладках "Назначения"',
-			ph_handy_any_gamepad_hint = 'Каждая настройка может быть назначена на любую кнопку геймпада во вкладках "Назначения"',
-			ph_handy_remove_hint = "*УДАЛИТЬ карту/тэг - убрать без каких-либо проверок, эффектов, триггеров или возврата денег.",
-			ph_handy_keybinds_guide_desktop = "Нажмите на кнопку и следующее введённое нажатие будет назначено. [Escape] чтобы убрать.",
-			ph_handy_keybinds_guide_gamepad = "Нажмите на кнопку и следующее введённое нажатие будет назначено. [(Back)] чтобы убрать.",
 
 			ph_handy_notif_quick_use = "Быстрое использование",
 			ph_handy_notif_quick_buy_or_sell = "Быстрая покупка или продажа",
@@ -543,6 +615,13 @@ return {
 			handy_buy_sell_use_mode_opt = {
 				[1] = "Удерж. кнопку + Нажать карту",
 				[2] = "Навести карту + Нажать кнопку",
+			},
+
+			b_handy_device_select = "Устройство ввода",
+			handy_device_opt = {
+				[1] = "Автоматически",
+				[2] = "Мышь + Клавиатура",
+				[3] = "Геймпад",
 			},
 		},
 	},
