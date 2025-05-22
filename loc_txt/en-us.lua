@@ -461,8 +461,107 @@ return {
 	misc = {
 		-- You don't need to translate all of them, only necessary ones
 		handy_keybinds = {
-			["Left"] = "Left",
-			["(A)"] = "(A)",
+			-- No button assigned
+			["None"] = "None",
+			-- Button which cannot be recognized
+			["Unknown"] = "Unknown",
+
+			-- Mouse
+			["Left Mouse"] = nil,
+			["Right Mouse"] = nil,
+			["Middle Mouse"] = nil,
+			["Mouse 4"] = nil,
+			["Mouse 5"] = nil,
+			["Wheel Up"] = nil,
+			["Wheel Down"] = nil,
+			-- Controls
+			["Escape"] = nil,
+			["Shift"] = nil,
+			["Ctrl"] = nil,
+			["Alt"] = nil,
+			["GUI"] = nil, -- Windows button, or CMD for Mac
+			["Enter"] = nil,
+			["Tab"] = nil,
+			["Backspace"] = nil,
+			["Num Lock"] = nil,
+			["Caps Lock"] = nil,
+			["Scroll Lock"] = nil,
+			-- Arrow keys
+			["Left"] = nil,
+			["Right"] = nil,
+			["Up"] = nil,
+			["Down"] = nil,
+			-- Symbols
+			["Backquote"] = nil, -- `
+			["Singlequote"] = nil, -- '
+			["Quote"] = nil, -- "
+			["Left Bracket"] = nil, -- [
+			["Right Bracket"] = nil, -- ]
+			-- Weird buttons
+			["Printscreen"] = nil,
+			["Delete"] = nil,
+			["Home"] = nil,
+			["Insert"] = nil,
+			["End"] = nil,
+			["Pause"] = nil,
+			["Help"] = nil,
+			["Sysreq"] = nil,
+			["Menu"] = nil,
+			["Undo"] = nil,
+			["Mode"] = nil,
+			["Page Up"] = nil,
+			["Page Down"] = nil,
+			-- Very weird buttons, did they exist in 21th century?
+			["Www"] = nil,
+			["Mail"] = nil,
+			["Calculator"] = nil,
+			["Computer"] = nil,
+			["Appsearch"] = nil,
+			["Apphome"] = nil,
+			["Appback"] = nil,
+			["Appforward"] = nil,
+			["Apprefresh"] = nil,
+			["Appbookmarks"] = nil,
+			["Currencyunit"] = nil,
+			["Application"] = nil,
+			["Power"] = nil, -- What a heck
+
+			-- Gamepad: buttons
+			["(A)"] = nil,
+			["(B)"] = nil,
+			["(X)"] = nil,
+			["(Y)"] = nil,
+			["(Back)"] = nil,
+			["(Guide)"] = nil,
+			["(Start)"] = nil,
+			-- Gamepad: directions
+			-- In Balatro, Left Stick movement treated as direction buttons
+			["(Up)"] = nil,
+			["(Down)"] = nil,
+			["(Left)"] = nil,
+			["(Right)"] = nil,
+			-- Gamepad: sticks, triggers, bumpers and paddles
+			["Left Stick"] = nil, -- Click
+			["Right Stick"] = nil, -- Click
+			["Left Bumper"] = nil, -- LB
+			["Right Bumper"] = nil, -- RB
+			["Left Trigger"] = nil, -- LT
+			["Right Trigger"] = nil, -- RT
+			-- Not supported by current LOVE engine version
+			["First Paddle"] = nil, -- P1
+			["Second Paddle"] = nil, -- P2
+			["Third Paddle"] = nil, -- P3
+			["Fourth Paddle"] = nil, -- P4
+			["(Misc. Button)"] = nil,
+			-- Gamepad: touchpad
+			["Touchpad Press"] = nil,
+
+			-- Not listed here, but can be added if you ever need:
+			-- All english letters uppercase, (Q, W, E, R, T, Y...)
+			-- All numbers (1, 2, 3...0)
+			-- All F keys (F1, F2, F3...)
+			-- All NUM keys (NUM 0 ... NUM 9, NUM Enter, NUM +, NUM -, NUM *, NUM /, NUM .)
+			-- Other symbols (. ; / \ - + etc)
 		},
 		handy_keybind_labels = {
 			play_hand = "Play hand",

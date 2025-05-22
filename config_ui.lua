@@ -3,6 +3,12 @@ Handy.UI.PARTS = {
 		if not key then
 			key = "None"
 		end
+		-- Backwards compatibility
+		if key == "[" then
+			key = "Left Bracket"
+		elseif key == "]" then
+			key = "Right Bracket"
+		end
 		local result = G.localization.misc.handy_keybinds[key] or key
 		if with_brackets then
 			result = "[" .. result .. "]"
