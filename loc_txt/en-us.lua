@@ -47,7 +47,7 @@ return {
 					"deselection",
 				},
 				text = {
-					"Allow {C:edition}[Fast hand selection]{}",
+					"Allow {C:edition}#2#{}",
 					"to deselect cards aswell",
 				},
 			},
@@ -139,7 +139,7 @@ return {
 				text = {
 					"Decrease amount of",
 					"keybinds needed to use",
-					"[Speed multplier]",
+					"#2#",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -162,7 +162,7 @@ return {
 				text = {
 					"Decrease amount of",
 					"keybinds needed to use",
-					"[Nopeus: fast-forward]",
+					"#2#",
 				},
 			},
 			dangerous_actions = {
@@ -228,7 +228,7 @@ return {
 			},
 			insta_highlight = {
 				text = {
-					"If key set to {C:chips}[Left Mouse]{},",
+					"If key set to {C:chips}#2#{},",
 					"start holding key {C:attention}OUTSIDE{} of cards",
 					"and then hover them to highlight",
 				},
@@ -247,7 +247,7 @@ return {
 			},
 			deselect_hand_desktop = {
 				text = {
-					"Replaces vanilla {C:chips}[Right Mouse]{}",
+					"Replaces vanilla {C:chips}#2#{}",
 					"but works the same and",
 					"can be reassigned to other key",
 					" ",
@@ -288,7 +288,7 @@ return {
 					"Required mod {C:attention}Nopeus{} to work",
 					" ",
 					"{C:mult}Unsafe{} option must be",
-					"enabled in {C:attention}Danger Zone{} tab",
+					"enabled in {C:attention}#2#{} tab",
 				},
 			},
 			not_just_yet_interaction = {
@@ -298,7 +298,7 @@ return {
 			},
 			insta_buy_or_sell_desktop = {
 				text = {
-					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+					"Usage determined by {C:attention}#2#{}",
 				},
 			},
 			insta_buy_or_sell_gamepad = {
@@ -308,14 +308,12 @@ return {
 			},
 			insta_buy_n_sell_desktop = {
 				text = {
-					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+					"Usage determined by {C:attention}#2#{}",
 				},
 			},
 			insta_use_desktop = {
 				text = {
-					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
-					" ",
-					"Takes priority over {C:chips}[Quick buy/sell]{}",
+					"Usage determined by {C:attention}#2#{}",
 				},
 			},
 			insta_use_gamepad = {
@@ -331,7 +329,7 @@ return {
 					"{C:green}[Input previous value]{} option for:",
 					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
-					"Usage determined by {C:attention}Buy/Sell/Use mode{}",
+					"Usage determined by {C:attention}#2#{}",
 				},
 			},
 			cryptid_code_use_last_interaction_gamepad = {
@@ -351,7 +349,7 @@ return {
 			},
 			immediate_buy_and_sell = {
 				text = {
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:chips}[Quick buy/sell]{},',
+					"Hold {C:mult}#3#{}, {C:chips}#4#{},",
 					"and hover cards to sell them immediately",
 				},
 			},
@@ -385,13 +383,13 @@ return {
 			},
 			sell_all_same = {
 				text = {
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["All copies" modifier]{},',
+					"Hold {C:mult}#3#{}, {C:mult}#4#{},",
 					"and click on card to sell all of their copies",
 				},
 			},
 			sell_all = {
 				text = {
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["ALL" modifier]{},',
+					"Hold {C:mult}#2#{}, {C:mult}#3#{},",
 					"and click on card to sell {C:attention}ALL{} cards in area",
 				},
 			},
@@ -399,13 +397,13 @@ return {
 				text = {
 					"When hold, instead of selling cards {C:attention}or skip tags{} will be {C:attention,E:1}REMOVED{}",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:chips}[Quick buy/sell]{}',
+					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:chips}#4#{}",
 					"and hover cards to {C:attention,E:1}REMOVE{} them (queue also applied)",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:mult}["All copies" modifier]{}',
+					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#5#{}",
 					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} all of their copies",
 					" ",
-					'Hold {C:mult}["Dangerous" modifier]{}, {C:mult}["REMOVE" modifier]{}, {C:mult}["ALL" modifier]{},',
+					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#6#{},",
 					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} {C:attention}ALL{} of them",
 				},
 			},
@@ -510,6 +508,9 @@ return {
 			Handy_preset_empty = "Preset #1# [#2#] is empty",
 			Handy_preset_disabled = "Preset #1# [#2#] is disabled",
 			Handy_preset_nothing_to_load = "No presets to load",
+
+			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
+			Handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. #1# to unbind.",
 		},
 		dictionary = {
 			handy_or = "or",
@@ -529,8 +530,6 @@ return {
 			ph_handy_any_button_hint = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs.',
 			ph_handy_any_gamepad_hint = 'Each control can be assigned to any gamepad buttons in "Keybinds" tabs.',
 			ph_handy_remove_hint = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
-			ph_handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. [Escape] to unbind.",
-			ph_handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. [(Back)] to unbind.",
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",
