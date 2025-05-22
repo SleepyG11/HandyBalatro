@@ -1,6 +1,9 @@
 return {
 	descriptions = {
+		-- For all checkboxes and popups, first var is keybind
+		-- Further mentioned vars starts from #2#
 		Handy_ConfigCheckbox = {
+			-- Vars: version, author
 			handy = {
 				unlock = { "HandyBalatro v#2#", "by {C:white,E:2,s:1.15}#3#{}" },
 				text = {
@@ -21,6 +24,7 @@ return {
 					"common game actions",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight = {
 				unlock = {
 					"{C:edition}Fast hand selection{}",
@@ -31,6 +35,7 @@ return {
 					"hover cards in hand to select them",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight_OUTSIDE = {
 				unlock = {
 					"{C:edition}Fast hand selection{}",
@@ -41,6 +46,7 @@ return {
 					"and then hover them in hand to select",
 				},
 			},
+			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				unlock = {
 					"Fast hand",
@@ -58,6 +64,7 @@ return {
 					"show deck preview",
 				},
 			},
+			-- Vars: [Right Mouse]
 			deselect_hand = {
 				unlock = { "Deselect hand" },
 				text = {
@@ -88,6 +95,7 @@ return {
 					"Hold {C:chips}#5#{} to move to first/last card",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell = {
 				unlock = { "Quick buy/sell" },
 				text = {
@@ -95,6 +103,7 @@ return {
 					"buy or sell card",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell = {
 				unlock = { "Quick buy'n'sell" },
 				text = {
@@ -103,14 +112,15 @@ return {
 					"immediately after",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use = {
 				unlock = { "Quick use" },
 				text = {
 					"Use {C:chips}#1#{} to",
 					"use card if possible",
-					-- "{C:handy_secondary}(overrides Quick Buy/Sell){}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				unlock = { "Cryptid: use", "previous input" },
 				text = {
@@ -126,6 +136,7 @@ return {
 					"end round",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
 				unlock = { "Speed multiplier" },
 				text = {
@@ -134,6 +145,7 @@ return {
 					"multiply/divide game speed",
 				},
 			},
+			-- Vars: [Speed Multiplier]
 			speed_multiplier_no_hold = {
 				unlock = { "Speed multiplier:", "No hold" },
 				text = {
@@ -149,6 +161,7 @@ return {
 					"highlight entire hand",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				unlock = { "Nopeus:", "fast-forward" },
 				text = {
@@ -157,6 +170,7 @@ return {
 					"increase/decrease fast-forward setting",
 				},
 			},
+			-- Vars: [Nopeus: fast-forward]
 			nopeus_interaction_no_hold = {
 				unlock = { "Nopeus:", "No hold" },
 				text = {
@@ -173,6 +187,7 @@ return {
 					"{C:mult}can cause bugs or crashes!{}",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				unlock = { "Instant sell" },
 				text = {
@@ -195,6 +210,7 @@ return {
 					"setting to {C:mult}Unsafe{}",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				unlock = { "Sell all", "card copies" },
 				text = {
@@ -203,6 +219,7 @@ return {
 					"all of their copies",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				unlock = { "Sell ALL" },
 				text = {
@@ -210,6 +227,7 @@ return {
 					"cards in area instead",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				unlock = { "REMOVE* cards", "or skip tags" },
 				text = {
@@ -226,6 +244,7 @@ return {
 					"Skip blind, Select blind, View deck, Run info",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight = {
 				text = {
 					"If key set to {C:chips}#2#{},",
@@ -233,18 +252,21 @@ return {
 					"and then hover them to highlight",
 				},
 			},
-			insta_unhighlight = {
-				text = {
-					"Select cards if first card was not selected.",
-					"Deselect cards if first card was selected.",
-				},
-			},
+			-- Vars: [Left Mouse]
 			insta_highlight_gamepad = {
 				text = {
 					"Works both for cursor and movement",
 					"via direction buttons",
 				},
 			},
+			-- Vars: [Fast hand selection]
+			insta_unhighlight = {
+				text = {
+					"Select cards if first card was not selected.",
+					"Deselect cards if first card was selected.",
+				},
+			},
+			-- Vars: [Right Mouse]
 			deselect_hand_desktop = {
 				text = {
 					"Replaces vanilla {C:chips}#2#{}",
@@ -277,18 +299,20 @@ return {
 					"{C:mult}Have no effect for gamepad{}",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
 				text = {
 					"Game speed can be changed in",
-					"range from {C:attention}x1/512{} to {C:attention}x512{}",
+					"range from {C:attention}#4#{} to {C:attention}#5#{}",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				text = {
 					"Required mod {C:attention}Nopeus{} to work",
 					" ",
 					"{C:mult}Unsafe{} option must be",
-					"enabled in {C:attention}#2#{} tab",
+					"enabled in {C:attention}#4#{} tab",
 				},
 			},
 			not_just_yet_interaction = {
@@ -296,31 +320,37 @@ return {
 					"Required mod {C:attention}NotJustYet{} to work",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_desktop = {
 				text = {
 					"Usage determined by {C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
 					"{C:mult}Have no effect for gamepad{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell_desktop = {
 				text = {
 					"Usage determined by {C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use_desktop = {
 				text = {
 					"Usage determined by {C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
 					"{C:mult}Have no effect for gamepad{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				text = {
 					"Required mod {C:attention}Cryptid{} to work",
@@ -332,6 +362,7 @@ return {
 					"Usage determined by {C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction_gamepad = {
 				text = {
 					"Required mod {C:attention}Cryptid{} to work",
@@ -347,6 +378,7 @@ return {
 					"in hand, from left to right",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				text = {
 					"Hold {C:mult}#3#{}, {C:chips}#4#{},",
@@ -381,18 +413,21 @@ return {
 					"can be set normally via game settings",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				text = {
 					"Hold {C:mult}#3#{}, {C:mult}#4#{},",
 					"and click on card to sell all of their copies",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				text = {
 					"Hold {C:mult}#2#{}, {C:mult}#3#{},",
 					"and click on card to sell {C:attention}ALL{} cards in area",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				text = {
 					"When hold, instead of selling cards {C:attention}or skip tags{} will be {C:attention,E:1}REMOVED{}",
@@ -509,15 +544,19 @@ return {
 			Handy_preset_disabled = "Preset #1# [#2#] is disabled",
 			Handy_preset_nothing_to_load = "No presets to load",
 
+			Handy_overall_guide_button = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "#1#" tab.',
+			Handy_overall_guide_gamepad = 'Each control can be assigned to any gamepad buttons in "#1#" tab.',
 			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
 			Handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. #1# to unbind.",
+			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
+			Handy_danger_zone_guide = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
 		},
 		dictionary = {
 			handy_or = "or",
 
 			ph_handy_premade_presets = "Pre-made presets",
 			ph_handy_custom_presets = "Custom presets",
-			ph_handy_presets_description = "Preset - set of configs and keybinds which can be applied in any time",
+
 			b_handy_preset_save = "Save",
 			b_handy_preset_load = "Load",
 			b_handy_preset_clear = "Clear",
@@ -526,10 +565,6 @@ return {
 
 			b_handy_notif_quick = "Quick actions",
 			b_handy_notif_dangerous = "Dangerous actions",
-
-			ph_handy_any_button_hint = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "Keybinds" tabs.',
-			ph_handy_any_gamepad_hint = 'Each control can be assigned to any gamepad buttons in "Keybinds" tabs.',
-			ph_handy_remove_hint = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",

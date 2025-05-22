@@ -660,6 +660,8 @@ Handy.UI.get_quick_page = function(page)
 							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, "speed_multiplier", {
 								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.multiply, true),
 								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.divide, true),
+								"x1/512",
+								"x512",
 							}),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
 							Handy.UI.PARTS.create_new_module_checkbox(
@@ -845,7 +847,13 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize(gamepad and "ph_handy_any_gamepad_hint" or "ph_handy_any_button_hint"),
+						text = localize({
+							type = "variable",
+							key = gamepad and "Handy_overall_guide_gamepad" or "Handy_overall_guide_button",
+							vars = {
+								localize("Keybinds Paginated", "handy_tabs"),
+							},
+						}),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -1055,7 +1063,11 @@ Handy.UI.get_config_tab_presets = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize("ph_handy_presets_description"),
+						text = localize({
+							type = "variable",
+							key = "Handy_presets_guide",
+							vars = {},
+						}),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -1225,7 +1237,11 @@ Handy.UI.get_config_tab_dangerous = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize("ph_handy_remove_hint"),
+						text = localize({
+							type = "variable",
+							key = "Handy_danger_zone_guide",
+							vars = {},
+						}),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
