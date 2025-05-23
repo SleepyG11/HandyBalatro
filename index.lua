@@ -548,7 +548,7 @@ Handy.fake_events = {
 		else
 			local fake_event = {
 				UIBox = arg.UIBox,
-				config = {
+				config = arg.config or {
 					ref_table = arg.card,
 					button = arg.button,
 					id = arg.id,
@@ -565,7 +565,7 @@ Handy.fake_events = {
 			else
 				arg.func({
 					UIBox = arg.UIBox,
-					config = {
+					config = arg.config or {
 						ref_table = arg.card,
 						button = arg.button,
 						id = arg.id,
@@ -1899,6 +1899,27 @@ Handy.insta_highlight_entire_f_hand = {
 Handy.insta_actions = {
 	action_blocker = false,
 
+	crawl_for_buttons = function(card)
+		local result = {}
+		local lua_wtf = {}
+		lua_wtf.iterator = function(parent_node)
+			if not parent_node or not parent_node.nodes then
+				return
+			end
+			for _, node in ipairs(parent_node.nodes) do
+				if node.config and node.config.func then
+					result[node.config.func] = {
+						node = node,
+						action = node.config.handy_insta_action or nil,
+					}
+				end
+				lua_wtf.iterator(node)
+			end
+		end
+		lua_wtf.iterator(G.UIDEF.use_and_sell_buttons(card))
+		return result
+	end,
+
 	get_actions = function()
 		return {
 			buy_n_sell = Handy.controller.is_module_key_down(Handy.cc.insta_buy_n_sell),
@@ -1939,25 +1960,11 @@ Handy.insta_actions = {
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
 		local card_buttons = G.UIDEF.use_and_sell_buttons(card)
-		local result_funcs = {}
-		for _, node in ipairs(card_buttons.nodes) do
-			if node.config and node.config.func then
-				result_funcs[node.config.func] = node
-			end
-		end
+		local result_funcs = Handy.insta_actions.crawl_for_buttons(card)
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 		if use then
-			if type(card.ability.extra) == "table" and card.ability.extra.charges then
-				local success, isaac_changeable_item = pcall(function()
-					-- G.UIDEF.use_and_sell_buttons(G.jokers.highlighted[1]).nodes[1].nodes[3].nodes[1].nodes[1]
-					return card_buttons.nodes[1].nodes[3].nodes[1].nodes[1]
-				end)
-				if success and isaac_changeable_item then
-					target_button = isaac_changeable_item
-					is_custom_button = true
-				end
-			elseif card.area == G.hand and card.ability.consumeable then
+			if card.area == G.hand and card.ability.consumeable then
 				local success, playale_consumeable_button = pcall(function()
 					-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
 					return card_buttons.nodes[1].nodes[2].nodes[1].nodes[1]
@@ -1971,20 +1978,40 @@ Handy.insta_actions = {
 				-- Prevent cards to be selected when usage is required:
 				-- Alchemical cards, Cines
 			else
-				target_button = base_attach.buy_and_use
+				for _, node_info in pairs(result_funcs) do
+					if node_info.action == "use" then
+						target_button = node_info.node
+						break
+					end
+				end
+				target_button = target_button
+					or base_attach.buy_and_use
 					or (not is_booster_pack_card and base_attach.use)
 					or card.children.buy_and_use_button
 				is_shop_button = target_button == card.children.buy_and_use_button
 			end
 		elseif buy_or_sell then
 			if only_sell then
-				target_button = base_attach.sell or nil
+				for _, node_info in pairs(result_funcs) do
+					if node_info.action == "sell" then
+						target_button = node_info.node
+						break
+					end
+				end
+				target_button = target_button or base_attach.sell or nil
 			else
-				target_button = card.children.buy_button
+				for _, node_info in pairs(result_funcs) do
+					if node_info.action == "buy" or node_info.action == "sell" then
+						target_button = node_info.node
+						break
+					end
+				end
+				target_button = target_button
 					or result_funcs.can_select_crazy_card -- Cines
 					or result_funcs.can_select_alchemical -- Alchemical cards
 					or result_funcs.can_use_mupack -- Multipacks
 					or result_funcs.can_reserve_card -- Code cards, for example
+					or card.children.buy_button
 					or base_attach.buy
 					or base_attach.redeem
 					or base_attach.sell
@@ -1993,13 +2020,8 @@ Handy.insta_actions = {
 			is_shop_button = target_button ~= nil and target_button == card.children.buy_button
 		end
 
-		if target_button and not is_custom_button and not is_shop_button then
-			for _, node in ipairs(card_buttons.nodes) do
-				if target_button == node then
-					is_custom_button = true
-				end
-			end
-		end
+		local is_node = Object.is(target_button, Node)
+		is_custom_button = not is_node
 
 		local target_button_UIBox
 		local target_button_definition
@@ -2030,10 +2052,8 @@ Handy.insta_actions = {
 
 			local check, button = Handy.fake_events.check({
 				func = G.FUNCS[target_button_definition.config.func],
-				button = nil,
-				id = target_button_definition.config.id,
-				card = card,
 				UIBox = target_button_UIBox,
+				config = target_button_definition.config,
 			})
 			if check then
 				Handy.insta_actions.action_blocker = true
@@ -2047,10 +2067,8 @@ Handy.insta_actions = {
 				end
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
-					button = nil,
-					id = target_button_definition.config.id,
-					card = card,
 					UIBox = target_button_UIBox,
+					config = target_button_definition.config,
 				})
 				G.E_MANAGER:add_event(Event({
 					no_delete = true,
