@@ -1899,8 +1899,10 @@ Handy.insta_highlight_entire_f_hand = {
 Handy.insta_actions = {
 	action_blocker = false,
 
-	crawl_for_buttons = function(ui_buttons)
-		local result = {}
+	crawl_for_buttons = function(ui_buttons, result)
+		if not ui_buttons then
+			return
+		end
 		local lua_wtf = {}
 		lua_wtf.iterator = function(parent_node)
 			if not parent_node or not parent_node.children then
@@ -1957,6 +1959,10 @@ Handy.insta_actions = {
 		local is_custom_button = false
 		local is_playable_consumeable = false
 
+		local current_card_state = card.highlighted
+		if not current_card_state then
+			card:highlight(true)
+		end
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
 		local card_buttons = G.UIDEF.use_and_sell_buttons(card)
@@ -1964,14 +1970,17 @@ Handy.insta_actions = {
 			definition = card_buttons,
 			config = {},
 		})
-		local result_funcs = Handy.insta_actions.crawl_for_buttons(card_buttons_ui)
+
+		local result_funcs = {}
+		Handy.insta_actions.crawl_for_buttons(card_buttons_ui, result_funcs)
+		Handy.insta_actions.crawl_for_buttons(card.children.use_button, result_funcs)
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 		if use then
 			if card.area == G.hand and card.ability.consumeable then
 				local success, playale_consumeable_button = pcall(function()
 					-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
-					return card_buttons.children[1].children[2].children[1].children[1]
+					return card_buttons_ui.UIRoot.children[1].children[2].children[1].children[1]
 				end)
 				if success and playale_consumeable_button then
 					target_button = playale_consumeable_button
@@ -2039,8 +2048,8 @@ Handy.insta_actions = {
 		local cleanup = function()
 			base_background:remove()
 			card_buttons_ui:remove()
-			if target_button_UIBox and target_button_UIBox.remove and is_custom_button then
-				target_button_UIBox:remove()
+			if not current_card_state then
+				card:highlight(false)
 			end
 		end
 
