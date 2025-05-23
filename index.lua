@@ -2001,7 +2001,7 @@ Handy.insta_actions = {
 				target_button = target_button or base_attach.sell or nil
 			else
 				for _, node_info in pairs(result_funcs) do
-					if node_info.action == "buy" or node_info.action == "sell" then
+					if node_info.action == "buy" or node_info.action == "sell" or node_info.action == "buy_or_sell" then
 						target_button = node_info.node
 						break
 					end
