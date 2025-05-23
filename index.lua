@@ -1899,14 +1899,14 @@ Handy.insta_highlight_entire_f_hand = {
 Handy.insta_actions = {
 	action_blocker = false,
 
-	crawl_for_buttons = function(card)
+	crawl_for_buttons = function(ui_buttons)
 		local result = {}
 		local lua_wtf = {}
 		lua_wtf.iterator = function(parent_node)
-			if not parent_node or not parent_node.nodes then
+			if not parent_node or not parent_node.children then
 				return
 			end
-			for _, node in ipairs(parent_node.nodes) do
+			for _, node in ipairs(parent_node.children) do
 				if node.config and node.config.func then
 					result[node.config.func] = {
 						node = node,
@@ -1916,7 +1916,7 @@ Handy.insta_actions = {
 				lua_wtf.iterator(node)
 			end
 		end
-		lua_wtf.iterator(G.UIDEF.use_and_sell_buttons(card))
+		lua_wtf.iterator(ui_buttons.UIRoot)
 		return result
 	end,
 
@@ -1960,14 +1960,18 @@ Handy.insta_actions = {
 		local base_background = G.UIDEF.card_focus_ui(card)
 		local base_attach = base_background:get_UIE_by_ID("ATTACH_TO_ME").children
 		local card_buttons = G.UIDEF.use_and_sell_buttons(card)
-		local result_funcs = Handy.insta_actions.crawl_for_buttons(card)
+		local card_buttons_ui = UIBox({
+			definition = card_buttons,
+			config = {},
+		})
+		local result_funcs = Handy.insta_actions.crawl_for_buttons(card_buttons_ui)
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
 		if use then
 			if card.area == G.hand and card.ability.consumeable then
 				local success, playale_consumeable_button = pcall(function()
 					-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
-					return card_buttons.nodes[1].nodes[2].nodes[1].nodes[1]
+					return card_buttons.children[1].children[2].children[1].children[1]
 				end)
 				if success and playale_consumeable_button then
 					target_button = playale_consumeable_button
@@ -2020,15 +2024,22 @@ Handy.insta_actions = {
 			is_shop_button = target_button ~= nil and target_button == card.children.buy_button
 		end
 
-		local is_node = Object.is(target_button, Node)
-		is_custom_button = not is_node
+		if target_button and not is_shop_button then
+			for _, node_info in pairs(result_funcs) do
+				if node_info.node == target_button then
+					is_custom_button = true
+					break
+				end
+			end
+		end
 
 		local target_button_UIBox
 		local target_button_definition
 
 		local cleanup = function()
 			base_background:remove()
-			if target_button_UIBox and is_custom_button then
+			card_buttons_ui:remove()
+			if target_button_UIBox and target_button_UIBox.remove and is_custom_button then
 				target_button_UIBox:remove()
 			end
 		end
@@ -2042,16 +2053,14 @@ Handy.insta_actions = {
 				end
 			end
 
-			target_button_UIBox = (is_custom_button and UIBox({
-				definition = target_button,
-				config = {},
-			})) or target_button
+			target_button_UIBox = target_button
 			target_button_definition = (is_custom_button and target_button)
 				or (is_shop_button and target_button.definition)
 				or target_button.definition.nodes[1]
 
 			local check, button = Handy.fake_events.check({
 				func = G.FUNCS[target_button_definition.config.func],
+				node = is_custom_button and target_button or nil,
 				UIBox = target_button_UIBox,
 				config = target_button_definition.config,
 			})
@@ -2067,6 +2076,7 @@ Handy.insta_actions = {
 				end
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
+					node = is_custom_button and target_button or nil,
 					UIBox = target_button_UIBox,
 					config = target_button_definition.config,
 				})
