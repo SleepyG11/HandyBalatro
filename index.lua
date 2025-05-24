@@ -666,7 +666,15 @@ Handy.controller = {
 
 	add_button_to_registry = function(e, menu)
 		local registry = e.config.focus_args.button
+		if not registry then
+			return false
+		end
 		G.CONTROLLER.button_registry[registry] = G.CONTROLLER.button_registry[registry] or {}
+		for _, v in ipairs(G.CONTROLLER.button_registry[registry]) do
+			if v.node == (e.config.button_UIE or e) then
+				return false
+			end
+		end
 		table.insert(
 			G.CONTROLLER.button_registry[registry],
 			1,
@@ -693,16 +701,18 @@ Handy.controller = {
 			and Handy.controller.gamepad_patched_buttons[e.handy_gamepad_override]
 		if patched_button and patched_button.node == e then
 			local new_button
-			if Handy.is_mod_active() and patched_button.enabled_func() then
-				Handy.controller.remove_button_from_registry(e)
+			local is_replaced_button = Handy.is_mod_active() and patched_button.enabled_func()
+			if is_replaced_button then
 				new_button = Handy.controller.resolve_first_module_key(patched_button.module)
-				e.config.focus_args.button = new_button
 			else
 				new_button = e.handy_replaced_button
-				e.config.focus_args.button = new_button
-				Handy.controller.add_button_to_registry(e, e.handy_replaced_registry_menu_value)
 			end
 			if e.handy_previous_button ~= new_button then
+				Handy.controller.remove_button_from_registry(e)
+				e.config.focus_args.button = new_button
+				if not is_replaced_button then
+					Handy.controller.add_button_to_registry(e, e.handy_replaced_registry_menu_value)
+				end
 				e.handy_previous_button = new_button
 				if e.children.button_pip then
 					e.children.button_pip:remove()
