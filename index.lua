@@ -1900,22 +1900,24 @@ Handy.insta_actions = {
 	action_blocker = false,
 
 	crawl_for_buttons = function(ui_buttons, result)
+		result = result or {}
 		if not ui_buttons then
-			return
+			return result
 		end
 		local lua_wtf = {}
-		lua_wtf.iterator = function(parent_node)
-			if not parent_node or not parent_node.children then
-				return
-			end
-			for _, node in ipairs(parent_node.children) do
+		lua_wtf.iterator = function(node)
+			if node and node.states and node.states.visible then
 				if node.config and node.config.func then
 					result[node.config.func] = {
 						node = node,
 						action = node.config.handy_insta_action or nil,
 					}
 				end
-				lua_wtf.iterator(node)
+				if node.children then
+					for _, child_node in ipairs(node.children) do
+						lua_wtf.iterator(child_node)
+					end
+				end
 			end
 		end
 		lua_wtf.iterator(ui_buttons.UIRoot)
@@ -1998,6 +2000,7 @@ Handy.insta_actions = {
 					end
 				end
 				target_button = target_button
+					or result_funcs.can_use_consumeable
 					or base_attach.buy_and_use
 					or (not is_booster_pack_card and base_attach.use)
 					or card.children.buy_and_use_button
