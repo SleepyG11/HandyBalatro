@@ -1453,6 +1453,7 @@ Handy.insta_cash_out = {
 	can_execute = function()
 		return not not (
 			Handy.insta_cash_out.is_hold
+			and G.STATE == G.STATES.ROUND_EVAL
 			and Handy.insta_cash_out.can_skip
 			and not Handy.insta_cash_out.is_skipped
 			and G.round_eval
