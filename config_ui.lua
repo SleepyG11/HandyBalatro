@@ -1367,6 +1367,7 @@ function G.FUNCS.handy_open_options(e)
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
+	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 end
 
 function G.FUNCS.handy_exit_options(e)
@@ -1376,6 +1377,7 @@ function G.FUNCS.handy_exit_options(e)
 	if e then
 		return G.FUNCS.options(e)
 	end
+	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 end
 
 function G.FUNCS.handy_setup_config_popup(e)
@@ -1522,8 +1524,9 @@ local exit_overlay_ref = G.FUNCS.exit_overlay_menu
 function G.FUNCS.exit_overlay_menu(...)
 	Handy.UI.config_opened = nil
 	Handy.UI.config_tab_index = nil
+	local result = exit_overlay_ref(...)
 	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
-	return exit_overlay_ref(...)
+	return result
 end
 
 function G.FUNCS.handy_rerender_after_input()
