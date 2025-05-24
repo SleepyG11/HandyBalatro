@@ -145,7 +145,7 @@ Handy.config = {
 			key_1 = "Left Mouse",
 			key_2 = "None",
 			key_1_gamepad = "Left Stick",
-			key_2_gamepad = "None",
+			key_2_gamepad = "Left Mouse",
 
 			allow_deselect = {
 				enabled = false,
@@ -1978,6 +1978,10 @@ Handy.insta_actions = {
 		Handy.insta_actions.crawl_for_buttons(card.children.use_button, result_funcs)
 		local is_booster_pack_card = (G.pack_cards and card.area == G.pack_cards) and not card.ability.consumeable
 
+		local get_node = function(a)
+			return a and a.node
+		end
+
 		if use then
 			if card.area == G.hand and card.ability.consumeable then
 				local success, playale_consumeable_button = pcall(function()
@@ -2000,7 +2004,7 @@ Handy.insta_actions = {
 					end
 				end
 				target_button = target_button
-					or result_funcs.can_use_consumeable
+					or get_node(result_funcs.can_use_consumeable)
 					or base_attach.buy_and_use
 					or (not is_booster_pack_card and base_attach.use)
 					or card.children.buy_and_use_button
@@ -2023,10 +2027,10 @@ Handy.insta_actions = {
 					end
 				end
 				target_button = target_button
-					or result_funcs.can_select_crazy_card -- Cines
-					or result_funcs.can_select_alchemical -- Alchemical cards
-					or result_funcs.can_use_mupack -- Multipacks
-					or result_funcs.can_reserve_card -- Code cards, for example
+					or get_node(result_funcs.can_select_crazy_card) -- Cines
+					or get_node(result_funcs.can_select_alchemical) -- Alchemical cards
+					or get_node(result_funcs.can_use_mupack) -- Multipacks
+					or get_node(result_funcs.can_reserve_card) -- Code cards, for example
 					or card.children.buy_button
 					or base_attach.buy
 					or base_attach.redeem
@@ -2036,7 +2040,7 @@ Handy.insta_actions = {
 			is_shop_button = target_button ~= nil and target_button == card.children.buy_button
 		end
 
-		if target_button and not is_shop_button then
+		if target_button and not is_shop_button and not is_custom_button then
 			for _, node_info in pairs(result_funcs) do
 				if node_info.node == target_button then
 					is_custom_button = true
@@ -2048,10 +2052,10 @@ Handy.insta_actions = {
 		local target_button_UIBox
 		local target_button_definition
 
-		local cleanup = function()
+		local cleanup = function(leave_highlight)
 			base_background:remove()
 			card_buttons_ui:remove()
-			if not current_card_state then
+			if not leave_highlight and not current_card_state then
 				card:highlight(false)
 			end
 		end
@@ -2099,7 +2103,7 @@ Handy.insta_actions = {
 						return true
 					end,
 				}))
-				cleanup()
+				cleanup(is_playable_consumeable)
 				return true
 			end
 		end
