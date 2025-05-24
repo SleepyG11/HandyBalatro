@@ -1011,7 +1011,7 @@ Handy.UI.get_config_tab_presets = function()
 		{ n = G.UIT.R, config = { minh = 0.1 } },
 		Handy.UI.PARTS.create_example_preset("default"),
 		Handy.UI.PARTS.create_example_preset("better_mouse_and_gamepad"),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		{ n = G.UIT.R, config = { minh = 0.2 } },
 		{
 			n = G.UIT.R,
 			config = { padding = 0.1, align = "cm" },
@@ -1031,7 +1031,7 @@ Handy.UI.get_config_tab_presets = function()
 		Handy.UI.PARTS.create_user_preset(1),
 		Handy.UI.PARTS.create_user_preset(2),
 		Handy.UI.PARTS.create_user_preset(3),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		{ n = G.UIT.R, config = { minh = 0.15 } },
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
