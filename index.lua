@@ -1556,7 +1556,7 @@ Handy.show_deck_preview = {
 		if Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.show_deck_preview) then
 			return G.STAGE == G.STAGES.RUN and Handy.controller.is_module_key_down(Handy.cc.show_deck_preview)
 		else
-			return G.CONTROLLER.held_buttons.triggerleft
+			return not not G.CONTROLLER.held_buttons.triggerleft
 		end
 	end,
 
@@ -2887,9 +2887,6 @@ Handy.UI = {
 	state_panel = {
 		element = nil,
 
-		title = nil,
-		items = nil,
-
 		previous_state = {
 			dangerous = false,
 			title = {},
@@ -2993,7 +2990,8 @@ Handy.UI = {
 		end,
 		emplace = function()
 			-- Need to remake it at some point
-			-- Like come on, create new panel every frame?
+			-- Like come on, create new panel every keypress change?
+			-- Well, if it was every frame that would be a problem, but every press is manageable.... right?
 			if Handy.UI.state_panel.element then
 				Handy.UI.state_panel.element:remove()
 			end
@@ -3011,8 +3009,6 @@ Handy.UI = {
 				},
 			})
 			Handy.UI.state_panel.element = element
-			Handy.UI.state_panel.title = element:get_UIE_by_ID("handy_state_title")
-			Handy.UI.state_panel.items = element:get_UIE_by_ID("handy_state_items")
 		end,
 
 		render = function()
@@ -3105,14 +3101,17 @@ Handy.UI = {
 	},
 
 	update = function(dt)
+		local old_counter = Handy.UI.counter
 		if Handy.UI.state_panel.current_state.hold then
 			Handy.UI.counter = 0
 		elseif Handy.UI.counter < 1 then
 			Handy.UI.counter = Handy.UI.counter + dt
 		end
-		local multiplier = math.min(1, math.max(0, (1 - Handy.UI.counter) * 2))
-		for key, color in pairs(Handy.UI.C.DYN) do
-			color[4] = (Handy.UI.C.DYN_BASE_APLHA[key] or 1) * multiplier
+		if old_counter ~= Handy.UI.counter then
+			local multiplier = math.min(1, math.max(0, (1 - Handy.UI.counter) * 2))
+			for key, color in pairs(Handy.UI.C.DYN) do
+				color[4] = (Handy.UI.C.DYN_BASE_APLHA[key] or 1) * multiplier
+			end
 		end
 	end,
 }
