@@ -2,6 +2,10 @@ if Handy then
 	return
 end
 
+to_big = to_big or function(x)
+	return x
+end
+
 Handy = setmetatable({
 	version = "1.5.0-pre4",
 
