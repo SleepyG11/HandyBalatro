@@ -3104,14 +3104,14 @@ Handy.UI = {
 		end,
 	},
 
-	update = function(dt)
+	update = function(dt, force)
 		local old_counter = Handy.UI.counter
 		if Handy.UI.state_panel.current_state.hold then
 			Handy.UI.counter = 0
 		elseif Handy.UI.counter < 1 then
 			Handy.UI.counter = Handy.UI.counter + dt
 		end
-		if old_counter ~= Handy.UI.counter then
+		if force or old_counter ~= Handy.UI.counter then
 			local multiplier = math.min(1, math.max(0, (1 - Handy.UI.counter) * 2))
 			for key, color in pairs(Handy.UI.C.DYN) do
 				color[4] = (Handy.UI.C.DYN_BASE_APLHA[key] or 1) * multiplier
@@ -3123,7 +3123,7 @@ Handy.UI = {
 function Handy.UI.init()
 	Handy.UI.counter = 1
 	Handy.UI.state_panel.emplace()
-	Handy.UI.update(0)
+	Handy.UI.update(0, true)
 end
 
 --
