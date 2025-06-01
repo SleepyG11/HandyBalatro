@@ -2609,8 +2609,26 @@ Handy.dangerous_actions = {
 
 Handy.speed_multiplier = {
 	value = 1,
+	queue_retriggers_count = 0,
 
 	throttle = false,
+
+	get_queue_retriggers_count = function()
+		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
+			return 0
+		end
+		return Handy.speed_multiplier.queue_retriggers_count
+	end,
+	accelerate_queue = function(queue)
+		local retriggers_count = Handy.speed_multiplier.get_queue_retriggers_count()
+		local v = G.VIBRATION
+		if retriggers_count > 0 then
+			for i = 1, retriggers_count do
+				queue:update(0, true)
+			end
+		end
+		G.VIBRATION = v
+	end,
 
 	get_value = function()
 		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
@@ -2648,9 +2666,11 @@ Handy.speed_multiplier = {
 
 	multiply = function()
 		Handy.speed_multiplier.value = math.min(512, Handy.speed_multiplier.value * 2)
+		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 	end,
 	divide = function()
 		Handy.speed_multiplier.value = math.max(0.001953125, Handy.speed_multiplier.value / 2)
+		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 	end,
 
 	use = function(key)
@@ -2680,6 +2700,20 @@ Handy.speed_multiplier = {
 				hold = false,
 				order = 5,
 			}
+			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
+			if retriggers_amount > 0 then
+				state.items.change_queue_retriggers_count = {
+					text = localize({
+						type = "variable",
+						key = "Handy_event_queue_retriggers_amount",
+						vars = {
+							retriggers_amount + 1,
+						},
+					}),
+					hold = false,
+					order = 5.1,
+				}
+			end
 			return true
 		end
 		return false

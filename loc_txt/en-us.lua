@@ -636,6 +636,7 @@ return {
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
+			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 
 			Handy_preset_index = "Preset #1#",
