@@ -566,6 +566,7 @@ return {
 		handy_keybind_labels = {
 			play_hand = "Play hand",
 			discard = "Discard",
+			toggle_sort = "Toggle sort",
 			sort_by_rank = "Sort by rank",
 			sort_by_suit = "Sort by suit",
 			deselect_hand = "Deselect hand",
@@ -608,6 +609,7 @@ return {
 			presets_load_next = "Load next preset",
 		},
 		handy_keybind_sections = {
+			hand = "Hand",
 			round = "Round",
 			shop = "Shop",
 			blinds = "Blinds",
@@ -638,6 +640,8 @@ return {
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+
+			Handy_hand_sorting = "Hand sorting: #1#",
 
 			Handy_preset_index = "Preset #1#",
 			Handy_preset_loaded = "Preset #1# [#2#] loaded",

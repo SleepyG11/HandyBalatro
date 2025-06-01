@@ -354,6 +354,13 @@ Handy.config = {
 				key_1_gamepad = "Left Bumper",
 				key_2_gamepad = "None",
 			},
+			toggle_sort = {
+				enabled = true,
+				key_1 = "None",
+				key_2 = "None",
+				key_1_gamepad = "None",
+				key_2_gamepad = "None",
+			},
 
 			reroll_shop = {
 				enabled = true,
@@ -1647,11 +1654,27 @@ Handy.regular_keybinds = {
 		return true
 	end,
 
+	get_current_sorting = function(opposite)
+		local hand_sorting = G.hand and G.hand.config.sort or "suit desc"
+		local sortings = { "rank", "suit" }
+		local sort_index = 0
+		if hand_sorting == "suit desc" then
+			sort_index = 1
+		elseif hand_sorting == "desc" then
+			sort_index = 0
+		end
+		if opposite then
+			sort_index = (sort_index + 1) % 2
+		end
+		return sortings[sort_index + 1]
+	end,
 	can_change_sort = function(key)
 		if Handy.controller.is_module_key(Handy.cc.regular_keybinds.sort_by_rank, key) then
 			return true, "rank"
 		elseif Handy.controller.is_module_key(Handy.cc.regular_keybinds.sort_by_suit, key) then
 			return true, "suit"
+		elseif Handy.controller.is_module_key(Handy.cc.regular_keybinds.toggle_sort, key) then
+			return true, Handy.regular_keybinds.get_current_sorting(true)
 		else
 			return false, nil
 		end
@@ -1798,7 +1821,24 @@ Handy.regular_keybinds = {
 			elseif G.STATE == G.STATES.SELECTING_HAND then
 				local need_sort, sorter = Handy.regular_keybinds.can_change_sort(key)
 				if need_sort then
-					return Handy.regular_keybinds.change_sort(sorter)
+					local sort_result = Handy.regular_keybinds.change_sort(sorter)
+					if Handy.cc.notifications_level >= 3 then
+						Handy.UI.state_panel.display(function(state)
+							state.items.change_sort = {
+								text = localize({
+									type = "variable",
+									key = "Handy_hand_sorting",
+									vars = {
+										localize("k_" .. Handy.regular_keybinds.get_current_sorting(false)),
+									},
+								}),
+								order = 30,
+								hold = false,
+							}
+							return true
+						end)
+					end
+					return sort_result
 				elseif Handy.regular_keybinds.can_discard(key) then
 					return Handy.regular_keybinds.discard()
 				elseif Handy.regular_keybinds.can_play(key) then

@@ -438,11 +438,25 @@ Handy.UI.get_keybinds_page = function(page)
 	local result = {}
 	if page == 1 then
 		result = {
-			Handy.UI.PARTS.create_module_section("round"),
+			Handy.UI.PARTS.create_module_section("hand_selection"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight", { only_holdable = true }),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
+			Handy.UI.PARTS.create_module_section("hand"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.toggle_sort, "toggle_sort"),
+			Handy.UI.PARTS.create_module_section("menus"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview", { only_holdable = true }),
+		}
+	elseif page == 2 then
+		result = {
+			Handy.UI.PARTS.create_module_section("round"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out", { only_holdable = true }),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.not_just_yet_interaction,
@@ -456,18 +470,6 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_section("blinds"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.skip_blind, "skip_blind"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.select_blind, "select_blind"),
-		}
-	elseif page == 2 then
-		result = {
-			Handy.UI.PARTS.create_module_section("menus"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_section("hand_selection"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
 			Handy.UI.PARTS.create_module_section("quick_actions"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell"),
@@ -555,8 +557,8 @@ Handy.UI.get_keybinds_page = function(page)
 				align = "cm",
 				padding = 0.25,
 				r = 0.5,
-				minh = 7.25,
-				maxh = 7.25,
+				minh = 7.7,
+				maxh = 7.7,
 			},
 			nodes = {
 				{
@@ -710,7 +712,7 @@ Handy.UI.get_quick_page = function(page)
 	if result then
 		result = {
 			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 5.9, maxh = 5.9 },
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 6, maxh = 6 },
 			nodes = result,
 		}
 	end
@@ -914,6 +916,7 @@ Handy.UI.get_config_tab_quick_paginated = function()
 					colour = G.C.RED,
 					no_pips = true,
 					focus_args = { nav = "wide" },
+					scale = 0.8,
 				}),
 			},
 		},
@@ -949,7 +952,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.1 } },
+		{ n = G.UIT.R, config = { minh = 0.05 } },
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -963,6 +966,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 					colour = G.C.RED,
 					no_pips = true,
 					focus_args = { nav = "wide" },
+					scale = 0.8,
 				}),
 			},
 		},

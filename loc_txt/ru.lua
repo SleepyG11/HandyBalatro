@@ -484,6 +484,7 @@ return {
 		handy_keybind_labels = {
 			play_hand = "Сыграть руку",
 			discard = "Сбросить руку",
+			toggle_sort = "Переключить сортировку",
 			sort_by_rank = "Сортировать по старшинству",
 			sort_by_suit = "Сортировать по масти",
 			deselect_hand = "Убрать выделение руки",
@@ -526,6 +527,7 @@ return {
 			presets_load_next = "Загрузить след. профиль",
 		},
 		handy_keybind_sections = {
+			hand = "Рука",
 			round = "Раунд",
 			shop = "Магазин",
 			blinds = "Блайнды",
@@ -556,6 +558,8 @@ return {
 			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
 			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+
+			Handy_hand_sorting = "Сортировка руки: #1#",
 
 			Handy_preset_index = "Профиль #1#",
 			Handy_preset_loaded = "Профиль #1# [#2#] загружен",
