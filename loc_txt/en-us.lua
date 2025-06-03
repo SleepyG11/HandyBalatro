@@ -640,6 +640,7 @@ return {
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+			Handy_skip_booster_pack = "Skip booster pack",
 
 			Handy_hand_sorting = "Hand sorting: #1#",
 

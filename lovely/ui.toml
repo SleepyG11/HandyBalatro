@@ -1,0 +1,61 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Draw UI
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
+position = "after"
+payload = '''
+Handy.UI.init()
+'''
+match_indent = true
+overwrite = false
+
+# Override gamepad buttons
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.set_button_pip = function(e)'''
+position = "after"
+payload = '''
+if Handy.controller.override_node_button(e) then return end
+'''
+match_indent = true
+overwrite = false
+
+# Prevent button pip crash
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local BUTTON_SPRITE = Sprite(0,0,args.scale or 0.45,args.scale or 0.45,G.ASSET_ATLAS["gamepad_ui"],'''
+position = "before"
+payload = '''
+if not args.button or not button_sprite_map[args.button] then
+    return {
+        n = G.UIT.ROOT,
+        config = { align = "cm", colour = G.C.CLEAR },
+        nodes = {
+            { n = G.UIT.O, config = { object = Moveable() } },
+        },
+    }
+end
+'''
+match_indent = true
+overwrite = false
+
+# Add ability to override chosen tab in create_tabs
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
+position = "before"
+payload = '''
+if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen
+elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
+'''
+match_indent = true
+overwrite = false

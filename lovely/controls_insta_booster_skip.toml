@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Skipping booster
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.GAME.PACK_INTERRUPT = nil'''
+position = "after"
+payload = '''
+Handy.insta_booster_skip.is_skipped = false
+'''
+match_indent = true
+overwrite = false
