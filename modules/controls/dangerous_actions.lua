@@ -26,14 +26,6 @@ Handy.dangerous_actions = {
 				end,
 			}))
 		end
-		if Handy.last_clicked_card == card then
-			Handy.last_clicked_card = nil
-			Handy.last_clicked_area = nil
-		end
-		if Handy.last_hovered_card == card then
-			Handy.last_hovered_card = nil
-			Handy.last_hovered_area = nil
-		end
 		Handy.dangerous_actions.sell_next_card()
 	end,
 

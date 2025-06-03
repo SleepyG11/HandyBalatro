@@ -829,6 +829,16 @@ Handy.controller = {
 			end
 		end
 
+		if Handy.last_clicked_card and Handy.last_clicked_card.REMOVED then
+			Handy.last_clicked_card = nil
+			Handy.last_clicked_area = nil
+		end
+
+		if Handy.last_hovered_card and Handy.last_hovered_card.REMOVED then
+			Handy.last_hovered_card = nil
+			Handy.last_hovered_area = nil
+		end
+
 		for key, button in pairs(Handy.controller.gamepad_patched_buttons) do
 			if button.node.REMOVED then
 				Handy.controller.gamepad_patched_buttons[key] = nil

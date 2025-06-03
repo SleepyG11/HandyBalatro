@@ -558,6 +558,7 @@ return {
 			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
 			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+			Handy_skip_booster_pack = "Пропустить бустерный набор",
 
 			Handy_hand_sorting = "Сортировка руки: #1#",
 

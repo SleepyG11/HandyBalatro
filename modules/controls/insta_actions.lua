@@ -184,14 +184,6 @@ Handy.insta_actions = {
 			})
 			if check then
 				Handy.insta_actions.action_blocker = true
-				if Handy.last_clicked_card == card then
-					Handy.last_clicked_card = nil
-					Handy.last_clicked_area = nil
-				end
-				if Handy.last_hovered_card == card then
-					Handy.last_hovered_card = nil
-					Handy.last_hovered_area = nil
-				end
 				Handy.fake_events.execute({
 					func = G.FUNCS[button or target_button_definition.config.button],
 					node = is_custom_button and target_button or nil,
