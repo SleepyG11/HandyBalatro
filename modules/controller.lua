@@ -785,11 +785,11 @@ Handy.controller = {
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			Handy.last_clicked_card = card
+			Handy.last_clicked_area = card.area
 			if Handy.insta_actions.use(card) or Handy.dangerous_actions.use_click(card) then
 				return true
 			end
-			Handy.last_clicked_card = card
-			Handy.last_clicked_area = card.area
 		end
 		return false
 	end,
@@ -798,13 +798,12 @@ Handy.controller = {
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			Handy.last_hovered_card = card
+			Handy.last_hovered_area = card.area
 			if Handy.insta_highlight.use(card) or Handy.dangerous_actions.use_hover(card) then
 				return true
 			end
-			Handy.last_hovered_card = card
-			Handy.last_hovered_area = card.area
 		end
-
 		return false
 	end,
 

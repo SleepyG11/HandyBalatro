@@ -19,7 +19,7 @@ local default_config = {
 		key_1 = "Left Mouse",
 		key_2 = "None",
 		key_1_gamepad = "Left Stick",
-		key_2_gamepad = "Left Mouse",
+		key_2_gamepad = "Left Mouse", -- Touchscreen
 
 		allow_deselect = {
 			enabled = false,
