@@ -106,8 +106,8 @@ Handy.insta_actions = {
 					end
 				end
 				target_button = target_button
-					or get_node(result_funcs.can_use_consumeable)
 					or base_attach.buy_and_use
+					or get_node(result_funcs.can_use_consumeable)
 					or (not is_booster_pack_card and base_attach.use)
 					or card.children.buy_and_use_button
 				is_shop_button = target_button == card.children.buy_and_use_button
