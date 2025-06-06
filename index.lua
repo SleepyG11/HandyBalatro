@@ -49,6 +49,7 @@ require("handy/controls/move_highlight")
 require("handy/controls/speed_multiplier")
 require("handy/controls/nopeus_interaction")
 require("handy/controls/not_just_yet_interaction")
+require("handy/controls/animation_skip")
 
 require("handy/controls/dangerous_actions")
 
@@ -128,28 +129,37 @@ function loc_colour(_c, _default, ...)
 	return Handy.UI.LOC_COLOURS[_c] or loc_colour_ref(_c, _default, ...)
 end
 
-local card_open_ref = Card.open
-function Card:open(...)
-	local result = card_open_ref(self, ...)
-	if self.ability.set == "Booster" then
-		Handy.speed_multiplier.throttle = true
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.E_MANAGER:add_event(Event({
-					trigger = "after",
-					delay = 1.5 * math.sqrt(G.SETTINGS.GAMESPEED),
-					no_delete = true,
-					func = function()
-						Handy.speed_multiplier.throttle = false
-						return true
-					end,
-				}))
-				return true
-			end,
-		}))
-	end
-	return result
+local card_area_emplace_ref = CardArea.emplace
+function CardArea:emplace(...)
+	self.cards = self.cards or {}
+	return card_area_emplace_ref(self, ...)
 end
+
+local card_area_align_cards_ref = CardArea.align_cards
+function CardArea:align_cards(...)
+	self.children = self.children or {}
+	return card_area_align_cards_ref(self, ...)
+end
+
+--
+-- local end_consumeable_ref = G.FUNCS.end_consumeable
+-- G.FUNCS.end_consumeable = function(e, delayfac)
+-- 	delayfac = delayfac or 1
+-- 	end_consumeable_ref(e, delayfac)
+-- 	G.E_MANAGER:add_event(Event({
+-- 		trigger = "after",
+-- 		delay = 0.2 * delayfac,
+-- 		blocking = true,
+-- 		blockable = false,
+-- 		func = function()
+-- 			if G.pack_cards then
+-- 				G.pack_cards:remove()
+-- 				G.pack_cards = nil
+-- 			end
+-- 			return true
+-- 		end,
+-- 	}))
+-- end
 
 --
 

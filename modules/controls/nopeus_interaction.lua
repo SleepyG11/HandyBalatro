@@ -12,8 +12,7 @@ Handy.nopeus_interaction = {
 
 	can_dangerous = function()
 		return not not (
-			Handy.is_mod_active()
-			and Handy.is_dangerous_actions_active()
+			Handy.is_dangerous_actions_active()
 			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.nopeus_unsafe)
 		)
 	end,

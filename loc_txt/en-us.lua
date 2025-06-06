@@ -179,6 +179,24 @@ return {
 					"#2#",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
+			animation_skip = {
+				unlock = { "Animation skip" },
+				text = {
+					"Hold {C:chips}#1#{} and",
+					"{C:chips}#2#{}/{C:chips}#3#{} to",
+					"increase/decrease animation skip",
+				},
+			},
+			-- Vars: [Animation skip]
+			animation_skip_no_hold = {
+				unlock = { "Animation skip:", "No hold" },
+				text = {
+					"Decrease amount of",
+					"keybinds needed to use",
+					"#2#",
+				},
+			},
 			dangerous_actions = {
 				unlock = { "Dangerous actions" },
 				text = {
@@ -207,6 +225,13 @@ return {
 				unlock = { "Nopeus: unsafe", "fast-forward" },
 				text = {
 					"Allow increase fast-forward",
+					"setting to {C:mult}Unsafe{}",
+				},
+			},
+			animation_skip_unsafe = {
+				unlock = { "Animation skip:", "unsafe" },
+				text = {
+					"Allow increase animation skip",
 					"setting to {C:mult}Unsafe{}",
 				},
 			},
@@ -593,6 +618,9 @@ return {
 			nopeus_interaction = "Nopeus: fast-forward",
 			nopeus_interaction_increase = "Increase",
 			nopeus_interaction_decrease = "Decrease",
+			animation_skip = "Animation skip",
+			animation_skip_increase = "Increase",
+			animation_skip_decrease = "Decrease",
 			move_highlight_one_left = "Move one left",
 			move_highlight_one_right = "Move one right",
 			move_highlight_move_card = "Move card",

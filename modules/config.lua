@@ -155,6 +155,9 @@ local default_config = {
 		nopeus_unsafe = {
 			enabled = false,
 		},
+		animation_skip_unsafe = {
+			enabled = false,
+		},
 	},
 
 	speed_multiplier = {
@@ -328,6 +331,34 @@ local default_config = {
 		key_2 = "None",
 		key_1_gamepad = "None",
 		key_2_gamepad = "None",
+	},
+
+	animation_skip = {
+		enabled = true,
+
+		key_1 = "Left Bracket",
+		key_2 = "None",
+		key_1_gamepad = "None",
+		key_2_gamepad = "None",
+
+		no_hold = {
+			enabled = false,
+		},
+
+		increase = {
+			enabled = true,
+			key_1 = "Wheel Up",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
+		},
+		decrease = {
+			enabled = true,
+			key_1 = "Wheel Down",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
+		},
 	},
 
 	presets = {

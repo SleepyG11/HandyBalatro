@@ -628,7 +628,9 @@ Handy.controller = {
 		end
 
 		if not released then
-			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
+			local _ = Handy.speed_multiplier.use(key)
+				or Handy.nopeus_interaction.use(key)
+				or Handy.animation_skip.use(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
@@ -678,7 +680,9 @@ Handy.controller = {
 		end
 
 		if not released then
-			local _ = Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key)
+			local _ = Handy.speed_multiplier.use(key)
+				or Handy.nopeus_interaction.use(key)
+				or Handy.animation_skip.use(key)
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
@@ -722,7 +726,7 @@ Handy.controller = {
 			return finish(true)
 		end
 
-		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) then
+		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) or Handy.animation_skip.use(key) then
 			return finish(false)
 		end
 

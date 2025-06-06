@@ -153,6 +153,12 @@ name = 'handy/controls/not_just_yet_interaction'
 
 [[patches]]
 [patches.module]
+source = 'modules/controls/animation_skip.lua'
+before = 'main.lua'
+name = 'handy/controls/animation_skip'
+
+[[patches]]
+[patches.module]
 source = 'modules/controls/dangerous_actions.lua'
 before = 'main.lua'
 name = 'handy/controls/dangerous_actions'

@@ -64,6 +64,12 @@ Handy.UI.get_keybinds_page = function(page)
 			),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip, "animation_skip", { only_holdable = true }),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.increase, "animation_skip_increase"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.decrease, "animation_skip_decrease"),
+		}
+	elseif page == 4 then
+		result = {
 			Handy.UI.PARTS.create_module_section("highlight_movement"),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.dx.one_left,
@@ -85,9 +91,6 @@ Handy.UI.get_keybinds_page = function(page)
 				"move_highlight_to_end",
 				{ disabled = gamepad, only_holdable = true }
 			),
-		}
-	elseif page == 4 then
-		result = {
 			Handy.UI.PARTS.create_module_section("presets"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2"),
@@ -240,12 +243,20 @@ Handy.UI.get_quick_page = function(page)
 							}),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
 							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.speed_multiplier.no_hold,
-								"speed_multiplier_no_hold",
+								Handy.cc.nopeus_interaction,
+								"nopeus_interaction",
 								{
-									Handy.UI.PARTS.localize_keybind_label("speed_multiplier"),
+									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
+									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
+									localize("Dangerous", "handy_tabs"),
 								}
 							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, "animation_skip", {
+								Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
+								Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
+								localize("Dangerous", "handy_tabs"),
+							}),
 						},
 					},
 					{
@@ -253,12 +264,10 @@ Handy.UI.get_quick_page = function(page)
 						config = { minw = 4 },
 						nodes = {
 							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.nopeus_interaction,
-								"nopeus_interaction",
+								Handy.cc.speed_multiplier.no_hold,
+								"speed_multiplier_no_hold",
 								{
-									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
-									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
-									localize("Dangerous", "handy_tabs"),
+									Handy.UI.PARTS.localize_keybind_label("speed_multiplier"),
 								}
 							),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
@@ -269,11 +278,18 @@ Handy.UI.get_quick_page = function(page)
 									Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
 								}
 							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.animation_skip.no_hold,
+								"animation_skip_no_hold",
+								{
+									Handy.UI.PARTS.localize_keybind_label("animation_skip"),
+								}
+							),
 						},
 					},
 				},
 			},
-			-- { n = G.UIT.R, config = { minh = 0.25 } },
 		}
 	end
 	if result then
@@ -690,6 +706,11 @@ Handy.UI.get_config_tab_dangerous = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(
+							Handy.cc.dangerous_actions.nopeus_unsafe,
+							"nopeus_unsafe"
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.dangerous_actions.immediate_buy_and_sell,
 							"immediate_buy_and_sell",
 							{
@@ -703,17 +724,17 @@ Handy.UI.get_config_tab_dangerous = function()
 							Handy.cc.dangerous_actions.immediate_buy_and_sell.queue,
 							"immediate_buy_and_sell_queue"
 						),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.nopeus_unsafe,
-							"nopeus_unsafe"
-						),
 					},
 				},
 				{
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
+						Handy.UI.PARTS.create_new_module_checkbox(
+							Handy.cc.dangerous_actions.animation_skip_unsafe,
+							"animation_skip_unsafe"
+						),
+						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.dangerous_actions.sell_all_same,
 							"sell_all_same",
@@ -736,26 +757,21 @@ Handy.UI.get_config_tab_dangerous = function()
 						}, {
 							only_first = true,
 						}),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.card_remove,
-							"card_remove",
-							{
-								Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_remove_modifier"),
-								Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
-							},
-							{
-								only_first = true,
-							}
-						),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.5 } },
+		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.card_remove, "card_remove", {
+			Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
+			Handy.UI.PARTS.localize_keybind_label("dangerous_remove_modifier"),
+			Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
+			Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
+			Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
+		}, {
+			only_first = true,
+		}),
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -806,10 +822,10 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.4 } },
+		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
-			config = { padding = 0.1, align = "cm" },
+			config = { padding = 0.05, align = "cm" },
 			nodes = {
 				{
 					n = G.UIT.T,
@@ -826,7 +842,6 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
-		-- { n = G.UIT.R, config = { minh = 0.25 } },
 	}
 end
 

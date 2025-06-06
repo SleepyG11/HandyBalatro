@@ -1,0 +1,96 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Juice Issues Patch from https://github.com/MathIsFun0/Talisman/blob/main/lovely.toml
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() card:juice_up(0.7);return true end)"
+position = "at"
+payload = "func = (function() if card and card.juice_up then card:juice_up(0.7) end;return true end)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if card then card:juice_up(0.8, 0.5) end"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.8, 0.5) end"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "card:juice_up(0.6, 0.1)"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.6, 0.1) end"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+
+# Money buffer
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))"
+position = "at"
+payload = """
+if not Handy.animation_skip.should_skip_messages() then
+  G.E_MANAGER:add_event(Event({
+    func = (function()
+      G.GAME.dollar_buffer = 0
+      return true
+    end)
+  }))
+else
+  G.GAME.dollar_buffer = 0
+end
+"""
+match_indent = true
+overwrite = false
+
+# SMODS empty events fix
+[[patches]]
+[patches.regex]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "if effect.juice_card"
+position = "after"
+payload = " and not Handy.animation_skip.should_skip_animation()"
+match_indent = true
+overwrite = false
+
+# Allow juice up for juice_up_until
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if not first or first then Handy.animation_skip.allow_juice_up = true card:juice_up(0.1, 0.1); Handy.animation_skip.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+overwrite = false
+
+# SMODS empty events fix
+[[patches]]
+[patches.regex]
+target = 'functions/button_callbacks.lua'
+pattern = "G.FUNCS.draw_from_hand_to_deck()"
+position = "before"
+payload = "if G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
+match_indent = true
+overwrite = false
