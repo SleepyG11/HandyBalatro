@@ -2,6 +2,7 @@
 
 Handy.animation_skip = {
 	value = 1,
+	buffered_value = nil,
 	immediate_event_queue = 0,
 	ease_dollars_buffer = 0,
 
@@ -10,17 +11,24 @@ Handy.animation_skip = {
 
 	allow_juice_up = false,
 
+	get_buffered_value = function()
+		if Handy.animation_skip.buffered_value == nil then
+			Handy.animation_skip.buffered_value = Handy.animation_skip.get_value()
+		end
+		return Handy.animation_skip.buffered_value
+	end,
+
 	should_skip_messages = function()
-		return Handy.animation_skip.get_value() >= 2
+		return Handy.animation_skip.get_buffered_value() >= 2
 	end,
 	should_skip_animation = function()
-		return Handy.animation_skip.get_value() >= 3
+		return Handy.animation_skip.get_buffered_value() >= 3
 	end,
 	should_skip_everything = function()
-		return Handy.animation_skip.get_value() >= 4
+		return Handy.animation_skip.get_buffered_value() >= 4
 	end,
 	should_skip_unsafe = function()
-		return Handy.animation_skip.get_value() >= 5
+		return Handy.animation_skip.get_buffered_value() >= 5
 	end,
 
 	get_value = function()
@@ -227,8 +235,6 @@ function EventManager:add_event(event, ...)
 	if Handy.animation_skip.should_skip_unsafe() then
 		event.blocking = false
 		event.blockable = false
-		-- This line basically taken from Nopeus by jenwalter666
-		event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
 	else
 		if Handy.animation_skip.force_non_blocking then
 			event.blocking = false
@@ -237,10 +243,15 @@ function EventManager:add_event(event, ...)
 			event.blockable = false
 		end
 	end
+	if Handy.animation_skip.should_skip_everything() then
+		-- This line basically taken from Nopeus by jenwalter666
+		event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+	end
 	return event_manager_add_event_ref(self, event, ...)
 end
 
 function Handy.animation_skip.update(dt)
+	Handy.animation_skip.buffered_value = nil
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
 		ease_dollars_ref(Handy.animation_skip.ease_dollars_buffer, true)
 		Handy.animation_skip.ease_dollars_buffer = 0
