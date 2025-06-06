@@ -75,6 +75,17 @@ payload = " and not Handy.animation_skip.should_skip_animation()"
 match_indent = true
 overwrite = false
 
+# Vanilla empty events fix
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = "if effects[ii].card then"
+position = "at"
+payload = "if effects[ii].card and not Handy.animation_skip.should_skip_animation() then"
+match_indent = true
+overwrite = false
+
+
 # Allow juice up for juice_up_until
 [[patches]]
 [patches.pattern]

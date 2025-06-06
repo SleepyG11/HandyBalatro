@@ -39,13 +39,7 @@ Handy.insta_highlight = {
 		if key == "mouse1" then
 			return false
 		end
-		G.E_MANAGER:add_event(Event({
-			type = "immediate",
-			func = function()
-				Handy.insta_highlight.use(G.CONTROLLER.hovering.target)
-				return true
-			end,
-		}))
+		Handy.insta_highlight.use(G.CONTROLLER.hovering.target)
 		return false
 	end,
 
