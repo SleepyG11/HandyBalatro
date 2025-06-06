@@ -57,6 +57,9 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "speed_multiplier_multiply"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "speed_multiplier_divide"),
 			Handy.UI.PARTS.create_module_section("animations"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip, "animation_skip", { only_holdable = true }),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.increase, "animation_skip_increase"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.decrease, "animation_skip_decrease"),
 			Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.nopeus_interaction,
 				"nopeus_interaction",
@@ -64,9 +67,6 @@ Handy.UI.get_keybinds_page = function(page)
 			),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip, "animation_skip", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.increase, "animation_skip_increase"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.decrease, "animation_skip_decrease"),
 		}
 	elseif page == 4 then
 		result = {
@@ -242,6 +242,24 @@ Handy.UI.get_quick_page = function(page)
 								"x512",
 							}),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
+							(function()
+								local levels = localize("handy_animation_skip_levels")
+								return Handy.UI.PARTS.create_new_module_checkbox(
+									Handy.cc.animation_skip,
+									"animation_skip",
+									{
+										Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
+										Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
+										levels[1],
+										levels[2],
+										levels[3],
+										levels[4],
+										levels[5],
+										localize("Dangerous", "handy_tabs"),
+									}
+								)
+							end)(),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
 							Handy.UI.PARTS.create_new_module_checkbox(
 								Handy.cc.nopeus_interaction,
 								"nopeus_interaction",
@@ -251,12 +269,6 @@ Handy.UI.get_quick_page = function(page)
 									localize("Dangerous", "handy_tabs"),
 								}
 							),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, "animation_skip", {
-								Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
-								Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
-								localize("Dangerous", "handy_tabs"),
-							}),
 						},
 					},
 					{
@@ -272,18 +284,18 @@ Handy.UI.get_quick_page = function(page)
 							),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
 							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.nopeus_interaction.no_hold,
-								"nopeus_interaction_no_hold",
-								{
-									Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
-								}
-							),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
 								Handy.cc.animation_skip.no_hold,
 								"animation_skip_no_hold",
 								{
 									Handy.UI.PARTS.localize_keybind_label("animation_skip"),
+								}
+							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.nopeus_interaction.no_hold,
+								"nopeus_interaction_no_hold",
+								{
+									Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
 								}
 							),
 						},
@@ -732,7 +744,10 @@ Handy.UI.get_config_tab_dangerous = function()
 					nodes = {
 						Handy.UI.PARTS.create_new_module_checkbox(
 							Handy.cc.dangerous_actions.animation_skip_unsafe,
-							"animation_skip_unsafe"
+							"animation_skip_unsafe",
+							{
+								localize("handy_animation_skip_levels")[5],
+							}
 						),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
 						Handy.UI.PARTS.create_new_module_checkbox(

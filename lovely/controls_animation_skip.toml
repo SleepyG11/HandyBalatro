@@ -85,7 +85,7 @@ payload = "func = (function() if eval_func(card) then if not first or first then
 match_indent = true
 overwrite = false
 
-# SMODS empty events fix
+# Remove pack cards faster
 [[patches]]
 [patches.regex]
 target = 'functions/button_callbacks.lua'

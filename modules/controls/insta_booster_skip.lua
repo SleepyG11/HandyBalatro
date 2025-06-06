@@ -10,8 +10,7 @@ Handy.insta_booster_skip = {
 			and not Handy.insta_booster_skip.is_skipped
 			and G.booster_pack
 			and G.pack_cards
-			and G.pack_cards ~= Handy.insta_booster_skip.previou_pack_cards
-			and Handy.insta_booster_skip.throttle_thing <= 0
+			and G.pack_cards.cards[1]
 			and Handy.fake_events.check({
 				func = G.FUNCS.can_skip_booster,
 			})
@@ -19,8 +18,6 @@ Handy.insta_booster_skip = {
 	end,
 	execute = function()
 		Handy.insta_booster_skip.is_skipped = true
-		Handy.insta_booster_skip.previou_pack_cards = G.pack_cards
-		Handy.insta_booster_skip.throttle_thing = 8
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				Handy.fake_events.execute({
@@ -52,9 +49,6 @@ Handy.insta_booster_skip = {
 			and Handy.is_mod_active()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_booster_skip)
 		)
-		if Handy.insta_booster_skip.throttle_thing > 0 then
-			Handy.insta_booster_skip.throttle_thing = Handy.insta_booster_skip.throttle_thing - 1
-		end
 		return Handy.insta_booster_skip.can_execute() and Handy.insta_booster_skip.execute() or false
 	end,
 }

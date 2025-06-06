@@ -179,7 +179,7 @@ return {
 					"#2#",
 				},
 			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
 			animation_skip = {
 				unlock = { "Animation skip" },
 				text = {
@@ -228,11 +228,12 @@ return {
 					"setting to {C:mult}Unsafe{}",
 				},
 			},
+			-- Vars: [Animation skip]
 			animation_skip_unsafe = {
 				unlock = { "Animation skip:", "unsafe" },
 				text = {
-					"Allow increase animation skip",
-					"setting to {C:mult}Unsafe{}",
+					"Allow increase",
+					"setting to {C:mult}#2#{}",
 				},
 			},
 			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
@@ -338,6 +339,20 @@ return {
 					" ",
 					"{C:mult}Unsafe{} option must be",
 					"enabled in {C:attention}#4#{} tab",
+				},
+			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+			animation_skip = {
+				text = {
+					"5 levels of animation skip are present",
+					" ",
+					"{C:attention}#4#{} - default game behaviour",
+					"{C:attention}#5#{} - removed card texts like {C:attention}Again!{} and {C:chips}+Chips{}",
+					"{C:attention}#6#{} - instant scoring, removed cards wiggling",
+					"{C:attention}#7#{} - removed unnecessary animations, instant cards drawing",
+					"{C:mult}#8#{} - game's absolute limit: everything instant",
+					" ",
+					"{C:mult}#8#{} option must be enabled in {C:attention}#9#{} tab",
 				},
 			},
 			not_just_yet_interaction = {
@@ -668,6 +683,7 @@ return {
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+			Handy_animation_skip = "Animation skip: #1#",
 			Handy_skip_booster_pack = "Skip booster pack",
 
 			Handy_hand_sorting = "Hand sorting: #1#",
@@ -713,7 +729,16 @@ return {
 			ph_handy_notif_remove_all_same = "REMOVE all copies of clicked card/tag",
 			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
+			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
+
+			handy_animation_skip_levels = {
+				[1] = "None",
+				[2] = "Messages",
+				[3] = "Animations",
+				[4] = "Everything",
+				[5] = "Unsafe",
+			},
 
 			b_handy_info_popups_level_select = "Info popups level",
 			handy_info_popups_level_opt = {

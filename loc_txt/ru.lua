@@ -179,6 +179,24 @@ return {
 					"#2#",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+			animation_skip = {
+				unlock = { "Пропуск анимаций" },
+				text = {
+					"Удерж. {C:chips}#1#{} и",
+					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
+					"увеличить/уменьшить пропуск анимаций",
+				},
+			},
+			-- Vars: [Animation skip]
+			animation_skip_no_hold = {
+				unlock = { "Пропуск анимаций:", "без удержания" },
+				text = {
+					"Уменьшает кол-во",
+					"необходимых клавиш для",
+					"#2#",
+				},
+			},
 			dangerous_actions = {
 				unlock = { "Небезопасные действия" },
 				text = {
@@ -209,6 +227,14 @@ return {
 				text = {
 					"Позволять увеличивать fast-forward",
 					"настройку до {C:mult}Unsafe{}",
+				},
+			},
+			-- Vars: [Animation skip]
+			animation_skip_unsafe = {
+				unlock = { "Пропуск анимаций:", "небезопасно" },
+				text = {
+					"Позволяет увеличивать пропуск",
+					"анимаций до {C:mult}#2#{}",
 				},
 			},
 			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
@@ -316,6 +342,20 @@ return {
 					" ",
 					"{C:mult}Unsafe{} значение должно быть",
 					"включено во вкладке {C:attention}#4#{}",
+				},
+			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+			animation_skip = {
+				text = {
+					"5 уровней пропуска анимации",
+					" ",
+					"{C:attention}#4#{} - стандартное поведение гры",
+					"{C:attention}#5#{} - убраны тексты над картами ({C:attention}Ещё раз!{} and {C:chips}+Фишки{})",
+					"{C:attention}#6#{} - моментальный подсчёт, убраны анимации карт",
+					"{C:attention}#7#{} - убраны ненужные анимации, моментальное доставание карт",
+					"{C:mult}#8#{} - абсолютный лимит игры: всё моментально",
+					" ",
+					"{C:mult}#8#{} значение должно быть включено во вкладке {C:attention}#9#{}",
 				},
 			},
 			not_just_yet_interaction = {
@@ -511,6 +551,9 @@ return {
 			nopeus_interaction = "Nopeus: fast-forward",
 			nopeus_interaction_increase = "Увеличить",
 			nopeus_interaction_decrease = "Уменьшить",
+			animation_skip = "Пропуск анимаций",
+			animation_skip_increase = "Увеличить",
+			animation_skip_decrease = "Уменьшить",
 			move_highlight_one_left = "Передвинуть один налево",
 			move_highlight_one_right = "Передвинуть один направо",
 			move_highlight_move_card = "Передвигать карту",
@@ -558,6 +601,7 @@ return {
 			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
 			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#x",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+			Handy_animation_skip = "Пропуск анимаций: #1#",
 			Handy_skip_booster_pack = "Пропустить бустерный набор",
 
 			Handy_hand_sorting = "Сортировка руки: #1#",
@@ -603,7 +647,16 @@ return {
 			ph_handy_notif_remove_all_same = "УДАЛИТЬ все копии кликнутой карты/тэга",
 			ph_handy_notif_sell_all_same = "Продать все копии кликнутой карты",
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
+			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасное значение выключено в настройках мода",
 			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
+
+			handy_animation_skip_levels = {
+				[1] = "Нет",
+				[2] = "Надписи карт",
+				[3] = "Анимации",
+				[4] = "Все",
+				[5] = "Небезопасно",
+			},
 
 			b_handy_info_popups_level_select = "Уровень нотификаций",
 			handy_info_popups_level_opt = {

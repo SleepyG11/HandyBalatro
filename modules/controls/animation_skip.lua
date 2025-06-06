@@ -75,15 +75,8 @@ Handy.animation_skip = {
 
 			if actions.increase or actions.decrease then
 				local value = Handy.animation_skip.get_value()
-				local states = {
-					"None",
-					"Messages",
-					"Animations",
-					"Everything",
-					"Unsafe",
-				}
-				local value_name = states[value]
-				local is_dangerous = value == #states
+				local localized_states = localize("handy_animation_skip_levels")
+				local is_dangerous = value == 5
 
 				if is_dangerous then
 					if Handy.cc.notifications_level < 2 then
@@ -97,14 +90,18 @@ Handy.animation_skip = {
 				end
 
 				state.items.change_animation_skip = {
-					text = "Animaion skip: " .. value_name,
+					text = localize({
+						type = "variable",
+						key = "Handy_animation_skip",
+						vars = { localized_states[value] or "ERROR" },
+					}),
 					hold = false,
 					order = 4,
 					dangerous = is_dangerous,
 				}
-				if not Handy.animation_skip.can_dangerous() and actions.increase and value == (#states - 1) then
+				if not Handy.animation_skip.can_dangerous() and actions.increase and value == (5 - 1) then
 					state.items.prevent_nopeus_unsafe = {
-						text = "Unsafe animation skip disabled in mod settings",
+						text = localize("ph_handy_notif_animation_skip_unsafe_disabled"),
 						hold = false,
 						order = 4.05,
 					}
