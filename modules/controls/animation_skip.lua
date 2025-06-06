@@ -230,6 +230,7 @@ function EventManager:add_event(event, ...)
 	if Handy.animation_skip.should_skip_unsafe() then
 		event.blocking = false
 		event.blockable = false
+		-- This line basically taken from Nopeus by jenwalter666
 		event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
 	else
 		if Handy.animation_skip.force_non_blocking then
@@ -250,6 +251,8 @@ function Handy.animation_skip.update(dt)
 end
 
 Handy.register_module("animation_skip", Handy.animation_skip)
+
+-- Code to debug event queue
 
 -- local callstep = 0
 -- function printCallerInfo()

@@ -142,26 +142,6 @@ function CardArea:align_cards(...)
 end
 
 --
--- local end_consumeable_ref = G.FUNCS.end_consumeable
--- G.FUNCS.end_consumeable = function(e, delayfac)
--- 	delayfac = delayfac or 1
--- 	end_consumeable_ref(e, delayfac)
--- 	G.E_MANAGER:add_event(Event({
--- 		trigger = "after",
--- 		delay = 0.2 * delayfac,
--- 		blocking = true,
--- 		blockable = false,
--- 		func = function()
--- 			if G.pack_cards then
--- 				G.pack_cards:remove()
--- 				G.pack_cards = nil
--- 			end
--- 			return true
--- 		end,
--- 	}))
--- end
-
---
 
 function Handy.emplace_steamodded()
 	if Handy.current_mod then
