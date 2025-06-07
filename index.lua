@@ -55,57 +55,6 @@ require("handy/controls/dangerous_actions")
 
 --
 
-local love_update_ref = love.update
-function love.update(dt, ...)
-	love_update_ref(dt, ...)
-	Handy.controller.process_update(dt)
-end
-
-local wheel_moved_ref = love.wheelmoved or function() end
-function love.wheelmoved(x, y)
-	wheel_moved_ref(x, y)
-	Handy.controller.process_wheel(y > 0 and 1 or 2)
-end
-
-local controller_button_press_ref = Controller.button_press
-function Controller:button_press(button, ...)
-	if Handy.controller.process_gamepad_button(self.GAMEPAD.object, button, false) then
-		return
-	end
-	return controller_button_press_ref(self, button, ...)
-end
-
-local controller_button_release_ref = Controller.button_release
-function Controller:button_release(button, ...)
-	if Handy.controller.process_gamepad_button(self.GAMEPAD.object, button, true) then
-		return
-	end
-	return controller_button_release_ref(self, button, ...)
-end
-
-local controller_update_axis_ref = Controller.update_axis
-function Controller:update_axis(...)
-	local axis_interpretation = controller_update_axis_ref(self, ...)
-	if axis_interpretation == "axis_cursor" then
-		Handy.controller.cancel_bind()
-	end
-	return axis_interpretation
-end
-
-local create_button_binding_pip_ref = create_button_binding_pip
-function create_button_binding_pip(args, ...)
-	if not args or not args.button then
-		return {
-			n = G.UIT.ROOT,
-			config = { align = "cm", colour = G.C.CLEAR },
-			nodes = {
-				{ n = G.UIT.O, config = { object = Moveable() } },
-			},
-		}
-	end
-	return create_button_binding_pip_ref(args, ...)
-end
-
 local init_localization_ref = init_localization
 function init_localization(...)
 	if not G.localization.__handy_injected then
@@ -122,11 +71,6 @@ function init_localization(...)
 		G.localization.__handy_injected = true
 	end
 	return init_localization_ref(...)
-end
-
-local loc_colour_ref = loc_colour
-function loc_colour(_c, _default, ...)
-	return Handy.UI.LOC_COLOURS[_c] or loc_colour_ref(_c, _default, ...)
 end
 
 local card_area_emplace_ref = CardArea.emplace

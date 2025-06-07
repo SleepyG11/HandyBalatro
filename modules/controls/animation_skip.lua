@@ -135,7 +135,9 @@ Handy.animation_skip = {
 		return Handy.animation_skip.can_execute(key) and Handy.animation_skip.execute(key) or false
 	end,
 
-	update = function(dt) end,
+	update = function(dt)
+		-- Defined in bottom, because have override dependencies
+	end,
 }
 
 local card_eval_status_text_ref = card_eval_status_text

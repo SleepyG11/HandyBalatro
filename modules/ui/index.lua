@@ -49,6 +49,11 @@ Handy.UI = {
 	end,
 }
 
+local loc_colour_ref = loc_colour
+function loc_colour(_c, _default, ...)
+	return Handy.UI.LOC_COLOURS[_c] or loc_colour_ref(_c, _default, ...)
+end
+
 require("handy/ui/parts")
 require("handy/ui/state_panel")
 require("handy/ui/functions")
