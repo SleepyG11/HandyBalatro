@@ -129,17 +129,22 @@ Handy.UI.state_panel = {
 		local state_panel = Handy.UI.state_panel
 		local state = state_panel.current_state
 
+		state.hold = false
+		state.dangerous = false
+		for _, item in pairs(state.items) do
+			if item.hold then
+				state.hold = true
+			end
+			if item.dangerous then
+				state.dangerous = true
+			end
+		end
+
 		if not state.title.text then
 			if state.dangerous then
 				state.title.text = localize("b_handy_notif_dangerous")
 			else
 				state.title.text = localize("b_handy_notif_quick")
-			end
-		end
-
-		for _, item in pairs(state.items) do
-			if item.hold then
-				state.hold = true
 			end
 		end
 
@@ -183,18 +188,23 @@ Handy.UI.state_panel = {
 		end
 	end,
 
-	display = function(state_func, override)
+	display = function(state_func, mode)
 		local state_panel = Handy.UI.state_panel
 
-		local should_replace_state = override or not state_panel.current_state.hold
-		local state_to_apply = should_replace_state
-				and {
-					dangerous = false,
-					title = {},
-					items = {},
-					sub_items = {},
-				}
-			or state_panel.current_state
+		local should_replace_state = not state_panel.current_state.hold
+		if mode == "update" then
+			should_replace_state = should_replace_state and Handy.UI.counter >= 1
+		elseif mode == "override" then
+			should_replace_state = true
+		end
+		local state_skeleton = {
+			dangerous = false,
+			title = {},
+			items = {},
+			sub_items = {},
+		}
+		local state_to_apply = (should_replace_state and state_skeleton)
+			or (state_panel.current_state or state_skeleton)
 		local is_changed = state_func(state_to_apply)
 		if is_changed then
 			if should_replace_state then

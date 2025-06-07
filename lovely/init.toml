@@ -159,6 +159,12 @@ name = 'handy/controls/animation_skip'
 
 [[patches]]
 [patches.module]
+source = 'modules/controls/scoring_hold.lua'
+before = 'main.lua'
+name = 'handy/controls/scoring_hold'
+
+[[patches]]
+[patches.module]
 source = 'modules/controls/dangerous_actions.lua'
 before = 'main.lua'
 name = 'handy/controls/dangerous_actions'

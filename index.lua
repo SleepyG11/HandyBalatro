@@ -50,6 +50,7 @@ require("handy/controls/speed_multiplier")
 require("handy/controls/nopeus_interaction")
 require("handy/controls/not_just_yet_interaction")
 require("handy/controls/animation_skip")
+require("handy/controls/scoring_hold")
 
 require("handy/controls/dangerous_actions")
 

@@ -211,7 +211,6 @@ Handy.dangerous_actions = {
 		local is_all_same = Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.sell_all_same)
 		local is_remove = Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.card_remove)
 
-		state.dangerous = true
 		state.items.dangerous_hint = {
 			text = localize("ph_handy_notif_unsafe"),
 			dangerous = true,

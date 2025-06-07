@@ -67,6 +67,7 @@ Handy.UI.get_keybinds_page = function(page)
 			),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
 			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
+			Handy.UI.PARTS.create_module_keybind(Handy.cc.scoring_hold, "scoring_hold", { only_holdable = true }),
 		}
 	elseif page == 4 then
 		result = {
@@ -269,6 +270,8 @@ Handy.UI.get_quick_page = function(page)
 									localize("Dangerous", "handy_tabs"),
 								}
 							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.scoring_hold, "scoring_hold"),
 						},
 					},
 					{
@@ -298,6 +301,14 @@ Handy.UI.get_quick_page = function(page)
 									Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
 								}
 							),
+							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_new_module_checkbox(
+								Handy.cc.scoring_hold.any_moment,
+								"scoring_hold_any_moment",
+								{
+									Handy.UI.PARTS.localize_keybind_label("scoring_hold"),
+								}
+							),
 						},
 					},
 				},
@@ -307,7 +318,7 @@ Handy.UI.get_quick_page = function(page)
 	if result then
 		result = {
 			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 6, maxh = 6 },
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 6.5, maxh = 6.5 },
 			nodes = result,
 		}
 	end

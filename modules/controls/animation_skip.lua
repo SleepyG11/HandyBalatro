@@ -90,7 +90,6 @@ Handy.animation_skip = {
 					if Handy.cc.notifications_level < 2 then
 						return false
 					end
-					state.dangerous = true
 				else
 					if Handy.cc.notifications_level < 3 then
 						return false
@@ -234,20 +233,22 @@ function level_up_hand(...)
 end
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, ...)
-	if Handy.animation_skip.should_skip_unsafe() then
-		event.blocking = false
-		event.blockable = false
-	else
-		if Handy.animation_skip.force_non_blocking then
+	if not event.handy_never_modify then
+		if Handy.animation_skip.should_skip_unsafe() then
 			event.blocking = false
-		end
-		if Handy.animation_skip.force_non_blockable then
 			event.blockable = false
+		else
+			if Handy.animation_skip.force_non_blocking then
+				event.blocking = false
+			end
+			if Handy.animation_skip.force_non_blockable then
+				event.blockable = false
+			end
 		end
-	end
-	if Handy.animation_skip.should_skip_everything() then
-		-- This line basically taken from Nopeus by jenwalter666
-		event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+		if Handy.animation_skip.should_skip_everything() then
+			-- This line basically taken from Nopeus by jenwalter666
+			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+		end
 	end
 	return event_manager_add_event_ref(self, event, ...)
 end

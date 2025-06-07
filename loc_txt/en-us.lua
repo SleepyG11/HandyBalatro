@@ -197,6 +197,22 @@ return {
 					"#2#",
 				},
 			},
+			scoring_hold = {
+				unlock = { "Pause scoring", "animation" },
+				text = {
+					"Hold {C:chips}#1#{} to",
+					"pause scoring animation after",
+					"counting total hand score",
+				},
+			},
+			scoring_hold_any_moment = {
+				unlock = { "Pause scoring", "in any moment" },
+				text = {
+					"Allow #2# to",
+					"pause in any moment of",
+					"scoring animation",
+				},
+			},
 			dangerous_actions = {
 				unlock = { "Dangerous actions" },
 				text = {
@@ -353,6 +369,13 @@ return {
 					"{C:mult}#8#{} - game's absolute limit: everything instant",
 					" ",
 					"{C:mult}#8#{} option must be enabled in {C:attention}#9#{} tab",
+				},
+			},
+			scoring_hold = {
+				text = {
+					"Useful for shuffling jokers or checking",
+					"a score before end of round on",
+					"high game speed or skipped animations",
 				},
 			},
 			not_just_yet_interaction = {
@@ -646,6 +669,8 @@ return {
 			dangerous_all_modifier = '"ALL" modifier',
 			dangerous_remove_modifier = '"REMOVE" modifier',
 
+			scoring_hold = "Pause scoring animation",
+
 			presets_load_1 = "Load preset 1",
 			presets_load_2 = "Load preset 2",
 			presets_load_3 = "Load preset 3",
@@ -685,6 +710,8 @@ return {
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 			Handy_animation_skip = "Animation skip: #1#",
 			Handy_skip_booster_pack = "Skip booster pack",
+
+			Handy_scoring_hold = "Pause scoring animation",
 
 			Handy_hand_sorting = "Hand sorting: #1#",
 

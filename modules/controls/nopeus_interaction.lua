@@ -66,7 +66,6 @@ Handy.nopeus_interaction = {
 					if Handy.cc.notifications_level < 2 then
 						return false
 					end
-					state.dangerous = true
 				else
 					if Handy.cc.notifications_level < 3 then
 						return false

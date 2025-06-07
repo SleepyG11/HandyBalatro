@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# A point where we can leave shop
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''if hand_chips*mult > 0 then'''
+position = "before"
+payload = '''
+Handy.scoring_hold.create_hold_event()
+'''
+match_indent = true
+overwrite = false

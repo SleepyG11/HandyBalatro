@@ -361,6 +361,18 @@ local default_config = {
 		},
 	},
 
+	scoring_hold = {
+		enabled = true,
+		key_1 = "None",
+		key_2 = "None",
+		key_1_gamepad = "None",
+		key_2_gamepad = "None",
+
+		any_moment = {
+			enabled = false,
+		},
+	},
+
 	presets = {
 		enabled = true,
 
