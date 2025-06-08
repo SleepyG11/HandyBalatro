@@ -262,12 +262,7 @@ Handy.UI.get_config_tab_overall = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.handy,
-							"handy",
-							{ Handy.version, "SleepyG11" },
-							{ full_width = true }
-						),
+						Handy.UI.CD.handy.checkbox(),
 					},
 				},
 			},
@@ -562,7 +557,7 @@ Handy.UI.get_config_tab_dangerous = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.CD.dangerous_modifier.checkbox(),
+						Handy.UI.CD.dangerous_actions.checkbox(),
 					},
 				},
 			},

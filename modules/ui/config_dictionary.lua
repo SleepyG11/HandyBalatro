@@ -1,4 +1,15 @@
 local dictionary = {
+	handy = {
+		checkbox = function()
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.handy,
+				"handy",
+				{ Handy.version, "SleepyG11" },
+				{ full_width = true }
+			)
+		end,
+	},
+
 	hide_options_button = {
 		keywords = {
 			"hide",
@@ -49,7 +60,9 @@ local dictionary = {
 				{ Handy.UI.PARTS.localize_keybind_label("quick_highlight") }
 			)
 		end,
-		keybind = function() end,
+		keybind = function()
+			return Handy.UI.CD.insta_highlight.keybind()
+		end,
 	},
 	insta_highlight_entire_f_hand = {
 		keywords = { "hand", "selection", "highlight", "quick", "entire", "full", "cards" },
@@ -646,7 +659,7 @@ local dictionary = {
 		end,
 	},
 
-	dangerous_modifier = {
+	dangerous_actions = {
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions,
