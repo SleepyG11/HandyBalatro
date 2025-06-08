@@ -61,12 +61,14 @@ function init_localization(...)
 	if not G.localization.__handy_injected then
 		local en_loc = require("handy/localization/en-us")
 		Handy.utils.table_merge(G.localization, en_loc)
+		Handy.UI.cache_config_dictionary_search()
 		if G.SETTINGS.language ~= "en-us" then
 			local success, current_loc = pcall(function()
 				return require("handy/localization/" .. G.SETTINGS.language)
 			end)
 			if success and current_loc then
 				Handy.utils.table_merge(G.localization, current_loc)
+				Handy.UI.cache_config_dictionary_search(true)
 			end
 		end
 		G.localization.__handy_injected = true

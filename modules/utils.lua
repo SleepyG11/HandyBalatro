@@ -101,3 +101,37 @@ function Handy.utils.cleanup_dead_elements(ref_table, ref_key)
 	ref_table[ref_key] = new_values
 	return new_values
 end
+
+function Handy.utils.string_words_split(str)
+	local result = {}
+	for word in str:gsub("[%p%c%d]", ""):gmatch("%S+") do
+		table.insert(result, word)
+	end
+	return result
+end
+
+function Handy.utils.table_concat_string(table)
+	local result = ""
+	for _, part in ipairs(table) do
+		result = result .. " " .. tostring(part)
+	end
+	return result
+end
+
+function Handy.utils.string_remove_balatro_formatting(str)
+	str = str:gsub("#%d+#", "")
+	str = str .. "{}"
+	str = str:gsub("{[^}]*}", "")
+	str = str:gsub("%b{}", "")
+	return str
+end
+
+function Handy.utils.as_array(t)
+	return type(t) == "table" and t or { t }
+end
+
+function Handy.utils.split_loc_table_into_words(t)
+	return Handy.utils.string_words_split(
+		Handy.utils.string_remove_balatro_formatting(Handy.utils.table_concat_string(Handy.utils.as_array(t)))
+	)
+end
