@@ -1,123 +1,75 @@
 -- Paginated content
 
 Handy.UI.get_keybinds_page = function(page)
-	local gamepad = Handy.controller.is_gamepad()
 	local result = {}
 	if page == 1 then
 		result = {
 			Handy.UI.PARTS.create_module_section("hand_selection"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight, "quick_highlight", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_highlight_entire_f_hand, "highlight_entire_f_hand"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand"),
+			Handy.UI.CD.insta_highlight.keybind(),
+			Handy.UI.CD.insta_highlight_entire_f_hand.keybind(),
+			Handy.UI.CD.deselect_hand.keybind(),
 			Handy.UI.PARTS.create_module_section("hand"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.toggle_sort, "toggle_sort"),
+			Handy.UI.CD.regular_keybinds_play_hand.keybind(),
+			Handy.UI.CD.regular_keybinds_discard.keybind(),
+			Handy.UI.CD.regular_keybinds_sort_by_rank.keybind(),
+			Handy.UI.CD.regular_keybinds_sort_by_suit.keybind(),
+			Handy.UI.CD.regular_keybinds_toggle_sort.keybind(),
 			Handy.UI.PARTS.create_module_section("menus"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.show_deck_preview, "deck_preview", { only_holdable = true }),
+			Handy.UI.CD.regular_keybinds_run_info_hands.keybind(),
+			Handy.UI.CD.regular_keybinds_run_info_blinds.keybind(),
+			Handy.UI.CD.regular_keybinds_view_deck.keybind(),
+			Handy.UI.CD.show_deck_preview.keybind(),
 		}
 	elseif page == 2 then
 		result = {
 			Handy.UI.PARTS.create_module_section("round"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.not_just_yet_interaction,
-				"not_just_yet_end_round",
-				{ only_holdable = true }
-			),
+			Handy.UI.CD.insta_cash_out.keybind(),
+			Handy.UI.CD.not_just_yet_interaction.keybind(),
 			Handy.UI.PARTS.create_module_section("shop"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_booster_skip, "skip_booster", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_shop, "reroll_shop"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.leave_shop, "leave_shop"),
+			Handy.UI.CD.insta_booster_skip.keybind(),
+			Handy.UI.CD.regular_keybinds_reroll_shop.keybind(),
+			Handy.UI.CD.regular_keybinds_leave_shop.keybind(),
 			Handy.UI.PARTS.create_module_section("blinds"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.skip_blind, "skip_blind"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.select_blind, "select_blind"),
+			Handy.UI.CD.regular_keybinds_skip_blind.keybind(),
+			Handy.UI.CD.regular_keybinds_select_blind.keybind(),
 			Handy.UI.PARTS.create_module_section("quick_actions"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.cryptid_code_use_last_interaction,
-				"cryptid_code_use_last_interaction"
-			),
+			Handy.UI.CD.insta_buy_or_sell.keybind(),
+			Handy.UI.CD.insta_buy_n_sell.keybind(),
+			Handy.UI.CD.insta_use.keybind(),
+			Handy.UI.CD.cryptid_code_use_last_interaction.keybind(),
 		}
 	elseif page == 3 then
 		result = {
 			Handy.UI.PARTS.create_module_section("gamespeed"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.speed_multiplier,
-				"speed_multiplier",
-				{ only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "speed_multiplier_multiply"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "speed_multiplier_divide"),
+			Handy.UI.CD.speed_multiplier.keybind(),
+			Handy.UI.CD.speed_multiplier_multiply.keybind(),
+			Handy.UI.CD.speed_multiplier_divide.keybind(),
 			Handy.UI.PARTS.create_module_section("animations"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip, "animation_skip", { only_holdable = true }),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.increase, "animation_skip_increase"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.decrease, "animation_skip_decrease"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.nopeus_interaction,
-				"nopeus_interaction",
-				{ only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.increase, "nopeus_interaction_increase"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.nopeus_interaction.decrease, "nopeus_interaction_decrease"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.scoring_hold, "scoring_hold", { only_holdable = true }),
+			Handy.UI.CD.animation_skip.keybind(),
+			Handy.UI.CD.animation_skip_increase.keybind(),
+			Handy.UI.CD.animation_skip_decrease.keybind(),
+			Handy.UI.CD.nopeus_interaction.keybind(),
+			Handy.UI.CD.nopeus_interaction_increase.keybind(),
+			Handy.UI.CD.nopeus_interaction_decrease.keybind(),
+			Handy.UI.CD.scoring_hold.keybind(),
 		}
 	elseif page == 4 then
 		result = {
 			Handy.UI.PARTS.create_module_section("highlight_movement"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.move_highlight.dx.one_left,
-				"move_highlight_one_left",
-				{ disabled = gamepad }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.move_highlight.dx.one_right,
-				"move_highlight_one_right",
-				{ disabled = gamepad }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.move_highlight.swap,
-				"move_highlight_move_card",
-				{ disabled = gamepad, only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.move_highlight.to_end,
-				"move_highlight_to_end",
-				{ disabled = gamepad, only_holdable = true }
-			),
+			Handy.UI.CD.move_highlight_one_left.keybind(),
+			Handy.UI.CD.move_highlight_one_right.keybind(),
+			Handy.UI.CD.move_highlight_move_card.keybind(),
+			Handy.UI.CD.move_highlight_to_end.keybind(),
 			Handy.UI.PARTS.create_module_section("presets"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3"),
-			Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next"),
+			Handy.UI.CD.presets_load_1.keybind(),
+			Handy.UI.CD.presets_load_2.keybind(),
+			Handy.UI.CD.presets_load_3.keybind(),
+			Handy.UI.CD.presets_load_next.keybind(),
 			Handy.UI.PARTS.create_module_section("dangerous_actions"),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.dangerous_actions.immediate_buy_and_sell,
-				"dangerous_modifier",
-				{ dangerous = true, only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.dangerous_actions.sell_all_same,
-				"dangerous_all_same_modifier",
-				{ dangerous = true, only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.dangerous_actions.sell_all,
-				"dangerous_all_modifier",
-				{ dangerous = true, only_holdable = true }
-			),
-			Handy.UI.PARTS.create_module_keybind(
-				Handy.cc.dangerous_actions.card_remove,
-				"dangerous_remove_modifier",
-				{ dangerous = true, only_holdable = true }
-			),
+			Handy.UI.CD.immediate_buy_and_sell.keybind(),
+			Handy.UI.CD.sell_all_same_modifier.keybind(),
+			Handy.UI.CD.sell_all_modifier.keybind(),
+			Handy.UI.CD.remove_modifier.keybind(),
 		}
 	end
 	if result then
@@ -176,44 +128,22 @@ Handy.UI.get_quick_page = function(page)
 						n = G.UIT.C,
 						config = { minw = 4 },
 						nodes = {
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.insta_buy_or_sell,
-								"insta_buy_or_sell",
-								{
-									localize("b_handy_buy_sell_use_mode_select"),
-								}
-							),
+							Handy.UI.CD.insta_buy_or_sell.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_n_sell, "insta_buy_n_sell", {
-								localize("b_handy_buy_sell_use_mode_select"),
-							}),
+							Handy.UI.CD.insta_buy_n_sell.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use", {
-								localize("b_handy_buy_sell_use_mode_select"),
-							}),
+							Handy.UI.CD.insta_use.checkbox(),
 						},
 					},
 					{
 						n = G.UIT.C,
 						config = { minw = 4 },
 						nodes = {
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.insta_highlight_entire_f_hand,
-								"insta_highlight_entire_f_hand"
-							),
+							Handy.UI.CD.insta_highlight_entire_f_hand.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.cryptid_code_use_last_interaction,
-								"cryptid_code_use_last_interaction",
-								{
-									localize("b_handy_buy_sell_use_mode_select"),
-								}
-							),
+							Handy.UI.CD.cryptid_code_use_last_interaction.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.not_just_yet_interaction,
-								"not_just_yet_interaction"
-							),
+							Handy.UI.CD.not_just_yet_interaction.checkbox(),
 						},
 					},
 				},
@@ -222,12 +152,7 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 2 then
 		result = {
-			Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.move_highlight, "move_highlight", {
-				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_left, true),
-				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_right, true),
-				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.swap, true),
-				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.to_end, true),
-			}, { full_width = true }),
+			Handy.UI.CD.move_highlight.checkbox(),
 			{ n = G.UIT.R, config = { minh = 0.25 } },
 			{
 				n = G.UIT.R,
@@ -236,79 +161,26 @@ Handy.UI.get_quick_page = function(page)
 						n = G.UIT.C,
 						config = { minw = 4 },
 						nodes = {
-							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, "speed_multiplier", {
-								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.multiply, true),
-								Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.divide, true),
-								"x1/512",
-								"x512",
-							}),
+							Handy.UI.CD.speed_multiplier.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							(function()
-								local levels = localize("handy_animation_skip_levels")
-								return Handy.UI.PARTS.create_new_module_checkbox(
-									Handy.cc.animation_skip,
-									"animation_skip",
-									{
-										Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
-										Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
-										levels[1],
-										levels[2],
-										levels[3],
-										levels[4],
-										levels[5],
-										localize("Dangerous", "handy_tabs"),
-									}
-								)
-							end)(),
+							Handy.UI.CD.animation_skip.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.nopeus_interaction,
-								"nopeus_interaction",
-								{
-									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
-									Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
-									localize("Dangerous", "handy_tabs"),
-								}
-							),
+							Handy.UI.CD.nopeus_interaction.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.scoring_hold, "scoring_hold"),
+							Handy.UI.CD.scoring_hold.checkbox(),
 						},
 					},
 					{
 						n = G.UIT.C,
 						config = { minw = 4 },
 						nodes = {
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.speed_multiplier.no_hold,
-								"speed_multiplier_no_hold",
-								{
-									Handy.UI.PARTS.localize_keybind_label("speed_multiplier"),
-								}
-							),
+							Handy.UI.CD.speed_multiplier_no_hold.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.animation_skip.no_hold,
-								"animation_skip_no_hold",
-								{
-									Handy.UI.PARTS.localize_keybind_label("animation_skip"),
-								}
-							),
+							Handy.UI.CD.animation_skip_no_hold.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.nopeus_interaction.no_hold,
-								"nopeus_interaction_no_hold",
-								{
-									Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
-								}
-							),
+							Handy.UI.CD.nopeus_interaction_no_hold.checkbox(),
 							{ n = G.UIT.R, config = { minh = 0.25 } },
-							Handy.UI.PARTS.create_new_module_checkbox(
-								Handy.cc.scoring_hold.any_moment,
-								"scoring_hold_any_moment",
-								{
-									Handy.UI.PARTS.localize_keybind_label("scoring_hold"),
-								}
-							),
+							Handy.UI.CD.scoring_hold_any_moment.checkbox(),
 						},
 					},
 				},
@@ -409,46 +281,26 @@ Handy.UI.get_config_tab_overall = function()
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.insta_highlight,
-							(
-								Handy.controller.resolve_first_module_key(Handy.cc.insta_highlight, true)
-										== "mouse1"
-									and "insta_highlight_OUTSIDE"
-								or "insta_highlight"
-							),
-							{
-								Handy.UI.PARTS.localize_keybind("Left Mouse", true),
-							},
-							{
-								only_first = true,
-							}
-						),
+						Handy.UI.CD.insta_highlight.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.insta_highlight.allow_deselect,
-							"insta_unhighlight",
-							{ Handy.UI.PARTS.localize_keybind_label("quick_highlight") }
-						),
+						Handy.UI.CD.insta_unhighlight.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds"),
+						Handy.UI.CD.regular_keybinds.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview"),
+						Handy.UI.CD.show_deck_preview.checkbox(),
 					},
 				},
 				{
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.hide_options_button, "hide_options_button"),
+						Handy.UI.CD.hide_options_button.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
-							Handy.UI.PARTS.localize_keybind("Right Mouse", true),
-						}),
+						Handy.UI.CD.deselect_hand.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_cash_out, "insta_cash_out"),
+						Handy.UI.CD.insta_cash_out.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_booster_skip, "insta_booster_skip"),
+						Handy.UI.CD.insta_booster_skip.checkbox(),
 					},
 				},
 			},
@@ -661,10 +513,10 @@ Handy.UI.get_config_tab_presets = function()
 								padding = 0.05,
 							},
 							nodes = {
-								Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1"),
-								Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2"),
-								Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3"),
-								Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next"),
+								Handy.UI.CD.presets_load_1.keybind(),
+								Handy.UI.CD.presets_load_2.keybind(),
+								Handy.UI.CD.presets_load_3.keybind(),
+								Handy.UI.CD.presets_load_next.keybind(),
 							},
 						},
 					},
@@ -710,12 +562,7 @@ Handy.UI.get_config_tab_dangerous = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions,
-							"dangerous_actions",
-							nil,
-							{ full_width = true }
-						),
+						Handy.UI.CD.dangerous_modifier.checkbox(),
 					},
 				},
 			},
@@ -728,75 +575,28 @@ Handy.UI.get_config_tab_dangerous = function()
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.nopeus_unsafe,
-							"nopeus_unsafe"
-						),
+						Handy.UI.CD.dangerous_nopeus_unsafe.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.immediate_buy_and_sell,
-							"immediate_buy_and_sell",
-							{
-								Handy.UI.PARTS.format_new_module_keys(Handy.cc.insta_buy_or_sell, true),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-								Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
-							}
-						),
+						Handy.UI.CD.immediate_buy_and_sell.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.immediate_buy_and_sell.queue,
-							"immediate_buy_and_sell_queue"
-						),
+						Handy.UI.CD.immediate_buy_and_sell_queue.checkbox(),
 					},
 				},
 				{
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.animation_skip_unsafe,
-							"animation_skip_unsafe",
-							{
-								localize("handy_animation_skip_levels")[5],
-							}
-						),
+						Handy.UI.CD.dangerous_animation_skip_unsafe.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(
-							Handy.cc.dangerous_actions.sell_all_same,
-							"sell_all_same",
-							{
-								Handy.UI.PARTS.format_new_module_keys(
-									Handy.cc.dangerous_actions.immediate_buy_and_sell,
-									true
-								),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-								Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
-							},
-							{
-								only_first = true,
-							}
-						),
+						Handy.UI.CD.sell_all_same_modifier.checkbox(),
 						{ n = G.UIT.R, config = { minh = 0.25 } },
-						Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.sell_all, "sell_all", {
-							Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-							Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
-						}, {
-							only_first = true,
-						}),
+						Handy.UI.CD.sell_all_modifier.checkbox(),
 					},
 				},
 			},
 		},
 		{ n = G.UIT.R, config = { minh = 0.25 } },
-		Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.card_remove, "card_remove", {
-			Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-			Handy.UI.PARTS.localize_keybind_label("dangerous_remove_modifier"),
-			Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
-			Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
-			Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
-		}, {
-			only_first = true,
-		}),
+		Handy.UI.CD.remove_modifier.checkbox(),
 		{ n = G.UIT.R, config = { minh = 0.25 } },
 		{
 			n = G.UIT.R,
@@ -817,31 +617,11 @@ Handy.UI.get_config_tab_dangerous = function()
 								padding = 0.05,
 							},
 							nodes = {
-								Handy.UI.PARTS.create_module_keybind(
-									Handy.cc.insta_buy_or_sell,
-									"quick_buy_or_sell",
-									{ rerender = true }
-								),
-								Handy.UI.PARTS.create_module_keybind(
-									Handy.cc.dangerous_actions.immediate_buy_and_sell,
-									"dangerous_modifier",
-									{ dangerous = true, rerender = true, only_holdable = true }
-								),
-								Handy.UI.PARTS.create_module_keybind(
-									Handy.cc.dangerous_actions.sell_all_same,
-									"dangerous_all_same_modifier",
-									{ dangerous = true, rerender = true, only_holdable = true }
-								),
-								Handy.UI.PARTS.create_module_keybind(
-									Handy.cc.dangerous_actions.sell_all,
-									"dangerous_all_modifier",
-									{ dangerous = true, rerender = true, only_holdable = true }
-								),
-								Handy.UI.PARTS.create_module_keybind(
-									Handy.cc.dangerous_actions.card_remove,
-									"dangerous_remove_modifier",
-									{ dangerous = true, rerender = true, only_holdable = true }
-								),
+								Handy.UI.CD.insta_buy_or_sell.keybind(),
+								Handy.UI.CD.immediate_buy_and_sell.keybind(),
+								Handy.UI.CD.sell_all_same_modifier.keybind(),
+								Handy.UI.CD.sell_all_modifier.keybind(),
+								Handy.UI.CD.remove_modifier.keybind(),
 							},
 						},
 					},

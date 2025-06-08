@@ -43,6 +43,12 @@ name = 'handy/ui'
 
 [[patches]]
 [patches.module]
+source = 'modules/ui/config_dictionary.lua'
+before = 'main.lua'
+name = 'handy/ui/config_dictionary'
+
+[[patches]]
+[patches.module]
 source = 'modules/ui/state_panel.lua'
 before = 'main.lua'
 name = 'handy/ui/state_panel'

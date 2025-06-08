@@ -55,6 +55,7 @@ function loc_colour(_c, _default, ...)
 end
 
 require("handy/ui/parts")
+require("handy/ui/config_dictionary")
 require("handy/ui/state_panel")
 require("handy/ui/functions")
 require("handy/ui/config_tabs")
