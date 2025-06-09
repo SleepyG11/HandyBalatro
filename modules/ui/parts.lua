@@ -175,7 +175,7 @@ Handy.UI.PARTS = {
 	create_module_keybind = function(module, loc_key, options)
 		options = options or {}
 		local dangerous = options.dangerous
-		local rerender = options.rerender
+		local rerender = Handy.UI.is_in_search_result_page or options.rerender
 		local disabled = options.disabled
 		local only_holdable = options.only_holdable
 
@@ -435,5 +435,12 @@ Handy.UI.PARTS = {
 				}),
 			},
 		}
+	end,
+
+	create_separator_r = function(h)
+		return { n = G.UIT.R, config = { minh = h or 0.25 } }
+	end,
+	create_separator_c = function(w)
+		return { n = G.UIT.C, config = { minw = w or 0.25 } }
 	end,
 }

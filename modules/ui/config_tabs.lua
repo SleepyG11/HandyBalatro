@@ -108,19 +108,12 @@ Handy.UI.get_quick_page = function(page)
 					{
 						n = G.UIT.C,
 						nodes = {
-							create_option_cycle({
-								w = 6,
-								label = localize("b_handy_buy_sell_use_mode_select"),
-								scale = 0.8,
-								options = localize("handy_buy_sell_use_mode_opt"),
-								opt_callback = "handy_change_insta_actions_trigger_mode",
-								current_option = Handy.cc.insta_actions_trigger_mode,
-							}),
+							Handy.UI.CD.buy_sell_use_mode.option_cycle(),
 						},
 					},
 				},
 			} or nil,
-			not gamepad and { n = G.UIT.R, config = { padding = 0.05 }, nodes = {} } or nil,
+			not gamepad and Handy.UI.PARTS.create_separator_r(0.05) or nil,
 			{
 				n = G.UIT.R,
 				nodes = {
@@ -129,9 +122,9 @@ Handy.UI.get_quick_page = function(page)
 						config = { minw = 4 },
 						nodes = {
 							Handy.UI.CD.insta_buy_or_sell.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.insta_buy_n_sell.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.insta_use.checkbox(),
 						},
 					},
@@ -140,20 +133,20 @@ Handy.UI.get_quick_page = function(page)
 						config = { minw = 4 },
 						nodes = {
 							Handy.UI.CD.insta_highlight_entire_f_hand.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.cryptid_code_use_last_interaction.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.not_just_yet_interaction.checkbox(),
 						},
 					},
 				},
 			},
-			-- { n = G.UIT.R, config = { minh = 0.25 } },
+			-- Handy.UI.PARTS.create_separator_r(),
 		}
 	elseif page == 2 then
 		result = {
 			Handy.UI.CD.move_highlight.checkbox(),
-			{ n = G.UIT.R, config = { minh = 0.25 } },
+			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
 				nodes = {
@@ -162,11 +155,11 @@ Handy.UI.get_quick_page = function(page)
 						config = { minw = 4 },
 						nodes = {
 							Handy.UI.CD.speed_multiplier.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.animation_skip.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.nopeus_interaction.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.scoring_hold.checkbox(),
 						},
 					},
@@ -175,11 +168,11 @@ Handy.UI.get_quick_page = function(page)
 						config = { minw = 4 },
 						nodes = {
 							Handy.UI.CD.speed_multiplier_no_hold.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.animation_skip_no_hold.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.nopeus_interaction_no_hold.checkbox(),
-							{ n = G.UIT.R, config = { minh = 0.25 } },
+							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.scoring_hold_any_moment.checkbox(),
 						},
 					},
@@ -219,42 +212,60 @@ Handy.UI.get_search_result_page = function(result)
 	local result_keybinds = {}
 	local result_checkboxes = {}
 
-	local buffer = {}
-	for _, key in ipairs(result) do
-		local item = Handy.UI.CD[key]
-		buffer[key] = item
-	end
 	table.sort(result, function(a, b)
-		return (buffer[a].order or 1) < (buffer[b].order or 1)
+		return (Handy.UI.CD[a].order or 1) < (Handy.UI.CD[b].order or 1)
 	end)
+
+	local used_buffer = {
+		checkbox = {},
+		keybind = {},
+		option_cycle = {},
+	}
+
 	Handy.UI.is_in_search_result_page = true
 	for _, key in ipairs(result) do
-		local item = buffer[key]
+		local item = Handy.UI.CD[key]
 		if item.keybind and not item.keybind_group then
+			used_buffer.keybind[key] = item
 			local render = item.keybind()
 			if render then
 				table.insert(result_keybinds, render)
 			end
 		end
 		if item.checkbox and not item.checkbox_group then
+			used_buffer.checkbox[key] = item
 			local render = item.checkbox()
+			if render then
+				table.insert(result_checkboxes, render)
+			end
+		end
+		if item.option_cycle and not item.option_cycle_group then
+			used_buffer.option_cycle[key] = item
+			local render = item.option_cycle()
 			if render then
 				table.insert(result_checkboxes, render)
 			end
 		end
 	end
 	for _, key in ipairs(result) do
-		local item = buffer[key]
-		if item.keybind and item.keybind_group and not buffer[item.keybind_group] then
-			buffer[item.keybind_group] = Handy.UI.CD[item.keybind_group]
+		local item = Handy.UI.CD[key]
+		if item.keybind and item.keybind_group and not used_buffer.keybind[item.keybind_group] then
+			used_buffer.keybind[item.keybind_group] = Handy.UI.CD[item.keybind_group]
 			local render = item.keybind()
 			if render then
 				table.insert(result_keybinds, render)
 			end
 		end
-		if item.checkbox and item.checkbox_group and not buffer[item.checkbox_group] then
-			buffer[item.checkbox_group] = Handy.UI.CD[item.checkbox_group]
+		if item.checkbox and item.checkbox_group and not used_buffer.checkbox[item.checkbox_group] then
+			used_buffer.checkbox[item.checkbox_group] = Handy.UI.CD[item.checkbox_group]
 			local render = item.checkbox()
+			if render then
+				table.insert(result_checkboxes, render)
+			end
+		end
+		if item.option_cycle and item.option_cycle_group and not used_buffer.option_cycle[item.option_cycle_group] then
+			used_buffer.option_cycle[item.option_cycle_group] = Handy.UI.CD[item.option_cycle_group]
+			local render = item.option_cycle()
 			if render then
 				table.insert(result_checkboxes, render)
 			end
@@ -268,8 +279,9 @@ Handy.UI.get_search_result_page = function(result)
 			config = {
 				colour = adjust_alpha(HEX("000000"), 0.1),
 				align = "cm",
-				padding = 0.15,
+				padding = 0.25,
 				r = 0.5,
+				minh = 7,
 			},
 			nodes = {
 				{
@@ -281,13 +293,10 @@ Handy.UI.get_search_result_page = function(result)
 				},
 			},
 		},
+		Handy.UI.PARTS.create_separator_c(),
 		{
 			n = G.UIT.C,
-			config = { minw = 0.5, minh = 7 },
-		},
-		{
-			n = G.UIT.C,
-			config = { align = "cm", padding = 0.15 },
+			config = { align = "cm", padding = 0.15, minh = 7 },
 			nodes = Handy.utils.table_slice(result_checkboxes, 7),
 		},
 	}
@@ -305,45 +314,24 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.C,
 					nodes = {
-						create_option_cycle({
-							w = 6,
-							label = localize("b_handy_info_popups_level_select"),
-							scale = 0.8,
-							options = localize("handy_info_popups_level_opt"),
-							opt_callback = "handy_change_notifications_level",
-							current_option = Handy.cc.notifications_level,
-						}),
+						Handy.UI.CD.info_popups_level.option_cycle(),
 					},
 				},
 				{
 					n = G.UIT.C,
 					nodes = {
-						create_option_cycle({
-							w = 6,
-							label = localize("b_handy_keybinds_trigger_mode_select"),
-							scale = 0.8,
-							options = localize("handy_keybinds_trigger_mode_opt"),
-							opt_callback = "handy_change_keybinds_trigger_mode",
-							current_option = Handy.cc.keybinds_trigger_mode,
-						}),
+						Handy.UI.CD.keybinds_trigger_mode.option_cycle(),
 					},
 				},
 				{
 					n = G.UIT.C,
 					nodes = {
-						create_option_cycle({
-							w = 6,
-							label = localize("b_handy_device_select"),
-							scale = 0.8,
-							options = localize("handy_device_opt"),
-							opt_callback = "handy_change_current_device",
-							current_option = Handy.cc.current_device,
-						}),
+						Handy.UI.CD.device_select.option_cycle(),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { padding = 0.05 }, nodes = {} },
+		Handy.UI.PARTS.create_separator_r(0.05),
 		{
 			n = G.UIT.R,
 			config = {
@@ -363,7 +351,7 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -373,11 +361,11 @@ Handy.UI.get_config_tab_overall = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.CD.insta_highlight.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.insta_unhighlight.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.regular_keybinds.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.show_deck_preview.checkbox(),
 					},
 				},
@@ -386,17 +374,17 @@ Handy.UI.get_config_tab_overall = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.CD.hide_options_button.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.deselect_hand.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.insta_cash_out.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.insta_booster_skip.checkbox(),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.4 } },
+		Handy.UI.PARTS.create_separator_r(0.4),
 		{
 			n = G.UIT.R,
 			config = { padding = 0.1, align = "cm" },
@@ -418,7 +406,7 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
-		-- { n = G.UIT.R, config = { minh = 0.25 } },
+		-- Handy.UI.PARTS.create_separator_r(),
 	}
 end
 Handy.UI.get_config_tab_quick_paginated = function()
@@ -451,7 +439,7 @@ Handy.UI.get_config_tab_quick_paginated = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.1 } },
+		Handy.UI.PARTS.create_separator_r(0.1),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -501,7 +489,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.05 } },
+		Handy.UI.PARTS.create_separator_r(0.05),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -519,7 +507,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 				}),
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.15 } },
+		Handy.UI.PARTS.create_separator_r(0.15),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -561,10 +549,10 @@ Handy.UI.get_config_tab_presets = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.1 } },
+		Handy.UI.PARTS.create_separator_r(0.1),
 		Handy.UI.PARTS.create_example_preset("default"),
 		Handy.UI.PARTS.create_example_preset("better_mouse_and_gamepad"),
-		{ n = G.UIT.R, config = { minh = 0.2 } },
+		Handy.UI.PARTS.create_separator_r(0.2),
 		{
 			n = G.UIT.R,
 			config = { padding = 0.1, align = "cm" },
@@ -580,11 +568,11 @@ Handy.UI.get_config_tab_presets = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.1 } },
+		Handy.UI.PARTS.create_separator_r(0.1),
 		Handy.UI.PARTS.create_user_preset(1),
 		Handy.UI.PARTS.create_user_preset(2),
 		Handy.UI.PARTS.create_user_preset(3),
-		{ n = G.UIT.R, config = { minh = 0.15 } },
+		Handy.UI.PARTS.create_separator_r(0.15),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -614,7 +602,7 @@ Handy.UI.get_config_tab_presets = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(0.25),
 		{
 			n = G.UIT.R,
 			config = { padding = 0.1, align = "cm" },
@@ -658,7 +646,7 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(),
 		{
 			n = G.UIT.R,
 			nodes = {
@@ -667,9 +655,9 @@ Handy.UI.get_config_tab_dangerous = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.CD.dangerous_nopeus_unsafe.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.immediate_buy_and_sell.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.immediate_buy_and_sell_queue.checkbox(),
 					},
 				},
@@ -678,17 +666,17 @@ Handy.UI.get_config_tab_dangerous = function()
 					config = { minw = 4 },
 					nodes = {
 						Handy.UI.CD.dangerous_animation_skip_unsafe.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.sell_all_same_modifier.checkbox(),
-						{ n = G.UIT.R, config = { minh = 0.25 } },
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.sell_all_modifier.checkbox(),
 					},
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(),
 		Handy.UI.CD.remove_modifier.checkbox(),
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -719,7 +707,7 @@ Handy.UI.get_config_tab_dangerous = function()
 				},
 			},
 		},
-		{ n = G.UIT.R, config = { minh = 0.25 } },
+		Handy.UI.PARTS.create_separator_r(),
 		{
 			n = G.UIT.R,
 			config = { padding = 0.05, align = "cm" },
@@ -742,8 +730,6 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 Handy.UI.get_config_tab_search = function()
-	Handy.UI.search_input_value = ""
-
 	return {
 		{
 			n = G.UIT.R,
@@ -770,15 +756,15 @@ Handy.UI.get_config_tab_search = function()
 							keyboard_offset = 1,
 							id = "handy_search",
 							callback = function()
-								Handy.UI.render_search_results()
+								Handy.UI.render_search_results(true)
 							end,
 						}),
 					},
 				},
+				Handy.UI.PARTS.create_separator_r(),
 				{
 					n = G.UIT.R,
 					config = {
-						padding = 0.1,
 						align = "cm",
 					},
 					nodes = {
@@ -790,7 +776,14 @@ Handy.UI.get_config_tab_search = function()
 									definition = {
 										n = G.UIT.ROOT,
 										config = { colour = G.C.CLEAR, align = "cm" },
-										nodes = Handy.UI.get_search_no_result_page(),
+										nodes = {
+											{
+												n = G.UIT.O,
+												config = {
+													object = Handy.UI.render_search_results(false),
+												},
+											},
+										},
 									},
 									config = {
 										align = "cm",
@@ -805,11 +798,8 @@ Handy.UI.get_config_tab_search = function()
 	}
 end
 
-function Handy.UI.render_search_results()
+function Handy.UI.render_search_results(rerender)
 	local result = Handy.UI.search(Handy.UI.search_input_value or "")
-	local container_element = G.OVERLAY_MENU:get_UIE_by_ID("handy_search_result")
-	local container_config = container_element.config
-	container_config.object:remove()
 
 	local result_content = {}
 	if #result > 0 then
@@ -817,7 +807,9 @@ function Handy.UI.render_search_results()
 	else
 		result_content = Handy.UI.get_search_no_result_page()
 	end
-	container_config.object = UIBox({
+
+	local container_element = rerender and G.OVERLAY_MENU:get_UIE_by_ID("handy_search_result") or nil
+	local result_object = UIBox({
 		definition = {
 			n = G.UIT.ROOT,
 			config = { colour = G.C.CLEAR, align = "cm" },
@@ -828,26 +820,35 @@ function Handy.UI.render_search_results()
 			parent = container_element,
 		},
 	})
-	container_config.object:recalculate()
-	G.OVERLAY_MENU:recalculate()
-	G.E_MANAGER:add_event(Event({
-		no_delete = true,
-		blockable = false,
-		blocking = false,
-		func = function()
-			G.OVERLAY_MENU:recalculate()
-			G.E_MANAGER:add_event(Event({
-				no_delete = true,
-				blockable = false,
-				blocking = false,
-				func = function()
-					G.OVERLAY_MENU:recalculate()
-					return true
-				end,
-			}))
-			return true
-		end,
-	}))
+
+	if rerender and container_element then
+		local container_config = container_element.config
+		container_config.object:remove()
+
+		container_config.object = result_object
+		container_config.object:recalculate()
+		G.OVERLAY_MENU:recalculate()
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blockable = false,
+			blocking = false,
+			func = function()
+				G.OVERLAY_MENU:recalculate()
+				G.E_MANAGER:add_event(Event({
+					no_delete = true,
+					blockable = false,
+					blocking = false,
+					func = function()
+						G.OVERLAY_MENU:recalculate()
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+	end
+
+	return result_object
 end
 
 -- Tabs order

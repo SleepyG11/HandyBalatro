@@ -59,6 +59,55 @@ local dictionary = {
 		end,
 		keybind = function() end,
 	},
+	info_popups_level = {
+		keywords = { "messages", "panel", "black", "red" },
+		option_cycle = function()
+			return create_option_cycle({
+				w = 6,
+				label = localize("b_handy_info_popups_level_select"),
+				scale = 0.8,
+				options = localize("handy_info_popups_level_opt"),
+				opt_callback = "handy_change_notifications_level",
+				current_option = Handy.cc.notifications_level,
+			})
+		end,
+	},
+	keybinds_trigger_mode = {
+		option_cycle = function()
+			return create_option_cycle({
+				w = 6,
+				label = localize("b_handy_keybinds_trigger_mode_select"),
+				scale = 0.8,
+				options = localize("handy_keybinds_trigger_mode_opt"),
+				opt_callback = "handy_change_keybinds_trigger_mode",
+				current_option = Handy.cc.keybinds_trigger_mode,
+			})
+		end,
+	},
+	device_select = {
+		option_cycle = function()
+			return create_option_cycle({
+				w = 6,
+				label = localize("b_handy_device_select"),
+				scale = 0.8,
+				options = localize("handy_device_opt"),
+				opt_callback = "handy_change_current_device",
+				current_option = Handy.cc.current_device,
+			})
+		end,
+	},
+	buy_sell_use_mode = {
+		option_cycle = function()
+			return create_option_cycle({
+				w = 6,
+				label = localize("b_handy_buy_sell_use_mode_select"),
+				scale = 0.8,
+				options = localize("handy_buy_sell_use_mode_opt"),
+				opt_callback = "handy_change_insta_actions_trigger_mode",
+				current_option = Handy.cc.insta_actions_trigger_mode,
+			})
+		end,
+	},
 
 	insta_highlight = {
 		loc_key = "insta_highlight",
@@ -155,6 +204,10 @@ local dictionary = {
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds")
 		end,
 		keybind = function() end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_play_hand = {
 		loc_key = "play_hand",
@@ -169,6 +222,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_discard = {
 		loc_key = "discard",
@@ -183,6 +240,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_sort_by_rank = {
 		loc_key = "sort_by_rank",
@@ -198,6 +259,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_sort_by_suit = {
 		loc_key = "sort_by_suit",
@@ -213,6 +278,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_toggle_sort = {
 		loc_key = "toggle_sort",
@@ -230,6 +299,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.toggle_sort, "toggle_sort")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_run_info_hands = {
 		loc_key = "run_info_hands",
@@ -246,6 +319,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_run_info_blinds = {
 		loc_key = "run_info_blinds",
@@ -263,6 +340,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_view_deck = {
 		loc_key = "view_deck",
@@ -277,6 +358,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	show_deck_preview = {
 		loc_key = "show_deck_preview",
@@ -308,6 +393,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.skip_blind, "skip_blind")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_select_blind = {
 		loc_key = "select_blind",
@@ -322,6 +411,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.select_blind, "select_blind")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	insta_cash_out = {
 		loc_key = "insta_cash_out",
@@ -347,6 +440,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_shop, "reroll_shop")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 	regular_keybinds_leave_shop = {
 		loc_key = "leave_shop",
@@ -361,6 +458,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.leave_shop, "leave_shop")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
 	},
 
 	insta_booster_skip = {
@@ -479,6 +580,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		end,
+		option_cycle_group = "buy_sell_use_mode",
 	},
 	insta_buy_n_sell = {
 		loc_key = "insta_buy_n_sell",
@@ -491,6 +596,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		end,
+		option_cycle_group = "buy_sell_use_mode",
 	},
 	insta_use = {
 		loc_key = "insta_use",
@@ -503,6 +612,10 @@ local dictionary = {
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use")
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		end,
+		option_cycle_group = "buy_sell_use_mode",
 	},
 	cryptid_code_use_last_interaction = {
 		loc_key = "cryptid_code_use_last_interaction",
@@ -522,6 +635,10 @@ local dictionary = {
 				"cryptid_code_use_last_interaction"
 			)
 		end,
+		option_cycle = function()
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		end,
+		option_cycle_group = "buy_sell_use_mode",
 	},
 
 	speed_multiplier = {
@@ -888,6 +1005,9 @@ local dictionary_order = {
 	-- general
 	"handy",
 	"hide_options_button",
+	"info_popups_level",
+	"keybinds_trigger_mode",
+	"device_select",
 
 	-- hand
 	"insta_highlight",
@@ -920,6 +1040,7 @@ local dictionary_order = {
 	"regular_keybinds_select_blind",
 
 	-- quick actions
+	"buy_sell_use_mode",
 	"insta_buy_or_sell",
 	"insta_buy_n_sell",
 	"insta_use",

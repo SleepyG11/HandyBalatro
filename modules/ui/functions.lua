@@ -32,6 +32,7 @@ function G.FUNCS.handy_open_options(e)
 	Handy.UI.config_tab_index = 1
 	Handy.UI.keybinds_page = 1
 	Handy.UI.quick_page = 1
+	Handy.UI.search_input_value = ""
 	G.FUNCS.overlay_menu({
 		definition = G.UIDEF.handy_options(),
 	})
