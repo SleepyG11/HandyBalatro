@@ -198,7 +198,7 @@ Handy.UI.get_search_no_result_page = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = "No results",
+						text = localize("ph_handy_search_no_results"),
 						colour = G.C.WHITE,
 						scale = 0.4,
 						align = "cm",
@@ -209,6 +209,8 @@ Handy.UI.get_search_no_result_page = function()
 	}
 end
 Handy.UI.get_search_result_page = function(result)
+	local keybinds_limit = 14
+	local checkboxes_limit = 7
 	local result_keybinds = {}
 	local result_checkboxes = {}
 
@@ -226,55 +228,67 @@ Handy.UI.get_search_result_page = function(result)
 	for _, key in ipairs(result) do
 		local item = Handy.UI.CD[key]
 		if item.keybind and not item.keybind_group then
-			used_buffer.keybind[key] = item
-			local render = item.keybind()
-			if render then
-				table.insert(result_keybinds, render)
+			if #result_keybinds < keybinds_limit then
+				used_buffer.keybind[key] = item
+				local render = item.keybind()
+				if render then
+					table.insert(result_keybinds, render)
+				end
 			end
 		end
 		if item.checkbox and not item.checkbox_group then
-			used_buffer.checkbox[key] = item
-			local render = item.checkbox()
-			if render then
-				table.insert(result_checkboxes, render)
+			if #result_checkboxes < checkboxes_limit then
+				used_buffer.checkbox[key] = item
+				local render = item.checkbox()
+				if render then
+					table.insert(result_checkboxes, render)
+				end
 			end
 		end
 		if item.option_cycle and not item.option_cycle_group then
-			used_buffer.option_cycle[key] = item
-			local render = item.option_cycle()
-			if render then
-				table.insert(result_checkboxes, render)
+			if #result_checkboxes < checkboxes_limit then
+				used_buffer.option_cycle[key] = item
+				local render = item.option_cycle()
+				if render then
+					table.insert(result_checkboxes, render)
+				end
 			end
 		end
 	end
 	for _, key in ipairs(result) do
 		local item = Handy.UI.CD[key]
 		if item.keybind and item.keybind_group and not used_buffer.keybind[item.keybind_group] then
-			used_buffer.keybind[item.keybind_group] = Handy.UI.CD[item.keybind_group]
-			local render = item.keybind()
-			if render then
-				table.insert(result_keybinds, render)
+			if #result_keybinds < keybinds_limit then
+				used_buffer.keybind[item.keybind_group] = Handy.UI.CD[item.keybind_group]
+				local render = item.keybind()
+				if render then
+					table.insert(result_keybinds, render)
+				end
 			end
 		end
 		if item.checkbox and item.checkbox_group and not used_buffer.checkbox[item.checkbox_group] then
-			used_buffer.checkbox[item.checkbox_group] = Handy.UI.CD[item.checkbox_group]
-			local render = item.checkbox()
-			if render then
-				table.insert(result_checkboxes, render)
+			if #result_checkboxes < checkboxes_limit then
+				used_buffer.checkbox[item.checkbox_group] = Handy.UI.CD[item.checkbox_group]
+				local render = item.checkbox()
+				if render then
+					table.insert(result_checkboxes, render)
+				end
 			end
 		end
 		if item.option_cycle and item.option_cycle_group and not used_buffer.option_cycle[item.option_cycle_group] then
-			used_buffer.option_cycle[item.option_cycle_group] = Handy.UI.CD[item.option_cycle_group]
-			local render = item.option_cycle()
-			if render then
-				table.insert(result_checkboxes, render)
+			if #result_checkboxes < checkboxes_limit then
+				used_buffer.option_cycle[item.option_cycle_group] = Handy.UI.CD[item.option_cycle_group]
+				local render = item.option_cycle()
+				if render then
+					table.insert(result_checkboxes, render)
+				end
 			end
 		end
 	end
 	Handy.UI.is_in_search_result_page = nil
 
 	return {
-		{
+		#result_keybinds > 0 and {
 			n = G.UIT.C,
 			config = {
 				colour = adjust_alpha(HEX("000000"), 0.1),
@@ -292,7 +306,7 @@ Handy.UI.get_search_result_page = function(result)
 					nodes = Handy.utils.table_slice(result_keybinds, 14),
 				},
 			},
-		},
+		} or nil,
 		Handy.UI.PARTS.create_separator_c(),
 		{
 			n = G.UIT.C,
@@ -764,7 +778,6 @@ Handy.UI.get_config_tab_search = function()
 									n = G.UIT.C,
 									config = {},
 									nodes = {
-										-- TODO: localize placeholder
 										create_text_input({
 											w = 4,
 											max_length = 32,
@@ -773,6 +786,7 @@ Handy.UI.get_config_tab_search = function()
 											extended_corpus = true,
 											keyboard_offset = 1,
 											id = "handy_search",
+											prompt_text = localize("b_handy_search_placeholder"),
 											callback = function()
 												Handy.UI.render_search_results(true)
 											end,
@@ -780,9 +794,8 @@ Handy.UI.get_config_tab_search = function()
 									},
 								},
 								Handy.UI.PARTS.create_separator_c(),
-								-- TODO: localize
 								UIBox_button({
-									label = { "Clear" },
+									label = { localize("b_handy_clear") },
 									col = true,
 									colour = G.C.MULT,
 									scale = 0.4,
@@ -793,9 +806,8 @@ Handy.UI.get_config_tab_search = function()
 									button = "handy_clear_search",
 								}),
 								Handy.UI.PARTS.create_separator_c(0.05),
-								-- TODO: localize
 								UIBox_button({
-									label = { "Search" },
+									label = { localize("b_handy_search") },
 									col = true,
 									colour = G.C.CHIPS,
 									scale = 0.4,
@@ -874,7 +886,7 @@ function Handy.UI.render_search_results(rerender)
 		container_config.object:remove()
 
 		container_config.object = result_object
-		container_config.object:recalculate()
+		-- container_config.object:recalculate()
 		G.OVERLAY_MENU:recalculate()
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,

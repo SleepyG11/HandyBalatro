@@ -137,8 +137,10 @@ function Handy.utils.split_loc_table_into_words(t)
 end
 
 function Handy.utils.table_slice(t, n)
+	local sliced = {}
 	for i = #t, n + 1, -1 do
+		table.insert(sliced, t[i])
 		t[i] = nil
 	end
-	return t
+	return t, sliced
 end

@@ -1,11 +1,11 @@
 local keyw = {
 	toggle = "enable disable toggle",
 	configs = "features configs settings",
-	fast_hand_select = "quick hand selection selecting highlight swipe drag mobile like hover cards",
-	fast_hand_deselect = "quick hand deselection deselecting unhighlight swipe drag mobile like hover cards",
+	fast_hand_select = "fast hand select quick hand selection selecting highlight swipe drag mobile like hover cards",
+	fast_hand_deselect = "fast hand deselect quick hand deselection deselecting unhighlight swipe drag mobile like hover cards",
 	play_hand = "play hand",
 	discard_hand = "discard hand",
-	sort_hand = "sorting sort by",
+	sort_hand = "sorting sorted hand by",
 	reroll_shop = "reroll shop one more",
 	leave_shop = "leave shop go next",
 	skip_blind = "skip blind select skip tag",
@@ -19,10 +19,10 @@ local keyw = {
 	buy = "buy cards vouchers consumables consumeables tarots planets spectrals boosters packs shop",
 	sell = "sell cards vouchers consumables consumeables tarots planets spectrals boosters packs",
 	use = "use cards vouchers consumables consumeables tarots planets spectrals boosters packs",
-	speed_multiplier = "game speed multiplier increase decrease change adjust acceleration more faster speed up",
-	animation_skip = "game animation skip instant scoring max speed no again unsafe faster",
-	nopeus_interaction = "nopeus fast forward fast-forward unsafe",
-	scoring_hold = "game speed animations pause hold after scoring wait before end of round",
+	speed_multiplier = "game speed multiplier increase decrease change adjust acceleration accelerate more faster speed up",
+	animation_skip = "game animations skip instant scoring max speed no again unsafe faster accelerate",
+	nopeus_interaction = "interaction nopeus fast forward fast-forward unsafe",
+	scoring_hold = "scoring hold game speed animations pause hold after scoring wait before end of round",
 	presets = "presets settings configs profiles load",
 }
 
@@ -48,10 +48,9 @@ local dictionary = {
 	hide_options_button = {
 		loc_key = "hide_options_button",
 		keywords = {
-			"hide",
-			"menu options button",
-			"config settings",
-			"remove",
+			"hide options",
+			"menus options button",
+			"configs settings",
 		},
 		order = 1.01,
 		checkbox = function()
@@ -60,7 +59,7 @@ local dictionary = {
 		keybind = function() end,
 	},
 	info_popups_level = {
-		keywords = { "messages", "panel", "black", "red" },
+		keywords = { "messages", "panel", "black", "red", "info popups level" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -73,6 +72,7 @@ local dictionary = {
 		end,
 	},
 	keybinds_trigger_mode = {
+		keywords = { "keybinds buttons trigger press mode pressed released" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -85,6 +85,7 @@ local dictionary = {
 		end,
 	},
 	device_select = {
+		keywords = { "gamepad auto device select desktop touchpad controller touch pad" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -97,6 +98,7 @@ local dictionary = {
 		end,
 	},
 	buy_sell_use_mode = {
+		keywords = { "buy sell use mode hold cards click buttons press" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -1098,8 +1100,8 @@ for k, v in pairs(dictionary) do
 	if not v.keywords then
 		v.keywords = {}
 	end
-	local cleaned_string = string.gsub(k, "_", " ")
-	table.insert(v.keywords, cleaned_string)
+	-- local cleaned_string = string.gsub(k, "_", " ")
+	-- table.insert(v.keywords, cleaned_string)
 	v.keywords_list = Handy.utils.string_words_split(Handy.utils.table_concat_string(v.keywords))
 end
 
