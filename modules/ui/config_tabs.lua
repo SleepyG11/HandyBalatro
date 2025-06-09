@@ -755,6 +755,7 @@ Handy.UI.get_config_tab_search = function()
 									n = G.UIT.C,
 									config = {},
 									nodes = {
+										-- TODO: localize placeholder
 										create_text_input({
 											w = 4,
 											max_length = 32,
@@ -770,6 +771,7 @@ Handy.UI.get_config_tab_search = function()
 									},
 								},
 								Handy.UI.PARTS.create_separator_c(),
+								-- TODO: localize
 								UIBox_button({
 									label = { "Clear" },
 									col = true,
@@ -782,6 +784,7 @@ Handy.UI.get_config_tab_search = function()
 									button = "handy_clear_search",
 								}),
 								Handy.UI.PARTS.create_separator_c(0.05),
+								-- TODO: localize
 								UIBox_button({
 									label = { "Search" },
 									col = true,
