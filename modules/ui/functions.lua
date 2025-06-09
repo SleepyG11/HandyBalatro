@@ -228,6 +228,25 @@ function G.FUNCS.handy_change_quick_page(arg)
 	end
 end
 
+-- Search
+
+function G.FUNCS.handy_clear_search()
+	-- TODO: optimize, because this freezes a game for a while
+	Handy.UI.search_input_value = ""
+	G.CONTROLLER.text_input_hook = G.OVERLAY_MENU:get_UIE_by_ID("handy_search").children[1].children[1]
+	G.CONTROLLER.text_input_hook:click()
+	for i = 1, 32 do
+		G.FUNCS.text_input_key({ key = "right" })
+	end
+	for i = 1, 32 do
+		G.FUNCS.text_input_key({ key = "backspace" })
+	end
+end
+
+function G.FUNCS.handy_apply_search()
+	Handy.UI.render_search_results(true)
+end
+
 -- Configs
 
 function G.FUNCS.handy_toggle_module_enabled(arg, module)

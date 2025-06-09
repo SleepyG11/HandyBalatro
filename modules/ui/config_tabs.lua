@@ -747,18 +747,54 @@ Handy.UI.get_config_tab_search = function()
 						minw = 14,
 					},
 					nodes = {
-						create_text_input({
-							w = 4,
-							max_length = 32,
-							ref_table = Handy.UI,
-							ref_value = "search_input_value",
-							extended_corpus = true,
-							keyboard_offset = 1,
-							id = "handy_search",
-							callback = function()
-								Handy.UI.render_search_results(true)
-							end,
-						}),
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.C,
+									config = {},
+									nodes = {
+										create_text_input({
+											w = 4,
+											max_length = 32,
+											ref_table = Handy.UI,
+											ref_value = "search_input_value",
+											extended_corpus = true,
+											keyboard_offset = 1,
+											id = "handy_search",
+											callback = function()
+												Handy.UI.render_search_results(true)
+											end,
+										}),
+									},
+								},
+								Handy.UI.PARTS.create_separator_c(),
+								UIBox_button({
+									label = { "Clear" },
+									col = true,
+									colour = G.C.MULT,
+									scale = 0.4,
+									minh = 0.6,
+									maxh = 0.6,
+									minw = 2,
+									maxw = 2,
+									button = "handy_clear_search",
+								}),
+								Handy.UI.PARTS.create_separator_c(0.05),
+								UIBox_button({
+									label = { "Search" },
+									col = true,
+									colour = G.C.CHIPS,
+									scale = 0.4,
+									minh = 0.6,
+									maxh = 0.6,
+									minw = 2,
+									maxw = 2,
+									button = "handy_apply_search",
+								}),
+							},
+						},
 					},
 				},
 				Handy.UI.PARTS.create_separator_r(),
