@@ -88,7 +88,10 @@ Handy.UI.PARTS = {
 			end
 			table.insert(name_lines, {
 				n = G.UIT.R,
-				config = { minw = 2.75, maxw = not options.full_width and 2.75 or nil },
+				config = {
+					minw = 2.75,
+					maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
+				},
 				nodes = line,
 			})
 		end
@@ -98,7 +101,10 @@ Handy.UI.PARTS = {
 		for _, line in ipairs(checkbox_text) do
 			table.insert(desc_lines, {
 				n = G.UIT.R,
-				config = { padding = 0.025, maxw = not options.full_width and 4.5 or nil },
+				config = {
+					padding = 0.025,
+					maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 4.5 or nil,
+				},
 				nodes = line,
 			})
 		end
@@ -184,14 +190,15 @@ Handy.UI.PARTS = {
 			nodes = {
 				{
 					n = G.UIT.C,
-					config = { align = "c", minw = 4, maxw = 4 },
+					config = Handy.UI.is_in_search_result_page and { align = "c", minw = 3, maxw = 3 }
+						or { align = "c", minw = 4, maxw = 4 },
 					nodes = {
 						{
 							n = G.UIT.T,
 							config = {
 								text = localize(loc_key, "handy_keybind_labels"),
 								colour = G.C.WHITE,
-								scale = 0.3,
+								scale = Handy.UI.is_in_search_result_page and 0.25 or 0.3,
 							},
 						},
 					},

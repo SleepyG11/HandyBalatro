@@ -700,6 +700,7 @@ return {
 			["Dangerous"] = "Danger zone",
 			["Presets"] = "Presets",
 			["Keybinds Paginated"] = "Keybinds",
+			["Search"] = "Search",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",

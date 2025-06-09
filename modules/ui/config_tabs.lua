@@ -196,6 +196,100 @@ Handy.UI.get_quick_page = function(page)
 	end
 	return result, 2
 end
+Handy.UI.get_search_no_result_page = function()
+	return {
+		{
+			n = G.UIT.C,
+			config = { align = "cm", padding = 0.5 },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "No results",
+						colour = G.C.WHITE,
+						scale = 0.4,
+						align = "cm",
+					},
+				},
+			},
+		},
+	}
+end
+Handy.UI.get_search_result_page = function(result)
+	local result_keybinds = {}
+	local result_checkboxes = {}
+
+	local buffer = {}
+	for _, key in ipairs(result) do
+		local item = Handy.UI.CD[key]
+		buffer[key] = item
+	end
+	table.sort(result, function(a, b)
+		return (buffer[a].order or 1) < (buffer[b].order or 1)
+	end)
+	Handy.UI.is_in_search_result_page = true
+	for _, key in ipairs(result) do
+		local item = buffer[key]
+		if item.keybind and not item.keybind_group then
+			local render = item.keybind()
+			if render then
+				table.insert(result_keybinds, render)
+			end
+		end
+		if item.checkbox and not item.checkbox_group then
+			local render = item.checkbox()
+			if render then
+				table.insert(result_checkboxes, render)
+			end
+		end
+	end
+	for _, key in ipairs(result) do
+		local item = buffer[key]
+		if item.keybind and item.keybind_group and not buffer[item.keybind_group] then
+			local render = item.keybind()
+			if render then
+				table.insert(result_keybinds, render)
+			end
+		end
+		if item.checkbox and item.checkbox_group and not buffer[item.checkbox_group] then
+			local render = item.checkbox()
+			if render then
+				table.insert(result_checkboxes, render)
+			end
+		end
+	end
+	Handy.UI.is_in_search_result_page = nil
+
+	return {
+		{
+			n = G.UIT.C,
+			config = {
+				colour = adjust_alpha(HEX("000000"), 0.1),
+				align = "cm",
+				padding = 0.15,
+				r = 0.5,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						padding = 0.05,
+					},
+					nodes = Handy.utils.table_slice(result_keybinds, 14),
+				},
+			},
+		},
+		{
+			n = G.UIT.C,
+			config = { minw = 0.5, minh = 7 },
+		},
+		{
+			n = G.UIT.C,
+			config = { align = "cm", padding = 0.15 },
+			nodes = Handy.utils.table_slice(result_checkboxes, 7),
+		},
+	}
+end
 
 -- Tabs definitions
 
@@ -645,6 +739,114 @@ Handy.UI.get_config_tab_dangerous = function()
 		},
 	}
 end
+Handy.UI.get_config_tab_search = function()
+	Handy.UI.search_input_value = ""
+
+	return {
+		{
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+			},
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = {
+						padding = 0.25,
+						r = 0.5,
+						colour = adjust_alpha(HEX("000000"), 0.1),
+						align = "cm",
+						minw = 14,
+					},
+					nodes = {
+						create_text_input({
+							w = 4,
+							max_length = 32,
+							ref_table = Handy.UI,
+							ref_value = "search_input_value",
+							extended_corpus = true,
+							keyboard_offset = 1,
+							id = "handy_search",
+							callback = function()
+								Handy.UI.render_search_results()
+							end,
+						}),
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = {
+						padding = 0.1,
+						align = "cm",
+					},
+					nodes = {
+						{
+							n = G.UIT.O,
+							config = {
+								id = "handy_search_result",
+								object = UIBox({
+									definition = {
+										n = G.UIT.ROOT,
+										config = { colour = G.C.CLEAR, align = "cm" },
+										nodes = Handy.UI.get_search_no_result_page(),
+									},
+									config = {
+										align = "cm",
+									},
+								}),
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+function Handy.UI.render_search_results()
+	local result = Handy.UI.search(Handy.UI.search_input_value or "")
+	local container_element = G.OVERLAY_MENU:get_UIE_by_ID("handy_search_result")
+	local container_config = container_element.config
+	container_config.object:remove()
+
+	local result_content = {}
+	if #result > 0 then
+		result_content = Handy.UI.get_search_result_page(result)
+	else
+		result_content = Handy.UI.get_search_no_result_page()
+	end
+	container_config.object = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR, align = "cm" },
+			nodes = result_content,
+		},
+		config = {
+			align = "cm",
+			parent = container_element,
+		},
+	})
+	container_config.object:recalculate()
+	G.OVERLAY_MENU:recalculate()
+	G.E_MANAGER:add_event(Event({
+		no_delete = true,
+		blockable = false,
+		blocking = false,
+		func = function()
+			G.OVERLAY_MENU:recalculate()
+			G.E_MANAGER:add_event(Event({
+				no_delete = true,
+				blockable = false,
+				blocking = false,
+				func = function()
+					G.OVERLAY_MENU:recalculate()
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
+end
 
 -- Tabs order
 
@@ -684,6 +886,11 @@ Handy.UI.PARTS.tabs_list = {
 			return Handy.UI.get_config_tab_presets()
 		end,
 	},
+	["Search"] = {
+		definition = function()
+			return Handy.UI.get_config_tab_search()
+		end,
+	},
 }
 Handy.UI.PARTS.tabs_order = {
 	"Overall",
@@ -693,6 +900,7 @@ Handy.UI.PARTS.tabs_order = {
 	"Keybinds Paginated",
 	"Presets",
 	"Dangerous",
+	"Search",
 }
 
 -- Getters

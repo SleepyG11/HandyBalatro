@@ -135,3 +135,10 @@ function Handy.utils.split_loc_table_into_words(t)
 		Handy.utils.string_remove_balatro_formatting(Handy.utils.table_concat_string(Handy.utils.as_array(t)))
 	)
 end
+
+function Handy.utils.table_slice(t, n)
+	for i = #t, n + 1, -1 do
+		t[i] = nil
+	end
+	return t
+end
