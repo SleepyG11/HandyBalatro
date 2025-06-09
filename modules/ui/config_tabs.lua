@@ -246,12 +246,14 @@ Handy.UI.get_search_result_page = function(result)
 	for _, key in ipairs(result) do
 		local item = buffer[key]
 		if item.keybind and item.keybind_group and not buffer[item.keybind_group] then
+			buffer[item.keybind_group] = Handy.UI.CD[item.keybind_group]
 			local render = item.keybind()
 			if render then
 				table.insert(result_keybinds, render)
 			end
 		end
 		if item.checkbox and item.checkbox_group and not buffer[item.checkbox_group] then
+			buffer[item.checkbox_group] = Handy.UI.CD[item.checkbox_group]
 			local render = item.checkbox()
 			if render then
 				table.insert(result_checkboxes, render)

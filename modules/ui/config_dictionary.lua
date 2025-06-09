@@ -1038,7 +1038,7 @@ function Handy.UI.cache_config_dictionary_search(only_update)
 end
 function Handy.UI.search(input)
 	local matches = {}
-	local input_words = Handy.utils.string_words_split(input)
+	local input_words = Handy.utils.string_words_split(string.lower(input))
 	if #input_words == 0 then
 		return matches
 	end
