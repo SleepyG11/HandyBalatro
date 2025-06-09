@@ -730,6 +730,15 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 Handy.UI.get_config_tab_search = function()
+	G.E_MANAGER:add_event(Event({
+		blocking = false,
+		blockable = false,
+		no_delete = true,
+		func = function()
+			Handy.UI.render_search_results(true)
+			return true
+		end,
+	}))
 	return {
 		{
 			n = G.UIT.R,
@@ -819,7 +828,7 @@ Handy.UI.get_config_tab_search = function()
 											{
 												n = G.UIT.O,
 												config = {
-													object = Handy.UI.render_search_results(false),
+													object = Moveable(),
 												},
 											},
 										},
