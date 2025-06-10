@@ -299,6 +299,16 @@ function Handy.animation_skip.update(dt)
 	end
 end
 
+if SMODS then
+	local smods_calculate_effect_ref = SMODS.calculate_effect
+	function SMODS.calculate_effect(effect, ...)
+		if Handy.animation_skip.should_skip_animation() then
+			effect.juice_card = nil
+		end
+		return smods_calculate_effect_ref(effect, ...)
+	end
+end
+
 Handy.register_module("animation_skip", Handy.animation_skip)
 
 -- Code to debug event queue
