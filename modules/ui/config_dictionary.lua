@@ -20,10 +20,11 @@ local keyw = {
 	sell = "sell cards vouchers consumables consumeables tarots planets spectrals boosters packs",
 	use = "use cards vouchers consumables consumeables tarots planets spectrals boosters packs",
 	speed_multiplier = "game speed multiplier increase decrease change adjust acceleration accelerate more faster speed up",
-	animation_skip = "game animations skip instant scoring max speed no again unsafe faster accelerate",
-	nopeus_interaction = "interaction nopeus fast forward fast-forward unsafe",
+	animation_skip = "game animations skip instant scoring max speed no again faster accelerate",
+	nopeus_interaction = "interaction nopeus fast forward fast-forward",
 	scoring_hold = "scoring hold game speed animations pause hold after scoring wait before end of round",
-	presets = "presets settings configs profiles load",
+	presets = "presets settings configs profiles load set",
+	unsafe_control = "dangerous unsafe",
 }
 
 local dictionary = {
@@ -888,32 +889,48 @@ local dictionary = {
 	},
 
 	dangerous_actions = {
+		loc_key = "dangerous_actions",
+		keywords = { keyw.unsafe_control },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions,
 				"dangerous_actions",
 				nil,
-				{ full_width = true }
+				{ full_width = true, dangerous = true }
 			)
 		end,
 	},
 	dangerous_nopeus_unsafe = {
+		loc_key = { "nopeus_interaction", "nopeus_unsafe" },
+		keywords = { keyw.unsafe_control, keyw.nopeus_interaction },
 		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.nopeus_unsafe, "nopeus_unsafe")
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.dangerous_actions.nopeus_unsafe,
+				"nopeus_unsafe",
+				nil,
+				{ dangerous = true }
+			)
 		end,
 	},
 	dangerous_animation_skip_unsafe = {
+		loc_key = { "animation_skip", "animation_skip_unsafe" },
+		keywords = { keyw.unsafe_control, keyw.animation_skip },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.animation_skip_unsafe,
 				"animation_skip_unsafe",
 				{
 					localize("handy_animation_skip_levels")[5],
+				},
+				{
+					dangerous = true,
 				}
 			)
 		end,
 	},
 	immediate_buy_and_sell = {
+		loc_key = "immediate_buy_and_sell",
+		keywords = { keyw.unsafe_control, keyw.sell },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell,
@@ -922,6 +939,9 @@ local dictionary = {
 					Handy.UI.PARTS.format_new_module_keys(Handy.cc.insta_buy_or_sell, true),
 					Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
 					Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
+				},
+				{
+					dangerous = true,
 				}
 			)
 		end,
@@ -934,14 +954,22 @@ local dictionary = {
 		end,
 	},
 	immediate_buy_and_sell_queue = {
+		loc_key = "immediate_buy_and_sell_queue",
+		keywords = { keyw.unsafe_control, keyw.sell, "queue" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell.queue,
-				"immediate_buy_and_sell_queue"
+				"immediate_buy_and_sell_queue",
+				nil,
+				{
+					dangerous = true,
+				}
 			)
 		end,
 	},
 	sell_all_same_modifier = {
+		loc_key = { "sell_all_same", "dangerous_all_same_modifier" },
+		keywords = { keyw.unsafe_control, keyw.sell, "all same copies dublicates duplicates card modifier" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.sell_all_same,
@@ -953,6 +981,7 @@ local dictionary = {
 				},
 				{
 					only_first = true,
+					dangerous = true,
 				}
 			)
 		end,
@@ -965,12 +994,15 @@ local dictionary = {
 		end,
 	},
 	sell_all_modifier = {
+		loc_key = { "sell_all", "dangerous_all_modifier" },
+		keywords = { keyw.unsafe_control, keyw.sell, "everything all everyone modifier cards" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.sell_all, "sell_all", {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
 				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
 			}, {
 				only_first = true,
+				dangerous = true,
 			})
 		end,
 		keybind = function()
@@ -982,6 +1014,8 @@ local dictionary = {
 		end,
 	},
 	remove_modifier = {
+		loc_key = { "card_remove", "dangerous_remove_modifier" },
+		keywords = { keyw.unsafe_control, "remove modifier skip tags cards" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.card_remove, "card_remove", {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
@@ -991,6 +1025,7 @@ local dictionary = {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
 			}, {
 				only_first = true,
+				dangerous = true,
 			})
 		end,
 		keybind = function()
@@ -1141,10 +1176,10 @@ function Handy.UI.cache_config_dictionary_search(only_update)
 						insert_keywords(Handy.utils.split_loc_table_into_words(checkbox_object.unlock or {}))
 						insert_keywords(Handy.utils.split_loc_table_into_words(checkbox_object.text or {}))
 					end)
-					pcall(function()
-						local popup_object = G.localization.descriptions.Handy_ConfigPopup[loc_key_platform] or {}
-						insert_keywords(Handy.utils.split_loc_table_into_words(popup_object.text or {}))
-					end)
+					-- pcall(function()
+					-- 	local popup_object = G.localization.descriptions.Handy_ConfigPopup[loc_key_platform] or {}
+					-- 	insert_keywords(Handy.utils.split_loc_table_into_words(popup_object.text or {}))
+					-- end)
 				end
 				pcall(function()
 					local loc_label_line = G.localization.misc.handy_keybind_labels[loc_key] or ""

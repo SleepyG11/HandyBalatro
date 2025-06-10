@@ -128,6 +128,10 @@ Handy.UI.PARTS = {
 				handy_loc_key = loc_key,
 				handy_loc_vars = result_loc_vars,
 				funnel_from = true,
+				colour = (Handy.UI.is_in_search_result_page and options.dangerous) and adjust_alpha(G.C.MULT, 0.15)
+					or G.C.CLEAR,
+				padding = Handy.UI.is_in_search_result_page and 0.1 or 0,
+				r = 0.1,
 			},
 			nodes = {
 				{

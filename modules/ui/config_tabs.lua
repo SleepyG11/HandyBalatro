@@ -310,7 +310,7 @@ Handy.UI.get_search_result_page = function(result)
 		Handy.UI.PARTS.create_separator_c(),
 		{
 			n = G.UIT.C,
-			config = { align = "cm", padding = 0.15, minh = 7 },
+			config = { align = "cm", padding = 0.05, minh = 7 },
 			nodes = Handy.utils.table_slice(result_checkboxes, 7),
 		},
 	}
