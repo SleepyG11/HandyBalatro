@@ -10,6 +10,7 @@ Handy.animation_skip = {
 	force_non_blockable = false,
 
 	allow_juice_up = false,
+	mute_ease_dollars = 0,
 
 	get_buffered_value = function()
 		if Handy.animation_skip.buffered_value == nil then
@@ -141,7 +142,31 @@ Handy.animation_skip = {
 
 local card_eval_status_text_ref = card_eval_status_text
 function card_eval_status_text(...)
-	if Handy.animation_skip.should_skip_messages() then
+	local args = { ... }
+	local extra = args[6] or {}
+	if Handy.animation_skip.should_skip_animation() then
+		if extra and extra.playing_cards_created then
+			playing_card_joker_effects(extra.playing_cards_created)
+		end
+		return
+	elseif Handy.animation_skip.should_skip_messages() then
+		if not extra.no_juice then
+			if extra.instant then
+				args[1]:juice_up(0.6, 0.1)
+				G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+			else
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						args[1]:juice_up(0.6, 0.1)
+						G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+						return true
+					end,
+				}))
+			end
+		end
+		if extra and extra.playing_cards_created then
+			playing_card_joker_effects(extra.playing_cards_created)
+		end
 		return
 	end
 	return card_eval_status_text_ref(...)
@@ -210,12 +235,21 @@ function ease_hands_played(...)
 	return ease_hands_played_ref(...)
 end
 local ease_dollars_ref = ease_dollars
-function ease_dollars(amount, ...)
+function ease_dollars(amount, instant, ...)
 	if Handy.animation_skip.should_skip_animation() then
 		Handy.animation_skip.ease_dollars_buffer = Handy.animation_skip.ease_dollars_buffer + amount
 		return
+	elseif Handy.animation_skip.should_skip_messages() then
+		local result = ease_dollars_ref(amount, instant, ...)
+		if Handy.animation_skip.mute_ease_dollars > 0 then
+			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
+		else
+			Handy.animation_skip.mute_ease_dollars = 2
+		end
+		return result
+	else
+		return ease_dollars_ref(amount, instant, ...)
 	end
-	return ease_dollars_ref(amount, ...)
 end
 local level_up_hand_ref = level_up_hand
 function level_up_hand(...)
@@ -233,6 +267,9 @@ function level_up_hand(...)
 end
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, ...)
+	if Handy.animation_skip.mute_ease_dollars > 0 then
+		Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
+	end
 	if not event.handy_never_modify then
 		if Handy.animation_skip.should_skip_unsafe() then
 			event.blocking = false
@@ -254,6 +291,7 @@ function EventManager:add_event(event, ...)
 end
 
 function Handy.animation_skip.update(dt)
+	Handy.animation_skip.mute_ease_dollars = 0
 	Handy.animation_skip.buffered_value = nil
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
 		ease_dollars_ref(Handy.animation_skip.ease_dollars_buffer, true)

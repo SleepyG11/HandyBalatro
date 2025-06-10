@@ -15,12 +15,14 @@ Handy.speed_multiplier = {
 		queue = queue or G.E_MANAGER
 		local retriggers_count = Handy.speed_multiplier.get_queue_retriggers_count()
 		local v = G.VIBRATION
+		local j = G.ROOM.jiggle
 		if retriggers_count > 0 then
 			for i = 1, retriggers_count do
 				queue:update(0, true)
 			end
 		end
 		G.VIBRATION = v
+		G.ROOM.jiggle = j
 	end,
 
 	get_value = function()

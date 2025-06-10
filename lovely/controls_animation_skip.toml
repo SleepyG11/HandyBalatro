@@ -98,7 +98,7 @@ overwrite = false
 
 # Remove pack cards faster
 [[patches]]
-[patches.regex]
+[patches.pattern]
 target = 'functions/button_callbacks.lua'
 pattern = "G.FUNCS.draw_from_hand_to_deck()"
 position = "before"
@@ -108,10 +108,29 @@ overwrite = false
 
 # Fix Nopeus crash
 [[patches]]
-[patches.regex]
+[patches.pattern]
 target = '=[SMODS nopeus "Nopeus.lua"]'
 pattern = "G.pack_cards:remove()"
 position = "before"
 payload = "if not G.pack_cards then return true end"
+match_indent = true
+overwrite = false
+
+# Mute ease_dollars to prevent sound explosion
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "function ease_dollars(mod, instant)"
+position = "after"
+payload = "local handy_ease_muted = Handy.animation_skip.mute_ease_dollars > 0"
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "play_sound('coin1')"
+position = "before"
+payload = "if handy_ease_muted then return end"
 match_indent = true
 overwrite = false
