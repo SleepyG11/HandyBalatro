@@ -420,6 +420,31 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = localize({
+							type = "variable",
+							key = gamepad and "Handy_popups_guide_gamepad" or "Handy_popups_guide",
+							vars = {},
+						}) .. " " .. localize({
+							type = "variable",
+							key = "Handy_search_guide",
+							vars = {
+								localize("Search", "handy_tabs"),
+							},
+						}),
+						scale = 0.3,
+						colour = { 1, 1, 1, 0.6 },
+						align = "cm",
+					},
+				},
+			},
+		},
 		-- Handy.UI.PARTS.create_separator_r(),
 	}
 end

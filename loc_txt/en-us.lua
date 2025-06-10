@@ -283,7 +283,7 @@ return {
 				text = {
 					"Play hand, Discard, hand sorting,",
 					"Reroll shop, Leave shop, Select blind,",
-					"Skip blind, Select blind, View deck, Run info",
+					"Skip blind, View deck, Run info",
 				},
 			},
 			-- Vars: [Left Mouse]
@@ -296,6 +296,21 @@ return {
 			},
 			-- Vars: [Left Mouse]
 			insta_highlight_gamepad = {
+				text = {
+					"Works both for cursor and movement",
+					"via direction buttons",
+				},
+			},
+			-- Vars: [Left Mouse]
+			insta_highlight_OUTSIDE = {
+				text = {
+					"For keys other than {C:chips}#2#{},",
+					"start holding keybind while hover",
+					"a card will work as well",
+				},
+			},
+			-- Vars: [Left Mouse]
+			insta_highlight_OUTSIDE_gamepad = {
 				text = {
 					"Works both for cursor and movement",
 					"via direction buttons",
@@ -724,6 +739,9 @@ return {
 
 			Handy_overall_guide_button = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "#1#" tab.',
 			Handy_overall_guide_gamepad = 'Each control can be assigned to any gamepad buttons in "#1#" tab.',
+			Handy_popups_guide = "Hover controls to see more info about them.",
+			Handy_popups_guide_gamepad = "Move between controls to see more info about them.",
+			Handy_search_guide = 'Use "#1#" tab for search.',
 			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
 			Handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. #1# to unbind.",
 			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
