@@ -648,6 +648,10 @@ Handy.controller = {
 			Handy.dangerous_actions.toggle_queue(key, released)
 		end
 
+		if Handy.misc_controls.use(key, released) then
+			return finish(true)
+		end
+
 		return finish(false)
 	end,
 	process_mouse = function(mouse, released, touch)

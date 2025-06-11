@@ -54,6 +54,8 @@ require("handy/controls/scoring_hold")
 
 require("handy/controls/dangerous_actions")
 
+require("handy/controls/misc")
+
 --
 
 local init_localization_ref = init_localization

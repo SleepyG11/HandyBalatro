@@ -405,6 +405,25 @@ local default_config = {
 			key_2_gamepad = "None",
 		},
 	},
+
+	misc = {
+		enabled = true,
+
+		crash = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
+		},
+		open_mod_settings = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
+		},
+	},
 }
 
 Handy.config = {

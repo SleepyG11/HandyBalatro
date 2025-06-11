@@ -1036,6 +1036,19 @@ local dictionary = {
 			)
 		end,
 	},
+
+	misc_crash = {
+		loc_key = "misc_crash",
+		keybind = function()
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.crash, "misc_crash", { dangerous = true })
+		end,
+	},
+	misc_open_mod_settings = {
+		loc_key = "misc_open_mod_settings",
+		keybind = function()
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.open_mod_settings, "misc_open_mod_settings")
+		end,
+	},
 }
 
 local dictionary_order = {
@@ -1127,6 +1140,10 @@ local dictionary_order = {
 	"sell_all_same_modifier",
 	"sell_all_modifier",
 	"remove_modifier",
+
+	--misc
+	"misc_open_mod_settings",
+	"misc_crash",
 }
 
 for k, v in pairs(dictionary) do

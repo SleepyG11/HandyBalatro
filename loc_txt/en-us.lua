@@ -690,6 +690,9 @@ return {
 			presets_load_2 = "Load preset 2",
 			presets_load_3 = "Load preset 3",
 			presets_load_next = "Load next preset",
+
+			misc_open_mod_settings = "Open mod settings",
+			misc_crash = "Crash a game",
 		},
 		handy_keybind_sections = {
 			hand = "Hand",
@@ -706,6 +709,7 @@ return {
 			hand_selection = "Hand selection",
 			presets = "Presets",
 			dangerous_actions = "Dangerous actions",
+			misc = "Miscellaneous",
 		},
 		handy_tabs = {
 			["Overall"] = "General & Vanilla",

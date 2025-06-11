@@ -71,6 +71,12 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.sell_all_modifier.keybind(),
 			Handy.UI.CD.remove_modifier.keybind(),
 		}
+	elseif page == 5 then
+		result = {
+			Handy.UI.PARTS.create_module_section("misc"),
+			Handy.UI.CD.misc_open_mod_settings.keybind(),
+			Handy.UI.CD.misc_crash.keybind(),
+		}
 	end
 	if result then
 		result = {
@@ -94,7 +100,7 @@ Handy.UI.get_keybinds_page = function(page)
 			},
 		}
 	end
-	return result, 4
+	return result, 5
 end
 Handy.UI.get_quick_page = function(page)
 	local gamepad = Handy.controller.is_gamepad()
