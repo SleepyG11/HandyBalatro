@@ -765,7 +765,7 @@ return {
 			b_handy_search_placeholder = "Search...",
 			b_handy_search = "Search",
 			b_handy_clear = "Clear",
-			ph_handy_search_no_results = "No results",
+			ph_handy_search_no_results = 'Use keywords like "more speed", "animations", "sell" etc.',
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",

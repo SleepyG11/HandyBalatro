@@ -685,7 +685,7 @@ return {
 			b_handy_search_placeholder = "Поиск...",
 			b_handy_search = "Искать",
 			b_handy_clear = "Очистить",
-			ph_handy_search_no_results = "Нет результатов",
+			ph_handy_search_no_results = 'Используйте ключевые слова (на английском), такие как "more speed", "animations", "sell" и др.',
 
 			ph_handy_notif_quick_use = "Быстрое использование",
 			ph_handy_notif_quick_buy_or_sell = "Быстрая покупка или продажа",
