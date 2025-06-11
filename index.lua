@@ -66,6 +66,10 @@ function init_localization(...)
 			local success, current_loc = pcall(function()
 				return require("handy/localization/" .. G.SETTINGS.language)
 			end)
+			-- local missing_keys = Handy.utils.deep_missing_keys(en_loc, current_loc)
+			-- for _, missing_key in ipairs(missing_keys) do
+			-- 	print("Missing key: " .. missing_key)
+			-- end
 			if success and current_loc then
 				Handy.utils.table_merge(G.localization, current_loc)
 				Handy.UI.cache_config_dictionary_search(true)

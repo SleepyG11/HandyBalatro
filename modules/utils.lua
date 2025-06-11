@@ -144,3 +144,46 @@ function Handy.utils.table_slice(t, n)
 	end
 	return t, sliced
 end
+
+function Handy.utils.deep_missing_keys(t1, t2, path, result)
+	local function format_key(k)
+		if type(k) == "number" then
+			return "[" .. k .. "]"
+		else
+			return tostring(k)
+		end
+	end
+
+	path = path or ""
+	result = result or {}
+
+	for k, v in pairs(t1) do
+		local current_key = format_key(k)
+		local current_path = path ~= "" and (path .. "." .. current_key) or current_key
+		local v2 = t2 and t2[k]
+
+		if type(v) == "table" then
+			if type(v2) == "table" then
+				Handy.utils.deep_missing_keys(v, v2, current_path, result)
+			else
+				local function collect_paths(tbl, prefix)
+					for subk, subv in pairs(tbl) do
+						local subpath = prefix .. "." .. format_key(subk)
+						if type(subv) == "table" then
+							collect_paths(subv, subpath)
+						else
+							table.insert(result, subpath)
+						end
+					end
+				end
+				collect_paths(v, current_path)
+			end
+		else
+			if v2 == nil then
+				table.insert(result, current_path)
+			end
+		end
+	end
+
+	return result
+end

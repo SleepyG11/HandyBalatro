@@ -197,6 +197,22 @@ return {
 					"#2#",
 				},
 			},
+			scoring_hold = {
+				unlock = { "Пауза анимации", "подсчёта" },
+				text = {
+					"Удерж. {C:chips}#1#{} чтобы",
+					"приостановить анимацию подсчёта",
+					"после подсчёта фишек руки",
+				},
+			},
+			scoring_hold_any_moment = {
+				unlock = { "Пауза подсчёта", "в любой момент" },
+				text = {
+					"Позволяет #2#",
+					"приостанавливать в любой",
+					"момент анимации подсчёта",
+				},
+			},
 			dangerous_actions = {
 				unlock = { "Небезопасные действия" },
 				text = {
@@ -287,6 +303,21 @@ return {
 					"с помощью кнопок движения",
 				},
 			},
+			-- Vars: [Left Mouse]
+			insta_highlight_OUTSIDE = {
+				text = {
+					"Для назначений кроме {C:chips}#2#{},",
+					"можно начинать удерживать клавишу",
+					"пока наводишься на карту тоже",
+				},
+			},
+			-- Vars: [Left Mouse]
+			insta_highlight_OUTSIDE_gamepad = {
+				text = {
+					"Работает и для курсора, и для выделения",
+					"с помощью кнопок движения",
+				},
+			},
 			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				text = {
@@ -356,6 +387,14 @@ return {
 					"{C:mult}#8#{} - абсолютный лимит игры: всё моментально",
 					" ",
 					"{C:mult}#8#{} значение должно быть включено во вкладке {C:attention}#9#{}",
+				},
+			},
+			scoring_hold = {
+				text = {
+					"Полезно для перемещения джокеров или",
+					"просмотра очков перед концом раунда",
+					"на высокой скорости игры или с",
+					"выключенными анимациями",
 				},
 			},
 			not_just_yet_interaction = {
@@ -520,6 +559,8 @@ return {
 			["Wheel Up"] = "Колёсико Вверх",
 			["Wheel Down"] = "Колёсико Вниз",
 			["Space"] = "Пробел",
+			["None"] = "Нет",
+			["Unknown"] = "Неизв.",
 		},
 		handy_keybind_labels = {
 			play_hand = "Сыграть руку",
@@ -558,6 +599,7 @@ return {
 			move_highlight_one_right = "Передвинуть один направо",
 			move_highlight_move_card = "Передвигать карту",
 			move_highlight_to_end = "Передвинуть на край области",
+			scoring_hold = "Пауза анимации подсчёта",
 
 			dangerous_modifier = '"Опасный" модификатор',
 			dangerous_all_same_modifier = '"Все копии" модификатор',
@@ -593,6 +635,7 @@ return {
 			["Dangerous"] = "Опасная зона",
 			["Presets"] = "Профили",
 			["Keybinds Paginated"] = "Назначения",
+			["Search"] = "Поиск",
 		},
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
@@ -604,6 +647,8 @@ return {
 			Handy_animation_skip = "Пропуск анимаций: #1#",
 			Handy_skip_booster_pack = "Пропустить бустерный набор",
 
+			Handy_scoring_hold = "Пауза анимации подсчёта",
+
 			Handy_hand_sorting = "Сортировка руки: #1#",
 
 			Handy_preset_index = "Профиль #1#",
@@ -614,6 +659,9 @@ return {
 
 			Handy_overall_guide_button = 'Каждая настройка может быть назначена на мышь, колёсико мыши или клавиатуру во вкладке "#1#".',
 			Handy_overall_guide_gamepad = 'Каждая настройка может быть назначена на любую кнопку геймпада во вкладке "#1#".',
+			Handy_popups_guide = "Наводитесь на настройки чтобы узнать о них больше.",
+			Handy_popups_guide_gamepad = "Перемещайтесь между настройками чтобы узнать о них больше.",
+			Handy_search_guide = 'Используйте вкладку "#1#" для поиска.',
 			Handy_keybinds_guide_desktop = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
 			Handy_keybinds_guide_gamepad = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
 			Handy_presets_guide = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
@@ -633,6 +681,11 @@ return {
 
 			b_handy_notif_quick = "Быстрые действия",
 			b_handy_notif_dangerous = "Опасные действия",
+
+			b_handy_search_placeholder = "Поиск...",
+			b_handy_search = "Искать",
+			b_handy_clear = "Очистить",
+			ph_handy_search_no_results = "Нет результатов",
 
 			ph_handy_notif_quick_use = "Быстрое использование",
 			ph_handy_notif_quick_buy_or_sell = "Быстрая покупка или продажа",
