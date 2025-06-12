@@ -13,11 +13,28 @@
 
 if SMODS and SMODS.current_mod then
 	if SMODS.current_mod.path then
-		local normalized_path = SMODS.current_mod.path:gsub("\\+", "/"):gsub("/+$", "")
+		local function normalize_path(path)
+			return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")
+		end
+
+		local function resolve_path(base, path)
+			base = normalize_path(base)
+			path = normalize_path(path)
+			if path:sub(1, #base) == base then
+				return path
+			end
+			local suffix = path:match("^Mods/(.+)")
+			if suffix then
+				return base .. "/" .. suffix
+			end
+			return base .. "/" .. path
+		end
+
+		local mod_folder = require("lovely").mod_dir
+		local normalized_path = resolve_path(mod_folder, SMODS.current_mod.path)
 		if not normalized_path:match("/Mods/[^/]+$") then
-			local mod_folder = require("lovely").mod_dir:gsub("\\+", "/"):gsub("/+$", "")
 			local last = normalized_path:match("/([^/]+)$")
-			local correct_path = mod_folder .. "/" .. last
+			local correct_path = normalize_path(mod_folder) .. "/" .. last
 			error(string.format(
 				[[
 
@@ -29,7 +46,7 @@ To make it work properly, move mentioned folder in %s,
 so result mod directory should be %s
 ]],
 				normalized_path,
-				mod_folder,
+				normalize_path(mod_folder),
 				correct_path
 			))
 		end
