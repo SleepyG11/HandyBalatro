@@ -4,6 +4,7 @@ Handy.insta_highlight = {
 	can_execute = function(card)
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
+			and G.hand
 			and card.area == G.hand
 			and not G.CONTROLLER.dragging.target
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
@@ -44,8 +45,10 @@ Handy.insta_highlight = {
 	end,
 
 	update = function(dt)
-		if not Handy.controller.is_module_key_down(Handy.cc.insta_highlight, true) then
-			Handy.insta_highlight.first_card_highlighted = nil
+		if Handy.insta_highlight.first_card_highlighted ~= nil then
+			if not Handy.controller.is_module_key_down(Handy.cc.insta_highlight, true) then
+				Handy.insta_highlight.first_card_highlighted = nil
+			end
 		end
 	end,
 }
