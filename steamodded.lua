@@ -12,6 +12,29 @@
 ------------MOD CODE -------------------------
 
 if SMODS and SMODS.current_mod then
+	if SMODS.current_mod.path then
+		local normalized_path = SMODS.current_mod.path:gsub("\\+", "/"):gsub("/+$", "")
+		if not normalized_path:match("/Mods/[^/]+$") then
+			local mod_folder = require("lovely").mod_dir:gsub("\\+", "/"):gsub("/+$", "")
+			local last = normalized_path:match("/([^/]+)$")
+			local correct_path = mod_folder .. "/" .. last
+			error(string.format(
+				[[
+
+
+Handy mod installed incorrectly.
+
+Right now it's placed in %s, which is called "Nested folder".
+To make it work properly, move mentioned folder in %s,
+so result mod directory should be %s
+]],
+				normalized_path,
+				mod_folder,
+				correct_path
+			))
+		end
+	end
+
 	if Handy then
 		if not Handy.current_mod then
 			Handy.emplace_steamodded()
