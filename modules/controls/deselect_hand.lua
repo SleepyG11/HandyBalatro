@@ -5,7 +5,9 @@ Handy.deselect_hand = {
 
 	can_execute = function(key)
 		return not not (
-			G.hand
+			G.STATE ~= G.STATES.HAND_PLAYED
+			and G.hand
+			and G.hand.states.visible
 			and G.hand.highlighted[1]
 			-- Vanilla check
 			and not ((G.play and #G.play.cards > 0) or G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))

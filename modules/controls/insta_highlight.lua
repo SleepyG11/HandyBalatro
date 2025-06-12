@@ -5,6 +5,7 @@ Handy.insta_highlight = {
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and G.hand
+			and G.hand.states.visible
 			and card.area == G.hand
 			and not G.CONTROLLER.dragging.target
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
