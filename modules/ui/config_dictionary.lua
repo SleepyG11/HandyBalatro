@@ -3,6 +3,7 @@ local keyw = {
 	configs = "features configs settings",
 	fast_hand_select = "fast hand select quick hand selection selecting highlight swipe drag mobile like hover cards",
 	fast_hand_deselect = "fast hand deselect quick hand deselection deselecting unhighlight swipe drag mobile like hover cards",
+	regular_keybinds = "regular keybinds buttons actions",
 	play_hand = "play hand",
 	discard_hand = "discard hand",
 	sort_hand = "sorting sorted hand by",
@@ -190,6 +191,7 @@ local dictionary = {
 	regular_keybinds = {
 		loc_key = "regular_keybinds",
 		keywords = {
+			keyw.regular_keybinds,
 			keyw.play_hand,
 			keyw.discard_hand,
 			keyw.sort_hand,
@@ -214,9 +216,7 @@ local dictionary = {
 	},
 	regular_keybinds_play_hand = {
 		loc_key = "play_hand",
-		keywords = {
-			keyw.play_hand,
-		},
+		keywords = { keyw.regular_keybinds, keyw.play_hand },
 		order = 3.01,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -232,9 +232,7 @@ local dictionary = {
 	},
 	regular_keybinds_discard = {
 		loc_key = "discard",
-		keywords = {
-			keyw.discard_hand,
-		},
+		keywords = { keyw.regular_keybinds, keyw.discard_hand },
 		order = 3.02,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -250,10 +248,7 @@ local dictionary = {
 	},
 	regular_keybinds_sort_by_rank = {
 		loc_key = "sort_by_rank",
-		keywords = {
-			keyw.sort_hand,
-			"rank",
-		},
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "rank" },
 		order = 3.03,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -269,10 +264,7 @@ local dictionary = {
 	},
 	regular_keybinds_sort_by_suit = {
 		loc_key = "sort_by_suit",
-		keywords = {
-			keyw.sort_hand,
-			"suit",
-		},
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "suit" },
 		order = 3.04,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -288,12 +280,7 @@ local dictionary = {
 	},
 	regular_keybinds_toggle_sort = {
 		loc_key = "toggle_sort",
-		keywords = {
-			keyw.sort_hand,
-			"rank",
-			"suit",
-			"toggle",
-		},
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "rank", "suit", "toggle" },
 		order = 3.05,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -309,11 +296,7 @@ local dictionary = {
 	},
 	regular_keybinds_run_info_hands = {
 		loc_key = "run_info_hands",
-		keywords = {
-			keyw.run_info,
-			"poker hands",
-			"pokerhands",
-		},
+		keywords = { keyw.regular_keybinds, keyw.run_info, "poker hands", "pokerhands" },
 		order = 3.06,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -329,12 +312,7 @@ local dictionary = {
 	},
 	regular_keybinds_run_info_blinds = {
 		loc_key = "run_info_blinds",
-		keywords = {
-			keyw.run_info,
-			"blinds",
-			"bosses",
-			"ante",
-		},
+		keywords = { keyw.regular_keybinds, keyw.run_info, "blinds", "bosses", "ante" },
 		order = 3.07,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -350,9 +328,7 @@ local dictionary = {
 	},
 	regular_keybinds_view_deck = {
 		loc_key = "view_deck",
-		keywords = {
-			keyw.view_deck,
-		},
+		keywords = { keyw.regular_keybinds, keyw.view_deck },
 		order = 3.08,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -368,9 +344,7 @@ local dictionary = {
 	},
 	show_deck_preview = {
 		loc_key = "show_deck_preview",
-		keywords = {
-			keyw.deck_preview,
-		},
+		keywords = { keyw.regular_keybinds, keyw.deck_preview },
 		order = 3.085,
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview")
@@ -385,9 +359,7 @@ local dictionary = {
 	},
 	regular_keybinds_skip_blind = {
 		loc_key = "skip_blind",
-		keywords = {
-			keyw.skip_blind,
-		},
+		keywords = { keyw.regular_keybinds, keyw.skip_blind },
 		order = 3.1,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -403,9 +375,7 @@ local dictionary = {
 	},
 	regular_keybinds_select_blind = {
 		loc_key = "select_blind",
-		keywords = {
-			keyw.select_blind,
-		},
+		keywords = { keyw.regular_keybinds, keyw.select_blind },
 		order = 3.11,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -421,7 +391,7 @@ local dictionary = {
 	},
 	insta_cash_out = {
 		loc_key = "insta_cash_out",
-		keywords = { keyw.cash_out },
+		keywords = { keyw.regular_keybinds, keyw.cash_out },
 		order = 3.12,
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_cash_out, "insta_cash_out")
@@ -432,9 +402,7 @@ local dictionary = {
 	},
 	regular_keybinds_reroll_shop = {
 		loc_key = "reroll_shop",
-		keywords = {
-			keyw.reroll_shop,
-		},
+		keywords = { keyw.regular_keybinds, keyw.reroll_shop },
 		order = 3.13,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -450,9 +418,7 @@ local dictionary = {
 	},
 	regular_keybinds_leave_shop = {
 		loc_key = "leave_shop",
-		keywords = {
-			keyw.leave_shop,
-		},
+		keywords = { keyw.regular_keybinds, keyw.leave_shop },
 		order = 3.14,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -469,7 +435,7 @@ local dictionary = {
 
 	insta_booster_skip = {
 		loc_key = "insta_booster_skip",
-		keywords = { keyw.skip_booster },
+		keywords = { keyw.regular_keybinds, keyw.skip_booster },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_booster_skip, "insta_booster_skip")
 		end,

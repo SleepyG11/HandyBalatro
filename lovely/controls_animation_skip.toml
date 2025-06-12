@@ -65,16 +65,6 @@ end
 match_indent = true
 overwrite = false
 
-# SMODS empty events fix
-[[patches]]
-[patches.regex]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = "if effect.juice_card"
-position = "after"
-payload = " and not Handy.animation_skip.should_skip_animation()"
-match_indent = true
-overwrite = false
-
 # Vanilla empty events fix
 [[patches]]
 [patches.pattern]
@@ -102,17 +92,7 @@ overwrite = false
 target = 'functions/button_callbacks.lua'
 pattern = "G.FUNCS.draw_from_hand_to_deck()"
 position = "before"
-payload = "if G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
-match_indent = true
-overwrite = false
-
-# Fix Nopeus crash
-[[patches]]
-[patches.pattern]
-target = '=[SMODS nopeus "Nopeus.lua"]'
-pattern = "G.pack_cards:remove()"
-position = "before"
-payload = "if not G.pack_cards then return true end"
+payload = "if not Nopeus and G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
 match_indent = true
 overwrite = false
 
