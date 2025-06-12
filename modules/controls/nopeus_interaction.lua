@@ -30,16 +30,21 @@ Handy.nopeus_interaction = {
 		local actions = Handy.nopeus_interaction.get_actions(key)
 		if actions.increase then
 			Handy.nopeus_interaction.increase()
+			Handy.nopeus_interaction.show_notif(key)
 			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
 		if actions.decrease then
 			Handy.nopeus_interaction.decrease()
+			Handy.nopeus_interaction.show_notif(key)
 			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
 		return false
 	end,
 
-	show_notif = function()
+	show_notif = function(key)
+		if not Handy.nopeus_interaction.is_present() then
+			return
+		end
 		Handy.UI.state_panel.display(function(state)
 			local actions = Handy.nopeus_interaction.get_actions(key)
 
@@ -112,7 +117,6 @@ Handy.nopeus_interaction = {
 					math.max(0, (G.SETTINGS.FASTFORWARD or 0) + dx)
 				)
 			end
-			Handy.nopeus_interaction.show_notif()
 		end
 	end,
 	increase = function()
