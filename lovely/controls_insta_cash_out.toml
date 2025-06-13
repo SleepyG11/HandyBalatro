@@ -28,17 +28,6 @@ overwrite = false
 
 [[patches]]
 [patches.pattern]
-target = "game.lua"
-pattern = '''G.ACC = math.min((G.ACC or 0) + dt*0.2*self.SETTINGS.GAMESPEED, 16)'''
-position = "after"
-payload = '''
- elseif Handy.insta_cash_out.is_skipped then G.ACC = 999 
-'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
 target = "functions/button_callbacks.lua"
 pattern = '''G.STATE = G.STATES.SHOP'''
 position = "after"
