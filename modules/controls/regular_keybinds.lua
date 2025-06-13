@@ -174,6 +174,22 @@ Handy.regular_keybinds = {
 		return true
 	end,
 
+	can_reroll_boss = function(key)
+		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_boss, key)
+			and Handy.fake_events.check_button(function()
+				return G.blind_prompt_box.UIRoot.children[3].children[1]
+			end, {
+				visible = true,
+				require_exact_func = "reroll_boss_button",
+			})
+	end,
+	reroll_boss = function()
+		Handy.fake_events.execute_button(function()
+			return G.blind_prompt_box.UIRoot.children[3].children[1]
+		end)
+		return true
+	end,
+
 	can_open_run_info = function(key)
 		if Handy.controller.is_module_key(Handy.cc.regular_keybinds.run_info, key) then
 			return true, 1
@@ -252,6 +268,8 @@ Handy.regular_keybinds = {
 					return Handy.regular_keybinds.skip_blind()
 				elseif Handy.regular_keybinds.can_select_blind(key) then
 					return Handy.regular_keybinds.select_blind()
+				elseif Handy.regular_keybinds.can_reroll_boss(key) then
+					return Handy.regular_keybinds.reroll_boss()
 				end
 				return false
 			end

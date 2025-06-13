@@ -667,6 +667,7 @@ return {
 			leave_shop = "Leave shop",
 			skip_blind = "Skip blind",
 			select_blind = "Select blind",
+			reroll_boss = "Reroll boss",
 			run_info_hands = "Run info: poker hands",
 			run_info_blinds = "Run info: blinds",
 			view_deck = "View deck",

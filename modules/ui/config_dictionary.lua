@@ -389,6 +389,22 @@ local dictionary = {
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
+	regular_keybinds_reroll_boss = {
+		loc_key = "reroll_boss",
+		keywords = { keyw.regular_keybinds, "reroll boss" },
+		order = 3.115,
+		checkbox = function()
+			return Handy.UI.CD.regular_keybinds.checkbox()
+		end,
+		checkbox_group = "regular_keybinds",
+		keybind = function()
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_boss, "reroll_boss")
+		end,
+		option_cycle = function()
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
+	},
 	insta_cash_out = {
 		loc_key = "insta_cash_out",
 		keywords = { keyw.regular_keybinds, keyw.cash_out },
@@ -1065,6 +1081,7 @@ local dictionary_order = {
 	"insta_booster_skip",
 	"regular_keybinds_reroll_shop",
 	"regular_keybinds_leave_shop",
+	"regular_keybinds_reroll_boss",
 	-- blinds
 	"regular_keybinds_skip_blind",
 	"regular_keybinds_select_blind",

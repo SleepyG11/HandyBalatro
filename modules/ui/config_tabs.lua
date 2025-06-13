@@ -32,6 +32,7 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_section("blinds"),
 			Handy.UI.CD.regular_keybinds_skip_blind.keybind(),
 			Handy.UI.CD.regular_keybinds_select_blind.keybind(),
+			Handy.UI.CD.regular_keybinds_reroll_boss.keybind(),
 			Handy.UI.PARTS.create_module_section("quick_actions"),
 			Handy.UI.CD.insta_buy_or_sell.keybind(),
 			Handy.UI.CD.insta_buy_n_sell.keybind(),
@@ -86,8 +87,8 @@ Handy.UI.get_keybinds_page = function(page)
 				align = "cm",
 				padding = 0.25,
 				r = 0.5,
-				minh = 7.7,
-				maxh = 7.7,
+				minh = 8.1,
+				maxh = 8.1,
 			},
 			nodes = {
 				{
