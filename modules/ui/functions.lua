@@ -254,12 +254,6 @@ function G.FUNCS.handy_toggle_module_enabled(arg, module)
 		return
 	end
 	module.enabled = arg
-	if module == Handy.cc.hide_options_button then
-		Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
-	elseif module == Handy.cc.nopeus_interaction then
-		Handy.nopeus_interaction.change(0)
-	end
-	Handy.animation_skip.change(0)
 	Handy.config.save()
 end
 

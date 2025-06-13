@@ -158,6 +158,9 @@ local default_config = {
 		animation_skip_unsafe = {
 			enabled = false,
 		},
+		speed_multiplier_uncap = {
+			enabled = false,
+		},
 	},
 
 	speed_multiplier = {
@@ -449,6 +452,7 @@ Handy.config = {
 			local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
 			love.filesystem.write("config/Handy.jkr", serialized)
 		end
+		Handy.controller.on_settings_save()
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)

@@ -244,6 +244,13 @@ return {
 					"setting to {C:mult}Unsafe{}",
 				},
 			},
+			speed_multiplier_uncap = {
+				unlock = { "Speed multiplier:", "uncap" },
+				text = {
+					"Allow increase game speed",
+					"to insane values",
+				},
+			},
 			-- Vars: [Animation skip]
 			animation_skip_unsafe = {
 				unlock = { "Animation skip:", "unsafe" },
@@ -481,6 +488,11 @@ return {
 					"Allow more precise cards selection, but slower",
 					" ",
 					"{C:attention}Always active on gamepad{}",
+				},
+			},
+			speed_multiplier_uncap = {
+				text = {
+					"{C:mult}Drastically hurts performance{}",
 				},
 			},
 			nopeus_unsafe = {
@@ -726,7 +738,7 @@ return {
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
-			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#x",
+			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 			Handy_animation_skip = "Animation skip: #1#",
 			Handy_skip_booster_pack = "Skip booster pack",

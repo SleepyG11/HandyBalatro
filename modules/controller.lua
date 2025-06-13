@@ -854,6 +854,13 @@ Handy.controller = {
 
 		Handy.UI.update(dt)
 	end,
+
+	on_settings_save = function()
+		Handy.UI.show_options_button = not SMODS or not Handy.cc.hide_options_button.enabled
+		Handy.nopeus_interaction.change(0)
+		Handy.animation_skip.change(0)
+		Handy.speed_multiplier.change(0)
+	end,
 }
 
 local love_update_ref = love.update

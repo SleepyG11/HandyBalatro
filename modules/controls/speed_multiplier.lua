@@ -11,18 +11,31 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.queue_retriggers_count
 	end,
 
+	is_uncapped = function()
+		return Handy.is_dangerous_actions_active()
+			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.speed_multiplier_uncap)
+	end,
+
 	accelerate_queue = function(queue)
 		queue = queue or G.E_MANAGER
 		local retriggers_count = Handy.speed_multiplier.get_queue_retriggers_count()
-		local v = G.VIBRATION
-		local j = G.ROOM.jiggle
 		if retriggers_count > 0 then
+			local v = G.VIBRATION
+			local j = G.ROOM.jiggle
 			for i = 1, retriggers_count do
-				queue:update(0, true)
+				local events_count = 0
+				for k, v in pairs(queue.queues or {}) do
+					events_count = events_count + #v
+				end
+				if events_count > 1 then
+					queue:update(0, true)
+				else
+					break
+				end
 			end
+			G.VIBRATION = v
+			G.ROOM.jiggle = j
 		end
-		G.VIBRATION = v
-		G.ROOM.jiggle = j
 	end,
 
 	get_value = function()
@@ -75,6 +88,7 @@ Handy.speed_multiplier = {
 				}),
 				hold = false,
 				order = 5,
+				dangerous = Handy.speed_multiplier.value > 512,
 			}
 			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
 			if retriggers_amount > 0 then
@@ -88,6 +102,7 @@ Handy.speed_multiplier = {
 					}),
 					hold = false,
 					order = 5.1,
+					dangerous = retriggers_amount > 8,
 				}
 			end
 			return true
@@ -95,14 +110,21 @@ Handy.speed_multiplier = {
 	end,
 
 	multiply = function()
-		Handy.speed_multiplier.value = math.min(512, Handy.speed_multiplier.value * 2)
-		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
-		Handy.speed_multiplier.show_notif()
+		return Handy.speed_multiplier.change(1)
 	end,
 	divide = function()
-		Handy.speed_multiplier.value = math.max(0.001953125, Handy.speed_multiplier.value / 2)
+		return Handy.speed_multiplier.change(-1)
+	end,
+	change = function(dx)
+		local multiplier = 2 ^ (dx or 0)
+		Handy.speed_multiplier.value = math.min(
+			math.max(0.001953125, Handy.speed_multiplier.value * multiplier),
+			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
+		)
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
-		Handy.speed_multiplier.show_notif()
+		if dx ~= 0 then
+			Handy.speed_multiplier.show_notif()
+		end
 	end,
 
 	use = function(key)

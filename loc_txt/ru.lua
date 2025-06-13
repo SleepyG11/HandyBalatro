@@ -642,7 +642,7 @@ return {
 			Handy_module_keys_or = "[#1#] или [#2#]",
 			Handy_items_in_queue = "[#1# в очереди]",
 			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
-			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#x",
+			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#",
 			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 			Handy_animation_skip = "Пропуск анимаций: #1#",
 			Handy_skip_booster_pack = "Пропустить бустерный набор",

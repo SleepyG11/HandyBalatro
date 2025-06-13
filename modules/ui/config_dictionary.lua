@@ -894,6 +894,20 @@ local dictionary = {
 			)
 		end,
 	},
+	dangerous_speed_multiplier_uncap = {
+		loc_key = { "speed_multiplier", "speed_multiplier_uncap" },
+		keywords = { keyw.unsafe_control, keyw.speed_multiplier, "uncap max speed infinite" },
+		checkbox = function()
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.dangerous_actions.speed_multiplier_uncap,
+				"speed_multiplier_uncap",
+				nil,
+				{
+					dangerous = true,
+				}
+			)
+		end,
+	},
 	immediate_buy_and_sell = {
 		loc_key = "immediate_buy_and_sell",
 		keywords = { keyw.unsafe_control, keyw.sell },
@@ -1099,6 +1113,7 @@ local dictionary_order = {
 
 	--dangerous
 	"dangerous_actions",
+	"dangerous_speed_multiplier_uncap",
 	"dangerous_nopeus_unsafe",
 	"dangerous_animation_skip_unsafe",
 	"immediate_buy_and_sell",
