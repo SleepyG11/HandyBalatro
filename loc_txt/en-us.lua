@@ -387,7 +387,7 @@ return {
 					"{C:attention}#4#{} - default game behaviour",
 					"{C:attention}#5#{} - removed card texts like {C:attention}Again!{} and {C:chips}+Chips{}",
 					"{C:attention}#6#{} - instant scoring, removed cards wiggling",
-					"{C:attention}#7#{} - removed unnecessary animations, instant cards drawing",
+					"{C:attention}#7#{} - removed unnecessary animations, instant cards draw and restart",
 					"{C:mult}#8#{} - game's absolute limit: everything instant",
 					" ",
 					"{C:mult}#8#{} option must be enabled in {C:attention}#9#{} tab",
