@@ -223,7 +223,7 @@ Handy.regular_keybinds = {
 		if not Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) then
 			return false
 		end
-		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN then
+		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN and not G.OVERLAY_MENU then
 			local can_open_info, info_tab_index = Handy.regular_keybinds.can_open_run_info(key)
 			if can_open_info then
 				return Handy.regular_keybinds.open_run_info(info_tab_index)
