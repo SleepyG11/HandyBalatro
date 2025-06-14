@@ -114,3 +114,13 @@ position = "before"
 payload = "if handy_ease_muted then return end"
 match_indent = true
 overwrite = false
+
+# Fix blind chip dissolving
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()'''
+position = "after"
+payload = "self.dissolve = 0"
+match_indent = true
+overwrite = false
