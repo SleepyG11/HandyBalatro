@@ -8,6 +8,8 @@ Handy.insta_cash_out = {
 		return not not (
 			Handy.insta_cash_out.is_hold
 			and G.STATE == G.STATES.ROUND_EVAL
+			and not G.SETTINGS.paused
+			and not G.OVERLAY_MENU
 			and Handy.insta_cash_out.can_skip
 			and not Handy.insta_cash_out.is_skipped
 			and G.round_eval

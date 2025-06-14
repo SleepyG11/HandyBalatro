@@ -41,7 +41,7 @@ Handy.scoring_hold = {
 				state.items.scoring_hold.hold = new_value and not G.SETTINGS.paused and not G.OVERLAY_MENU
 				return true
 			elseif new_value then
-				if Handy.cc.notifications_level < 3 or G.SETTINGS.paused then
+				if Handy.cc.notifications_level < 3 or G.SETTINGS.paused or G.OVERLAY_MENU then
 					return false
 				end
 				state.items.scoring_hold = {

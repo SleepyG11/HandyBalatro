@@ -177,7 +177,7 @@ Handy.dangerous_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused then
+		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused or G.OVERLAY_MENU then
 			return false
 		end
 		if Handy.cc.notifications_level < 2 then

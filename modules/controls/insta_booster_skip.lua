@@ -8,6 +8,8 @@ Handy.insta_booster_skip = {
 		return not not (
 			Handy.insta_booster_skip.is_hold
 			and not Handy.insta_booster_skip.is_skipped
+			and not G.SETTINGS.paused
+			and not G.OVERLAY_MENU
 			and G.booster_pack
 			and G.pack_cards
 			and G.pack_cards.cards[1]

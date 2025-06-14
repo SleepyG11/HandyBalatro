@@ -633,7 +633,7 @@ Handy.controller = {
 				or Handy.animation_skip.use(key)
 		end
 
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if not released then
 				Handy.insta_highlight.use_on_hovered(key)
 			end
@@ -767,7 +767,7 @@ Handy.controller = {
 			return finish(true)
 		end
 
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if Handy.controller.is_triggered(released) then
 				local _ = false
 					or Handy.insta_actions.use_alt(button)
