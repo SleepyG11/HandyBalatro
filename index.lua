@@ -7,7 +7,7 @@ to_big = to_big or function(x)
 end
 
 Handy = setmetatable({
-	version = "1.5.0-rc1",
+	version = "1.5.0-rc2",
 
 	last_clicked_area = nil,
 	last_clicked_card = nil,
