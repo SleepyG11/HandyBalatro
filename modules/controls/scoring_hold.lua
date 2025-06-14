@@ -38,7 +38,7 @@ Handy.scoring_hold = {
 		end
 		Handy.UI.state_panel.display(function(state)
 			if state.items.scoring_hold and state.items.scoring_hold.hold ~= new_value then
-				state.items.scoring_hold.hold = new_value and not G.SETTINGS.paused
+				state.items.scoring_hold.hold = new_value and not G.SETTINGS.paused and not G.OVERLAY_MENU
 				return true
 			elseif new_value then
 				if Handy.cc.notifications_level < 3 or G.SETTINGS.paused then
