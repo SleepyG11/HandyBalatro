@@ -231,6 +231,13 @@ return {
 					"чтобы продать их",
 				},
 			},
+			speed_multiplier_uncap = {
+				unlock = { "Множитель скорости:", "убрать лимит" },
+				text = {
+					"Позволяет увеличиват скорость игры",
+					"до огромных значений",
+				},
+			},
 			immediate_buy_and_sell_queue = {
 				unlock = { "Очередь продажи" },
 				text = {
@@ -491,6 +498,11 @@ return {
 					"{C:attention}Всегда активно на геймпаде{}",
 				},
 			},
+			speed_multiplier_uncap = {
+				text = {
+					"{C:mult}Очень сильно влияет на производительность{}",
+				},
+			},
 			nopeus_unsafe = {
 				text = {
 					"Требуется мод {C:attention}Nopeus{}",
@@ -576,6 +588,7 @@ return {
 			leave_shop = "Покинуть магазин",
 			skip_blind = "Пропустить блайнд",
 			select_blind = "Выбрать блайнд",
+			reroll_boss = "Переброс босс-блайнда",
 			run_info_hands = "Информация о забеге: покерные руки",
 			run_info_blinds = "Информация о забеге: блайнды",
 			view_deck = "Открыть колоду",
@@ -610,6 +623,9 @@ return {
 			presets_load_2 = "Загрузить профиль 2",
 			presets_load_3 = "Загрузить профиль 3",
 			presets_load_next = "Загрузить след. профиль",
+
+			misc_open_mod_settings = "Открыть настройки мода",
+			misc_crash = "Крашнуть игру",
 		},
 		handy_keybind_sections = {
 			hand = "Рука",
@@ -626,6 +642,7 @@ return {
 			hand_selection = "Выделение руки",
 			presets = "Профили",
 			dangerous_actions = "Опасные действия",
+			misc = "Прочее",
 		},
 		handy_tabs = {
 			["Overall"] = "Основные & Ванилла",
