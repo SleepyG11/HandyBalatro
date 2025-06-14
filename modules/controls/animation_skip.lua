@@ -299,6 +299,36 @@ function Handy.animation_skip.update(dt)
 	end
 end
 
+local start_run_ref = G.FUNCS.start_run
+G.FUNCS.start_run = function(...)
+	local result
+	if Handy.animation_skip.should_skip_everything() then
+		Handy.animation_skip.skip_wipe_screen = true
+		Handy.animation_skip.force_non_blocking = true
+		result = start_run_ref(...)
+		Handy.animation_skip.skip_wipe_screen = false
+		Handy.animation_skip.force_non_blocking = false
+	else
+		result = start_run_ref(...)
+	end
+	return result
+end
+
+local wipe_on_ref = G.FUNCS.wipe_on
+function G.FUNCS.wipe_on(...)
+	if Handy.animation_skip.skip_wipe_screen then
+		return
+	end
+	return wipe_on_ref(...)
+end
+local wipe_off_ref = G.FUNCS.wipe_off
+function G.FUNCS.wipe_off(...)
+	if Handy.animation_skip.skip_wipe_screen then
+		return
+	end
+	return wipe_off_ref(...)
+end
+
 if SMODS then
 	local smods_calculate_effect_ref = SMODS.calculate_effect
 	function SMODS.calculate_effect(effect, ...)
