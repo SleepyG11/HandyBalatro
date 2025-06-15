@@ -292,7 +292,11 @@ end
 
 function Handy.animation_skip.update(dt)
 	Handy.animation_skip.mute_ease_dollars = 0
-	Handy.animation_skip.buffered_value = nil
+	if Handy.animation_skip.buffered_value then
+		if G.STATE ~= G.STATES.HAND_PLAYED then
+			Handy.animation_skip.buffered_value = nil
+		end
+	end
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
 		ease_dollars_ref(Handy.animation_skip.ease_dollars_buffer, true)
 		Handy.animation_skip.ease_dollars_buffer = 0
