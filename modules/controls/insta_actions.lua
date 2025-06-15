@@ -51,7 +51,13 @@ Handy.insta_actions = {
 	end,
 
 	can_execute = function(card, buy_or_sell, use)
-		return not not (not Handy.insta_actions.action_blocker and (buy_or_sell or use) and card and card.area)
+		return not not (
+			not Handy.insta_actions.action_blocker
+			and (buy_or_sell or use)
+			and card
+			and card.area
+			and card:is(Card)
+		)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
 		if card.REMOVED then
@@ -207,7 +213,7 @@ Handy.insta_actions = {
 	end,
 
 	process_card = function(card, actions)
-		if not card or card.REMOVED then
+		if not card or card.REMOVED or not card:is(Card) then
 			return false
 		end
 		if card.ability and card.ability.handy_dangerous_actions_used then
@@ -281,7 +287,10 @@ Handy.insta_actions = {
 	end,
 	use_alt = function(key)
 		return (Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode == 2)
-			and Handy.insta_actions.process_card(Handy.last_hovered_card, Handy.insta_actions.get_alt_actions(key))
+			and Handy.insta_actions.process_card(
+				G.CONTROLLER.dragging.target or Handy.last_hovered_card,
+				Handy.insta_actions.get_alt_actions(key)
+			)
 	end,
 
 	update_state_panel = function(state, key, released)
