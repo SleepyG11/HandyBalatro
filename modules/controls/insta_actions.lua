@@ -56,6 +56,7 @@ Handy.insta_actions = {
 			and (buy_or_sell or use)
 			and card
 			and card.area
+			and card.is
 			and card:is(Card)
 		)
 	end,
@@ -213,7 +214,7 @@ Handy.insta_actions = {
 	end,
 
 	process_card = function(card, actions)
-		if not card or card.REMOVED or not card:is(Card) then
+		if not card or card.REMOVED or not card.is or not card:is(Card) then
 			return false
 		end
 		if card.ability and card.ability.handy_dangerous_actions_used then
