@@ -1,30 +1,31 @@
 local keyw = {
 	toggle = "enable disable toggle",
 	configs = "features configs settings",
-	fast_hand_select = "fast hand select quick hand selection selecting highlight swipe drag mobile like hover cards",
-	fast_hand_deselect = "fast hand deselect quick hand deselection deselecting unhighlight swipe drag mobile like hover cards",
-	regular_keybinds = "regular keybinds buttons actions",
+	fast_hand_select = "fast quick swipe drag mobile like hover hand cards selection selecting highlightning",
+	fast_hand_deselect = "fast quick swipe drag mobile like hover hand cards deselection deselecting unhighlightning",
+	regular_keybinds = "regular vanilla game common keybinds buttons actions",
 	play_hand = "play hand",
 	discard_hand = "discard hand",
-	sort_hand = "sorting sorted hand by",
+	sort_hand = "sorting sorted hand cards by",
 	reroll_shop = "reroll shop one more",
 	leave_shop = "leave shop go next",
 	skip_blind = "skip blind select skip tag",
 	select_blind = "select blind new round",
+	reroll_boss = "reroll boss",
 	run_info = "run info menus screen",
 	view_deck = "view deck menus screen",
 	deck_preview = "view show display deck preview menus screen panel popup",
 	cash_out = "cash out cashout get me out round shop",
 	skip_booster = "booster pack boosterpack skip",
-	move_highlight = "move highlights cards shuffle reorder arrow keys",
+	move_highlight = "move shuffle reorder highlights selected selection cards consumables jokers",
 	buy = "buy cards vouchers consumables consumeables tarots planets spectrals boosters packs shop",
 	sell = "sell cards vouchers consumables consumeables tarots planets spectrals boosters packs",
-	use = "use cards vouchers consumables consumeables tarots planets spectrals boosters packs",
+	use = "use open redeem cards vouchers consumables consumeables tarots planets spectrals boosters packs",
 	speed_multiplier = "game speed multiplier increase decrease change adjust acceleration accelerate more faster speed up",
 	animation_skip = "game animations skip instant scoring max speed no again faster accelerate",
 	nopeus_interaction = "interaction nopeus fast forward fast-forward",
 	scoring_hold = "scoring hold game speed animations pause hold after scoring wait before end of round",
-	presets = "presets settings configs profiles load set",
+	presets = "presets settings configs profiles load set apply",
 	unsafe_control = "dangerous unsafe",
 }
 
@@ -33,7 +34,7 @@ local dictionary = {
 		loc_key = "handy",
 		keywords = {
 			keyw.toggle,
-			"all mod everything",
+			"all mod everything handy",
 			keyw.configs,
 		},
 		order = 1,
@@ -50,9 +51,9 @@ local dictionary = {
 	hide_options_button = {
 		loc_key = "hide_options_button",
 		keywords = {
-			"hide options",
-			"menus options button",
-			"configs settings",
+			keyw.toggle,
+			"options configs settings",
+			"hide show menu button",
 		},
 		order = 1.01,
 		checkbox = function()
@@ -61,7 +62,7 @@ local dictionary = {
 		keybind = function() end,
 	},
 	info_popups_level = {
-		keywords = { "messages", "panel", "black", "red", "info popups level" },
+		keywords = { "messages info notification notify", "popup panel", "black red" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -74,7 +75,7 @@ local dictionary = {
 		end,
 	},
 	keybinds_trigger_mode = {
-		keywords = { "keybinds buttons trigger press mode pressed released" },
+		keywords = { "keybinds buttons controls", "trigger mode", "pressed released" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -87,7 +88,7 @@ local dictionary = {
 		end,
 	},
 	device_select = {
-		keywords = { "gamepad auto device select desktop touchpad controller touch pad" },
+		keywords = { "controller gamepad desktop touchpad touch pad auto", "choose select device input" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -100,7 +101,7 @@ local dictionary = {
 		end,
 	},
 	buy_sell_use_mode = {
-		keywords = { "buy sell use mode hold cards click buttons press" },
+		keywords = { "buy sell use mode", "hold click press hover", "cards buttons keybinds controls" },
 		option_cycle = function()
 			return create_option_cycle({
 				w = 6,
@@ -159,7 +160,7 @@ local dictionary = {
 	},
 	insta_highlight_entire_f_hand = {
 		loc_key = "insta_highlight_entire_f_hand",
-		keywords = { "full entire all hand cards", "selection selecting highlight" },
+		keywords = { "full entire hand all", "hand cards selection selecting highlightning" },
 		order = 2.02,
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
@@ -176,7 +177,11 @@ local dictionary = {
 	},
 	deselect_hand = {
 		loc_key = "deselect_hand",
-		keywords = { "deselection deselecting unhighlight", "full entire all hand cards" },
+		keywords = {
+			keyw.regular_keybinds,
+			"full entire hand all",
+			"hand cards deselection deselecting unhighlightning",
+		},
 		order = 2.03,
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
@@ -195,11 +200,12 @@ local dictionary = {
 			keyw.play_hand,
 			keyw.discard_hand,
 			keyw.sort_hand,
-			"suit rank toggle switch",
+			"suist ranks toggle switch",
 			keyw.reroll_shop,
 			keyw.leave_shop,
 			keyw.skip_blind,
 			keyw.select_blind,
+			keyw.reroll_boss,
 			keyw.run_info,
 			"pokerhands poker hands hand levels blinds ante",
 			keyw.view_deck,
@@ -248,7 +254,7 @@ local dictionary = {
 	},
 	regular_keybinds_sort_by_rank = {
 		loc_key = "sort_by_rank",
-		keywords = { keyw.regular_keybinds, keyw.sort_hand, "rank" },
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "ranks" },
 		order = 3.03,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -264,7 +270,7 @@ local dictionary = {
 	},
 	regular_keybinds_sort_by_suit = {
 		loc_key = "sort_by_suit",
-		keywords = { keyw.regular_keybinds, keyw.sort_hand, "suit" },
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "suits" },
 		order = 3.04,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -280,7 +286,7 @@ local dictionary = {
 	},
 	regular_keybinds_toggle_sort = {
 		loc_key = "toggle_sort",
-		keywords = { keyw.regular_keybinds, keyw.sort_hand, "rank", "suit", "toggle" },
+		keywords = { keyw.regular_keybinds, keyw.sort_hand, "ranks suits toggle switch" },
 		order = 3.05,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -296,7 +302,7 @@ local dictionary = {
 	},
 	regular_keybinds_run_info_hands = {
 		loc_key = "run_info_hands",
-		keywords = { keyw.regular_keybinds, keyw.run_info, "poker hands", "pokerhands" },
+		keywords = { keyw.regular_keybinds, keyw.run_info, "poker hands pokerhands" },
 		order = 3.06,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -312,7 +318,7 @@ local dictionary = {
 	},
 	regular_keybinds_run_info_blinds = {
 		loc_key = "run_info_blinds",
-		keywords = { keyw.regular_keybinds, keyw.run_info, "blinds", "bosses", "ante" },
+		keywords = { keyw.regular_keybinds, keyw.run_info, "blinds bosses ante" },
 		order = 3.07,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -391,7 +397,7 @@ local dictionary = {
 	},
 	regular_keybinds_reroll_boss = {
 		loc_key = "reroll_boss",
-		keywords = { keyw.regular_keybinds, "reroll boss" },
+		keywords = { keyw.regular_keybinds, keyw.reroll_boss },
 		order = 3.115,
 		checkbox = function()
 			return Handy.UI.CD.regular_keybinds.checkbox()
@@ -464,7 +470,7 @@ local dictionary = {
 		end,
 	},
 	not_just_yet_interaction = {
-		keywords = { "round", "end", "finish", "not just yet", "notjustyet" },
+		keywords = { "round end finish", "not just yet notjustyet" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.not_just_yet_interaction,
@@ -572,7 +578,7 @@ local dictionary = {
 	},
 	insta_buy_n_sell = {
 		loc_key = "insta_buy_n_sell",
-		keywords = { keyw.buy, keyw.sell, "or", "and", "buy'n'sell" },
+		keywords = { keyw.buy, keyw.sell, "or and", "buy'n'sell buy and sell" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_n_sell, "insta_buy_n_sell", {
 				localize("b_handy_buy_sell_use_mode_select"),
@@ -604,7 +610,7 @@ local dictionary = {
 	},
 	cryptid_code_use_last_interaction = {
 		loc_key = "cryptid_code_use_last_interaction",
-		keywords = { "use code cards cryptid last input previous value pointer class exploit" },
+		keywords = { "use code cards cryptid last input previous value pointer class exploit variable" },
 		checkbox = function()
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.cryptid_code_use_last_interaction,
@@ -647,7 +653,7 @@ local dictionary = {
 	},
 	speed_multiplier_multiply = {
 		loc_key = { "speed_multiplier", "speed_multiplier_multiply" },
-		keywords = { keyw.speed_multiplier },
+		keywords = { keyw.speed_multiplier, "multiply increase" },
 		checkbox = function()
 			return Handy.UI.CD.speed_multiplier.checkbox()
 		end,
@@ -658,7 +664,7 @@ local dictionary = {
 	},
 	speed_multiplier_divide = {
 		loc_key = { "speed_multiplier", "speed_multiplier_divide" },
-		keywords = { keyw.speed_multiplier },
+		keywords = { keyw.speed_multiplier, "divide decrease" },
 		checkbox = function()
 			return Handy.UI.CD.speed_multiplier.checkbox()
 		end,
@@ -711,7 +717,7 @@ local dictionary = {
 	},
 	animation_skip_increase = {
 		loc_key = { "animation_skip", "animation_skip_increase" },
-		keywords = { keyw.animation_skip },
+		keywords = { keyw.animation_skip, "increase multiply" },
 		checkbox = function()
 			return Handy.UI.CD.animation_skip.checkbox()
 		end,
@@ -722,7 +728,7 @@ local dictionary = {
 	},
 	animation_skip_decrease = {
 		loc_key = { "animation_skip", "animation_skip_decrease" },
-		keywords = { keyw.animation_skip },
+		keywords = { keyw.animation_skip, "decrease divide" },
 		checkbox = function()
 			return Handy.UI.CD.animation_skip.checkbox()
 		end,
@@ -769,7 +775,7 @@ local dictionary = {
 	},
 	nopeus_interaction_increase = {
 		loc_key = { "nopeus_interaction", "nopeus_interaction_increase" },
-		keywords = { keyw.animation_skip, keyw.nopeus_interaction },
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "multiply increase" },
 		checkbox = function()
 			return Handy.UI.CD.nopeus_interaction.checkbox()
 		end,
@@ -783,7 +789,7 @@ local dictionary = {
 	},
 	nopeus_interaction_decrease = {
 		loc_key = { "nopeus_interaction", "nopeus_interaction_decrease" },
-		keywords = { keyw.animation_skip, keyw.nopeus_interaction },
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "divide decrease" },
 		checkbox = function()
 			return Handy.UI.CD.nopeus_interaction.checkbox()
 		end,
