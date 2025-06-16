@@ -1041,18 +1041,21 @@ local dictionary = {
 
 	misc_crash = {
 		loc_key = "misc_crash",
+		keywords = { "miscellaneous", "crash kill a game" },
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.crash, "misc_crash", { dangerous = true })
 		end,
 	},
 	misc_open_mod_settings = {
 		loc_key = "misc_open_mod_settings",
+		keywords = { "miscellaneous", "open mod handy settings configs options menu shortcut" },
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.open_mod_settings, "misc_open_mod_settings")
 		end,
 	},
 	misc_save_run = {
 		loc_key = "misc_save_run",
+		keywords = { "miscellaneous", "save run state" },
 		keybind = function()
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.save_run, "misc_save_run")
 		end,
