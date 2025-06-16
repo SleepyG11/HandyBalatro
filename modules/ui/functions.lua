@@ -40,8 +40,10 @@ function G.FUNCS.handy_open_options(e)
 end
 function G.FUNCS.handy_exit_options(e)
 	Handy.UI.config_opened = nil
-	Handy.UI.config_tab_index = nil
-	Handy.UI.keybinds_page = nil
+	Handy.UI.config_tab_index = 1
+	Handy.UI.keybinds_page = 1
+	Handy.UI.quick_page = 1
+	Handy.UI.search_input_value = ""
 	if e then
 		return G.FUNCS.options(e)
 	end
@@ -50,7 +52,10 @@ end
 local exit_overlay_ref = G.FUNCS.exit_overlay_menu
 function G.FUNCS.exit_overlay_menu(...)
 	Handy.UI.config_opened = nil
-	Handy.UI.config_tab_index = nil
+	Handy.UI.config_tab_index = 1
+	Handy.UI.keybinds_page = 1
+	Handy.UI.quick_page = 1
+	Handy.UI.search_input_value = ""
 	local result = exit_overlay_ref(...)
 	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 	return result

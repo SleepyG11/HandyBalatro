@@ -28,6 +28,11 @@ Handy.UI = {
 	C = colours,
 	LOC_COLOURS = localization_colours,
 
+	search_input_value = "",
+	config_tab_index = 1,
+	keybinds_page = 1,
+	quick_page = 1,
+
 	update = function(dt, force)
 		local old_counter = Handy.UI.counter
 		if Handy.UI.state_panel.current_state.hold then
