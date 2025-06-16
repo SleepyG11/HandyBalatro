@@ -24,7 +24,7 @@ Handy.misc_controls = {
 			return not not (
 				G.GAME
 				and G.STAGE == G.STAGES.RUN
-				and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT)
+				and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
 				and not (G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
 				and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 				and #G.E_MANAGER.queues.base < 3 -- One more because event callback called before it removed from queue
@@ -34,7 +34,7 @@ Handy.misc_controls = {
 			not Handy.misc_controls.save_run_blocker
 			and G.GAME
 			and G.STAGE == G.STAGES.RUN
-			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT)
+			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
 			and not (G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
 			and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 			and #G.E_MANAGER.queues.base < 2
