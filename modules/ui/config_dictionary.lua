@@ -1051,6 +1051,12 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.open_mod_settings, "misc_open_mod_settings")
 		end,
 	},
+	misc_save_run = {
+		loc_key = "misc_save_run",
+		keybind = function()
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.save_run, "misc_save_run")
+		end,
+	},
 }
 
 local dictionary_order = {

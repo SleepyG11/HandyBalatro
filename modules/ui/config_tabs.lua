@@ -76,6 +76,7 @@ Handy.UI.get_keybinds_page = function(page)
 		result = {
 			Handy.UI.PARTS.create_module_section("misc"),
 			Handy.UI.CD.misc_open_mod_settings.keybind(),
+			Handy.UI.CD.misc_save_run.keybind(),
 			Handy.UI.CD.misc_crash.keybind(),
 		}
 	end

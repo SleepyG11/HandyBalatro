@@ -707,6 +707,7 @@ return {
 
 			misc_open_mod_settings = "Abrir configuración del mod",
 			misc_crash = "Hacer que el juego se bloquee",
+			misc_save_run = "Guardar partida",
 		},
 		handy_keybind_sections = {
 			hand = "Mano",
@@ -800,6 +801,11 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_cannot_bind_non_holdable = "No se puede asignar la rueda del mouse aquí",
+
+			ph_handy_notif_misc_save_run_start = "Iniciando guardado de partida...",
+			ph_handy_notif_misc_save_run_saving = "Guardando partida...",
+			ph_handy_notif_misc_save_run_saved = "Partida guardada",
+			ph_handy_notif_misc_save_run_interrupt = "No se puede guardar ahora",
 
 			handy_animation_skip_levels = {
 				[1] = "Ninguna",

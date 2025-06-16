@@ -626,6 +626,7 @@ return {
 
 			misc_open_mod_settings = "Открыть настройки мода",
 			misc_crash = "Крашнуть игру",
+			misc_save_run = "Сохранить игру",
 		},
 		handy_keybind_sections = {
 			hand = "Рука",
@@ -719,6 +720,11 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасное значение выключено в настройках мода",
 			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
+
+			ph_handy_notif_misc_save_run_start = "Старт сохранения...",
+			ph_handy_notif_misc_save_run_saving = "Сохранение...",
+			ph_handy_notif_misc_save_run_saved = "Сохранено",
+			ph_handy_notif_misc_save_run_interrupt = "Нельзя сохраниться сейчас",
 
 			handy_animation_skip_levels = {
 				[1] = "Нет",

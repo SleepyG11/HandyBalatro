@@ -706,6 +706,7 @@ return {
 
 			misc_open_mod_settings = "Open mod settings",
 			misc_crash = "Crash a game",
+			misc_save_run = "Save run",
 		},
 		handy_keybind_sections = {
 			hand = "Hand",
@@ -799,6 +800,11 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
+
+			ph_handy_notif_misc_save_run_start = "Starting run saving...",
+			ph_handy_notif_misc_save_run_saving = "Saving a run...",
+			ph_handy_notif_misc_save_run_saved = "Run saved",
+			ph_handy_notif_misc_save_run_interrupt = "Cannot save run right now",
 
 			handy_animation_skip_levels = {
 				[1] = "None",

@@ -623,6 +623,10 @@ Handy.controller = {
 
 		-----
 
+		if Handy.misc_controls.use(key, released) then
+			return finish(true)
+		end
+
 		if not released and Handy.presets_switch.use(key) then
 			return finish(true)
 		end
@@ -646,10 +650,6 @@ Handy.controller = {
 			end
 
 			Handy.dangerous_actions.toggle_queue(key, released)
-		end
-
-		if Handy.misc_controls.use(key, released) then
-			return finish(true)
 		end
 
 		return finish(false)
