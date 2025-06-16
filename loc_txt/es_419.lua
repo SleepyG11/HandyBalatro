@@ -118,7 +118,6 @@ return {
 				text = {
 					"Usa {C:chips}#1#{} para",
 					"usar carta, de ser posible",
-					"{C:handy_secondary}(Anula Comprar/Vender rápido){}",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
