@@ -49,6 +49,15 @@
 Want new features to be implemented? Want add mod support? Found a bug?<br/>
 [Create an issue](https://github.com/SleepyG11/HandyBalatro/issues/) or let me know in [Discord mod's thread](https://discord.com/channels/1116389027176787968/1270746376312979456)!
 
+## Special thanks
+
+- Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
+- [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
+- [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
+- [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
+- missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
+- jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
+
 ## For developers
 
 If your mod needs to disable Handy's dangerous controls on certain conditions, you can hook check function to do so:
@@ -112,15 +121,6 @@ Example:
     }
 },
 ```
-
-## Special thanks
-
-- Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
-- [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
-- [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
-- [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
-- missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
-- jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
 
 ## Some controls preview
 
