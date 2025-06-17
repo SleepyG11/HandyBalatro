@@ -98,11 +98,15 @@ if not Handy then
 			return
 		end
 		Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
-		Handy.current_mod.config_tab = true
 		Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
 
+		Handy.current_mod.config_tab = function()
+			return Handy.UI.get_options_tabs()[1].tab_definition_function
+		end
 		Handy.current_mod.extra_tabs = function()
-			return Handy.UI.get_options_tabs()
+			local result = Handy.UI.get_options_tabs()
+			table.remove(result, 1)
+			return result
 		end
 
 		G.E_MANAGER:add_event(Event({

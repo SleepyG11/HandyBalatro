@@ -15,11 +15,11 @@ end
 
 -- Options render
 
-function G.UIDEF.handy_options()
+function G.UIDEF.handy_options(from_smods)
 	local tabs = Handy.UI.get_options_tabs()
 	tabs[Handy.UI.config_tab_index or 1].chosen = true
 	local t = create_UIBox_generic_options({
-		back_func = "handy_exit_options",
+		back_func = from_smods and "mods_button" or "handy_exit_options",
 		contents = {
 			{
 				n = G.UIT.R,
@@ -44,7 +44,7 @@ function Handy.UI.rerender(silent)
 	local result
 	if SMODS and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
 		result = {
-			definition = create_UIBox_mods(),
+			definition = G.UIDEF.handy_options(true),
 		}
 	elseif Handy.UI.config_opened then
 		result = {
@@ -63,5 +63,15 @@ function Handy.UI.rerender(silent)
 		end
 		G.FUNCS.overlay_menu(result)
 		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
+	end
+end
+
+if SMODS then
+	local create_UIBox_mods_ref = create_UIBox_mods
+	function create_UIBox_mods(...)
+		if G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
+			return G.UIDEF.handy_options(true)
+		end
+		return create_UIBox_mods_ref(...)
 	end
 end
