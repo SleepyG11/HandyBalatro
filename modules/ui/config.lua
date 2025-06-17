@@ -1,5 +1,14 @@
 -- Inserting options button
 
+function Handy.UI.reset_config_variables()
+	Handy.UI.config_opened = nil
+	Handy.UI.config_tab_index = 1
+	Handy.UI.keybinds_page = 1
+	Handy.UI.quick_page = 1
+	Handy.UI.search_input_value = ""
+end
+Handy.UI.reset_config_variables()
+
 function Handy.UI.get_options_button()
 	return UIBox_button({ label = { "Handy" }, button = "handy_open_options", minw = 5, colour = G.C.CHIPS })
 end
@@ -70,8 +79,16 @@ if SMODS then
 	local create_UIBox_mods_ref = create_UIBox_mods
 	function create_UIBox_mods(...)
 		if G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
+			Handy.UI.reset_config_variables()
+			Handy.UI.config_opened = true
 			return G.UIDEF.handy_options(true)
 		end
 		return create_UIBox_mods_ref(...)
+	end
+
+	local mods_button_ref = G.FUNCS.mods_button
+	function G.FUNCS.mods_button(...)
+		Handy.UI.reset_config_variables()
+		return mods_button_ref(...)
 	end
 end
