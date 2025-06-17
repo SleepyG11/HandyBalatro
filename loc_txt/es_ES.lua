@@ -1,15 +1,18 @@
 return {
 	descriptions = {
+		-- For all checkboxes and popups, first var is keybind
+		-- Further mentioned vars starts from #2#
 		Handy_ConfigCheckbox = {
+			-- Vars: version, author
 			handy = {
 				unlock = { "HandyBalatro v#2#", "por {C:white,E:2,s:1.15}#3#{}" },
 				text = {
-					"Desmarcar para deshabilitar {C:attention}TODAS{} las funciones del mod",
+					"Deseleccionar para deshabilitar {C:attention}TODAS{} las funciones del mod",
 					"{C:handy_secondary}(no necesita reinicio){}",
 				},
 			},
 			hide_options_button = {
-				unlock = { "Ocultar el bot'on del mod", "en el menú de opciones" },
+				unlock = { "Ocultar el botón del mod", "en el menú de opciones" },
 				text = {
 					"{C:handy_secondary}Solo cuando Steamodded esta instalado{}",
 				},
@@ -17,35 +20,36 @@ return {
 			regular_keybinds = {
 				unlock = { "Atajos de teclado comunes" },
 				text = {
-					"Usa atajos de teclado",
+					"Usar atajos de teclado",
 					"para acciones comunes",
 				},
 			},
 			insta_highlight = {
 				unlock = {
 					"{C:edition}Selección de mano rápida{}",
-					"{C:handy_secondary,s:0.75}(drag, hover, swipe, slide){}",
+					"{C:handy_secondary,s:0.75}(Seleccionar, mover, arrastrar){}",
 				},
 				text = {
-					"Mantén {C:chips}#1#{} y",
+					"Mantener {C:chips}#1#{} y",
 					"pasa el cursor sobre tu mano para seleccionarlas",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight_OUTSIDE = {
 				unlock = {
 					"{C:edition}Selección de mano rápida{}",
 					"{C:handy_secondary,s:0.75}(Seleccionar, mover, arrastrar){}",
 				},
 				text = {
-					"Mantén {C:chips}#1#{} {C:attention}FUERA{} de las cartas, entonces pasa",
+					"Mantener {C:chips}#1#{} {C:attention}FUERA{} de las cartas, entonces pasa",
 					"el cursor sobre ellas para seleccionarlas",
 				},
 			},
 			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				unlock = {
-					"Deselección de mano",
-					"rápida",
+					"Deselección de",
+					"mano rápida",
 				},
 				text = {
 					"También permite usar {C:edition}#2#{}",
@@ -55,66 +59,71 @@ return {
 			show_deck_preview = {
 				unlock = { "Previsualizar mazo" },
 				text = {
-					"Mantén {C:chips}#1#{} para",
+					"Mantener {C:chips}#1#{} para",
 					"mostrar previsualización del mazo",
 				},
 			},
+			-- Vars: [Right Mouse]
 			deselect_hand = {
-				unlock = { "desmarcar mano" },
+				unlock = { "Deseleccionar mano" },
 				text = {
-					"Pulsa {C:chips}#1#{} para",
+					"Pulsar {C:chips}#1#{} para",
 					"desmarcar cartas en mano",
 				},
 			},
 			insta_cash_out = {
 				unlock = { "Cobrar rápido" },
 				text = {
-					"Pulsa/mantén {C:chips}#1#{} para",
+					"Pulsra/Mantener {C:chips}#1#{} para",
 					"acelerar la fase de Cobrar",
 				},
 			},
 			insta_booster_skip = {
 				unlock = { "Omitir rápido", "paquete potenciador" },
 				text = {
-					"Pulsa/mantén {C:chips}#1#{} para",
+					"Pulsar/mantener {C:chips}#1#{} para",
 					"omitir paquetes potenciadores",
 				},
 			},
 			move_highlight = {
-				unlock = { "Mover destacado" },
+				unlock = { "Mover seleccionado" },
 				text = {
-					"Pulsa {C:chips}#2#{} o {C:chips}#3#{} para",
-					"mover destacado en el área de cartas.",
-					"Mantén {C:chips}#4#{} para en vez mover la carta.",
-					"Mantén {C:chips}#5#{} para mover a primera/última carta",
+					"Pulsar {C:chips}#2#{} o {C:chips}#3#{} para",
+					"mover la carta seleccionada",
+					"Mantener {C:chips}#4#{} para en vez mover la carta.",
+					"Mantener {C:chips}#5#{} para mover a primera/última carta",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell = {
-				unlock = { "Comprar/vender rápido" },
+				unlock = { "Comprar/vender", "rápido" },
 				text = {
-					"Usa {C:chips}#1#{} para",
+					"Usar {C:chips}#1#{} para",
 					"comprar o vender la carta",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell = {
-				unlock = { "Comprar y vender rápido" },
+				unlock = { "Comprar y vender", "rápido" },
 				text = {
-					"Usa {C:chips}#1#{} para",
+					"Usar {C:chips}#1#{} para",
 					"comprar la carta y",
 					"venderla inmediatamente",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use = {
 				unlock = { "Usar rápido" },
 				text = {
-					"Usa {C:chips}#1#{} para",
+					"Usar {C:chips}#1#{} para",
 					"usar la carta si es posible",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				unlock = { "Cryptid: Usar", "entrada anterior" },
 				text = {
-					"Usa {C:chips}#1#{} en",
+					"Usar {C:chips}#1#{} en",
 					"carta de Código e introducir",
 					"el valor anterior",
 				},
@@ -122,14 +131,15 @@ return {
 			not_just_yet_interaction = {
 				unlock = { "NotJustYet:", "terminar ronda" },
 				text = {
-					"Pulsa {C:chips}#1#{} para",
+					"Pulsar {C:chips}#1#{} para",
 					"terminar la ronda",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
 				unlock = { "Multiplicador de velocidad" },
 				text = {
-					"Mantén {C:chips}#1#{} y",
+					"Mantener {C:chips}#1#{} y",
 					"{C:chips}#2#{}/{C:chips}#3#{}",
 					"para multiplicar/dividir la velocidad del juego",
 				},
@@ -144,18 +154,19 @@ return {
 				},
 			},
 			insta_highlight_entire_f_hand = {
-				unlock = { "Destacar", "mano completa" },
+				unlock = { "Seleccionar", "mano completa" },
 				text = {
-					"Pulsa {C:chips}#1#{} para",
-					"destacar la mano completa",
+					"Pulsar {C:chips}#1#{} para",
+					"seleccionar la mano completa",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				unlock = { "Nopeus:", "'Fast-forward'" },
 				text = {
-					"Mantén {C:chips}#1#{} y",
+					"Mantener {C:chips}#1#{} y",
 					"{C:chips}#2#{}/{C:chips}#3#{}",
-					" para aumentar/reducir la opción de 'Fast-forward'",
+					"para aumentar/reducir la opción de 'Fast-forward'",
 				},
 			},
 			-- Vars: [Nopeus: fast-forward]
@@ -171,8 +182,8 @@ return {
 			animation_skip = {
 				unlock = { "Saltar animaciones" },
 				text = {
-					"Mantén {C:chips}#1#{} y",
-					"{C:chips}#2#{}/{C:chips}#3#{} para",
+					"Mantener {C:chips}#1#{} y",
+					"{C:chips}#2#{}/{C:chips}#3#{} para usar",
 					"aumentar/disminuir 'saltar animaciones'",
 				},
 			},
@@ -188,7 +199,7 @@ return {
 			scoring_hold = {
 				unlock = { "Detener la animación", "de puntuación" },
 				text = {
-					"Mantén {C:chips}#1#{} para",
+					"Mantener {C:chips}#1#{} para",
 					"detener la animación de puntuación",
 					"tras contar el tamaño de la mano",
 				},
@@ -196,9 +207,9 @@ return {
 			scoring_hold_any_moment = {
 				unlock = { "Detener puntuación", "en cualquier momento" },
 				text = {
-					"Permite #2# detener la",
-					"animación de puntuación",
-					"en cualquier momento",
+					"Permite #2#",
+					"detener la animación de",
+					"puntuación en cualquier momento",
 				},
 			},
 			dangerous_actions = {
@@ -209,12 +220,12 @@ return {
 					"{C:mult}¡Cosa que puede producir bugs o crasheos!{}",
 				},
 			},
-
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				unlock = { "Vender instantaneo" },
 				text = {
-					"Mantén {C:mult}#1#{},",
-					"Mantén {C:chips}#2#{},",
+					"Mantener {C:mult}#1#{},",
+					"Mantener {C:chips}#2#{},",
 					"y coloca el cursor sobre",
 					"una carta para venderla",
 				},
@@ -222,14 +233,14 @@ return {
 			immediate_buy_and_sell_queue = {
 				unlock = { "Cola de venta" },
 				text = {
-					"Empieza a vender cartas solo cuando ",
+					"Empezar a vender cartas solo cuando ",
 					"atajo de teclado es dejado de pulsar",
 				},
 			},
 			nopeus_unsafe = {
 				unlock = { "Nopeus: peligroso", "'Fast-forward'" },
 				text = {
-					"Permite incrementar la opción de",
+					"Permite aumentar la opción de",
 					"'Fast-forward' a {C:mult}niveles peligrosos{}",
 				},
 			},
@@ -249,25 +260,28 @@ return {
 					"la opción a {C:mult}#2#{}",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				unlock = { "Vender todas", "las cartas duplicadas" },
 				text = {
-					"Mantén {C:mult}#2#{}, mantén {C:mult}#1#{},",
-					"y haz click en una carta",
+					"Mantener {C:mult}#2#{}, mantener {C:mult}#1#{},",
+					"y hacer click en una carta",
 					"para vender todas sus copias",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				unlock = { "Vender TODO" },
 				text = {
-					"Mantén {C:mult}#1#{} para vender {C:attention}TODAS{}",
+					"Mantener {C:mult}#1#{} para vender {C:attention}TODAS{}",
 					"las cartas en el área",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				unlock = { "ELIMINAR* cartas", "o etiquetas" },
 				text = {
-					"Mantén {C:mult}#1#{} para {C:attention,E:1}ELIMINAR{} cartas",
+					"Mantener {C:mult}#1#{} para {C:attention,E:1}ELIMINAR{} cartas",
 					"{C:handy_secondary}(funciona para etiquetas){}",
 				},
 			},
@@ -280,13 +294,15 @@ return {
 					"Saltar ciega, Ver mazo, Partida Info",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight = {
 				text = {
-					"Si la tecla es {C:chips}[Botón Izquierdo del ratón]{},",
-					"mantén la tecla {C:attention}FUERA{} de las cartas",
+					"Si la tecla es {C:chips}#2#{},",
+					"Mantener la tecla {C:attention}FUERA{} de las cartas",
 					"y pasa el cursor sobre ellas para destacaras",
 				},
 			},
+			-- Vars: [Left Mouse]
 			insta_highlight_gamepad = {
 				text = {
 					"Funciona tanto para el cursor como",
@@ -310,15 +326,17 @@ return {
 					"a través de los botones de dirección",
 				},
 			},
+			-- Vars: [Fast hand selection]
 			insta_unhighlight = {
 				text = {
 					"Selecciona cartas si la primera no ha sido seleccionada",
-					"Deselecciona cartas si la primera carata ha sido seleccionada",
+					"Deselecciona cartas si la primera carta ha sido seleccionada",
 				},
 			},
+			-- Vars: [Right Mouse]
 			deselect_hand_desktop = {
 				text = {
-					"Reemplaza el {C:chips}[Botón Derecho del ratón]{}",
+					"Reemplaza el {C:chips}#2#{}",
 					"pero funciona igual y puede",
 					"ser reasignado a otra tecla",
 					" ",
@@ -340,7 +358,7 @@ return {
 			move_highlight = {
 				text = {
 					"Selecciona una carta en el área",
-					"y entonces usa los controles en la lista",
+					"y entonces usar los controles en la lista",
 				},
 			},
 			move_highlight_gamepad = {
@@ -348,19 +366,21 @@ return {
 					"{C:mult}No tiene efecto en mandos{}",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
 			speed_multiplier = {
 				text = {
 					"La velocidad del juego puede estar",
-					"entre{C:attention}x1/512{} y {C:attention}x512{}",
+					"entre {C:attention}#4#{} y {C:attention}#5#{}",
 				},
 			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
 			nopeus_interaction = {
 				text = {
 					"Necesita el mod {C:attention}Nopeus{} para funcionar",
 					" ",
 					"Opciones {C:mult}peligrosas{} han de estar",
 					"activadas en la sección",
-					"de {C:attention}Opciones peligrosas{}",
+					"de {C:attention}#4#{}",
 				},
 			},
 			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
@@ -390,14 +410,18 @@ return {
 					"Necesita el mod {C:attention}NotJustYet{} para funcionar",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_desktop = {
 				text = {
-					"Uso determinado por el modo {C:attention}modo Comprar/Vender/Usar{}",
+					"Uso determinado por el modo",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_buy_n_sell_desktop = {
 				text = {
-					"Uso determinado por el modo {C:attention}modo Comprar/Vender/Usar{}",
+					"Uso determinado por el modo",
+					"{C:attention}#2#{}",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -406,16 +430,20 @@ return {
 					"{C:mult}No hace nada en mandos{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use_desktop = {
 				text = {
-					"Uso determinado por el modo {C:attention}modo Comprar/Vender/Usar{}",
+					"Uso determinado por el modo",
+					"{C:attention}#2#{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
 					"{C:mult}No tiene efecto en mandos{}",
 				},
 			},
+			-- Vars: Buy/Sell/Use mode
 			cryptid_code_use_last_interaction = {
 				text = {
 					"Necesita el mod {C:attention}Cryptid{} para funcionar",
@@ -424,7 +452,8 @@ return {
 					"la opcción {C:green}[Introducir valor anterior]{} para:",
 					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
-					"Uso determinado por el modo {C:attention}modo Comprar/Vender/Usar{}",
+					"Uso determinado por el modo",
+					"{C:attention}#2#{}",
 				},
 			},
 			cryptid_code_use_last_interaction_gamepad = {
@@ -442,9 +471,10 @@ return {
 					"en mano, de izquieda a derecha",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
 			immediate_buy_and_sell = {
 				text = {
-					"Mantén {C:mult}[Atajo peligroso]{}, {C:chips}[Comprar/Vender rápido]{},",
+					"Mantener {C:mult}#3#{}, {C:chips}#4#{},",
 					"y coloca el cursor sobre ellas para venderlas inmediatamente",
 				},
 			},
@@ -480,33 +510,36 @@ return {
 					"Necesita el mod mod {C:attention}Nopeus{} para funcionar",
 					" ",
 					"Aunque esta {C:mult}Opción peligrosa{} no esté marcada,",
-					"se puede ponder de forma manual a través",
+					"se puede poner de forma manual a través",
 					"de las opciones del juego",
 				},
 			},
+			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
 			sell_all_same = {
 				text = {
-					'Mantén {C:mult}[Modificador peligroso]{}, {C:mult}[modificador "Todas las copias"]{},',
+					"Mantener {C:mult}#3#{}, {C:mult}#4#{},",
 					"y had click en una carta para vender todas sus copias únicas",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
 			sell_all = {
 				text = {
-					'Mantén {C:mult}[Modificador peligroso]{}, {C:mult}[modificador "TODOS"]{},',
+					"Mantener {C:mult}#2#{}, {C:mult}#3#{},",
 					"y haz click en una carta para vender {C:attention}TODAS{} las cartas en el área",
 				},
 			},
+			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
 			card_remove = {
 				text = {
 					"Cuando se mantenga pulsado, en vez de vender cartas {C:attention}o etiquetas{}, estas serán {C:attention,E:1}ELIMINADAS{}",
 					" ",
-					'Mantén {C:mult}[Modificador peligroso]{}, {C:mult}[modificador "ELIMINAR"]{}, {C:chips}[Comprar/Vender rápido]{}',
+					"Mantener {C:mult}#2#{}, {C:mult}#3#{}, {C:chips}#4#{}",
 					"y coloca el cursor sobre las cartas para {C:attention,E:1}ELIMINARLAS{} (también se aplica la cola)",
 					" ",
-					'Mantén {C:mult}[Modificador peligroso]{}, {C:mult}[modificador "ELIMINAR"]{}, {C:mult}[modificador "Todas las copias"]{}',
+					"Mantener {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#5#{}",
 					"y haz click en la carta {C:attention}o etiqueta{} para {C:attention,E:1}ELIMINAR{} todas sus copias",
 					" ",
-					'Mantén {C:mult}[Modificador peligroso]{}, {C:mult}[Modificador "ELIMINAR"]{}, {C:mult}[Modificador "TODO"]{},',
+					"Mantener {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#6#{},",
 					"y haz click en la carta {C:attention}o etiqueta{} para {C:attention,E:1}ELIMINARLA{}",
 				},
 			},
@@ -541,8 +574,8 @@ return {
 			["Middle Mouse"] = "Rueda del ratón",
 			["Mouse 4"] = "botón 4 del ratón",
 			["Mouse 5"] = "Botón 5 del ratón",
-			["Wheel Up"] = "Rueda para Arriba",
-			["Wheel Down"] = "Rueda para Abajo",
+			["Wheel Up"] = "Rueda hacia arriba",
+			["Wheel Down"] = "Rueda hacia abajo",
 			-- Controls
 			["Escape"] = "Escape",
 			["Shift"] = "Shift",
@@ -639,7 +672,7 @@ return {
 			toggle_sort = "Alternar forma de ordenar",
 			sort_by_rank = "Ordenar por número",
 			sort_by_suit = "Ordenar por palo",
-			deselect_hand = "Desmarcar mano",
+			deselect_hand = "Deseleccionar mano",
 			cash_out = "Cobrar",
 			not_just_yet_end_round = "NotJustYet: Terminar ronda",
 			skip_booster = "Omitir paquete potenciador",
@@ -673,7 +706,7 @@ return {
 			move_highlight_to_end = "Mover al final",
 
 			dangerous_modifier = "Modificador peligroso",
-			dangerous_all_same_modifier = 'Modificador "TODAS LAS COPIAS"',
+			dangerous_all_same_modifier = 'Modificador "Todas las copias"',
 			dangerous_all_modifier = 'Modificador "TODO"',
 			dangerous_remove_modifier = 'Modificador "ELIMINAR"',
 
@@ -706,7 +739,7 @@ return {
 			misc = "Otros",
 		},
 		handy_tabs = {
-			["Overall"] = "General y Base",
+			["Overall"] = "General",
 			["Quick"] = "Acciones rápidas",
 			["Keybinds"] = "Atajos comunes",
 			["Keybinds 2"] = "Otros atajos",
@@ -718,7 +751,7 @@ return {
 		v_dictionary = {
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] o [#2#]",
-			Handy_items_in_queue = "[#1# in la cola]",
+			Handy_items_in_queue = "[#1# en la cola]",
 			Handy_gamespeed_multiplier = "Multiplicador de la velocidad del juego: #1#",
 			Handy_event_queue_retriggers_amount = "Aceleración de la cola de eventos: #1#x",
 			Handy_nopeus_fastforward = "Nopeus acelerar: #1#",
@@ -762,7 +795,7 @@ return {
 
 			b_handy_search_placeholder = "Buscar...",
 			b_handy_search = "Buscar",
-			b_handy_clear = "Limpiar",
+			b_handy_clear = "Eliminar",
 			ph_handy_search_no_results = 'Usa palabras clave como "Más velocidad", "animaciones", "vender" etc.',
 
 			ph_handy_notif_quick_use = "Usar rápido",
