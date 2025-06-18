@@ -122,11 +122,3 @@ Example:
     }
 },
 ```
-
-https://github.com/user-attachments/assets/7ed89be3-a362-42c0-ac86-ccbc8fded62a
-
-https://github.com/user-attachments/assets/2d40e4a6-9ea1-4ffa-a7fd-e0e8b9856b2b
-
-https://github.com/user-attachments/assets/9ec9dfba-a7df-4ecf-a3e0-67dc802c310d
-
-https://github.com/user-attachments/assets/4c958f09-74c3-4c11-88ab-48989c41dfde
