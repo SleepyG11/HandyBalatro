@@ -3,10 +3,10 @@
 	"name": "Handy",
 	"display_name": "Handy",
 	"author": ["SleepyG11"],
-	"description": "A mod for Balatro which adds new Quality of Life controls.",
+	"description": "Quality of Life controls & keybinds",
 	"prefix": "handy",
 	"main_file": "steamodded.lua",
 	"priority": 0,
-	"version": "1.4.2b",
+	"version": "1.5.0",
 	"dependencies": []
 }

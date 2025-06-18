@@ -1,0 +1,29 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Localization
+[[patches]]
+[patches.module]
+source = 'loc_txt/en-us.lua'
+before = 'main.lua'
+name = 'handy/localization/en-us'
+
+[[patches]]
+[patches.module]
+source = 'loc_txt/ru.lua'
+before = 'main.lua'
+name = 'handy/localization/ru'
+
+[[patches]]
+[patches.module]
+source = 'loc_txt/es_419.lua'
+before = 'main.lua'
+name = 'handy/localization/es_419'
+
+[[patches]]
+[patches.module]
+source = 'loc_txt/es_ES.lua'
+before = 'main.lua'
+name = 'handy/localization/es_ES'

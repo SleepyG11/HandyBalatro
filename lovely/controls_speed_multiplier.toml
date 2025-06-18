@@ -1,0 +1,31 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Apply multiplier to speed
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
+position = "after"
+payload = '''
+self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.get_value() or 1
+if Handy.insta_cash_out.is_skipped then
+    self.SPEEDFACTOR = math.max(self.SPEEDFACTOR, 999)
+end
+'''
+match_indent = true
+overwrite = false
+
+# E_MANAGER overclock
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.E_MANAGER:update(self.real_dt)'''
+position = "after"
+payload = '''
+Handy.speed_multiplier.accelerate_queue(self.E_MANAGER)
+'''
+match_indent = true
+overwrite = false

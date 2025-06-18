@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Show deck preview
+[[patches]]
+[patches.regex]
+target = "game.lua"
+pattern = '''G.CONTROLLER.held_buttons.triggerleft'''
+position = "at"
+payload = '''
+Handy.show_deck_preview.is_hold
+'''
+overwrite = false
+times = 2

@@ -1,0 +1,39 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Skipping Cash Out stage
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.FUNCS.evaluate_round()'''
+position = "after"
+payload = '''
+Handy.insta_cash_out.can_skip = true
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.cash_out = function(e)'''
+position = "after"
+payload = '''
+if Handy.insta_cash_out.is_skipped and e.config.button then return end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.STATE = G.STATES.SHOP'''
+position = "after"
+payload = '''
+Handy.insta_cash_out.is_skipped = false
+Handy.insta_cash_out.can_skip = false
+'''
+match_indent = true
+overwrite = false

@@ -1,0 +1,126 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Juice Issues Patch from https://github.com/MathIsFun0/Talisman/blob/main/lovely.toml
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() card:juice_up(0.7);return true end)"
+position = "at"
+payload = "func = (function() if card and card.juice_up then card:juice_up(0.7) end;return true end)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if card then card:juice_up(0.8, 0.5) end"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.8, 0.5) end"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "card:juice_up(0.6, 0.1)"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.6, 0.1) end"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+
+# Money buffer
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))"
+position = "at"
+payload = """
+if not Handy.animation_skip.should_skip_messages() then
+  G.E_MANAGER:add_event(Event({
+    func = (function()
+      G.GAME.dollar_buffer = 0
+      return true
+    end)
+  }))
+else
+  G.GAME.dollar_buffer = 0
+end
+"""
+match_indent = true
+overwrite = false
+
+# Vanilla empty events fix
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = "if effects[ii].card then"
+position = "at"
+payload = "if effects[ii].card and not Handy.animation_skip.should_skip_animation() then"
+match_indent = true
+overwrite = false
+
+
+# Allow juice up for juice_up_until
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if not first or first then Handy.animation_skip.allow_juice_up = true card:juice_up(0.1, 0.1); Handy.animation_skip.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+overwrite = false
+
+# Remove pack cards faster
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = "G.FUNCS.draw_from_hand_to_deck()"
+position = "before"
+payload = "if not Nopeus and G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
+match_indent = true
+overwrite = false
+
+# Mute ease_dollars to prevent sound explosion
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "function ease_dollars(mod, instant)"
+position = "after"
+payload = "local handy_ease_muted = Handy.animation_skip.mute_ease_dollars > 0"
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "play_sound('coin1')"
+position = "before"
+payload = "if handy_ease_muted then return end"
+match_indent = true
+overwrite = false
+
+# Fix blind chip dissolving
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()'''
+position = "after"
+payload = "self.dissolve = 0"
+match_indent = true
+overwrite = false

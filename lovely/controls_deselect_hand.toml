@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Prevent default hand deselecting
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if (G.play and #G.play.cards > 0) or'''
+position = "after"
+payload = '''
+Handy.deselect_hand.should_prevent() or
+'''
+match_indent = true
+overwrite = false

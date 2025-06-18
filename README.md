@@ -1,50 +1,36 @@
-# Handy - Quality of Life controls for Balatro
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/128aa4d1-55c5-401c-b144-52f640f512ff">
+</p>
 
-Handy - a lovely mod which adds new game controls to make playing [Balatro](https://store.steampowered.com/app/2379780/Balatro/) much faster and easier.<br/>
-Especially useful with mods where dealing with thousands of cards and booster packs is a common gameplay.
+<p align="center">
+    <b>Handy</b> - a lovely mod which adds new controls and keybinds to the game<br/>designed for faster and easier playing Vanilla and Modded <a href="https://store.steampowered.com/app/2379780/Balatro/" target="_blank">Balatro</a>
+</p>
 
 ## Key features
 
--   Keybinds for common game buttons and actions:
-    -   "Play", "Discard", "Sort hand by rank/suit", "Deselect hand"
-    -   "Cash out", "Reroll shop", "Leave shop", "Skip Booster pack"
-    -   "Skip blind", "Select blind"
-    -   "Run info", "View deck", "Deck preview"
--   Highlight cards in hand by hovering them
--   In-game ability to adjust game speed up to x512
--   Controls to move highlight or cards in card areas
--   Controls to quick buy/sell/use cards
--   Other controls:
-    -   Highlight entire hand
-    -   Buy and immediately sell card in one click
-
-> [!NOTE]
-> Each control can be assigned to mouse button, mouse wheel or keyboard key in mod settings.<br/>
-> No game or run restart required.
-
-> [!TIP]
-> For keybinds, "On press" or "On release" mode can be selected.<br/>
-> For buy/sell/use controls, "On card click" or "On button press" mode can be selected.
-
-## Specific controls for other mods
-
--   [Not Just Yet](https://github.com/Toneblock/balatro-NotJustYet) - keybind for "End round" button
--   [Nopeus](https://github.com/jenwalter666/JensBalatroCollection) - In-game ability to adjust "Fast-Forward" setting
--   [Cryptid](https://github.com/MathIsFun0/Cryptid) - Use code card with previously inputted value
+-   **Vanilla-friendly**: no new run required; stability is priority, safe for use in base game and [Multiplayer](https://github.com/Balatro-Multiplayer/BalatroMultiplayer);
+-   **Works without Steamodded**: but included supports for variety of different mods (NotJustYet, Nopeus, Cryptid);
+-   **Fast hand selection**: highlight cards just by hovering them [(showcase)](https://www.youtube.com/watch?v=wPoW-uVKMt0);
+-   **Keybinds for all vanilla buttons and actions**: play, discard, hand sorting, cash out, shop reroll, view deck, *and more*;
+-   **Game speed**: adjust game speed up to x512 in-run;
+-   **Animation skip**: instant scoring and removing unnecessary animations to speedup game even further [(showcase)](https://www.youtube.com/watch?v=CRxGXIhjW3s);
+-   **Quick Buy/Sell/Use**: controls to buy, sell or use cards faster [(showcase)](https://www.youtube.com/watch?v=s1YnNI0W27k);
+-   **Selection movement**: more precise management on large amoung of jokers or consumables [(showcase)](https://www.youtube.com/watch?v=E0wz5qP22CA);
+-   **Full control**: each feature can be disabled/enabled individually, each keybind can be reassigned to any keyboard or mouse button;
+-   **Gamepad support**: most features can be used with gamepad aswell;
+-   **Presets**: save up to 3 mod settings layouts and switch between them in-run to have more freedom with limited amount of buttons;
 
 ## Danger zone
 
 > [!CAUTION]
-> This controls designed to be speed-first, which **can cause bugs or crashes**!<br/>
+> This controls designed to be speed-first, which **can cause bugs, crashes or tank performance**!<br/>
 > Also, their usage can lead to accidental cards selling or removing if do it not carefully!<br/>
 > Hovewer, they're really useful for dealing with huge amount of Jokers, Consumables or Skip tags.<br/>
-> Must be enabled in mod settings.
+> Must be enabled separately. Use with caution.
 
--   Advanced sell and REMOVE controls:
-    -   Sell/remove multiple cards
-    -   Sell/remove queue
-    -   Sell/remove all copies of card or skip tag in area
-    -   Sell/remove **ALL** cards or skip in area
+-   **Sell cards in bulk**: all copies or ALL cards at once [(showcase)](https://www.youtube.com/watch?v=mE1R6xTKcaE);
+-   **Removing**: deleting excessive jokers, consumables or __skip tags__;
+-   **Max speed**: uncapped game speed and instant game animations;
 
 > [!NOTE]
 > REMOVE card or skip tag - delete without any checks, effects, triggers or money refunds.
@@ -52,16 +38,27 @@ Especially useful with mods where dealing with thousands of cards and booster pa
 ## Installation
 
 1. Install [lovely](https://github.com/ethangreen-dev/lovely-injector) by following instructions in repository page. Make sure your antivirus is not removing it;
-2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod by selecting an archive named `Handy-[version].zip`;
-3. Put `HandyBalatro` folder from archive (NOT `Handy-[version]`) into game's `Mods` folder (can be found in `%appdata%/Balatro/Mods`);
+2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod by selecting an archive named `Handy-[version].zip`; 
+3. Put `HandyBalatro` folder from archive (NOT `Handy-[version]`) into game's `Mods` folder.<br/> 
+   Can be found in `%appdata%/Balatro/Mods`. if `Mods` folder is missing, create it;
 4. Start a game. If all done correctly, new button should appear in options menu;
 5. Configure each feature and keybind as you want. All of them listed in mod settings;
-6. Continue playing! No game restart or new run required, even after settings change.
+6. Continue playing! No game restart or new run required.
 
 ## Contribute
 
 Want new features to be implemented? Want add mod support? Found a bug?<br/>
 [Create an issue](https://github.com/SleepyG11/HandyBalatro/issues/) or let me know in [Discord mod's thread](https://discord.com/channels/1116389027176787968/1270746376312979456)!
+
+## Special thanks
+
+- Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
+- [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
+- [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
+- [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
+- missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
+- jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
+- and everyone who report bugs, make suggestions, and playing with Handy mod!
 
 ## For developers
 
@@ -98,19 +95,31 @@ if Handy and Handy.get_module_override then
                 enabled = false
             }
         end
-        return funcRef()
+        return funcRef(module)
     end
 end
 ```
 
-## Some controls preview
+When adding new buy or use buttons for jokers/consumables, you can mark them and Handy will use them when [Quick Buy/Sell] or [Quick Use] is called.
+Include in button config definition field `handy_insta_action` with one of the following values:
+- `sell` for mass-sell features or when [Quick buy/sell] is used (aka Shift is hold); Use for "Sell" buttons;
+- `buy_or_sell` when [Quick buy/sell] is used (aka Shift is hold); Use for "Buy" buttons;
+- `use` when [Quick use] is used (aka Ctrl is hold); Use for "Use" buttons or buttons unique for your cards;
 
-https://github.com/user-attachments/assets/6406309f-f629-41c5-851d-90f99cb35cfa
+*Only difference between `sell` and `buy_or_sell` is for mass-sell features, since only selling is allowed for it.*
 
-https://github.com/user-attachments/assets/7ed89be3-a362-42c0-ac86-ccbc8fded62a
+Example:
+```lua
+-- Somewhere inside `G.UIDEF.buy_and_sell_buttons()` hook
 
-https://github.com/user-attachments/assets/2d40e4a6-9ea1-4ffa-a7fd-e0e8b9856b2b
-
-https://github.com/user-attachments/assets/9ec9dfba-a7df-4ecf-a3e0-67dc802c310d
-
-https://github.com/user-attachments/assets/4c958f09-74c3-4c11-88ab-48989c41dfde
+{
+    n=G.UIT.R,
+    config={
+        -- ...your button definition
+        button = 'buy_my_card', func = 'can_buy_my_card', handy_insta_action = 'buy_or_sell'
+    },
+    nodes={
+        -- ...
+    }
+},
+```
