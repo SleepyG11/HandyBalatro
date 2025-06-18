@@ -58,6 +58,7 @@ Want new features to be implemented? Want add mod support? Found a bug?<br/>
 - [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
 - missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
 - jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
+- and everyone who report bugs, make suggestions, and playing with Handy mod!
 
 ## For developers
 
