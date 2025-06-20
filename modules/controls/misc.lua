@@ -111,12 +111,32 @@ Handy.misc_controls = {
 		return true
 	end,
 
+	can_restart_run = function(key, released)
+		return G.STAGE == G.STAGES.RUN
+			and not G.SETTINGS.paused
+			and not Handy.is_in_multiplayer()
+			and Handy.controller.is_module_key(Handy.cc.misc.quick_restart, key)
+	end,
+	restart_fun = function(key, released)
+		local old_hold_value = G.CONTROLLER.held_key_times.r
+		G.CONTROLLER.held_key_times.r = 999
+		Handy.animation_skip.skip_wipe_screen = true
+		Handy.animation_skip.force_non_blocking = true
+		G.CONTROLLER:key_hold_update("r", 0)
+		G.CONTROLLER.held_key_times.r = old_hold_value
+		Handy.animation_skip.skip_wipe_screen = false
+		Handy.animation_skip.force_non_blocking = false
+		return true
+	end,
+
 	use = function(key, released)
 		if released then
 			return false
 		end
 		if Handy.misc_controls.can_crash(key, released) then
 			return Handy.misc_controls.crash(key, released)
+		elseif Handy.misc_controls.can_restart_run(key, released) then
+			return Handy.misc_controls.restart_fun(key, released)
 		elseif Handy.misc_controls.can_open_mod_settings(key, released) then
 			return Handy.misc_controls.open_mod_settings(key, released)
 		elseif Handy.misc_controls.can_save_run(key, released) then

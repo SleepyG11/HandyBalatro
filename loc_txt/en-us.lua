@@ -707,6 +707,7 @@ return {
 			misc_open_mod_settings = "Open mod settings",
 			misc_crash = "Crash a game",
 			misc_save_run = "Save run",
+			misc_quick_restart = "Quick restart",
 		},
 		handy_keybind_sections = {
 			hand = "Hand",

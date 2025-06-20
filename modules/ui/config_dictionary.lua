@@ -1060,6 +1060,13 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.save_run, "misc_save_run")
 		end,
 	},
+	misc_quick_restart = {
+		loc_key = "misc_quick_restart",
+		keywords = { "miscellaneous", "quick restart run" },
+		keybind = function()
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.quick_restart, "misc_quick_restart")
+		end,
+	},
 }
 
 local dictionary_order = {
