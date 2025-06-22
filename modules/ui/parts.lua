@@ -55,8 +55,8 @@ Handy.UI.PARTS = {
 			})
 		end
 	end,
-	create_new_module_checkbox = function(module, loc_key, loc_vars, options)
-		options = options or {}
+	create_new_module_checkbox = function(module, loc_key, loc_vars, options, additional_options)
+		options = Handy.utils.table_merge({}, additional_options or {}, options or {})
 		local formatted_keys = Handy.UI.PARTS.format_new_module_keys(module, options.only_first)
 		local result_loc_vars = { formatted_keys }
 		for _, v in ipairs(loc_vars or {}) do
@@ -127,11 +127,12 @@ Handy.UI.PARTS = {
 				func = "handy_setup_config_popup",
 				handy_loc_key = loc_key,
 				handy_loc_vars = result_loc_vars,
-				funnel_from = true,
 				colour = (Handy.UI.is_in_search_result_page and options.dangerous) and adjust_alpha(G.C.MULT, 0.15)
 					or G.C.CLEAR,
 				padding = Handy.UI.is_in_search_result_page and 0.1 or 0,
 				r = 0.1,
+				hover = true,
+				can_collide = true,
 			},
 			nodes = {
 				{
@@ -176,8 +177,8 @@ Handy.UI.PARTS = {
 			},
 		}
 	end,
-	create_module_keybind = function(module, loc_key, options)
-		options = options or {}
+	create_module_keybind = function(module, loc_key, options, additional_options)
+		options = Handy.utils.table_merge({}, additional_options or {}, options or {})
 		local dangerous = options.dangerous
 		local rerender = Handy.UI.is_in_search_result_page or options.rerender
 		local disabled = options.disabled

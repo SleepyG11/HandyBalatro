@@ -707,6 +707,7 @@ return {
 			misc_open_mod_settings = "Abrir configuración del mod",
 			misc_crash = "Hacer que el juego se bloquee",
 			misc_save_run = "Guardar partida",
+			misc_quick_restart = "Reinicio rápido",
 		},
 		handy_keybind_sections = {
 			hand = "Mano",

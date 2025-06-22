@@ -77,6 +77,7 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.PARTS.create_module_section("misc"),
 			Handy.UI.CD.misc_open_mod_settings.keybind(),
 			Handy.UI.CD.misc_save_run.keybind(),
+			Handy.UI.CD.misc_quick_restart.keybind(),
 			Handy.UI.CD.misc_crash.keybind(),
 		}
 	end
@@ -153,7 +154,7 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 2 then
 		result = {
-			Handy.UI.CD.move_highlight.checkbox(),
+			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
 			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
@@ -198,18 +199,74 @@ Handy.UI.get_quick_page = function(page)
 	return result, 2
 end
 Handy.UI.get_search_no_result_page = function()
+	local function create_input_button(label, value)
+		return UIBox_button({
+			label = { label },
+			button = "handy_apply_search_with_value",
+			ref_table = { handy_search_input_value = value },
+			scale = 0.3,
+			minw = 3.5,
+			maxw = 3.5,
+			minh = 0.4,
+			maxh = 0.4,
+			colour = G.C.CHIPS,
+		})
+	end
+
 	return {
 		{
 			n = G.UIT.C,
 			config = { align = "cm", padding = 0.5 },
 			nodes = {
 				{
-					n = G.UIT.T,
+					n = G.UIT.R,
 					config = {
-						text = localize("ph_handy_search_no_results"),
-						colour = G.C.WHITE,
-						scale = 0.4,
 						align = "cm",
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = localize("ph_handy_search_no_results"),
+								colour = G.C.WHITE,
+								scale = 0.4,
+								align = "cm",
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = {
+						align = "cm",
+						padding = 0.05,
+					},
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = { padding = 0.05, align = "cm" },
+							nodes = {
+								create_input_button(
+									localize("quick_highlight", "handy_keybind_labels"),
+									"fast hand selection"
+								),
+								create_input_button(
+									localize("gamespeed", "handy_keybind_sections"),
+									"speed multiplier"
+								),
+								create_input_button(localize("animations", "handy_keybind_sections"), "animation"),
+							},
+						},
+						Handy.UI.PARTS.create_separator_c(),
+						{
+							n = G.UIT.C,
+							config = { padding = 0.05, align = "cm" },
+							nodes = {
+								create_input_button(localize("Keybinds", "handy_tabs"), "regular keybinds"),
+								create_input_button(localize("misc", "handy_keybind_sections"), "miscellaneous"),
+								create_input_button(localize("Dangerous", "handy_tabs"), "dangerous"),
+							},
+						},
 					},
 				},
 			},
@@ -368,7 +425,7 @@ Handy.UI.get_config_tab_overall = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.CD.handy.checkbox(),
+						Handy.UI.CD.handy.checkbox({ full_width = true }),
 					},
 				},
 			},
@@ -688,7 +745,7 @@ Handy.UI.get_config_tab_dangerous = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.CD.dangerous_actions.checkbox(),
+						Handy.UI.CD.dangerous_actions.checkbox({ full_width = true }),
 					},
 				},
 			},
@@ -747,11 +804,11 @@ Handy.UI.get_config_tab_dangerous = function()
 								padding = 0.05,
 							},
 							nodes = {
-								Handy.UI.CD.insta_buy_or_sell.keybind(),
-								Handy.UI.CD.immediate_buy_and_sell.keybind(),
-								Handy.UI.CD.sell_all_same_modifier.keybind(),
-								Handy.UI.CD.sell_all_modifier.keybind(),
-								Handy.UI.CD.remove_modifier.keybind(),
+								Handy.UI.CD.insta_buy_or_sell.keybind({ rerender = true }),
+								Handy.UI.CD.immediate_buy_and_sell.keybind({ rerender = true }),
+								Handy.UI.CD.sell_all_same_modifier.keybind({ rerender = true }),
+								Handy.UI.CD.sell_all_modifier.keybind({ rerender = true }),
+								Handy.UI.CD.remove_modifier.keybind({ rerender = true }),
 							},
 						},
 					},

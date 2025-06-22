@@ -627,6 +627,7 @@ return {
 			misc_open_mod_settings = "Открыть настройки мода",
 			misc_crash = "Крашнуть игру",
 			misc_save_run = "Сохранить игру",
+			misc_quick_restart = "Быстрый рестарт",
 		},
 		handy_keybind_sections = {
 			hand = "Рука",

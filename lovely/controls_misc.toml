@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Fix SMODS incorrect challenge saving
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''G.challenge_tab = G.GAME and G.GAME.challenge and G.GAME.challenge_tab or nil'''
+position = "after"
+payload = '''
+if type(G.challenge_tab) == "string" and G.GAME and G.GAME.challenge then
+    G.challenge_tab = G.CHALLENGES[get_challenge_int_from_id(G.GAME.challenge or '') or ''] or {name = 'ERROR'}
+end
+'''
+match_indent = true
+overwrite = false
