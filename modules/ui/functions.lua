@@ -220,20 +220,12 @@ end
 -- Search
 
 function G.FUNCS.handy_clear_search()
-	-- TODO: optimize, because this freezes a game for a while
 	Handy.UI.search_input_value = ""
-	G.CONTROLLER.text_input_hook = G.OVERLAY_MENU:get_UIE_by_ID("handy_search").children[1].children[1]
-	G.CONTROLLER.text_input_hook:click()
-	for i = 1, 32 do
-		G.FUNCS.text_input_key({ key = "right" })
-	end
-	for i = 1, 32 do
-		G.FUNCS.text_input_key({ key = "backspace" })
-	end
+	Handy.UI.rerender(true)
 end
 
 function G.FUNCS.handy_apply_search_with_value(e)
-	Handy.UI.search_input_value = e.config.search_input_value or ""
+	Handy.UI.search_input_value = (e.config.ref_table or {}).handy_search_input_value or ""
 	Handy.UI.rerender(true)
 end
 

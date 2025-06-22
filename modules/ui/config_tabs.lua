@@ -199,18 +199,74 @@ Handy.UI.get_quick_page = function(page)
 	return result, 2
 end
 Handy.UI.get_search_no_result_page = function()
+	local function create_input_button(label, value)
+		return UIBox_button({
+			label = { label },
+			button = "handy_apply_search_with_value",
+			ref_table = { handy_search_input_value = value },
+			scale = 0.3,
+			minw = 3.5,
+			maxw = 3.5,
+			minh = 0.4,
+			maxh = 0.4,
+			colour = G.C.CHIPS,
+		})
+	end
+
 	return {
 		{
 			n = G.UIT.C,
 			config = { align = "cm", padding = 0.5 },
 			nodes = {
 				{
-					n = G.UIT.T,
+					n = G.UIT.R,
 					config = {
-						text = localize("ph_handy_search_no_results"),
-						colour = G.C.WHITE,
-						scale = 0.4,
 						align = "cm",
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = localize("ph_handy_search_no_results"),
+								colour = G.C.WHITE,
+								scale = 0.4,
+								align = "cm",
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = {
+						align = "cm",
+						padding = 0.05,
+					},
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = { padding = 0.05, align = "cm" },
+							nodes = {
+								create_input_button(
+									localize("quick_highlight", "handy_keybind_labels"),
+									"fast hand selection"
+								),
+								create_input_button(
+									localize("gamespeed", "handy_keybind_sections"),
+									"speed multiplier"
+								),
+								create_input_button(localize("animations", "handy_keybind_sections"), "animation"),
+							},
+						},
+						Handy.UI.PARTS.create_separator_c(),
+						{
+							n = G.UIT.C,
+							config = { padding = 0.05, align = "cm" },
+							nodes = {
+								create_input_button(localize("Keybinds", "handy_tabs"), "regular keybinds"),
+								create_input_button(localize("misc", "handy_keybind_sections"), "miscellaneous"),
+								create_input_button(localize("Dangerous", "handy_tabs"), "dangerous"),
+							},
+						},
 					},
 				},
 			},
