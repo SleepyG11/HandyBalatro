@@ -38,12 +38,14 @@ local dictionary = {
 			keyw.configs,
 		},
 		order = 1,
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.handy,
 				"handy",
 				{ Handy.version, "SleepyG11" },
-				{ full_width = true }
+				nil,
+				options
 			)
 		end,
 	},
@@ -56,14 +58,21 @@ local dictionary = {
 			"hide show menu button",
 		},
 		order = 1.01,
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.hide_options_button, "hide_options_button")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.hide_options_button,
+				"hide_options_button",
+				nil,
+				nil,
+				options
+			)
 		end,
-		keybind = function() end,
 	},
 	info_popups_level = {
 		keywords = { "messages info notification notify", "popup panel", "black red" },
-		option_cycle = function()
+		option_cycle = function(options)
+			options = options or {}
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_info_popups_level_select"),
@@ -76,7 +85,8 @@ local dictionary = {
 	},
 	keybinds_trigger_mode = {
 		keywords = { "keybinds buttons controls", "trigger mode", "pressed released" },
-		option_cycle = function()
+		option_cycle = function(options)
+			options = options or {}
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_keybinds_trigger_mode_select"),
@@ -89,7 +99,8 @@ local dictionary = {
 	},
 	device_select = {
 		keywords = { "controller gamepad desktop touchpad touch pad auto", "choose select device input" },
-		option_cycle = function()
+		option_cycle = function(options)
+			options = options or {}
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_device_select"),
@@ -102,7 +113,8 @@ local dictionary = {
 	},
 	buy_sell_use_mode = {
 		keywords = { "buy sell use mode", "hold click press hover", "cards buttons keybinds controls" },
-		option_cycle = function()
+		option_cycle = function(options)
+			options = options or {}
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_buy_sell_use_mode_select"),
@@ -118,7 +130,8 @@ local dictionary = {
 		loc_key = "insta_highlight",
 		keywords = { keyw.fast_hand_select },
 		order = 2,
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.insta_highlight,
 				(
@@ -131,14 +144,17 @@ local dictionary = {
 				},
 				{
 					only_first = true,
-				}
+				},
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.insta_highlight,
 				"quick_highlight",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
@@ -146,15 +162,19 @@ local dictionary = {
 		loc_key = "insta_unhighlight",
 		keywords = { keyw.fast_hand_deselect },
 		order = 2.01,
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.insta_highlight.allow_deselect,
 				"insta_unhighlight",
-				{ Handy.UI.PARTS.localize_keybind_label("quick_highlight") }
+				{ Handy.UI.PARTS.localize_keybind_label("quick_highlight") },
+				nil,
+				options
 			)
 		end,
-		keybind = function()
-			return Handy.UI.CD.insta_highlight.keybind()
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.insta_highlight.keybind(options)
 		end,
 		keybind_group = "insta_highlight",
 	},
@@ -162,16 +182,23 @@ local dictionary = {
 		loc_key = "insta_highlight_entire_f_hand",
 		keywords = { "full entire hand all", "hand cards selection selecting highlightning" },
 		order = 2.02,
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.insta_highlight_entire_f_hand,
-				"insta_highlight_entire_f_hand"
+				"insta_highlight_entire_f_hand",
+				nil,
+				nil,
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.insta_highlight_entire_f_hand,
-				"highlight_entire_f_hand"
+				"highlight_entire_f_hand",
+				nil,
+				options
 			)
 		end,
 	},
@@ -183,13 +210,15 @@ local dictionary = {
 			"hand cards deselection deselecting unhighlightning",
 		},
 		order = 2.03,
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
 				Handy.UI.PARTS.localize_keybind("Right Mouse", true),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand", nil, options)
 		end,
 	},
 
@@ -211,12 +240,22 @@ local dictionary = {
 			keyw.view_deck,
 		},
 		order = 3,
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.regular_keybinds, "regular_keybinds")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.regular_keybinds,
+				"regular_keybinds",
+				nil,
+				nil,
+				options
+			)
 		end,
-		keybind = function() end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		keybind = function(options)
+			options = options or {}
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -224,15 +263,18 @@ local dictionary = {
 		loc_key = "play_hand",
 		keywords = { keyw.regular_keybinds, keyw.play_hand },
 		order = 3.01,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.play, "play_hand", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -240,15 +282,18 @@ local dictionary = {
 		loc_key = "discard",
 		keywords = { keyw.regular_keybinds, keyw.discard_hand },
 		order = 3.02,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.discard, "discard", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -256,15 +301,23 @@ local dictionary = {
 		loc_key = "sort_by_rank",
 		keywords = { keyw.regular_keybinds, keyw.sort_hand, "ranks" },
 		order = 3.03,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_rank, "sort_by_rank")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.sort_by_rank,
+				"sort_by_rank",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -272,15 +325,23 @@ local dictionary = {
 		loc_key = "sort_by_suit",
 		keywords = { keyw.regular_keybinds, keyw.sort_hand, "suits" },
 		order = 3.04,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.sort_by_suit, "sort_by_suit")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.sort_by_suit,
+				"sort_by_suit",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -288,15 +349,23 @@ local dictionary = {
 		loc_key = "toggle_sort",
 		keywords = { keyw.regular_keybinds, keyw.sort_hand, "ranks suits toggle switch" },
 		order = 3.05,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.toggle_sort, "toggle_sort")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.toggle_sort,
+				"toggle_sort",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -304,15 +373,23 @@ local dictionary = {
 		loc_key = "run_info_hands",
 		keywords = { keyw.regular_keybinds, keyw.run_info, "poker hands pokerhands" },
 		order = 3.06,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info, "run_info_hands")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.run_info,
+				"run_info_hands",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -320,15 +397,23 @@ local dictionary = {
 		loc_key = "run_info_blinds",
 		keywords = { keyw.regular_keybinds, keyw.run_info, "blinds bosses ante" },
 		order = 3.07,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.run_info_blinds, "run_info_blinds")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.run_info_blinds,
+				"run_info_blinds",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -336,15 +421,18 @@ local dictionary = {
 		loc_key = "view_deck",
 		keywords = { keyw.regular_keybinds, keyw.view_deck },
 		order = 3.08,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.view_deck, "view_deck", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -352,14 +440,23 @@ local dictionary = {
 		loc_key = "show_deck_preview",
 		keywords = { keyw.regular_keybinds, keyw.deck_preview },
 		order = 3.085,
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.show_deck_preview, "show_deck_preview")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.show_deck_preview,
+				"show_deck_preview",
+				nil,
+				nil,
+				options
+			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.show_deck_preview,
 				"deck_preview",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
@@ -367,15 +464,23 @@ local dictionary = {
 		loc_key = "skip_blind",
 		keywords = { keyw.regular_keybinds, keyw.skip_blind },
 		order = 3.1,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.skip_blind, "skip_blind")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.skip_blind,
+				"skip_blind",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -383,15 +488,23 @@ local dictionary = {
 		loc_key = "select_blind",
 		keywords = { keyw.regular_keybinds, keyw.select_blind },
 		order = 3.11,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.select_blind, "select_blind")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.select_blind,
+				"select_blind",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -399,15 +512,23 @@ local dictionary = {
 		loc_key = "reroll_boss",
 		keywords = { keyw.regular_keybinds, keyw.reroll_boss },
 		order = 3.115,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_boss, "reroll_boss")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.reroll_boss,
+				"reroll_boss",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -415,26 +536,47 @@ local dictionary = {
 		loc_key = "insta_cash_out",
 		keywords = { keyw.regular_keybinds, keyw.cash_out },
 		order = 3.12,
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_cash_out, "insta_cash_out")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.insta_cash_out,
+				"insta_cash_out",
+				nil,
+				nil,
+				options
+			)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_cash_out, "cash_out", { only_holdable = true })
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.insta_cash_out,
+				"cash_out",
+				{ only_holdable = true },
+				options
+			)
 		end,
 	},
 	regular_keybinds_reroll_shop = {
 		loc_key = "reroll_shop",
 		keywords = { keyw.regular_keybinds, keyw.reroll_shop },
 		order = 3.13,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.reroll_shop, "reroll_shop")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.reroll_shop,
+				"reroll_shop",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -442,15 +584,23 @@ local dictionary = {
 		loc_key = "leave_shop",
 		keywords = { keyw.regular_keybinds, keyw.leave_shop },
 		order = 3.14,
-		checkbox = function()
-			return Handy.UI.CD.regular_keybinds.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
 		end,
 		checkbox_group = "regular_keybinds",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.regular_keybinds.leave_shop, "leave_shop")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.leave_shop,
+				"leave_shop",
+				nil,
+				options
+			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.keybinds_trigger_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
@@ -458,30 +608,45 @@ local dictionary = {
 	insta_booster_skip = {
 		loc_key = "insta_booster_skip",
 		keywords = { keyw.regular_keybinds, keyw.skip_booster },
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_booster_skip, "insta_booster_skip")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.insta_booster_skip,
+				"insta_booster_skip",
+				nil,
+				nil,
+				options
+			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.insta_booster_skip,
 				"skip_booster",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
 	not_just_yet_interaction = {
 		keywords = { "round end finish", "not just yet notjustyet" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.not_just_yet_interaction,
-				"not_just_yet_interaction"
+				"not_just_yet_interaction",
+				nil,
+				nil,
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.not_just_yet_interaction,
 				"not_just_yet_end_round",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
@@ -489,73 +654,85 @@ local dictionary = {
 	move_highlight = {
 		loc_key = "move_highlight",
 		keywords = { keyw.move_highlight },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.move_highlight, "move_highlight", {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_left, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.dx.one_right, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.swap, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.move_highlight.to_end, true),
-			}, { full_width = true })
+			}, nil, options)
 		end,
-		keybind = function() end,
 	},
 	move_highlight_one_left = {
 		loc_key = "move_highlight_one_left",
 		keywords = { keyw.move_highlight, "one left" },
-		checkbox = function()
-			return Handy.UI.CD.move_highlight.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.move_highlight.checkbox(options)
 		end,
 		checkbox_group = "move_highlight",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.dx.one_left,
 				"move_highlight_one_left",
-				{ disabled = Handy.controller.is_gamepad() }
+				{ disabled = Handy.controller.is_gamepad() },
+				options
 			)
 		end,
 	},
 	move_highlight_one_right = {
 		loc_key = "move_highlight_one_right",
 		keywords = { keyw.move_highlight, "one right" },
-		checkbox = function()
-			return Handy.UI.CD.move_highlight.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.move_highlight.checkbox(options)
 		end,
 		checkbox_group = "move_highlight",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.dx.one_right,
 				"move_highlight_one_right",
-				{ disabled = Handy.controller.is_gamepad() }
+				{ disabled = Handy.controller.is_gamepad() },
+				options
 			)
 		end,
 	},
 	move_highlight_move_card = {
 		loc_key = "move_highlight_move_card",
 		keywords = { keyw.move_highlight, "move shuffle cards" },
-		checkbox = function()
-			return Handy.UI.CD.move_highlight.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.move_highlight.checkbox(options)
 		end,
 		checkbox_group = "move_highlight",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.swap,
 				"move_highlight_move_card",
-				{ disabled = Handy.controller.is_gamepad(), only_holdable = true }
+				{ disabled = Handy.controller.is_gamepad(), only_holdable = true },
+				options
 			)
 		end,
 	},
 	move_highlight_to_end = {
 		loc_key = "move_highlight_to_end",
 		keywords = { keyw.move_highlight, "to end" },
-		checkbox = function()
-			return Handy.UI.CD.move_highlight.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.move_highlight.checkbox(options)
 		end,
 		checkbox_group = "move_highlight",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.move_highlight.to_end,
 				"move_highlight_to_end",
-				{ disabled = Handy.controller.is_gamepad(), only_holdable = true }
+				{ disabled = Handy.controller.is_gamepad(), only_holdable = true },
+				options
 			)
 		end,
 	},
@@ -563,71 +740,87 @@ local dictionary = {
 	insta_buy_or_sell = {
 		loc_key = "insta_buy_or_sell",
 		keywords = { keyw.buy, keyw.sell, "or" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_or_sell, "insta_buy_or_sell", {
 				localize("b_handy_buy_sell_use_mode_select"),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_or_sell, "quick_buy_or_sell", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle(options)
 		end,
 		option_cycle_group = "buy_sell_use_mode",
 	},
 	insta_buy_n_sell = {
 		loc_key = "insta_buy_n_sell",
 		keywords = { keyw.buy, keyw.sell, "or and", "buy'n'sell buy and sell" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_n_sell, "insta_buy_n_sell", {
 				localize("b_handy_buy_sell_use_mode_select"),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_buy_n_sell, "quick_buy_n_sell", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle(options)
 		end,
 		option_cycle_group = "buy_sell_use_mode",
 	},
 	insta_use = {
 		loc_key = "insta_use",
 		keywords = { keyw.use },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use", {
 				localize("b_handy_buy_sell_use_mode_select"),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.insta_use, "quick_use", nil, options)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle(options)
 		end,
 		option_cycle_group = "buy_sell_use_mode",
 	},
 	cryptid_code_use_last_interaction = {
 		loc_key = "cryptid_code_use_last_interaction",
 		keywords = { "use code cards cryptid last input previous value pointer class exploit variable" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.cryptid_code_use_last_interaction,
 				"cryptid_code_use_last_interaction",
 				{
 					localize("b_handy_buy_sell_use_mode_select"),
-				}
+				},
+				nil,
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.cryptid_code_use_last_interaction,
-				"cryptid_code_use_last_interaction"
+				"cryptid_code_use_last_interaction",
+				nil,
+				options
 			)
 		end,
-		option_cycle = function()
-			return Handy.UI.CD.buy_sell_use_mode.option_cycle()
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.buy_sell_use_mode.option_cycle(options)
 		end,
 		option_cycle_group = "buy_sell_use_mode",
 	},
@@ -635,58 +828,79 @@ local dictionary = {
 	speed_multiplier = {
 		loc_key = "speed_multiplier",
 		keywords = { keyw.speed_multiplier },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, "speed_multiplier", {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.multiply, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.divide, true),
 				"x1/512",
 				"x512",
-			})
+			}, nil, options)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.speed_multiplier,
 				"speed_multiplier",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
 	speed_multiplier_multiply = {
 		loc_key = { "speed_multiplier", "speed_multiplier_multiply" },
 		keywords = { keyw.speed_multiplier, "multiply increase" },
-		checkbox = function()
-			return Handy.UI.CD.speed_multiplier.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.speed_multiplier.checkbox(options)
 		end,
 		checkbox_group = "speed_multiplier",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.multiply, "speed_multiplier_multiply")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.speed_multiplier.multiply,
+				"speed_multiplier_multiply",
+				nil,
+				options
+			)
 		end,
 	},
 	speed_multiplier_divide = {
 		loc_key = { "speed_multiplier", "speed_multiplier_divide" },
 		keywords = { keyw.speed_multiplier, "divide decrease" },
-		checkbox = function()
-			return Handy.UI.CD.speed_multiplier.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.speed_multiplier.checkbox(options)
 		end,
 		checkbox_group = "speed_multiplier",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.speed_multiplier.divide, "speed_multiplier_divide")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.speed_multiplier.divide,
+				"speed_multiplier_divide",
+				nil,
+				options
+			)
 		end,
 	},
 	speed_multiplier_no_hold = {
 		loc_key = { "speed_multiplier", "speed_multiplier_no_hold" },
 		keywords = { keyw.speed_multiplier, "no hold" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.speed_multiplier.no_hold,
 				"speed_multiplier_no_hold",
 				{
 					Handy.UI.PARTS.localize_keybind_label("speed_multiplier"),
-				}
+				},
+				nil,
+				options
 			)
 		end,
-		keybind = function()
-			return Handy.UI.CD.speed_multiplier.keybind()
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.speed_multiplier.keybind(options)
 		end,
 		keybind_group = "speed_multiplier",
 	},
@@ -694,7 +908,8 @@ local dictionary = {
 	animation_skip = {
 		loc_key = "animation_skip",
 		keywords = { keyw.animation_skip },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			local levels = localize("handy_animation_skip_levels")
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, "animation_skip", {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
@@ -705,52 +920,72 @@ local dictionary = {
 				levels[4],
 				levels[5],
 				localize("Dangerous", "handy_tabs"),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.animation_skip,
 				"animation_skip",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
 	animation_skip_increase = {
 		loc_key = { "animation_skip", "animation_skip_increase" },
 		keywords = { keyw.animation_skip, "increase multiply" },
-		checkbox = function()
-			return Handy.UI.CD.animation_skip.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.animation_skip.checkbox(options)
 		end,
 		checkbox_group = "animation_skip",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.increase, "animation_skip_increase")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.animation_skip.increase,
+				"animation_skip_increase",
+				nil,
+				options
+			)
 		end,
 	},
 	animation_skip_decrease = {
 		loc_key = { "animation_skip", "animation_skip_decrease" },
 		keywords = { keyw.animation_skip, "decrease divide" },
-		checkbox = function()
-			return Handy.UI.CD.animation_skip.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.animation_skip.checkbox(options)
 		end,
 		checkbox_group = "animation_skip",
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.animation_skip.decrease, "animation_skip_decrease")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.animation_skip.decrease,
+				"animation_skip_decrease",
+				nil,
+				options
+			)
 		end,
 	},
 	animation_skip_no_hold = {
 		loc_key = { "animation_skip", "animation_skip_no_hold" },
 		keywords = { keyw.animation_skip, "no hold" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.animation_skip.no_hold,
 				"animation_skip_no_hold",
 				{
 					Handy.UI.PARTS.localize_keybind_label("animation_skip"),
-				}
+				},
+				nil,
+				options
 			)
 		end,
-		keybind = function()
-			return Handy.UI.CD.animation_skip.keybind()
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.animation_skip.keybind(options)
 		end,
 		keybind_group = "animation_skip",
 	},
@@ -758,63 +993,78 @@ local dictionary = {
 	nopeus_interaction = {
 		loc_key = "nopeus_interaction",
 		keywords = { keyw.animation_skip, keyw.nopeus_interaction },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.nopeus_interaction, "nopeus_interaction", {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
 				localize("Dangerous", "handy_tabs"),
-			})
+			}, nil, options)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.nopeus_interaction,
 				"nopeus_interaction",
-				{ only_holdable = true }
+				{ only_holdable = true },
+				options
 			)
 		end,
 	},
 	nopeus_interaction_increase = {
 		loc_key = { "nopeus_interaction", "nopeus_interaction_increase" },
 		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "multiply increase" },
-		checkbox = function()
-			return Handy.UI.CD.nopeus_interaction.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.checkbox(options)
 		end,
 		checkbox_group = "nopeus_interaction",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.nopeus_interaction.increase,
-				"nopeus_interaction_increase"
+				"nopeus_interaction_increase",
+				nil,
+				options
 			)
 		end,
 	},
 	nopeus_interaction_decrease = {
 		loc_key = { "nopeus_interaction", "nopeus_interaction_decrease" },
 		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "divide decrease" },
-		checkbox = function()
-			return Handy.UI.CD.nopeus_interaction.checkbox()
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.checkbox(options)
 		end,
 		checkbox_group = "nopeus_interaction",
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.nopeus_interaction.decrease,
-				"nopeus_interaction_decrease"
+				"nopeus_interaction_decrease",
+				nil,
+				options
 			)
 		end,
 	},
 	nopeus_interaction_no_hold = {
 		loc_key = { "nopeus_interaction", "nopeus_interaction_no_hold" },
 		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "no hold" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.nopeus_interaction.no_hold,
 				"nopeus_interaction_no_hold",
 				{
 					Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
-				}
+				},
+				nil,
+				options
 			)
 		end,
-		keybind = function()
-			return Handy.UI.CD.nopeus_interaction.keybind()
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.keybind(options)
 		end,
 		keybind_group = "nopeus_interaction",
 	},
@@ -822,27 +1072,38 @@ local dictionary = {
 	scoring_hold = {
 		loc_key = "scoring_hold",
 		keywords = { keyw.scoring_hold },
-		checkbox = function()
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.scoring_hold, "scoring_hold")
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.scoring_hold, "scoring_hold", nil, nil, options)
 		end,
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.scoring_hold, "scoring_hold", { only_holdable = true })
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.scoring_hold,
+				"scoring_hold",
+				{ only_holdable = true },
+				options
+			)
 		end,
 	},
 	scoring_hold_any_moment = {
 		loc_key = { "scoring_hold", "scoring_hold_any_moment" },
 		keywords = { keyw.scoring_hold, "anytime in any moment" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.scoring_hold.any_moment,
 				"scoring_hold_any_moment",
 				{
 					Handy.UI.PARTS.localize_keybind_label("scoring_hold"),
-				}
+				},
+				nil,
+				options
 			)
 		end,
-		keybind = function()
-			return Handy.UI.CD.scoring_hold.keybind()
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.scoring_hold.keybind(options)
 		end,
 		keybind_group = "scoring_hold",
 	},
@@ -850,60 +1111,69 @@ local dictionary = {
 	presets_load_1 = {
 		loc_key = "presets_load_1",
 		keywords = { keyw.presets, "1" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_1, "presets_load_1", nil, options)
 		end,
 	},
 	presets_load_2 = {
 		loc_key = "presets_load_2",
 		keywords = { keyw.presets, "2" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_2, "presets_load_2", nil, options)
 		end,
 	},
 	presets_load_3 = {
 		loc_key = "presets_load_3",
 		keywords = { keyw.presets, "3" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_3, "presets_load_3", nil, options)
 		end,
 	},
 	presets_load_next = {
 		loc_key = "presets_load_next",
 		keywords = { keyw.presets, "next" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.presets.load_next, "presets_load_next", nil, options)
 		end,
 	},
 
 	dangerous_actions = {
 		loc_key = "dangerous_actions",
 		keywords = { keyw.unsafe_control },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions,
 				"dangerous_actions",
 				nil,
-				{ full_width = true, dangerous = true }
+				{ dangerous = true },
+				options
 			)
 		end,
 	},
 	dangerous_nopeus_unsafe = {
 		loc_key = { "nopeus_interaction", "nopeus_unsafe" },
 		keywords = { keyw.unsafe_control, keyw.nopeus_interaction },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.nopeus_unsafe,
 				"nopeus_unsafe",
 				nil,
-				{ dangerous = true }
+				{ dangerous = true },
+				options
 			)
 		end,
 	},
 	dangerous_animation_skip_unsafe = {
 		loc_key = { "animation_skip", "animation_skip_unsafe" },
 		keywords = { keyw.unsafe_control, keyw.animation_skip },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.animation_skip_unsafe,
 				"animation_skip_unsafe",
@@ -912,28 +1182,32 @@ local dictionary = {
 				},
 				{
 					dangerous = true,
-				}
+				},
+				options
 			)
 		end,
 	},
 	dangerous_speed_multiplier_uncap = {
 		loc_key = { "speed_multiplier", "speed_multiplier_uncap" },
 		keywords = { keyw.unsafe_control, keyw.speed_multiplier, "uncap max speed infinite" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.speed_multiplier_uncap,
 				"speed_multiplier_uncap",
 				nil,
 				{
 					dangerous = true,
-				}
+				},
+				options
 			)
 		end,
 	},
 	immediate_buy_and_sell = {
 		loc_key = "immediate_buy_and_sell",
 		keywords = { keyw.unsafe_control, keyw.sell },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell,
 				"immediate_buy_and_sell",
@@ -944,35 +1218,41 @@ local dictionary = {
 				},
 				{
 					dangerous = true,
-				}
+				},
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell,
 				"dangerous_modifier",
-				{ dangerous = true, only_holdable = true }
+				{ dangerous = true, only_holdable = true },
+				options
 			)
 		end,
 	},
 	immediate_buy_and_sell_queue = {
 		loc_key = "immediate_buy_and_sell_queue",
 		keywords = { keyw.unsafe_control, keyw.sell, "queue" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.immediate_buy_and_sell.queue,
 				"immediate_buy_and_sell_queue",
 				nil,
 				{
 					dangerous = true,
-				}
+				},
+				options
 			)
 		end,
 	},
 	sell_all_same_modifier = {
 		loc_key = { "sell_all_same", "dangerous_all_same_modifier" },
 		keywords = { keyw.unsafe_control, keyw.sell, "all same copies dublicates duplicates card modifier" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.dangerous_actions.sell_all_same,
 				"sell_all_same",
@@ -984,41 +1264,47 @@ local dictionary = {
 				{
 					only_first = true,
 					dangerous = true,
-				}
+				},
+				options
 			)
 		end,
-		keybind = function()
+		keybind = function(options)
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.sell_all_same,
 				"dangerous_all_same_modifier",
-				{ dangerous = true, only_holdable = true }
+				{ dangerous = true, only_holdable = true },
+				options
 			)
 		end,
 	},
 	sell_all_modifier = {
 		loc_key = { "sell_all", "dangerous_all_modifier" },
 		keywords = { keyw.unsafe_control, keyw.sell, "everything all everyone modifier cards" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.sell_all, "sell_all", {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
 				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
 			}, {
 				only_first = true,
 				dangerous = true,
-			})
+			}, options)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.sell_all,
 				"dangerous_all_modifier",
-				{ dangerous = true, only_holdable = true }
+				{ dangerous = true, only_holdable = true },
+				options
 			)
 		end,
 	},
 	remove_modifier = {
 		loc_key = { "card_remove", "dangerous_remove_modifier" },
 		keywords = { keyw.unsafe_control, "remove modifier skip tags cards" },
-		checkbox = function()
+		checkbox = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.card_remove, "card_remove", {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
 				Handy.UI.PARTS.localize_keybind_label("dangerous_remove_modifier"),
@@ -1026,15 +1312,17 @@ local dictionary = {
 				Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
 				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
 			}, {
-				only_first = true,
 				dangerous = true,
-			})
+				only_first = true,
+			}, options)
 		end,
-		keybind = function()
+		keybind = function(options)
+			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.dangerous_actions.card_remove,
 				"dangerous_remove_modifier",
-				{ dangerous = true, only_holdable = true }
+				{ dangerous = true, only_holdable = true },
+				options
 			)
 		end,
 	},
@@ -1042,29 +1330,43 @@ local dictionary = {
 	misc_crash = {
 		loc_key = "misc_crash",
 		keywords = { "miscellaneous", "crash kill a game" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.crash, "misc_crash", { dangerous = true })
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.misc.crash,
+				"misc_crash",
+				{ dangerous = true },
+				options
+			)
 		end,
 	},
 	misc_open_mod_settings = {
 		loc_key = "misc_open_mod_settings",
 		keywords = { "miscellaneous", "open mod handy settings configs options menu shortcut" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.open_mod_settings, "misc_open_mod_settings")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.misc.open_mod_settings,
+				"misc_open_mod_settings",
+				nil,
+				options
+			)
 		end,
 	},
 	misc_save_run = {
 		loc_key = "misc_save_run",
 		keywords = { "miscellaneous", "save run state" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.save_run, "misc_save_run")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.save_run, "misc_save_run", nil, options)
 		end,
 	},
 	misc_quick_restart = {
 		loc_key = "misc_quick_restart",
 		keywords = { "miscellaneous", "quick restart run" },
-		keybind = function()
-			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.quick_restart, "misc_quick_restart")
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.quick_restart, "misc_quick_restart", nil, options)
 		end,
 	},
 }
@@ -1231,22 +1533,31 @@ function Handy.UI.cache_config_dictionary_search(only_update)
 		end
 	end
 end
+
+function Handy.UI.is_config_dictionary_item_contain_words(dictionary_item, words)
+	if not dictionary_item then
+		return false
+	end
+	local keywords = dictionary_item.result_keywords
+	for _, word in ipairs(words) do
+		if string.find(keywords, word, 1, true) == nil then
+			return false
+		end
+	end
+	return true
+end
+function Handy.UI.is_config_dictionary_key_contain_words(dictionary_key, words)
+	return Handy.UI.is_config_dictionary_item_contain_words(Handy.UI.CD[dictionary_key or ""], words)
+end
+
 function Handy.UI.search(input)
 	local matches = {}
 	local input_words = Handy.utils.string_words_split(string.lower(input))
 	if #input_words == 0 then
 		return matches
 	end
-	for dictionary_key, dictionary in pairs(Handy.UI.CD) do
-		local keywords = dictionary.result_keywords
-		local all_words_match = true
-		for _, word in ipairs(input_words) do
-			if string.find(keywords, word, 1, true) == nil then
-				all_words_match = false
-				break
-			end
-		end
-		if all_words_match then
+	for dictionary_key, dictionary_item in pairs(Handy.UI.CD) do
+		if Handy.UI.is_config_dictionary_item_contain_words(dictionary_item, input_words) then
 			table.insert(matches, dictionary_key)
 		end
 	end

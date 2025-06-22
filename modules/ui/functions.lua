@@ -95,7 +95,7 @@ function G.FUNCS.handy_setup_config_popup(e)
 				})
 			end
 
-			self.config.h_popup_config = { align = "mt", offset = { x = 0, y = -0.1 }, parent = self }
+			self.config.h_popup_config = { align = "mt", offset = { x = 0, y = -0.1 }, major = e }
 			self.config.h_popup = {
 				n = G.UIT.ROOT,
 				config = { align = "cm", colour = G.C.CLEAR },
@@ -138,15 +138,10 @@ function G.FUNCS.handy_setup_config_popup(e)
 		Node.hover(self)
 	end
 
-	e.float = true
-	e.states.hover.can = true
-	e.states.collide.can = true
 	e.hover = popup_hover
 	-- Well... it works xd
 	pcall(function()
-		if Handy.controller.is_gamepad() then
-			e.children[2].children[1].children[2].children[1].children[1].hover = popup_hover
-		end
+		e.children[2].children[1].children[2].children[1].children[1].hover = popup_hover
 	end)
 	e.handy_popup_processed = true
 end
@@ -235,6 +230,11 @@ function G.FUNCS.handy_clear_search()
 	for i = 1, 32 do
 		G.FUNCS.text_input_key({ key = "backspace" })
 	end
+end
+
+function G.FUNCS.handy_apply_search_with_value(e)
+	Handy.UI.search_input_value = e.config.search_input_value or ""
+	Handy.UI.rerender(true)
 end
 
 function G.FUNCS.handy_apply_search()

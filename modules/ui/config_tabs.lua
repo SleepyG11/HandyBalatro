@@ -154,7 +154,7 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 2 then
 		result = {
-			Handy.UI.CD.move_highlight.checkbox(),
+			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
 			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
@@ -369,7 +369,7 @@ Handy.UI.get_config_tab_overall = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.CD.handy.checkbox(),
+						Handy.UI.CD.handy.checkbox({ full_width = true }),
 					},
 				},
 			},
@@ -689,7 +689,7 @@ Handy.UI.get_config_tab_dangerous = function()
 						colour = adjust_alpha(HEX("000000"), 0.1),
 					},
 					nodes = {
-						Handy.UI.CD.dangerous_actions.checkbox(),
+						Handy.UI.CD.dangerous_actions.checkbox({ full_width = true }),
 					},
 				},
 			},
@@ -748,11 +748,11 @@ Handy.UI.get_config_tab_dangerous = function()
 								padding = 0.05,
 							},
 							nodes = {
-								Handy.UI.CD.insta_buy_or_sell.keybind(),
-								Handy.UI.CD.immediate_buy_and_sell.keybind(),
-								Handy.UI.CD.sell_all_same_modifier.keybind(),
-								Handy.UI.CD.sell_all_modifier.keybind(),
-								Handy.UI.CD.remove_modifier.keybind(),
+								Handy.UI.CD.insta_buy_or_sell.keybind({ rerender = true }),
+								Handy.UI.CD.immediate_buy_and_sell.keybind({ rerender = true }),
+								Handy.UI.CD.sell_all_same_modifier.keybind({ rerender = true }),
+								Handy.UI.CD.sell_all_modifier.keybind({ rerender = true }),
+								Handy.UI.CD.remove_modifier.keybind({ rerender = true }),
 							},
 						},
 					},
