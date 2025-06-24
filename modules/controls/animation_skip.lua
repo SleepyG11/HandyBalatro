@@ -274,6 +274,8 @@ function EventManager:add_event(event, ...)
 		if Handy.animation_skip.should_skip_unsafe() then
 			event.blocking = false
 			event.blockable = false
+			-- This line basically taken from Nopeus by jenwalter666
+			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
 		else
 			if Handy.animation_skip.force_non_blocking then
 				event.blocking = false
@@ -281,10 +283,9 @@ function EventManager:add_event(event, ...)
 			if Handy.animation_skip.force_non_blockable then
 				event.blockable = false
 			end
-		end
-		if Handy.animation_skip.should_skip_everything() then
-			-- This line basically taken from Nopeus by jenwalter666
-			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+			if Handy.animation_skip.should_skip_everything() then
+				event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
+			end
 		end
 	end
 	return event_manager_add_event_ref(self, event, ...)
