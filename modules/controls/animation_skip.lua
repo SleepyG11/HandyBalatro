@@ -332,6 +332,13 @@ function G.FUNCS.wipe_off(...)
 	end
 	return wipe_off_ref(...)
 end
+local play_sound_ref = play_sound
+function play_sound(...)
+	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_everything() then
+		return
+	end
+	return play_sound_ref(...)
+end
 
 if SMODS then
 	local smods_calculate_effect_ref = SMODS.calculate_effect
