@@ -104,6 +104,7 @@ if not Handy then
 		Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
 		Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
 
+		-- Config tabs
 		Handy.current_mod.config_tab = function()
 			return Handy.UI.get_options_tabs()[1].tab_definition_function
 		end
@@ -113,12 +114,31 @@ if not Handy then
 			return result
 		end
 
+		-- NotJustYet
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				G.njy_keybind = nil
 				return true
 			end,
 		}))
+
+		-- Animation skip setup
+		local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
+		function SMODS.calculate_effect(effect, ...)
+			if Handy.animation_skip.should_skip_animation() then
+				effect.juice_card = nil
+			end
+			return smods_calculate_effect_ref(effect, ...)
+		end
+		if (SMODS.Mods and SMODS.Mods["Talisman"] or {}).can_load then
+			local nuGC_ref = nuGC
+			function nuGC(time_budget, ...)
+				if G.STATE == G.STATES.HAND_PLAYED then
+					time_budget = 0.0333
+				end
+				return nuGC_ref(time_budget, ...)
+			end
+		end
 
 		if Handy_Preload then
 			Handy_Preload = nil
