@@ -12,6 +12,8 @@ Handy.animation_skip = {
 	allow_juice_up = false,
 	mute_ease_dollars = 0,
 
+	extract_func_from_event = 0,
+
 	get_buffered_value = function()
 		if Handy.animation_skip.buffered_value == nil then
 			Handy.animation_skip.buffered_value = Handy.animation_skip.get_value()
@@ -140,6 +142,13 @@ Handy.animation_skip = {
 	end,
 }
 
+local attention_text_ref = attention_text
+function attention_text(...)
+	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation() then
+		return
+	end
+	return attention_text_ref(...)
+end
 local card_eval_status_text_ref = card_eval_status_text
 function card_eval_status_text(...)
 	local args = { ... }
@@ -191,6 +200,7 @@ function update_hand_text(config, vals, ...)
 		Handy.animation_skip.should_skip_everything()
 		or (G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation())
 	then
+		Handy.animation_skip.extract_func_from_event = 1
 		config = config or {}
 		config.immediate = true
 		config.delay = 0
@@ -271,9 +281,16 @@ function EventManager:add_event(event, ...)
 		Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
 	end
 	if not event.handy_never_modify then
+		if Handy.animation_skip.extract_func_from_event > 0 then
+			Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
+			event.func()
+			return
+		end
 		if Handy.animation_skip.should_skip_unsafe() then
 			event.blocking = false
 			event.blockable = false
+			-- This line basically taken from Nopeus by jenwalter666
+			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
 		else
 			if Handy.animation_skip.force_non_blocking then
 				event.blocking = false
@@ -281,12 +298,12 @@ function EventManager:add_event(event, ...)
 			if Handy.animation_skip.force_non_blockable then
 				event.blockable = false
 			end
-		end
-		if Handy.animation_skip.should_skip_everything() then
-			-- This line basically taken from Nopeus by jenwalter666
-			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+			if Handy.animation_skip.should_skip_everything() then
+				event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
+			end
 		end
 	end
+	-- printCallerInfo()
 	return event_manager_add_event_ref(self, event, ...)
 end
 
@@ -332,15 +349,12 @@ function G.FUNCS.wipe_off(...)
 	end
 	return wipe_off_ref(...)
 end
-
-if SMODS then
-	local smods_calculate_effect_ref = SMODS.calculate_effect
-	function SMODS.calculate_effect(effect, ...)
-		if Handy.animation_skip.should_skip_animation() then
-			effect.juice_card = nil
-		end
-		return smods_calculate_effect_ref(effect, ...)
+local play_sound_ref = play_sound
+function play_sound(...)
+	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_everything() then
+		return
 	end
+	return play_sound_ref(...)
 end
 
 Handy.register_module("animation_skip", Handy.animation_skip)
@@ -360,6 +374,5 @@ Handy.register_module("animation_skip", Handy.animation_skip)
 -- end
 -- local emae = EventManager.add_event
 -- function EventManager:add_event(x, y, z)
--- 	printCallerInfo()
 -- 	return emae(self, x, y, z)
 -- end

@@ -124,3 +124,15 @@ position = "after"
 payload = "self.dissolve = 0"
 match_indent = true
 overwrite = false
+
+# Prevent event queue updating during Talisman calculate screen
+[[patches]]
+[patches.pattern]
+target = 'engine/event.lua'
+pattern = '''self.queue_last_processed = self.queue_last_processed + (forced and 0 or self.queue_dt)'''
+position = "after"
+payload = '''
+if G.SCORING_COROUTINE then return end
+'''
+match_indent = true
+overwrite = false
