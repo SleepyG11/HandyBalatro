@@ -123,6 +123,7 @@ Handy.UI.PARTS = {
 			ref_value = "enabled",
 			w = 0,
 		})
+		result_toggle.config.focus_args.nav = "wide"
 
 		return {
 			n = G.UIT.R,
@@ -137,6 +138,9 @@ Handy.UI.PARTS = {
 				r = 0.1,
 				hover = true,
 				can_collide = true,
+				focus_args = {
+					funnel_from = true,
+				},
 			},
 			nodes = {
 				{
@@ -231,6 +235,7 @@ Handy.UI.PARTS = {
 						rerender = rerender,
 						only_holdable = only_holdable,
 					},
+					focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 				{
@@ -258,6 +263,7 @@ Handy.UI.PARTS = {
 						rerender = rerender,
 						only_holdable = only_holdable,
 					},
+					-- focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 			},
@@ -347,6 +353,7 @@ Handy.UI.PARTS = {
 							ref_table = preset,
 							ref_value = "enabled",
 							w = 0,
+							focus_args = { nav = "wide" },
 						}),
 					},
 				},

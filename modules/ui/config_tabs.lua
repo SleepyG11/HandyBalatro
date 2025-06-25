@@ -106,6 +106,7 @@ Handy.UI.get_keybinds_page = function(page)
 	return result, 5
 end
 Handy.UI.get_quick_page = function(page)
+	local gamepad = Handy.controller.is_gamepad()
 	local result = {}
 	if page == 1 then
 		result = {
@@ -116,7 +117,7 @@ Handy.UI.get_quick_page = function(page)
 					{
 						n = G.UIT.C,
 						nodes = {
-							Handy.UI.CD.buy_sell_use_mode.option_cycle(),
+							Handy.UI.CD.buy_sell_use_mode.option_cycle({ compress = gamepad }),
 						},
 					},
 				},
@@ -155,7 +156,7 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 2 then
 		result = {
-			{
+			not gamepad and {
 				n = G.UIT.R,
 				config = { padding = 0.05, align = "cm" },
 				nodes = {
@@ -172,7 +173,25 @@ Handy.UI.get_quick_page = function(page)
 						},
 					},
 				},
-			},
+			} or nil,
+			gamepad and {
+				n = G.UIT.R,
+				config = { padding = 0, align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						nodes = {
+							Handy.UI.CD.speed_multiplier_default_value.option_cycle({ compress = true }),
+						},
+					},
+					{
+						n = G.UIT.R,
+						nodes = {
+							Handy.UI.CD.animation_skip_default_value.option_cycle({ compress = true }),
+						},
+					},
+				},
+			} or nil,
 			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
@@ -331,7 +350,7 @@ Handy.UI.get_search_result_page = function(result)
 		if item.option_cycle and not item.option_cycle_group then
 			if #result_checkboxes < checkboxes_limit then
 				used_buffer.option_cycle[key] = item
-				local render = item.option_cycle()
+				local render = item.option_cycle({ compress = true })
 				if render then
 					table.insert(result_checkboxes, render)
 				end
@@ -361,7 +380,7 @@ Handy.UI.get_search_result_page = function(result)
 		if item.option_cycle and item.option_cycle_group and not used_buffer.option_cycle[item.option_cycle_group] then
 			if #result_checkboxes < checkboxes_limit then
 				used_buffer.option_cycle[item.option_cycle_group] = Handy.UI.CD[item.option_cycle_group]
-				local render = item.option_cycle()
+				local render = item.option_cycle({ compress = true })
 				if render then
 					table.insert(result_checkboxes, render)
 				end
@@ -393,7 +412,7 @@ Handy.UI.get_search_result_page = function(result)
 		Handy.UI.PARTS.create_separator_c(),
 		{
 			n = G.UIT.C,
-			config = { align = "cm", padding = 0.05, minh = 7 },
+			config = { padding = 0.05, minh = 7 },
 			nodes = Handy.utils.table_slice(result_checkboxes, 7),
 		},
 	}
@@ -404,7 +423,7 @@ end
 Handy.UI.get_config_tab_overall = function()
 	local gamepad = Handy.controller.is_gamepad()
 	return {
-		{
+		not gamepad and {
 			n = G.UIT.R,
 			config = { padding = 0.05, align = "cm" },
 			nodes = {
@@ -427,7 +446,7 @@ Handy.UI.get_config_tab_overall = function()
 					},
 				},
 			},
-		},
+		} or nil,
 		Handy.UI.PARTS.create_separator_r(0.05),
 		{
 			n = G.UIT.R,
@@ -448,7 +467,32 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
-		Handy.UI.PARTS.create_separator_r(),
+		gamepad and Handy.UI.PARTS.create_separator_r(gamepad and 0.125) or nil,
+		gamepad and {
+			n = G.UIT.R,
+			config = { padding = 0, align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.R,
+					nodes = {
+						Handy.UI.CD.info_popups_level.option_cycle({ compress = true }),
+					},
+				},
+				{
+					n = G.UIT.R,
+					nodes = {
+						Handy.UI.CD.keybinds_trigger_mode.option_cycle({ compress = true }),
+					},
+				},
+				{
+					n = G.UIT.R,
+					nodes = {
+						Handy.UI.CD.device_select.option_cycle({ compress = true }),
+					},
+				},
+			},
+		} or nil,
+		Handy.UI.PARTS.create_separator_r(gamepad and 0.125 or nil),
 		{
 			n = G.UIT.R,
 			config = { align = "cm" },
@@ -856,15 +900,13 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 Handy.UI.get_config_tab_search = function()
-	G.E_MANAGER:add_event(Event({
-		blocking = false,
-		blockable = false,
-		no_delete = true,
-		func = function()
-			Handy.UI.render_search_results(true)
-			return true
-		end,
-	}))
+	local result = Handy.UI.search(Handy.UI.search_input_value or "")
+	local result_content = {}
+	if #result > 0 then
+		result_content = Handy.UI.get_search_result_page(result)
+	else
+		result_content = Handy.UI.get_search_no_result_page()
+	end
 	return {
 		{
 			n = G.UIT.R,
@@ -896,11 +938,12 @@ Handy.UI.get_config_tab_search = function()
 											ref_table = Handy.UI,
 											ref_value = "search_input_value",
 											extended_corpus = true,
-											keyboard_offset = 1,
 											id = "handy_search",
 											prompt_text = localize("b_handy_search_placeholder"),
 											callback = function()
-												Handy.UI.render_search_results(true)
+												if not Handy.controller.is_gamepad() then
+													Handy.UI.render_search_results(true)
+												end
 											end,
 										}),
 									},
@@ -939,31 +982,7 @@ Handy.UI.get_config_tab_search = function()
 					config = {
 						align = "cm",
 					},
-					nodes = {
-						{
-							n = G.UIT.O,
-							config = {
-								id = "handy_search_result",
-								object = UIBox({
-									definition = {
-										n = G.UIT.ROOT,
-										config = { colour = G.C.CLEAR, align = "cm" },
-										nodes = {
-											{
-												n = G.UIT.O,
-												config = {
-													object = Moveable(),
-												},
-											},
-										},
-									},
-									config = {
-										align = "cm",
-									},
-								}),
-							},
-						},
-					},
+					nodes = result_content,
 				},
 			},
 		},
@@ -971,56 +990,16 @@ Handy.UI.get_config_tab_search = function()
 end
 
 function Handy.UI.render_search_results(rerender)
-	local result = Handy.UI.search(Handy.UI.search_input_value or "")
-
-	local result_content = {}
-	if #result > 0 then
-		result_content = Handy.UI.get_search_result_page(result)
-	else
-		result_content = Handy.UI.get_search_no_result_page()
-	end
-
-	local container_element = rerender and G.OVERLAY_MENU:get_UIE_by_ID("handy_search_result") or nil
-	local result_object = UIBox({
-		definition = {
-			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm" },
-			nodes = result_content,
-		},
-		config = {
-			align = "cm",
-			parent = container_element,
-		},
+	G.E_MANAGER:add_event({
+		blocking = false,
+		blockable = false,
+		no_pause = true,
+		no_delete = true,
+		func = function()
+			Handy.UI.rerender(true)
+			return true
+		end,
 	})
-
-	if rerender and container_element then
-		local container_config = container_element.config
-		container_config.object:remove()
-
-		container_config.object = result_object
-		-- container_config.object:recalculate()
-		G.OVERLAY_MENU:recalculate()
-		G.E_MANAGER:add_event(Event({
-			no_delete = true,
-			blockable = false,
-			blocking = false,
-			func = function()
-				G.OVERLAY_MENU:recalculate()
-				G.E_MANAGER:add_event(Event({
-					no_delete = true,
-					blockable = false,
-					blocking = false,
-					func = function()
-						G.OVERLAY_MENU:recalculate()
-						return true
-					end,
-				}))
-				return true
-			end,
-		}))
-	end
-
-	return result_object
 end
 
 -- Tabs order

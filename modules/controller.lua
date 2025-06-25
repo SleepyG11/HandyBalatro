@@ -763,7 +763,7 @@ Handy.controller = {
 
 		-----
 
-		if Handy.presets_switch.use(button) then
+		if not released and Handy.presets_switch.use(button) then
 			return finish(true)
 		end
 

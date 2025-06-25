@@ -37,6 +37,7 @@ function G.UIDEF.handy_options(from_smods)
 					create_tabs({
 						tabs = tabs,
 						snap_to_nav = true,
+						no_shoulders = true,
 						colour = G.C.BOOSTER,
 					}),
 				},
@@ -71,6 +72,7 @@ function Handy.UI.rerender(silent)
 			}
 		end
 		G.FUNCS.overlay_menu(result)
+		G.OVERLAY_MENU:recalculate()
 		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 	end
 end

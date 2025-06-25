@@ -73,6 +73,20 @@ local dictionary = {
 		keywords = { "messages info notification notify", "popup panel", "black red" },
 		option_cycle = function(options)
 			options = options or {}
+			if options.compress then
+				local cycle_options = {}
+				for k, v in ipairs(localize("handy_info_popups_level_opt")) do
+					table.insert(cycle_options, localize("b_handy_info_popups_level_select") .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_notifications_level",
+					current_option = Handy.cc.notifications_level,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_info_popups_level_select"),
@@ -80,6 +94,7 @@ local dictionary = {
 				options = localize("handy_info_popups_level_opt"),
 				opt_callback = "handy_change_notifications_level",
 				current_option = Handy.cc.notifications_level,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
@@ -87,6 +102,20 @@ local dictionary = {
 		keywords = { "keybinds buttons controls", "trigger mode", "pressed released" },
 		option_cycle = function(options)
 			options = options or {}
+			if options.compress then
+				local cycle_options = {}
+				for k, v in ipairs(localize("handy_keybinds_trigger_mode_opt")) do
+					table.insert(cycle_options, localize("b_handy_keybinds_trigger_mode_select") .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_keybinds_trigger_mode",
+					current_option = Handy.cc.keybinds_trigger_mode,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_keybinds_trigger_mode_select"),
@@ -94,6 +123,7 @@ local dictionary = {
 				options = localize("handy_keybinds_trigger_mode_opt"),
 				opt_callback = "handy_change_keybinds_trigger_mode",
 				current_option = Handy.cc.keybinds_trigger_mode,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
@@ -101,6 +131,20 @@ local dictionary = {
 		keywords = { "controller gamepad desktop touchpad touch pad auto", "choose select device input" },
 		option_cycle = function(options)
 			options = options or {}
+			if options.compress then
+				local cycle_options = {}
+				for k, v in ipairs(localize("handy_device_opt")) do
+					table.insert(cycle_options, localize("b_handy_device_select") .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_current_device",
+					current_option = Handy.cc.current_device,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_device_select"),
@@ -108,6 +152,7 @@ local dictionary = {
 				options = localize("handy_device_opt"),
 				opt_callback = "handy_change_current_device",
 				current_option = Handy.cc.current_device,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
@@ -115,6 +160,20 @@ local dictionary = {
 		keywords = { "buy sell use mode", "hold click press hover", "cards buttons keybinds controls" },
 		option_cycle = function(options)
 			options = options or {}
+			if options.compress then
+				local cycle_options = {}
+				for k, v in ipairs(localize("handy_buy_sell_use_mode_opt")) do
+					table.insert(cycle_options, localize("b_handy_buy_sell_use_mode_select") .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_insta_actions_trigger_mode",
+					current_option = Handy.cc.insta_actions_trigger_mode,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize("b_handy_buy_sell_use_mode_select"),
@@ -122,6 +181,7 @@ local dictionary = {
 				options = localize("handy_buy_sell_use_mode_opt"),
 				opt_callback = "handy_change_insta_actions_trigger_mode",
 				current_option = Handy.cc.insta_actions_trigger_mode,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
@@ -912,6 +972,26 @@ local dictionary = {
 		end,
 		checkbox_group = "speed_multiplier",
 		option_cycle = function(options)
+			options = options or {}
+			if options.compress then
+				local label = localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("speed_multiplier", true) },
+				})
+				local cycle_options = {}
+				for k, v in ipairs({ "1x", "2x", "4x", "8x", "16x" }) do
+					table.insert(cycle_options, label .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_default_speed_multiplier",
+					current_option = Handy.cc.speed_multiplier.default_value,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize({
@@ -923,6 +1003,7 @@ local dictionary = {
 				options = { "1x", "2x", "4x", "8x", "16x" },
 				opt_callback = "handy_change_default_speed_multiplier",
 				current_option = Handy.cc.speed_multiplier.default_value,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
@@ -1019,8 +1100,28 @@ local dictionary = {
 		end,
 		checkbox_group = "animation_skip",
 		option_cycle = function(options)
+			options = options or {}
 			local available_options = Handy.utils.table_merge({}, localize("handy_animation_skip_levels"))
 			table.remove(available_options, #available_options)
+			if options.compress then
+				local label = localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("animation_skip", true) },
+				})
+				local cycle_options = {}
+				for k, v in ipairs(available_options) do
+					table.insert(cycle_options, label .. ": " .. v)
+				end
+				return create_option_cycle({
+					w = 10,
+					scale = 0.8,
+					options = cycle_options,
+					opt_callback = "handy_change_default_animation_skip",
+					current_option = Handy.cc.animation_skip.default_value,
+					focus_args = { nav = "wide" },
+				})
+			end
 			return create_option_cycle({
 				w = 6,
 				label = localize({
@@ -1032,6 +1133,7 @@ local dictionary = {
 				options = available_options,
 				opt_callback = "handy_change_default_animation_skip",
 				current_option = Handy.cc.animation_skip.default_value,
+				focus_args = { nav = "wide" },
 			})
 		end,
 	},
