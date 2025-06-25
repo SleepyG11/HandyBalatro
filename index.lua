@@ -95,6 +95,28 @@ if not Handy then
 		return card_area_align_cards_ref(self, ...)
 	end
 
+	local game_start_up_ref = Game.start_up
+	function Game:start_up(...)
+		local result = game_start_up_ref(self, ...)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				G.E_MANAGER:add_event(Event({
+					no_delete = true,
+					blocking = false,
+					func = function()
+						Handy.speed_multiplier.load_default_value()
+						Handy.animation_skip.load_default_value()
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+		return result
+	end
+
 	--
 
 	function Handy.emplace_steamodded()

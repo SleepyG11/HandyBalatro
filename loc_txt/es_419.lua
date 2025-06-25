@@ -765,6 +765,8 @@ return {
 			Handy_keybinds_guide_gamepad = "Haz clic en un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
 			Handy_presets_guide = "Preset - conjunto de configuraciones y atajos de teclado que se pueden aplicar en cualquier momento",
 			Handy_danger_zone_guide = "*REMOVER carta/etiqueta - eliminar sin ninguna verificación, efecto, activaciones o dinero.",
+
+			Handy_default_value = "#1#: valor predeterminado",
 		},
 		dictionary = {
 			handy_or = "O",

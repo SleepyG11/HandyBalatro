@@ -106,11 +106,10 @@ Handy.UI.get_keybinds_page = function(page)
 	return result, 5
 end
 Handy.UI.get_quick_page = function(page)
-	local gamepad = Handy.controller.is_gamepad()
 	local result = {}
 	if page == 1 then
 		result = {
-			not gamepad and {
+			{
 				n = G.UIT.R,
 				config = { padding = 0.05, align = "cm" },
 				nodes = {
@@ -121,8 +120,10 @@ Handy.UI.get_quick_page = function(page)
 						},
 					},
 				},
-			} or nil,
-			not gamepad and Handy.UI.PARTS.create_separator_r(0.05) or nil,
+			},
+			Handy.UI.PARTS.create_separator_r(0.05),
+			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
+			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
 				nodes = {
@@ -154,7 +155,24 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 2 then
 		result = {
-			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
+			{
+				n = G.UIT.R,
+				config = { padding = 0.05, align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						nodes = {
+							Handy.UI.CD.speed_multiplier_default_value.option_cycle(),
+						},
+					},
+					{
+						n = G.UIT.C,
+						nodes = {
+							Handy.UI.CD.animation_skip_default_value.option_cycle(),
+						},
+					},
+				},
+			},
 			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
@@ -247,7 +265,7 @@ Handy.UI.get_search_no_result_page = function()
 							config = { padding = 0.05, align = "cm" },
 							nodes = {
 								create_input_button(
-									localize("quick_highlight", "handy_keybind_labels"),
+									Handy.UI.PARTS.localize_keybind_label("quick_highlight", true),
 									"fast hand selection"
 								),
 								create_input_button(

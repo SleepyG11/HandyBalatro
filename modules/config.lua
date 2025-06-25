@@ -171,6 +171,8 @@ local default_config = {
 		key_1_gamepad = "None",
 		key_2_gamepad = "None",
 
+		default_value = 1,
+
 		no_hold = {
 			enabled = false,
 		},
@@ -350,6 +352,8 @@ local default_config = {
 		key_2 = "None",
 		key_1_gamepad = "None",
 		key_2_gamepad = "None",
+
+		default_value = 1,
 
 		no_hold = {
 			enabled = false,

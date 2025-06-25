@@ -49,6 +49,12 @@ Handy.animation_skip = {
 			decrease = Handy.controller.is_module_key(Handy.cc.animation_skip.decrease, key),
 		}
 	end,
+	load_default_value = function()
+		if Handy.controller.is_module_enabled(Handy.cc.animation_skip) then
+			Handy.animation_skip.value =
+				math.max(1, math.min(4, math.floor(Handy.cc.animation_skip.default_value) or 1))
+		end
+	end,
 
 	can_dangerous = function()
 		return not not (

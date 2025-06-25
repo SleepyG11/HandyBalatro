@@ -778,6 +778,8 @@ return {
 			Handy_keybinds_guide_gamepad = "Pulsa cualquier botón para asignarlo. #1# para eliminar.",
 			Handy_presets_guide = "Conjunto de configuraciones que pueden ser aplicados cuando quieras",
 			Handy_danger_zone_guide = "*ELIMINAR carta/etiqueta - Elimina sin comprobaciones, efectos, activaciones o devoluciones",
+
+			Handy_default_value = "#1#: valor predeterminado",
 		},
 		dictionary = {
 			handy_or = "o",

@@ -15,8 +15,12 @@ Handy.UI.PARTS = {
 		end
 		return result
 	end,
-	localize_keybind_label = function(key)
-		return "[" .. localize(key, "handy_keybind_labels") .. "]"
+	localize_keybind_label = function(key, without_brackets)
+		local result = localize(key, "handy_keybind_labels")
+		if without_brackets then
+			return result
+		end
+		return "[" .. result .. "]"
 	end,
 
 	format_new_module_keys = function(module, only_first)

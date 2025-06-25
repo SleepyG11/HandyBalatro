@@ -904,6 +904,28 @@ local dictionary = {
 		end,
 		keybind_group = "speed_multiplier",
 	},
+	speed_multiplier_default_value = {
+		loc_key = { "speed_multiplier" },
+		keywords = { keyw.speed_multiplier, "default" },
+		checkbox = function(options)
+			return Handy.UI.CD.speed_multiplier.checkbox(options)
+		end,
+		checkbox_group = "speed_multiplier",
+		option_cycle = function(options)
+			return create_option_cycle({
+				w = 6,
+				label = localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("speed_multiplier", true) },
+				}),
+				scale = 0.8,
+				options = { "1x", "2x", "4x", "8x", "16x" },
+				opt_callback = "handy_change_default_speed_multiplier",
+				current_option = Handy.cc.speed_multiplier.default_value,
+			})
+		end,
+	},
 
 	animation_skip = {
 		loc_key = "animation_skip",
@@ -988,6 +1010,30 @@ local dictionary = {
 			return Handy.UI.CD.animation_skip.keybind(options)
 		end,
 		keybind_group = "animation_skip",
+	},
+	animation_skip_default_value = {
+		loc_key = { "animation_skip" },
+		keywords = { keyw.animation_skip, "default" },
+		checkbox = function(options)
+			return Handy.UI.CD.animation_skip.checkbox(options)
+		end,
+		checkbox_group = "animation_skip",
+		option_cycle = function(options)
+			local available_options = Handy.utils.table_merge({}, localize("handy_animation_skip_levels"))
+			table.remove(available_options, #available_options)
+			return create_option_cycle({
+				w = 6,
+				label = localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("animation_skip", true) },
+				}),
+				scale = 0.8,
+				options = available_options,
+				opt_callback = "handy_change_default_animation_skip",
+				current_option = Handy.cc.animation_skip.default_value,
+			})
+		end,
 	},
 
 	nopeus_interaction = {
