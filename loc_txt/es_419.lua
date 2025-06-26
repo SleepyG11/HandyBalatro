@@ -414,7 +414,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}No tiene efecto en gamepad{}",
+					"Reemplaza el {C:chips}#3#{} del juego base",
+					"pero funciona exactamente igual y",
+					"puede asignarse a otro botón",
+					" ",
+					"Deselecciona para usar el control del juego base",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -432,7 +436,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}No tiene efecto en gamepad{}",
+					"Reemplaza el {C:chips}#3#{} del juego base",
+					"pero funciona exactamente igual y",
+					"puede asignarse a otro botón",
+					" ",
+					"Deselecciona para usar el control del juego base",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -762,9 +770,11 @@ return {
 			Handy_popups_guide_gamepad = "Mueve entre los controles para ver más información sobre ellos.",
 			Handy_search_guide = 'Usa la pestaña "#1#" para buscar.',
 			Handy_keybinds_guide_desktop = "Haz clic en un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
-			Handy_keybinds_guide_gamepad = "Haz clic en un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
+			Handy_keybinds_guide_gamepad = "#2# un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
 			Handy_presets_guide = "Preset - conjunto de configuraciones y atajos de teclado que se pueden aplicar en cualquier momento",
 			Handy_danger_zone_guide = "*REMOVER carta/etiqueta - eliminar sin ninguna verificación, efecto, activaciones o dinero.",
+
+			Handy_default_value = "#1#: valor predeterminado",
 		},
 		dictionary = {
 			handy_or = "O",
@@ -801,6 +811,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_cannot_bind_non_holdable = "No se puede asignar la rueda del mouse aquí",
+			ph_handy_notif_cannot_bind_non_safe = "No se puede asignar este botón aquí",
 
 			ph_handy_notif_misc_save_run_start = "Iniciando guardado de partida...",
 			ph_handy_notif_misc_save_run_saving = "Guardando partida...",

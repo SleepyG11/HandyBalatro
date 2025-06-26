@@ -16,28 +16,6 @@ Handy.presets = {
 						enabled = false,
 					},
 				},
-				speed_multiplier = {
-					enabled = false,
-					multiply = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-					divide = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-				},
-				nopeus_interaction = {
-					enabled = false,
-					increase = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-					decrease = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-				},
 				regular_keybinds = {
 					enabled = true,
 					play = {
@@ -49,10 +27,14 @@ Handy.presets = {
 						key_2 = "None",
 					},
 					sort_by_rank = {
+						key_1 = "Mouse 5",
+						key_2 = "None",
 						key_1_gamepad = "Right Bumper",
 						key_2_gamepad = "None",
 					},
 					sort_by_suit = {
+						key_1 = "Mouse 4",
+						key_2 = "None",
 						key_1_gamepad = "Left Bumper",
 						key_2_gamepad = "None",
 					},

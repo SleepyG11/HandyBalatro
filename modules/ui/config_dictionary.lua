@@ -73,56 +73,52 @@ local dictionary = {
 		keywords = { "messages info notification notify", "popup panel", "black red" },
 		option_cycle = function(options)
 			options = options or {}
-			return create_option_cycle({
-				w = 6,
-				label = localize("b_handy_info_popups_level_select"),
-				scale = 0.8,
-				options = localize("handy_info_popups_level_opt"),
-				opt_callback = "handy_change_notifications_level",
-				current_option = Handy.cc.notifications_level,
-			})
+			return Handy.UI.PARTS.create_option_cycle(
+				localize("b_handy_info_popups_level_select"),
+				localize("handy_info_popups_level_opt"),
+				Handy.cc.notifications_level,
+				"handy_change_notifications_level",
+				options
+			)
 		end,
 	},
 	keybinds_trigger_mode = {
 		keywords = { "keybinds buttons controls", "trigger mode", "pressed released" },
 		option_cycle = function(options)
 			options = options or {}
-			return create_option_cycle({
-				w = 6,
-				label = localize("b_handy_keybinds_trigger_mode_select"),
-				scale = 0.8,
-				options = localize("handy_keybinds_trigger_mode_opt"),
-				opt_callback = "handy_change_keybinds_trigger_mode",
-				current_option = Handy.cc.keybinds_trigger_mode,
-			})
+			return Handy.UI.PARTS.create_option_cycle(
+				localize("b_handy_keybinds_trigger_mode_select"),
+				localize("handy_keybinds_trigger_mode_opt"),
+				Handy.cc.keybinds_trigger_mode,
+				"handy_change_keybinds_trigger_mode",
+				options
+			)
 		end,
 	},
 	device_select = {
 		keywords = { "controller gamepad desktop touchpad touch pad auto", "choose select device input" },
 		option_cycle = function(options)
 			options = options or {}
-			return create_option_cycle({
-				w = 6,
-				label = localize("b_handy_device_select"),
-				scale = 0.8,
-				options = localize("handy_device_opt"),
-				opt_callback = "handy_change_current_device",
-				current_option = Handy.cc.current_device,
-			})
+			return Handy.UI.PARTS.create_option_cycle(
+				localize("b_handy_device_select"),
+				localize("handy_device_opt"),
+				Handy.cc.current_device,
+				"handy_change_current_device",
+				options
+			)
 		end,
 	},
 	buy_sell_use_mode = {
 		keywords = { "buy sell use mode", "hold click press hover", "cards buttons keybinds controls" },
 		option_cycle = function(options)
 			options = options or {}
-			return create_option_cycle({
-				w = 6,
-				label = localize("b_handy_buy_sell_use_mode_select"),
-				scale = 0.8,
-				options = localize("handy_buy_sell_use_mode_opt"),
-				opt_callback = "handy_change_insta_actions_trigger_mode",
-				current_option = Handy.cc.insta_actions_trigger_mode,
-			})
+			return Handy.UI.PARTS.create_option_cycle(
+				localize("b_handy_buy_sell_use_mode_select"),
+				localize("handy_buy_sell_use_mode_opt"),
+				Handy.cc.insta_actions_trigger_mode,
+				"handy_change_insta_actions_trigger_mode",
+				options
+			)
 		end,
 	},
 
@@ -744,6 +740,7 @@ local dictionary = {
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_or_sell, "insta_buy_or_sell", {
 				localize("b_handy_buy_sell_use_mode_select"),
+				Handy.UI.PARTS.localize_keybind("Left Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -782,6 +779,7 @@ local dictionary = {
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use", {
 				localize("b_handy_buy_sell_use_mode_select"),
+				Handy.UI.PARTS.localize_keybind("Right Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -904,6 +902,28 @@ local dictionary = {
 		end,
 		keybind_group = "speed_multiplier",
 	},
+	speed_multiplier_default_value = {
+		loc_key = { "speed_multiplier" },
+		keywords = { keyw.speed_multiplier, "default" },
+		checkbox = function(options)
+			return Handy.UI.CD.speed_multiplier.checkbox(options)
+		end,
+		checkbox_group = "speed_multiplier",
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_option_cycle(
+				localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("speed_multiplier", true) },
+				}),
+				{ "1x", "2x", "4x", "8x", "16x" },
+				Handy.cc.speed_multiplier.default_value,
+				"handy_change_default_speed_multiplier",
+				options
+			)
+		end,
+	},
 
 	animation_skip = {
 		loc_key = "animation_skip",
@@ -988,6 +1008,30 @@ local dictionary = {
 			return Handy.UI.CD.animation_skip.keybind(options)
 		end,
 		keybind_group = "animation_skip",
+	},
+	animation_skip_default_value = {
+		loc_key = { "animation_skip" },
+		keywords = { keyw.animation_skip, "default" },
+		checkbox = function(options)
+			return Handy.UI.CD.animation_skip.checkbox(options)
+		end,
+		checkbox_group = "animation_skip",
+		option_cycle = function(options)
+			options = options or {}
+			local available_options = Handy.utils.table_merge({}, localize("handy_animation_skip_levels"))
+			table.remove(available_options, #available_options)
+			return Handy.UI.PARTS.create_option_cycle(
+				localize({
+					type = "variable",
+					key = "Handy_default_value",
+					vars = { Handy.UI.PARTS.localize_keybind_label("animation_skip", true) },
+				}),
+				available_options,
+				Handy.cc.animation_skip.default_value,
+				"handy_change_default_animation_skip",
+				options
+			)
+		end,
 	},
 
 	nopeus_interaction = {
@@ -1335,7 +1379,7 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.misc.crash,
 				"misc_crash",
-				{ dangerous = true },
+				{ dangerous = true, only_safe = true },
 				options
 			)
 		end,

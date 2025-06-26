@@ -260,6 +260,14 @@ function G.FUNCS.handy_change_current_device(arg)
 	Handy.config.save()
 	Handy.controller.update_device_type({ check = true })
 end
+function G.FUNCS.handy_change_default_speed_multiplier(arg)
+	Handy.cc.speed_multiplier.default_value = arg.to_key
+	Handy.config.save()
+end
+function G.FUNCS.handy_change_default_animation_skip(arg)
+	Handy.cc.animation_skip.default_value = arg.to_key
+	Handy.config.save()
+end
 
 function G.FUNCS.handy_init_keybind_change(e)
 	Handy.controller.init_bind(e)

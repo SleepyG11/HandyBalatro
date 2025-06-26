@@ -15,8 +15,12 @@ Handy.UI.PARTS = {
 		end
 		return result
 	end,
-	localize_keybind_label = function(key)
-		return "[" .. localize(key, "handy_keybind_labels") .. "]"
+	localize_keybind_label = function(key, without_brackets)
+		local result = localize(key, "handy_keybind_labels")
+		if without_brackets then
+			return result
+		end
+		return "[" .. result .. "]"
 	end,
 
 	format_new_module_keys = function(module, only_first)
@@ -119,6 +123,7 @@ Handy.UI.PARTS = {
 			ref_value = "enabled",
 			w = 0,
 		})
+		result_toggle.config.focus_args.nav = "wide"
 
 		return {
 			n = G.UIT.R,
@@ -133,6 +138,9 @@ Handy.UI.PARTS = {
 				r = 0.1,
 				hover = true,
 				can_collide = true,
+				focus_args = {
+					funnel_from = true,
+				},
 			},
 			nodes = {
 				{
@@ -183,6 +191,7 @@ Handy.UI.PARTS = {
 		local rerender = Handy.UI.is_in_search_result_page or options.rerender
 		local disabled = options.disabled
 		local only_holdable = options.only_holdable
+		local only_safe = options.only_safe
 
 		local key_1, key_2 = "key_1", "key_2"
 		if Handy.controller.is_gamepad() then
@@ -226,7 +235,9 @@ Handy.UI.PARTS = {
 						key = key_1,
 						rerender = rerender,
 						only_holdable = only_holdable,
+						only_safe = only_safe,
 					},
+					focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 				{
@@ -254,10 +265,31 @@ Handy.UI.PARTS = {
 						rerender = rerender,
 						only_holdable = only_holdable,
 					},
+					-- focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
 				}),
 			},
 		}
+	end,
+
+	create_option_cycle = function(label, values, current_value, callback_func, options)
+		options = options or {}
+		if options.compress then
+			local new_values = {}
+			for k, v in ipairs(values) do
+				table.insert(new_values, label .. ": " .. v)
+			end
+			values = new_values
+		end
+		return create_option_cycle({
+			w = options.compress and 10 or 6,
+			label = not options.compress and label or nil,
+			scale = 0.8,
+			options = values,
+			opt_callback = callback_func,
+			current_option = current_value,
+			focus_args = { nav = "wide" },
+		})
 	end,
 
 	create_example_preset = function(key)
@@ -343,6 +375,7 @@ Handy.UI.PARTS = {
 							ref_table = preset,
 							ref_value = "enabled",
 							w = 0,
+							focus_args = { nav = "wide" },
 						}),
 					},
 				},

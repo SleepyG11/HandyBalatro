@@ -419,7 +419,12 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}Не действует на геймпаде{}",
+					"Заменяет ванильный {C:chips}#3#{}",
+					"но работает идентично и может",
+					"быть переназначен на другую кнопку",
+					" ",
+					"Снимите галочку чтобы использовать",
+					"ванильное управление",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -439,7 +444,12 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}Не действует на геймпаде{}",
+					"Заменяет ванильный {C:chips}#3#{}",
+					"но работает идентично и может",
+					"быть переназначен на другую кнопку",
+					" ",
+					"Снимите галочку чтобы использовать",
+					"ванильное управление",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -682,9 +692,11 @@ return {
 			Handy_popups_guide_gamepad = "Перемещайтесь между настройками чтобы узнать о них больше.",
 			Handy_search_guide = 'Используйте вкладку "#1#" для поиска.',
 			Handy_keybinds_guide_desktop = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
-			Handy_keybinds_guide_gamepad = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
+			Handy_keybinds_guide_gamepad = "#2# и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
 			Handy_presets_guide = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
 			Handy_danger_zone_guide = "*УДАЛИТЬ карту/тэг - убрать без каких-либо проверок, эффектов, триггеров или возврата денег..",
+
+			Handy_default_value = "#1#: значение по умолч.",
 		},
 		dictionary = {
 			handy_or = "или",
@@ -721,6 +733,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасное значение выключено в настройках мода",
 			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
+			ph_handy_notif_cannot_bind_non_safe = "Нельзя назначить эту кнопку здесь",
 
 			ph_handy_notif_misc_save_run_start = "Старт сохранения...",
 			ph_handy_notif_misc_save_run_saving = "Сохранение...",

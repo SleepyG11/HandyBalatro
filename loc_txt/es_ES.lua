@@ -427,7 +427,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}No hace nada en mandos{}",
+					"Reemplaza el {C:chips}#3#{}",
+					"pero funciona igual y puede",
+					"ser reasignado a otra tecla",
+					" ",
+					"Desmarca para usar los controles vanilla",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -440,7 +444,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}No tiene efecto en mandos{}",
+					"Reemplaza el {C:chips}#3#{}",
+					"pero funciona igual y puede",
+					"ser reasignado a otra tecla",
+					" ",
+					"Desmarca para usar los controles vanilla",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -774,10 +782,12 @@ return {
 			Handy_popups_guide = "Coloca el cursor sobre los controles para ver más información sobre ellos.",
 			Handy_popups_guide_gamepad = "Muevete entre varios controles para ver más información sobre ellos.",
 			Handy_search_guide = 'Usa la página "#1#" para buscar.',
-			Handy_keybinds_guide_desktop = "Pulsa cualquier botón para asignarlo. #1# para eliminar.",
-			Handy_keybinds_guide_gamepad = "Pulsa cualquier botón para asignarlo. #1# para eliminar.",
+			Handy_keybinds_guide_desktop = "Haz clic en un botón y la próxima tecla se asigna. #1# para desasignar.",
+			Handy_keybinds_guide_gamepad = "#2# en un botón y la próxima tecla se asigna. #1# para desasignar.",
 			Handy_presets_guide = "Conjunto de configuraciones que pueden ser aplicados cuando quieras",
 			Handy_danger_zone_guide = "*ELIMINAR carta/etiqueta - Elimina sin comprobaciones, efectos, activaciones o devoluciones",
+
+			Handy_default_value = "#1#: valor predeterminado",
 		},
 		dictionary = {
 			handy_or = "o",
@@ -814,6 +824,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Opciones peligrosas deshabilitadas en las opciones del mod",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Opciones peligrosas deshabilitadas en las opciones del mod",
 			ph_handy_notif_cannot_bind_non_holdable = "No puedes poner la rueda del ratón aquí",
+			ph_handy_notif_cannot_bind_non_safe = "No se puede asignar este botón aquí",
 
 			ph_handy_notif_misc_save_run_start = "Comenzando a guardar partida...",
 			ph_handy_notif_misc_save_run_saving = "Guardando partida...",

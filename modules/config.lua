@@ -43,14 +43,14 @@ local default_config = {
 		enabled = true,
 		key_1 = "Shift",
 		key_2 = "None",
-		key_1_gamepad = "None",
+		key_1_gamepad = "Left Bumper",
 		key_2_gamepad = "None",
 	},
 	insta_use = {
 		enabled = true,
 		key_1 = "Ctrl",
 		key_2 = "None",
-		key_1_gamepad = "None",
+		key_1_gamepad = "Right Bumper",
 		key_2_gamepad = "None",
 	},
 	move_highlight = {
@@ -170,6 +170,8 @@ local default_config = {
 		key_2 = "None",
 		key_1_gamepad = "None",
 		key_2_gamepad = "None",
+
+		default_value = 1,
 
 		no_hold = {
 			enabled = false,
@@ -351,6 +353,8 @@ local default_config = {
 		key_1_gamepad = "None",
 		key_2_gamepad = "None",
 
+		default_value = 1,
+
 		no_hold = {
 			enabled = false,
 		},
@@ -488,6 +492,19 @@ Handy.config = {
 -- Shorthand for `Handy.config.current`
 Handy.cc = Handy.config.current
 Handy.config.load()
+
+-- Since quick buy/sell and quick use now overrided on gamepad and I forgot to add default button in advance,
+-- I need to set it up back to make cards buyable/sellable again
+if not Handy.cc.__gamepad_buy_sell_use_default_overrided then
+	if Handy.cc.insta_buy_or_sell.key_1_gamepad == "None" then
+		Handy.cc.insta_buy_or_sell.key_1_gamepad = "Left Bumper"
+	end
+	if Handy.cc.insta_use.key_1_gamepad == "None" then
+		Handy.cc.insta_buy_or_sell.key_1_gamepad = "Right Bumper"
+	end
+	Handy.cc.__gamepad_buy_sell_use_default_overrided = true
+	Handy.config.save()
+end
 
 -- Ha-ha, funny Cryptid reference
 

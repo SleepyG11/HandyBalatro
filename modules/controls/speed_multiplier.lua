@@ -44,6 +44,12 @@ Handy.speed_multiplier = {
 		end
 		return math.min(Handy.speed_multiplier.value, Handy.speed_multiplier.throttle and 4 or math.huge)
 	end,
+	load_default_value = function()
+		if Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
+			local value = math.max(1, math.min(5, math.floor(Handy.cc.speed_multiplier.default_value) or 1))
+			Handy.speed_multiplier.value = 2 ^ (value - 1)
+		end
+	end,
 
 	get_actions = function(key)
 		return {

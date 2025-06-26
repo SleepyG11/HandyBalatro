@@ -414,7 +414,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}Have no effect on gamepad{}",
+					"Replaces vanilla {C:chips}#3#{}",
+					"but works the same and",
+					"can be reassigned to other key",
+					" ",
+					"Uncheck to use vanilla control",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -432,7 +436,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}Have no effect on gamepad{}",
+					"Replaces vanilla {C:chips}#3#{}",
+					"but works the same and",
+					"can be reassigned to other key",
+					" ",
+					"Uncheck to use vanilla control",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -762,9 +770,11 @@ return {
 			Handy_popups_guide_gamepad = "Move between controls to see more info about them.",
 			Handy_search_guide = 'Use "#1#" tab for search.',
 			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
-			Handy_keybinds_guide_gamepad = "Click on a button and next inputted key will be assigned. #1# to unbind.",
+			Handy_keybinds_guide_gamepad = "#2# on a button and next inputted key will be assigned. #1# to unbind.",
 			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
 			Handy_danger_zone_guide = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
+
+			Handy_default_value = "#1#: default value",
 		},
 		dictionary = {
 			handy_or = "or",
@@ -801,6 +811,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
+			ph_handy_notif_cannot_bind_non_safe = "Cannot bind this button here",
 
 			ph_handy_notif_misc_save_run_start = "Starting run saving...",
 			ph_handy_notif_misc_save_run_saving = "Saving a run...",
