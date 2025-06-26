@@ -740,6 +740,7 @@ local dictionary = {
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_or_sell, "insta_buy_or_sell", {
 				localize("b_handy_buy_sell_use_mode_select"),
+				Handy.UI.PARTS.localize_keybind("Left Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -778,6 +779,7 @@ local dictionary = {
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use", {
 				localize("b_handy_buy_sell_use_mode_select"),
+				Handy.UI.PARTS.localize_keybind("Right Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)

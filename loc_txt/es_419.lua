@@ -414,7 +414,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}No tiene efecto en gamepad{}",
+					"Reemplaza el {C:chips}#3#{} del juego base",
+					"pero funciona exactamente igual y",
+					"puede asignarse a otro botón",
+					" ",
+					"Deselecciona para usar el control del juego base",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -432,7 +436,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}No tiene efecto en gamepad{}",
+					"Reemplaza el {C:chips}#3#{} del juego base",
+					"pero funciona exactamente igual y",
+					"puede asignarse a otro botón",
+					" ",
+					"Deselecciona para usar el control del juego base",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode

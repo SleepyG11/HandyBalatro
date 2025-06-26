@@ -16,39 +16,6 @@ Handy.presets = {
 						enabled = false,
 					},
 				},
-				speed_multiplier = {
-					enabled = false,
-					multiply = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-					divide = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-				},
-				nopeus_interaction = {
-					enabled = false,
-					increase = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-					decrease = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-				},
-				animation_skip = {
-					enabled = false,
-					increase = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-					decrease = {
-						key_1 = "None",
-						key_2 = "None",
-					},
-				},
 				regular_keybinds = {
 					enabled = true,
 					play = {

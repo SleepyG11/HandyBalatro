@@ -414,7 +414,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_buy_or_sell_gamepad = {
 				text = {
-					"{C:mult}Have no effect on gamepad{}",
+					"Replaces vanilla {C:chips}#3#{}",
+					"but works the same and",
+					"can be reassigned to other key",
+					" ",
+					"Uncheck to use vanilla control",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode
@@ -432,7 +436,11 @@ return {
 			-- Vars: Buy/Sell/Use mode
 			insta_use_gamepad = {
 				text = {
-					"{C:mult}Have no effect on gamepad{}",
+					"Replaces vanilla {C:chips}#3#{}",
+					"but works the same and",
+					"can be reassigned to other key",
+					" ",
+					"Uncheck to use vanilla control",
 				},
 			},
 			-- Vars: Buy/Sell/Use mode

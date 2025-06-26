@@ -493,6 +493,19 @@ Handy.config = {
 Handy.cc = Handy.config.current
 Handy.config.load()
 
+-- Since quick buy/sell and quick use now overrided on gamepad and I forgot to add default button in advance,
+-- I need to set it up back to make cards buyable/sellable again
+if not Handy.cc.__gamepad_buy_sell_use_default_overrided then
+	if Handy.cc.insta_buy_or_sell.key_1_gamepad == "None" then
+		Handy.cc.insta_buy_or_sell.key_1_gamepad = "Left Bumper"
+	end
+	if Handy.cc.insta_use.key_1_gamepad == "None" then
+		Handy.cc.insta_buy_or_sell.key_1_gamepad = "Right Bumper"
+	end
+	Handy.cc.__gamepad_buy_sell_use_default_overrided = true
+	Handy.config.save()
+end
+
 -- Ha-ha, funny Cryptid reference
 
 -- Resolve module with overrides
