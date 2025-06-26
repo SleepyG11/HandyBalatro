@@ -767,6 +767,12 @@ Handy.controller = {
 			return finish(true)
 		end
 
+		if not released then
+			local _ = Handy.speed_multiplier.use(button)
+				or Handy.nopeus_interaction.use(button)
+				or Handy.animation_skip.use(button)
+		end
+
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if Handy.controller.is_triggered(released) then
 				local _ = false
