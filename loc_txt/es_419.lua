@@ -803,6 +803,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Opción insegura desactivada en las configuraciones del mod",
 			ph_handy_notif_cannot_bind_non_holdable = "No se puede asignar la rueda del mouse aquí",
+			ph_handy_notif_cannot_bind_non_safe = "No se puede asignar este botón aquí",
 
 			ph_handy_notif_misc_save_run_start = "Iniciando guardado de partida...",
 			ph_handy_notif_misc_save_run_saving = "Guardando partida...",

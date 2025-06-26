@@ -803,6 +803,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
+			ph_handy_notif_cannot_bind_non_safe = "Cannot bind this button here",
 
 			ph_handy_notif_misc_save_run_start = "Starting run saving...",
 			ph_handy_notif_misc_save_run_saving = "Saving a run...",

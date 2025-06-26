@@ -723,6 +723,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасное значение выключено в настройках мода",
 			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
+			ph_handy_notif_cannot_bind_non_safe = "Нельзя назначить эту кнопку здесь",
 
 			ph_handy_notif_misc_save_run_start = "Старт сохранения...",
 			ph_handy_notif_misc_save_run_saving = "Сохранение...",

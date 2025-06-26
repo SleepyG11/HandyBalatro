@@ -816,6 +816,7 @@ return {
 			ph_handy_notif_nopeus_unsafe_disabled = "Opciones peligrosas deshabilitadas en las opciones del mod",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Opciones peligrosas deshabilitadas en las opciones del mod",
 			ph_handy_notif_cannot_bind_non_holdable = "No puedes poner la rueda del ratón aquí",
+			ph_handy_notif_cannot_bind_non_safe = "No se puede asignar este botón aquí",
 
 			ph_handy_notif_misc_save_run_start = "Comenzando a guardar partida...",
 			ph_handy_notif_misc_save_run_saving = "Guardando partida...",

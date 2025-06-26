@@ -128,12 +128,54 @@ Handy.dangerous_actions = {
 		local options = Handy.dangerous_actions.get_options(card)
 		return Handy.dangerous_actions.process_card(card, options.use_queue, options.remove)
 	end,
+	execute = function(key, card)
+		if Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.immediate_buy_and_sell, true) then
+			if Handy.controller.is_module_key(Handy.cc.dangerous_actions.sell_all, key) then
+				local options = Handy.dangerous_actions.get_options(card)
+				for _, target_card in ipairs(card.area.cards) do
+					Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				end
+				Handy.dangerous_actions.sell_next_card()
+				return true
+			elseif Handy.controller.is_module_key(Handy.cc.dangerous_actions.sell_all_same, key) then
+				local target_cards = {}
+				local success, card_center_key = pcall(function()
+					return card.config.center.key
+				end)
+				if success and card_center_key then
+					for _, area_card in ipairs(card.area.cards) do
+						local _success, area_card_center_key = pcall(function()
+							return area_card.config.center.key
+						end)
+						if _success and area_card_center_key == card_center_key then
+							table.insert(target_cards, area_card)
+						end
+					end
+				end
+
+				local options = Handy.dangerous_actions.get_options(card)
+				for _, target_card in ipairs(target_cards) do
+					Handy.dangerous_actions.process_card(target_card, true, options.remove)
+				end
+				Handy.dangerous_actions.sell_next_card()
+				return true
+			end
+		end
+		return false
+	end,
 
 	use_click = function(card)
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute_click(card) or false
 	end,
 	use_hover = function(card)
 		return Handy.dangerous_actions.can_execute(card) and Handy.dangerous_actions.execute_hover(card) or false
+	end,
+	use = function(key, released)
+		if released or not Handy.controller.is_gamepad() then
+			return false
+		end
+		return Handy.dangerous_actions.can_execute(Handy.last_hovered_card)
+			and Handy.dangerous_actions.execute(key, Handy.last_hovered_card)
 	end,
 
 	can_execute_tag = function(tag)

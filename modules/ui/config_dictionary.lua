@@ -1377,7 +1377,7 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.misc.crash,
 				"misc_crash",
-				{ dangerous = true },
+				{ dangerous = true, only_safe = true },
 				options
 			)
 		end,

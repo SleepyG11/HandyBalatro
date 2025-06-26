@@ -148,6 +148,15 @@ local non_holdable_keys_table = {
 	["Wheel Up"] = true,
 	["Wheel Down"] = true,
 }
+local non_safe_keys_table = {
+	["Left Mouse"] = true,
+	["Right Mouse"] = true,
+	["(Left)"] = true,
+	["(Right)"] = true,
+	["(Up)"] = true,
+	["(Down)"] = true,
+	["(X)"] = true,
+}
 
 Handy.controller = {
 	device_type = "keyboard",
@@ -302,7 +311,7 @@ Handy.controller = {
 						end
 					end
 				end
-			elseif button == G.F_GUIDE and "guide" or "back" then
+			elseif button == (G.F_GUIDE and "guide" or "back") then
 				if e.parent then
 					if e.parent.parent then
 						if e.parent.parent.config.id == "run_info_button" then
@@ -310,6 +319,25 @@ Handy.controller = {
 								"run_info", Handy.cc.regular_keybinds.run_info, function()
 									return Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds.run_info)
 								end
+						end
+					end
+				end
+			elseif button == "leftshoulder" or button == "rightshoulder" then
+				if e.parent then
+					if e.parent.config.func and e.parent.config.ref_table then
+						local actions_map = {
+							["can_buy_and_use"] = "buy_and_use",
+							["can_buy"] = "buy",
+							["can_redeem"] = "buy",
+							["can_open"] = "buy",
+							["can_use_consumeable"] = "use",
+							["can_sell_card"] = "sell",
+						}
+						local action = actions_map[e.parent.config.func]
+						if action == "buy_and_use" or action == "use" then
+							override_key, override_module = "insta_action_use", Handy.cc.insta_use
+						elseif action == "sell" or action == "buy" then
+							override_key, override_module = "insta_action_buy_or_sell", Handy.cc.insta_buy_or_sell
 						end
 					end
 				end
@@ -367,6 +395,7 @@ Handy.controller = {
 		Handy.controller.bind_module = button.config.ref_table.module
 		Handy.controller.bind_key = button.config.ref_table.key
 		Handy.controller.only_holdable = button.config.ref_table.only_holdable or false
+		Handy.controller.only_safe = button.config.ref_table.only_safe or false
 		Handy.controller.rerender_after_bind = button.config.ref_table.rerender or nil
 
 		Handy.controller.update_bind_button_text(
@@ -376,6 +405,17 @@ Handy.controller = {
 		)
 	end,
 	complete_bind = function(key)
+		if Handy.controller.only_safe and Handy.controller.non_safe[key] then
+			Handy.UI.state_panel.display(function(state)
+				state.items.non_holdable = {
+					text = localize("ph_handy_notif_cannot_bind_non_safe"),
+					hold = false,
+					order = 0,
+				}
+				return true
+			end)
+			return Handy.controller.cancel_bind()
+		end
 		if Handy.controller.only_holdable and Handy.controller.non_holdable[key] then
 			Handy.UI.state_panel.display(function(state)
 				state.items.non_holdable = {
@@ -397,6 +437,7 @@ Handy.controller = {
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
 		Handy.controller.only_holdable = nil
+		Handy.controller.only_safe = nil
 
 		if Handy.controller.rerender_after_bind then
 			Handy.controller.rerender_after_bind = nil
@@ -424,6 +465,7 @@ Handy.controller = {
 		Handy.controller.bind_module = nil
 		Handy.controller.bind_key = nil
 		Handy.controller.only_holdable = nil
+		Handy.controller.only_safe = nil
 		Handy.controller.rerender_after_bind = nil
 	end,
 
@@ -453,6 +495,7 @@ Handy.controller = {
 	wheel_buttons = wheel_key_to_index_table,
 
 	non_holdable = non_holdable_keys_table,
+	non_safe = non_safe_keys_table,
 
 	parse = function(raw_key, options)
 		if not raw_key then
@@ -623,11 +666,11 @@ Handy.controller = {
 
 		-----
 
-		if Handy.misc_controls.use(key, released) then
+		if not released and Handy.presets_switch.use(key) then
 			return finish(true)
 		end
 
-		if not released and Handy.presets_switch.use(key) then
+		if Handy.misc_controls.use(key, released) then
 			return finish(true)
 		end
 
@@ -650,6 +693,7 @@ Handy.controller = {
 			end
 
 			Handy.dangerous_actions.toggle_queue(key, released)
+			Handy.dangerous_actions.use(key, released)
 		end
 
 		return finish(false)
@@ -683,6 +727,10 @@ Handy.controller = {
 			return finish(true)
 		end
 
+		if Handy.misc_controls.use(key, released) then
+			return finish(true)
+		end
+
 		if not released then
 			local _ = Handy.speed_multiplier.use(key)
 				or Handy.nopeus_interaction.use(key)
@@ -702,6 +750,7 @@ Handy.controller = {
 			end
 
 			Handy.dangerous_actions.toggle_queue(key, released)
+			Handy.dangerous_actions.use(key, released)
 		end
 
 		return finish(false)
@@ -730,6 +779,10 @@ Handy.controller = {
 			return finish(true)
 		end
 
+		if Handy.misc_controls.use(key, false) then
+			return finish(true)
+		end
+
 		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) or Handy.animation_skip.use(key) then
 			return finish(false)
 		end
@@ -740,6 +793,7 @@ Handy.controller = {
 			Handy.regular_keybinds.use(key)
 			Handy.insta_highlight_entire_f_hand.use(key)
 			Handy.deselect_hand.use(key)
+			Handy.dangerous_actions.use(key, false)
 		end
 
 		return finish(false)
@@ -767,6 +821,10 @@ Handy.controller = {
 			return finish(true)
 		end
 
+		if Handy.misc_controls.use(button, released) then
+			return finish(true)
+		end
+
 		if not released then
 			local _ = Handy.speed_multiplier.use(button)
 				or Handy.nopeus_interaction.use(button)
@@ -784,6 +842,7 @@ Handy.controller = {
 			end
 
 			Handy.dangerous_actions.toggle_queue(button, released)
+			Handy.dangerous_actions.use(button, released)
 		end
 
 		Handy.UI.state_panel.update(button, released)

@@ -191,6 +191,7 @@ Handy.UI.PARTS = {
 		local rerender = Handy.UI.is_in_search_result_page or options.rerender
 		local disabled = options.disabled
 		local only_holdable = options.only_holdable
+		local only_safe = options.only_safe
 
 		local key_1, key_2 = "key_1", "key_2"
 		if Handy.controller.is_gamepad() then
@@ -234,6 +235,7 @@ Handy.UI.PARTS = {
 						key = key_1,
 						rerender = rerender,
 						only_holdable = only_holdable,
+						only_safe = only_safe,
 					},
 					focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",

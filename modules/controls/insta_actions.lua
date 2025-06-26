@@ -29,9 +29,8 @@ Handy.insta_actions = {
 	get_actions = function()
 		return {
 			buy_n_sell = Handy.controller.is_module_key_down(Handy.cc.insta_buy_n_sell),
-			buy_or_sell = not Handy.controller.is_gamepad()
-				and Handy.controller.is_module_key_down(Handy.cc.insta_buy_or_sell),
-			use = not Handy.controller.is_gamepad() and Handy.controller.is_module_key_down(Handy.cc.insta_use),
+			buy_or_sell = Handy.controller.is_module_key_down(Handy.cc.insta_buy_or_sell),
+			use = Handy.controller.is_module_key_down(Handy.cc.insta_use),
 			cryptid_code_use_last_interaction = Handy.controller.is_module_key_down(
 				Handy.cc.cryptid_code_use_last_interaction
 			),
@@ -40,9 +39,8 @@ Handy.insta_actions = {
 	get_alt_actions = function(key)
 		return {
 			buy_n_sell = Handy.controller.is_module_key(Handy.cc.insta_buy_n_sell, key),
-			buy_or_sell = not Handy.controller.is_gamepad()
-				and Handy.controller.is_module_key(Handy.cc.insta_buy_or_sell, key),
-			use = not Handy.controller.is_gamepad() and Handy.controller.is_module_key(Handy.cc.insta_use, key),
+			buy_or_sell = Handy.controller.is_module_key(Handy.cc.insta_buy_or_sell, key),
+			use = Handy.controller.is_module_key(Handy.cc.insta_use, key),
 			cryptid_code_use_last_interaction = Handy.controller.is_module_key(
 				Handy.cc.cryptid_code_use_last_interaction,
 				key
@@ -290,6 +288,9 @@ Handy.insta_actions = {
 			and Handy.insta_actions.process_card(card, Handy.insta_actions.get_actions())
 	end,
 	use_alt = function(key)
+		if Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.immediate_buy_and_sell) then
+			return false
+		end
 		return (Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode == 2)
 			and Handy.insta_actions.process_card(
 				G.CONTROLLER.dragging.target or Handy.last_hovered_card,

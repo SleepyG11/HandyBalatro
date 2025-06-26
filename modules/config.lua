@@ -43,14 +43,14 @@ local default_config = {
 		enabled = true,
 		key_1 = "Shift",
 		key_2 = "None",
-		key_1_gamepad = "None",
+		key_1_gamepad = "Left Bumper",
 		key_2_gamepad = "None",
 	},
 	insta_use = {
 		enabled = true,
 		key_1 = "Ctrl",
 		key_2 = "None",
-		key_1_gamepad = "None",
+		key_1_gamepad = "Right Bumper",
 		key_2_gamepad = "None",
 	},
 	move_highlight = {
