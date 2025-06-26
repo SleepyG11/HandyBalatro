@@ -762,7 +762,7 @@ return {
 			Handy_popups_guide_gamepad = "Mueve entre los controles para ver más información sobre ellos.",
 			Handy_search_guide = 'Usa la pestaña "#1#" para buscar.',
 			Handy_keybinds_guide_desktop = "Haz clic en un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
-			Handy_keybinds_guide_gamepad = "Haz clic en un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
+			Handy_keybinds_guide_gamepad = "#2# un botón y la siguiente tecla que ingreses será asignada. #1# para desasignar.",
 			Handy_presets_guide = "Preset - conjunto de configuraciones y atajos de teclado que se pueden aplicar en cualquier momento",
 			Handy_danger_zone_guide = "*REMOVER carta/etiqueta - eliminar sin ninguna verificación, efecto, activaciones o dinero.",
 

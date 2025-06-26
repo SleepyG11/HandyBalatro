@@ -686,6 +686,7 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 							key = gamepad and "Handy_keybinds_guide_gamepad" or "Handy_keybinds_guide_desktop",
 							vars = {
 								Handy.UI.PARTS.localize_keybind(gamepad and "(Back)" or "Escape", true),
+								Handy.UI.PARTS.localize_keybind(gamepad and "(X)" or "Left Mouse", true),
 							},
 						}),
 						scale = 0.3,

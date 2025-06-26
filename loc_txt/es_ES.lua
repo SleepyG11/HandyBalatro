@@ -774,8 +774,8 @@ return {
 			Handy_popups_guide = "Coloca el cursor sobre los controles para ver más información sobre ellos.",
 			Handy_popups_guide_gamepad = "Muevete entre varios controles para ver más información sobre ellos.",
 			Handy_search_guide = 'Usa la página "#1#" para buscar.',
-			Handy_keybinds_guide_desktop = "Pulsa cualquier botón para asignarlo. #1# para eliminar.",
-			Handy_keybinds_guide_gamepad = "Pulsa cualquier botón para asignarlo. #1# para eliminar.",
+			Handy_keybinds_guide_desktop = "Haz clic en un botón y la próxima tecla se asigna. #1# para desasignar.",
+			Handy_keybinds_guide_gamepad = "#2# en un botón y la próxima tecla se asigna. #1# para desasignar.",
 			Handy_presets_guide = "Conjunto de configuraciones que pueden ser aplicados cuando quieras",
 			Handy_danger_zone_guide = "*ELIMINAR carta/etiqueta - Elimina sin comprobaciones, efectos, activaciones o devoluciones",
 
