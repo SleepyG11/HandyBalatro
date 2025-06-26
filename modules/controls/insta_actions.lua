@@ -109,6 +109,7 @@ Handy.insta_actions = {
 				for _, node_info in pairs(result_funcs) do
 					if node_info.action == "use" then
 						target_button = node_info.node
+						is_custom_button = true
 						break
 					end
 				end
@@ -124,6 +125,7 @@ Handy.insta_actions = {
 				for _, node_info in pairs(result_funcs) do
 					if node_info.action == "sell" then
 						target_button = node_info.node
+						is_custom_button = true
 						break
 					end
 				end
@@ -132,6 +134,7 @@ Handy.insta_actions = {
 				for _, node_info in pairs(result_funcs) do
 					if node_info.action == "buy" or node_info.action == "sell" or node_info.action == "buy_or_sell" then
 						target_button = node_info.node
+						is_custom_button = true
 						break
 					end
 				end
