@@ -412,7 +412,7 @@ Handy.UI.get_search_result_page = function(result)
 		Handy.UI.PARTS.create_separator_c(),
 		{
 			n = G.UIT.C,
-			config = { padding = 0.05, minh = 7 },
+			config = { align = "cm", padding = 0.05, minh = 7 },
 			nodes = Handy.utils.table_slice(result_checkboxes, 7),
 		},
 	}
@@ -900,6 +900,7 @@ Handy.UI.get_config_tab_dangerous = function()
 	}
 end
 Handy.UI.get_config_tab_search = function()
+	local gamepad = Handy.controller.is_gamepad()
 	local result = Handy.UI.search(Handy.UI.search_input_value or "")
 	local result_content = {}
 	if #result > 0 then
@@ -907,90 +908,99 @@ Handy.UI.get_config_tab_search = function()
 	else
 		result_content = Handy.UI.get_search_no_result_page()
 	end
+
+	result_content = {
+		n = G.UIT.R,
+		config = {
+			align = "cm",
+		},
+		nodes = result_content,
+	}
+
+	local result_ui = {
+		{
+			n = G.UIT.R,
+			config = {
+				padding = 0.25,
+				r = 0.5,
+				colour = adjust_alpha(HEX("000000"), 0.1),
+				align = "cm",
+				minw = 14,
+			},
+			nodes = {
+				{
+					n = G.UIT.R,
+					config = { align = "cm" },
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = {},
+							nodes = {
+								create_text_input({
+									w = 4,
+									max_length = 32,
+									ref_table = Handy.UI,
+									ref_value = "search_input_value",
+									extended_corpus = true,
+									id = "handy_search",
+									prompt_text = localize("b_handy_search_placeholder"),
+									callback = function()
+										if not Handy.controller.is_gamepad() then
+											Handy.UI.render_search_results(true)
+										end
+									end,
+								}),
+							},
+						},
+						Handy.UI.PARTS.create_separator_c(),
+						UIBox_button({
+							label = { localize("b_handy_clear") },
+							col = true,
+							colour = G.C.MULT,
+							scale = 0.4,
+							minh = 0.6,
+							maxh = 0.6,
+							minw = 2,
+							maxw = 2,
+							button = "handy_clear_search",
+						}),
+						Handy.UI.PARTS.create_separator_c(0.05),
+						UIBox_button({
+							label = { localize("b_handy_search") },
+							col = true,
+							colour = G.C.CHIPS,
+							scale = 0.4,
+							minh = 0.6,
+							maxh = 0.6,
+							minw = 2,
+							maxw = 2,
+							button = "handy_apply_search",
+						}),
+					},
+				},
+			},
+		},
+	}
+	if gamepad then
+		table.insert(result_ui, 1, Handy.UI.PARTS.create_separator_r())
+		table.insert(result_ui, 1, result_content)
+	else
+		table.insert(result_ui, Handy.UI.PARTS.create_separator_r())
+		table.insert(result_ui, result_content)
+	end
 	return {
 		{
 			n = G.UIT.R,
 			config = {
 				align = "cm",
 			},
-			nodes = {
-				{
-					n = G.UIT.R,
-					config = {
-						padding = 0.25,
-						r = 0.5,
-						colour = adjust_alpha(HEX("000000"), 0.1),
-						align = "cm",
-						minw = 14,
-					},
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = {
-								{
-									n = G.UIT.C,
-									config = {},
-									nodes = {
-										create_text_input({
-											w = 4,
-											max_length = 32,
-											ref_table = Handy.UI,
-											ref_value = "search_input_value",
-											extended_corpus = true,
-											id = "handy_search",
-											prompt_text = localize("b_handy_search_placeholder"),
-											callback = function()
-												if not Handy.controller.is_gamepad() then
-													Handy.UI.render_search_results(true)
-												end
-											end,
-										}),
-									},
-								},
-								Handy.UI.PARTS.create_separator_c(),
-								UIBox_button({
-									label = { localize("b_handy_clear") },
-									col = true,
-									colour = G.C.MULT,
-									scale = 0.4,
-									minh = 0.6,
-									maxh = 0.6,
-									minw = 2,
-									maxw = 2,
-									button = "handy_clear_search",
-								}),
-								Handy.UI.PARTS.create_separator_c(0.05),
-								UIBox_button({
-									label = { localize("b_handy_search") },
-									col = true,
-									colour = G.C.CHIPS,
-									scale = 0.4,
-									minh = 0.6,
-									maxh = 0.6,
-									minw = 2,
-									maxw = 2,
-									button = "handy_apply_search",
-								}),
-							},
-						},
-					},
-				},
-				Handy.UI.PARTS.create_separator_r(),
-				{
-					n = G.UIT.R,
-					config = {
-						align = "cm",
-					},
-					nodes = result_content,
-				},
-			},
+			nodes = result_ui,
 		},
 	}
 end
 
 function Handy.UI.render_search_results(rerender)
-	G.E_MANAGER:add_event({
+	G.E_MANAGER:add_event(Event({
 		blocking = false,
 		blockable = false,
 		no_pause = true,
@@ -999,7 +1009,7 @@ function Handy.UI.render_search_results(rerender)
 			Handy.UI.rerender(true)
 			return true
 		end,
-	})
+	}))
 end
 
 -- Tabs order

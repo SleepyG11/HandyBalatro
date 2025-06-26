@@ -270,6 +270,26 @@ Handy.UI.PARTS = {
 		}
 	end,
 
+	create_option_cycle = function(label, values, current_value, callback_func, options)
+		options = options or {}
+		if options.compress then
+			local new_values = {}
+			for k, v in ipairs(values) do
+				table.insert(new_values, label .. ": " .. v)
+			end
+			values = new_values
+		end
+		return create_option_cycle({
+			w = options.compress and 10 or 6,
+			label = not options.compress and label or nil,
+			scale = 0.8,
+			options = values,
+			opt_callback = callback_func,
+			current_option = current_value,
+			focus_args = { nav = "wide" },
+		})
+	end,
+
 	create_example_preset = function(key)
 		local checkbox_text = {}
 		localize({
