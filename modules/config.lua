@@ -477,7 +477,9 @@ Handy.config = {
 			local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
 			love.filesystem.write("config/Handy.jkr", serialized)
 		end
-		Handy.controller.on_settings_save()
+		if Handy.controller then
+			Handy.controller.on_settings_save()
+		end
 	end,
 	load = function()
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
