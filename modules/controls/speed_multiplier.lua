@@ -5,7 +5,11 @@ Handy.speed_multiplier = {
 	throttle = false,
 
 	get_queue_retriggers_count = function()
-		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
+		if
+			Handy.is_in_multiplayer()
+			or not Handy.is_mod_active()
+			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+		then
 			return 0
 		end
 		return Handy.speed_multiplier.queue_retriggers_count
@@ -39,15 +43,20 @@ Handy.speed_multiplier = {
 	end,
 
 	get_value = function()
-		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
+		if
+			Handy.is_in_multiplayer()
+			or not Handy.is_mod_active()
+			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+		then
 			return 1
 		end
 		return math.min(Handy.speed_multiplier.value, Handy.speed_multiplier.throttle and 4 or math.huge)
 	end,
 	load_default_value = function()
 		if Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
-			local value = math.max(1, math.min(5, math.floor(Handy.cc.speed_multiplier.default_value) or 1))
+			local value = math.max(1, math.min(10, math.floor(Handy.cc.speed_multiplier.default_value) or 1))
 			Handy.speed_multiplier.value = 2 ^ (value - 1)
+			Handy.speed_multiplier.change(0)
 		end
 	end,
 
@@ -59,6 +68,7 @@ Handy.speed_multiplier = {
 	end,
 	can_execute = function(key)
 		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+			and not Handy.is_in_multiplayer()
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)

@@ -4,7 +4,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1-qf1",
+		version = "1.5.1a",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
@@ -17,11 +17,12 @@ if not Handy then
 		meta = {
 			["1.4.1b_patched_select_blind_and_skip"] = true,
 			["1.5.0_update"] = true,
+			["1.5.1a_multiplayer_check"] = true,
 		},
 	}, {})
 
 	function Handy.is_in_multiplayer()
-		return not not (MP and MP.LOBBY.code)
+		return not not (MP and MP.LOBBY and MP.LOBBY.code)
 	end
 
 	function Handy.register_module(key, mod_module)

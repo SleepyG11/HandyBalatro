@@ -1,6 +1,8 @@
 Handy.misc_controls = {
 	can_crash = function(key, released)
-		return Handy.is_dangerous_actions_active() and Handy.controller.is_module_key(Handy.cc.misc.crash, key)
+		return Handy.is_dangerous_actions_active()
+			and not Handy.is_in_multiplayer()
+			and Handy.controller.is_module_key(Handy.cc.misc.crash, key)
 	end,
 	crash = function(key, released)
 		error(
@@ -22,7 +24,8 @@ Handy.misc_controls = {
 	can_save_run = function(key, released, check)
 		if check then
 			return not not (
-				G.GAME
+				not Handy.is_in_multiplayer()
+				and G.GAME
 				and G.STAGE == G.STAGES.RUN
 				and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
 				and not (G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
@@ -32,6 +35,7 @@ Handy.misc_controls = {
 		end
 		return not not (
 			not Handy.misc_controls.save_run_blocker
+			and not Handy.is_in_multiplayer()
 			and G.GAME
 			and G.STAGE == G.STAGES.RUN
 			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)

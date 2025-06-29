@@ -405,7 +405,7 @@ Handy.UI.get_search_result_page = function(result)
 					config = {
 						padding = 0.05,
 					},
-					nodes = Handy.utils.table_slice(result_keybinds, 14),
+					nodes = Handy.utils.table_slice(result_keybinds, keybinds_limit),
 				},
 			},
 		} or nil,
@@ -413,7 +413,7 @@ Handy.UI.get_search_result_page = function(result)
 		{
 			n = G.UIT.C,
 			config = { align = "cm", padding = 0.05, minh = 7 },
-			nodes = Handy.utils.table_slice(result_checkboxes, 7),
+			nodes = Handy.utils.table_slice(result_checkboxes, checkboxes_limit),
 		},
 	}
 end

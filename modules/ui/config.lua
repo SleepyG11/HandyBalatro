@@ -77,6 +77,15 @@ function Handy.UI.rerender(silent)
 	end
 end
 
+-- For some reason, rendering checkbox on search page make same checkboxes spawn without sprite in it (at least for a first frame)
+-- No idea why tbh, but looks like they're working fine, so I'll just prevent this crash
+local toggle_ref = G.FUNCS.toggle
+function G.FUNCS.toggle(e, ...)
+	if e.children and e.children[1] then
+		return toggle_ref(e, ...)
+	end
+end
+
 if SMODS then
 	local create_UIBox_mods_ref = create_UIBox_mods
 	function create_UIBox_mods(...)

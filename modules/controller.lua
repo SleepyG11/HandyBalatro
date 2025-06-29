@@ -156,6 +156,9 @@ local non_safe_keys_table = {
 	["(Up)"] = true,
 	["(Down)"] = true,
 	["(X)"] = true,
+	["(Y)"] = true,
+	["(A)"] = true,
+	["(B)"] = true,
 }
 
 Handy.controller = {
@@ -268,7 +271,13 @@ Handy.controller = {
 		end
 
 		local override_key, override_module, override_enabled_func = nil, nil, nil
-		if e.config.focus_args and not e.handy_gamepad_override and not G.OVERLAY_MENU then
+		if
+			not e.handy_gamepad_override_checked
+			and e.config.focus_args
+			and not e.handy_gamepad_override
+			and not G.OVERLAY_MENU
+		then
+			e.handy_gamepad_override_checked = true
 			local button = e.config.focus_args.button
 			if button == "triggerleft" then
 				override_key, override_module = "show_deck_preview", Handy.cc.show_deck_preview
