@@ -917,7 +917,7 @@ local dictionary = {
 					key = "Handy_default_value",
 					vars = { Handy.UI.PARTS.localize_keybind_label("speed_multiplier", true) },
 				}),
-				{ "1x", "2x", "4x", "8x", "16x" },
+				{ "1x", "2x", "4x", "8x", "16x", "32x", "64x", "128x", "256x", "512x" },
 				Handy.cc.speed_multiplier.default_value,
 				"handy_change_default_speed_multiplier",
 				options
