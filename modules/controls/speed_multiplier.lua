@@ -56,6 +56,7 @@ Handy.speed_multiplier = {
 		if Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
 			local value = math.max(1, math.min(10, math.floor(Handy.cc.speed_multiplier.default_value) or 1))
 			Handy.speed_multiplier.value = 2 ^ (value - 1)
+			Handy.speed_multiplier.change(0)
 		end
 	end,
 
