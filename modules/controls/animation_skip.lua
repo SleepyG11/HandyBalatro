@@ -36,9 +36,9 @@ Handy.animation_skip = {
 
 	get_value = function()
 		if
-			not Handy.is_mod_active()
+			Handy.is_in_multiplayer()
+			or not Handy.is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.animation_skip)
-			or Handy.is_in_multiplayer()
 		then
 			return 1
 		end

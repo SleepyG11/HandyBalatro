@@ -1,8 +1,8 @@
 Handy.misc_controls = {
 	can_crash = function(key, released)
 		return Handy.is_dangerous_actions_active()
-			and Handy.controller.is_module_key(Handy.cc.misc.crash, key)
 			and not Handy.is_in_multiplayer()
+			and Handy.controller.is_module_key(Handy.cc.misc.crash, key)
 	end,
 	crash = function(key, released)
 		error(

@@ -6,9 +6,9 @@ Handy.speed_multiplier = {
 
 	get_queue_retriggers_count = function()
 		if
-			not Handy.is_mod_active()
+			Handy.is_in_multiplayer()
+			or not Handy.is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
-			or Handy.is_in_multiplayer()
 		then
 			return 0
 		end
@@ -44,9 +44,9 @@ Handy.speed_multiplier = {
 
 	get_value = function()
 		if
-			not Handy.is_mod_active()
+			Handy.is_in_multiplayer()
+			or not Handy.is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
-			or Handy.is_in_multiplayer()
 		then
 			return 1
 		end
