@@ -519,7 +519,7 @@ function Handy.is_mod_active()
 	return Handy.cc.handy.enabled
 end
 function Handy.is_dangerous_actions_active()
-	return Handy.cc.dangerous_actions.enabled
+	return Handy.cc.dangerous_actions.enabled and not Handy.is_in_multiplayer()
 end
 function Handy.get_module_override(module)
 	return nil
