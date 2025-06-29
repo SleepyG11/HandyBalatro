@@ -21,7 +21,7 @@ if not Handy then
 	}, {})
 
 	function Handy.is_in_multiplayer()
-		return not not (MP and MP.LOBBY.code)
+		return not not (MP and MP.LOBBY and MP.LOBBY.code)
 	end
 
 	function Handy.register_module(key, mod_module)

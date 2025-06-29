@@ -35,7 +35,11 @@ Handy.animation_skip = {
 	end,
 
 	get_value = function()
-		if not Handy.is_mod_active() or not Handy.controller.is_module_enabled(Handy.cc.animation_skip) then
+		if
+			not Handy.is_mod_active()
+			or not Handy.controller.is_module_enabled(Handy.cc.animation_skip)
+			or Handy.is_in_multiplayer()
+		then
 			return 1
 		end
 		if Handy.animation_skip.can_dangerous() then
@@ -65,6 +69,7 @@ Handy.animation_skip = {
 	can_execute = function(key)
 		return not not (
 			Handy.controller.is_module_enabled(Handy.cc.animation_skip)
+			and not Handy.is_in_multiplayer()
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.animation_skip.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.animation_skip)
