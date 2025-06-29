@@ -156,6 +156,9 @@ local non_safe_keys_table = {
 	["(Up)"] = true,
 	["(Down)"] = true,
 	["(X)"] = true,
+	["(Y)"] = true,
+	["(A)"] = true,
+	["(B)"] = true,
 }
 
 Handy.controller = {
