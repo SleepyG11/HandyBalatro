@@ -20,6 +20,7 @@ Handy.nopeus_interaction = {
 		return not not (
 			Handy.nopeus_interaction.is_present()
 			and Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction)
+			and not Handy.is_in_multiplayer()
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
