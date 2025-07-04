@@ -853,6 +853,12 @@ Handy.controller = {
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			if not released then
+				-- (A) corresponds to vanilla card selection and dragging
+				if button ~= "a" then
+					Handy.insta_highlight.use_on_hovered(key)
+				end
+			end
 			if Handy.controller.is_triggered(released) then
 				local _ = false
 					or Handy.insta_actions.use_alt(button)
