@@ -21,6 +21,10 @@ if not Handy then
 		},
 	}, {})
 
+	function Handy.is_stop_use()
+		return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0)
+	end
+
 	function Handy.is_in_multiplayer()
 		return not not (MP and MP.LOBBY and MP.LOBBY.code)
 	end

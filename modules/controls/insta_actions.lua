@@ -56,6 +56,7 @@ Handy.insta_actions = {
 			and card.area
 			and card.is
 			and card:is(Card)
+			and not Handy.is_stop_use()
 		)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)

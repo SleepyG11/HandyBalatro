@@ -10,7 +10,7 @@ Handy.deselect_hand = {
 			and G.hand.states.visible
 			and G.hand.highlighted[1]
 			-- Vanilla check
-			and not ((G.play and #G.play.cards > 0) or G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+			and not ((G.play and #G.play.cards > 0) or Handy.is_stop_use())
 			and Handy.is_mod_active()
 			and Handy.controller.is_module_key(Handy.cc.deselect_hand, key)
 			-- Selecting cards over hand deselection

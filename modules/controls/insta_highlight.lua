@@ -8,6 +8,7 @@ Handy.insta_highlight = {
 			and G.hand.states.visible
 			and card.area == G.hand
 			and not G.CONTROLLER.dragging.target
+			and not Handy.is_stop_use()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 	end,
 	execute = function(card)
