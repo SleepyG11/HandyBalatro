@@ -4,7 +4,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1b",
+		version = "1.5.1c",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
