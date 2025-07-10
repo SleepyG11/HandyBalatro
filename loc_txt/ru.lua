@@ -17,6 +17,13 @@ return {
 					"{C:handy_secondary}Только если установлен Steamodded{}",
 				},
 			},
+			debugplus_prevent = {
+				unlock = { "DebugPlus:", "перехват управления" },
+				text = {
+					"Не использовать назнчения Handy",
+					"пока удерж. {C:chips}#2#{}",
+				},
+			},
 			regular_keybinds = {
 				unlock = { "Основные", "назначения" },
 				text = {
@@ -288,6 +295,12 @@ return {
 			},
 		},
 		Handy_ConfigPopup = {
+			debugplus_prevent = {
+				text = {
+					"Требуется мод {C:attention}DebugPlus{} и включённая",
+					"настройка {C:attention}CTRL for Keybinds{}",
+				},
+			},
 			regular_keybinds = {
 				text = {
 					"Сыграть или сбросить руку, сортировка руки",

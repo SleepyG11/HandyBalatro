@@ -122,8 +122,6 @@ Handy.UI.get_quick_page = function(page)
 					},
 				},
 			},
-			Handy.UI.PARTS.create_separator_r(0.05),
-			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
 			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
@@ -225,15 +223,21 @@ Handy.UI.get_quick_page = function(page)
 				},
 			},
 		}
+	elseif page == 3 then
+		result = {
+			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
+			Handy.UI.PARTS.create_separator_r(),
+			Handy.UI.CD.debugplus_prevent.checkbox(),
+		}
 	end
 	if result then
 		result = {
 			n = G.UIT.ROOT,
-			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 6.5, maxh = 6.5 },
+			config = { colour = G.C.CLEAR, align = "cm", padding = 0.05, minh = 6.5, maxh = 6.5, minw = 17.5 },
 			nodes = result,
 		}
 	end
-	return result, 2
+	return result, 3
 end
 Handy.UI.get_search_no_result_page = function()
 	local function create_input_button(label, value)

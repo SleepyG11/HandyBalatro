@@ -12,6 +12,9 @@ local default_config = {
 	hide_options_button = {
 		enabled = false,
 	},
+	prevent_if_debugplus = {
+		enabled = false,
+	},
 
 	insta_highlight = {
 		enabled = true,
