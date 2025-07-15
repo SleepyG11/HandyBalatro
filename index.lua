@@ -4,7 +4,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1a",
+		version = "1.5.1d",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
@@ -20,6 +20,10 @@ if not Handy then
 			["1.5.1a_multiplayer_check"] = true,
 		},
 	}, {})
+
+	function Handy.is_stop_use()
+		return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0)
+	end
 
 	function Handy.is_in_multiplayer()
 		return not not (MP and MP.LOBBY and MP.LOBBY.code)

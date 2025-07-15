@@ -8,6 +8,7 @@ Handy.regular_keybinds = {
 	can_play = function(key)
 		return not Handy.regular_keybinds.play_blocker
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
 			end, { visible = true })
@@ -30,6 +31,7 @@ Handy.regular_keybinds = {
 	can_discard = function(key)
 		return not Handy.regular_keybinds.discard_blocker
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.discard, key)
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
 			end, { visible = true })
@@ -64,6 +66,9 @@ Handy.regular_keybinds = {
 		return sortings[sort_index + 1]
 	end,
 	can_change_sort = function(key)
+		if Handy.is_stop_use() then
+			return false, nil
+		end
 		if Handy.controller.is_module_key(Handy.cc.regular_keybinds.sort_by_rank, key) then
 			return true, "rank"
 		elseif Handy.controller.is_module_key(Handy.cc.regular_keybinds.sort_by_suit, key) then
@@ -104,6 +109,7 @@ Handy.regular_keybinds = {
 			not Handy.regular_keybinds.shop_reroll_blocker
 			and Handy.regular_keybinds.shop_loaded
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_shop, key)
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
 			end, { visible = true, require_exact_func = "can_reroll" })
@@ -127,6 +133,7 @@ Handy.regular_keybinds = {
 	can_leave_shop = function(key)
 		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.leave_shop, key)
 			and Handy.regular_keybinds.shop_loaded
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.shop:get_UIE_by_ID("next_round_button")
 			end, { visible = true })
@@ -145,6 +152,7 @@ Handy.regular_keybinds = {
 			and G.GAME.blind_on_deck
 			and G.blind_select
 			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
 			end)
@@ -159,6 +167,7 @@ Handy.regular_keybinds = {
 	can_skip_blind = function(key)
 		return not not (
 			Handy.controller.is_module_key(Handy.cc.regular_keybinds.skip_blind, key)
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				local container = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID(
 					"tag_" .. G.GAME.blind_on_deck
@@ -176,6 +185,7 @@ Handy.regular_keybinds = {
 
 	can_reroll_boss = function(key)
 		return Handy.controller.is_module_key(Handy.cc.regular_keybinds.reroll_boss, key)
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check_button(function()
 				return G.blind_prompt_box.UIRoot.children[3].children[1]
 			end, {

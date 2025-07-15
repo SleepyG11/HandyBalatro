@@ -1413,6 +1413,19 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.quick_restart, "misc_quick_restart", nil, options)
 		end,
 	},
+
+	debugplus_prevent = {
+		loc_key = "debugplus_prevent",
+		keywords = { "debugplus debug plus", "prevent keybinds" },
+		checkbox = function(options)
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.prevent_if_debugplus,
+				"debugplus_prevent",
+				{ Handy.UI.PARTS.localize_keybind("Ctrl", true) },
+				options
+			)
+		end,
+	},
 }
 
 local dictionary_order = {
@@ -1510,6 +1523,9 @@ local dictionary_order = {
 	--misc
 	"misc_open_mod_settings",
 	"misc_crash",
+
+	--other
+	"debugplus_prevent",
 }
 
 for k, v in pairs(dictionary) do

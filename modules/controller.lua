@@ -162,6 +162,12 @@ local non_safe_keys_table = {
 }
 
 Handy.controller = {
+	is_debugplus_installed = (function()
+		local success, dpmodule = pcall(function()
+			return require("debugplus-config")
+		end)
+		return success and dpmodule and true
+	end)(),
 	device_type = "keyboard",
 
 	get_device_type = function(options)
@@ -655,6 +661,31 @@ Handy.controller = {
 		end
 		return not released
 	end,
+	is_debugplus_triggered = function()
+		if not (Handy.controller.is_debugplus_installed and Handy.cc.prevent_if_debugplus.enabled) then
+			return false
+		end
+		local success, is_triggered = pcall(function()
+			return require("debugplus-config").getValue("ctrlKeybinds") and require("debugplus-util").isCtrlDown()
+		end)
+		return success and is_triggered
+	end,
+	prevent_if_debugplus = function(key, released)
+		if Handy.controller.is_debugplus_triggered() then
+			if Handy.cc.notifications_level > 2 and not Handy.controller.is(key, "Ctrl") then
+				Handy.UI.state_panel.display(function(state)
+					state.items.prevented_by_debugplus = {
+						text = "Keybinds prevented by DebugPlus " .. Handy.UI.PARTS.localize_keybind("Ctrl", true),
+						hold = false,
+						order = 0,
+					}
+					return true
+				end)
+			end
+			return true
+		end
+		return false
+	end,
 
 	process_key = function(key, released)
 		Handy.controller.update_device_type({ keyboard = true })
@@ -666,6 +697,9 @@ Handy.controller = {
 			return true
 		end
 		if key == "escape" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.prevent_if_debugplus(key, released) then
 			return false
 		end
 		local finish = function(result)
@@ -722,6 +756,9 @@ Handy.controller = {
 			return true
 		end
 		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.prevent_if_debugplus(key, released) then
 			return false
 		end
 
@@ -784,6 +821,9 @@ Handy.controller = {
 		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
 			return false
 		end
+		if Handy.controller.prevent_if_debugplus(key, false) then
+			return false
+		end
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, false)
@@ -826,6 +866,9 @@ Handy.controller = {
 		if button == "back" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
 			return false
 		end
+		if Handy.controller.prevent_if_debugplus(button, released) then
+			return false
+		end
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(button, released)
@@ -853,6 +896,12 @@ Handy.controller = {
 		end
 
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+			if not released then
+				-- (A) corresponds to vanilla card selection and dragging
+				if button ~= "a" then
+					Handy.insta_highlight.use_on_hovered(key)
+				end
+			end
 			if Handy.controller.is_triggered(released) then
 				local _ = false
 					or Handy.insta_actions.use_alt(button)

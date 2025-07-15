@@ -16,3 +16,15 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# Allow to restart a run from game over screen
+[[patches]]
+[patches.regex]
+target = "engine/controller.lua"
+pattern = '''if key == "r" and not G.SETTINGS.paused'''
+position = "after"
+payload = '''
+ or (key == "r" and Handy.__restart_from_game_over)
+'''
+match_indent = true
+overwrite = false

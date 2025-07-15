@@ -3,6 +3,7 @@ Handy.insta_highlight_entire_f_hand = {
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and G.hand
 			and G.hand.states.visible
+			and not Handy.is_stop_use()
 			and Handy.controller.is_module_key(Handy.cc.insta_highlight_entire_f_hand, key)
 	end,
 	execute = function(key)

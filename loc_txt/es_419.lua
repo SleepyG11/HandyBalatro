@@ -17,6 +17,10 @@ return {
 					"{C:handy_secondary}Solo cuando Steamodded esté instalado{}",
 				},
 			},
+			debugplus_prevent = {
+				unlock = { "DebugPlus:", "bloquear acciones" },
+				text = { "Bloquear cualquier acceso rápido de Handy", "cuando se mantenga presionado {C:chips}#2#{}" },
+			},
 			regular_keybinds = {
 				unlock = { "Atajos normales de teclas" },
 				text = {
@@ -286,6 +290,12 @@ return {
 			},
 		},
 		Handy_ConfigPopup = {
+			debugplus_prevent = {
+				text = {
+					"Requiere el mod {C:attention}DebugPlus{} y estar activado",
+					"la opción {C:attention}CTRL para accesos directos{} para funcionar",
+				},
+			},
 			regular_keybinds = {
 				text = {
 					"Jugar mano, Descartar, ordenar mano,",

@@ -28,7 +28,7 @@ Handy.misc_controls = {
 				and G.GAME
 				and G.STAGE == G.STAGES.RUN
 				and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
-				and not (G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+				and not Handy.is_stop_use()
 				and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 				and #G.E_MANAGER.queues.base < 3 -- One more because event callback called before it removed from queue
 			)
@@ -39,7 +39,7 @@ Handy.misc_controls = {
 			and G.GAME
 			and G.STAGE == G.STAGES.RUN
 			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
-			and not (G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
+			and not Handy.is_stop_use()
 			and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 			and #G.E_MANAGER.queues.base < 2
 			and Handy.controller.is_module_key(Handy.cc.misc.save_run, key)
@@ -117,7 +117,7 @@ Handy.misc_controls = {
 
 	can_restart_run = function(key, released)
 		return G.STAGE == G.STAGES.RUN
-			and not G.SETTINGS.paused
+			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
 			and not Handy.is_in_multiplayer()
 			and Handy.controller.is_module_key(Handy.cc.misc.quick_restart, key)
 	end,
@@ -126,7 +126,9 @@ Handy.misc_controls = {
 		G.CONTROLLER.held_key_times.r = 999
 		Handy.animation_skip.skip_wipe_screen = true
 		Handy.animation_skip.force_non_blocking = true
+		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
 		G.CONTROLLER:key_hold_update("r", 0)
+		Handy.__restart_from_game_over = nil
 		G.CONTROLLER.held_key_times.r = old_hold_value
 		Handy.animation_skip.skip_wipe_screen = false
 		Handy.animation_skip.force_non_blocking = false

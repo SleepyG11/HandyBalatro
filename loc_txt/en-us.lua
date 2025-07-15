@@ -17,6 +17,10 @@ return {
 					"{C:handy_secondary}Only when Steamodded installed{}",
 				},
 			},
+			debugplus_prevent = {
+				unlock = { "DebugPlus:", "prevent actions" },
+				text = { "Prevent any Handy keybinds", "when {C:chips}#2#{} is hold" },
+			},
 			regular_keybinds = {
 				unlock = { "Regular keybinds" },
 				text = {
@@ -286,6 +290,12 @@ return {
 			},
 		},
 		Handy_ConfigPopup = {
+			debugplus_prevent = {
+				text = {
+					"Require mod {C:attention}DebugPlus{} and enabled",
+					"{C:attention}CTRL for Keybinds{} option to work",
+				},
+			},
 			regular_keybinds = {
 				text = {
 					"Play hand, Discard, hand sorting,",

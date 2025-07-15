@@ -13,6 +13,7 @@ Handy.insta_booster_skip = {
 			and G.booster_pack
 			and G.pack_cards
 			and G.pack_cards.cards[1]
+			and not Handy.is_stop_use()
 			and Handy.fake_events.check({
 				func = G.FUNCS.can_skip_booster,
 			})
