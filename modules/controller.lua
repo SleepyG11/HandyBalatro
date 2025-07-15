@@ -162,12 +162,35 @@ local non_safe_keys_table = {
 }
 
 Handy.controller = {
-	is_debugplus_installed = (function()
-		local success, dpmodule = pcall(function()
-			return require("debugplus-config")
+	debugplus_module = nil,
+	get_debugplus_module = function()
+		if Handy.controller.debugplus_module then
+			return Handy.controller.debugplus_module
+		end
+		local success, dpconfig, dputils = pcall(function()
+			return require("debugplus-config"), require("debugplus-util")
 		end)
-		return success and dpmodule and true
-	end)(),
+		if not success then
+			success, dpconfig, dputils = pcall(function()
+				return require("debugplus.config"), require("debugplus.util")
+			end)
+		end
+		if not success then
+			Handy.controller.debugplus_module = {
+				installed = false,
+				config = nil,
+				utils = nil,
+			}
+		else
+			Handy.controller.debugplus_module = {
+				installed = true,
+				config = dpconfig,
+				utils = dputils,
+			}
+		end
+		return Handy.controller.debugplus_module
+	end,
+
 	device_type = "keyboard",
 
 	get_device_type = function(options)
@@ -662,11 +685,12 @@ Handy.controller = {
 		return not released
 	end,
 	is_debugplus_triggered = function()
-		if not (Handy.controller.is_debugplus_installed and Handy.cc.prevent_if_debugplus.enabled) then
+		local dp = Handy.controller.get_debugplus_module()
+		if not (dp.installed and Handy.cc.prevent_if_debugplus.enabled) then
 			return false
 		end
 		local success, is_triggered = pcall(function()
-			return require("debugplus-config").getValue("ctrlKeybinds") and require("debugplus-util").isCtrlDown()
+			return dp.config.getValue("ctrlKeybinds") and dp.utils.isCtrlDown()
 		end)
 		return success and is_triggered
 	end,
