@@ -49,18 +49,16 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.animation_skip.keybind(),
 			Handy.UI.CD.animation_skip_increase.keybind(),
 			Handy.UI.CD.animation_skip_decrease.keybind(),
-			-- Handy.UI.CD.nopeus_interaction.keybind(),
-			-- Handy.UI.CD.nopeus_interaction_increase.keybind(),
-			-- Handy.UI.CD.nopeus_interaction_decrease.keybind(),
 			Handy.UI.CD.scoring_hold.keybind(),
-		}
-	elseif page == 4 then
-		result = {
 			Handy.UI.PARTS.create_module_section("highlight_movement"),
 			Handy.UI.CD.move_highlight_one_left.keybind(),
 			Handy.UI.CD.move_highlight_one_right.keybind(),
 			Handy.UI.CD.move_highlight_move_card.keybind(),
 			Handy.UI.CD.move_highlight_to_end.keybind(),
+		}
+	elseif page == 4 then
+		result = {
+
 			Handy.UI.PARTS.create_module_section("presets"),
 			Handy.UI.CD.presets_load_1.keybind(),
 			Handy.UI.CD.presets_load_2.keybind(),
@@ -71,15 +69,14 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.sell_all_same_modifier.keybind(),
 			Handy.UI.CD.sell_all_modifier.keybind(),
 			Handy.UI.CD.remove_modifier.keybind(),
-		}
-	elseif page == 5 then
-		result = {
 			Handy.UI.PARTS.create_module_section("misc"),
 			Handy.UI.CD.misc_open_mod_settings.keybind(),
 			Handy.UI.CD.misc_save_run.keybind(),
 			Handy.UI.CD.misc_quick_restart.keybind(),
 			Handy.UI.CD.misc_crash.keybind(),
 		}
+	elseif page == 5 then
+		result = {}
 	end
 	if result then
 		result = {
@@ -103,7 +100,7 @@ Handy.UI.get_keybinds_page = function(page)
 			},
 		}
 	end
-	return result, 5
+	return result, 4
 end
 Handy.UI.get_quick_page = function(page)
 	local gamepad = Handy.controller.is_gamepad()
