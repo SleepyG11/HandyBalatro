@@ -1,6 +1,8 @@
+local __disabled = true
+
 Handy.nopeus_interaction = {
 	is_present = function()
-		return type(Nopeus) == "table"
+		return not __disabled and type(Nopeus) == "table"
 	end,
 
 	get_actions = function(key)
@@ -12,7 +14,8 @@ Handy.nopeus_interaction = {
 
 	can_dangerous = function()
 		return not not (
-			Handy.is_dangerous_actions_active()
+			not __disabled
+			and Handy.is_dangerous_actions_active()
 			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.nopeus_unsafe)
 		)
 	end,

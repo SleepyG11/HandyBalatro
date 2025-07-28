@@ -121,7 +121,7 @@ Handy.animation_skip = {
 					dangerous = is_dangerous,
 				}
 				if not Handy.animation_skip.can_dangerous() and actions.increase and value == (5 - 1) then
-					state.items.prevent_nopeus_unsafe = {
+					state.items.prevent_animation_skip_unsafe = {
 						text = localize("ph_handy_notif_animation_skip_unsafe_disabled"),
 						hold = false,
 						order = 4.05,

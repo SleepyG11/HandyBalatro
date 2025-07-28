@@ -49,9 +49,9 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.animation_skip.keybind(),
 			Handy.UI.CD.animation_skip_increase.keybind(),
 			Handy.UI.CD.animation_skip_decrease.keybind(),
-			Handy.UI.CD.nopeus_interaction.keybind(),
-			Handy.UI.CD.nopeus_interaction_increase.keybind(),
-			Handy.UI.CD.nopeus_interaction_decrease.keybind(),
+			-- Handy.UI.CD.nopeus_interaction.keybind(),
+			-- Handy.UI.CD.nopeus_interaction_increase.keybind(),
+			-- Handy.UI.CD.nopeus_interaction_decrease.keybind(),
 			Handy.UI.CD.scoring_hold.keybind(),
 		}
 	elseif page == 4 then
@@ -135,6 +135,8 @@ Handy.UI.get_quick_page = function(page)
 							Handy.UI.CD.insta_buy_n_sell.checkbox(),
 							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.insta_use.checkbox(),
+							Handy.UI.PARTS.create_separator_r(),
+							Handy.UI.CD.move_highlight.checkbox(),
 						},
 					},
 					{
@@ -146,6 +148,9 @@ Handy.UI.get_quick_page = function(page)
 							Handy.UI.CD.cryptid_code_use_last_interaction.checkbox(),
 							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.not_just_yet_interaction.checkbox(),
+							Handy.UI.PARTS.create_separator_r(),
+							Handy.UI.PARTS.create_separator_r(),
+							Handy.UI.CD.debugplus_prevent.checkbox(),
 						},
 					},
 				},
@@ -202,8 +207,6 @@ Handy.UI.get_quick_page = function(page)
 							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.animation_skip.checkbox(),
 							Handy.UI.PARTS.create_separator_r(),
-							Handy.UI.CD.nopeus_interaction.checkbox(),
-							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.scoring_hold.checkbox(),
 						},
 					},
@@ -215,8 +218,6 @@ Handy.UI.get_quick_page = function(page)
 							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.animation_skip_no_hold.checkbox(),
 							Handy.UI.PARTS.create_separator_r(),
-							Handy.UI.CD.nopeus_interaction_no_hold.checkbox(),
-							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.scoring_hold_any_moment.checkbox(),
 						},
 					},
@@ -225,9 +226,8 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 3 then
 		result = {
-			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
+
 			Handy.UI.PARTS.create_separator_r(),
-			Handy.UI.CD.debugplus_prevent.checkbox(),
 		}
 	end
 	if result then
@@ -237,7 +237,7 @@ Handy.UI.get_quick_page = function(page)
 			nodes = result,
 		}
 	end
-	return result, 3
+	return result, 2
 end
 Handy.UI.get_search_no_result_page = function()
 	local function create_input_button(label, value)
@@ -825,12 +825,10 @@ Handy.UI.get_config_tab_dangerous = function()
 					n = G.UIT.C,
 					config = { minw = 4 },
 					nodes = {
-						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.dangerous_speed_multiplier_uncap.checkbox(),
 						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.dangerous_nopeus_unsafe.checkbox(),
-						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.dangerous_animation_skip_unsafe.checkbox(),
+						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.immediate_buy_and_sell_queue.checkbox(),
 					},
@@ -844,13 +842,13 @@ Handy.UI.get_config_tab_dangerous = function()
 						Handy.UI.CD.sell_all_same_modifier.checkbox(),
 						Handy.UI.PARTS.create_separator_r(),
 						Handy.UI.CD.sell_all_modifier.checkbox(),
-						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.remove_modifier.checkbox(),
 					},
 				},
 			},
 		},
 
+		Handy.UI.PARTS.create_separator_r(),
+		Handy.UI.CD.remove_modifier.checkbox(),
 		Handy.UI.PARTS.create_separator_r(),
 		{
 			n = G.UIT.R,
