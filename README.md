@@ -9,9 +9,9 @@
 ## Key features
 
 -   **Vanilla-friendly**: no new run required; stability is priority, safe for use in base game and [Multiplayer](https://github.com/Balatro-Multiplayer/BalatroMultiplayer);
--   **Works without Steamodded**: but included supports for variety of different mods (NotJustYet, Cryptid);
+-   **Works without Steamodded**: but included supports for variety of different mods (NotJustYet, Nopeus, Cryptid);
 -   **Fast hand selection**: highlight cards just by hovering them [(showcase)](https://www.youtube.com/watch?v=wPoW-uVKMt0);
--   **Keybinds for all vanilla buttons and actions**: play, discard, hand sorting, cash out, shop reroll, view deck, _and more_;
+-   **Keybinds for all vanilla buttons and actions**: play, discard, hand sorting, cash out, shop reroll, view deck, *and more*;
 -   **Game speed**: adjust game speed up to x512 in-run;
 -   **Animation skip**: instant scoring and removing unnecessary animations to speedup game even further [(showcase)](https://www.youtube.com/watch?v=CRxGXIhjW3s);
 -   **Quick Buy/Sell/Use**: controls to buy, sell or use cards faster [(showcase)](https://www.youtube.com/watch?v=s1YnNI0W27k);
@@ -29,7 +29,7 @@
 > Must be enabled separately. Use with caution.
 
 -   **Sell cards in bulk**: all copies or ALL cards at once [(showcase)](https://www.youtube.com/watch?v=mE1R6xTKcaE);
--   **Removing**: deleting excessive jokers, consumables or **skip tags**;
+-   **Removing**: deleting excessive jokers, consumables or __skip tags__;
 -   **Max speed**: uncapped game speed and instant game animations;
 
 > [!NOTE]
@@ -38,8 +38,8 @@
 ## Installation
 
 1. Install [lovely](https://github.com/ethangreen-dev/lovely-injector) by following instructions in repository page. Make sure your antivirus is not removing it;
-2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod by selecting an archive named `Handy-[version].zip`;
-3. Put `HandyBalatro` folder from archive (NOT `Handy-[version]`) into game's `Mods` folder.<br/>
+2. Download [latest release](https://github.com/SleepyG11/HandyBalatro/releases/latest) of mod by selecting an archive named `Handy-[version].zip`; 
+3. Put `HandyBalatro` folder from archive (NOT `Handy-[version]`) into game's `Mods` folder.<br/> 
    Can be found in `%appdata%/Balatro/Mods`. if `Mods` folder is missing, create it;
 4. Start a game. If all done correctly, new button should appear in options menu;
 5. Configure each feature and keybind as you want. All of them listed in mod settings;
@@ -52,13 +52,13 @@ Want new features to be implemented? Want add mod support? Found a bug?<br/>
 
 ## Special thanks
 
--   Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
--   [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
--   [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
--   [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
--   missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
--   jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
--   and everyone who report bugs, make suggestions, and playing with Handy mod!
+- Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
+- [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
+- [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
+- [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
+- missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
+- jenwalter666 (`@jenwalter` in Discord) - non-direct support with "spreading" a mod for other players
+- and everyone who report bugs, make suggestions, and playing with Handy mod!
 
 ## For developers
 
@@ -102,15 +102,13 @@ end
 
 When adding new buy or use buttons for jokers/consumables, you can mark them and Handy will use them when [Quick Buy/Sell] or [Quick Use] is called.
 Include in button config definition field `handy_insta_action` with one of the following values:
+- `sell` for mass-sell features or when [Quick buy/sell] is used (aka Shift is hold); Use for "Sell" buttons;
+- `buy_or_sell` when [Quick buy/sell] is used (aka Shift is hold); Use for "Buy" buttons;
+- `use` when [Quick use] is used (aka Ctrl is hold); Use for "Use" buttons or buttons unique for your cards;
 
--   `sell` for mass-sell features or when [Quick buy/sell] is used (aka Shift is hold); Use for "Sell" buttons;
--   `buy_or_sell` when [Quick buy/sell] is used (aka Shift is hold); Use for "Buy" buttons;
--   `use` when [Quick use] is used (aka Ctrl is hold); Use for "Use" buttons or buttons unique for your cards;
-
-_Only difference between `sell` and `buy_or_sell` is for mass-sell features, since only selling is allowed for it._
+*Only difference between `sell` and `buy_or_sell` is for mass-sell features, since only selling is allowed for it.*
 
 Example:
-
 ```lua
 -- Somewhere inside `G.UIDEF.buy_and_sell_buttons()` hook
 

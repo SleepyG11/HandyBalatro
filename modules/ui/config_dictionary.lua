@@ -206,12 +206,12 @@ local dictionary = {
 			"hand cards deselection deselecting unhighlightning",
 		},
 		order = 2.03,
-		-- checkbox = function(options)
-		-- 	options = options or {}
-		-- 	return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
-		-- 		Handy.UI.PARTS.localize_keybind("Right Mouse", true),
-		-- 	}, nil, options)
-		-- end,
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
+				Handy.UI.PARTS.localize_keybind("Right Mouse", true),
+			}, nil, options)
+		end,
 		keybind = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.deselect_hand, "deselect_hand", nil, options)
@@ -436,16 +436,16 @@ local dictionary = {
 		loc_key = "show_deck_preview",
 		keywords = { keyw.regular_keybinds, keyw.deck_preview },
 		order = 3.085,
-		-- checkbox = function(options)
-		-- 	options = options or {}
-		-- 	return Handy.UI.PARTS.create_new_module_checkbox(
-		-- 		Handy.cc.show_deck_preview,
-		-- 		"show_deck_preview",
-		-- 		nil,
-		-- 		nil,
-		-- 		options
-		-- 	)
-		-- end,
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.show_deck_preview,
+				"show_deck_preview",
+				nil,
+				nil,
+				options
+			)
+		end,
 		keybind = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
@@ -532,16 +532,16 @@ local dictionary = {
 		loc_key = "insta_cash_out",
 		keywords = { keyw.regular_keybinds, keyw.cash_out },
 		order = 3.12,
-		-- checkbox = function(options)
-		-- 	options = options or {}
-		-- 	return Handy.UI.PARTS.create_new_module_checkbox(
-		-- 		Handy.cc.insta_cash_out,
-		-- 		"insta_cash_out",
-		-- 		nil,
-		-- 		nil,
-		-- 		options
-		-- 	)
-		-- end,
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.insta_cash_out,
+				"insta_cash_out",
+				nil,
+				nil,
+				options
+			)
+		end,
 		keybind = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
@@ -604,16 +604,16 @@ local dictionary = {
 	insta_booster_skip = {
 		loc_key = "insta_booster_skip",
 		keywords = { keyw.regular_keybinds, keyw.skip_booster },
-		-- checkbox = function(options)
-		-- 	options = options or {}
-		-- 	return Handy.UI.PARTS.create_new_module_checkbox(
-		-- 		Handy.cc.insta_booster_skip,
-		-- 		"insta_booster_skip",
-		-- 		nil,
-		-- 		nil,
-		-- 		options
-		-- 	)
-		-- end,
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.insta_booster_skip,
+				"insta_booster_skip",
+				nil,
+				nil,
+				options
+			)
+		end,
 		keybind = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_module_keybind(
@@ -1034,84 +1034,84 @@ local dictionary = {
 		end,
 	},
 
-	-- nopeus_interaction = {
-	-- 	loc_key = "nopeus_interaction",
-	-- 	keywords = { keyw.animation_skip, keyw.nopeus_interaction },
-	-- 	checkbox = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.nopeus_interaction, "nopeus_interaction", {
-	-- 			Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
-	-- 			Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
-	-- 			localize("Dangerous", "handy_tabs"),
-	-- 		}, nil, options)
-	-- 	end,
-	-- 	keybind = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_module_keybind(
-	-- 			Handy.cc.nopeus_interaction,
-	-- 			"nopeus_interaction",
-	-- 			{ only_holdable = true },
-	-- 			options
-	-- 		)
-	-- 	end,
-	-- },
-	-- nopeus_interaction_increase = {
-	-- 	loc_key = { "nopeus_interaction", "nopeus_interaction_increase" },
-	-- 	keywords = { keyw.animation_skip, keyw.nopeus_interaction, "multiply increase" },
-	-- 	checkbox = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.CD.nopeus_interaction.checkbox(options)
-	-- 	end,
-	-- 	checkbox_group = "nopeus_interaction",
-	-- 	keybind = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_module_keybind(
-	-- 			Handy.cc.nopeus_interaction.increase,
-	-- 			"nopeus_interaction_increase",
-	-- 			nil,
-	-- 			options
-	-- 		)
-	-- 	end,
-	-- },
-	-- nopeus_interaction_decrease = {
-	-- 	loc_key = { "nopeus_interaction", "nopeus_interaction_decrease" },
-	-- 	keywords = { keyw.animation_skip, keyw.nopeus_interaction, "divide decrease" },
-	-- 	checkbox = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.CD.nopeus_interaction.checkbox(options)
-	-- 	end,
-	-- 	checkbox_group = "nopeus_interaction",
-	-- 	keybind = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_module_keybind(
-	-- 			Handy.cc.nopeus_interaction.decrease,
-	-- 			"nopeus_interaction_decrease",
-	-- 			nil,
-	-- 			options
-	-- 		)
-	-- 	end,
-	-- },
-	-- nopeus_interaction_no_hold = {
-	-- 	loc_key = { "nopeus_interaction", "nopeus_interaction_no_hold" },
-	-- 	keywords = { keyw.animation_skip, keyw.nopeus_interaction, "no hold" },
-	-- 	checkbox = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_new_module_checkbox(
-	-- 			Handy.cc.nopeus_interaction.no_hold,
-	-- 			"nopeus_interaction_no_hold",
-	-- 			{
-	-- 				Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
-	-- 			},
-	-- 			nil,
-	-- 			options
-	-- 		)
-	-- 	end,
-	-- 	keybind = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.CD.nopeus_interaction.keybind(options)
-	-- 	end,
-	-- 	keybind_group = "nopeus_interaction",
-	-- },
+	nopeus_interaction = {
+		loc_key = "nopeus_interaction",
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.nopeus_interaction, "nopeus_interaction", {
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.increase, true),
+				Handy.UI.PARTS.format_new_module_keys(Handy.cc.nopeus_interaction.decrease, true),
+				localize("Dangerous", "handy_tabs"),
+			}, nil, options)
+		end,
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.nopeus_interaction,
+				"nopeus_interaction",
+				{ only_holdable = true },
+				options
+			)
+		end,
+	},
+	nopeus_interaction_increase = {
+		loc_key = { "nopeus_interaction", "nopeus_interaction_increase" },
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "multiply increase" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.checkbox(options)
+		end,
+		checkbox_group = "nopeus_interaction",
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.nopeus_interaction.increase,
+				"nopeus_interaction_increase",
+				nil,
+				options
+			)
+		end,
+	},
+	nopeus_interaction_decrease = {
+		loc_key = { "nopeus_interaction", "nopeus_interaction_decrease" },
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "divide decrease" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.checkbox(options)
+		end,
+		checkbox_group = "nopeus_interaction",
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.nopeus_interaction.decrease,
+				"nopeus_interaction_decrease",
+				nil,
+				options
+			)
+		end,
+	},
+	nopeus_interaction_no_hold = {
+		loc_key = { "nopeus_interaction", "nopeus_interaction_no_hold" },
+		keywords = { keyw.animation_skip, keyw.nopeus_interaction, "no hold" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.nopeus_interaction.no_hold,
+				"nopeus_interaction_no_hold",
+				{
+					Handy.UI.PARTS.localize_keybind_label("nopeus_interaction"),
+				},
+				nil,
+				options
+			)
+		end,
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.CD.nopeus_interaction.keybind(options)
+		end,
+		keybind_group = "nopeus_interaction",
+	},
 
 	scoring_hold = {
 		loc_key = "scoring_hold",
@@ -1199,20 +1199,20 @@ local dictionary = {
 			)
 		end,
 	},
-	-- dangerous_nopeus_unsafe = {
-	-- 	loc_key = { "nopeus_interaction", "nopeus_unsafe" },
-	-- 	keywords = { keyw.unsafe_control, keyw.nopeus_interaction },
-	-- 	checkbox = function(options)
-	-- 		options = options or {}
-	-- 		return Handy.UI.PARTS.create_new_module_checkbox(
-	-- 			Handy.cc.dangerous_actions.nopeus_unsafe,
-	-- 			"nopeus_unsafe",
-	-- 			nil,
-	-- 			{ dangerous = true },
-	-- 			options
-	-- 		)
-	-- 	end,
-	-- },
+	dangerous_nopeus_unsafe = {
+		loc_key = { "nopeus_interaction", "nopeus_unsafe" },
+		keywords = { keyw.unsafe_control, keyw.nopeus_interaction },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.dangerous_actions.nopeus_unsafe,
+				"nopeus_unsafe",
+				nil,
+				{ dangerous = true },
+				options
+			)
+		end,
+	},
 	dangerous_animation_skip_unsafe = {
 		loc_key = { "animation_skip", "animation_skip_unsafe" },
 		keywords = { keyw.unsafe_control, keyw.animation_skip },
@@ -1487,10 +1487,10 @@ local dictionary_order = {
 	"animation_skip_no_hold",
 
 	-- nopeus
-	-- "nopeus_interaction",
-	-- "nopeus_interaction_increase",
-	-- "nopeus_interaction_decrease",
-	-- "nopeus_interaction_no_hold",
+	"nopeus_interaction",
+	"nopeus_interaction_increase",
+	"nopeus_interaction_decrease",
+	"nopeus_interaction_no_hold",
 
 	-- scoring hold
 	"scoring_hold",
@@ -1512,7 +1512,7 @@ local dictionary_order = {
 	--dangerous
 	"dangerous_actions",
 	"dangerous_speed_multiplier_uncap",
-	-- "dangerous_nopeus_unsafe",
+	"dangerous_nopeus_unsafe",
 	"dangerous_animation_skip_unsafe",
 	"immediate_buy_and_sell",
 	"immediate_buy_and_sell_queue",

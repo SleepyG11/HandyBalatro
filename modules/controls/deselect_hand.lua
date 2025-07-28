@@ -1,6 +1,6 @@
 Handy.deselect_hand = {
 	should_prevent = function()
-		return Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds)
+		return Handy.is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.deselect_hand)
 	end,
 
 	can_execute = function(key)
@@ -12,8 +12,7 @@ Handy.deselect_hand = {
 			-- Vanilla check
 			and not ((G.play and #G.play.cards > 0) or Handy.is_stop_use())
 			and Handy.is_mod_active()
-			and Handy.controller.is_module_enabled(Handy.cc.regular_keybinds)
-			and Handy.controller.is_module_key(Handy.cc.deselect_hand, key, true)
+			and Handy.controller.is_module_key(Handy.cc.deselect_hand, key)
 			-- Selecting cards over hand deselection
 			and not Handy.insta_highlight.can_execute(Handy.last_hovered_card)
 		)

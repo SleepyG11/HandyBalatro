@@ -17,16 +17,15 @@ Handy.nopeus_interaction = {
 		)
 	end,
 	can_execute = function(key)
-		return false
-		-- return not not (
-		-- 	Handy.nopeus_interaction.is_present()
-		-- 	and Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction)
-		-- 	and not Handy.is_in_multiplayer()
-		-- 	and (
-		-- 		Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
-		-- 		or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
-		-- 	)
-		-- )
+		return not not (
+			Handy.nopeus_interaction.is_present()
+			and Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction)
+			and not Handy.is_in_multiplayer()
+			and (
+				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
+				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
+			)
+		)
 	end,
 	execute = function(key)
 		local actions = Handy.nopeus_interaction.get_actions(key)
@@ -129,8 +128,7 @@ Handy.nopeus_interaction = {
 	end,
 
 	use = function(key)
-		return false
-		-- return Handy.nopeus_interaction.can_execute(key) and Handy.nopeus_interaction.execute(key) or false
+		return Handy.nopeus_interaction.can_execute(key) and Handy.nopeus_interaction.execute(key) or false
 	end,
 }
 
