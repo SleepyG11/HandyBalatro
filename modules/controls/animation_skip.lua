@@ -237,14 +237,14 @@ function draw_card(...)
 	end
 	return draw_card_ref(...)
 end
-local ease_discards_ref = ease_discards
-function ease_discards(...)
+local ease_discard_ref = ease_discard
+function ease_discard(...)
 	if Handy.animation_skip.should_skip_everything() then
 		local args = { ... }
 		args[2] = true
-		return ease_discards_ref(unpack(args))
+		return ease_discard_ref(unpack(args))
 	end
-	return ease_discards_ref(...)
+	return ease_discard_ref(...)
 end
 local ease_hands_played_ref = ease_hands_played
 function ease_hands_played(...)
