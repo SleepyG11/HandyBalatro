@@ -59,7 +59,7 @@ if not Handy.animation_skip.should_skip_messages() then
     end)
   }))
 else
-  G.GAME.dollar_buffer = 0
+  Handy.animation_skip.request_dollars_buffer_reset()
 end
 """
 match_indent = true
