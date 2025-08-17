@@ -402,7 +402,7 @@ Handy.controller = {
 				enabled_func = enabled_func,
 			}
 		end
-		if not e.config.focus_args.button then
+		if not e.config.focus_args or not e.config.focus_args.button then
 			if e.children.button_pip then
 				e.children.button_pip:remove()
 				e.children.button_pip = nil
