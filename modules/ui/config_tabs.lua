@@ -228,6 +228,8 @@ Handy.UI.get_quick_page = function(page)
 			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
 			Handy.UI.PARTS.create_separator_r(),
 			Handy.UI.CD.debugplus_prevent.checkbox(),
+			Handy.UI.PARTS.create_separator_r(),
+			Handy.UI.CD.controller_swap_cursor_stick.checkbox(),
 		}
 	end
 	if result then

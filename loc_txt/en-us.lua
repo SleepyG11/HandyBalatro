@@ -288,6 +288,19 @@ return {
 					"{C:handy_secondary}(works for skip tags){}",
 				},
 			},
+			controller_swap_cursor_stick = {
+				unlock = { "Controller: swap", "cursor stick" },
+				text = {
+					"Swap behaviour of sticks",
+				},
+			},
+			constoller_sensivity = {
+				unlock = { "Controller: adjust", "cursor sensivity" },
+				text = {
+					"Allow to change sensivity of",
+					"controller's cursor",
+				},
+			},
 		},
 		Handy_ConfigPopup = {
 			debugplus_prevent = {

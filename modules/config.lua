@@ -9,6 +9,14 @@ local default_config = {
 	current_device = 1,
 	hide_in_menu = false,
 
+	swap_controller_cursor_stick = {
+		enabled = false,
+	},
+	controller_sensivity = {
+		enabled = false,
+		mult = 1,
+	},
+
 	hide_options_button = {
 		enabled = false,
 	},
