@@ -296,10 +296,10 @@ return {
 				},
 			},
 			controller_sensivity = {
-				unlock = { "Controller: adjust", "cursor sensivity" },
+				unlock = { "Controller: adjust", "cursor sensitivity" },
 				text = {
-					"Allow to change sensivity of",
-					"controller's cursor",
+					"Allow to change sensitivity",
+					"of controller's cursor",
 				},
 			},
 		},

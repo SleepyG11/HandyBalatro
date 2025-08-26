@@ -138,7 +138,7 @@ Handy.presets = {
 		config_to_apply.notifications_level = nil
 		-- Keep current device setting
 		config_to_apply.current_device = nil
-		-- Keep controller sensivity
+		-- Keep controller sensivity (sensitivity, you stupid idiot)
 		config_to_apply.controller_sensivity = nil
 		-- Bad idea
 		config_to_apply.__empty = nil

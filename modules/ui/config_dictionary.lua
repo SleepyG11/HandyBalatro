@@ -1441,7 +1441,7 @@ local dictionary = {
 	},
 	controller_sensivity = {
 		loc_key = "controller_sensivity",
-		keywords = { "controller cursor sensivity" },
+		keywords = { "controller", "cursor sensivity sensitivity" },
 		checkbox = function(options)
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.controller_sensivity,
