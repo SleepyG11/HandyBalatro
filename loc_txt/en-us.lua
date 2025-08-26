@@ -291,7 +291,8 @@ return {
 			controller_swap_cursor_stick = {
 				unlock = { "Controller: swap", "cursor stick" },
 				text = {
-					"Swap behaviour of sticks",
+					"Swap behaviour of",
+					"Left and Right Sticks",
 				},
 			},
 			controller_sensivity = {
