@@ -13,7 +13,7 @@ local default_config = {
 		enabled = false,
 	},
 	controller_sensivity = {
-		enabled = false,
+		enabled = true,
 		mult = 1,
 	},
 
