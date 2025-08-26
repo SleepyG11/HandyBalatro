@@ -1426,6 +1426,46 @@ local dictionary = {
 			)
 		end,
 	},
+
+	controller_swap_cursor_stick = {
+		loc_key = "controller_swap_cursor_stick",
+		keywords = { "controller", "swap cursor stick sticks" },
+		checkbox = function(options)
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.swap_controller_cursor_stick,
+				"controller_swap_cursor_stick",
+				nil,
+				options
+			)
+		end,
+	},
+	controller_sensivity = {
+		loc_key = "controller_sensivity",
+		keywords = { "controller cursor sensivity" },
+		checkbox = function(options)
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.controller_sensivity,
+				"controller_sensivity",
+				nil,
+				options
+			)
+		end,
+		slider = function(options)
+			return Handy.UI.PARTS.create_module_slider(
+				Handy.cc.controller_sensivity,
+				"mult",
+				"controller_sensivity",
+				nil,
+				{
+					min = 0.5,
+					max = 2,
+					decimal_places = 2,
+					callback = "handy_change_controller_sensivity",
+				},
+				options
+			)
+		end,
+	},
 }
 
 local dictionary_order = {
@@ -1495,6 +1535,10 @@ local dictionary_order = {
 	-- scoring hold
 	"scoring_hold",
 	"scoring_hold_any_moment",
+
+	-- controller
+	"controller_swap_cursor_stick",
+	"controller_sensivity",
 
 	-- presets
 	"presets_load_1",

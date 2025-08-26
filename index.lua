@@ -4,7 +4,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1g",
+		version = "1.5.1h",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
@@ -103,6 +103,8 @@ if not Handy then
 	local game_start_up_ref = Game.start_up
 	function Game:start_up(...)
 		local result = game_start_up_ref(self, ...)
+		G.CONTROLLER.saved_axis_cursor_speed = G.CONTROLLER.axis_cursor_speed
+		G.CONTROLLER.axis_cursor_speed = G.CONTROLLER.saved_axis_cursor_speed * Handy.cc.controller_sensivity.mult
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
 			blocking = false,

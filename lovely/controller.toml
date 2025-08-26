@@ -105,3 +105,33 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# Swap left/right stick cursor behaviour
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''local l_stick_y = self.GAMEPAD.object:getGamepadAxis('lefty')'''
+position = "after"
+payload = '''
+if Handy.controller.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
+    l_stick_x = self.GAMEPAD.object:getGamepadAxis('rightx')
+    l_stick_y = self.GAMEPAD.object:getGamepadAxis('righty')
+end
+'''
+match_indent = true
+overwrite = false
+
+# Swap left/right stick cursor behaviour
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''local r_stick_y = self.GAMEPAD.object:getGamepadAxis('righty')'''
+position = "after"
+payload = '''
+if Handy.controller.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
+    r_stick_x = self.GAMEPAD.object:getGamepadAxis('leftx')
+    r_stick_y = self.GAMEPAD.object:getGamepadAxis('lefty')
+end
+'''
+match_indent = true
+overwrite = false

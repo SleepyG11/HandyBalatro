@@ -288,6 +288,20 @@ return {
 					"{C:handy_secondary}(también funciona para etiquetas){}",
 				},
 			},
+			controller_swap_cursor_stick = {
+				unlock = { "Control: cambiar", "comportamiento de los sticks" },
+				text = {
+					"Intercambiar el comportamiento",
+					"del stick izquierdo y derecho",
+				},
+			},
+			controller_sensivity = {
+				unlock = { "Control:", "sensibilidad del cursor" },
+				text = {
+					"Permitir configurar la sensibilidad",
+					"del cursor del control",
+				},
+			},
 		},
 		Handy_ConfigPopup = {
 			debugplus_prevent = {

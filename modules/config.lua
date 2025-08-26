@@ -9,6 +9,14 @@ local default_config = {
 	current_device = 1,
 	hide_in_menu = false,
 
+	swap_controller_cursor_stick = {
+		enabled = false,
+	},
+	controller_sensivity = {
+		enabled = true,
+		mult = 1,
+	},
+
 	hide_options_button = {
 		enabled = false,
 	},
@@ -491,6 +499,28 @@ Handy.config = {
 			Handy.config.current = Handy.utils.table_merge(Handy.config.current, STR_UNPACK(lovely_mod_config))
 		end
 		Handy.cc = Handy.config.current
+	end,
+
+	save_event = nil,
+	request_save = function()
+		if Handy.config.save_event and not Handy.config.save_event.complete then
+			Handy.config.save_event.time = G.TIMERS[Handy.config.save_event.timer]
+		else
+			local event = Event({
+				no_delete = true,
+				blocking = false,
+				blockable = false,
+				timer = "REAL",
+				trigger = "after",
+				delay = 1,
+				func = function()
+					Handy.config.save()
+					return true
+				end,
+			})
+			Handy.config.save_event = event
+			G.E_MANAGER:add_event(event, "other", true)
+		end
 	end,
 }
 

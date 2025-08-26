@@ -50,6 +50,7 @@ Handy.insta_booster_skip = {
 		Handy.insta_booster_skip.is_hold = (
 			G.STAGE == G.STAGES.RUN
 			and Handy.is_mod_active()
+			and not Handy.controller.is_debugplus_console_opened()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_booster_skip)
 		)
 		return Handy.insta_booster_skip.can_execute() and Handy.insta_booster_skip.execute() or false
