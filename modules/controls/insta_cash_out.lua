@@ -35,6 +35,7 @@ Handy.insta_cash_out = {
 		Handy.insta_cash_out.is_hold = (
 			G.STAGE == G.STAGES.RUN
 			and Handy.is_mod_active()
+			and not Handy.controller.is_debugplus_console_opened()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_cash_out)
 		)
 		return Handy.insta_cash_out.can_execute() and Handy.insta_cash_out.execute() or false

@@ -162,6 +162,8 @@ local non_safe_keys_table = {
 }
 
 Handy.controller = {
+	console_opened_timer = 0,
+
 	debugplus_module = nil,
 	get_debugplus_module = function()
 		if Handy.controller.debugplus_module then
@@ -175,17 +177,22 @@ Handy.controller = {
 				return require("debugplus.config"), require("debugplus.util")
 			end)
 		end
+		local console_success, dpconsole = pcall(function()
+			return require("debugplus.console")
+		end)
 		if not success then
 			Handy.controller.debugplus_module = {
 				installed = false,
 				config = nil,
 				utils = nil,
+				console = console_success and dpconsole or nil,
 			}
 		else
 			Handy.controller.debugplus_module = {
 				installed = true,
 				config = dpconfig,
 				utils = dputils,
+				console = console_success and dpconsole or nil,
 			}
 		end
 		return Handy.controller.debugplus_module
@@ -684,6 +691,23 @@ Handy.controller = {
 		end
 		return not released
 	end,
+	is_debugplus_console_opened = function()
+		if Handy.controller.console_opened_timer > G.TIMERS.REAL then
+			return true
+		end
+		local dp = Handy.controller.get_debugplus_module()
+		if not dp.installed then
+			return false
+		end
+		local success, is_opened = pcall(function()
+			return dp.console.isConsoleFocused()
+		end)
+		local current_value = success and is_opened
+		if current_value then
+			Handy.controller.console_opened_timer = G.TIMERS.REAL + 1
+		end
+		return current_value
+	end,
 	is_debugplus_triggered = function()
 		local dp = Handy.controller.get_debugplus_module()
 		if not (dp.installed and Handy.cc.prevent_if_debugplus.enabled) then
@@ -717,6 +741,12 @@ Handy.controller = {
 
 		-----
 
+		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
+			return false
+		end
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
@@ -776,6 +806,12 @@ Handy.controller = {
 
 		-----
 
+		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
+			return false
+		end
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
@@ -839,6 +875,12 @@ Handy.controller = {
 
 		-----
 
+		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
+			return false
+		end
 		if Handy.controller.process_bind(key) then
 			return true
 		end
@@ -884,6 +926,12 @@ Handy.controller = {
 
 		-----
 
+		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
+			return false
+		end
 		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
 			return true
 		end
@@ -951,6 +999,9 @@ Handy.controller = {
 		if not Handy.is_mod_active() then
 			return false
 		end
+		if Handy.controller.is_debugplus_console_opened() then
+			return false
+		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			Handy.last_clicked_card = card
 			Handy.last_clicked_area = card.area
@@ -962,6 +1013,9 @@ Handy.controller = {
 	end,
 	process_card_hover = function(card)
 		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
@@ -976,6 +1030,9 @@ Handy.controller = {
 
 	process_tag_click = function(tag)
 		if not Handy.is_mod_active() then
+			return false
+		end
+		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
