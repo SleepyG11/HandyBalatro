@@ -500,6 +500,28 @@ Handy.config = {
 		end
 		Handy.cc = Handy.config.current
 	end,
+
+	save_event = nil,
+	request_save = function()
+		if Handy.config.save_event and not Handy.config.save_event.complete then
+			Handy.config.save_event.time = G.TIMERS[Handy.config.save_event.timer]
+		else
+			local event = Event({
+				no_delete = true,
+				blocking = false,
+				blockable = false,
+				timer = "REAL",
+				trigger = "after",
+				delay = 1,
+				func = function()
+					Handy.config.save()
+					return true
+				end,
+			})
+			Handy.config.save_event = event
+			G.E_MANAGER:add_event(event, "other", true)
+		end
+	end,
 }
 
 -- Shorthand for `Handy.config.current`

@@ -272,3 +272,8 @@ end
 function G.FUNCS.handy_init_keybind_change(e)
 	Handy.controller.init_bind(e)
 end
+
+function G.FUNCS.handy_change_controller_sensivity()
+	G.CONTROLLER.axis_cursor_speed = 20 * Handy.cc.controller_sensivity.mult
+	Handy.config.request_save()
+end

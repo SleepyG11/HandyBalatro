@@ -294,7 +294,7 @@ return {
 					"Swap behaviour of sticks",
 				},
 			},
-			constoller_sensivity = {
+			controller_sensivity = {
 				unlock = { "Controller: adjust", "cursor sensivity" },
 				text = {
 					"Allow to change sensivity of",

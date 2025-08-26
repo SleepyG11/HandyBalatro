@@ -103,6 +103,7 @@ if not Handy then
 	local game_start_up_ref = Game.start_up
 	function Game:start_up(...)
 		local result = game_start_up_ref(self, ...)
+		G.CONTROLLER.axis_cursor_speed = 20 * Handy.cc.controller_sensivity.mult
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
 			blocking = false,

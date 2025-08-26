@@ -1439,6 +1439,33 @@ local dictionary = {
 			)
 		end,
 	},
+	controller_sensivity = {
+		loc_key = "controller_sensivity",
+		keywords = { "controller cursor sensivity" },
+		checkbox = function(options)
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.controller_sensivity,
+				"controller_sensivity",
+				nil,
+				options
+			)
+		end,
+		slider = function(options)
+			return Handy.UI.PARTS.create_module_slider(
+				Handy.cc.controller_sensivity,
+				"mult",
+				"controller_sensivity",
+				nil,
+				{
+					min = 0.5,
+					max = 2,
+					decimal_places = 2,
+					callback = "handy_change_controller_sensivity",
+				},
+				options
+			)
+		end,
+	},
 }
 
 local dictionary_order = {

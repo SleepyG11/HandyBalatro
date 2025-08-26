@@ -225,11 +225,13 @@ Handy.UI.get_quick_page = function(page)
 		}
 	elseif page == 3 then
 		result = {
-			Handy.UI.CD.move_highlight.checkbox({ full_width = true }),
+			Handy.UI.CD.move_highlight.checkbox(),
 			Handy.UI.PARTS.create_separator_r(),
 			Handy.UI.CD.debugplus_prevent.checkbox(),
 			Handy.UI.PARTS.create_separator_r(),
 			Handy.UI.CD.controller_swap_cursor_stick.checkbox(),
+			Handy.UI.PARTS.create_separator_r(),
+			Handy.UI.CD.controller_sensivity.slider(),
 		}
 	end
 	if result then
