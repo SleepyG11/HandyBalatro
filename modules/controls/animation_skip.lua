@@ -5,6 +5,7 @@ Handy.animation_skip = {
 	buffered_value = nil,
 	immediate_event_queue = 0,
 	ease_dollars_buffer = 0,
+	dollars_buffer_cleared = false,
 
 	force_non_blocking = false,
 	force_non_blockable = false,
@@ -32,6 +33,18 @@ Handy.animation_skip = {
 	end,
 	should_skip_unsafe = function()
 		return Handy.animation_skip.get_buffered_value() >= 5
+	end,
+
+	request_dollars_buffer_reset = function()
+		if not Handy.animation_skip.dollars_buffer_cleared then
+			Handy.animation_skip.dollars_buffer_cleared = true
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					G.GAME.dollar_buffer = 0
+					return true
+				end,
+			}))
+		end
 	end,
 
 	get_value = function()
@@ -237,14 +250,14 @@ function draw_card(...)
 	end
 	return draw_card_ref(...)
 end
-local ease_discards_ref = ease_discards
-function ease_discards(...)
+local ease_discard_ref = ease_discard
+function ease_discard(...)
 	if Handy.animation_skip.should_skip_everything() then
 		local args = { ... }
 		args[2] = true
-		return ease_discards_ref(unpack(args))
+		return ease_discard_ref(unpack(args))
 	end
-	return ease_discards_ref(...)
+	return ease_discard_ref(...)
 end
 local ease_hands_played_ref = ease_hands_played
 function ease_hands_played(...)
@@ -320,10 +333,9 @@ end
 
 function Handy.animation_skip.update(dt)
 	Handy.animation_skip.mute_ease_dollars = 0
-	if Handy.animation_skip.buffered_value then
-		if G.STATE ~= G.STATES.HAND_PLAYED then
-			Handy.animation_skip.buffered_value = nil
-		end
+	if G.STATE ~= G.STATES.HAND_PLAYED then
+		Handy.animation_skip.buffered_value = nil
+		Handy.animation_skip.dollars_buffer_cleared = false
 	end
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
 		ease_dollars_ref(Handy.animation_skip.ease_dollars_buffer, true)

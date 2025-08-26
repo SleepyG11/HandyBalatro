@@ -168,6 +168,84 @@ Handy.UI.PARTS = {
 		}
 	end,
 
+	create_module_slider = function(module, ref_value, loc_key, loc_vars, options, additional_options)
+		options = Handy.utils.table_merge({}, additional_options or {}, options or {})
+		local result_loc_vars = { formatted_keys }
+		for _, v in ipairs(loc_vars or {}) do
+			table.insert(result_loc_vars, v)
+		end
+
+		local checkbox_name = {}
+		localize({
+			type = "unlocks",
+			set = "Handy_ConfigCheckbox",
+			key = loc_key,
+			vars = result_loc_vars,
+			nodes = checkbox_name,
+			default_col = G.C.WHITE,
+		})
+
+		local name_lines = {}
+		for _, line in ipairs(checkbox_name) do
+			for _, line_part in ipairs(line) do
+				line_part.config.scale = 0.4
+			end
+			table.insert(name_lines, {
+				n = G.UIT.R,
+				config = {
+					minw = 2.75,
+					maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
+				},
+				nodes = line,
+			})
+		end
+
+		G.handy_name_lines = name_lines
+
+		local result_slider = create_slider({
+			label_scale = 0.4,
+			ref_table = module,
+			ref_value = ref_value,
+			w = 4.77,
+			min = options.min or 1,
+			max = options.max or 1,
+			decimal_places = options.decimal_places,
+			callback = options.callback,
+		})
+
+		return {
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+				colour = (Handy.UI.is_in_search_result_page and options.dangerous) and adjust_alpha(G.C.MULT, 0.15)
+					or G.C.CLEAR,
+				padding = Handy.UI.is_in_search_result_page and 0.1 or 0,
+				r = 0.1,
+				focus_args = {
+					funnel_from = true,
+				},
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = name_lines,
+				},
+				{
+					n = G.UIT.C,
+					config = { minw = 0.2 },
+				},
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = {
+						result_slider,
+					},
+				},
+			},
+		}
+	end,
+
 	create_module_section = function(loc_key)
 		return {
 			n = G.UIT.R,
