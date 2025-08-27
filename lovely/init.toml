@@ -77,6 +77,12 @@ source = 'modules/ui/config.lua'
 before = 'main.lua'
 name = 'handy/ui/config'
 
+[[patches]]
+[patches.module]
+source = 'modules/ui/modals.lua'
+before = 'main.lua'
+name = 'handy/ui/modals'
+
 # Controls
 
 [[patches]]

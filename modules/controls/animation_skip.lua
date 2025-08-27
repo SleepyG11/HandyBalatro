@@ -300,11 +300,14 @@ function level_up_hand(...)
 	return level_up_hand_ref(...)
 end
 local event_manager_add_event_ref = EventManager.add_event
-function EventManager:add_event(event, ...)
+function EventManager:add_event(event, queue, ...)
 	if Handy.animation_skip.mute_ease_dollars > 0 then
 		Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
 	end
 	if not event.handy_never_modify then
+		if Handy.__override_event_queue then
+			queue = Handy.__override_event_queue
+		end
 		if Handy.animation_skip.extract_func_from_event > 0 then
 			Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
 			event.func()
@@ -328,7 +331,7 @@ function EventManager:add_event(event, ...)
 		end
 	end
 	-- printCallerInfo()
-	return event_manager_add_event_ref(self, event, ...)
+	return event_manager_add_event_ref(self, event, queue, ...)
 end
 
 function Handy.animation_skip.update(dt)

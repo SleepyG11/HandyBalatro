@@ -1,11 +1,22 @@
 -- Inserting options button
 
 function Handy.UI.reset_config_variables()
+	if G.E_MANAGER then
+		if not G.E_MANAGER.queues.handy_config then
+			G.E_MANAGER.queues.handy_config = {}
+		end
+		G.E_MANAGER:clear_queue("handy_config")
+	end
+
+	Handy.__override_event_queue = nil
+	Handy.__use_gamespeed = nil
+
 	Handy.UI.config_opened = nil
 	Handy.UI.config_tab_index = 1
 	Handy.UI.keybinds_page = 1
 	Handy.UI.quick_page = 1
 	Handy.UI.search_input_value = ""
+	Handy.UI.modal_opened = nil
 end
 Handy.UI.reset_config_variables()
 
@@ -51,29 +62,34 @@ end
 
 -- TODO: fix optimization here at some point
 function Handy.UI.rerender(silent)
-	local result
-	if SMODS and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
-		result = {
-			definition = G.UIDEF.handy_options(true),
-		}
-	elseif Handy.UI.config_opened then
-		result = {
-			definition = G.UIDEF.handy_options(),
-		}
-	end
-	if result then
-		if silent then
-			G.ROOM.jiggle = G.ROOM.jiggle - 1
-			result.config = {
-				offset = {
-					x = 0,
-					y = 0,
-				},
+	if G.handy_config_storage.rerender then
+		G.handy_config_storage.rerender()
+		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
+	else
+		local result
+		if SMODS and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
+			result = {
+				definition = G.UIDEF.handy_options(true),
+			}
+		elseif Handy.UI.config_opened then
+			result = {
+				definition = G.UIDEF.handy_options(),
 			}
 		end
-		G.FUNCS.overlay_menu(result)
-		G.OVERLAY_MENU:recalculate()
-		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
+		if result then
+			if silent then
+				G.ROOM.jiggle = G.ROOM.jiggle - 1
+				result.config = {
+					offset = {
+						x = 0,
+						y = 0,
+					},
+				}
+			end
+			G.FUNCS.overlay_menu(result)
+			G.OVERLAY_MENU:recalculate()
+			Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
+		end
 	end
 end
 

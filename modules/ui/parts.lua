@@ -125,6 +125,18 @@ Handy.UI.PARTS = {
 		})
 		result_toggle.config.focus_args.nav = "wide"
 
+		if options.only_toggle then
+			return result_toggle
+		end
+
+		if options.only_description then
+			return {
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = desc_lines,
+			}
+		end
+
 		return {
 			n = G.UIT.R,
 			config = {
@@ -280,7 +292,7 @@ Handy.UI.PARTS = {
 			n = G.UIT.R,
 			config = { align = "cm", padding = 0.01 },
 			nodes = {
-				{
+				not options.no_label and {
 					n = G.UIT.C,
 					config = Handy.UI.is_in_search_result_page and { align = "c", minw = 3, maxw = 3 }
 						or { align = "c", minw = 4, maxw = 4 },
@@ -294,11 +306,11 @@ Handy.UI.PARTS = {
 							},
 						},
 					},
-				},
-				{
+				} or nil,
+				not options.no_label and {
 					n = G.UIT.C,
 					config = { align = "cm", minw = 0.75 },
-				},
+				} or nil,
 				UIBox_button({
 					label = { Handy.UI.PARTS.localize_keybind(module[key_1] or "None") },
 					col = true,
@@ -358,6 +370,9 @@ Handy.UI.PARTS = {
 				table.insert(new_values, label .. ": " .. v)
 			end
 			values = new_values
+		end
+		if options.no_label then
+			label = nil
 		end
 		return create_option_cycle({
 			w = options.compress and 10 or 6,

@@ -578,7 +578,13 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
-		-- Handy.UI.PARTS.create_separator_r(),
+		Handy.UI.PARTS.create_separator_r(),
+		UIBox_button({
+			label = { "Speed & Animations" },
+			button = "handy_speed_n_animations_modal",
+			scale = 0.3,
+			colour = G.C.CHIPS,
+		}),
 	}
 end
 Handy.UI.get_config_tab_quick_paginated = function()
