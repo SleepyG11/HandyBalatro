@@ -2,6 +2,7 @@
 
 Handy.animation_skip = {
 	value = 1,
+	value_text = "",
 	buffered_value = nil,
 	immediate_event_queue = 0,
 	ease_dollars_buffer = 0,
@@ -60,6 +61,9 @@ Handy.animation_skip = {
 		end
 		return math.min(4, Handy.animation_skip.value)
 	end,
+	localize_value = function()
+		Handy.animation_skip.value_text = localize("handy_animation_skip_levels")[Handy.animation_skip.value] or ""
+	end,
 	get_actions = function(key)
 		return {
 			increase = Handy.controller.is_module_key(Handy.cc.animation_skip.increase, key),
@@ -71,6 +75,7 @@ Handy.animation_skip = {
 			Handy.animation_skip.value =
 				math.max(1, math.min(4, math.floor(Handy.cc.animation_skip.default_value) or 1))
 		end
+		Handy.animation_skip.change(0)
 	end,
 
 	can_dangerous = function()
@@ -110,7 +115,6 @@ Handy.animation_skip = {
 
 			if actions.increase or actions.decrease then
 				local value = Handy.animation_skip.get_value()
-				local localized_states = localize("handy_animation_skip_levels")
 				local is_dangerous = value == 5
 
 				if is_dangerous then
@@ -127,7 +131,7 @@ Handy.animation_skip = {
 					text = localize({
 						type = "variable",
 						key = "Handy_animation_skip",
-						vars = { localized_states[value] or "ERROR" },
+						vars = { Handy.animation_skip.value_text },
 					}),
 					hold = false,
 					order = 4,
@@ -149,6 +153,7 @@ Handy.animation_skip = {
 	change = function(dx)
 		Handy.animation_skip.value =
 			math.max(1, math.min(Handy.animation_skip.can_dangerous() and 5 or 4, Handy.animation_skip.value + dx))
+		Handy.animation_skip.localize_value()
 	end,
 	increase = function()
 		Handy.animation_skip.change(1)

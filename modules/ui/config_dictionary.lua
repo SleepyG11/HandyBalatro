@@ -828,7 +828,9 @@ local dictionary = {
 		keywords = { keyw.speed_multiplier },
 		checkbox = function(options)
 			options = options or {}
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, "speed_multiplier", {
+			local loc_key = Handy.cc.speed_multiplier.no_hold.enabled and "speed_multiplier_without_hold"
+				or "speed_multiplier"
+			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.speed_multiplier, loc_key, {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.multiply, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.speed_multiplier.divide, true),
 				"x1/512",
@@ -930,8 +932,10 @@ local dictionary = {
 		keywords = { keyw.animation_skip },
 		checkbox = function(options)
 			options = options or {}
+			local loc_key = Handy.cc.animation_skip.no_hold.enabled and "animation_skip_without_hold"
+				or "animation_skip"
 			local levels = localize("handy_animation_skip_levels")
-			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, "animation_skip", {
+			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, loc_key, {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
 				levels[1],

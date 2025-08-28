@@ -85,6 +85,8 @@ if not Handy then
 			end
 			G.localization.__handy_injected = true
 		end
+		Handy.speed_multiplier.localize_value()
+		Handy.animation_skip.localize_value()
 		return init_localization_ref(...)
 	end
 

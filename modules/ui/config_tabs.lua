@@ -211,9 +211,9 @@ Handy.UI.get_quick_page = function(page)
 						n = G.UIT.C,
 						config = { minw = 4 },
 						nodes = {
-							Handy.UI.CD.speed_multiplier_no_hold.checkbox(),
+							Handy.UI.CD.speed_multiplier_no_hold.checkbox({ rerender = true }),
 							Handy.UI.PARTS.create_separator_r(),
-							Handy.UI.CD.animation_skip_no_hold.checkbox(),
+							Handy.UI.CD.animation_skip_no_hold.checkbox({ rerender = true }),
 							Handy.UI.PARTS.create_separator_r(),
 							Handy.UI.CD.scoring_hold_any_moment.checkbox(),
 						},

@@ -149,6 +149,14 @@ return {
 					"multiply/divide game speed",
 				},
 			},
+			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
+			speed_multiplier_without_hold = {
+				unlock = { "Speed multiplier" },
+				text = {
+					"{C:chips}#2#{}/{C:chips}#3#{} to",
+					"multiply/divide game speed",
+				},
+			},
 			-- Vars: [Speed Multiplier]
 			speed_multiplier_no_hold = {
 				unlock = { "Speed multiplier:", "No hold" },
@@ -188,6 +196,14 @@ return {
 				unlock = { "Animation skip" },
 				text = {
 					"Hold {C:chips}#1#{} and",
+					"{C:chips}#2#{}/{C:chips}#3#{} to",
+					"increase/decrease animation skip",
+				},
+			},
+			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+			animation_skip_without_hold = {
+				unlock = { "Animation skip" },
+				text = {
 					"{C:chips}#2#{}/{C:chips}#3#{} to",
 					"increase/decrease animation skip",
 				},

@@ -113,9 +113,20 @@ Handy.UI.PARTS = {
 			})
 		end
 
+		if options.only_description then
+			return {
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = desc_lines,
+			}
+		end
+
 		local result_toggle = create_toggle({
 			callback = function(b)
-				return G.FUNCS.handy_toggle_module_enabled(b, module)
+				G.FUNCS.handy_toggle_module_enabled(b, module)
+				if Handy.UI.is_in_search_result_page or options.rerender then
+					Handy.UI.rerender(true)
+				end
 			end,
 			label_scale = 0.4,
 			label = "",
@@ -127,14 +138,6 @@ Handy.UI.PARTS = {
 
 		if options.only_toggle then
 			return result_toggle
-		end
-
-		if options.only_description then
-			return {
-				n = G.UIT.C,
-				config = { align = "cm" },
-				nodes = desc_lines,
-			}
 		end
 
 		return {
