@@ -246,12 +246,8 @@ Handy.regular_keybinds = {
 					if Handy.cc.notifications_level >= 3 then
 						Handy.UI.state_panel.display(function(state)
 							state.items.change_sort = {
-								text = localize({
-									type = "variable",
-									key = "Handy_hand_sorting",
-									vars = {
-										localize("k_" .. Handy.regular_keybinds.get_current_sorting(false)),
-									},
+								text = Handy.L.variable("Handy_hand_sorting", {
+									Handy.L.dictionary("k_" .. Handy.regular_keybinds.get_current_sorting(false)),
 								}),
 								order = 30,
 								hold = false,

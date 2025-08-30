@@ -49,7 +49,7 @@ Handy.misc_controls = {
 		Handy.misc_controls.save_run_blocker = true
 		Handy.UI.state_panel.display(function(state)
 			state.items.misc_save_run = {
-				text = localize("ph_handy_notif_misc_save_run_start"),
+				text = Handy.L.dictionary("ph_handy_notif_misc_save_run_start"),
 				order = 20,
 			}
 			return true
@@ -69,7 +69,7 @@ Handy.misc_controls = {
 									save_run()
 									Handy.UI.state_panel.display(function(state)
 										state.items.misc_save_run = {
-											text = localize("ph_handy_notif_misc_save_run_saving"),
+											text = Handy.L.dictionary("ph_handy_notif_misc_save_run_saving"),
 											order = 20,
 										}
 										return true
@@ -84,7 +84,7 @@ Handy.misc_controls = {
 										func = function()
 											Handy.UI.state_panel.display(function(state)
 												state.items.misc_save_run = {
-													text = localize("ph_handy_notif_misc_save_run_saved"),
+													text = Handy.L.dictionary("ph_handy_notif_misc_save_run_saved"),
 													order = 20,
 												}
 												return true
@@ -96,7 +96,7 @@ Handy.misc_controls = {
 								else
 									Handy.UI.state_panel.display(function(state)
 										state.items.misc_save_run = {
-											text = localize("ph_handy_notif_misc_save_run_interrupt"),
+											text = Handy.L.dictionary("ph_handy_notif_misc_save_run_interrupt"),
 											order = 20,
 										}
 										return true

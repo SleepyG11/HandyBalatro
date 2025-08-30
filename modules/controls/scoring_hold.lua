@@ -45,11 +45,7 @@ Handy.scoring_hold = {
 					return false
 				end
 				state.items.scoring_hold = {
-					text = localize({
-						type = "variable",
-						key = "Handy_scoring_hold",
-						vars = {},
-					}),
+					text = Handy.L.variable("Handy_scoring_hold"),
 					order = 7,
 					hold = Handy.scoring_hold.is_hold,
 				}

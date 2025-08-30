@@ -453,7 +453,7 @@ Handy.controller = {
 		if Handy.controller.only_safe and Handy.controller.non_safe[key] then
 			Handy.UI.state_panel.display(function(state)
 				state.items.non_holdable = {
-					text = localize("ph_handy_notif_cannot_bind_non_safe"),
+					text = Handy.L.dictionary("ph_handy_notif_cannot_bind_non_safe"),
 					hold = false,
 					order = 0,
 				}
@@ -464,7 +464,7 @@ Handy.controller = {
 		if Handy.controller.only_holdable and Handy.controller.non_holdable[key] then
 			Handy.UI.state_panel.display(function(state)
 				state.items.non_holdable = {
-					text = localize("ph_handy_notif_cannot_bind_non_holdable"),
+					text = Handy.L.dictionary("ph_handy_notif_cannot_bind_non_holdable"),
 					hold = false,
 					order = 0,
 				}

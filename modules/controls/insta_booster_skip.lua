@@ -32,11 +32,7 @@ Handy.insta_booster_skip = {
 		if Handy.cc.notifications_level >= 4 then
 			Handy.UI.state_panel.display(function(state)
 				state.items.insta_booster_skip = {
-					text = localize({
-						type = "variable",
-						key = "Handy_skip_booster_pack",
-						vars = {},
-					}),
+					text = Handy.L.variable("Handy_skip_booster_pack"),
 					hold = false,
 					order = 10,
 				}

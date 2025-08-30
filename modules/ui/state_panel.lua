@@ -142,9 +142,9 @@ Handy.UI.state_panel = {
 
 		if not state.title.text then
 			if state.dangerous then
-				state.title.text = localize("b_handy_notif_dangerous")
+				state.title.text = Handy.L.dictionary("b_handy_notif_dangerous")
 			else
-				state.title.text = localize("b_handy_notif_quick")
+				state.title.text = Handy.L.dictionary("b_handy_notif_quick")
 			end
 		end
 

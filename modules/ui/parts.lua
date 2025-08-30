@@ -66,52 +66,18 @@ Handy.UI.PARTS = {
 		for _, v in ipairs(loc_vars or {}) do
 			table.insert(result_loc_vars, v)
 		end
-		local checkbox_name = {}
-		localize({
-			type = "unlocks",
-			set = "Handy_ConfigCheckbox",
-			key = loc_key,
-			vars = result_loc_vars,
-			nodes = checkbox_name,
-			default_col = G.C.WHITE,
-		})
-		local checkbox_text = {}
-		localize({
-			type = "descriptions",
-			set = "Handy_ConfigCheckbox",
-			key = loc_key,
-			vars = result_loc_vars,
-			nodes = checkbox_text,
-			default_col = G.C.UI.TEXT_LIGHT,
-		})
 
-		local name_lines = {}
-		for _, line in ipairs(checkbox_name) do
-			for _, line_part in ipairs(line) do
-				line_part.config.scale = 0.4
-			end
-			table.insert(name_lines, {
-				n = G.UIT.R,
-				config = {
-					minw = 2.75,
-					maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
-				},
-				nodes = line,
-			})
-		end
-		local desc_lines = {
-			{ n = G.UIT.R, config = { minw = 5 } },
-		}
-		for _, line in ipairs(checkbox_text) do
-			table.insert(desc_lines, {
-				n = G.UIT.R,
-				config = {
-					padding = 0.025,
-					maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 4.5 or nil,
-				},
-				nodes = line,
-			})
-		end
+		local name_lines = Handy.L.module_checkbox_name(loc_key, loc_vars, {
+			scale = 0.4,
+			default_colour = G.C.WHITE,
+			minw = 2.75,
+			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
+		})
+		local desc_lines = Handy.L.module_checkbox_description(loc_key, loc_vars, {
+			padding = 0.025,
+			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 4.5 or nil,
+		})
+		table.insert(desc_lines, 1, { n = G.UIT.R, config = { minw = options.no_fixed_width and 0 or 5 } })
 
 		if options.only_description then
 			return {
@@ -158,11 +124,11 @@ Handy.UI.PARTS = {
 				},
 			},
 			nodes = {
-				{
+				not options.no_label and {
 					n = G.UIT.C,
 					config = { align = "cm" },
 					nodes = name_lines,
-				},
+				} or nil,
 				{
 					n = G.UIT.C,
 					config = { align = "cm" },
@@ -269,7 +235,7 @@ Handy.UI.PARTS = {
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize(loc_key, "handy_keybind_sections"),
+						text = Handy.L.keybinds_section(loc_key),
 						colour = G.C.WHITE,
 						scale = 0.35,
 						align = "cm",
@@ -303,7 +269,7 @@ Handy.UI.PARTS = {
 						{
 							n = G.UIT.T,
 							config = {
-								text = localize(loc_key, "handy_keybind_labels"),
+								text = Handy.L.keybind_label(loc_key),
 								colour = G.C.WHITE,
 								scale = Handy.UI.is_in_search_result_page and 0.25 or 0.3,
 							},
@@ -315,7 +281,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm", minw = 0.75 },
 				} or nil,
 				UIBox_button({
-					label = { Handy.UI.PARTS.localize_keybind(module[key_1] or "None") },
+					label = { Handy.L.keybind(module[key_1]) },
 					col = true,
 					colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS,
 					scale = 0.3,
@@ -339,12 +305,12 @@ Handy.UI.PARTS = {
 					nodes = {
 						{
 							n = G.UIT.T,
-							config = { text = localize("handy_or"), colour = G.C.WHITE, scale = 0.3 },
+							config = { text = Handy.L.dictionary("handy_or"), colour = G.C.WHITE, scale = 0.3 },
 						},
 					},
 				} or nil,
 				UIBox_button({
-					label = { Handy.UI.PARTS.localize_keybind(module[key_2] or "None") },
+					label = { Handy.L.keybind(module[key_2]) },
 					col = true,
 					colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS,
 					scale = 0.3,
@@ -387,6 +353,176 @@ Handy.UI.PARTS = {
 			focus_args = { nav = "wide" },
 		})
 	end,
+	create_option_cycle_simple = function(label, ref_table, ref_value, left_callback, right_callback, options)
+		options = options or {}
+		if options.no_label then
+			label = nil
+		end
+
+		local args = {
+			w = options.compress and 10 or 6,
+			label = label,
+			scale = 0.8,
+			focus_args = { nav = "wide" },
+			colour = options.colour,
+			ref_table = ref_table,
+			ref_value = ref_value,
+		}
+
+		args.colour = args.colour or G.C.RED
+		args.scale = args.scale or 1
+		args.w = (args.w or 2.5) * args.scale
+		args.h = (args.h or 0.8) * args.scale
+		args.text_scale = (args.text_scale or 0.5) * args.scale
+		args.l = "<"
+		args.r = ">"
+		args.focus_args = args.focus_args or {}
+		args.focus_args.type = "cycle"
+
+		local disabled = false
+
+		local callbacks = {
+			l = left_callback or function() end,
+			r = right_callback or function() end,
+		}
+
+		local result = {
+			n = G.UIT.C,
+			config = {
+				align = "cm",
+				padding = 0.1,
+				r = 0.1,
+				colour = G.C.CLEAR,
+				id = args.id and (not args.label and args.id or nil) or nil,
+				focus_args = args.focus_args,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						align = "cm",
+						r = 0.1,
+						minw = 0.6 * args.scale,
+						hover = not disabled,
+						colour = not disabled and args.colour or G.C.BLACK,
+						shadow = not disabled,
+						button = not disabled and "handy_option_cycle_simple" or nil,
+						ref_table = callbacks,
+						ref_value = "l",
+						focus_args = { type = "none" },
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								ref_table = args,
+								ref_value = "l",
+								scale = args.text_scale,
+								colour = not disabled and G.C.UI.TEXT_LIGHT or G.C.UI.TEXT_INACTIVE,
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = {
+						id = "cycle_main",
+						align = "cm",
+						minw = args.w,
+						minh = args.h,
+						r = 0.1,
+						padding = 0.05,
+						colour = args.colour,
+						emboss = 0.1,
+						hover = true,
+						can_collide = true,
+						on_demand_tooltip = args.on_demand_tooltip,
+					},
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = { align = "cm" },
+									nodes = {
+										{
+											n = G.UIT.O,
+											config = {
+												object = DynaText({
+													string = {
+														{ ref_table = args.ref_table, ref_value = args.ref_value },
+													},
+													colours = { G.C.UI.TEXT_LIGHT },
+													pop_in = 0,
+													pop_in_rate = 8,
+													reset_pop_in = true,
+													shadow = true,
+													float = true,
+													silent = true,
+													bump = true,
+													scale = args.text_scale,
+													non_recalc = true,
+												}),
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = {
+						align = "cm",
+						r = 0.1,
+						minw = 0.6 * args.scale,
+						hover = not disabled,
+						colour = not disabled and args.colour or G.C.BLACK,
+						shadow = not disabled,
+						button = not disabled and "handy_option_cycle_simple" or nil,
+						ref_table = callbacks,
+						ref_value = "r",
+						focus_args = { type = "none" },
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								ref_table = args,
+								ref_value = "r",
+								scale = args.text_scale,
+								colour = not disabled and G.C.UI.TEXT_LIGHT or G.C.UI.TEXT_INACTIVE,
+							},
+						},
+					},
+				},
+			},
+		}
+
+		if args.label then
+			result = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.05, id = args.id or nil },
+				nodes = {
+					args.label and {
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.T,
+								config = { text = args.label, scale = 0.5 * args.scale, colour = G.C.UI.TEXT_LIGHT },
+							},
+						},
+					} or nil,
+					result,
+				},
+			}
+		end
+		return result
+	end,
 
 	create_example_preset = function(key)
 		local checkbox_text = {}
@@ -421,7 +557,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm" },
 					nodes = {
 						UIBox_button({
-							label = { localize({ type = "name_text", set = "Handy_Preset", key = key, vars = {} }) },
+							label = { Handy.L.raw_name("Handy_Presets", key) },
 							col = true,
 							colour = G.C.ORANGE,
 							scale = 0.3,
@@ -486,11 +622,7 @@ Handy.UI.PARTS = {
 						{
 							n = G.UIT.T,
 							config = {
-								text = localize({
-									type = "variable",
-									key = "Handy_preset_index",
-									vars = { index },
-								}),
+								text = Handy.L.variable("Handy_preset_index", { index }),
 								colour = G.C.WHITE,
 								scale = 0.4,
 							},
@@ -503,7 +635,7 @@ Handy.UI.PARTS = {
 				},
 				create_text_input({
 					id = "handy_preset_name_" .. tostring(index),
-					prompt_text = localize("handy_preset_name_placeholder"),
+					prompt_text = Handy.L.dictionary("handy_preset_name_placeholder"),
 					extended_corpus = true,
 					ref_table = name_object,
 					ref_value = "name",
@@ -517,7 +649,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm", minw = 0.4 },
 				},
 				UIBox_button({
-					label = { localize("b_handy_preset_save") },
+					label = { Handy.L.dictionary("b_handy_preset_save") },
 					col = true,
 					colour = G.C.CHIPS,
 					scale = 0.3,
@@ -536,7 +668,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm", minw = 0.05 },
 				},
 				UIBox_button({
-					label = { localize("b_handy_preset_load") },
+					label = { Handy.L.dictionary("b_handy_preset_load") },
 					col = true,
 					colour = preset.config and G.C.GREEN or G.C.UI.BACKGROUND_INACTIVE,
 					scale = 0.3,
@@ -554,7 +686,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm", minw = 0.05 },
 				},
 				UIBox_button({
-					label = { localize("b_handy_preset_clear") },
+					label = { Handy.L.dictionary("b_handy_preset_clear") },
 					col = true,
 					colour = preset.config and G.C.MULT or G.C.UI.BACKGROUND_INACTIVE,
 					scale = 0.3,

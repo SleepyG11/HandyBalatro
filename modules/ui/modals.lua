@@ -425,7 +425,58 @@ local function calculate(deck, hand, jokers)
 	}))
 end
 
-function G.UIDEF.handy_speed_n_animations_modal()
+--
+
+local row = function(a, b, c, no_a)
+	return {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.025 },
+		nodes = {
+			not no_a and {
+				n = G.UIT.C,
+				config = {
+					minw = 5,
+					align = "cm",
+				},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = a,
+					},
+				},
+			} or nil,
+			{
+				n = G.UIT.C,
+				config = { minw = 7 },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = b,
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				config = { minw = 7 },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = c,
+					},
+				},
+			},
+		},
+	}
+end
+
+--
+
+function G.UIDEF.handy_speed_n_animations_info()
+	Handy.UI.modal_opened = "speed_n_animations_info"
+
 	if not G.E_MANAGER.queues.handy_config then
 		G.E_MANAGER.queues.handy_config = {}
 	end
@@ -449,6 +500,295 @@ function G.UIDEF.handy_speed_n_animations_modal()
 	G.handy_config_storage.jokers = jokers_area
 	G.handy_config_storage.hand = hand_area
 	G.handy_config_storage.deck = deck_area
+	G.handy_config_storage.rerender = nil
+
+	G.E_MANAGER:add_event(
+		Event({
+			timer = "REAL",
+			func = function()
+				for i = 1, 2 do
+					local card = Card(
+						jokers_area.T.x + jokers_area.T.w / 2 - G.CARD_W / 2,
+						jokers_area.T.y,
+						G.CARD_W,
+						G.CARD_H,
+						G.P_CARDS.empty,
+						i == 1 and G.P_CENTERS.j_baron or G.P_CENTERS.j_mime,
+						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+					)
+					jokers_area:emplace(card)
+				end
+				for i = 1, 15 do
+					local card1 = Card(
+						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
+						hand_area.T.y,
+						G.CARD_W,
+						G.CARD_H,
+						G.P_CARDS.H_K,
+						G.P_CENTERS.m_steel,
+						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+					)
+					card1:set_seal("Red", true, true)
+					deck_area:emplace(card1)
+				end
+				return true
+			end,
+		}),
+		"handy_config"
+	)
+
+	local desc_text = {}
+	localize({
+		type = "descriptions",
+		set = "Handy_Other",
+		key = "speed_n_animations",
+		vars = {},
+		nodes = desc_text,
+		default_col = G.C.UI.TEXT_LIGHT,
+	})
+
+	local desc_lines = {}
+	for _, line in ipairs(desc_text) do
+		table.insert(desc_lines, {
+			n = G.UIT.R,
+			config = {
+				padding = 0.025,
+			},
+			nodes = line,
+		})
+	end
+
+	local example_calc_row = {
+		n = G.UIT.R,
+		config = {
+			padding = 0.125,
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.125 },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = {
+									colour = { 0, 0, 0, 0.1 },
+									r = 0.1,
+									padding = 0.1,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = jokers_area,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.C,
+								config = {
+									colour = { 0, 0, 0, 0.1 },
+									r = 0.1,
+									padding = 0.1,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = hand_area,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.C,
+								config = {
+									colour = { 0, 0, 0, 0.1 },
+									r = 0.1,
+									padding = 0.1,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = deck_area,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				config = { align = "cm", maxw = 2.1 },
+				nodes = {
+					UIBox_button({
+						label = {
+							"Start",
+							"calculation",
+						},
+						scale = 0.5,
+						colour = G.C.CHIPS,
+						button = "handy_speed_n_animations_calculate",
+					}),
+					{ n = G.UIT.R, config = { minh = 0.25 } },
+					UIBox_button({
+						label = {
+							"Stop",
+							"calculation",
+						},
+						scale = 0.5,
+						colour = G.C.MULT,
+						button = "handy_speed_n_animations_stop_calculation",
+					}),
+				},
+			},
+		},
+	}
+
+	local header_row = row(nil, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.2, align = "cm" },
+			nodes = {
+				Handy.UI.CD.speed_multiplier.checkbox({ only_toggle = true }),
+			},
+		},
+		{
+			n = G.UIT.C,
+			nodes = {
+				{
+					n = G.UIT.R,
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = "Speed multiplier",
+								colour = G.C.WHITE,
+								scale = 0.5,
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = { minh = 0.05 },
+				},
+				{
+					n = G.UIT.R,
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = "Increase speed of animations",
+								colour = adjust_alpha(G.C.WHITE, 0.75),
+								scale = 0.35,
+							},
+						},
+					},
+				},
+			},
+		},
+	}, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.2, align = "cm" },
+			nodes = {
+				Handy.UI.CD.animation_skip.checkbox({ only_toggle = true }),
+			},
+		},
+		{
+			n = G.UIT.C,
+			nodes = {
+				{
+					n = G.UIT.R,
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = "Animation skip",
+								colour = G.C.WHITE,
+								scale = 0.5,
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = { minh = 0.05 },
+				},
+				{
+					n = G.UIT.R,
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = "Remove animations",
+								colour = adjust_alpha(G.C.WHITE, 0.75),
+								scale = 0.35,
+							},
+						},
+					},
+				},
+			},
+		},
+	}, true)
+
+	local current_value_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "Current value",
+				colour = G.C.WHITE,
+				scale = 0.35,
+			},
+		},
+	}, {
+		Handy.UI.CD.speed_multiplier.option_cycle({
+			no_label = true,
+		}),
+	}, {
+		Handy.UI.CD.animation_skip.option_cycle({
+			no_label = true,
+		}),
+	}, true)
+
+	local desc_row = {
+		n = G.UIT.R,
+		config = { align = "cm" },
+		nodes = desc_lines,
+	}
+
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			header_row,
+			Handy.UI.PARTS.create_separator_r(),
+			current_value_row,
+			Handy.UI.PARTS.create_separator_r(),
+			desc_row,
+			Handy.UI.PARTS.create_separator_r(),
+			example_calc_row,
+		},
+	}
+end
+function G.UIDEF.handy_speed_n_animations_controls()
+	Handy.UI.modal_opened = "speed_n_animations_controls"
+
+	G.E_MANAGER:clear_queue("handy_config")
+	Handy.__override_event_queue = nil
+	Handy.__use_gamespeed = nil
+	G.handy_config_storage.jokers = nil
+	G.handy_config_storage.hand = nil
+	G.handy_config_storage.deck = nil
 
 	G.handy_config_storage.rerender = function()
 		local speed_text_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_speed_n_animations_speed_desc")
@@ -487,470 +827,306 @@ function G.UIDEF.handy_speed_n_animations_modal()
 		G.OVERLAY_MENU:recalculate()
 	end
 
-	G.E_MANAGER:add_event(
-		Event({
-			timer = "REAL",
-			func = function()
-				for i = 1, 2 do
-					local card = Card(
-						jokers_area.T.x + jokers_area.T.w / 2 - G.CARD_W / 2,
-						jokers_area.T.y,
-						G.CARD_W,
-						G.CARD_H,
-						G.P_CARDS.empty,
-						i == 1 and G.P_CENTERS.j_baron or G.P_CENTERS.j_mime,
-						{ bypass_discovery_center = true, bypass_discovery_ui = true }
-					)
-					jokers_area:emplace(card)
-				end
-				for i = 1, 15 do
-					local card1 = Card(
-						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
-						hand_area.T.y,
-						G.CARD_W,
-						G.CARD_H,
-						G.P_CARDS.H_K,
-						G.P_CENTERS.m_steel,
-						{ bypass_discovery_center = true, bypass_discovery_ui = true }
-					)
-					card1:set_seal("Red", true, true)
-					deck_area:emplace(card1)
-				end
-				return true
-			end,
-		}),
-		"handy_config"
-	)
-
-	local example_calc_row = {
-		n = G.UIT.R,
-		config = {
-			padding = 0.25,
-			align = "cm",
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					colour = { 0, 0, 0, 0.1 },
-					r = 0.1,
-					padding = 0.1,
-				},
-				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							object = jokers_area,
-						},
-					},
-				},
-			},
-			{
-				n = G.UIT.C,
-				config = {
-					colour = { 0, 0, 0, 0.1 },
-					r = 0.1,
-					padding = 0.1,
-				},
-				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							object = hand_area,
-						},
-					},
-				},
-			},
-			{
-				n = G.UIT.C,
-				config = {
-					colour = { 0, 0, 0, 0.1 },
-					r = 0.1,
-					padding = 0.1,
-				},
-				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							object = deck_area,
-						},
-					},
-				},
-			},
-			{
-				n = G.UIT.C,
-				config = { align = "cm" },
-				nodes = {
-					UIBox_button({
-						label = {
-							"Start calculation",
-						},
-						scale = 0.4,
-						colour = G.C.CHIPS,
-						button = "handy_speed_n_animations_calculate",
-					}),
-					{ n = G.UIT.R, config = { minh = 0.25 } },
-					UIBox_button({
-						label = {
-							"Stop calculation",
-						},
-						scale = 0.4,
-						colour = G.C.MULT,
-						button = "handy_speed_n_animations_stop_calculation",
-					}),
-				},
+	local no_hold_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "No hold / Usage",
+				colour = G.C.WHITE,
+				scale = 0.35,
 			},
 		},
-	}
-
-	local row = function(a, b, c)
-		return {
-			n = G.UIT.R,
-			config = { align = "cm", padding = 0.025 },
+	}, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.1, align = "cm" },
+			nodes = {
+				Handy.UI.CD.speed_multiplier_no_hold.checkbox({
+					only_toggle = true,
+					rerender = true,
+				}),
+			},
+		},
+		{
+			n = G.UIT.C,
+			config = { minw = 0.075 },
+		},
+		{
+			n = G.UIT.C,
+			config = { align = "cm", minh = 1.1 },
 			nodes = {
 				{
-					n = G.UIT.C,
+					n = G.UIT.O,
 					config = {
-						minw = 5,
-						align = "cm",
-					},
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = a,
-						},
-					},
-				},
-				{
-					n = G.UIT.C,
-					config = { minw = 7 },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = b,
-						},
-					},
-				},
-				{
-					n = G.UIT.C,
-					config = { minw = 7 },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { align = "cm" },
-							nodes = c,
-						},
-					},
-				},
-			},
-		}
-	end
-
-	local content = {
-		n = G.UIT.C,
-		config = { colour = G.C.CLEAR },
-		nodes = {
-			row(nil, {
-				{
-					n = G.UIT.C,
-					config = { minw = 1.2, align = "cm" },
-					nodes = {
-						Handy.UI.CD.speed_multiplier.checkbox({ only_toggle = true }),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
-						{
-							n = G.UIT.R,
-							nodes = {
-								{
-									n = G.UIT.T,
-									config = {
-										text = "Speed multiplier",
-										colour = G.C.WHITE,
-										scale = 0.5,
-									},
+						id = "handy_speed_n_animations_speed_desc",
+						object = UIBox({
+							definition = {
+								n = G.UIT.ROOT,
+								config = { colour = G.C.CLEAR },
+								nodes = {
+									Handy.UI.CD.speed_multiplier.checkbox({
+										only_description = true,
+									}),
 								},
 							},
-						},
-						{
-							n = G.UIT.R,
-							config = { minh = 0.05 },
-						},
-						{
-							n = G.UIT.R,
-							nodes = {
-								{
-									n = G.UIT.T,
-									config = {
-										text = "Increase speed of animations",
-										colour = adjust_alpha(G.C.WHITE, 0.75),
-										scale = 0.35,
-									},
-								},
-							},
-						},
-					},
-				},
-			}, {
-				{
-					n = G.UIT.C,
-					config = { minw = 1.2, align = "cm" },
-					nodes = {
-						Handy.UI.CD.animation_skip.checkbox({ only_toggle = true }),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
-						{
-							n = G.UIT.R,
-							nodes = {
-								{
-									n = G.UIT.T,
-									config = {
-										text = "Animation skip",
-										colour = G.C.WHITE,
-										scale = 0.5,
-									},
-								},
-							},
-						},
-						{
-							n = G.UIT.R,
-							config = { minh = 0.05 },
-						},
-						{
-							n = G.UIT.R,
-							nodes = {
-								{
-									n = G.UIT.T,
-									config = {
-										text = "Remove animations",
-										colour = adjust_alpha(G.C.WHITE, 0.75),
-										scale = 0.35,
-									},
-								},
-							},
-						},
-					},
-				},
-			}),
-			{
-				n = G.UIT.R,
-				config = { minh = 0.25 },
-			},
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "Current value",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				Handy.UI.CD.speed_multiplier_default_value.option_cycle({
-					no_label = true,
-				}),
-			}, {
-				Handy.UI.CD.animation_skip_default_value.option_cycle({
-					no_label = true,
-				}),
-			}),
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "Default value",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				Handy.UI.CD.speed_multiplier_default_value.option_cycle({
-					no_label = true,
-				}),
-			}, {
-				Handy.UI.CD.animation_skip_default_value.option_cycle({
-					no_label = true,
-				}),
-			}),
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "No hold / Usage",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				{
-					n = G.UIT.C,
-					config = { minw = 1.1, align = "cm" },
-					nodes = {
-						Handy.UI.CD.speed_multiplier_no_hold.checkbox({
-							only_toggle = true,
-							rerender = true,
+							config = {},
 						}),
 					},
 				},
-				{
-					n = G.UIT.C,
-					config = { minw = 0.075 },
-				},
-				{
-					n = G.UIT.C,
-					config = { align = "cm", minh = 1.1 },
-					nodes = {
-						{
-							n = G.UIT.O,
-							config = {
-								id = "handy_speed_n_animations_speed_desc",
-								object = UIBox({
-									definition = {
-										n = G.UIT.ROOT,
-										config = { colour = G.C.CLEAR },
-										nodes = {
-											Handy.UI.CD.speed_multiplier.checkbox({
-												only_description = true,
-											}),
-										},
-									},
-									config = {},
-								}),
-							},
-						},
-					},
-				},
-			}, {
-				{
-					n = G.UIT.C,
-					config = { minw = 1.1, align = "cm" },
-					nodes = {
-						Handy.UI.CD.animation_skip_no_hold.checkbox({
-							only_toggle = true,
-							rerender = true,
-						}),
-					},
-				},
-				{
-					n = G.UIT.C,
-					config = { minw = 0.075 },
-				},
-				{
-					n = G.UIT.C,
-					config = { align = "cm", minh = 1.1 },
-					nodes = {
-						{
-							n = G.UIT.O,
-							config = {
-								id = "handy_speed_n_animations_animations_desc",
-								object = UIBox({
-									definition = {
-										n = G.UIT.ROOT,
-										config = { colour = G.C.CLEAR },
-										nodes = {
-											Handy.UI.CD.animation_skip.checkbox({
-												only_description = true,
-											}),
-										},
-									},
-									config = {},
-								}),
-							},
-						},
-					},
-				},
-			}),
-			{
-				n = G.UIT.R,
-				config = { minh = 0.25 },
 			},
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "Hold button",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				Handy.UI.CD.speed_multiplier.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}, {
-				Handy.UI.CD.animation_skip.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}),
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "Increase button",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				Handy.UI.CD.speed_multiplier_multiply.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}, {
-				Handy.UI.CD.animation_skip_increase.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}),
-			row({
-				{
-					n = G.UIT.T,
-					config = {
-						text = "Decrease button",
-						colour = G.C.WHITE,
-						scale = 0.4,
-					},
-				},
-			}, {
-				Handy.UI.CD.speed_multiplier_divide.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}, {
-				Handy.UI.CD.animation_skip_decrease.keybind({
-					no_label = true,
-					compress = true,
-					rerender = true,
-				}),
-			}),
-			{
-				n = G.UIT.R,
-				config = { minh = 0.25 },
-			},
-			example_calc_row,
 		},
-	}
-	return create_UIBox_generic_options({
-		back_func = "handy_speed_n_animations_back",
-		contents = {
-			content,
+	}, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.1, align = "cm" },
+			nodes = {
+				Handy.UI.CD.animation_skip_no_hold.checkbox({
+					only_toggle = true,
+					rerender = true,
+				}),
+			},
+		},
+		{
+			n = G.UIT.C,
+			config = { minw = 0.075 },
+		},
+		{
+			n = G.UIT.C,
+			config = { align = "cm", minh = 1.1 },
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						id = "handy_speed_n_animations_animations_desc",
+						object = UIBox({
+							definition = {
+								n = G.UIT.ROOT,
+								config = { colour = G.C.CLEAR },
+								nodes = {
+									Handy.UI.CD.animation_skip.checkbox({
+										only_description = true,
+									}),
+								},
+							},
+							config = {},
+						}),
+					},
+				},
+			},
 		},
 	})
+
+	local hold_keybind_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "Hold button",
+				colour = G.C.WHITE,
+				scale = 0.35,
+			},
+		},
+	}, {
+		Handy.UI.CD.speed_multiplier.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	}, {
+		Handy.UI.CD.animation_skip.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	})
+
+	local increase_keybind_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "Increase button",
+				colour = G.C.WHITE,
+				scale = 0.35,
+			},
+		},
+	}, {
+		Handy.UI.CD.speed_multiplier_multiply.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	}, {
+		Handy.UI.CD.animation_skip_increase.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	})
+
+	local decrease_keybind_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "Decrease button",
+				colour = G.C.WHITE,
+				scale = 0.35,
+			},
+		},
+	}, {
+		Handy.UI.CD.speed_multiplier_divide.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	}, {
+		Handy.UI.CD.animation_skip_decrease.keybind({
+			no_label = true,
+			compress = true,
+			rerender = true,
+		}),
+	})
+
+	local dangerous_row = row({
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "Dangerous options",
+						colour = G.C.WHITE,
+						scale = 0.35,
+					},
+				},
+			},
+		},
+		{
+			n = G.UIT.R,
+			config = { minh = 0.025 },
+		},
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "Must be enabled in Danger Zone",
+						colour = adjust_alpha(G.C.MULT, 0.75),
+						scale = 0.3,
+					},
+				},
+			},
+		},
+	}, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.1, align = "cm" },
+			nodes = {
+				Handy.UI.CD.dangerous_speed_multiplier_uncap.checkbox({
+					only_toggle = true,
+				}),
+			},
+		},
+		{
+			n = G.UIT.C,
+			config = { minw = 0.075 },
+		},
+		{
+			n = G.UIT.C,
+			config = { align = "cm", minh = 1.1 },
+			nodes = {
+				Handy.UI.CD.dangerous_speed_multiplier_uncap.checkbox({
+					only_description = true,
+				}),
+			},
+		},
+	}, {
+		{
+			n = G.UIT.C,
+			config = { minw = 1.1, align = "cm" },
+			nodes = {
+				Handy.UI.CD.dangerous_animation_skip_unsafe.checkbox({
+					only_toggle = true,
+				}),
+			},
+		},
+		{
+			n = G.UIT.C,
+			config = { minw = 0.075 },
+		},
+		{
+			n = G.UIT.C,
+			config = { align = "cm", minh = 1.1 },
+			nodes = {
+				Handy.UI.CD.dangerous_animation_skip_unsafe.checkbox({
+					only_description = true,
+				}),
+			},
+		},
+	})
+
+	local default_value_row = row({
+		{
+			n = G.UIT.T,
+			config = {
+				text = "Default value",
+				colour = G.C.WHITE,
+				scale = 0.35,
+			},
+		},
+	}, {
+		Handy.UI.CD.speed_multiplier_default_value.option_cycle({
+			no_label = true,
+		}),
+	}, {
+		Handy.UI.CD.animation_skip_default_value.option_cycle({
+			no_label = true,
+		}),
+	})
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			default_value_row,
+			no_hold_row,
+			Handy.UI.PARTS.create_separator_r(0.2),
+			hold_keybind_row,
+			increase_keybind_row,
+			decrease_keybind_row,
+			Handy.UI.PARTS.create_separator_r(0.2),
+			dangerous_row,
+		},
+	}
 end
+
+function G.FUNCS.handy_speed_n_animations_modal()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = create_UIBox_generic_options({
+			back_func = "handy_speed_n_animations_back",
+			contents = {
+				create_tabs({
+					snap_to_nav = true,
+					colour = G.C.BOOSTER,
+					tabs = {
+						{
+							label = "Info",
+							tab_definition_function = G.UIDEF.handy_speed_n_animations_info,
+							chosen = true,
+						},
+						{
+							label = "Controls",
+							tab_definition_function = G.UIDEF.handy_speed_n_animations_controls,
+						},
+					},
+				}),
+			},
+		}),
+	})
+end
+
+--
 
 function G.FUNCS.handy_speed_n_animations_stop_calculation(e, without_cleanup)
 	G.E_MANAGER:clear_queue("handy_config")
@@ -987,13 +1163,6 @@ function G.FUNCS.handy_speed_n_animations_back()
 	G.handy_config_storage.jokers = nil
 	G.handy_config_storage.hand = nil
 	G.handy_config_storage.deck = nil
+	G.handy_config_storage.render = nil
 	G.FUNCS.handy_open_options()
-end
-
-function G.FUNCS.handy_speed_n_animations_modal()
-	G.SETTINGS.paused = true
-	Handy.UI.modal_opened = "speed_n_animations"
-	G.FUNCS.overlay_menu({
-		definition = G.UIDEF.handy_speed_n_animations_modal(),
-	})
 end

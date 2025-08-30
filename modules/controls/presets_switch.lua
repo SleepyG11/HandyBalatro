@@ -77,23 +77,11 @@ Handy.presets_switch = {
 			local is_applied = preset.config and preset.enabled
 			local result_string = ""
 			if is_applied then
-				result_string = localize({
-					type = "variable",
-					key = "Handy_preset_loaded",
-					vars = { load_index, preset.name or "" },
-				})
+				result_string = Handy.L.variable("Handy_preset_loaded", { load_index, preset.name or "" })
 			elseif not preset.enabled then
-				result_string = localize({
-					type = "variable",
-					key = "Handy_preset_disabled",
-					vars = { load_index, preset.name or "" },
-				})
+				result_string = Handy.L.variable("Handy_preset_disabled", { load_index, preset.name or "" })
 			elseif not preset.config then
-				result_string = localize({
-					type = "variable",
-					key = "Handy_preset_empty",
-					vars = { load_index, preset.name or "" },
-				})
+				result_string = Handy.L.variable("Handy_preset_empty", { load_index, preset.name or "" })
 			end
 			state.items.presets_change = {
 				text = result_string,
@@ -114,17 +102,9 @@ Handy.presets_switch = {
 			if is_applied then
 				local current_index = Handy.presets.current.selected
 				local preset = Handy.presets.current.user[current_index]
-				result_string = localize({
-					type = "variable",
-					key = "Handy_preset_loaded",
-					vars = { current_index, preset.name or "" },
-				})
+				result_string = Handy.L.variable("Handy_preset_loaded", { current_index, preset.name or "" })
 			else
-				result_string = localize({
-					type = "variable",
-					key = "Handy_preset_nothing_to_load",
-					vars = {},
-				})
+				result_string = Handy.L.variable("Handy_preset_nothing_to_load")
 			end
 			state.items.presets_change = {
 				text = result_string,

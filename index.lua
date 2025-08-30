@@ -35,6 +35,7 @@ if not Handy then
 
 	--
 
+	require("handy/localizer")
 	require("handy/utils")
 	require("handy/config")
 	require("handy/fake_events")

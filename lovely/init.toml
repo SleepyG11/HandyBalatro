@@ -37,6 +37,13 @@ name = 'handy/presets'
 
 [[patches]]
 [patches.module]
+source = 'modules/localizer.lua'
+before = 'main.lua'
+name = 'handy/localizer'
+
+
+[[patches]]
+[patches.module]
 source = 'modules/ui/index.lua'
 before = 'main.lua'
 name = 'handy/ui'

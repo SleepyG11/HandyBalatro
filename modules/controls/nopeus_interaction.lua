@@ -82,11 +82,7 @@ Handy.nopeus_interaction = {
 				end
 
 				state.items.change_nopeus_fastforward = {
-					text = localize({
-						type = "variable",
-						key = "Handy_nopeus_fastforward",
-						vars = { states[(G.SETTINGS.FASTFORWARD or 0) + 1] },
-					}),
+					text = Handy.L.variable("Handy_nopeus_fastforward", { states[(G.SETTINGS.FASTFORWARD or 0) + 1] }),
 					hold = false,
 					order = 4,
 					dangerous = is_dangerous,
@@ -97,7 +93,7 @@ Handy.nopeus_interaction = {
 					and G.SETTINGS.FASTFORWARD == (#states - 2)
 				then
 					state.items.prevent_nopeus_unsafe = {
-						text = localize("ph_handy_notif_nopeus_unsafe_disabled"),
+						text = Handy.L.dictionary("ph_handy_notif_nopeus_unsafe_disabled"),
 						hold = false,
 						order = 4.05,
 					}

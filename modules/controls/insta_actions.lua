@@ -314,7 +314,7 @@ Handy.insta_actions = {
 		local actions = is_alt_action and Handy.insta_actions.get_alt_actions(key) or Handy.insta_actions.get_actions()
 		if actions.use then
 			state.items.insta_use = {
-				text = localize("ph_handy_notif_quick_use"),
+				text = Handy.L.dictionary("ph_handy_notif_quick_use"),
 				hold = not is_alt_action,
 				order = 10,
 			}
@@ -322,7 +322,7 @@ Handy.insta_actions = {
 		end
 		if actions.buy_or_sell then
 			state.items.quick_buy_and_sell = {
-				text = localize("ph_handy_notif_quick_buy_or_sell"),
+				text = Handy.L.dictionary("ph_handy_notif_quick_buy_or_sell"),
 				hold = not is_alt_action,
 				order = 11,
 			}
@@ -330,7 +330,7 @@ Handy.insta_actions = {
 		end
 		if actions.buy_n_sell then
 			state.items.quick_buy_n_sell = {
-				text = localize("ph_handy_notif_quick_buy_n_sell"),
+				text = Handy.L.dictionary("ph_handy_notif_quick_buy_n_sell"),
 				hold = not is_alt_action,
 				order = 12,
 			}

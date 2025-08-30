@@ -74,8 +74,8 @@ local dictionary = {
 		option_cycle = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_option_cycle(
-				localize("b_handy_info_popups_level_select"),
-				localize("handy_info_popups_level_opt"),
+				Handy.L.dictionary("b_handy_info_popups_level_select"),
+				Handy.L.dictionary("handy_info_popups_level_opt"),
 				Handy.cc.notifications_level,
 				"handy_change_notifications_level",
 				options
@@ -87,8 +87,8 @@ local dictionary = {
 		option_cycle = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_option_cycle(
-				localize("b_handy_keybinds_trigger_mode_select"),
-				localize("handy_keybinds_trigger_mode_opt"),
+				Handy.L.dictionary("b_handy_keybinds_trigger_mode_select"),
+				Handy.L.dictionary("handy_keybinds_trigger_mode_opt"),
 				Handy.cc.keybinds_trigger_mode,
 				"handy_change_keybinds_trigger_mode",
 				options
@@ -100,8 +100,8 @@ local dictionary = {
 		option_cycle = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_option_cycle(
-				localize("b_handy_device_select"),
-				localize("handy_device_opt"),
+				Handy.L.dictionary("b_handy_device_select"),
+				Handy.L.dictionary("handy_device_opt"),
 				Handy.cc.current_device,
 				"handy_change_current_device",
 				options
@@ -113,8 +113,8 @@ local dictionary = {
 		option_cycle = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_option_cycle(
-				localize("b_handy_buy_sell_use_mode_select"),
-				localize("handy_buy_sell_use_mode_opt"),
+				Handy.L.dictionary("b_handy_buy_sell_use_mode_select"),
+				Handy.L.dictionary("handy_buy_sell_use_mode_opt"),
 				Handy.cc.insta_actions_trigger_mode,
 				"handy_change_insta_actions_trigger_mode",
 				options
@@ -136,7 +136,7 @@ local dictionary = {
 					or "insta_highlight"
 				),
 				{
-					Handy.UI.PARTS.localize_keybind("Left Mouse", true),
+					Handy.L.keybind("Left Mouse", true),
 				},
 				{
 					only_first = true,
@@ -163,7 +163,7 @@ local dictionary = {
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.insta_highlight.allow_deselect,
 				"insta_unhighlight",
-				{ Handy.UI.PARTS.localize_keybind_label("quick_highlight") },
+				{ Handy.L.keybind_label("quick_highlight", true) },
 				nil,
 				options
 			)
@@ -209,7 +209,7 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.deselect_hand, "deselect_hand", {
-				Handy.UI.PARTS.localize_keybind("Right Mouse", true),
+				Handy.L.keybind("Right Mouse", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -739,8 +739,8 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_or_sell, "insta_buy_or_sell", {
-				localize("b_handy_buy_sell_use_mode_select"),
-				Handy.UI.PARTS.localize_keybind("Left Bumper", true),
+				Handy.L.dictionary("b_handy_buy_sell_use_mode_select"),
+				Handy.L.keybind("Left Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -759,7 +759,7 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_buy_n_sell, "insta_buy_n_sell", {
-				localize("b_handy_buy_sell_use_mode_select"),
+				Handy.L.dictionary("b_handy_buy_sell_use_mode_select"),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -778,8 +778,8 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.insta_use, "insta_use", {
-				localize("b_handy_buy_sell_use_mode_select"),
-				Handy.UI.PARTS.localize_keybind("Right Bumper", true),
+				Handy.L.dictionary("b_handy_buy_sell_use_mode_select"),
+				Handy.L.keybind("Right Bumper", true),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -801,7 +801,7 @@ local dictionary = {
 				Handy.cc.cryptid_code_use_last_interaction,
 				"cryptid_code_use_last_interaction",
 				{
-					localize("b_handy_buy_sell_use_mode_select"),
+					Handy.L.dictionary("b_handy_buy_sell_use_mode_select"),
 				},
 				nil,
 				options
@@ -843,6 +843,21 @@ local dictionary = {
 				Handy.cc.speed_multiplier,
 				"speed_multiplier",
 				{ only_holdable = true },
+				options
+			)
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_option_cycle_simple(
+				Handy.L.keybind_label("speed_multiplier"),
+				Handy.speed_multiplier,
+				"value_text",
+				function()
+					Handy.speed_multiplier.divide()
+				end,
+				function()
+					Handy.speed_multiplier.multiply()
+				end,
 				options
 			)
 		end,
@@ -892,7 +907,7 @@ local dictionary = {
 				Handy.cc.speed_multiplier.no_hold,
 				"speed_multiplier_no_hold",
 				{
-					Handy.UI.PARTS.localize_keybind_label("speed_multiplier"),
+					Handy.L.keybind_label("speed_multiplier"),
 				},
 				nil,
 				options
@@ -914,11 +929,7 @@ local dictionary = {
 		option_cycle = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_option_cycle(
-				localize({
-					type = "variable",
-					key = "Handy_default_value",
-					vars = { Handy.UI.PARTS.localize_keybind_label("speed_multiplier", true) },
-				}),
+				Handy.L.variable("Handy_default_value", { Handy.L.keybind_label("speed_multiplier") }),
 				{ "1x", "2x", "4x", "8x", "16x", "32x", "64x", "128x", "256x", "512x" },
 				Handy.cc.speed_multiplier.default_value,
 				"handy_change_default_speed_multiplier",
@@ -934,7 +945,7 @@ local dictionary = {
 			options = options or {}
 			local loc_key = Handy.cc.animation_skip.no_hold.enabled and "animation_skip_without_hold"
 				or "animation_skip"
-			local levels = localize("handy_animation_skip_levels")
+			local levels = Handy.L.dictionary("handy_animation_skip_levels")
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.animation_skip, loc_key, {
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.increase, true),
 				Handy.UI.PARTS.format_new_module_keys(Handy.cc.animation_skip.decrease, true),
@@ -943,7 +954,7 @@ local dictionary = {
 				levels[3],
 				levels[4],
 				levels[5],
-				localize("Dangerous", "handy_tabs"),
+				Handy.L.tab("Dangerous"),
 			}, nil, options)
 		end,
 		keybind = function(options)
@@ -952,6 +963,21 @@ local dictionary = {
 				Handy.cc.animation_skip,
 				"animation_skip",
 				{ only_holdable = true },
+				options
+			)
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_option_cycle_simple(
+				Handy.L.keybind_label("animation_skip"),
+				Handy.animation_skip,
+				"value_text",
+				function()
+					Handy.animation_skip.decrease()
+				end,
+				function()
+					Handy.animation_skip.increase()
+				end,
 				options
 			)
 		end,
@@ -1001,7 +1027,7 @@ local dictionary = {
 				Handy.cc.animation_skip.no_hold,
 				"animation_skip_no_hold",
 				{
-					Handy.UI.PARTS.localize_keybind_label("animation_skip"),
+					Handy.L.keybind_label("animation_skip", true),
 				},
 				nil,
 				options
@@ -1022,14 +1048,13 @@ local dictionary = {
 		checkbox_group = "animation_skip",
 		option_cycle = function(options)
 			options = options or {}
-			local available_options = Handy.utils.table_merge({}, localize("handy_animation_skip_levels"))
+			local available_options = Handy.utils.table_merge({}, Handy.L.dictionary("handy_animation_skip_levels"))
 			table.remove(available_options, #available_options)
 			return Handy.UI.PARTS.create_option_cycle(
-				localize({
-					type = "variable",
-					key = "Handy_default_value",
-					vars = { Handy.UI.PARTS.localize_keybind_label("animation_skip", true) },
-				}),
+				Handy.L.variable(
+					"Handy_default_value",
+					{ Handy.UI.PARTS.localize_keybind_label("animation_skip", true) }
+				),
 				available_options,
 				Handy.cc.animation_skip.default_value,
 				"handy_change_default_animation_skip",
@@ -1143,7 +1168,7 @@ local dictionary = {
 				Handy.cc.scoring_hold.any_moment,
 				"scoring_hold_any_moment",
 				{
-					Handy.UI.PARTS.localize_keybind_label("scoring_hold"),
+					Handy.L.keybind_label("scoring_hold", true),
 				},
 				nil,
 				options
@@ -1226,7 +1251,7 @@ local dictionary = {
 				Handy.cc.dangerous_actions.animation_skip_unsafe,
 				"animation_skip_unsafe",
 				{
-					localize("handy_animation_skip_levels")[5],
+					Handy.L.dictionary("handy_animation_skip_levels", 5),
 				},
 				{
 					dangerous = true,
@@ -1260,9 +1285,9 @@ local dictionary = {
 				Handy.cc.dangerous_actions.immediate_buy_and_sell,
 				"immediate_buy_and_sell",
 				{
-					Handy.UI.PARTS.format_new_module_keys(Handy.cc.insta_buy_or_sell, true),
-					Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-					Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
+					Handy.L.module_keybinds(Handy.cc.insta_buy_or_sell, true),
+					Handy.L.keybind_label("dangerous_modifier", true),
+					Handy.L.keybind_label("quick_buy_or_sell", true),
 				},
 				{
 					dangerous = true,
@@ -1305,9 +1330,9 @@ local dictionary = {
 				Handy.cc.dangerous_actions.sell_all_same,
 				"sell_all_same",
 				{
-					Handy.UI.PARTS.format_new_module_keys(Handy.cc.dangerous_actions.immediate_buy_and_sell, true),
-					Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-					Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
+					Handy.L.module_keybinds(Handy.cc.dangerous_actions.immediate_buy_and_sell, true),
+					Handy.L.keybind_label("dangerous_modifier", true),
+					Handy.L.keybind_label("dangerous_all_same_modifier", true),
 				},
 				{
 					only_first = true,
@@ -1331,8 +1356,8 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.sell_all, "sell_all", {
-				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
+				Handy.L.keybind_label("dangerous_modifier", true),
+				Handy.L.keybind_label("dangerous_all_modifier", true),
 			}, {
 				only_first = true,
 				dangerous = true,
@@ -1354,11 +1379,11 @@ local dictionary = {
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.PARTS.create_new_module_checkbox(Handy.cc.dangerous_actions.card_remove, "card_remove", {
-				Handy.UI.PARTS.localize_keybind_label("dangerous_modifier"),
-				Handy.UI.PARTS.localize_keybind_label("dangerous_remove_modifier"),
-				Handy.UI.PARTS.localize_keybind_label("quick_buy_or_sell"),
-				Handy.UI.PARTS.localize_keybind_label("dangerous_all_same_modifier"),
-				Handy.UI.PARTS.localize_keybind_label("dangerous_all_modifier"),
+				Handy.L.keybind_label("dangerous_modifier", true),
+				Handy.L.keybind_label("dangerous_remove_modifier", true),
+				Handy.L.keybind_label("quick_buy_or_sell", true),
+				Handy.L.keybind_label("dangerous_all_same_modifier", true),
+				Handy.L.keybind_label("dangerous_all_modifier", true),
 			}, {
 				dangerous = true,
 				only_first = true,
@@ -1425,7 +1450,7 @@ local dictionary = {
 			return Handy.UI.PARTS.create_new_module_checkbox(
 				Handy.cc.prevent_if_debugplus,
 				"debugplus_prevent",
-				{ Handy.UI.PARTS.localize_keybind("Ctrl", true) },
+				{ Handy.L.keybind("Ctrl", true) },
 				options
 			)
 		end,

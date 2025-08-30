@@ -233,14 +233,14 @@ Handy.dangerous_actions = {
 
 		if not Handy.controller.is_module_enabled(Handy.cc.dangerous_actions) then
 			state.items.prevented_dangerous_actions = {
-				text = localize("ph_handy_notif_unsafe_disabled"),
+				text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled"),
 				hold = true,
 				order = 99999999,
 			}
 			return true
 		elseif not Handy.is_dangerous_actions_active() then
 			state.items.prevented_dangerous_actions = {
-				text = localize("ph_handy_notif_unsafe_disabled_by_other_mod"),
+				text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled_by_other_mod"),
 				hold = true,
 				order = 99999999,
 			}
@@ -254,22 +254,16 @@ Handy.dangerous_actions = {
 		local is_remove = Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.card_remove)
 
 		state.items.dangerous_hint = {
-			text = localize("ph_handy_notif_unsafe"),
+			text = Handy.L.dictionary("ph_handy_notif_unsafe"),
 			dangerous = true,
 			hold = true,
 			order = 99999999,
 		}
 
 		if is_insta_sell then
-			local text = localize(is_remove and "ph_handy_notif_insta_remove" or "ph_handy_notif_insta_sell")
+			local text = Handy.L.dictionary(is_remove and "ph_handy_notif_insta_remove" or "ph_handy_notif_insta_sell")
 			if Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.immediate_buy_and_sell.queue) then
-				text = text
-					.. " "
-					.. localize({
-						type = "variable",
-						key = "Handy_items_in_queue",
-						vars = { #Handy.dangerous_actions.sell_queue },
-					})
+				text = text .. " " .. Handy.L.variable("Handy_items_in_queue", { #Handy.dangerous_actions.sell_queue })
 			end
 			state.items.quick_buy_and_sell = {
 				text = text,
@@ -278,7 +272,7 @@ Handy.dangerous_actions = {
 				dangerous = true,
 			}
 		elseif is_all then
-			local text = localize(is_remove and "ph_handy_notif_remove_all" or "ph_handy_notif_sell_all")
+			local text = Handy.L.dictionary(is_remove and "ph_handy_notif_remove_all" or "ph_handy_notif_sell_all")
 			state.items.sell_all = {
 				text = text,
 				hold = true,
@@ -286,7 +280,8 @@ Handy.dangerous_actions = {
 				dangerous = true,
 			}
 		elseif is_all_same then
-			local text = localize(is_remove and "ph_handy_notif_remove_all_same" or "ph_handy_notif_sell_all_same")
+			local text =
+				Handy.L.dictionary(is_remove and "ph_handy_notif_remove_all_same" or "ph_handy_notif_sell_all_same")
 			state.items.sell_all_same = {
 				text = text,
 				hold = true,

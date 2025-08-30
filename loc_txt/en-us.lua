@@ -595,6 +595,23 @@ return {
 				},
 			},
 		},
+		Handy_Other = {
+			speed_n_animations = {
+				text = {
+					"Speed multiplier {C:attention}increases how fast{} all in-game",
+					"animations played. It's multiplies vanilla game speed value.",
+					" ",
+					"Animation skip {C:attention}removed animation entirely{}. Have 5 levels:",
+					"{C:chips}None{} - no changes",
+					"{C:chips}Messages{} - no notifs like {C:attention}Again!{}, {C:chips}+Chips{} or {C:mult}+Mult{}",
+					"{C:chips}Animations{} - instant scoring, no cards wiggling, fast cards use",
+					"{C:chips}Everything{} - removed all unnecessary animations, instant drawing",
+					"{C:mult}Unsafe{} - game's absolute limit: everything instant",
+					" ",
+					"{C:handy_secondary}Use example calculation to test effect of applied settings.{}",
+				},
+			},
+		},
 	},
 	misc = {
 		-- You don't need to translate all of them, only necessary ones

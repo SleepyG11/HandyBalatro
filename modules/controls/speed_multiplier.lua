@@ -1,6 +1,6 @@
 Handy.speed_multiplier = {
 	value = 1,
-	value_text = "1",
+	value_text = "1x",
 	queue_retriggers_count = 0,
 
 	throttle = false,
@@ -59,6 +59,7 @@ Handy.speed_multiplier = {
 		else
 			Handy.speed_multiplier.value_text = "1/" .. tostring(1 / Handy.speed_multiplier.value)
 		end
+		Handy.speed_multiplier.value_text = Handy.speed_multiplier.value_text .. "x"
 		return Handy.speed_multiplier.value_text
 	end,
 	load_default_value = function()
@@ -103,12 +104,8 @@ Handy.speed_multiplier = {
 		end
 		Handy.UI.state_panel.display(function(state)
 			state.items.change_speed_multiplier = {
-				text = localize({
-					type = "variable",
-					key = "Handy_gamespeed_multiplier",
-					vars = {
-						Handy.speed_multiplier.value_text,
-					},
+				text = Handy.L.variable("Handy_gamespeed_multiplier", {
+					Handy.speed_multiplier.value_text,
 				}),
 				hold = false,
 				order = 5,
@@ -117,12 +114,8 @@ Handy.speed_multiplier = {
 			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
 			if retriggers_amount > 0 then
 				state.items.change_queue_retriggers_count = {
-					text = localize({
-						type = "variable",
-						key = "Handy_event_queue_retriggers_amount",
-						vars = {
-							retriggers_amount + 1,
-						},
+					text = Handy.L.variable("Handy_event_queue_retriggers_amount", {
+						retriggers_amount + 1,
 					}),
 					hold = false,
 					order = 5.1,

@@ -270,7 +270,7 @@ Handy.UI.get_search_no_result_page = function()
 						{
 							n = G.UIT.T,
 							config = {
-								text = localize("ph_handy_search_no_results"),
+								text = Handy.L.dictionary("ph_handy_search_no_results"),
 								colour = G.C.WHITE,
 								scale = 0.4,
 								align = "cm",
@@ -289,15 +289,9 @@ Handy.UI.get_search_no_result_page = function()
 							n = G.UIT.C,
 							config = { padding = 0.05, align = "cm" },
 							nodes = {
-								create_input_button(
-									Handy.UI.PARTS.localize_keybind_label("quick_highlight", true),
-									"fast hand selection"
-								),
-								create_input_button(
-									localize("gamespeed", "handy_keybind_sections"),
-									"speed multiplier"
-								),
-								create_input_button(localize("animations", "handy_keybind_sections"), "animation"),
+								create_input_button(Handy.L.keybind_label("quick_highlight"), "fast hand selection"),
+								create_input_button(Handy.L.keybinds_section("gamespeed"), "speed multiplier"),
+								create_input_button(Handy.L.keybinds_section("animations"), "animation"),
 							},
 						},
 						Handy.UI.PARTS.create_separator_c(),
@@ -305,9 +299,9 @@ Handy.UI.get_search_no_result_page = function()
 							n = G.UIT.C,
 							config = { padding = 0.05, align = "cm" },
 							nodes = {
-								create_input_button(localize("Keybinds", "handy_tabs"), "regular keybinds"),
-								create_input_button(localize("misc", "handy_keybind_sections"), "miscellaneous"),
-								create_input_button(localize("Dangerous", "handy_tabs"), "dangerous"),
+								create_input_button(Handy.L.tab("Keybinds"), "regular keybinds"),
+								create_input_button(Handy.L.keybinds_section("misc"), "miscellaneous"),
+								create_input_button(Handy.L.tab("Dangerous"), "dangerous"),
 							},
 						},
 					},
@@ -539,13 +533,12 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize({
-							type = "variable",
-							key = gamepad and "Handy_overall_guide_gamepad" or "Handy_overall_guide_button",
-							vars = {
-								localize("Keybinds Paginated", "handy_tabs"),
-							},
-						}),
+						text = Handy.L.variable(
+							gamepad and "Handy_overall_guide_gamepad" or "Handy_overall_guide_button",
+							{
+								Handy.L.tab("Keybinds Paginated"),
+							}
+						),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -560,17 +553,11 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize({
-							type = "variable",
-							key = gamepad and "Handy_popups_guide_gamepad" or "Handy_popups_guide",
-							vars = {},
-						}) .. " " .. localize({
-							type = "variable",
-							key = "Handy_search_guide",
-							vars = {
-								localize("Search", "handy_tabs"),
-							},
-						}),
+						text = Handy.L.variable(gamepad and "Handy_popups_guide_gamepad" or "Handy_popups_guide")
+							.. " "
+							.. Handy.L.variable("Handy_search_guide", {
+								Handy.L.tab("Search"),
+							}),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -693,14 +680,13 @@ Handy.UI.get_config_tab_keybinds_paginated = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize({
-							type = "variable",
-							key = gamepad and "Handy_keybinds_guide_gamepad" or "Handy_keybinds_guide_desktop",
-							vars = {
-								Handy.UI.PARTS.localize_keybind(gamepad and "(Back)" or "Escape", true),
-								Handy.UI.PARTS.localize_keybind(gamepad and "(X)" or "Left Mouse", true),
-							},
-						}),
+						text = Handy.L.variable(
+							gamepad and "Handy_keybinds_guide_gamepad" or "Handy_keybinds_guide_desktop",
+							{
+								Handy.L.keybind(gamepad and "(Back)" or "Escape", true),
+								Handy.L.keybind(gamepad and "(X)" or "Left Mouse", true),
+							}
+						),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -720,7 +706,7 @@ Handy.UI.get_config_tab_presets = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize("ph_handy_premade_presets"),
+						text = Handy.L.dictionary("ph_handy_premade_presets"),
 						scale = 0.4,
 						colour = G.C.WHITE,
 						align = "cm",
@@ -739,7 +725,7 @@ Handy.UI.get_config_tab_presets = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize("ph_handy_custom_presets"),
+						text = Handy.L.dictionary("ph_handy_custom_presets"),
 						scale = 0.4,
 						colour = G.C.WHITE,
 						align = "cm",
@@ -789,11 +775,7 @@ Handy.UI.get_config_tab_presets = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize({
-							type = "variable",
-							key = "Handy_presets_guide",
-							vars = {},
-						}),
+						text = Handy.L.variable("Handy_presets_guide"),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -896,11 +878,7 @@ Handy.UI.get_config_tab_dangerous = function()
 				{
 					n = G.UIT.T,
 					config = {
-						text = localize({
-							type = "variable",
-							key = "Handy_danger_zone_guide",
-							vars = {},
-						}),
+						text = Handy.L.variable("Handy_danger_zone_guide"),
 						scale = 0.3,
 						colour = { 1, 1, 1, 0.6 },
 						align = "cm",
@@ -954,7 +932,7 @@ Handy.UI.get_config_tab_search = function()
 									ref_value = "search_input_value",
 									extended_corpus = true,
 									id = "handy_search",
-									prompt_text = localize("b_handy_search_placeholder"),
+									prompt_text = Handy.L.dictionary("b_handy_search_placeholder"),
 									callback = function()
 										if not Handy.controller.is_gamepad() then
 											Handy.UI.render_search_results(true)
@@ -965,7 +943,7 @@ Handy.UI.get_config_tab_search = function()
 						},
 						Handy.UI.PARTS.create_separator_c(),
 						UIBox_button({
-							label = { localize("b_handy_clear") },
+							label = { Handy.L.dictionary("b_handy_clear") },
 							col = true,
 							colour = G.C.MULT,
 							scale = 0.4,
@@ -977,7 +955,7 @@ Handy.UI.get_config_tab_search = function()
 						}),
 						Handy.UI.PARTS.create_separator_c(0.05),
 						UIBox_button({
-							label = { localize("b_handy_search") },
+							label = { Handy.L.dictionary("b_handy_search") },
 							col = true,
 							colour = G.C.CHIPS,
 							scale = 0.4,
@@ -1094,7 +1072,7 @@ function Handy.UI.get_options_tabs()
 	local result = {}
 	for index, k in ipairs(Handy.UI.PARTS.tabs_order) do
 		table.insert(result, {
-			label = localize(k, "handy_tabs"),
+			label = Handy.L.tab(k),
 			tab_definition_function = function()
 				return Handy.UI.get_config_tab(k, index)
 			end,
