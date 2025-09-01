@@ -474,7 +474,7 @@ return {
 					" ",
 					"Shortcut for using a code card and selecting",
 					"{C:green}[Input previous value]{} option for:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
 					"Usage determined by {C:attention}#2#{}",
 				},
@@ -486,7 +486,7 @@ return {
 					" ",
 					"Shortcut for using a code card and selecting",
 					"{C:green}[Input previous value]{} option for:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {

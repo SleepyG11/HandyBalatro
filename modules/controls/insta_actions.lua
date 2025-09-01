@@ -226,7 +226,7 @@ Handy.insta_actions = {
 		if actions.cryptid_code_use_last_interaction then
 			local cards_events_list = {
 				c_cry_variable = "variable_apply_previous",
-				c_cry_pointer = "pointer_apply_previous",
+				-- c_cry_pointer = "pointer_apply_previous",
 				c_cry_class = "class_apply_previous",
 				c_cry_exploit = "exploit_apply_previous",
 			}

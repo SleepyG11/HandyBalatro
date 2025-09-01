@@ -482,7 +482,7 @@ return {
 					" ",
 					"Atajo de teclado para usar cartas de código y seleccionar",
 					"la opcción {C:green}[Introducir valor anterior]{} para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
 					"Uso determinado por el modo",
 					"{C:attention}#2#{}",
@@ -494,7 +494,7 @@ return {
 					" ",
 					"Atajo de teclado para usar cartas de código y seleccionar",
 					"la opcción {C:green}[Introducir valor anterior]{} para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
