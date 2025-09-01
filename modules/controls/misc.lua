@@ -135,21 +135,57 @@ Handy.misc_controls = {
 		return true
 	end,
 
+	can_start_fantoms_preview = function(key, released)
+		return G.STAGE == G.STAGES.RUN
+			and FN
+			and FN.SIM
+			and FN.SIM.run
+			and not G.SETTINGS.paused
+			and not Handy.is_stop_use()
+			and Handy.controller.is_module_key(Handy.cc.misc.start_fantoms_preview, key)
+	end,
+	start_fantoms_preview = function(key, released)
+		Handy.fake_events.execute({
+			func = G.FUNCS.calculate_score_button,
+		})
+	end,
+
+	controls_list = {},
+
 	use = function(key, released)
 		if released then
 			return false
 		end
-		if Handy.misc_controls.can_crash(key, released) then
-			return Handy.misc_controls.crash(key, released)
-		elseif Handy.misc_controls.can_restart_run(key, released) then
-			return Handy.misc_controls.restart_fun(key, released)
-		elseif Handy.misc_controls.can_open_mod_settings(key, released) then
-			return Handy.misc_controls.open_mod_settings(key, released)
-		elseif Handy.misc_controls.can_save_run(key, released) then
-			return Handy.misc_controls.save_run(key, released)
+		for _, control in ipairs(Handy.misc_controls.controls_list) do
+			if control.func(key, released) then
+				return control.button(key, released)
+			end
 		end
 		return false
 	end,
+}
+
+Handy.misc_controls.controls_list = {
+	{
+		func = Handy.misc_controls.can_crash,
+		button = Handy.misc_controls.crash,
+	},
+	{
+		func = Handy.misc_controls.can_restart_run,
+		button = Handy.misc_controls.restart_fun,
+	},
+	{
+		func = Handy.misc_controls.can_open_mod_settings,
+		button = Handy.misc_controls.open_mod_settings,
+	},
+	{
+		func = Handy.misc_controls.can_save_run,
+		button = Handy.misc_controls.save_run,
+	},
+	{
+		func = Handy.misc_controls.can_start_fantoms_preview,
+		button = Handy.misc_controls.start_fantoms_preview,
+	},
 }
 
 Handy.register_module("misc_controls", Handy.misc_controls)

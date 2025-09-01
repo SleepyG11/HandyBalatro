@@ -753,6 +753,7 @@ return {
 			misc_crash = "Crashea una partida",
 			misc_save_run = "Guardar partida",
 			misc_quick_restart = "Reinicio rápido",
+			misc_start_fantoms_preview = "Fantom's Preview: Calcular",
 		},
 		handy_keybind_sections = {
 			hand = "Mano",

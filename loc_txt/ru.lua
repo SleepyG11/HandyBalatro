@@ -665,6 +665,7 @@ return {
 			misc_crash = "Крашнуть игру",
 			misc_save_run = "Сохранить игру",
 			misc_quick_restart = "Быстрый рестарт",
+			misc_start_fantoms_preview = "Fantom's Preview: Расчёт",
 		},
 		handy_keybind_sections = {
 			hand = "Рука",

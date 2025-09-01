@@ -1413,6 +1413,19 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(Handy.cc.misc.quick_restart, "misc_quick_restart", nil, options)
 		end,
 	},
+	misc_start_fantoms_preview = {
+		loc_key = "misc_start_fantoms_preview",
+		keywords = { "miscellaneous", "fantoms score preview calculation calculating" },
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.misc.start_fantoms_preview,
+				"misc_start_fantoms_preview",
+				nil,
+				options
+			)
+		end,
+	},
 
 	debugplus_prevent = {
 		loc_key = "debugplus_prevent",
@@ -1566,6 +1579,9 @@ local dictionary_order = {
 
 	--misc
 	"misc_open_mod_settings",
+	"misc_save_run",
+	"misc_quick_restart",
+	"misc_start_fantoms_preview",
 	"misc_crash",
 
 	--other
