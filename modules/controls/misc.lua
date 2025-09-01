@@ -143,11 +143,14 @@ Handy.misc_controls = {
 			and not G.SETTINGS.paused
 			and not Handy.is_stop_use()
 			and Handy.controller.is_module_key(Handy.cc.misc.start_fantoms_preview, key)
+			and Handy.fake_events.check_button(function()
+				return G.HUD:get_UIE_by_ID("calculate_score_button")
+			end)
 	end,
 	start_fantoms_preview = function(key, released)
-		Handy.fake_events.execute({
-			func = G.FUNCS.calculate_score_button,
-		})
+		Handy.fake_events.execute_button(function()
+			return G.HUD:get_UIE_by_ID("calculate_score_button")
+		end)
 	end,
 
 	controls_list = {},
