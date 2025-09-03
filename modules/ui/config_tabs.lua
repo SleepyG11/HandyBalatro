@@ -19,6 +19,7 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.regular_keybinds_run_info_blinds.keybind(),
 			Handy.UI.CD.regular_keybinds_view_deck.keybind(),
 			Handy.UI.CD.show_deck_preview.keybind(),
+			Handy.UI.CD.regular_keybinds_lobby_info.keybind(),
 		}
 	elseif page == 2 then
 		result = {
@@ -1013,7 +1014,7 @@ function Handy.UI.render_search_results(rerender)
 	G.E_MANAGER:add_event(Event({
 		blocking = false,
 		blockable = false,
-		no_pause = true,
+		pause_force = true,
 		no_delete = true,
 		func = function()
 			Handy.UI.rerender(true)

@@ -392,7 +392,6 @@ local dictionary = {
 	regular_keybinds_run_info_blinds = {
 		loc_key = "run_info_blinds",
 		keywords = { keyw.regular_keybinds, keyw.run_info, "blinds bosses ante" },
-		order = 3.07,
 		checkbox = function(options)
 			options = options or {}
 			return Handy.UI.CD.regular_keybinds.checkbox(options)
@@ -403,6 +402,29 @@ local dictionary = {
 			return Handy.UI.PARTS.create_module_keybind(
 				Handy.cc.regular_keybinds.run_info_blinds,
 				"run_info_blinds",
+				nil,
+				options
+			)
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
+	},
+	regular_keybinds_lobby_info = {
+		loc_key = "lobby_info",
+		keywords = { keyw.regular_keybinds, keyw.run_info, "lobby info multi player mp multiplayer" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
+		end,
+		checkbox_group = "regular_keybinds",
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.lobby_info,
+				"lobby_info",
 				nil,
 				options
 			)

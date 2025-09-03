@@ -310,6 +310,14 @@ local default_config = {
 			key_1_gamepad = "Right Trigger",
 			key_2_gamepad = "None",
 		},
+
+		lobby_info = {
+			enabled = true,
+			key_1 = "None",
+			key_2 = "None",
+			key_1_gamepad = "None",
+			key_2_gamepad = "None",
+		},
 	},
 
 	nopeus_interaction = {

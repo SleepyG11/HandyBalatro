@@ -80,7 +80,7 @@ Handy.misc_controls = {
 										timer = "REAL",
 										blocking = false,
 										blockable = false,
-										force_pause = true,
+										pause_force = true,
 										func = function()
 											Handy.UI.state_panel.display(function(state)
 												state.items.misc_save_run = {

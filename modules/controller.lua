@@ -781,14 +781,18 @@ Handy.controller = {
 			end
 		end
 
+		local is_triggered = Handy.controller.is_triggered(released)
+		if is_triggered then
+			Handy.regular_keybinds.use(key)
+		end
+
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if not released then
 				Handy.insta_highlight.use_on_hovered(key)
 			end
-			if Handy.controller.is_triggered(released) then
+			if is_triggered then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
 				Handy.deselect_hand.use(key)
 			end
@@ -851,14 +855,19 @@ Handy.controller = {
 			end
 		end
 
+		local is_triggered = Handy.controller.is_triggered(released)
+
+		if is_triggered then
+			Handy.regular_keybinds.use(key)
+		end
+
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if not released then
 				Handy.insta_highlight.use_on_hovered(key)
 			end
-			if Handy.controller.is_triggered(released) then
+			if is_triggered then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
 				Handy.insta_highlight_entire_f_hand.use(key)
 				Handy.deselect_hand.use(key)
 			end
@@ -910,10 +919,11 @@ Handy.controller = {
 			return finish(true)
 		end
 
+		Handy.regular_keybinds.use(key)
+
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			Handy.insta_actions.use_alt(key)
 			Handy.move_highlight.use(key)
-			Handy.regular_keybinds.use(key)
 			Handy.insta_highlight_entire_f_hand.use(key)
 			Handy.deselect_hand.use(key)
 			Handy.dangerous_actions.use(key, false)
@@ -967,6 +977,13 @@ Handy.controller = {
 			end
 		end
 
+		local is_triggered = Handy.controller.is_triggered(released)
+		local not_propagate = false
+
+		if is_triggered then
+			not_propagate = Handy.regular_keybinds.use(button) or false
+		end
+
 		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
 			if not released then
 				-- (A) corresponds to vanilla card selection and dragging
@@ -974,11 +991,10 @@ Handy.controller = {
 					Handy.insta_highlight.use_on_hovered(key)
 				end
 			end
-			if Handy.controller.is_triggered(released) then
+			if not not_propagate and is_triggered then
 				local _ = false
 					or Handy.insta_actions.use_alt(button)
 					-- or Handy.move_highlight.use(key)
-					or Handy.regular_keybinds.use(button)
 					or Handy.insta_highlight_entire_f_hand.use(button)
 					or Handy.deselect_hand.use(button)
 			end
