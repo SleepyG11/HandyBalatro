@@ -612,20 +612,14 @@ function G.UIDEF.handy_speed_n_animations_info()
 				config = { align = "cm", maxw = 2.1 },
 				nodes = {
 					UIBox_button({
-						label = {
-							"Start",
-							"calculation",
-						},
+						label = Handy.L.dictionary("handy_modals_start_calculation"),
 						scale = 0.5,
 						colour = G.C.CHIPS,
 						button = "handy_speed_n_animations_calculate",
 					}),
 					{ n = G.UIT.R, config = { minh = 0.25 } },
 					UIBox_button({
-						label = {
-							"Stop",
-							"calculation",
-						},
+						label = Handy.L.dictionary("handy_modals_stop_calculation"),
 						scale = 0.5,
 						colour = G.C.MULT,
 						button = "handy_speed_n_animations_stop_calculation",
@@ -656,7 +650,7 @@ function G.UIDEF.handy_speed_n_animations_info()
 								{
 									n = G.UIT.T,
 									config = {
-										text = "Speed multiplier",
+										text = Handy.L.dictionary("handy_modals_speed_title"),
 										colour = G.C.WHITE,
 										scale = 0.5,
 									},
@@ -673,7 +667,7 @@ function G.UIDEF.handy_speed_n_animations_info()
 								{
 									n = G.UIT.T,
 									config = {
-										text = "Increase speed of animations",
+										text = Handy.L.dictionary("handy_modals_speed_description"),
 										colour = adjust_alpha(G.C.WHITE, 0.75),
 										scale = 0.35,
 									},
@@ -732,7 +726,7 @@ function G.UIDEF.handy_speed_n_animations_info()
 								{
 									n = G.UIT.T,
 									config = {
-										text = "Animation skip",
+										text = Handy.L.dictionary("handy_modals_animations_title"),
 										colour = G.C.WHITE,
 										scale = 0.5,
 									},
@@ -749,7 +743,7 @@ function G.UIDEF.handy_speed_n_animations_info()
 								{
 									n = G.UIT.T,
 									config = {
-										text = "Remove animations",
+										text = Handy.L.dictionary("handy_modals_animations_description"),
 										colour = adjust_alpha(G.C.WHITE, 0.75),
 										scale = 0.35,
 									},
@@ -836,7 +830,7 @@ function G.UIDEF.handy_speed_n_animations_info()
 									{
 										n = G.UIT.T,
 										config = {
-											text = "Use preview to see settings effect",
+											text = Handy.L.dictionary("handy_modals_preview_description"),
 											colour = { 1, 1, 1, 0.6 },
 											scale = 0.3,
 										},
@@ -908,7 +902,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Speed multiplier",
+							text = Handy.L.dictionary("handy_modals_speed_title"),
 							colour = G.C.WHITE,
 							scale = 0.5,
 						},
@@ -926,7 +920,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Increase speed of animations",
+							text = Handy.L.dictionary("handy_modals_speed_description"),
 							colour = adjust_alpha(G.C.WHITE, 0.75),
 							scale = 0.35,
 						},
@@ -942,7 +936,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Animation skip",
+							text = Handy.L.dictionary("handy_modals_animations_title"),
 							colour = G.C.WHITE,
 							scale = 0.5,
 						},
@@ -960,7 +954,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Remove animations",
+							text = Handy.L.dictionary("handy_modals_animations_description"),
 							colour = adjust_alpha(G.C.WHITE, 0.75),
 							scale = 0.35,
 						},
@@ -979,7 +973,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Default value",
+							text = Handy.L.dictionary("handy_modals_default_value_title"),
 							colour = G.C.WHITE,
 							scale = 0.35,
 						},
@@ -997,7 +991,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Will be used on game startup",
+							text = Handy.L.dictionary("handy_modals_default_value_description"),
 							colour = { 1, 1, 1, 0.6 },
 							scale = 0.3,
 						},
@@ -1022,7 +1016,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 			{
 				n = G.UIT.T,
 				config = {
-					text = "No hold / Usage",
+					text = Handy.L.dictionary("handy_modals_no_hold_n_usage_title"),
 					colour = G.C.WHITE,
 					scale = 0.35,
 				},
@@ -1115,7 +1109,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 			{
 				n = G.UIT.T,
 				config = {
-					text = "Hold button",
+					text = Handy.L.dictionary("handy_modals_hold_button"),
 					colour = G.C.WHITE,
 					scale = 0.3,
 				},
@@ -1141,7 +1135,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 			{
 				n = G.UIT.T,
 				config = {
-					text = "Increase button",
+					text = Handy.L.dictionary("handy_modals_increase_button"),
 					colour = G.C.WHITE,
 					scale = 0.3,
 				},
@@ -1167,7 +1161,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 			{
 				n = G.UIT.T,
 				config = {
-					text = "Decrease button",
+					text = Handy.L.dictionary("handy_modals_decrease_button"),
 					colour = G.C.WHITE,
 					scale = 0.3,
 				},
@@ -1198,7 +1192,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Dangerous options",
+							text = Handy.L.dictionary("handy_modals_dangerous_options_title"),
 							colour = G.C.WHITE,
 							scale = 0.35,
 						},
@@ -1216,7 +1210,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 					{
 						n = G.UIT.T,
 						config = {
-							text = "Must be enabled in Danger Zone",
+							text = Handy.L.dictionary("handy_modals_dangerous_options_description"),
 							colour = adjust_alpha(G.C.MULT, 0.75),
 							scale = 0.3,
 						},

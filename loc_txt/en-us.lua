@@ -602,7 +602,7 @@ return {
 					"all in-game animations is played.",
 					" ",
 					"This multiplier goes on top of",
-					'vanilla\'s "Game speed" option',
+					'vanilla "Game speed" option',
 					" ",
 					"It {C:mult}does not{} remove animations,",
 					"check {C:attention}Animation skip{} for this",
@@ -610,9 +610,9 @@ return {
 			},
 			modal_animation_skip = {
 				text = {
-					"Animation skip {C:attention}removes animation entirely{}.",
+					"Animation skip {C:attention}removes animations entirely{}.",
 					" ",
-					"Have 5 levels:",
+					"Has 5 levels:",
 				},
 			},
 			modal_animation_skip_levels = {
@@ -920,6 +920,32 @@ return {
 				[2] = "Mouse + Keyboard",
 				[3] = "Gamepad",
 			},
+
+			handy_modals_speed_title = "Speed multiplier",
+			handy_modals_speed_description = "Increase speed of animations",
+			handy_modals_animations_title = "Animation skip",
+			handy_modals_animations_description = "Remove animations",
+
+			handy_modals_start_calculation = {
+				"Start",
+				"calculation",
+			},
+			handy_modals_stop_calculation = {
+				"Stop",
+				"calculation",
+			},
+			handy_modals_preview_description = "Use preview to see settings effect",
+
+			handy_modals_default_value_title = "Default value",
+			handy_modals_default_value_description = "Will be set on game startup",
+			handy_modals_no_hold_n_usage_title = "No hold / Usage",
+
+			handy_modals_hold_button = "Hold button",
+			handy_modals_increase_button = "Increase button",
+			handy_modals_decrease_button = "Decrease button",
+
+			handy_modals_dangerous_options_title = "Dangerous options",
+			handy_modals_dangerous_options_description = "Must be enabled in Danger Zone",
 		},
 	},
 }
