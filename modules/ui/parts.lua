@@ -525,26 +525,13 @@ Handy.UI.PARTS = {
 	end,
 
 	create_example_preset = function(key)
-		local checkbox_text = {}
-		localize({
-			type = "descriptions",
-			set = "Handy_Preset",
-			key = key,
-			vars = {},
-			nodes = checkbox_text,
-			default_col = G.C.UI.TEXT_LIGHT,
+		local desc_lines = Handy.L.multiline_description("Handy_Preset", key, {}, {
+			default_colour = G.C.UI.TEXT_LIGHT,
+			padding = 0.025,
+			minw = 6,
+			maxw = 6,
 		})
-
-		local desc_lines = {
-			{ n = G.UIT.R, config = { minw = 6, maxw = 6 } },
-		}
-		for _, line in ipairs(checkbox_text) do
-			table.insert(desc_lines, {
-				n = G.UIT.R,
-				config = { padding = 0.025, minw = 6, maxw = 6 },
-				nodes = line,
-			})
-		end
+		table.insert(desc_lines, { n = G.UIT.R, config = { minw = 6, maxw = 6 } })
 
 		return {
 			n = G.UIT.R,
@@ -557,7 +544,7 @@ Handy.UI.PARTS = {
 					config = { align = "cm" },
 					nodes = {
 						UIBox_button({
-							label = { Handy.L.raw_name("Handy_Presets", key) },
+							label = { Handy.L.raw_name("Handy_Preset", key) },
 							col = true,
 							colour = G.C.ORANGE,
 							scale = 0.3,
