@@ -596,19 +596,32 @@ return {
 			},
 		},
 		Handy_Other = {
-			speed_n_animations = {
+			modal_speed = {
 				text = {
-					"Speed multiplier {C:attention}increases how fast{} all in-game",
-					"animations played. It's multiplies vanilla game speed value.",
+					"Speed multiplier {C:attention}increases how fast{}",
+					"all in-game animations is played.",
 					" ",
-					"Animation skip {C:attention}removed animation entirely{}. Have 5 levels:",
+					"This multiplier goes on top of",
+					'vanilla\'s "Game speed" option',
+					" ",
+					"It {C:mult}does not{} remove animations,",
+					"check {C:attention}Animation skip{} for this",
+				},
+			},
+			modal_animation_skip = {
+				text = {
+					"Animation skip {C:attention}removes animation entirely{}.",
+					" ",
+					"Have 5 levels:",
+				},
+			},
+			modal_animation_skip_levels = {
+				text = {
 					"{C:chips}None{} - no changes",
 					"{C:chips}Messages{} - no notifs like {C:attention}Again!{}, {C:chips}+Chips{} or {C:mult}+Mult{}",
-					"{C:chips}Animations{} - instant scoring, no cards wiggling, fast cards use",
-					"{C:chips}Everything{} - removed all unnecessary animations, instant drawing",
+					"{C:chips}Animations{} - instant scoring, fast cards use",
+					"{C:chips}Everything{} - minimum animations",
 					"{C:mult}Unsafe{} - game's absolute limit: everything instant",
-					" ",
-					"{C:handy_secondary}Use example calculation to test effect of applied settings.{}",
 				},
 			},
 		},

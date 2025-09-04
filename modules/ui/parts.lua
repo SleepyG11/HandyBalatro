@@ -67,13 +67,13 @@ Handy.UI.PARTS = {
 			table.insert(result_loc_vars, v)
 		end
 
-		local name_lines = Handy.L.module_checkbox_name(loc_key, loc_vars, {
+		local name_lines = Handy.L.module_checkbox_name(loc_key, result_loc_vars, {
 			scale = 0.4,
 			default_colour = G.C.WHITE,
 			minw = 2.75,
 			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
 		})
-		local desc_lines = Handy.L.module_checkbox_description(loc_key, loc_vars, {
+		local desc_lines = Handy.L.module_checkbox_description(loc_key, result_loc_vars, {
 			padding = 0.025,
 			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 4.5 or nil,
 		})
