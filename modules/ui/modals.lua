@@ -1,5 +1,3 @@
-G.handy_config_storage = {}
-
 local function handy_draw_from_to(from, to)
 	G.E_MANAGER:add_event(
 		Event({
@@ -523,8 +521,8 @@ function G.UIDEF.handy_speed_n_animations_info()
 				end
 				for i = 1, 15 do
 					local card1 = Card(
-						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
-						hand_area.T.y,
+						deck_area.T.x + deck_area.T.w / 2 - G.CARD_W / 2,
+						deck_area.T.y,
 						G.CARD_W,
 						G.CARD_H,
 						G.P_CARDS.H_K,
@@ -1312,7 +1310,7 @@ function G.FUNCS.handy_speed_n_animations_modal()
 	G.SETTINGS.paused = true
 	G.FUNCS.overlay_menu({
 		definition = create_UIBox_generic_options({
-			back_func = "handy_speed_n_animations_back",
+			back_func = "handy_back_to_config",
 			contents = {
 				{
 					n = G.UIT.R,
@@ -1331,6 +1329,175 @@ function G.FUNCS.handy_speed_n_animations_modal()
 								{
 									label = "Controls",
 									tab_definition_function = G.UIDEF.handy_speed_n_animations_controls,
+								},
+							},
+						}),
+					},
+				},
+			},
+		}),
+	})
+end
+
+--
+
+function G.FUNCS.handy_move_highlight_info()
+	local CAI = {
+		hand_W = 4 * G.CARD_W,
+		hand_H = 0.95 * G.CARD_H,
+	}
+
+	local hand_area = CardArea(
+		G.ROOM.T.x + G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		CAI.hand_W,
+		CAI.hand_H,
+		{ card_limit = 4, type = "hand", highlight_limit = 1 }
+	)
+
+	local example_hand_row = {
+		n = G.UIT.R,
+		config = {
+			padding = 0.125,
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.125 },
+						nodes = {
+							{
+								n = G.UIT.C,
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = hand_area,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	G.handy_config_storage.move_highlight_hand = hand_area
+
+	G.E_MANAGER:add_event(
+		Event({
+			timer = "REAL",
+			func = function()
+				for _, center in ipairs({ "j_greedy_joker", "j_lusty_joker", "j_wrathful_joker", "j_gluttenous_joker" }) do
+					local card1 = Card(
+						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
+						hand_area.T.y,
+						G.CARD_W,
+						G.CARD_H,
+						nil,
+						G.P_CENTERS[center],
+						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+					)
+					hand_area:emplace(card1)
+				end
+				return true
+			end,
+		}),
+		"handy_config"
+	)
+
+	local content = {
+		n = G.UIT.R,
+		config = { align = "m" },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { minw = 7, align = "m" },
+				nodes = {
+					Handy.UI.CD.move_highlight.checkbox(),
+				},
+			},
+		},
+	}
+
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				nodes = {
+					content,
+					Handy.UI.PARTS.create_separator_r(0.3),
+					{
+						n = G.UIT.R,
+						config = { padding = 0.25, r = 0.5, colour = { 0, 0, 0, 0.1 } },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { padding = 0.025 },
+								nodes = {
+									Handy.UI.CD.move_highlight_one_left.keybind(),
+									Handy.UI.CD.move_highlight_one_right.keybind(),
+									Handy.UI.CD.move_highlight_move_card.keybind(),
+									Handy.UI.CD.move_highlight_to_end.keybind(),
+								},
+							},
+						},
+					},
+					Handy.UI.PARTS.create_separator_r(),
+					example_hand_row,
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = Handy.L.dictionary("handy_modals_preview_description"),
+											colour = { 1, 1, 1, 0.6 },
+											scale = 0.3,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+function G.FUNCS.handy_move_highlight_modal()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = create_UIBox_generic_options({
+			back_func = "handy_back_to_config",
+			contents = {
+				{
+					n = G.UIT.R,
+					config = { align = "cm", padding = 0 },
+					nodes = {
+						create_tabs({
+							snap_to_nav = true,
+							colour = G.C.BOOSTER,
+							no_shoulders = true,
+							tabs = {
+								{
+									label = "Info",
+									tab_definition_function = G.UIDEF.handy_move_highlight_info,
+									chosen = true,
 								},
 							},
 						}),
@@ -1371,13 +1538,10 @@ function G.FUNCS.handy_speed_n_animations_calculate(e)
 		end,
 	}))
 end
-function G.FUNCS.handy_speed_n_animations_back()
+function G.FUNCS.handy_back_to_config()
 	G.E_MANAGER:clear_queue("handy_config")
 	Handy.__override_event_queue = nil
 	Handy.__use_gamespeed = nil
-	G.handy_config_storage.jokers = nil
-	G.handy_config_storage.hand = nil
-	G.handy_config_storage.deck = nil
-	G.handy_config_storage.rerender = nil
+	G.handy_config_storage = {}
 	G.FUNCS.handy_open_options()
 end

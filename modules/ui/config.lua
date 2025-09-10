@@ -1,3 +1,5 @@
+G.handy_config_storage = {}
+
 -- Inserting options button
 
 function Handy.UI.reset_config_variables()

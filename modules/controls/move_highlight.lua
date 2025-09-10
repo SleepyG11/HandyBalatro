@@ -31,8 +31,13 @@ Handy.move_highlight = {
 		}, area)
 	end,
 	cen_execute = function(key, area)
+		if area and area == G.handy_config_storage.move_highlight_hand then
+			return true
+		end
 		return not not (
-			Handy.controller.is_module_enabled(Handy.cc.move_highlight)
+			G.STATE == G.STATES.RUN
+			and not Handy.is_stop_use()
+			and Handy.controller.is_module_enabled(Handy.cc.move_highlight)
 			and not Handy.controller.is_gamepad()
 			and area
 			and area.highlighted
