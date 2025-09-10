@@ -624,6 +624,18 @@ return {
 					"{C:mult}Unsafe{} - game's absolute limit: everything instant",
 				},
 			},
+			modal_move_highlight = {
+				text = {
+					"Main purpose - easier selection of cards",
+					"when it's became hard to select them individually",
+					"because there's hundreds of cards dense to each other.",
+					" ",
+					"{C:attention}Select card{} in area you want to move,",
+					"and then use controls to move selection or cards.",
+					" ",
+					"{C:mult}Have no effect on gamepad{}",
+				},
+			},
 		},
 	},
 	misc = {
@@ -936,6 +948,7 @@ return {
 				"calculation",
 			},
 			handy_modals_preview_description = "Use preview to see settings effect",
+			handy_modals_move_highlight_preview_description = "Use preview to test controls",
 
 			handy_modals_default_value_title = "Default value",
 			handy_modals_default_value_description = "Will be set on game startup",

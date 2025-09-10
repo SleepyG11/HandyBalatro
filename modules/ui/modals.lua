@@ -507,6 +507,9 @@ function G.UIDEF.handy_speed_n_animations_info()
 		Event({
 			timer = "REAL",
 			func = function()
+				if jokers_area.REMOVED then
+					return true
+				end
 				for i = 1, 2 do
 					local card = Card(
 						jokers_area.T.x + jokers_area.T.w / 2 - G.CARD_W / 2,
@@ -1341,7 +1344,7 @@ end
 
 --
 
-function G.FUNCS.handy_move_highlight_info()
+function G.UIDEF.handy_move_highlight_info()
 	local CAI = {
 		hand_W = 4 * G.CARD_W,
 		hand_H = 0.95 * G.CARD_H,
@@ -1354,6 +1357,46 @@ function G.FUNCS.handy_move_highlight_info()
 		CAI.hand_H,
 		{ card_limit = 4, type = "hand", highlight_limit = 1 }
 	)
+
+	function hand_area:draw()
+		if not self.states.visible then
+			return
+		end
+
+		self:draw_boundingrect()
+		add_to_drawhash(self)
+
+		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
+		for k, v in ipairs(self.ARGS.draw_layers) do
+			for i = 1, #self.cards do
+				if self.cards[i] ~= G.CONTROLLER.focused.target then
+					if G.CONTROLLER.dragging.target ~= self.cards[i] then
+						self.cards[i]:draw(v)
+					end
+				end
+			end
+		end
+	end
+
+	G.handy_config_storage.rerender = function()
+		local speed_text_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_move_highlight_desc")
+		speed_text_container.config.object:remove()
+		speed_text_container.config.object = UIBox({
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.CLEAR },
+				nodes = {
+					Handy.UI.CD.move_highlight.checkbox({
+						no_tooltip = true,
+					}),
+				},
+			},
+			config = {
+				parent = speed_text_container,
+			},
+		})
+		speed_text_container.UIBox:recalculate()
+	end
 
 	local example_hand_row = {
 		n = G.UIT.R,
@@ -1372,6 +1415,11 @@ function G.FUNCS.handy_move_highlight_info()
 						nodes = {
 							{
 								n = G.UIT.C,
+								config = {
+									colour = { 0, 0, 0, 0.1 },
+									r = 0.1,
+									padding = 0.1,
+								},
 								nodes = {
 									{
 										n = G.UIT.O,
@@ -1394,7 +1442,15 @@ function G.FUNCS.handy_move_highlight_info()
 		Event({
 			timer = "REAL",
 			func = function()
-				for _, center in ipairs({ "j_greedy_joker", "j_lusty_joker", "j_wrathful_joker", "j_gluttenous_joker" }) do
+				if hand_area.REMOVED then
+					return true
+				end
+				for index, center in ipairs({
+					"j_greedy_joker",
+					"j_lusty_joker",
+					"j_wrathful_joker",
+					"j_gluttenous_joker",
+				}) do
 					local card1 = Card(
 						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
 						hand_area.T.y,
@@ -1405,6 +1461,11 @@ function G.FUNCS.handy_move_highlight_info()
 						{ bypass_discovery_center = true, bypass_discovery_ui = true }
 					)
 					hand_area:emplace(card1)
+					if index == 1 then
+						hand_area:add_to_highlighted(card1, true)
+						Handy.last_clicked_card = card1
+						Handy.last_clicked_area = card1.area
+					end
 				end
 				return true
 			end,
@@ -1417,10 +1478,67 @@ function G.FUNCS.handy_move_highlight_info()
 		config = { align = "m" },
 		nodes = {
 			{
-				n = G.UIT.C,
+				n = G.UIT.R,
 				config = { minw = 7, align = "m" },
 				nodes = {
-					Handy.UI.CD.move_highlight.checkbox(),
+					{
+						n = G.UIT.O,
+						config = {
+							id = "handy_move_highlight_desc",
+							object = UIBox({
+								definition = {
+									n = G.UIT.ROOT,
+									config = { colour = G.C.CLEAR },
+									nodes = {
+										Handy.UI.CD.move_highlight.checkbox({
+											no_tooltip = true,
+										}),
+									},
+								},
+								config = {},
+							}),
+						},
+					},
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = Handy.L.multiline_description("Handy_Other", "modal_move_highlight", nil, {
+							padding = 0.025,
+							align = "cm",
+						}),
+					},
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { padding = 0.25, r = 0.5, colour = { 0, 0, 0, 0.1 } },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { padding = 0.05 },
+						nodes = {
+							Handy.UI.CD.move_highlight_one_left.keybind({
+								rerender = true,
+							}),
+							Handy.UI.CD.move_highlight_one_right.keybind({
+								rerender = true,
+							}),
+							Handy.UI.CD.move_highlight_move_card.keybind({
+								rerender = true,
+							}),
+							Handy.UI.CD.move_highlight_to_end.keybind({
+								rerender = true,
+							}),
+						},
+					},
 				},
 			},
 		},
@@ -1434,24 +1552,6 @@ function G.FUNCS.handy_move_highlight_info()
 				n = G.UIT.C,
 				nodes = {
 					content,
-					Handy.UI.PARTS.create_separator_r(0.3),
-					{
-						n = G.UIT.R,
-						config = { padding = 0.25, r = 0.5, colour = { 0, 0, 0, 0.1 } },
-						nodes = {
-							{
-								n = G.UIT.C,
-								config = { padding = 0.025 },
-								nodes = {
-									Handy.UI.CD.move_highlight_one_left.keybind(),
-									Handy.UI.CD.move_highlight_one_right.keybind(),
-									Handy.UI.CD.move_highlight_move_card.keybind(),
-									Handy.UI.CD.move_highlight_to_end.keybind(),
-								},
-							},
-						},
-					},
-					Handy.UI.PARTS.create_separator_r(),
 					example_hand_row,
 					{
 						n = G.UIT.R,
@@ -1464,7 +1564,9 @@ function G.FUNCS.handy_move_highlight_info()
 									{
 										n = G.UIT.T,
 										config = {
-											text = Handy.L.dictionary("handy_modals_preview_description"),
+											text = Handy.L.dictionary(
+												"handy_modals_move_highlight_preview_description"
+											),
 											colour = { 1, 1, 1, 0.6 },
 											scale = 0.3,
 										},
@@ -1489,18 +1591,32 @@ function G.FUNCS.handy_move_highlight_modal()
 					n = G.UIT.R,
 					config = { align = "cm", padding = 0 },
 					nodes = {
-						create_tabs({
-							snap_to_nav = true,
-							colour = G.C.BOOSTER,
-							no_shoulders = true,
-							tabs = {
+						{
+							n = G.UIT.R,
+							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
+							nodes = {
 								{
-									label = "Info",
-									tab_definition_function = G.UIDEF.handy_move_highlight_info,
-									chosen = true,
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+										padding = 0.1,
+										no_fill = true,
+									},
+									nodes = {
+										{
+											n = G.UIT.O,
+											config = {
+												id = "tab_contents",
+												object = UIBox({
+													definition = G.UIDEF.handy_move_highlight_info(),
+													config = { offset = { x = 0, y = 0 } },
+												}),
+											},
+										},
+									},
 								},
 							},
-						}),
+						},
 					},
 				},
 			},

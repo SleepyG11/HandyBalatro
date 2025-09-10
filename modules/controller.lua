@@ -940,30 +940,24 @@ Handy.controller = {
 		return false
 	end,
 	process_card_click = function(card)
+		Handy.last_clicked_card = card
+		Handy.last_clicked_area = card.area
+
 		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
-
-		if Handy.buffered_is_in_run() then
-			Handy.last_clicked_card = card
-			Handy.last_clicked_area = card.area
-		end
-
 		if Handy.insta_actions.use(card) or Handy.dangerous_actions.use_click(card) then
 			return true
 		end
 		return false
 	end,
 	process_card_hover = function(card)
+		Handy.last_hovered_card = card
+		Handy.last_hovered_area = card.area
+
 		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
-
-		if Handy.buffered_is_in_run() then
-			Handy.last_hovered_card = card
-			Handy.last_hovered_area = card.area
-		end
-
 		if Handy.insta_highlight.use(card) or Handy.dangerous_actions.use_hover(card) then
 			return true
 		end
