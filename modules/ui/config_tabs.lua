@@ -240,7 +240,7 @@ Handy.UI.get_quick_page = function(page)
 			nodes = result,
 		}
 	end
-	return result, 2
+	return result, 3
 end
 Handy.UI.get_search_no_result_page = function()
 	local function create_input_button(label, value)
