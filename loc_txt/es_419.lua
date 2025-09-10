@@ -474,7 +474,7 @@ return {
 					" ",
 					"Un atajo para usar una carta de código y seleccionar",
 					"la opción {C:green}[Usar Entrada previa]{} para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASE{}, {C:green}://EXPLOTAR{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASE{}, {C:green}://EXPLOTAR{}",
 					" ",
 					"Uso determinado por {C:attention}#2#{}",
 				},
@@ -486,7 +486,7 @@ return {
 					" ",
 					"Un atajo para usar una carta de código y seleccionar",
 					"{C:green}[Usar Entrada previa]{} opción para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASE{}, {C:green}://EXPLOTAR{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASE{}, {C:green}://EXPLOTAR{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -740,6 +740,7 @@ return {
 			misc_crash = "Hacer que el juego se bloquee",
 			misc_save_run = "Guardar partida",
 			misc_quick_restart = "Reinicio rápido",
+			misc_start_fantoms_preview = "Fantom's Preview: Calcular",
 		},
 		handy_keybind_sections = {
 			hand = "Mano",

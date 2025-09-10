@@ -96,11 +96,13 @@ pattern = '''local tag_sprite_ui = _tag:generate_UI()'''
 position = "after"
 payload = '''
 local _handy_tag_click_target = _tag.tag_sprite
-local _handy_tag_click_ref = _handy_tag_click_target.click
-_handy_tag_click_target.states.click.can = true
-_handy_tag_click_target.click = function(...)
-    if Handy.controller.process_tag_click(_tag) then return end
-    return _handy_tag_click_ref(...)
+if _handy_tag_click_target then
+    _handy_tag_click_target.states.click.can = true
+    local _handy_tag_click_ref = _handy_tag_click_target.click
+    function _handy_tag_click_target:click(...)
+        if Handy.controller.process_tag_click(_tag) then return end
+        return _handy_tag_click_ref(self, ...)
+    end
 end
 '''
 match_indent = true

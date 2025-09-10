@@ -482,7 +482,7 @@ return {
 					" ",
 					"Atajo de teclado para usar cartas de código y seleccionar",
 					"la opcción {C:green}[Introducir valor anterior]{} para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
 					"Uso determinado por el modo",
 					"{C:attention}#2#{}",
@@ -494,7 +494,7 @@ return {
 					" ",
 					"Atajo de teclado para usar cartas de código y seleccionar",
 					"la opcción {C:green}[Introducir valor anterior]{} para:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -753,6 +753,7 @@ return {
 			misc_crash = "Crashea una partida",
 			misc_save_run = "Guardar partida",
 			misc_quick_restart = "Reinicio rápido",
+			misc_start_fantoms_preview = "Fantom's Preview: Calcular",
 		},
 		handy_keybind_sections = {
 			hand = "Mano",

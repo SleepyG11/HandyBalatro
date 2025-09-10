@@ -73,6 +73,7 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.misc_open_mod_settings.keybind(),
 			Handy.UI.CD.misc_save_run.keybind(),
 			Handy.UI.CD.misc_quick_restart.keybind(),
+			Handy.UI.CD.misc_start_fantoms_preview.keybind(),
 			Handy.UI.CD.misc_crash.keybind(),
 		}
 	elseif page == 5 then

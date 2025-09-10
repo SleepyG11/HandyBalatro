@@ -490,7 +490,7 @@ return {
 					" ",
 					"Shortcut for using a code card and selecting",
 					"{C:green}[Input previous value]{} option for:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
 					"Usage determined by {C:attention}#2#{}",
 				},
@@ -502,7 +502,7 @@ return {
 					" ",
 					"Shortcut for using a code card and selecting",
 					"{C:green}[Input previous value]{} option for:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -786,6 +786,7 @@ return {
 			misc_crash = "Crash a game",
 			misc_save_run = "Save run",
 			misc_quick_restart = "Quick restart",
+			misc_start_fantoms_preview = "Fantom's Preview: Calculate",
 		},
 		handy_keybind_sections = {
 			hand = "Hand",

@@ -486,7 +486,7 @@ return {
 					" ",
 					"Использует Код-карту и выбирает вариант",
 					"{C:green}[Input previous value]{} для таких карт как:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 					" ",
 					"Использование определяет",
 					"{C:attention}#2#{}",
@@ -499,7 +499,7 @@ return {
 					" ",
 					"Использует Код-карту и выбирает вариант",
 					"{C:green}[Input previous value]{} для таких карт как:",
-					"{C:spectral}://POINTER{}, {C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
 				},
 			},
 			insta_highlight_entire_f_hand = {
@@ -665,6 +665,7 @@ return {
 			misc_crash = "Крашнуть игру",
 			misc_save_run = "Сохранить игру",
 			misc_quick_restart = "Быстрый рестарт",
+			misc_start_fantoms_preview = "Fantom's Preview: Расчёт",
 		},
 		handy_keybind_sections = {
 			hand = "Рука",
