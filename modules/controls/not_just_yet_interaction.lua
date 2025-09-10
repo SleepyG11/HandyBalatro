@@ -26,8 +26,8 @@ Handy.not_just_yet_interaction = {
 
 	update = function(dt)
 		GLOBAL_njy_vanilla_override = (
-			G.STAGE == G.STAGES.RUN
-			and Handy.is_mod_active()
+			Handy.buffered_is_mod_active()
+			and Handy.buffered_is_in_run()
 			and not Handy.controller.is_debugplus_console_opened()
 			and Handy.controller.is_module_key_down(Handy.cc.not_just_yet_interaction)
 		)

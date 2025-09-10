@@ -7,8 +7,8 @@ Handy.speed_multiplier = {
 
 	get_queue_retriggers_count = function()
 		if
-			Handy.is_in_multiplayer()
-			or not Handy.is_mod_active()
+			Handy.buffered_is_in_multiplayer()
+			or not Handy.buffered_is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 0
@@ -17,7 +17,7 @@ Handy.speed_multiplier = {
 	end,
 
 	is_uncapped = function()
-		return Handy.is_dangerous_actions_active()
+		return Handy.buffered_is_dangerous_actions_active()
 			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.speed_multiplier_uncap)
 	end,
 
@@ -45,8 +45,8 @@ Handy.speed_multiplier = {
 
 	get_value = function()
 		if
-			Handy.is_in_multiplayer()
-			or not Handy.is_mod_active()
+			Handy.buffered_is_in_multiplayer()
+			or not Handy.buffered_is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
@@ -76,16 +76,18 @@ Handy.speed_multiplier = {
 			divide = Handy.controller.is_module_key(Handy.cc.speed_multiplier.divide, key),
 		}
 	end,
-	can_execute = function(key)
-		return Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
-			and not Handy.is_in_multiplayer()
+	can_execute = function(key, released)
+		return not released
+			and Handy.buffered_is_mod_active()
+			and not Handy.buffered_is_in_multiplayer()
+			and Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.speed_multiplier)
 			)
 	end,
 
-	execute = function(key)
+	execute = function(key, released)
 		local actions = Handy.speed_multiplier.get_actions(key)
 		if actions.multiply then
 			Handy.speed_multiplier.multiply()
@@ -145,8 +147,9 @@ Handy.speed_multiplier = {
 		end
 	end,
 
-	use = function(key)
-		return Handy.speed_multiplier.can_execute(key) and Handy.speed_multiplier.execute(key) or false
+	use = function(key, released)
+		return Handy.speed_multiplier.can_execute(key, released) and Handy.speed_multiplier.execute(key, released)
+			or false
 	end,
 }
 

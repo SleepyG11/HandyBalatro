@@ -14,6 +14,8 @@ if not Handy then
 
 		modules = {},
 
+		buffer = {},
+
 		meta = {
 			["1.4.1b_patched_select_blind_and_skip"] = true,
 			["1.5.0_update"] = true,
@@ -21,12 +23,32 @@ if not Handy then
 		},
 	}, {})
 
-	function Handy.is_stop_use()
-		return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0)
+	function Handy.buffered(key, func)
+		if Handy.buffer[key] ~= nil then
+			return Handy.buffer[key]
+		end
+		Handy.buffer[key] = func()
+		return Handy.buffer[key]
 	end
 
+	function Handy.is_stop_use()
+		return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0) or false
+	end
 	function Handy.is_in_multiplayer()
 		return not not (MP and MP.LOBBY and MP.LOBBY.code)
+	end
+	function Handy.is_in_run()
+		return G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU
+	end
+
+	function Handy.buffered_is_stop_use()
+		return Handy.buffered("is_stop_use", Handy.is_stop_use)
+	end
+	function Handy.buffered_is_in_multiplayer()
+		return Handy.buffered("is_in_multiplayer", Handy.is_in_multiplayer)
+	end
+	function Handy.buffered_is_in_run()
+		return Handy.buffered("is_in_run", Handy.is_in_run)
 	end
 
 	function Handy.register_module(key, mod_module)

@@ -79,7 +79,8 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute = function(card)
-		return Handy.is_dangerous_actions_active()
+		return Handy.buffered_is_dangerous_actions_active()
+			and Handy.buffered_is_in_run()
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
@@ -179,7 +180,7 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute_tag = function(tag)
-		return Handy.is_dangerous_actions_active() and tag
+		return Handy.buffered_is_dangerous_actions_active() and Handy.buffered_is_in_run() and tag
 	end,
 	execute_tag_click = function(tag)
 		if Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.card_remove) then
@@ -209,7 +210,10 @@ Handy.dangerous_actions = {
 	end,
 
 	toggle_queue = function(key, released)
-		if Handy.controller.is_module_key(Handy.cc.dangerous_actions.immediate_buy_and_sell, key) then
+		if
+			Handy.buffered_is_in_run()
+			and Handy.controller.is_module_key(Handy.cc.dangerous_actions.immediate_buy_and_sell, key)
+		then
 			if released then
 				Handy.dangerous_actions.sell_next_card()
 			else
@@ -238,7 +242,7 @@ Handy.dangerous_actions = {
 				order = 99999999,
 			}
 			return true
-		elseif not Handy.is_dangerous_actions_active() then
+		elseif not Handy.buffered_is_dangerous_actions_active() then
 			state.items.prevented_dangerous_actions = {
 				text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled_by_other_mod"),
 				hold = true,

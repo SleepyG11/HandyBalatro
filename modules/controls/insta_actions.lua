@@ -51,12 +51,12 @@ Handy.insta_actions = {
 	can_execute = function(card, buy_or_sell, use)
 		return not not (
 			not Handy.insta_actions.action_blocker
+			and not Handy.buffered_is_stop_use()
 			and (buy_or_sell or use)
 			and card
 			and card.area
 			and card.is
 			and card:is(Card)
-			and not Handy.is_stop_use()
 		)
 	end,
 	execute = function(card, buy_or_sell, use, only_sell)
@@ -288,8 +288,12 @@ Handy.insta_actions = {
 		return (not Handy.controller.is_gamepad() and Handy.cc.insta_actions_trigger_mode == 1)
 			and Handy.insta_actions.process_card(card, Handy.insta_actions.get_actions())
 	end,
-	use_alt = function(key)
-		if Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.immediate_buy_and_sell) then
+	use_alt = function(key, released)
+		if
+			not Handy.controller.is_triggered(released)
+			or not Handy.buffered_is_in_run()
+			or Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.immediate_buy_and_sell)
+		then
 			return false
 		end
 		return (Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode == 2)

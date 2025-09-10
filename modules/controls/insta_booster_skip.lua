@@ -8,12 +8,11 @@ Handy.insta_booster_skip = {
 		return not not (
 			Handy.insta_booster_skip.is_hold
 			and not Handy.insta_booster_skip.is_skipped
-			and not G.SETTINGS.paused
-			and not G.OVERLAY_MENU
+			and Handy.buffered_is_in_run()
+			and not Handy.buffered_is_stop_use()
 			and G.booster_pack
 			and G.pack_cards
 			and G.pack_cards.cards[1]
-			and not Handy.is_stop_use()
 			and Handy.fake_events.check({
 				func = G.FUNCS.can_skip_booster,
 			})
@@ -23,9 +22,14 @@ Handy.insta_booster_skip = {
 		Handy.insta_booster_skip.is_skipped = true
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				Handy.fake_events.execute({
-					func = G.FUNCS.skip_booster,
-				})
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						Handy.fake_events.execute({
+							func = G.FUNCS.skip_booster,
+						})
+						return true
+					end,
+				}))
 				return true
 			end,
 		}))
@@ -45,7 +49,7 @@ Handy.insta_booster_skip = {
 	update = function(dt)
 		Handy.insta_booster_skip.is_hold = (
 			G.STAGE == G.STAGES.RUN
-			and Handy.is_mod_active()
+			and Handy.buffered_is_mod_active()
 			and not Handy.controller.is_debugplus_console_opened()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_booster_skip)
 		)

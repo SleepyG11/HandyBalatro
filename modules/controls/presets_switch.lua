@@ -1,5 +1,5 @@
 Handy.presets_switch = {
-	get_action = function(key)
+	get_action = function(key, released)
 		if Handy.controller.is_module_key(Handy.cc.presets.load_1, key) then
 			return true, 1
 		elseif Handy.controller.is_module_key(Handy.cc.presets.load_2, key) then
@@ -12,8 +12,8 @@ Handy.presets_switch = {
 			return false, nil
 		end
 	end,
-	get_next_preset_index = function(key)
-		local action, load_index = Handy.presets_switch.get_action(key)
+	get_next_preset_index = function(key, released)
+		local action, load_index = Handy.presets_switch.get_action(key, released)
 		if not action or not load_index then
 			return false, nil, false
 		end
@@ -48,11 +48,14 @@ Handy.presets_switch = {
 		return false, nil, false
 	end,
 
-	can_execute = function(key)
-		return not G.SETTINGS.paused and not G.OVERLAY_MENU and Handy.controller.is_module_enabled(Handy.cc.presets)
+	can_execute = function(key, released)
+		return not released
+			and Handy.buffered_is_mod_active()
+			and not Handy.UI.config_opened
+			and Handy.controller.is_module_enabled(Handy.cc.presets)
 	end,
-	execute = function(key)
-		local is_found, preset_index, available = Handy.presets_switch.get_next_preset_index(key)
+	execute = function(key, released)
+		local is_found, preset_index, available = Handy.presets_switch.get_next_preset_index(key, released)
 		if not is_found or not available then
 			return false
 		end
@@ -60,15 +63,15 @@ Handy.presets_switch = {
 		return true
 	end,
 
-	use = function(key)
-		return Handy.presets_switch.can_execute(key) and Handy.presets_switch.execute(key) or false
+	use = function(key, released)
+		return Handy.presets_switch.can_execute(key, released) and Handy.presets_switch.execute(key, released) or false
 	end,
 
 	update_state_panel = function(state, key, released)
 		if released or Handy.cc.notifications_level < 3 then
 			return false
 		end
-		local action, load_index = Handy.presets_switch.get_action(key)
+		local action, load_index = Handy.presets_switch.get_action(key, released)
 		if not action or not load_index then
 			return false
 		end

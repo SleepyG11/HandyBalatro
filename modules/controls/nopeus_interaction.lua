@@ -5,7 +5,7 @@ Handy.nopeus_interaction = {
 		return not __disabled and type(Nopeus) == "table"
 	end,
 
-	get_actions = function(key)
+	get_actions = function(key, released)
 		return {
 			increase = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.increase, key),
 			decrease = Handy.controller.is_module_key(Handy.cc.nopeus_interaction.decrease, key),
@@ -15,42 +15,44 @@ Handy.nopeus_interaction = {
 	can_dangerous = function()
 		return not not (
 			not __disabled
-			and Handy.is_dangerous_actions_active()
+			and Handy.buffered_is_dangerous_actions_active()
 			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.nopeus_unsafe)
 		)
 	end,
-	can_execute = function(key)
+	can_execute = function(key, released)
 		return not not (
-			Handy.nopeus_interaction.is_present()
+			not released
+			and Handy.buffered_is_mod_active()
+			and not Handy.buffered_is_in_multiplayer()
+			and Handy.nopeus_interaction.is_present()
 			and Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction)
-			and not Handy.is_in_multiplayer()
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.nopeus_interaction)
 			)
 		)
 	end,
-	execute = function(key)
-		local actions = Handy.nopeus_interaction.get_actions(key)
+	execute = function(key, released)
+		local actions = Handy.nopeus_interaction.get_actions(key, released)
 		if actions.increase then
 			Handy.nopeus_interaction.increase()
-			Handy.nopeus_interaction.show_notif(key)
+			Handy.nopeus_interaction.show_notif(key, released)
 			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
 		if actions.decrease then
 			Handy.nopeus_interaction.decrease()
-			Handy.nopeus_interaction.show_notif(key)
+			Handy.nopeus_interaction.show_notif(key, released)
 			return not Handy.controller.is_module_enabled(Handy.cc.nopeus_interaction.no_hold)
 		end
 		return false
 	end,
 
-	show_notif = function(key)
+	show_notif = function(key, released)
 		if not Handy.nopeus_interaction.is_present() then
 			return
 		end
 		Handy.UI.state_panel.display(function(state)
-			local actions = Handy.nopeus_interaction.get_actions(key)
+			local actions = Handy.nopeus_interaction.get_actions(key, released)
 
 			if actions.increase or actions.decrease then
 				local states = {
@@ -126,8 +128,9 @@ Handy.nopeus_interaction = {
 		Handy.nopeus_interaction.change(-1)
 	end,
 
-	use = function(key)
-		return Handy.nopeus_interaction.can_execute(key) and Handy.nopeus_interaction.execute(key) or false
+	use = function(key, released)
+		return Handy.nopeus_interaction.can_execute(key, released) and Handy.nopeus_interaction.execute(key, released)
+			or false
 	end,
 }
 

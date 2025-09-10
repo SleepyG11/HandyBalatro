@@ -50,8 +50,8 @@ Handy.animation_skip = {
 
 	get_value = function()
 		if
-			Handy.is_in_multiplayer()
-			or not Handy.is_mod_active()
+			Handy.buffered_is_in_multiplayer()
+			or not Handy.buffered_is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.animation_skip)
 		then
 			return 1
@@ -80,21 +80,23 @@ Handy.animation_skip = {
 
 	can_dangerous = function()
 		return not not (
-			Handy.is_dangerous_actions_active()
+			Handy.buffered_is_dangerous_actions_active()
 			and Handy.controller.is_module_enabled(Handy.cc.dangerous_actions.animation_skip_unsafe)
 		)
 	end,
-	can_execute = function(key)
+	can_execute = function(key, released)
 		return not not (
-			Handy.controller.is_module_enabled(Handy.cc.animation_skip)
-			and not Handy.is_in_multiplayer()
+			not released
+			and Handy.buffered_is_mod_active()
+			and not Handy.buffered_is_in_multiplayer()
+			and Handy.controller.is_module_enabled(Handy.cc.animation_skip)
 			and (
 				Handy.controller.is_module_enabled(Handy.cc.animation_skip.no_hold)
 				or Handy.controller.is_module_key_down(Handy.cc.animation_skip)
 			)
 		)
 	end,
-	execute = function(key)
+	execute = function(key, released)
 		local actions = Handy.animation_skip.get_actions(key)
 		if actions.increase then
 			Handy.animation_skip.increase()
@@ -155,8 +157,8 @@ Handy.animation_skip = {
 		Handy.animation_skip.change(-1)
 	end,
 
-	use = function(key)
-		return Handy.animation_skip.can_execute(key) and Handy.animation_skip.execute(key) or false
+	use = function(key, released)
+		return Handy.animation_skip.can_execute(key, released) and Handy.animation_skip.execute(key, released) or false
 	end,
 
 	update = function(dt)

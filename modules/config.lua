@@ -556,11 +556,18 @@ function Handy.m(module)
 end
 
 function Handy.is_mod_active()
-	return Handy.cc.handy.enabled
+	return Handy.cc.handy.enabled or false
 end
 function Handy.is_dangerous_actions_active()
-	return Handy.cc.dangerous_actions.enabled and not Handy.is_in_multiplayer()
+	return Handy.cc.dangerous_actions.enabled and not Handy.is_in_multiplayer() or false
 end
 function Handy.get_module_override(module)
 	return nil
+end
+
+function Handy.buffered_is_mod_active()
+	return Handy.buffered("enabled", Handy.is_mod_active)
+end
+function Handy.buffered_is_dangerous_actions_active()
+	return Handy.buffered("dangerous_actions_active", Handy.is_dangerous_actions_active)
 end

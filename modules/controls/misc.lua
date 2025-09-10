@@ -1,7 +1,7 @@
 Handy.misc_controls = {
 	can_crash = function(key, released)
-		return Handy.is_dangerous_actions_active()
-			and not Handy.is_in_multiplayer()
+		return Handy.buffered_is_dangerous_actions_active()
+			and not Handy.buffered_is_in_multiplayer()
 			and Handy.controller.is_module_key(Handy.cc.misc.crash, key)
 	end,
 	crash = function(key, released)
@@ -24,22 +24,22 @@ Handy.misc_controls = {
 	can_save_run = function(key, released, check)
 		if check then
 			return not not (
-				not Handy.is_in_multiplayer()
+				not Handy.buffered_is_in_multiplayer()
 				and G.GAME
 				and G.STAGE == G.STAGES.RUN
 				and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
-				and not Handy.is_stop_use()
+				and not Handy.buffered_is_stop_use()
 				and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 				and #G.E_MANAGER.queues.base < 3 -- One more because event callback called before it removed from queue
 			)
 		end
 		return not not (
 			not Handy.misc_controls.save_run_blocker
-			and not Handy.is_in_multiplayer()
+			and not Handy.buffered_is_in_multiplayer()
 			and G.GAME
 			and G.STAGE == G.STAGES.RUN
 			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
-			and not Handy.is_stop_use()
+			and not Handy.buffered_is_stop_use()
 			and not (G.SETTINGS.paused or G.OVERLAY_MENU)
 			and #G.E_MANAGER.queues.base < 2
 			and Handy.controller.is_module_key(Handy.cc.misc.save_run, key)
@@ -118,7 +118,7 @@ Handy.misc_controls = {
 	can_restart_run = function(key, released)
 		return G.STAGE == G.STAGES.RUN
 			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
-			and not Handy.is_in_multiplayer()
+			and not Handy.buffered_is_in_multiplayer()
 			and Handy.controller.is_module_key(Handy.cc.misc.quick_restart, key)
 	end,
 	restart_fun = function(key, released)
@@ -141,7 +141,7 @@ Handy.misc_controls = {
 			and FN.SIM
 			and FN.SIM.run
 			and not G.SETTINGS.paused
-			and not Handy.is_stop_use()
+			and not Handy.buffered_is_stop_use()
 			and Handy.controller.is_module_key(Handy.cc.misc.start_fantoms_preview, key)
 			and Handy.fake_events.check_button(function()
 				return G.HUD:get_UIE_by_ID("calculate_score_button")
@@ -156,7 +156,7 @@ Handy.misc_controls = {
 	controls_list = {},
 
 	use = function(key, released)
-		if released then
+		if released or not Handy.buffered_is_mod_active() then
 			return false
 		end
 		for _, control in ipairs(Handy.misc_controls.controls_list) do

@@ -2,13 +2,14 @@ Handy.insta_highlight = {
 	first_card_highlighted = nil,
 
 	can_execute = function(card)
-		return G.STATE ~= G.STATES.HAND_PLAYED
+		return Handy.buffered_is_in_run()
+			and not Handy.buffered_is_stop_use()
+			and G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and G.hand
 			and G.hand.states.visible
 			and card.area == G.hand
 			and not G.CONTROLLER.dragging.target
-			and not Handy.is_stop_use()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 	end,
 	execute = function(card)
@@ -38,8 +39,8 @@ Handy.insta_highlight = {
 		return Handy.insta_highlight.can_execute(card) and Handy.insta_highlight.execute(card) or false
 	end,
 
-	use_on_hovered = function(key)
-		if key == "mouse1" then
+	use_on_hovered = function(key, released)
+		if released or key == "mouse1" then
 			return false
 		end
 		Handy.insta_highlight.use(G.CONTROLLER.hovering.target)

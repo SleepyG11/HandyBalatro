@@ -7,11 +7,10 @@ Handy.insta_cash_out = {
 	can_execute = function()
 		return not not (
 			Handy.insta_cash_out.is_hold
-			and G.STATE == G.STATES.ROUND_EVAL
-			and not G.SETTINGS.paused
-			and not G.OVERLAY_MENU
 			and Handy.insta_cash_out.can_skip
 			and not Handy.insta_cash_out.is_skipped
+			and Handy.buffered_is_in_run()
+			and G.STATE == G.STATES.ROUND_EVAL
 			and G.round_eval
 		)
 	end,
@@ -34,7 +33,7 @@ Handy.insta_cash_out = {
 	update = function(dt)
 		Handy.insta_cash_out.is_hold = (
 			G.STAGE == G.STAGES.RUN
-			and Handy.is_mod_active()
+			and Handy.buffered_is_mod_active()
 			and not Handy.controller.is_debugplus_console_opened()
 			and Handy.controller.is_module_key_down(Handy.cc.insta_cash_out)
 		)

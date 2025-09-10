@@ -282,7 +282,7 @@ Handy.controller = {
 			and Handy.controller.gamepad_patched_buttons[e.handy_gamepad_override]
 		if patched_button and patched_button.node == e then
 			local new_button
-			local is_replaced_button = Handy.is_mod_active() and patched_button.enabled_func()
+			local is_replaced_button = Handy.buffered_is_mod_active() and patched_button.enabled_func()
 			if is_replaced_button then
 				new_button = Handy.controller.resolve_first_module_key(patched_button.module)
 			else
@@ -397,7 +397,7 @@ Handy.controller = {
 			e.handy_replaced_button = e.config.focus_args.button
 			e.handy_replaced_registry_menu_value = (not not G.OVERLAY_MENU) or not not G.SETTINGS.paused
 
-			if Handy.is_mod_active() and enabled_func() then
+			if Handy.buffered_is_mod_active() and enabled_func() then
 				Handy.controller.remove_button_from_registry(e)
 				local new_button = Handy.controller.resolve_first_module_key(override_module)
 				e.config.focus_args.button = new_button
@@ -685,13 +685,19 @@ Handy.controller = {
 	is_trigger_on_release = function()
 		return Handy.cc.keybinds_trigger_mode == 2
 	end,
+	buffered_is_trigger_on_release = function()
+		return Handy.buffered("triggered_on_release", Handy.controller.is_trigger_on_release)
+	end,
 	is_triggered = function(released)
-		if Handy.controller.is_trigger_on_release() then
+		if Handy.controller.buffered_is_trigger_on_release() then
 			return released
 		end
 		return not released
 	end,
 	is_debugplus_console_opened = function()
+		if not Handy.buffered_is_mod_active() then
+			return false
+		end
 		if Handy.controller.console_opened_timer > G.TIMERS.REAL then
 			return true
 		end
@@ -719,7 +725,7 @@ Handy.controller = {
 		return success and is_triggered
 	end,
 	prevent_if_debugplus = function(key, released)
-		if Handy.controller.is_debugplus_triggered() then
+		if Handy.buffered_is_mod_active() and Handy.controller.is_debugplus_triggered() then
 			if Handy.cc.notifications_level > 2 and not Handy.controller.is(key, "Ctrl") then
 				Handy.UI.state_panel.display(function(state)
 					state.items.prevented_by_debugplus = {
@@ -741,61 +747,44 @@ Handy.controller = {
 
 		-----
 
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if Handy.controller.is_debugplus_console_opened() then
-			return false
-		end
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
-		if key == "escape" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+		if
+			key == "escape"
+			or G.CONTROLLER.text_input_hook
+			or Handy.controller.is_debugplus_console_opened()
+			or Handy.controller.prevent_if_debugplus(key, released)
+		then
 			return false
 		end
-		if Handy.controller.prevent_if_debugplus(key, released) then
-			return false
-		end
+
+		-----
+
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, released)
 			return result
 		end
 
-		-----
-
-		if not released and Handy.presets_switch.use(key) then
+		if
+			Handy.presets_switch.use(key, released)
+			or Handy.misc_controls.use(key, released)
+			or Handy.speed_multiplier.use(key, released)
+			or Handy.nopeus_interaction.use(key, released)
+			or Handy.animation_skip.use(key, released)
+		then
 			return finish(true)
 		end
 
-		if Handy.misc_controls.use(key, released) then
-			return finish(true)
-		end
+		Handy.insta_highlight.use_on_hovered(key, released)
+		Handy.insta_actions.use_alt(key, released)
+		Handy.move_highlight.use(key, released)
+		Handy.regular_keybinds.use(key, released)
+		Handy.insta_highlight_entire_f_hand.use(key, released)
+		Handy.deselect_hand.use(key, released)
 
-		if not released then
-			if
-				Handy.speed_multiplier.use(key)
-				or Handy.nopeus_interaction.use(key)
-				or Handy.animation_skip.use(key)
-			then
-				return finish(true)
-			end
-		end
-
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if not released then
-				Handy.insta_highlight.use_on_hovered(key)
-			end
-			if Handy.controller.is_triggered(released) then
-				Handy.insta_actions.use_alt(key)
-				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
-				Handy.insta_highlight_entire_f_hand.use(key)
-				Handy.deselect_hand.use(key)
-			end
-
-			Handy.dangerous_actions.toggle_queue(key, released)
-			Handy.dangerous_actions.use(key, released)
-		end
+		Handy.dangerous_actions.toggle_queue(key, released)
+		Handy.dangerous_actions.use(key, released)
 
 		return finish(false)
 	end,
@@ -806,118 +795,93 @@ Handy.controller = {
 
 		-----
 
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if Handy.controller.is_debugplus_console_opened() then
-			return false
-		end
 		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
-		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+		if
+			G.CONTROLLER.text_input_hook
+			or Handy.controller.is_debugplus_console_opened()
+			or Handy.controller.prevent_if_debugplus(key, released)
+		then
 			return false
 		end
-		if Handy.controller.prevent_if_debugplus(key, released) then
-			return false
-		end
+
+		-----
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, released)
 			return result
 		end
 
-		-----
-
+		-- What is this? I dont remember why I put this here
 		if touch then
 			return finish(false)
 		end
 
-		if not released and Handy.presets_switch.use(key) then
+		if
+			Handy.presets_switch.use(key, released)
+			or Handy.misc_controls.use(key, released)
+			or Handy.speed_multiplier.use(key, released)
+			or Handy.nopeus_interaction.use(key, released)
+			or Handy.animation_skip.use(key, released)
+		then
 			return finish(true)
 		end
 
-		if Handy.misc_controls.use(key, released) then
-			return finish(true)
-		end
+		Handy.insta_highlight.use_on_hovered(key, released)
+		Handy.insta_actions.use_alt(key, released)
+		Handy.move_highlight.use(key, released)
+		Handy.regular_keybinds.use(key, released)
+		Handy.insta_highlight_entire_f_hand.use(key, released)
+		Handy.deselect_hand.use(key, released)
 
-		if not released then
-			if
-				Handy.speed_multiplier.use(key)
-				or Handy.nopeus_interaction.use(key)
-				or Handy.animation_skip.use(key)
-			then
-				return finish(true)
-			end
-		end
-
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if not released then
-				Handy.insta_highlight.use_on_hovered(key)
-			end
-			if Handy.controller.is_triggered(released) then
-				Handy.insta_actions.use_alt(key)
-				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
-				Handy.insta_highlight_entire_f_hand.use(key)
-				Handy.deselect_hand.use(key)
-			end
-
-			Handy.dangerous_actions.toggle_queue(key, released)
-			Handy.dangerous_actions.use(key, released)
-		end
+		Handy.dangerous_actions.toggle_queue(key, released)
+		Handy.dangerous_actions.use(key, released)
 
 		return finish(false)
 	end,
 	process_wheel = function(wheel)
+		local released = false
 		Handy.controller.update_device_type({ mouse = true })
 		local key = Handy.controller.wheel_to_key_table[wheel]
 
 		-----
 
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if Handy.controller.is_debugplus_console_opened() then
-			return false
-		end
-		if Handy.controller.process_bind(key) then
+		if not released and Handy.controller.process_bind(key) then
 			return true
 		end
-		if G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+		if
+			G.CONTROLLER.text_input_hook
+			or Handy.controller.is_debugplus_console_opened()
+			or Handy.controller.prevent_if_debugplus(key, released)
+		then
 			return false
 		end
-		if Handy.controller.prevent_if_debugplus(key, false) then
-			return false
-		end
+
+		-----
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, false)
 			return result
 		end
 
-		-----
-
-		if Handy.presets_switch.use(key) then
+		if
+			Handy.presets_switch.use(key, released)
+			or Handy.misc_controls.use(key, released)
+			or Handy.speed_multiplier.use(key, released)
+			or Handy.nopeus_interaction.use(key, released)
+			or Handy.animation_skip.use(key, released)
+		then
 			return finish(true)
 		end
 
-		if Handy.misc_controls.use(key, false) then
-			return finish(true)
-		end
+		Handy.insta_actions.use_alt(key, released)
+		Handy.move_highlight.use(key, released)
+		Handy.regular_keybinds.use(key, released)
+		Handy.insta_highlight_entire_f_hand.use(key, released)
+		Handy.deselect_hand.use(key, released)
 
-		if Handy.speed_multiplier.use(key) or Handy.nopeus_interaction.use(key) or Handy.animation_skip.use(key) then
-			return finish(true)
-		end
-
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			Handy.insta_actions.use_alt(key)
-			Handy.move_highlight.use(key)
-			Handy.regular_keybinds.use(key)
-			Handy.insta_highlight_entire_f_hand.use(key)
-			Handy.deselect_hand.use(key)
-			Handy.dangerous_actions.use(key, false)
-		end
+		Handy.dangerous_actions.use(key, released)
 
 		return finish(false)
 	end,
@@ -926,119 +890,93 @@ Handy.controller = {
 
 		-----
 
-		if not Handy.is_mod_active() then
-			return false
-		end
-		if Handy.controller.is_debugplus_console_opened() then
-			return false
-		end
 		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
 			return true
 		end
-		if button == "back" or G.CONTROLLER.text_input_hook or not Handy.is_mod_active() then
+		if
+			button == "back"
+			or G.CONTROLLER.text_input_hook
+			or Handy.controller.is_debugplus_console_opened()
+			or Handy.controller.prevent_if_debugplus(button, released)
+		then
 			return false
 		end
-		if Handy.controller.prevent_if_debugplus(button, released) then
-			return false
-		end
+
+		-----
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(button, released)
 			return result
 		end
 
-		-----
-
-		if not released and Handy.presets_switch.use(button) then
+		if
+			Handy.presets_switch.use(button, released)
+			or Handy.misc_controls.use(button, released)
+			or Handy.speed_multiplier.use(button, released)
+			or Handy.nopeus_interaction.use(button, released)
+			or Handy.animation_skip.use(button, released)
+		then
 			return finish(true)
 		end
 
-		if Handy.misc_controls.use(button, released) then
-			return finish(true)
+		if button ~= "a" then
+			Handy.insta_highlight.use_on_hovered(button, released)
 		end
 
-		if not released then
-			if
-				Handy.speed_multiplier.use(key)
-				or Handy.nopeus_interaction.use(key)
-				or Handy.animation_skip.use(key)
-			then
-				return finish(true)
-			end
-		end
+		local _ = false
+			or Handy.insta_actions.use_alt(button, released)
+			-- or Handy.move_highlight.use(button, released)
+			or Handy.regular_keybinds.use(button, released)
+			or Handy.insta_highlight_entire_f_hand.use(button, released)
+			or Handy.deselect_hand.use(button, released)
 
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if not released then
-				-- (A) corresponds to vanilla card selection and dragging
-				if button ~= "a" then
-					Handy.insta_highlight.use_on_hovered(key)
-				end
-			end
-			if Handy.controller.is_triggered(released) then
-				local _ = false
-					or Handy.insta_actions.use_alt(button)
-					-- or Handy.move_highlight.use(key)
-					or Handy.regular_keybinds.use(button)
-					or Handy.insta_highlight_entire_f_hand.use(button)
-					or Handy.deselect_hand.use(button)
-			end
+		Handy.dangerous_actions.toggle_queue(button, released)
+		Handy.dangerous_actions.use(button, released)
 
-			Handy.dangerous_actions.toggle_queue(button, released)
-			Handy.dangerous_actions.use(button, released)
-		end
-
-		Handy.UI.state_panel.update(button, released)
-
-		return false
+		return finish(false)
 	end,
 	process_gamepad_axis = function(joystick, axis, value)
 		Handy.controller.update_device_type({ gamepad = true })
 		return false
 	end,
 	process_card_click = function(card)
-		if not Handy.is_mod_active() then
-			return false
-		end
 		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+
+		if Handy.buffered_is_in_run() then
 			Handy.last_clicked_card = card
 			Handy.last_clicked_area = card.area
-			if Handy.insta_actions.use(card) or Handy.dangerous_actions.use_click(card) then
-				return true
-			end
+		end
+
+		if Handy.insta_actions.use(card) or Handy.dangerous_actions.use_click(card) then
+			return true
 		end
 		return false
 	end,
 	process_card_hover = function(card)
-		if not Handy.is_mod_active() then
-			return false
-		end
 		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+
+		if Handy.buffered_is_in_run() then
 			Handy.last_hovered_card = card
 			Handy.last_hovered_area = card.area
-			if Handy.insta_highlight.use(card) or Handy.dangerous_actions.use_hover(card) then
-				return true
-			end
+		end
+
+		if Handy.insta_highlight.use(card) or Handy.dangerous_actions.use_hover(card) then
+			return true
 		end
 		return false
 	end,
 
 	process_tag_click = function(tag)
-		if not Handy.is_mod_active() then
-			return false
-		end
 		if Handy.controller.is_debugplus_console_opened() then
 			return false
 		end
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
-			if Handy.dangerous_actions.use_tag_click(tag) then
-				return true
-			end
+
+		if Handy.dangerous_actions.use_tag_click(tag) then
+			return true
 		end
 		return false
 	end,
@@ -1069,6 +1007,7 @@ Handy.controller = {
 		end
 
 		Handy.UI.update(dt)
+		EMPTY(Handy.buffer)
 	end,
 
 	on_settings_save = function()
