@@ -51,6 +51,8 @@ Handy.insta_actions = {
 	can_execute = function(card, buy_or_sell, use)
 		return not not (
 			not Handy.insta_actions.action_blocker
+			and Handy.buffered_is_mod_active()
+			and Handy.buffered_is_in_run()
 			and not Handy.buffered_is_stop_use()
 			and (buy_or_sell or use)
 			and card
@@ -223,6 +225,21 @@ Handy.insta_actions = {
 			return true
 		end
 
+		if card.handy_config_insta_actions_preview then
+			if actions.use then
+				card:handy_preview_use()
+			elseif actions.buy_or_sell then
+				card:handy_preview_buy_or_sell()
+			elseif actions.buy_n_sell then
+				card:handy_preview_buy_n_sell()
+			end
+			return true
+		end
+
+		if not Handy.buffered_is_in_run() then
+			return false
+		end
+
 		if actions.cryptid_code_use_last_interaction then
 			local cards_events_list = {
 				c_cry_variable = "variable_apply_previous",
@@ -291,7 +308,6 @@ Handy.insta_actions = {
 	use_alt = function(key, released)
 		if
 			not Handy.controller.is_triggered(released)
-			or not Handy.buffered_is_in_run()
 			or Handy.controller.is_module_key_down(Handy.cc.dangerous_actions.immediate_buy_and_sell)
 		then
 			return false
@@ -304,7 +320,7 @@ Handy.insta_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused or G.OVERLAY_MENU then
+		if not Handy.buffered_is_mod_active() or not Handy.buffered_is_in_run() then
 			return false
 		end
 		if Handy.cc.notifications_level < 4 then

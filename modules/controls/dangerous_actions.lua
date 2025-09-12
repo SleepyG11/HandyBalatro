@@ -80,7 +80,9 @@ Handy.dangerous_actions = {
 
 	can_execute = function(card)
 		return Handy.buffered_is_dangerous_actions_active()
+			and Handy.buffered_is_mod_active()
 			and Handy.buffered_is_in_run()
+			and not Handy.buffered_is_stop_use()
 			and card
 			and not (card.ability and card.ability.handy_dangerous_actions_used)
 	end,
@@ -223,7 +225,7 @@ Handy.dangerous_actions = {
 	end,
 
 	update_state_panel = function(state, key, released)
-		if G.STAGE ~= G.STAGES.RUN or G.SETTINGS.paused or G.OVERLAY_MENU then
+		if not Handy.buffered_is_mod_active() or not Handy.buffered_is_in_run() then
 			return false
 		end
 		if Handy.cc.notifications_level < 2 then

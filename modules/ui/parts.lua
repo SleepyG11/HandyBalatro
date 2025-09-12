@@ -67,17 +67,28 @@ Handy.UI.PARTS = {
 			table.insert(result_loc_vars, v)
 		end
 
+		local name_width = (Handy.UI.is_in_search_result_page or not options.full_width) and options.name_width or 2.75
+		local desc_width = (Handy.UI.is_in_search_result_page or not options.full_width) and (options.desc_width or 4.5)
+			or nil
+
 		local name_lines = Handy.L.module_checkbox_name(loc_key, result_loc_vars, {
 			scale = 0.4,
 			default_colour = G.C.WHITE,
-			minw = 2.75,
-			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 2.75 or nil,
+			minw = name_width,
+			maxw = name_width,
 		})
 		local desc_lines = Handy.L.module_checkbox_description(loc_key, result_loc_vars, {
 			padding = 0.025,
-			maxw = (Handy.UI.is_in_search_result_page or not options.full_width) and 4.5 or nil,
+			minw = desc_width,
+			maxw = desc_width,
 		})
-		table.insert(desc_lines, 1, { n = G.UIT.R, config = { minw = options.no_fixed_width and 0 or 5 } })
+		table.insert(desc_lines, 1, {
+			n = G.UIT.R,
+			config = {
+				maxw = desc_width,
+				minw = desc_width,
+			},
+		})
 
 		if options.only_description then
 			return {

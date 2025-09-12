@@ -632,8 +632,13 @@ return {
 					" ",
 					"{C:attention}Select card{} in area you want to move,",
 					"and then use controls to move selection or cards.",
-					" ",
-					"{C:mult}Have no effect on gamepad{}",
+				},
+			},
+			modal_insta_actions = {
+				text = {
+					"Allow for faster buying, selling and usage",
+					"cards without needs to selecting and aiming",
+					"on proper button.",
 				},
 			},
 		},

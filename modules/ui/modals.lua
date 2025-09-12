@@ -46,10 +46,10 @@ local function handy_juice_card(card)
 	)
 end
 local function handy_attention_text(args)
-	if Handy.animation_skip.should_skip_animation() then
+	args = args or {}
+	if not args.no_skip and Handy.animation_skip.should_skip_animation() then
 		return
 	end
-	args = args or {}
 	args.text = args.text or "test"
 	args.scale = args.scale or 1
 	args.colour = copy_table(args.colour or G.C.WHITE)
@@ -75,11 +75,14 @@ local function handy_attention_text(args)
 		instance_type = "POPUP",
 	}
 
+	local timer = args.timer or "TOTAL"
+
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 0,
 		blockable = false,
 		blocking = false,
+		timer = timer,
 		func = function()
 			args.AT = UIBox({
 				T = { args.pos.x, args.pos.y, 0, 0 },
@@ -125,7 +128,7 @@ local function handy_attention_text(args)
 
 			if args.cover then
 				local a = Particles(args.pos.x, args.pos.y, 0, 0, {
-					timer_type = "TOTAL",
+					timer_type = timer,
 					timer = 0.01,
 					pulse_max = 15,
 					max = 0,
@@ -143,7 +146,7 @@ local function handy_attention_text(args)
 			if args.backdrop_colour then
 				args.backdrop_colour = copy_table(args.backdrop_colour)
 				local a = Particles(args.pos.x, args.pos.y, 0, 0, {
-					timer_type = "TOTAL",
+					timer_type = timer,
 					timer = 5,
 					scale = 2.4 * (args.backdrop_scale or 1),
 					lifespan = 5,
@@ -153,65 +156,69 @@ local function handy_attention_text(args)
 				})
 				a.created_on_pause = true
 			end
-			return true
-		end,
-	}))
 
-	G.E_MANAGER:add_event(Event({
-		trigger = "after",
-		delay = args.hold,
-		blockable = false,
-		blocking = false,
-		no_delete = true,
-		func = function()
-			if not args.start_time then
-				args.start_time = G.TIMERS.TOTAL
-				args.text:pop_out(3)
-			else
-				--args.AT:align_to_attach()
-				args.fade = math.max(0, 1 - 3 * (G.TIMERS.TOTAL - args.start_time))
-				if args.cover_colour then
-					args.cover_colour[4] = math.min(args.cover_colour[4], 2 * args.fade)
-				end
-				if args.cover_colour_l then
-					args.cover_colour_l[4] = math.min(args.cover_colour_l[4], args.fade)
-				end
-				if args.cover_colour_d then
-					args.cover_colour_d[4] = math.min(args.cover_colour_d[4], args.fade)
-				end
-				if args.backdrop_colour then
-					args.backdrop_colour[4] = math.min(args.backdrop_colour[4], args.fade)
-				end
-				args.colour[4] = math.min(args.colour[4], args.fade)
-				if args.fade <= 0 then
-					args.AT:remove()
-					return true
-				end
-			end
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = args.hold,
+				blockable = false,
+				blocking = false,
+				no_delete = true,
+				timer = timer,
+				func = function()
+					if not args.start_time then
+						args.start_time = G.TIMERS[timer]
+						args.text:pop_out(3)
+					else
+						--args.AT:align_to_attach()
+						args.fade = math.max(0, 1 - 3 * (G.TIMERS[timer] - args.start_time))
+						if args.cover_colour then
+							args.cover_colour[4] = math.min(args.cover_colour[4], 2 * args.fade)
+						end
+						if args.cover_colour_l then
+							args.cover_colour_l[4] = math.min(args.cover_colour_l[4], args.fade)
+						end
+						if args.cover_colour_d then
+							args.cover_colour_d[4] = math.min(args.cover_colour_d[4], args.fade)
+						end
+						if args.backdrop_colour then
+							args.backdrop_colour[4] = math.min(args.backdrop_colour[4], args.fade)
+						end
+						args.colour[4] = math.min(args.colour[4], args.fade)
+						if args.fade <= 0 then
+							args.AT:remove()
+							return true
+						end
+					end
+				end,
+			}))
+			return true
 		end,
 	}))
 end
 local function handy_card_eval_status_text(card, eval_type, amt, percent, dir, extra)
-	if Handy.animation_skip.should_skip_animation() then
-		return
-	end
-	if Handy.animation_skip.should_skip_messages() then
-		extra = extra or {}
-		if not extra.no_juice then
-			if extra.instant then
-				card:juice_up(0.6, 0.1)
-				-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-			else
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						card:juice_up(0.6, 0.1)
-						-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-						return true
-					end,
-				}))
-			end
+	extra = extra or {}
+	if not extra.no_skip then
+		if Handy.animation_skip.should_skip_animation() then
+			return
 		end
-		return
+		if Handy.animation_skip.should_skip_messages() then
+			extra = extra or {}
+			if not extra.no_juice then
+				if extra.instant then
+					card:juice_up(0.6, 0.1)
+					-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+				else
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							card:juice_up(0.6, 0.1)
+							-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+							return true
+						end,
+					}))
+				end
+			end
+			return
+		end
 	end
 	percent = percent or (0.9 + 0.2 * math.random())
 	if dir == "down" then
@@ -289,7 +296,8 @@ local function handy_card_eval_status_text(card, eval_type, amt, percent, dir, e
 		text = localize("k_swapped_ex")
 		colour = G.C.PURPLE
 	elseif eval_type == "extra" or eval_type == "jokers" then
-		sound = extra.edition and "foil2"
+		sound = extra.sound
+			or extra.edition and "foil2"
 			or extra.mult_mod and "multhit1"
 			or extra.Xmult_mod and "multhit2"
 			or "generic1"
@@ -318,47 +326,37 @@ local function handy_card_eval_status_text(card, eval_type, amt, percent, dir, e
 	end
 	delay = delay * 1.25
 
+	local _result = function()
+		if extrafunc then
+			extrafunc()
+		end
+		handy_attention_text({
+			text = text,
+			scale = config.scale or 1,
+			hold = delay - 0.2,
+			backdrop_colour = colour,
+			align = card_aligned,
+			major = card,
+			offset = { x = 0, y = y_off },
+			timer = extra.timer,
+			no_skip = extra.no_skip,
+		})
+		play_sound(sound, 0.8 + percent * 0.2, volume)
+		if not extra or not extra.no_juice then
+			card:juice_up(0.6, 0.1)
+			G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+		end
+	end
+
 	if amt > 0 or amt < 0 then
 		if extra and extra.instant then
-			if extrafunc then
-				extrafunc()
-			end
-			handy_attention_text({
-				text = text,
-				scale = config.scale or 1,
-				hold = delay - 0.2,
-				backdrop_colour = colour,
-				align = card_aligned,
-				major = card,
-				offset = { x = 0, y = y_off },
-			})
-			play_sound(sound, 0.8 + percent * 0.2, volume)
-			if not extra or not extra.no_juice then
-				card:juice_up(0.6, 0.1)
-				G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-			end
+			_result()
 		else
 			G.E_MANAGER:add_event(Event({ --Add bonus chips from this card
 				trigger = "before",
 				delay = delay,
 				func = function()
-					if extrafunc then
-						extrafunc()
-					end
-					handy_attention_text({
-						text = text,
-						scale = config.scale or 1,
-						hold = delay - 0.2,
-						backdrop_colour = colour,
-						align = card_aligned,
-						major = card,
-						offset = { x = 0, y = y_off },
-					})
-					play_sound(sound, 0.8 + percent * 0.2, volume)
-					if not extra or not extra.no_juice then
-						card:juice_up(0.6, 0.1)
-						G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-					end
+					_result()
 					return true
 				end,
 			}))
@@ -421,6 +419,44 @@ local function calculate(deck, hand, jokers)
 			return true
 		end,
 	}))
+end
+
+local function rerender_objects(list)
+	for id, selector in pairs(list) do
+		local container = G.OVERLAY_MENU:get_UIE_by_ID(id)
+		container.config.object:remove()
+		container.config.object = UIBox({
+			definition = {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.CLEAR },
+				nodes = {
+					selector(),
+				},
+			},
+			config = {
+				parent = container,
+			},
+		})
+		container.UIBox:recalculate()
+	end
+end
+local function rerender_container(list, id)
+	return {
+		n = G.UIT.O,
+		config = {
+			id = id,
+			object = UIBox({
+				definition = {
+					n = G.UIT.ROOT,
+					config = { colour = G.C.CLEAR },
+					nodes = {
+						list[id](),
+					},
+				},
+				config = {},
+			}),
+		},
+	}
 end
 
 --
@@ -855,42 +891,21 @@ function G.UIDEF.handy_speed_n_animations_controls()
 	G.handy_config_storage.hand = nil
 	G.handy_config_storage.deck = nil
 
-	G.handy_config_storage.rerender = function()
-		local speed_text_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_speed_n_animations_speed_desc")
-		speed_text_container.config.object:remove()
-		speed_text_container.config.object = UIBox({
-			definition = {
-				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR },
-				nodes = {
-					Handy.UI.CD.speed_multiplier.checkbox({
-						only_description = true,
-					}),
-				},
-			},
-			config = {
-				parent = speed_text_container,
-			},
-		})
-		speed_text_container.UIBox:recalculate()
+	local rerender_list = {
+		handy_speed_n_animations_speed_desc = function()
+			return Handy.UI.CD.speed_multiplier.checkbox({
+				only_description = true,
+			})
+		end,
+		handy_speed_n_animations_animations_desc = function()
+			return Handy.UI.CD.animation_skip.checkbox({
+				only_description = true,
+			})
+		end,
+	}
 
-		local animation_text_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_speed_n_animations_animations_desc")
-		animation_text_container.config.object:remove()
-		animation_text_container.config.object = UIBox({
-			definition = {
-				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR },
-				nodes = {
-					Handy.UI.CD.animation_skip.checkbox({
-						only_description = true,
-					}),
-				},
-			},
-			config = {
-				parent = animation_text_container,
-			},
-		})
-		animation_text_container.UIBox:recalculate()
+	G.handy_config_storage.rerender = function()
+		rerender_objects(rerender_list)
 	end
 
 	local name_row = row({
@@ -1042,24 +1057,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 				n = G.UIT.C,
 				config = { align = "cm", minh = 1.1 },
 				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							id = "handy_speed_n_animations_speed_desc",
-							object = UIBox({
-								definition = {
-									n = G.UIT.ROOT,
-									config = { colour = G.C.CLEAR },
-									nodes = {
-										Handy.UI.CD.speed_multiplier.checkbox({
-											only_description = true,
-										}),
-									},
-								},
-								config = {},
-							}),
-						},
-					},
+					rerender_container(rerender_list, "handy_speed_n_animations_speed_desc"),
 				},
 			},
 		},
@@ -1082,24 +1080,7 @@ function G.UIDEF.handy_speed_n_animations_controls()
 				n = G.UIT.C,
 				config = { align = "cm", minh = 1.1 },
 				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							id = "handy_speed_n_animations_animations_desc",
-							object = UIBox({
-								definition = {
-									n = G.UIT.ROOT,
-									config = { colour = G.C.CLEAR },
-									nodes = {
-										Handy.UI.CD.animation_skip.checkbox({
-											only_description = true,
-										}),
-									},
-								},
-								config = {},
-							}),
-						},
-					},
+					rerender_container(rerender_list, "handy_speed_n_animations_animations_desc"),
 				},
 			},
 		},
@@ -1378,24 +1359,16 @@ function G.UIDEF.handy_move_highlight_info()
 		end
 	end
 
+	local rerender_list = {
+		handy_move_highlight_desc = function()
+			return Handy.UI.CD.move_highlight.checkbox({
+				no_tooltip = true,
+			})
+		end,
+	}
+
 	G.handy_config_storage.rerender = function()
-		local speed_text_container = G.OVERLAY_MENU:get_UIE_by_ID("handy_move_highlight_desc")
-		speed_text_container.config.object:remove()
-		speed_text_container.config.object = UIBox({
-			definition = {
-				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR },
-				nodes = {
-					Handy.UI.CD.move_highlight.checkbox({
-						no_tooltip = true,
-					}),
-				},
-			},
-			config = {
-				parent = speed_text_container,
-			},
-		})
-		speed_text_container.UIBox:recalculate()
+		rerender_objects(rerender_list)
 	end
 
 	local example_hand_row = {
@@ -1481,24 +1454,7 @@ function G.UIDEF.handy_move_highlight_info()
 				n = G.UIT.R,
 				config = { minw = 7, align = "m" },
 				nodes = {
-					{
-						n = G.UIT.O,
-						config = {
-							id = "handy_move_highlight_desc",
-							object = UIBox({
-								definition = {
-									n = G.UIT.ROOT,
-									config = { colour = G.C.CLEAR },
-									nodes = {
-										Handy.UI.CD.move_highlight.checkbox({
-											no_tooltip = true,
-										}),
-									},
-								},
-								config = {},
-							}),
-						},
-					},
+					rerender_container(rerender_list, "handy_move_highlight_desc"),
 				},
 			},
 			Handy.UI.PARTS.create_separator_r(),
@@ -1609,6 +1565,484 @@ function G.FUNCS.handy_move_highlight_modal()
 												id = "tab_contents",
 												object = UIBox({
 													definition = G.UIDEF.handy_move_highlight_info(),
+													config = { offset = { x = 0, y = 0 } },
+												}),
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		}),
+	})
+end
+
+--
+
+function G.UIDEF.handy_insta_actions_info()
+	local CAI = {
+		hand_W = 2.5 * G.CARD_W,
+		hand_H = 0.95 * G.CARD_H,
+		shop_W = 2.5 * G.CARD_W,
+		shop_H = 0.95 * G.CARD_H,
+	}
+
+	local hand_area = CardArea(
+		G.ROOM.T.x + G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		CAI.hand_W,
+		CAI.hand_H,
+		{ card_limit = 3, type = "hand", highlight_limit = 0 }
+	)
+	local shop_area = CardArea(
+		G.ROOM.T.x + G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		CAI.shop_W,
+		CAI.shop_H,
+		{ card_limit = 3, type = "hand", highlight_limit = 0 }
+	)
+
+	local example_hand_row = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.125 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.1,
+							padding = 0.1,
+						},
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = {
+									minw = 0.5,
+									align = "cm",
+								},
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = "SLOTS",
+											scale = 0.6,
+											colour = G.C.L_BLACK,
+											vert = true,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.O,
+								config = {
+									object = hand_area,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				n = G.UIT.C,
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.1,
+							padding = 0.1,
+						},
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = {
+									minw = 0.5,
+									align = "cm",
+								},
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = "SHOP",
+											scale = 0.6,
+											colour = G.C.L_BLACK,
+											vert = true,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.O,
+								config = {
+									object = shop_area,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	local draw = function(self)
+		if not self.states.visible then
+			return
+		end
+
+		self:draw_boundingrect()
+		add_to_drawhash(self)
+
+		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
+		for k, v in ipairs(self.ARGS.draw_layers) do
+			for i = 1, #self.cards do
+				if self.cards[i] ~= G.CONTROLLER.focused.target then
+					if G.CONTROLLER.dragging.target ~= self.cards[i] then
+						self.cards[i]:draw(v)
+					end
+				end
+			end
+		end
+	end
+
+	hand_area.draw = draw
+	shop_area.draw = draw
+
+	G.E_MANAGER:add_event(
+		Event({
+			timer = "REAL",
+			func = function()
+				if hand_area.REMOVED then
+					return true
+				end
+				for index, area in ipairs({ shop_area, hand_area }) do
+					for _, center in ipairs({ "j_joker", "c_earth" }) do
+						local card1 = Card(
+							area.T.x + area.T.w / 2 - G.CARD_W / 2,
+							area.T.y,
+							G.CARD_W,
+							G.CARD_H,
+							nil,
+							G.P_CENTERS[center],
+							{ bypass_discovery_center = true, bypass_discovery_ui = true }
+						)
+						card1.handy_config_insta_actions_preview = "hand"
+						card1.handy_config_insta_actions_preview_sell_msg = "Sell"
+						card1.handy_config_insta_actions_preview_use_msg = "Use"
+
+						function card1:handy_preview_buy_or_sell()
+							handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+								message = card1.handy_config_insta_actions_preview_sell_msg,
+								no_skip = true,
+								colour = G.C.MULT,
+								instant = true,
+								sound = "coin1",
+								timer = "REAL",
+							})
+						end
+						function card1:handy_preview_use()
+							if self.config.center.key ~= "c_earth" then
+								return
+							end
+							handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+								message = card1.handy_config_insta_actions_preview_use_msg,
+								no_skip = true,
+								colour = G.C.SECONDARY_SET.Tarot,
+								instant = true,
+								sound = "tarot1",
+								timer = "REAL",
+							})
+						end
+						function card1:handy_preview_buy_n_sell() end
+
+						if index == 1 then
+							card1.handy_config_insta_actions_preview = "shop"
+							card1.handy_config_insta_actions_preview_sell_msg = "Buy"
+							card1.handy_config_insta_actions_preview_use_msg = "Buy & Use"
+							local t1 = {
+								n = G.UIT.ROOT,
+								config = {
+									minw = 0.6,
+									align = "tm",
+									colour = darken(G.C.BLACK, 0.2),
+									shadow = true,
+									r = 0.05,
+									padding = 0.05,
+									minh = 1,
+								},
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = {
+											align = "cm",
+											colour = lighten(G.C.BLACK, 0.1),
+											r = 0.1,
+											minw = 1,
+											minh = 0.55,
+											emboss = 0.05,
+											padding = 0.03,
+										},
+										nodes = {
+											{
+												n = G.UIT.O,
+												config = {
+													object = DynaText({
+														string = {
+															{
+																prefix = localize("$"),
+																ref_table = card1,
+																ref_value = "cost",
+															},
+														},
+														colours = { G.C.MONEY },
+														shadow = true,
+														silent = true,
+														bump = true,
+														pop_in = 0,
+														scale = 0.5,
+													}),
+												},
+											},
+										},
+									},
+								},
+							}
+							card1.children.price = UIBox({
+								definition = t1,
+								config = {
+									align = "tm",
+									offset = { x = 0, y = 0.38 },
+									major = card1,
+									bond = "Weak",
+									parent = card1,
+								},
+							})
+							function card1:handy_preview_buy_n_sell()
+								handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+									message = "Buy & Sell",
+									no_skip = true,
+									colour = G.C.CHIPS,
+									instant = true,
+									sound = "coin1",
+									timer = "REAL",
+								})
+							end
+						end
+						area:emplace(card1)
+					end
+				end
+				return true
+			end,
+		}),
+		"handy_config"
+	)
+
+	local rerender_list = {
+		handy_insta_actions_buy_or_sell = function()
+			return Handy.UI.CD.insta_buy_or_sell.checkbox({
+				desc_width = 3.5,
+			})
+		end,
+		handy_insta_actions_use = function()
+			return Handy.UI.CD.insta_use.checkbox({
+				desc_width = 3.5,
+			})
+		end,
+		handy_insta_actions_buy_n_sell = function()
+			return Handy.UI.CD.insta_buy_n_sell.checkbox({
+				desc_width = 3.5,
+			})
+		end,
+		handy_insta_actions_cryptid_previous_input = function()
+			return Handy.UI.CD.cryptid_code_use_last_interaction.checkbox({
+				desc_width = 3.5,
+			})
+		end,
+	}
+
+	G.handy_config_storage.rerender = function()
+		rerender_objects(rerender_list)
+	end
+
+	local content = {
+		n = G.UIT.R,
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					Handy.UI.CD.buy_sell_use_mode.option_cycle(),
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.C,
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { padding = 0.1 },
+								nodes = {
+									{
+										n = G.UIT.R,
+										nodes = {
+											rerender_container(rerender_list, "handy_insta_actions_buy_or_sell"),
+										},
+									},
+									{
+										n = G.UIT.R,
+										nodes = {
+											rerender_container(rerender_list, "handy_insta_actions_buy_n_sell"),
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.C,
+								config = { padding = 0.1 },
+								nodes = {
+									{
+										n = G.UIT.R,
+										nodes = {
+											rerender_container(rerender_list, "handy_insta_actions_use"),
+										},
+									},
+									{
+										n = G.UIT.R,
+										nodes = {
+											rerender_container(
+												rerender_list,
+												"handy_insta_actions_cryptid_previous_input"
+											),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { padding = 0.25, r = 0.5, colour = { 0, 0, 0, 0.1 }, align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { padding = 0.05, align = "cm" },
+								nodes = {
+									Handy.UI.CD.insta_buy_or_sell.keybind({
+										rerender = true,
+									}),
+									Handy.UI.CD.insta_buy_n_sell.keybind({
+										rerender = true,
+									}),
+									Handy.UI.CD.insta_use.keybind({
+										rerender = true,
+									}),
+									Handy.UI.CD.cryptid_code_use_last_interaction.keybind({
+										rerender = true,
+									}),
+								},
+							},
+						},
+					},
+				},
+			},
+			-- {
+			-- 	n = G.UIT.R,
+			-- 	config = { align = "cm" },
+			-- 	nodes = {
+			-- 		{
+			-- 			n = G.UIT.C,
+			-- 			config = { align = "cm" },
+			-- 			nodes = Handy.L.multiline_description("Handy_Other", "modal_insta_actions", nil, {
+			-- 				padding = 0.025,
+			-- 				align = "cm",
+			-- 			}),
+			-- 		},
+			-- 	},
+			-- },
+		},
+	}
+
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				nodes = {
+					content,
+					Handy.UI.PARTS.create_separator_r(0.4),
+					example_hand_row,
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = Handy.L.dictionary(
+												"handy_modals_move_highlight_preview_description"
+											),
+											colour = { 1, 1, 1, 0.6 },
+											scale = 0.3,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+function G.FUNCS.handy_insta_actions_modal()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = create_UIBox_generic_options({
+			back_func = "handy_back_to_config",
+			contents = {
+				{
+					n = G.UIT.R,
+					config = { align = "cm", padding = 0 },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+										padding = 0.1,
+										no_fill = true,
+									},
+									nodes = {
+										{
+											n = G.UIT.O,
+											config = {
+												id = "tab_contents",
+												object = UIBox({
+													definition = G.UIDEF.handy_insta_actions_info(),
 													config = { offset = { x = 0, y = 0 } },
 												}),
 											},
