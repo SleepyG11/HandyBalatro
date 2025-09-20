@@ -371,13 +371,14 @@ Handy.UI.PARTS = {
 		end
 
 		local args = {
-			w = options.compress and 10 or 6,
-			label = label,
+			w = options.w or options.compress and 10 or 6,
+			label = not options.compress and label or nil,
 			scale = 0.8,
 			focus_args = { nav = "wide" },
 			colour = options.colour,
 			ref_table = ref_table,
 			ref_value = ref_value,
+			prefix = options.compress and label and label .. ": " or nil,
 		}
 
 		args.colour = args.colour or G.C.RED
@@ -398,7 +399,7 @@ Handy.UI.PARTS = {
 		}
 
 		local result = {
-			n = G.UIT.C,
+			n = G.UIT.R,
 			config = {
 				align = "cm",
 				padding = 0.1,
@@ -463,7 +464,11 @@ Handy.UI.PARTS = {
 											config = {
 												object = DynaText({
 													string = {
-														{ ref_table = args.ref_table, ref_value = args.ref_value },
+														{
+															ref_table = args.ref_table,
+															ref_value = args.ref_value,
+															prefix = args.prefix,
+														},
 													},
 													colours = { G.C.UI.TEXT_LIGHT },
 													pop_in = 0,
