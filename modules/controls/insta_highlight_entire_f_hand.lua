@@ -1,5 +1,9 @@
 Handy.insta_highlight_entire_f_hand = {
 	can_execute = function(key, released)
+		if G.handy_config_storage.insta_highlight_area then
+			return Handy.controller.is_triggered(released)
+				and Handy.controller.is_module_key(Handy.cc.insta_highlight_entire_f_hand, key)
+		end
 		return Handy.buffered_is_in_run()
 			and not Handy.buffered_is_stop_use()
 			and Handy.controller.is_triggered(released)
@@ -9,15 +13,16 @@ Handy.insta_highlight_entire_f_hand = {
 			and Handy.controller.is_module_key(Handy.cc.insta_highlight_entire_f_hand, key)
 	end,
 	execute = function(key, released)
-		G.hand:unhighlight_all()
-		local cards_count = math.min(G.hand.config.highlighted_limit, #G.hand.cards)
+		local area = G.handy_config_storage.insta_highlight_area or G.hand
+		area:unhighlight_all()
+		local cards_count = math.min(area.config.highlighted_limit, #area.cards)
 		for i = 1, cards_count do
-			local card = G.hand.cards[i]
+			local card = area.cards[i]
 			if i ~= cards_count then
-				G.hand.cards[i]:highlight(true)
-				G.hand.highlighted[#G.hand.highlighted + 1] = card
+				area.cards[i]:highlight(true)
+				area.highlighted[#area.highlighted + 1] = card
 			else
-				G.hand:add_to_highlighted(card)
+				area:add_to_highlighted(card)
 			end
 		end
 		return false

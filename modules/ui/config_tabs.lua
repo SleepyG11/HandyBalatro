@@ -604,6 +604,17 @@ Handy.UI.get_config_tab_overall = function()
 						}),
 					},
 				},
+				{
+					n = G.UIT.C,
+					nodes = {
+						UIBox_button({
+							label = { "Fast hand selection" },
+							button = "handy_insta_highlight_modal",
+							scale = 0.3,
+							colour = G.C.CHIPS,
+						}),
+					},
+				},
 			},
 		},
 	}

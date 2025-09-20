@@ -4,6 +4,11 @@ Handy.deselect_hand = {
 	end,
 
 	can_execute = function(key, released)
+		if G.handy_config_storage.insta_highlight_area then
+			return Handy.controller.is_triggered(released)
+				and Handy.controller.is_module_key(Handy.cc.deselect_hand, key)
+				and not Handy.insta_highlight.can_execute(Handy.last_hovered_card)
+		end
 		return not not (
 			Handy.buffered_is_in_run()
 			and Handy.buffered_is_mod_active()
@@ -15,14 +20,15 @@ Handy.deselect_hand = {
 			and G.hand.highlighted[1]
 			and G.play
 			and G.play.cards
-			and #G.play.cards > 0
+			and #G.play.cards == 0
 			and Handy.controller.is_module_key(Handy.cc.deselect_hand, key)
 			-- Selecting cards over hand deselection
 			and not Handy.insta_highlight.can_execute(Handy.last_hovered_card)
 		)
 	end,
 	execute = function()
-		G.hand:unhighlight_all()
+		local area = G.handy_config_storage.insta_highlight_area or G.hand
+		area:unhighlight_all()
 		return true
 	end,
 

@@ -1358,6 +1358,40 @@ function G.UIDEF.handy_move_highlight_info()
 			end
 		end
 	end
+	function hand_area:align_cards()
+		for k, card in ipairs(self.cards) do
+			if not card.states.drag.is then
+				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
+				local max_cards = math.max(#self.cards, self.config.temp_limit)
+				card.T.x = self.T.x
+					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
+						max_cards - 1,
+						1
+					))
+					+ 0.5 * (self.card_w - card.T.w)
+
+				local highlight_height = G.HIGHLIGHT_H
+				if not card.highlighted then
+					highlight_height = 0
+				end
+				card.T.y = self.T.y
+					+ self.T.h / 2
+					- card.T.h / 2
+					- highlight_height
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
+					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
+					- 0.2
+				card.T.x = card.T.x + card.shadow_parrallax.x / 30
+			end
+		end
+		table.sort(self.cards, function(a, b)
+			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
+		end)
+		for k, card in ipairs(self.cards) do
+			card.rank = k
+		end
+	end
 
 	local rerender_list = {
 		handy_move_highlight_desc = function()
@@ -1709,9 +1743,45 @@ function G.UIDEF.handy_insta_actions_info()
 			end
 		end
 	end
+	local align_cards = function(self)
+		for k, card in ipairs(self.cards) do
+			if not card.states.drag.is then
+				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
+				local max_cards = math.max(#self.cards, self.config.temp_limit)
+				card.T.x = self.T.x
+					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
+						max_cards - 1,
+						1
+					))
+					+ 0.5 * (self.card_w - card.T.w)
+
+				local highlight_height = G.HIGHLIGHT_H
+				if not card.highlighted then
+					highlight_height = 0
+				end
+				card.T.y = self.T.y
+					+ self.T.h / 2
+					- card.T.h / 2
+					- highlight_height
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
+					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
+					- 0.2
+				card.T.x = card.T.x + card.shadow_parrallax.x / 30
+			end
+		end
+		table.sort(self.cards, function(a, b)
+			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
+		end)
+		for k, card in ipairs(self.cards) do
+			card.rank = k
+		end
+	end
 
 	hand_area.draw = draw
+	hand_area.align_cards = align_cards
 	shop_area.draw = draw
+	shop_area.align_cards = align_cards
 
 	G.E_MANAGER:add_event(
 		Event({
@@ -2043,6 +2113,345 @@ function G.FUNCS.handy_insta_actions_modal()
 												id = "tab_contents",
 												object = UIBox({
 													definition = G.UIDEF.handy_insta_actions_info(),
+													config = { offset = { x = 0, y = 0 } },
+												}),
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		}),
+	})
+end
+
+--
+
+function G.UIDEF.handy_insta_highlight_info()
+	local CAI = {
+		hand_W = 3.5 * G.CARD_W,
+		hand_H = 0.95 * G.CARD_H,
+	}
+
+	local hand_area = CardArea(
+		G.ROOM.T.x + G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		CAI.hand_W,
+		CAI.hand_H,
+		{ card_limit = 8, type = "hand", highlight_limit = 5 }
+	)
+
+	function hand_area:draw()
+		if not self.states.visible then
+			return
+		end
+
+		self:draw_boundingrect()
+		add_to_drawhash(self)
+
+		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
+		for k, v in ipairs(self.ARGS.draw_layers) do
+			for i = 1, #self.cards do
+				if self.cards[i] ~= G.CONTROLLER.focused.target then
+					if G.CONTROLLER.dragging.target ~= self.cards[i] then
+						self.cards[i]:draw(v)
+					end
+				end
+			end
+		end
+	end
+	function hand_area:align_cards()
+		for k, card in ipairs(self.cards) do
+			if not card.states.drag.is then
+				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
+				local max_cards = math.max(#self.cards, self.config.temp_limit)
+				card.T.x = self.T.x
+					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
+						max_cards - 1,
+						1
+					))
+					+ 0.5 * (self.card_w - card.T.w)
+
+				local highlight_height = G.HIGHLIGHT_H
+				if not card.highlighted then
+					highlight_height = 0
+				end
+				card.T.y = self.T.y
+					+ self.T.h / 2
+					- card.T.h / 2
+					- highlight_height
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
+					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
+					- 0.2
+				card.T.x = card.T.x + card.shadow_parrallax.x / 30
+			end
+		end
+		table.sort(self.cards, function(a, b)
+			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
+		end)
+		for k, card in ipairs(self.cards) do
+			card.rank = k
+		end
+	end
+
+	G.handy_config_storage.insta_highlight_area = hand_area
+
+	G.E_MANAGER:add_event(
+		Event({
+			timer = "REAL",
+			func = function()
+				if hand_area.REMOVED then
+					return true
+				end
+				for index, front in ipairs({
+					"C_A",
+					"C_K",
+					"C_Q",
+					"C_J",
+					"C_T",
+					"C_9",
+					"C_8",
+					"C_7",
+				}) do
+					local card1 = Card(
+						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
+						hand_area.T.y,
+						G.CARD_W,
+						G.CARD_H,
+						G.P_CARDS[front],
+						G.P_CENTERS.c_base,
+						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+					)
+					card1.handy_can_insta_highlight = true
+					hand_area:emplace(card1)
+				end
+				return true
+			end,
+		}),
+		"handy_config"
+	)
+
+	local example_hand_row = {
+		n = G.UIT.R,
+		config = {
+			padding = 0.125,
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.125 },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = {
+									colour = { 0, 0, 0, 0.1 },
+									r = 0.1,
+									padding = 0.1,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = hand_area,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	local rerender_list = {
+		handy_insta_highlight = function()
+			return Handy.UI.CD.insta_highlight.checkbox({
+				desc_width = 4,
+			})
+		end,
+		handy_insta_unhighligt = function()
+			return Handy.UI.CD.insta_unhighlight.checkbox({
+				desc_width = 4,
+			})
+		end,
+		handy_deselect_hand = function()
+			return Handy.UI.CD.deselect_hand.checkbox({
+				desc_width = 4,
+			})
+		end,
+		handy_entire_f_hand = function()
+			return Handy.UI.CD.insta_highlight_entire_f_hand.checkbox({
+				desc_width = 4,
+			})
+		end,
+	}
+
+	G.handy_config_storage.rerender = function()
+		rerender_objects(rerender_list)
+	end
+
+	local content = {
+		n = G.UIT.R,
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { padding = 0.1, align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											rerender_container(rerender_list, "handy_insta_highlight"),
+										},
+									},
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											rerender_container(rerender_list, "handy_insta_unhighligt"),
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.C,
+								config = { padding = 0.1 },
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											rerender_container(rerender_list, "handy_deselect_hand"),
+										},
+									},
+									{
+										n = G.UIT.R,
+										config = { align = "cm" },
+										nodes = {
+											rerender_container(rerender_list, "handy_entire_f_hand"),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { padding = 0.25, r = 0.5, colour = { 0, 0, 0, 0.1 }, align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { padding = 0.05, align = "cm" },
+								nodes = {
+									Handy.UI.CD.insta_highlight.keybind({
+										rerender = true,
+									}),
+									Handy.UI.CD.insta_highlight_entire_f_hand.keybind({
+										rerender = true,
+									}),
+									Handy.UI.CD.deselect_hand.keybind({
+										rerender = true,
+									}),
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				nodes = {
+					content,
+					Handy.UI.PARTS.create_separator_r(0.4),
+					example_hand_row,
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = Handy.L.dictionary(
+												"handy_modals_move_highlight_preview_description"
+											),
+											colour = { 1, 1, 1, 0.6 },
+											scale = 0.3,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+function G.FUNCS.handy_insta_highlight_modal()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = create_UIBox_generic_options({
+			back_func = "handy_back_to_config",
+			contents = {
+				{
+					n = G.UIT.R,
+					config = { align = "cm", padding = 0 },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+										padding = 0.1,
+										no_fill = true,
+									},
+									nodes = {
+										{
+											n = G.UIT.O,
+											config = {
+												id = "tab_contents",
+												object = UIBox({
+													definition = G.UIDEF.handy_insta_highlight_info(),
 													config = { offset = { x = 0, y = 0 } },
 												}),
 											},

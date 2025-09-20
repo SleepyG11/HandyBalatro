@@ -2,13 +2,17 @@ Handy.insta_highlight = {
 	first_card_highlighted = nil,
 
 	can_execute = function(card)
+		if card and card.handy_can_insta_highlight then
+			return not G.CONTROLLER.dragging.target
+				and Handy.controller.is_module_key_down(Handy.cc.insta_highlight, true)
+		end
 		return Handy.buffered_is_in_run()
 			and not Handy.buffered_is_stop_use()
 			and G.STATE ~= G.STATES.HAND_PLAYED
 			and card
 			and G.hand
 			and G.hand.states.visible
-			and card.area == G.hand
+			and (card.area == G.hand or card.handy_can_insta_highlight)
 			and not G.CONTROLLER.dragging.target
 			and Handy.controller.is_module_key_down(Handy.cc.insta_highlight)
 	end,
