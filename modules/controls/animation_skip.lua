@@ -1,6 +1,11 @@
 -- None, Messages, Animation, Everything, Unsafe
 
 Handy.animation_skip = {
+    queues_to_skip = {
+        "base",
+        "handy_config"
+    },
+
 	value = 1,
 	buffered_value = nil,
 	immediate_event_queue = 0,
@@ -300,35 +305,37 @@ function level_up_hand(...)
 	return level_up_hand_ref(...)
 end
 local event_manager_add_event_ref = EventManager.add_event
-function EventManager:add_event(event, ...)
-	if Handy.animation_skip.mute_ease_dollars > 0 then
-		Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
-	end
-	if not event.handy_never_modify then
-		if Handy.animation_skip.extract_func_from_event > 0 then
-			Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
-			event.func()
-			return
-		end
-		if Handy.animation_skip.should_skip_unsafe() then
-			event.blocking = false
-			event.blockable = false
-			-- This line basically taken from Nopeus by jenwalter666
-			event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
-		else
-			if Handy.animation_skip.force_non_blocking then
-				event.blocking = false
-			end
-			if Handy.animation_skip.force_non_blockable then
-				event.blockable = false
-			end
-			if Handy.animation_skip.should_skip_everything() then
-				event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
-			end
-		end
-	end
+function EventManager:add_event(event, queue, ...)
+    if not queue or Handy.animation_skip.queues_to_skip[queue] then
+        if Handy.animation_skip.mute_ease_dollars > 0 then
+            Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
+        end
+        if not event.handy_never_modify then
+            if Handy.animation_skip.extract_func_from_event > 0 then
+                Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
+                event.func()
+                return
+            end
+            if Handy.animation_skip.should_skip_unsafe() then
+                event.blocking = false
+                event.blockable = false
+                -- This line basically taken from Nopeus by jenwalter666
+                event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+            else
+                if Handy.animation_skip.force_non_blocking then
+                    event.blocking = false
+                end
+                if Handy.animation_skip.force_non_blockable then
+                    event.blockable = false
+                end
+                if Handy.animation_skip.should_skip_everything() then
+                    event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
+                end
+            end
+        end
+    end
 	-- printCallerInfo()
-	return event_manager_add_event_ref(self, event, ...)
+	return event_manager_add_event_ref(self, event, queue, ...)
 end
 
 function Handy.animation_skip.update(dt)
