@@ -284,3 +284,27 @@ function G.FUNCS.handy_option_cycle_simple(e)
 		callback()
 	end
 end
+
+function G.FUNCS.handy_setup_info_popup_level_showcase(e)
+	if not e.handy_info_popup_level_showcase then
+		e.handy_info_popup_level_showcase = true
+		e.states.collide.can = true
+		e.states.hover.can = true
+		local old_hover = e.hover
+		function e:hover()
+			if (e.handy_info_popup_level_showcase_t or 0) + 2 < G.TIMERS.REAL then
+				e.handy_info_popup_level_showcase_t = G.TIMERS.REAL
+				Handy.UI.state_panel.display(function(state)
+					state.items.info_popup_level = {
+						text = "This popup",
+						hold = false,
+						order = 0,
+						dangerous = Handy.cc.notifications_level == 2,
+					}
+					return true
+				end)
+			end
+			return old_hover(self)
+		end
+	end
+end

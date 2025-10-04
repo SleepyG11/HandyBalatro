@@ -72,3 +72,18 @@ Handy.UI.CD.animation_skip.settings_option_cycle({ compress = true }),
 '''
 match_indent = true
 overwrite = false
+
+# # Test remove eval row
+# [[patches]]
+# [patches.regex]
+# target = "functions/common_events.lua"
+# pattern = '''(.+)
+# (.+)
+# (.+)\{n\=G\.UIT\.R, config\=\{id \= 'cash_out_button', '''
+# position = "before"
+# payload = '''
+# if G.round_eval_cash_out then G.round_eval_cash_out:remove() end
+# G.round_eval_cash_out = 
+# '''
+# match_indent = true
+# overwrite = false

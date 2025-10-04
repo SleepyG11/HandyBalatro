@@ -78,6 +78,9 @@ local dictionary = {
 				Handy.L.dictionary("handy_info_popups_level_opt"),
 				Handy.cc.notifications_level,
 				"handy_change_notifications_level",
+				{
+					func = "handy_setup_info_popup_level_showcase",
+				},
 				options
 			)
 		end,
@@ -862,7 +865,10 @@ local dictionary = {
 			)
 		end,
 		settings_option_cycle = function()
-			if Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
+			if
+				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+				and Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.settings_toggle)
+			then
 				return {
 					n = G.UIT.R,
 					config = { align = "cm" },
@@ -948,6 +954,20 @@ local dictionary = {
 			)
 		end,
 	},
+	speed_multiplier_settings_toggle = {
+		loc_key = { "speed_multiplier", "speed_multiplier_settings_toggle" },
+		keywords = { keyw.speed_multiplier, "toggle settings", "show hide display" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.speed_multiplier.settings_toggle,
+				"speed_multiplier_settings_toggle",
+				nil,
+				nil,
+				options
+			)
+		end,
+	},
 
 	animation_skip = {
 		loc_key = "animation_skip",
@@ -993,7 +1013,10 @@ local dictionary = {
 			)
 		end,
 		settings_option_cycle = function()
-			if Handy.controller.is_module_enabled(Handy.cc.animation_skip) then
+			if
+				Handy.controller.is_module_enabled(Handy.cc.animation_skip)
+				and Handy.controller.is_module_enabled(Handy.cc.animation_skip.settings_toggle)
+			then
 				return {
 					n = G.UIT.R,
 					config = { align = "cm" },
@@ -1084,6 +1107,20 @@ local dictionary = {
 				available_options,
 				Handy.cc.animation_skip.default_value,
 				"handy_change_default_animation_skip",
+				options
+			)
+		end,
+	},
+	animation_skip_settings_toggle = {
+		loc_key = { "animation_skip", "animation_skip_settings_toggle" },
+		keywords = { keyw.animation_skip, "toggle settings", "show hide display" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.animation_skip.settings_toggle,
+				"animation_skip_settings_toggle",
+				nil,
+				nil,
 				options
 			)
 		end,

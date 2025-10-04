@@ -166,6 +166,12 @@ return {
 					"#2#",
 				},
 			},
+			speed_multiplier_settings_toggle = {
+				unlock = { "Speed multiplier:", "toggle in settings" },
+				text = {
+					"Add toggle in game settings",
+				},
+			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "Highlight", "entire hand" },
 				text = {
@@ -215,6 +221,12 @@ return {
 					"Decrease amount of",
 					"keybinds needed to use",
 					"#2#",
+				},
+			},
+			animation_skip_settings_toggle = {
+				unlock = { "Animation skip:", "toggle in settings" },
+				text = {
+					"Add toggle in game settings",
 				},
 			},
 			scoring_hold = {
@@ -617,10 +629,10 @@ return {
 			},
 			modal_animation_skip_levels = {
 				text = {
-					"{C:chips}None{} - no changes",
-					"{C:chips}Messages{} - no notifs like {C:attention}Again!{}, {C:chips}+Chips{} or {C:mult}+Mult{}",
-					"{C:chips}Animations{} - instant scoring, fast cards use",
-					"{C:chips}Everything{} - minimum animations",
+					"{C:attention}None{} - no changes",
+					"{C:attention}Messages{} - no notifs like {C:attention}Again!{}, {C:chips}+Chips{} or {C:mult}+Mult{}",
+					"{C:attention}Animations{} - instant scoring, fast cards use",
+					"{C:attention}Everything{} - minimum animations",
 					"{C:mult}Unsafe{} - game's absolute limit: everything instant",
 				},
 			},
@@ -639,6 +651,21 @@ return {
 					"Allow for faster buying, selling and usage",
 					"cards without needs to selecting and aiming",
 					"on proper button.",
+				},
+			},
+			modal_insta_highlight = {
+				text = {
+					"For selecting cards with {C:chips}#1#{}, start holding {C:attention}OUTSIDE{} of card.",
+					"For {C:chips}#2#{} (like in Better Mouse and Gamepad) or any other button,",
+					"it's not the case and you can start holding on card or outside of it.",
+				},
+			},
+			modal_appearance_description = {
+				text = {
+					"{C:attention}None{} - completely hidden",
+					"{C:attention}Dangerous only{} - only from Danzer Zone controls",
+					"{C:attention}Features-related{} - important popups",
+					"{C:attention}All{} - all popups from all controls",
 				},
 			},
 		},

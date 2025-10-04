@@ -140,6 +140,11 @@ Handy.presets = {
 		config_to_apply.current_device = nil
 		-- Keep controller sensivity (sensitivity, you stupid idiot)
 		config_to_apply.controller_sensivity = nil
+		-- Displaying option cycle in settings for:
+		--- Speed multiplier
+		config_to_apply.speed_multiplier.settings_toggle = nil
+		--- Animation skip
+		config_to_apply.animation_skip.settings_toggle = nil
 		-- Bad idea
 		config_to_apply.__empty = nil
 

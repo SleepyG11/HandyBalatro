@@ -431,12 +431,6 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.C,
 					nodes = {
-						Handy.UI.CD.info_popups_level.option_cycle(),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
 						Handy.UI.CD.keybinds_trigger_mode.option_cycle(),
 					},
 				},
@@ -476,12 +470,6 @@ Handy.UI.get_config_tab_overall = function()
 				{
 					n = G.UIT.R,
 					nodes = {
-						Handy.UI.CD.info_popups_level.option_cycle({ compress = true }),
-					},
-				},
-				{
-					n = G.UIT.R,
-					nodes = {
 						Handy.UI.CD.keybinds_trigger_mode.option_cycle({ compress = true }),
 					},
 				},
@@ -500,28 +488,81 @@ Handy.UI.get_config_tab_overall = function()
 			nodes = {
 				{
 					n = G.UIT.C,
-					config = { minw = 4 },
+					config = { align = "cm" },
 					nodes = {
-						Handy.UI.CD.insta_highlight.checkbox(),
+						UIBox_button({
+							label = { "Appearance" },
+							button = "handy_appearance_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
 						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.insta_unhighlight.checkbox(),
-						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.regular_keybinds.checkbox(),
-						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.show_deck_preview.checkbox(),
+						UIBox_button({
+							label = { "Vanilla keybinds" },
+							button = "handy_speed_n_animations_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
 					},
 				},
+				Handy.UI.PARTS.create_separator_c(),
 				{
 					n = G.UIT.C,
-					config = { minw = 4 },
+					config = { align = "cm" },
 					nodes = {
-						Handy.UI.CD.hide_options_button.checkbox(),
+						UIBox_button({
+							label = { "Fast hand selection" },
+							button = "handy_insta_highlight_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
 						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.deselect_hand.checkbox(),
+						UIBox_button({
+							label = { "Quick buy/sell/use" },
+							button = "handy_insta_actions_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
+						-- Handy.UI.CD.insta_highlight.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.insta_unhighlight.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.regular_keybinds.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.show_deck_preview.checkbox(),
+					},
+				},
+				Handy.UI.PARTS.create_separator_c(),
+				{
+					n = G.UIT.C,
+					config = { align = "cm" },
+					nodes = {
+						UIBox_button({
+							label = { "Speed & Animations" },
+							button = "handy_speed_n_animations_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
 						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.insta_cash_out.checkbox(),
-						Handy.UI.PARTS.create_separator_r(),
-						Handy.UI.CD.insta_booster_skip.checkbox(),
+						UIBox_button({
+							label = { "Highlight movement" },
+							button = "handy_move_highlight_modal",
+							scale = 0.35,
+							colour = G.C.CHIPS,
+							minw = 3.5,
+						}),
+						-- Handy.UI.CD.hide_options_button.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.deselect_hand.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.insta_cash_out.checkbox(),
+						-- Handy.UI.PARTS.create_separator_r(),
+						-- Handy.UI.CD.insta_booster_skip.checkbox(),
 					},
 				},
 			},
@@ -547,76 +588,25 @@ Handy.UI.get_config_tab_overall = function()
 				},
 			},
 		},
-		{
-			n = G.UIT.R,
-			config = { align = "cm" },
-			nodes = {
-				{
-					n = G.UIT.T,
-					config = {
-						text = Handy.L.variable(gamepad and "Handy_popups_guide_gamepad" or "Handy_popups_guide")
-							.. " "
-							.. Handy.L.variable("Handy_search_guide", {
-								Handy.L.tab("Search"),
-							}),
-						scale = 0.3,
-						colour = { 1, 1, 1, 0.6 },
-						align = "cm",
-					},
-				},
-			},
-		},
-		Handy.UI.PARTS.create_separator_r(),
-		{
-			n = G.UIT.R,
-			config = { padding = 0.1 },
-			nodes = {
-				{
-					n = G.UIT.C,
-					nodes = {
-						UIBox_button({
-							label = { "Speed & Animations" },
-							button = "handy_speed_n_animations_modal",
-							scale = 0.3,
-							colour = G.C.CHIPS,
-						}),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
-						UIBox_button({
-							label = { "Highlight movement" },
-							button = "handy_move_highlight_modal",
-							scale = 0.3,
-							colour = G.C.CHIPS,
-						}),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
-						UIBox_button({
-							label = { "Quick buy/sell/use" },
-							button = "handy_insta_actions_modal",
-							scale = 0.3,
-							colour = G.C.CHIPS,
-						}),
-					},
-				},
-				{
-					n = G.UIT.C,
-					nodes = {
-						UIBox_button({
-							label = { "Fast hand selection" },
-							button = "handy_insta_highlight_modal",
-							scale = 0.3,
-							colour = G.C.CHIPS,
-						}),
-					},
-				},
-			},
-		},
+		-- {
+		-- 	n = G.UIT.R,
+		-- 	config = { align = "cm" },
+		-- 	nodes = {
+		-- 		{
+		-- 			n = G.UIT.T,
+		-- 			config = {
+		-- 				text = Handy.L.variable(gamepad and "Handy_popups_guide_gamepad" or "Handy_popups_guide")
+		-- 					.. " "
+		-- 					.. Handy.L.variable("Handy_search_guide", {
+		-- 						Handy.L.tab("Search"),
+		-- 					}),
+		-- 				scale = 0.3,
+		-- 				colour = { 1, 1, 1, 0.6 },
+		-- 				align = "cm",
+		-- 			},
+		-- 		},
+		-- 	},
+		-- },
 	}
 end
 Handy.UI.get_config_tab_quick_paginated = function()

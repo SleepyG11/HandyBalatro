@@ -342,8 +342,8 @@ Handy.UI.PARTS = {
 		}
 	end,
 
-	create_option_cycle = function(label, values, current_value, callback_func, options)
-		options = options or {}
+	create_option_cycle = function(label, values, current_value, callback_func, options, additional_options)
+		options = Handy.utils.table_merge({}, additional_options or {}, options or {})
 		if options.compress then
 			local new_values = {}
 			for k, v in ipairs(values) do
@@ -354,7 +354,7 @@ Handy.UI.PARTS = {
 		if options.no_label then
 			label = nil
 		end
-		return create_option_cycle({
+		local result = create_option_cycle({
 			w = options.compress and 10 or 6,
 			label = not options.compress and label or nil,
 			scale = 0.8,
@@ -363,6 +363,10 @@ Handy.UI.PARTS = {
 			current_option = current_value,
 			focus_args = { nav = "wide" },
 		})
+		if options.func then
+			result.config.func = options.func
+		end
+		return result
 	end,
 	create_option_cycle_simple = function(label, ref_table, ref_value, left_callback, right_callback, options)
 		options = options or {}

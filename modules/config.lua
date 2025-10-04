@@ -28,7 +28,7 @@ local default_config = {
 		enabled = true,
 
 		key_1 = "Left Mouse",
-		key_2 = "None",
+		key_2 = "Right Mouse",
 		key_1_gamepad = "Left Stick",
 		key_2_gamepad = "Left Mouse", -- Touchscreen
 
@@ -186,6 +186,9 @@ local default_config = {
 
 		no_hold = {
 			enabled = false,
+		},
+		settings_toggle = {
+			enabled = true,
 		},
 
 		multiply = {
@@ -368,6 +371,9 @@ local default_config = {
 
 		no_hold = {
 			enabled = false,
+		},
+		settings_toggle = {
+			enabled = true,
 		},
 
 		increase = {

@@ -458,6 +458,125 @@ local function rerender_container(list, id)
 		},
 	}
 end
+local function handy_fake_config_tab(content)
+	return {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0 },
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							padding = 0.1,
+							no_fill = true,
+						},
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									id = "tab_contents",
+									object = UIBox({
+										definition = content,
+										config = { offset = { x = 0, y = 0 } },
+									}),
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+end
+
+--
+
+local function handy_hand_card_area(options)
+	local area = CardArea(
+		G.ROOM.T.x + G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		options.w,
+		options.h,
+		{ card_limit = options.card_limit or 5, type = "hand", highlight_limit = options.highlight_limit or 1 }
+	)
+	area.draw = function(self)
+		if not self.states.visible then
+			return
+		end
+
+		self:draw_boundingrect()
+		add_to_drawhash(self)
+
+		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
+		for k, v in ipairs(self.ARGS.draw_layers) do
+			for i = 1, #self.cards do
+				if self.cards[i] ~= G.CONTROLLER.focused.target then
+					if G.CONTROLLER.dragging.target ~= self.cards[i] then
+						self.cards[i]:draw(v)
+					end
+				end
+			end
+		end
+	end
+	area.align_cards = function(self)
+		for k, card in ipairs(self.cards) do
+			if not card.states.drag.is then
+				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
+				local max_cards = math.max(#self.cards, self.config.temp_limit)
+				card.T.x = self.T.x
+					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
+						max_cards - 1,
+						1
+					))
+					+ 0.5 * (self.card_w - card.T.w)
+
+				local highlight_height = G.HIGHLIGHT_H
+				if not card.highlighted then
+					highlight_height = 0
+				end
+				card.T.y = self.T.y
+					+ self.T.h / 2
+					- card.T.h / 2
+					- highlight_height
+					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
+					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
+					- 0.2
+				card.T.x = card.T.x + card.shadow_parrallax.x / 30
+			end
+		end
+		table.sort(self.cards, function(a, b)
+			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
+		end)
+		for k, card in ipairs(self.cards) do
+			card.rank = k
+		end
+	end
+
+	if options.on_create then
+		G.E_MANAGER:add_event(
+			Event({
+				timer = "REAL",
+				blocking = false,
+				blockable = false,
+				func = function()
+					if area.REMOVED then
+						return true
+					end
+					options.on_create(area)
+					return true
+				end,
+			}),
+			"handy_config"
+		)
+	end
+
+	return area
+end
 
 --
 
@@ -1331,80 +1450,36 @@ function G.UIDEF.handy_move_highlight_info()
 		hand_H = 0.95 * G.CARD_H,
 	}
 
-	local hand_area = CardArea(
-		G.ROOM.T.x + G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		CAI.hand_W,
-		CAI.hand_H,
-		{ card_limit = 4, type = "hand", highlight_limit = 1 }
-	)
-
-	function hand_area:draw()
-		if not self.states.visible then
-			return
-		end
-
-		self:draw_boundingrect()
-		add_to_drawhash(self)
-
-		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
-		for k, v in ipairs(self.ARGS.draw_layers) do
-			for i = 1, #self.cards do
-				if self.cards[i] ~= G.CONTROLLER.focused.target then
-					if G.CONTROLLER.dragging.target ~= self.cards[i] then
-						self.cards[i]:draw(v)
-					end
+	local hand_area = handy_hand_card_area({
+		w = CAI.hand_W,
+		h = CAI.hand_H,
+		card_limit = 4,
+		highlight_limit = 1,
+		on_create = function(area)
+			for index, center in ipairs({
+				"j_greedy_joker",
+				"j_lusty_joker",
+				"j_wrathful_joker",
+				"j_gluttenous_joker",
+			}) do
+				local card1 = Card(
+					area.T.x + area.T.w / 2 - G.CARD_W / 2,
+					area.T.y,
+					G.CARD_W,
+					G.CARD_H,
+					nil,
+					G.P_CENTERS[center],
+					{ bypass_discovery_center = true, bypass_discovery_ui = true }
+				)
+				area:emplace(card1)
+				if index == 1 then
+					area:add_to_highlighted(card1, true)
+					Handy.last_clicked_card = card1
+					Handy.last_clicked_area = card1.area
 				end
 			end
-		end
-	end
-	function hand_area:align_cards()
-		for k, card in ipairs(self.cards) do
-			if not card.states.drag.is then
-				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
-				local max_cards = math.max(#self.cards, self.config.temp_limit)
-				card.T.x = self.T.x
-					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
-						max_cards - 1,
-						1
-					))
-					+ 0.5 * (self.card_w - card.T.w)
-
-				local highlight_height = G.HIGHLIGHT_H
-				if not card.highlighted then
-					highlight_height = 0
-				end
-				card.T.y = self.T.y
-					+ self.T.h / 2
-					- card.T.h / 2
-					- highlight_height
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
-					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
-					- 0.2
-				card.T.x = card.T.x + card.shadow_parrallax.x / 30
-			end
-		end
-		table.sort(self.cards, function(a, b)
-			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
-		end)
-		for k, card in ipairs(self.cards) do
-			card.rank = k
-		end
-	end
-
-	local rerender_list = {
-		handy_move_highlight_desc = function()
-			return Handy.UI.CD.move_highlight.checkbox({
-				no_tooltip = true,
-			})
 		end,
-	}
-
-	G.handy_config_storage.rerender = function()
-		rerender_objects(rerender_list)
-	end
-
+	})
 	local example_hand_row = {
 		n = G.UIT.R,
 		config = {
@@ -1442,43 +1517,18 @@ function G.UIDEF.handy_move_highlight_info()
 			},
 		},
 	}
-
 	G.handy_config_storage.move_highlight_hand = hand_area
 
-	G.E_MANAGER:add_event(
-		Event({
-			timer = "REAL",
-			func = function()
-				if hand_area.REMOVED then
-					return true
-				end
-				for index, center in ipairs({
-					"j_greedy_joker",
-					"j_lusty_joker",
-					"j_wrathful_joker",
-					"j_gluttenous_joker",
-				}) do
-					local card1 = Card(
-						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
-						hand_area.T.y,
-						G.CARD_W,
-						G.CARD_H,
-						nil,
-						G.P_CENTERS[center],
-						{ bypass_discovery_center = true, bypass_discovery_ui = true }
-					)
-					hand_area:emplace(card1)
-					if index == 1 then
-						hand_area:add_to_highlighted(card1, true)
-						Handy.last_clicked_card = card1
-						Handy.last_clicked_area = card1.area
-					end
-				end
-				return true
-			end,
-		}),
-		"handy_config"
-	)
+	local rerender_list = {
+		handy_move_highlight_desc = function()
+			return Handy.UI.CD.move_highlight.checkbox({
+				no_tooltip = true,
+			})
+		end,
+	}
+	G.handy_config_storage.rerender = function()
+		rerender_objects(rerender_list)
+	end
 
 	local content = {
 		n = G.UIT.R,
@@ -1577,38 +1627,7 @@ function G.FUNCS.handy_move_highlight_modal()
 		definition = create_UIBox_generic_options({
 			back_func = "handy_back_to_config",
 			contents = {
-				{
-					n = G.UIT.R,
-					config = { align = "cm", padding = 0 },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										padding = 0.1,
-										no_fill = true,
-									},
-									nodes = {
-										{
-											n = G.UIT.O,
-											config = {
-												id = "tab_contents",
-												object = UIBox({
-													definition = G.UIDEF.handy_move_highlight_info(),
-													config = { offset = { x = 0, y = 0 } },
-												}),
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
+				handy_fake_config_tab(G.UIDEF.handy_move_highlight_info()),
 			},
 		}),
 	})
@@ -1624,21 +1643,139 @@ function G.UIDEF.handy_insta_actions_info()
 		shop_H = 0.95 * G.CARD_H,
 	}
 
-	local hand_area = CardArea(
-		G.ROOM.T.x + G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		CAI.hand_W,
-		CAI.hand_H,
-		{ card_limit = 3, type = "hand", highlight_limit = 0 }
-	)
-	local shop_area = CardArea(
-		G.ROOM.T.x + G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		CAI.shop_W,
-		CAI.shop_H,
-		{ card_limit = 3, type = "hand", highlight_limit = 0 }
-	)
+	local create_cards = function(is_shop)
+		return function(area)
+			for _, center in ipairs({ "j_joker", "c_earth" }) do
+				local card1 = Card(
+					area.T.x + area.T.w / 2 - G.CARD_W / 2,
+					area.T.y,
+					G.CARD_W,
+					G.CARD_H,
+					nil,
+					G.P_CENTERS[center],
+					{ bypass_discovery_center = true, bypass_discovery_ui = true }
+				)
+				card1.handy_config_insta_actions_preview = "hand"
+				card1.handy_config_insta_actions_preview_sell_msg = "Sell"
+				card1.handy_config_insta_actions_preview_use_msg = "Use"
 
+				function card1:handy_preview_buy_or_sell()
+					handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+						message = card1.handy_config_insta_actions_preview_sell_msg,
+						no_skip = true,
+						colour = G.C.MULT,
+						instant = true,
+						sound = "coin1",
+						timer = "REAL",
+					})
+				end
+				function card1:handy_preview_use()
+					if self.config.center.key ~= "c_earth" then
+						return
+					end
+					handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+						message = card1.handy_config_insta_actions_preview_use_msg,
+						no_skip = true,
+						colour = G.C.SECONDARY_SET.Tarot,
+						instant = true,
+						sound = "tarot1",
+						timer = "REAL",
+					})
+				end
+				function card1:handy_preview_buy_n_sell() end
+
+				if is_shop then
+					card1.handy_config_insta_actions_preview = "shop"
+					card1.handy_config_insta_actions_preview_sell_msg = "Buy"
+					card1.handy_config_insta_actions_preview_use_msg = "Buy & Use"
+					local t1 = {
+						n = G.UIT.ROOT,
+						config = {
+							minw = 0.6,
+							align = "tm",
+							colour = darken(G.C.BLACK, 0.2),
+							shadow = true,
+							r = 0.05,
+							padding = 0.05,
+							minh = 1,
+						},
+						nodes = {
+							{
+								n = G.UIT.R,
+								config = {
+									align = "cm",
+									colour = lighten(G.C.BLACK, 0.1),
+									r = 0.1,
+									minw = 1,
+									minh = 0.55,
+									emboss = 0.05,
+									padding = 0.03,
+								},
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = DynaText({
+												string = {
+													{
+														prefix = localize("$"),
+														ref_table = card1,
+														ref_value = "cost",
+													},
+												},
+												colours = { G.C.MONEY },
+												shadow = true,
+												silent = true,
+												bump = true,
+												pop_in = 0,
+												scale = 0.5,
+											}),
+										},
+									},
+								},
+							},
+						},
+					}
+					card1.children.price = UIBox({
+						definition = t1,
+						config = {
+							align = "tm",
+							offset = { x = 0, y = 0.38 },
+							major = card1,
+							bond = "Weak",
+							parent = card1,
+						},
+					})
+					function card1:handy_preview_buy_n_sell()
+						handy_card_eval_status_text(self, "extra", nil, nil, nil, {
+							message = "Buy & Sell",
+							no_skip = true,
+							colour = G.C.CHIPS,
+							instant = true,
+							sound = "coin1",
+							timer = "REAL",
+						})
+					end
+				end
+				area:emplace(card1)
+			end
+		end
+	end
+
+	local hand_area = handy_hand_card_area({
+		w = CAI.hand_W,
+		h = CAI.hand_H,
+		card_limit = 3,
+		highlight_limit = 0,
+		on_create = create_cards(false),
+	})
+	local shop_area = handy_hand_card_area({
+		w = CAI.shop_W,
+		h = CAI.shop_H,
+		card_limit = 3,
+		highlight_limit = 0,
+		on_create = create_cards(true),
+	})
 	local example_hand_row = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.125 },
@@ -1724,194 +1861,6 @@ function G.UIDEF.handy_insta_actions_info()
 		},
 	}
 
-	local draw = function(self)
-		if not self.states.visible then
-			return
-		end
-
-		self:draw_boundingrect()
-		add_to_drawhash(self)
-
-		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
-		for k, v in ipairs(self.ARGS.draw_layers) do
-			for i = 1, #self.cards do
-				if self.cards[i] ~= G.CONTROLLER.focused.target then
-					if G.CONTROLLER.dragging.target ~= self.cards[i] then
-						self.cards[i]:draw(v)
-					end
-				end
-			end
-		end
-	end
-	local align_cards = function(self)
-		for k, card in ipairs(self.cards) do
-			if not card.states.drag.is then
-				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
-				local max_cards = math.max(#self.cards, self.config.temp_limit)
-				card.T.x = self.T.x
-					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
-						max_cards - 1,
-						1
-					))
-					+ 0.5 * (self.card_w - card.T.w)
-
-				local highlight_height = G.HIGHLIGHT_H
-				if not card.highlighted then
-					highlight_height = 0
-				end
-				card.T.y = self.T.y
-					+ self.T.h / 2
-					- card.T.h / 2
-					- highlight_height
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
-					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
-					- 0.2
-				card.T.x = card.T.x + card.shadow_parrallax.x / 30
-			end
-		end
-		table.sort(self.cards, function(a, b)
-			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
-		end)
-		for k, card in ipairs(self.cards) do
-			card.rank = k
-		end
-	end
-
-	hand_area.draw = draw
-	hand_area.align_cards = align_cards
-	shop_area.draw = draw
-	shop_area.align_cards = align_cards
-
-	G.E_MANAGER:add_event(
-		Event({
-			timer = "REAL",
-			func = function()
-				if hand_area.REMOVED then
-					return true
-				end
-				for index, area in ipairs({ shop_area, hand_area }) do
-					for _, center in ipairs({ "j_joker", "c_earth" }) do
-						local card1 = Card(
-							area.T.x + area.T.w / 2 - G.CARD_W / 2,
-							area.T.y,
-							G.CARD_W,
-							G.CARD_H,
-							nil,
-							G.P_CENTERS[center],
-							{ bypass_discovery_center = true, bypass_discovery_ui = true }
-						)
-						card1.handy_config_insta_actions_preview = "hand"
-						card1.handy_config_insta_actions_preview_sell_msg = "Sell"
-						card1.handy_config_insta_actions_preview_use_msg = "Use"
-
-						function card1:handy_preview_buy_or_sell()
-							handy_card_eval_status_text(self, "extra", nil, nil, nil, {
-								message = card1.handy_config_insta_actions_preview_sell_msg,
-								no_skip = true,
-								colour = G.C.MULT,
-								instant = true,
-								sound = "coin1",
-								timer = "REAL",
-							})
-						end
-						function card1:handy_preview_use()
-							if self.config.center.key ~= "c_earth" then
-								return
-							end
-							handy_card_eval_status_text(self, "extra", nil, nil, nil, {
-								message = card1.handy_config_insta_actions_preview_use_msg,
-								no_skip = true,
-								colour = G.C.SECONDARY_SET.Tarot,
-								instant = true,
-								sound = "tarot1",
-								timer = "REAL",
-							})
-						end
-						function card1:handy_preview_buy_n_sell() end
-
-						if index == 1 then
-							card1.handy_config_insta_actions_preview = "shop"
-							card1.handy_config_insta_actions_preview_sell_msg = "Buy"
-							card1.handy_config_insta_actions_preview_use_msg = "Buy & Use"
-							local t1 = {
-								n = G.UIT.ROOT,
-								config = {
-									minw = 0.6,
-									align = "tm",
-									colour = darken(G.C.BLACK, 0.2),
-									shadow = true,
-									r = 0.05,
-									padding = 0.05,
-									minh = 1,
-								},
-								nodes = {
-									{
-										n = G.UIT.R,
-										config = {
-											align = "cm",
-											colour = lighten(G.C.BLACK, 0.1),
-											r = 0.1,
-											minw = 1,
-											minh = 0.55,
-											emboss = 0.05,
-											padding = 0.03,
-										},
-										nodes = {
-											{
-												n = G.UIT.O,
-												config = {
-													object = DynaText({
-														string = {
-															{
-																prefix = localize("$"),
-																ref_table = card1,
-																ref_value = "cost",
-															},
-														},
-														colours = { G.C.MONEY },
-														shadow = true,
-														silent = true,
-														bump = true,
-														pop_in = 0,
-														scale = 0.5,
-													}),
-												},
-											},
-										},
-									},
-								},
-							}
-							card1.children.price = UIBox({
-								definition = t1,
-								config = {
-									align = "tm",
-									offset = { x = 0, y = 0.38 },
-									major = card1,
-									bond = "Weak",
-									parent = card1,
-								},
-							})
-							function card1:handy_preview_buy_n_sell()
-								handy_card_eval_status_text(self, "extra", nil, nil, nil, {
-									message = "Buy & Sell",
-									no_skip = true,
-									colour = G.C.CHIPS,
-									instant = true,
-									sound = "coin1",
-									timer = "REAL",
-								})
-							end
-						end
-						area:emplace(card1)
-					end
-				end
-				return true
-			end,
-		}),
-		"handy_config"
-	)
-
 	local rerender_list = {
 		handy_insta_actions_buy_or_sell = function()
 			return Handy.UI.CD.insta_buy_or_sell.checkbox({
@@ -1934,7 +1883,6 @@ function G.UIDEF.handy_insta_actions_info()
 			})
 		end,
 	}
-
 	G.handy_config_storage.rerender = function()
 		rerender_objects(rerender_list)
 	end
@@ -2030,20 +1978,6 @@ function G.UIDEF.handy_insta_actions_info()
 					},
 				},
 			},
-			-- {
-			-- 	n = G.UIT.R,
-			-- 	config = { align = "cm" },
-			-- 	nodes = {
-			-- 		{
-			-- 			n = G.UIT.C,
-			-- 			config = { align = "cm" },
-			-- 			nodes = Handy.L.multiline_description("Handy_Other", "modal_insta_actions", nil, {
-			-- 				padding = 0.025,
-			-- 				align = "cm",
-			-- 			}),
-			-- 		},
-			-- 	},
-			-- },
 		},
 	}
 
@@ -2091,38 +2025,7 @@ function G.FUNCS.handy_insta_actions_modal()
 		definition = create_UIBox_generic_options({
 			back_func = "handy_back_to_config",
 			contents = {
-				{
-					n = G.UIT.R,
-					config = { align = "cm", padding = 0 },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										padding = 0.1,
-										no_fill = true,
-									},
-									nodes = {
-										{
-											n = G.UIT.O,
-											config = {
-												id = "tab_contents",
-												object = UIBox({
-													definition = G.UIDEF.handy_insta_actions_info(),
-													config = { offset = { x = 0, y = 0 } },
-												}),
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
+				handy_fake_config_tab(G.UIDEF.handy_insta_actions_info()),
 			},
 		}),
 	})
@@ -2136,105 +2039,37 @@ function G.UIDEF.handy_insta_highlight_info()
 		hand_H = 0.95 * G.CARD_H,
 	}
 
-	local hand_area = CardArea(
-		G.ROOM.T.x + G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		CAI.hand_W,
-		CAI.hand_H,
-		{ card_limit = 8, type = "hand", highlight_limit = 5 }
-	)
-
-	function hand_area:draw()
-		if not self.states.visible then
-			return
-		end
-
-		self:draw_boundingrect()
-		add_to_drawhash(self)
-
-		self.ARGS.draw_layers = self.ARGS.draw_layers or self.config.draw_layers or { "shadow", "card" }
-		for k, v in ipairs(self.ARGS.draw_layers) do
-			for i = 1, #self.cards do
-				if self.cards[i] ~= G.CONTROLLER.focused.target then
-					if G.CONTROLLER.dragging.target ~= self.cards[i] then
-						self.cards[i]:draw(v)
-					end
-				end
+	local hand_area = handy_hand_card_area({
+		w = CAI.hand_W,
+		h = CAI.hand_H,
+		card_limit = 8,
+		highlight_limit = 5,
+		on_create = function(area)
+			for index, front in ipairs({
+				"C_A",
+				"C_K",
+				"C_Q",
+				"C_J",
+				"C_T",
+				"C_9",
+				"C_8",
+				"C_7",
+			}) do
+				local card1 = Card(
+					area.T.x + area.T.w / 2 - G.CARD_W / 2,
+					area.T.y,
+					G.CARD_W,
+					G.CARD_H,
+					G.P_CARDS[front],
+					G.P_CENTERS.c_base,
+					{ bypass_discovery_center = true, bypass_discovery_ui = true }
+				)
+				card1.handy_can_insta_highlight = true
+				area:emplace(card1)
 			end
-		end
-	end
-	function hand_area:align_cards()
-		for k, card in ipairs(self.cards) do
-			if not card.states.drag.is then
-				card.T.r = 0.2 * (-#self.cards / 2 - 0.5 + k) / #self.cards
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.02 * math.sin(2 * G.TIMERS.REAL + card.T.x)
-				local max_cards = math.max(#self.cards, self.config.temp_limit)
-				card.T.x = self.T.x
-					+ (self.T.w - self.card_w) * ((k - 1) / math.max(max_cards - 1, 1) - 0.5 * (#self.cards - max_cards) / math.max(
-						max_cards - 1,
-						1
-					))
-					+ 0.5 * (self.card_w - card.T.w)
-
-				local highlight_height = G.HIGHLIGHT_H
-				if not card.highlighted then
-					highlight_height = 0
-				end
-				card.T.y = self.T.y
-					+ self.T.h / 2
-					- card.T.h / 2
-					- highlight_height
-					+ (G.SETTINGS.reduced_motion and 0 or 1) * 0.03 * math.sin(0.666 * G.TIMERS.REAL + card.T.x)
-					+ math.abs(0.5 * (-#self.cards / 2 + k - 0.5) / #self.cards)
-					- 0.2
-				card.T.x = card.T.x + card.shadow_parrallax.x / 30
-			end
-		end
-		table.sort(self.cards, function(a, b)
-			return a.T.x + a.T.w / 2 < b.T.x + b.T.w / 2
-		end)
-		for k, card in ipairs(self.cards) do
-			card.rank = k
-		end
-	end
-
+		end,
+	})
 	G.handy_config_storage.insta_highlight_area = hand_area
-
-	G.E_MANAGER:add_event(
-		Event({
-			timer = "REAL",
-			func = function()
-				if hand_area.REMOVED then
-					return true
-				end
-				for index, front in ipairs({
-					"C_A",
-					"C_K",
-					"C_Q",
-					"C_J",
-					"C_T",
-					"C_9",
-					"C_8",
-					"C_7",
-				}) do
-					local card1 = Card(
-						hand_area.T.x + hand_area.T.w / 2 - G.CARD_W / 2,
-						hand_area.T.y,
-						G.CARD_W,
-						G.CARD_H,
-						G.P_CARDS[front],
-						G.P_CENTERS.c_base,
-						{ bypass_discovery_center = true, bypass_discovery_ui = true }
-					)
-					card1.handy_can_insta_highlight = true
-					hand_area:emplace(card1)
-				end
-				return true
-			end,
-		}),
-		"handy_config"
-	)
-
 	local example_hand_row = {
 		n = G.UIT.R,
 		config = {
@@ -2295,7 +2130,6 @@ function G.UIDEF.handy_insta_highlight_info()
 			})
 		end,
 	}
-
 	G.handy_config_storage.rerender = function()
 		rerender_objects(rerender_list)
 	end
@@ -2303,6 +2137,23 @@ function G.UIDEF.handy_insta_highlight_info()
 	local content = {
 		n = G.UIT.R,
 		nodes = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						nodes = Handy.L.multiline_description("Handy_Other", "modal_insta_highlight", {
+							Handy.L.keybind("Left Mouse", true),
+							Handy.L.keybind("Right Mouse", true),
+						}, {
+							padding = 0.025,
+							align = "cm",
+						}),
+					},
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
@@ -2430,38 +2281,86 @@ function G.FUNCS.handy_insta_highlight_modal()
 		definition = create_UIBox_generic_options({
 			back_func = "handy_back_to_config",
 			contents = {
-				{
-					n = G.UIT.R,
-					config = { align = "cm", padding = 0 },
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = { padding = 0.0, align = "cm", colour = G.C.CLEAR },
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										padding = 0.1,
-										no_fill = true,
-									},
-									nodes = {
-										{
-											n = G.UIT.O,
-											config = {
-												id = "tab_contents",
-												object = UIBox({
-													definition = G.UIDEF.handy_insta_highlight_info(),
-													config = { offset = { x = 0, y = 0 } },
-												}),
-											},
-										},
-									},
-								},
-							},
-						},
+				handy_fake_config_tab(G.UIDEF.handy_insta_highlight_info()),
+			},
+		}),
+	})
+end
+
+--
+
+function G.UIDEF.handy_appearance_info()
+	local content = {
+		n = G.UIT.R,
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					Handy.UI.CD.info_popups_level.option_cycle(),
+				},
+			},
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm" },
+						nodes = Handy.L.multiline_description("Handy_Other", "modal_appearance_description", {}, {
+							padding = 0.025,
+						}),
 					},
 				},
+			},
+			Handy.UI.PARTS.create_separator_r(0.4),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					Handy.UI.CD.hide_options_button.checkbox(),
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					Handy.UI.CD.speed_multiplier_settings_toggle.checkbox(),
+				},
+			},
+			Handy.UI.PARTS.create_separator_r(),
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					Handy.UI.CD.animation_skip_settings_toggle.checkbox(),
+				},
+			},
+		},
+	}
+
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.C,
+				nodes = {
+					content,
+				},
+			},
+		},
+	}
+end
+
+function G.FUNCS.handy_appearance_modal()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = create_UIBox_generic_options({
+			back_func = "handy_back_to_config",
+			contents = {
+				handy_fake_config_tab(G.UIDEF.handy_appearance_info()),
 			},
 		}),
 	})
