@@ -24,7 +24,7 @@ return {
 			regular_keybinds = {
 				unlock = { "常用快捷键" },
 				text = {
-					"为常用操作", 
+					"为常用操作",
 					"设置快捷键",
 				},
 			},
@@ -618,7 +618,7 @@ return {
 			-- 符号键
 			["Backquote"] = "`",
 			["Singlequote"] = "'",
-			["Quote"] = "\"",
+			["Quote"] = '"',
 			["Left Bracket"] = "[",
 			["Right Bracket"] = "]",
 
@@ -653,19 +653,19 @@ return {
 			["Power"] = "电源",
 
 			-- 手柄按键
-			["(A)"] = "A",
-			["(B)"] = "B",
-			["(X)"] = "X",
-			["(Y)"] = "Y",
-			["(Back)"] = "返回",
-			["(Guide)"] = "导航",
-			["(Start)"] = "开始",
+			["(A)"] = "(A)",
+			["(B)"] = "(B)",
+			["(X)"] = "(X)",
+			["(Y)"] = "(Y)",
+			["(Back)"] = "(返回)",
+			["(Guide)"] = "(导航)",
+			["(Start)"] = "(开始)",
 
 			-- 手柄方向（左摇杆当方向键）
-			["(Up)"] = "上",
-			["(Down)"] = "下",
-			["(Left)"] = "左",
-			["(Right)"] = "右",
+			["(Up)"] = "(上)",
+			["(Down)"] = "(下)",
+			["(Left)"] = "(左)",
+			["(Right)"] = "(右)",
 
 			-- 摇杆、扳机、肩键
 			["Left Stick"] = "左摇杆按下",
@@ -791,11 +791,11 @@ return {
 			Handy_preset_disabled = "预设 #1# [#2#] 已禁用",
 			Handy_preset_nothing_to_load = "没有可加载的预设",
 
-			Handy_overall_guide_button = '可在“#1#”页为每个操作绑定鼠标、滚轮或键盘。',
-			Handy_overall_guide_gamepad = '可在“#1#”页为每个操作绑定手柄按键。',
+			Handy_overall_guide_button = "可在“#1#”页为每个操作绑定鼠标、滚轮或键盘。",
+			Handy_overall_guide_gamepad = "可在“#1#”页为每个操作绑定手柄按键。",
 			Handy_popups_guide = "悬停控件可查看更多信息。",
 			Handy_popups_guide_gamepad = "在控件之间移动可查看更多信息。",
-			Handy_search_guide = '使用“#1#”页进行搜索。',
+			Handy_search_guide = "使用“#1#”页进行搜索。",
 			Handy_keybinds_guide_desktop = "点击按钮后按下任意键即可绑定；#1# 清除绑定。",
 			Handy_keybinds_guide_gamepad = "在按钮上 #2# 后按下任意键即可绑定；#1# 清除绑定。",
 			Handy_presets_guide = "预设——可随时应用的配置与键位集合。",
@@ -822,7 +822,7 @@ return {
 			b_handy_search_placeholder = "搜索…",
 			b_handy_search = "搜索",
 			b_handy_clear = "清除",
-			ph_handy_search_no_results = '试试关键词：“speed”“动画”“sale”等。不支持输入中文',
+			ph_handy_search_no_results = "试试关键词：“speed”“动画”“sale”等。不支持输入中文",
 
 			ph_handy_notif_quick_use = "快速使用",
 			ph_handy_notif_quick_buy_or_sell = "快速买/卖",
