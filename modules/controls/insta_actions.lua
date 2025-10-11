@@ -201,6 +201,7 @@ Handy.insta_actions = {
 				})
 				G.E_MANAGER:add_event(Event({
 					no_delete = true,
+					blocking = false,
 					func = function()
 						Handy.insta_actions.action_blocker = false
 						return true

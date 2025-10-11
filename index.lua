@@ -145,6 +145,7 @@ if not Handy then
 
 		-- NotJustYet
 		G.E_MANAGER:add_event(Event({
+            blocking = false,
 			func = function()
 				G.njy_keybind = nil
 				return true
