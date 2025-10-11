@@ -27,3 +27,9 @@ name = 'handy/localization/es_419'
 source = 'loc_txt/es_ES.lua'
 before = 'main.lua'
 name = 'handy/localization/es_ES'
+
+[[patches]]
+[patches.module]
+source = 'loc_txt/zh_CN.lua'
+before = 'main.lua'
+name = 'handy/localization/zh_CN'

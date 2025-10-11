@@ -66,6 +66,7 @@ Handy.dangerous_actions = {
 
 				G.E_MANAGER:add_event(Event({
 					no_delete = true,
+					blocking = false,
 					func = function()
 						if card.ability then
 							card.ability.handy_dangerous_actions_used = nil

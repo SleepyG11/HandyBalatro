@@ -20,6 +20,7 @@ Handy.regular_keybinds = {
 		end)
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
+			blocking = false,
 			func = function()
 				Handy.regular_keybinds.play_blocker = false
 				return true
@@ -43,6 +44,7 @@ Handy.regular_keybinds = {
 		end)
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
+			blocking = false,
 			func = function()
 				Handy.regular_keybinds.discard_blocker = false
 				return true
@@ -122,6 +124,7 @@ Handy.regular_keybinds = {
 		end)
 		G.E_MANAGER:add_event(Event({
 			no_delete = true,
+			blocking = false,
 			func = function()
 				Handy.regular_keybinds.shop_reroll_blocker = false
 				return true

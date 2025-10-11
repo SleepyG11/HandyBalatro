@@ -54,6 +54,7 @@ Want new features to be implemented? Want add mod support? Found a bug?<br/>
 
 - Jogla (`@jogla_the_wizard` in Discord) - Spanish localization
 - [Sesebasti](https://github.com/sesebasti) - Spanish (Mexico) localization
+- [shxiaj](https://github.com/shxiaj) - Simplified Chinese localization
 - [Rynnya](https://github.com/Rynnya) (`@Ancowi` in Discord) - testing on gamepad
 - [Aikoyori](https://github.com/Aikoyori) - testing (including MacOS)
 - missingnumber (`@clickonflareblitz` in Discord) - testing on SteamDeck
