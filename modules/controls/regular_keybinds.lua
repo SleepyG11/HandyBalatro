@@ -236,6 +236,7 @@ Handy.regular_keybinds = {
 		if
 			not Handy.controller.is_triggered(released)
 			or not Handy.buffered_is_in_run()
+			or not Handy.buffered_is_mod_active()
 			or not Handy.controller.is_module_enabled(Handy.cc.regular_keybinds)
 		then
 			return false

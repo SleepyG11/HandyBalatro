@@ -13,13 +13,11 @@ Handy.scoring_hold = {
 	end,
 
 	get_is_hold = function()
-		if Handy.buffered_is_mod_active() and Handy.controller.is_module_enabled(Handy.cc.scoring_hold) then
-			return G.STAGE == G.STAGES.RUN
-				and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND)
-				and Handy.controller.is_module_key_down(Handy.cc.scoring_hold)
-		else
-			return false
-		end
+		return Handy.buffered_is_mod_active()
+			and Handy.controller.is_module_enabled(Handy.cc.scoring_hold)
+			and G.STAGE == G.STAGES.RUN
+			and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND)
+			and Handy.controller.is_module_key_down(Handy.cc.scoring_hold)
 	end,
 
 	update = function(dt)

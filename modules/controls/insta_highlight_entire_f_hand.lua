@@ -6,6 +6,7 @@ Handy.insta_highlight_entire_f_hand = {
 		end
 		return Handy.buffered_is_in_run()
 			and not Handy.buffered_is_stop_use()
+			and Handy.buffered_is_mod_active()
 			and Handy.controller.is_triggered(released)
 			and G.STATE ~= G.STATES.HAND_PLAYED
 			and G.hand

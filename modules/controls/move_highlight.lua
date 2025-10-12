@@ -41,18 +41,16 @@ Handy.move_highlight = {
 			and area
 			and area.highlighted
 			and area.highlighted[1]
-			and (
-				is_preview
-				or Handy.utils.table_contains({
-					G.consumeables,
-					G.jokers,
-					G.cine_quests,
-					G.pack_cards,
-					G.shop_jokers,
-					G.shop_booster,
-					G.shop_vouchers,
-				}, area)
-			)
+			and (is_preview or Handy.utils.table_contains({
+				G.consumeables,
+				G.jokers,
+				G.cine_quests,
+				G.pack_cards,
+				G.shop_jokers,
+				G.shop_booster,
+				G.shop_vouchers,
+			}, area))
+			and Handy.buffered_is_mod_active()
 		)
 	end,
 	execute = function(key, released, area)
