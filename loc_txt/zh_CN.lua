@@ -158,6 +158,12 @@ return {
 					"所需的按键数量",
 				},
 			},
+			speed_multiplier_settings_toggle = {
+				unlock = { "速度倍率：", "在设置中切换" },
+				text = {
+					"在游戏设置中添加切换开关",
+				},
+			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "高亮", "整手牌" },
 				text = {
@@ -199,6 +205,12 @@ return {
 					"减少使用",
 					"#2#",
 					"所需的按键数量",
+				},
+			},
+			animation_skip_settings_toggle = {
+				unlock = { "动画跳过：", "在设置中切换" },
+				text = {
+					"在游戏设置中添加切换开关",
 				},
 			},
 			scoring_hold = {

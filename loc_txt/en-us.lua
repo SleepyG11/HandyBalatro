@@ -158,6 +158,12 @@ return {
 					"#2#",
 				},
 			},
+			speed_multiplier_settings_toggle = {
+				unlock = { "Speed multiplier:", "toggle in settings" },
+				text = {
+					"Add toggle in game settings",
+				},
+			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "Highlight", "entire hand" },
 				text = {
@@ -199,6 +205,12 @@ return {
 					"Decrease amount of",
 					"keybinds needed to use",
 					"#2#",
+				},
+			},
+			animation_skip_settings_toggle = {
+				unlock = { "Animation skip:", "toggle in settings" },
+				text = {
+					"Add toggle in game settings",
 				},
 			},
 			scoring_hold = {

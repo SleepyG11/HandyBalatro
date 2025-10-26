@@ -953,6 +953,20 @@ local dictionary = {
 			)
 		end,
 	},
+	speed_multiplier_settings_toggle = {
+		loc_key = { "speed_multiplier", "speed_multiplier_settings_toggle" },
+		keywords = { keyw.speed_multiplier, "toggle settings", "show hide display" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.speed_multiplier.settings_toggle,
+				"speed_multiplier_settings_toggle",
+				nil,
+				nil,
+				options
+			)
+		end,
+	},
 
 	animation_skip = {
 		loc_key = "animation_skip",
@@ -1091,6 +1105,20 @@ local dictionary = {
 				available_options,
 				Handy.cc.animation_skip.default_value,
 				"handy_change_default_animation_skip",
+				options
+			)
+		end,
+	},
+	animation_skip_settings_toggle = {
+		loc_key = { "animation_skip", "animation_skip_settings_toggle" },
+		keywords = { keyw.animation_skip, "toggle settings", "show hide display" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_new_module_checkbox(
+				Handy.cc.animation_skip.settings_toggle,
+				"animation_skip_settings_toggle",
+				nil,
+				nil,
 				options
 			)
 		end,

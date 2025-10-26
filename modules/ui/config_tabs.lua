@@ -228,9 +228,29 @@ Handy.UI.get_quick_page = function(page)
 		result = {
 			Handy.UI.CD.move_highlight.checkbox(),
 			Handy.UI.PARTS.create_separator_r(),
-			Handy.UI.CD.debugplus_prevent.checkbox(),
-			Handy.UI.PARTS.create_separator_r(),
-			Handy.UI.CD.controller_swap_cursor_stick.checkbox(),
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.CD.speed_multiplier_settings_toggle.checkbox(),
+							Handy.UI.PARTS.create_separator_r(),
+							Handy.UI.CD.animation_skip_settings_toggle.checkbox(),
+						},
+					},
+					{
+						n = G.UIT.C,
+						config = { minw = 4 },
+						nodes = {
+							Handy.UI.CD.debugplus_prevent.checkbox(),
+							Handy.UI.PARTS.create_separator_r(),
+							Handy.UI.CD.controller_swap_cursor_stick.checkbox(),
+						},
+					},
+				},
+			},
 			Handy.UI.PARTS.create_separator_r(),
 			Handy.UI.CD.controller_sensivity.slider(),
 		}

@@ -158,6 +158,12 @@ return {
 					"#2#",
 				},
 			},
+			speed_multiplier_settings_toggle = {
+				unlock = { "Multiplicador de velocidad:", "activar en configuración" },
+				text = {
+					"Agregar interruptor en configuración del juego",
+				},
+			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "Destacar", "mano completa" },
 				text = {
@@ -199,6 +205,12 @@ return {
 					"Disminuir la cantidad de",
 					"atajos necesarios para usar",
 					"#2#",
+				},
+			},
+			animation_skip_settings_toggle = {
+				unlock = { "Saltar animaciones:", "activar en configuración" },
+				text = {
+					"Agregar interruptor en configuración del juego",
 				},
 			},
 			scoring_hold = {
