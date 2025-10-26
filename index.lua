@@ -4,7 +4,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1i",
+		version = "1.5.1k",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
@@ -145,7 +145,7 @@ if not Handy then
 
 		-- NotJustYet
 		G.E_MANAGER:add_event(Event({
-            blocking = false,
+			blocking = false,
 			func = function()
 				G.njy_keybind = nil
 				return true
