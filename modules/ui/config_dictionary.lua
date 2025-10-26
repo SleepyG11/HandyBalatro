@@ -844,6 +844,35 @@ local dictionary = {
 				options
 			)
 		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_option_cycle_simple(
+				localize("speed_multiplier", "handy_keybind_labels"),
+				Handy.speed_multiplier,
+				"value_text",
+				function()
+					Handy.speed_multiplier.divide()
+				end,
+				function()
+					Handy.speed_multiplier.multiply()
+				end,
+				options
+			)
+		end,
+		settings_option_cycle = function()
+			if
+				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+				and Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.settings_toggle)
+			then
+				return {
+					n = G.UIT.R,
+					config = { align = "cm" },
+					nodes = {
+						Handy.UI.CD.speed_multiplier.option_cycle({ compress = true, w = 6, colour = G.C.CHIPS }),
+					},
+				}
+			end
+		end,
 	},
 	speed_multiplier_multiply = {
 		loc_key = { "speed_multiplier", "speed_multiplier_multiply" },
@@ -950,6 +979,39 @@ local dictionary = {
 				{ only_holdable = true },
 				options
 			)
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_option_cycle_simple(
+				localize("animation_skip", "handy_keybind_labels"),
+				Handy.animation_skip,
+				"value_text",
+				function()
+					Handy.animation_skip.decrease()
+				end,
+				function()
+					Handy.animation_skip.increase()
+				end,
+				options
+			)
+		end,
+		settings_option_cycle = function()
+			if
+				Handy.controller.is_module_enabled(Handy.cc.animation_skip)
+				and Handy.controller.is_module_enabled(Handy.cc.animation_skip.settings_toggle)
+			then
+				return {
+					n = G.UIT.R,
+					config = { align = "cm" },
+					nodes = {
+						Handy.UI.CD.animation_skip.option_cycle({
+							compress = true,
+							w = 6,
+							colour = G.C.ORANGE,
+						}),
+					},
+				}
+			end
 		end,
 	},
 	animation_skip_increase = {

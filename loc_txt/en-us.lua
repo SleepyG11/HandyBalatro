@@ -799,7 +799,7 @@ return {
 			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
 			Handy_danger_zone_guide = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
 
-			Handy_default_value = "#1#: default value",
+			Handy_default_value = "#1#: game startup value",
 		},
 		dictionary = {
 			handy_or = "or",

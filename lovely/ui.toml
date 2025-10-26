@@ -59,3 +59,16 @@ elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Han
 '''
 match_indent = true
 overwrite = false
+
+# Insert speed multiplier and animation skip in vanilla settings
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),'''
+position = "before"
+payload = '''
+Handy.UI.CD.speed_multiplier.settings_option_cycle({ compress = true }),
+Handy.UI.CD.animation_skip.settings_option_cycle({ compress = true }),
+'''
+match_indent = true
+overwrite = false

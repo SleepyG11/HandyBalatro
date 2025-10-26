@@ -801,7 +801,7 @@ return {
 			Handy_presets_guide = "预设——可随时应用的配置与键位集合。",
 			Handy_danger_zone_guide = "*移除卡牌/标签——不经检查、效果、触发或退款直接删除。",
 
-			Handy_default_value = "#1#：默认值",
+			Handy_default_value = "#1#: 游戏启动值",
 		},
 
 		dictionary = {

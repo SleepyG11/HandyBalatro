@@ -799,7 +799,7 @@ return {
 			Handy_presets_guide = "Preset - conjunto de configuraciones y atajos de teclado que se pueden aplicar en cualquier momento",
 			Handy_danger_zone_guide = "*REMOVER carta/etiqueta - eliminar sin ninguna verificación, efecto, activaciones o dinero.",
 
-			Handy_default_value = "#1#: valor predeterminado",
+			Handy_default_value = "#1#: valor de inicio del juego",
 		},
 		dictionary = {
 			handy_or = "O",

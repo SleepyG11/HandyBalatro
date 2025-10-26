@@ -277,3 +277,10 @@ function G.FUNCS.handy_change_controller_sensivity()
 	G.CONTROLLER.axis_cursor_speed = G.CONTROLLER.saved_axis_cursor_speed * Handy.cc.controller_sensivity.mult
 	Handy.config.request_save()
 end
+
+function G.FUNCS.handy_option_cycle_simple(e)
+	local callback = e.config.ref_table[e.config.ref_value]
+	if callback then
+		callback()
+	end
+end

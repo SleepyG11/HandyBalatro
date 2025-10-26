@@ -369,6 +369,181 @@ Handy.UI.PARTS = {
 			focus_args = { nav = "wide" },
 		})
 	end,
+	create_option_cycle_simple = function(label, ref_table, ref_value, left_callback, right_callback, options)
+		options = options or {}
+		if options.no_label then
+			label = nil
+		end
+
+		local args = {
+			w = options.w or options.compress and 10 or 6,
+			label = not options.compress and label or nil,
+			scale = 0.8,
+			focus_args = { nav = "wide" },
+			colour = options.colour,
+			ref_table = ref_table,
+			ref_value = ref_value,
+			prefix = options.compress and label and label .. ": " or nil,
+		}
+
+		args.colour = args.colour or G.C.RED
+		args.scale = args.scale or 1
+		args.w = (args.w or 2.5) * args.scale
+		args.h = (args.h or 0.8) * args.scale
+		args.text_scale = (args.text_scale or 0.5) * args.scale
+		args.l = "<"
+		args.r = ">"
+		args.focus_args = args.focus_args or {}
+		args.focus_args.type = "cycle"
+
+		local disabled = false
+
+		local callbacks = {
+			l = left_callback or function() end,
+			r = right_callback or function() end,
+		}
+
+		local result = {
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+				padding = 0.1,
+				r = 0.1,
+				colour = G.C.CLEAR,
+				id = args.id and (not args.label and args.id or nil) or nil,
+				focus_args = args.focus_args,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						align = "cm",
+						r = 0.1,
+						minw = 0.6 * args.scale,
+						hover = not disabled,
+						colour = not disabled and args.colour or G.C.BLACK,
+						shadow = not disabled,
+						button = not disabled and "handy_option_cycle_simple" or nil,
+						ref_table = callbacks,
+						ref_value = "l",
+						focus_args = { type = "none" },
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								ref_table = args,
+								ref_value = "l",
+								scale = args.text_scale,
+								colour = not disabled and G.C.UI.TEXT_LIGHT or G.C.UI.TEXT_INACTIVE,
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = {
+						id = "cycle_main",
+						align = "cm",
+						minw = args.w,
+						minh = args.h,
+						r = 0.1,
+						padding = 0.05,
+						colour = args.colour,
+						emboss = 0.1,
+						hover = true,
+						can_collide = true,
+						on_demand_tooltip = args.on_demand_tooltip,
+					},
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = { align = "cm" },
+									nodes = {
+										{
+											n = G.UIT.O,
+											config = {
+												object = DynaText({
+													string = {
+														{
+															ref_table = args.ref_table,
+															ref_value = args.ref_value,
+															prefix = args.prefix,
+														},
+													},
+													colours = { G.C.UI.TEXT_LIGHT },
+													pop_in = 0,
+													pop_in_rate = 8,
+													reset_pop_in = true,
+													shadow = true,
+													float = true,
+													silent = true,
+													bump = true,
+													scale = args.text_scale,
+													non_recalc = true,
+												}),
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.C,
+					config = {
+						align = "cm",
+						r = 0.1,
+						minw = 0.6 * args.scale,
+						hover = not disabled,
+						colour = not disabled and args.colour or G.C.BLACK,
+						shadow = not disabled,
+						button = not disabled and "handy_option_cycle_simple" or nil,
+						ref_table = callbacks,
+						ref_value = "r",
+						focus_args = { type = "none" },
+					},
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								ref_table = args,
+								ref_value = "r",
+								scale = args.text_scale,
+								colour = not disabled and G.C.UI.TEXT_LIGHT or G.C.UI.TEXT_INACTIVE,
+							},
+						},
+					},
+				},
+			},
+		}
+
+		if args.label then
+			result = {
+				n = G.UIT.R,
+				config = { align = "cm", padding = 0.05, id = args.id or nil },
+				nodes = {
+					args.label and {
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.T,
+								config = { text = args.label, scale = 0.5 * args.scale, colour = G.C.UI.TEXT_LIGHT },
+							},
+						},
+					} or nil,
+					result,
+				},
+			}
+		end
+		return result
+	end,
 
 	create_example_preset = function(key)
 		local checkbox_text = {}

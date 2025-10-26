@@ -188,6 +188,10 @@ local default_config = {
 			enabled = false,
 		},
 
+		settings_toggle = {
+			enabled = true,
+		},
+
 		multiply = {
 			enabled = true,
 			key_1 = "Wheel Up",
@@ -368,6 +372,10 @@ local default_config = {
 
 		no_hold = {
 			enabled = false,
+		},
+
+		settings_toggle = {
+			enabled = true,
 		},
 
 		increase = {

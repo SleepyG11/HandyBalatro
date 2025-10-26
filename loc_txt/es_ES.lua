@@ -812,7 +812,7 @@ return {
 			Handy_presets_guide = "Conjunto de configuraciones que pueden ser aplicados cuando quieras",
 			Handy_danger_zone_guide = "*ELIMINAR carta/etiqueta - Elimina sin comprobaciones, efectos, activaciones o devoluciones",
 
-			Handy_default_value = "#1#: valor predeterminado",
+			Handy_default_value = "#1#: valor de inicio del juego",
 		},
 		dictionary = {
 			handy_or = "o",

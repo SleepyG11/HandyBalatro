@@ -1,5 +1,6 @@
 Handy.speed_multiplier = {
 	value = 1,
+	value_text = "1x",
 	queue_retriggers_count = 0,
 
 	throttle = false,
@@ -52,12 +53,21 @@ Handy.speed_multiplier = {
 		end
 		return math.min(Handy.speed_multiplier.value, Handy.speed_multiplier.throttle and 4 or math.huge)
 	end,
+	localize_value = function()
+		if Handy.speed_multiplier.value >= 1 then
+			Handy.speed_multiplier.value_text = tostring(Handy.speed_multiplier.value)
+		else
+			Handy.speed_multiplier.value_text = "1/" .. tostring(1 / Handy.speed_multiplier.value)
+		end
+		Handy.speed_multiplier.value_text = Handy.speed_multiplier.value_text .. "x"
+		return Handy.speed_multiplier.value_text
+	end,
 	load_default_value = function()
 		if Handy.controller.is_module_enabled(Handy.cc.speed_multiplier) then
 			local value = math.max(1, math.min(10, math.floor(Handy.cc.speed_multiplier.default_value) or 1))
 			Handy.speed_multiplier.value = 2 ^ (value - 1)
-			Handy.speed_multiplier.change(0)
 		end
+		Handy.speed_multiplier.change(0)
 	end,
 
 	get_actions = function(key)
@@ -98,8 +108,7 @@ Handy.speed_multiplier = {
 					type = "variable",
 					key = "Handy_gamespeed_multiplier",
 					vars = {
-						Handy.speed_multiplier.value >= 1 and Handy.speed_multiplier.value
-							or ("1/" .. (1 / Handy.speed_multiplier.value)),
+						Handy.speed_multiplier.value_text,
 					},
 				}),
 				hold = false,
@@ -138,6 +147,7 @@ Handy.speed_multiplier = {
 			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
 		)
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
+		Handy.speed_multiplier.localize_value()
 		if dx ~= 0 then
 			Handy.speed_multiplier.show_notif()
 		end

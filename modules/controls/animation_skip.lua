@@ -1,12 +1,13 @@
 -- None, Messages, Animation, Everything, Unsafe
 
 Handy.animation_skip = {
-    queues_to_skip = {
-        "base",
-        "handy_config"
-    },
+	queues_to_skip = {
+		"base",
+		"handy_config",
+	},
 
 	value = 1,
+	value_text = "",
 	buffered_value = nil,
 	immediate_event_queue = 0,
 	ease_dollars_buffer = 0,
@@ -65,6 +66,9 @@ Handy.animation_skip = {
 		end
 		return math.min(4, Handy.animation_skip.value)
 	end,
+	localize_value = function()
+		Handy.animation_skip.value_text = localize("handy_animation_skip_levels")[Handy.animation_skip.value] or "ERROR"
+	end,
 	get_actions = function(key)
 		return {
 			increase = Handy.controller.is_module_key(Handy.cc.animation_skip.increase, key),
@@ -76,6 +80,7 @@ Handy.animation_skip = {
 			Handy.animation_skip.value =
 				math.max(1, math.min(4, math.floor(Handy.cc.animation_skip.default_value) or 1))
 		end
+		Handy.animation_skip.change(0)
 	end,
 
 	can_dangerous = function()
@@ -98,62 +103,59 @@ Handy.animation_skip = {
 		local actions = Handy.animation_skip.get_actions(key)
 		if actions.increase then
 			Handy.animation_skip.increase()
-			Handy.animation_skip.show_notif(key)
 			return not Handy.controller.is_module_enabled(Handy.cc.animation_skip.no_hold)
 		end
 		if actions.decrease then
 			Handy.animation_skip.decrease()
-			Handy.animation_skip.show_notif(key)
 			return not Handy.controller.is_module_enabled(Handy.cc.animation_skip.no_hold)
 		end
 		return false
 	end,
 
-	show_notif = function(key)
+	show_notif = function(dx)
+		if dx == 0 then
+			return
+		end
 		Handy.UI.state_panel.display(function(state)
-			local actions = Handy.animation_skip.get_actions(key)
+			local value = Handy.animation_skip.get_value()
+			local is_dangerous = value == 5
 
-			if actions.increase or actions.decrease then
-				local value = Handy.animation_skip.get_value()
-				local localized_states = localize("handy_animation_skip_levels")
-				local is_dangerous = value == 5
-
-				if is_dangerous then
-					if Handy.cc.notifications_level < 2 then
-						return false
-					end
-				else
-					if Handy.cc.notifications_level < 3 then
-						return false
-					end
+			if is_dangerous then
+				if Handy.cc.notifications_level < 2 then
+					return false
 				end
-
-				state.items.change_animation_skip = {
-					text = localize({
-						type = "variable",
-						key = "Handy_animation_skip",
-						vars = { localized_states[value] or "ERROR" },
-					}),
-					hold = false,
-					order = 4,
-					dangerous = is_dangerous,
-				}
-				if not Handy.animation_skip.can_dangerous() and actions.increase and value == (5 - 1) then
-					state.items.prevent_nopeus_unsafe = {
-						text = localize("ph_handy_notif_animation_skip_unsafe_disabled"),
-						hold = false,
-						order = 4.05,
-					}
+			else
+				if Handy.cc.notifications_level < 3 then
+					return false
 				end
-				return true
 			end
-			return false
+
+			state.items.change_animation_skip = {
+				text = localize({
+					type = "variable",
+					key = "Handy_animation_skip",
+					vars = { Handy.animation_skip.value_text },
+				}),
+				hold = false,
+				order = 4,
+				dangerous = is_dangerous,
+			}
+			if not Handy.animation_skip.can_dangerous() and dx > 0 and value == (5 - 1) then
+				state.items.prevent_animation_skip_unsafe = {
+					text = localize("ph_handy_notif_animation_skip_unsafe_disabled"),
+					hold = false,
+					order = 4.05,
+				}
+			end
+			return true
 		end)
 	end,
 
 	change = function(dx)
 		Handy.animation_skip.value =
 			math.max(1, math.min(Handy.animation_skip.can_dangerous() and 5 or 4, Handy.animation_skip.value + dx))
+		Handy.animation_skip.localize_value()
+		Handy.animation_skip.show_notif(dx)
 	end,
 	increase = function()
 		Handy.animation_skip.change(1)
@@ -306,34 +308,34 @@ function level_up_hand(...)
 end
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, queue, ...)
-    if not queue or Handy.animation_skip.queues_to_skip[queue] then
-        if Handy.animation_skip.mute_ease_dollars > 0 then
-            Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
-        end
-        if not event.handy_never_modify then
-            if Handy.animation_skip.extract_func_from_event > 0 then
-                Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
-                event.func()
-                return
-            end
-            if Handy.animation_skip.should_skip_unsafe() then
-                event.blocking = false
-                event.blockable = false
-                -- This line basically taken from Nopeus by jenwalter666
-                event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
-            else
-                if Handy.animation_skip.force_non_blocking then
-                    event.blocking = false
-                end
-                if Handy.animation_skip.force_non_blockable then
-                    event.blockable = false
-                end
-                if Handy.animation_skip.should_skip_everything() then
-                    event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
-                end
-            end
-        end
-    end
+	if not queue or Handy.animation_skip.queues_to_skip[queue] then
+		if Handy.animation_skip.mute_ease_dollars > 0 then
+			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
+		end
+		if not event.handy_never_modify then
+			if Handy.animation_skip.extract_func_from_event > 0 then
+				Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
+				event.func()
+				return
+			end
+			if Handy.animation_skip.should_skip_unsafe() then
+				event.blocking = false
+				event.blockable = false
+				-- This line basically taken from Nopeus by jenwalter666
+				event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+			else
+				if Handy.animation_skip.force_non_blocking then
+					event.blocking = false
+				end
+				if Handy.animation_skip.force_non_blockable then
+					event.blockable = false
+				end
+				if Handy.animation_skip.should_skip_everything() then
+					event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
+				end
+			end
+		end
+	end
 	-- printCallerInfo()
 	return event_manager_add_event_ref(self, event, queue, ...)
 end
