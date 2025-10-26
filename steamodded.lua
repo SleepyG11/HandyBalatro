@@ -23,7 +23,7 @@ if SMODS and SMODS.current_mod then
 			if path:sub(1, #base) == base then
 				return path
 			end
-			local suffix = path:match("^Mods/(.+)")
+			local suffix = path:match("^[^/]+/(.+)")
 			if suffix then
 				return base .. "/" .. suffix
 			end
@@ -32,9 +32,9 @@ if SMODS and SMODS.current_mod then
 
 		local mod_folder = require("lovely").mod_dir
 		local normalized_path = resolve_path(mod_folder, SMODS.current_mod.path)
-		if not normalized_path:match("/Mods/[^/]+$") then
-			local last = normalized_path:match("/([^/]+)$")
-			local correct_path = normalize_path(mod_folder) .. "/" .. last
+		local last = normalized_path:match("/([^/]+)$")
+		local correct_path = normalize_path(mod_folder) .. "/" .. last
+		if normalized_path ~= correct_path then
 			error(string.format(
 				[[
 
