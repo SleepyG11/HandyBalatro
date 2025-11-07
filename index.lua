@@ -1,10 +1,16 @@
 to_big = to_big or function(x)
 	return x
 end
+to_number = to_number or function(x)
+	return x
+end
+is_big = is_big or function(x)
+	return false
+end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1k",
+		version = "1.5.1l",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,

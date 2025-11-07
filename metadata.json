@@ -7,7 +7,7 @@
 	"prefix": "handy",
 	"main_file": "steamodded.lua",
 	"priority": 0,
-	"version": "1.5.1k",
+	"version": "1.5.1l",
 	"dependencies": [],
 	"allow_redistribution": true
 }
