@@ -342,6 +342,7 @@ Handy.UI.PARTS = {
 						key = key_2,
 						rerender = rerender,
 						only_holdable = only_holdable,
+						only_safe = only_safe,
 					},
 					-- focus_args = { nav = "wide" },
 					button = disabled and "handy_empty" or "handy_init_keybind_change",
