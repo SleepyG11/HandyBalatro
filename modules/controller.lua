@@ -677,6 +677,17 @@ Handy.controller = {
 		end
 		return false
 	end,
+	is_current_key_in_module = function(module, allow_disabled, force_gamepad)
+		return Handy.controller.is_module_key(
+			module,
+			Handy.controller.get_key_context().raw_key,
+			allow_disabled,
+			force_gamepad
+		)
+	end,
+	is_current_key_released = function()
+		return Handy.controller.get_key_context().released or false
+	end,
 	is_module_enabled = function(module)
 		module = Handy.m(module)
 		return module and module.enabled
@@ -741,13 +752,51 @@ Handy.controller = {
 		return false
 	end,
 
+	set_key_context = function(raw_key, released, type)
+		if not raw_key then
+			Handy.controller.key_context = {
+				raw_key = nil,
+			}
+			return Handy.controller.key_context
+		end
+		local new_context = {
+			raw_key = raw_key,
+			type = type,
+			released = released,
+		}
+		if type == "gamepad" then
+			new_context.key, new_context.back = Handy.controller.parse(raw_key, { gamepad = true })
+			new_context.gamepad = true
+		elseif type == "wheel" then
+			new_context.key = Handy.controller.parse(raw_key, { wheel = true })
+			new_context.released = false
+			new_context.back = false
+			new_context.wheel = true
+		elseif type == "keyboard" then
+			new_context.key, new_context.back = Handy.controller.parse(raw_key, { keyboard = true })
+			new_context.keyboard = true
+		elseif type == "touch" then
+			new_context.key, new_context.back = Handy.controller.parse(raw_key, { touch = true })
+			new_context.touch = true
+		end
+		new_context.safe = not not (new_context.key and not non_safe_keys_table[new_context.key])
+		new_context.holdable = not not (new_context.key and not non_holdable_keys_table[new_context.key])
+		Handy.controller.key_context = new_context
+		return Handy.controller.key_context
+	end,
+	get_key_context = function()
+		return Handy.controller.key_context or {}
+	end,
+
 	process_key = function(key, released)
 		Handy.controller.update_device_type({ keyboard = true })
+		Handy.controller.set_key_context(key, released, "keyboard")
 		G.njy_keybind = nil
 
 		-----
 
 		if not released and Handy.controller.process_bind(key) then
+			Handy.controller.set_key_context()
 			return true
 		end
 		if
@@ -756,6 +805,7 @@ Handy.controller = {
 			or Handy.controller.is_debugplus_console_opened()
 			or Handy.controller.prevent_if_debugplus(key, released)
 		then
+			Handy.controller.set_key_context()
 			return false
 		end
 
@@ -763,6 +813,7 @@ Handy.controller = {
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, released)
+			Handy.controller.set_key_context()
 			return result
 		end
 
@@ -790,12 +841,14 @@ Handy.controller = {
 	end,
 	process_mouse = function(mouse, released, touch)
 		Handy.controller.update_device_type({ mouse = not touch, touch = touch })
+		Handy.controller.set_key_context(mouse, released, touch and "touch" or "mouse")
 		G.njy_keybind = nil
 		local key = Handy.controller.mouse_to_key_table[mouse]
 
 		-----
 
 		if not released and Handy.controller.process_bind(key) then
+			Handy.controller.set_key_context()
 			return true
 		end
 		if
@@ -803,6 +856,7 @@ Handy.controller = {
 			or Handy.controller.is_debugplus_console_opened()
 			or Handy.controller.prevent_if_debugplus(key, released)
 		then
+			Handy.controller.set_key_context()
 			return false
 		end
 
@@ -810,6 +864,7 @@ Handy.controller = {
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, released)
+			Handy.controller.set_key_context()
 			return result
 		end
 
@@ -842,12 +897,14 @@ Handy.controller = {
 	end,
 	process_wheel = function(wheel)
 		local released = false
-		Handy.controller.update_device_type({ mouse = true })
 		local key = Handy.controller.wheel_to_key_table[wheel]
+		Handy.controller.update_device_type({ mouse = true })
+		Handy.controller.set_key_context(key, released, "wheel")
 
 		-----
 
 		if not released and Handy.controller.process_bind(key) then
+			Handy.controller.set_key_context()
 			return true
 		end
 		if
@@ -855,6 +912,7 @@ Handy.controller = {
 			or Handy.controller.is_debugplus_console_opened()
 			or Handy.controller.prevent_if_debugplus(key, released)
 		then
+			Handy.controller.set_key_context()
 			return false
 		end
 
@@ -862,6 +920,7 @@ Handy.controller = {
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(key, false)
+			Handy.controller.set_key_context()
 			return result
 		end
 
@@ -887,10 +946,12 @@ Handy.controller = {
 	end,
 	process_gamepad_button = function(joystick, button, released)
 		Handy.controller.update_device_type({ gamepad = true })
+		Handy.controller.set_key_context(button, released, "gamepad")
 
 		-----
 
 		if not released and Handy.controller.process_bind(button, { gamepad = true }) then
+			Handy.controller.set_key_context()
 			return true
 		end
 		if
@@ -899,6 +960,7 @@ Handy.controller = {
 			or Handy.controller.is_debugplus_console_opened()
 			or Handy.controller.prevent_if_debugplus(button, released)
 		then
+			Handy.controller.set_key_context()
 			return false
 		end
 
@@ -906,6 +968,7 @@ Handy.controller = {
 
 		local finish = function(result)
 			Handy.UI.state_panel.update(button, released)
+			Handy.controller.set_key_context()
 			return result
 		end
 
