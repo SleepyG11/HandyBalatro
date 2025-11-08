@@ -919,16 +919,22 @@ Handy.controller = {
 			return finish(true)
 		end
 
-		if button ~= "a" then
-			Handy.insta_highlight.use_on_hovered(button, released)
-		end
+		local not_propagate = false
+		not_propagate = Handy.regular_keybinds.use(button) or false
 
-		local _ = false
-			or Handy.insta_actions.use_alt(button, released)
-			-- or Handy.move_highlight.use(button, released)
-			or Handy.regular_keybinds.use(button, released)
-			or Handy.insta_highlight_entire_f_hand.use(button, released)
-			or Handy.deselect_hand.use(button, released)
+		if not released then
+			-- (A) corresponds to vanilla card selection and dragging
+			if button ~= "a" then
+				Handy.insta_highlight.use_on_hovered(key, released)
+			end
+		end
+		if not not_propagate then
+			local _ = false
+				or Handy.insta_actions.use_alt(button, released)
+				-- or Handy.move_highlight.use(key)
+				or Handy.insta_highlight_entire_f_hand.use(button, released)
+				or Handy.deselect_hand.use(button, released)
+		end
 
 		Handy.dangerous_actions.toggle_queue(button, released)
 		Handy.dangerous_actions.use(button, released)
