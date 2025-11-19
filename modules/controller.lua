@@ -195,6 +195,13 @@ Handy.controller = {
 				console = console_success and dpconsole or nil,
 			}
 		end
+		if console_success and dpconsole and dpconsole.isConsoleFocused then
+			function Handy.controller.update_is_console_opened()
+				if dpconsole.isConsoleFocused() then
+					Handy.controller.console_opened_timer = G.TIMERS.UPTIME + 1
+				end
+			end
+		end
 		return Handy.controller.debugplus_module
 	end,
 
@@ -692,21 +699,7 @@ Handy.controller = {
 		return not released
 	end,
 	is_debugplus_console_opened = function()
-		if Handy.controller.console_opened_timer > G.TIMERS.REAL then
-			return true
-		end
-		local dp = Handy.controller.get_debugplus_module()
-		if not dp.installed then
-			return false
-		end
-		local success, is_opened = pcall(function()
-			return dp.console.isConsoleFocused()
-		end)
-		local current_value = success and is_opened
-		if current_value then
-			Handy.controller.console_opened_timer = G.TIMERS.REAL + 1
-		end
-		return current_value
+		return Handy.controller.console_opened_timer > G.TIMERS.UPTIME
 	end,
 	is_debugplus_triggered = function()
 		local dp = Handy.controller.get_debugplus_module()
@@ -718,6 +711,7 @@ Handy.controller = {
 		end)
 		return success and is_triggered
 	end,
+	update_is_console_opened = function() end,
 	prevent_if_debugplus = function(key, released)
 		if Handy.controller.is_debugplus_triggered() then
 			if Handy.cc.notifications_level > 2 and not Handy.controller.is(key, "Ctrl") then
@@ -1045,6 +1039,7 @@ Handy.controller = {
 
 	process_update = function(dt)
 		Handy.controller.update_device_type()
+		Handy.controller.update_is_console_opened()
 
 		for mod_module_key, mod_module in pairs(Handy.modules) do
 			if mod_module.update then
