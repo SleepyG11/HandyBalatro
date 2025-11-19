@@ -198,7 +198,7 @@ Handy.controller = {
 		if console_success and dpconsole and dpconsole.isConsoleFocused then
 			function Handy.controller.update_is_console_opened()
 				if dpconsole.isConsoleFocused() then
-					Handy.controller.console_opened_timer = G.TIMERS.UPTIME + 1
+					Handy.controller.console_opened_timer = G.TIMERS.UPTIME + 0.333
 				end
 			end
 		end
