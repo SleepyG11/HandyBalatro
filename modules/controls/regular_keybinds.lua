@@ -5,6 +5,26 @@ Handy.regular_keybinds = {
 
 	shop_loaded = false,
 
+	swappable_overlay = false,
+
+	toggle_swappable_overlay = function(b)
+		if b then
+			G.E_MANAGER:add_event(Event({
+				blockable = false,
+				blocking = false,
+				no_delete = true,
+				pause_force = true,
+				timer = "REAL",
+				func = function()
+					Handy.regular_keybinds.swappable_overlay = true
+					return true
+				end,
+			}))
+		else
+			Handy.regular_keybinds.swappable_overlay = false
+		end
+	end,
+
 	can_play = function(key)
 		return not Handy.regular_keybinds.play_blocker
 			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.play, key)
@@ -232,17 +252,39 @@ Handy.regular_keybinds = {
 		return true
 	end,
 
+	can_view_lobby_info = function(key)
+		return MP
+			and G.FUNCS.lobby_info
+			and Handy.is_in_multiplayer()
+			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.lobby_info, key)
+	end,
+	view_lobby_info = function()
+		Handy.fake_events.execute({
+			func = G.FUNCS.lobby_info,
+		})
+		return true
+	end,
+
 	use = function(key)
 		if not Handy.controller.is_module_enabled(Handy.cc.regular_keybinds) then
 			return false
 		end
-		if not G.SETTINGS.paused and G.STAGE == G.STAGES.RUN and not G.OVERLAY_MENU then
+		if G.STAGE ~= G.STAGES.RUN then
+			return
+		end
+		local is_not_paused = G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU
+		if Handy.regular_keybinds.swappable_overlay or is_not_paused then
 			local can_open_info, info_tab_index = Handy.regular_keybinds.can_open_run_info(key)
 			if can_open_info then
 				return Handy.regular_keybinds.open_run_info(info_tab_index)
 			elseif Handy.regular_keybinds.can_view_deck(key) then
 				return Handy.regular_keybinds.view_deck()
-			elseif G.STATE == G.STATES.SELECTING_HAND then
+			elseif Handy.regular_keybinds.can_view_lobby_info(key) then
+				return Handy.regular_keybinds.view_lobby_info()
+			end
+		end
+		if is_not_paused then
+			if G.STATE == G.STATES.SELECTING_HAND then
 				local need_sort, sorter = Handy.regular_keybinds.can_change_sort(key)
 				if need_sort then
 					local sort_result = Handy.regular_keybinds.change_sort(sorter)
@@ -290,5 +332,23 @@ Handy.regular_keybinds = {
 		return false
 	end,
 }
+
+local exit_overlay_menu_ref = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(false)
+	return exit_overlay_menu_ref(...)
+end
+
+local deck_info_ref = G.FUNCS.deck_info
+function G.FUNCS.deck_info(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(true)
+	return deck_info_ref(...)
+end
+
+local run_info_ref = G.FUNCS.run_info
+function G.FUNCS.run_info(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(true)
+	return run_info_ref(...)
+end
 
 Handy.register_module("regular_keybinds", Handy.regular_keybinds)

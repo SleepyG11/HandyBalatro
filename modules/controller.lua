@@ -775,14 +775,21 @@ Handy.controller = {
 			end
 		end
 
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+		local in_run = G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU
+		if in_run then
 			if not released then
 				Handy.insta_highlight.use_on_hovered(key)
 			end
 			if Handy.controller.is_triggered(released) then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
+			end
+		end
+		if Handy.controller.is_triggered(released) then
+			Handy.regular_keybinds.use(key)
+		end
+		if in_run then
+			if Handy.controller.is_triggered(released) then
 				Handy.insta_highlight_entire_f_hand.use(key)
 				Handy.deselect_hand.use(key)
 			end
@@ -845,14 +852,21 @@ Handy.controller = {
 			end
 		end
 
-		if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU then
+		local in_run = G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU
+		if in_run then
 			if not released then
 				Handy.insta_highlight.use_on_hovered(key)
 			end
 			if Handy.controller.is_triggered(released) then
 				Handy.insta_actions.use_alt(key)
 				Handy.move_highlight.use(key)
-				Handy.regular_keybinds.use(key)
+			end
+		end
+		if Handy.controller.is_triggered(released) then
+			Handy.regular_keybinds.use(key)
+		end
+		if in_run then
+			if Handy.controller.is_triggered(released) then
 				Handy.insta_highlight_entire_f_hand.use(key)
 				Handy.deselect_hand.use(key)
 			end
@@ -911,6 +925,8 @@ Handy.controller = {
 			Handy.insta_highlight_entire_f_hand.use(key)
 			Handy.deselect_hand.use(key)
 			Handy.dangerous_actions.use(key, false)
+		else
+			Handy.regular_keybinds.use(key)
 		end
 
 		return finish(false)
@@ -979,6 +995,10 @@ Handy.controller = {
 
 			Handy.dangerous_actions.toggle_queue(button, released)
 			Handy.dangerous_actions.use(button, released)
+		else
+			if Handy.controller.is_triggered(released) then
+				Handy.regular_keybinds.use(button)
+			end
 		end
 
 		Handy.UI.state_panel.update(button, released)

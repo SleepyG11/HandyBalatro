@@ -19,6 +19,7 @@ Handy.UI.get_keybinds_page = function(page)
 			Handy.UI.CD.regular_keybinds_run_info_blinds.keybind(),
 			Handy.UI.CD.regular_keybinds_view_deck.keybind(),
 			Handy.UI.CD.show_deck_preview.keybind(),
+			Handy.UI.CD.regular_keybinds_lobby_info.keybind(),
 		}
 	elseif page == 2 then
 		result = {

@@ -713,6 +713,7 @@ return {
 			reroll_boss = "Roll Boss",
 			run_info_hands = "对局信息：牌型",
 			run_info_blinds = "对局信息：盲注",
+			lobby_info = "多人游戏：大厅信息",
 			view_deck = "查看牌组",
 			deck_preview = "牌组预览",
 			quick_highlight = "快速选牌",

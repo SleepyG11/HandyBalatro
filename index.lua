@@ -10,7 +10,7 @@ end
 
 if not Handy then
 	Handy = setmetatable({
-		version = "1.5.1m",
+		version = "1.5.1n",
 
 		last_clicked_area = nil,
 		last_clicked_card = nil,
@@ -154,6 +154,13 @@ if not Handy then
 			blocking = false,
 			func = function()
 				G.njy_keybind = nil
+				if MP and G.FUNCS.lobby_info then
+					local lobby_info_ref = G.FUNCS.lobby_info
+					function G.FUNCS.lobby_info(...)
+						Handy.regular_keybinds.toggle_swappable_overlay(true)
+						return lobby_info_ref(...)
+					end
+				end
 				return true
 			end,
 		}))

@@ -14,3 +14,17 @@ Handy.regular_keybinds.on_shop_loaded()
 '''
 match_indent = true
 overwrite = false
+
+# Perform overlay menu swap
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.OVERLAY_MENU = true'''
+position = "before"
+payload = '''
+if Handy.regular_keybinds.swappable_overlay then
+    args.config.offset.y = 0
+end
+'''
+match_indent = true
+overwrite = false

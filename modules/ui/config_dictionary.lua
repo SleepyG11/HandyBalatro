@@ -413,6 +413,29 @@ local dictionary = {
 		end,
 		option_cycle_group = "keybinds_trigger_mode",
 	},
+	regular_keybinds_lobby_info = {
+		loc_key = "lobby_info",
+		keywords = { keyw.regular_keybinds, keyw.run_info, "lobby info multi player mp multiplayer" },
+		checkbox = function(options)
+			options = options or {}
+			return Handy.UI.CD.regular_keybinds.checkbox(options)
+		end,
+		checkbox_group = "regular_keybinds",
+		keybind = function(options)
+			options = options or {}
+			return Handy.UI.PARTS.create_module_keybind(
+				Handy.cc.regular_keybinds.lobby_info,
+				"lobby_info",
+				nil,
+				options
+			)
+		end,
+		option_cycle = function(options)
+			options = options or {}
+			return Handy.UI.CD.keybinds_trigger_mode.option_cycle(options)
+		end,
+		option_cycle_group = "keybinds_trigger_mode",
+	},
 	regular_keybinds_view_deck = {
 		loc_key = "view_deck",
 		keywords = { keyw.regular_keybinds, keyw.view_deck },

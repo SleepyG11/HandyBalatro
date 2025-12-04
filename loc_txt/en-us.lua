@@ -714,6 +714,7 @@ return {
 			reroll_boss = "Reroll boss",
 			run_info_hands = "Run info: poker hands",
 			run_info_blinds = "Run info: blinds",
+			lobby_info = "Multiplayer: Lobby info",
 			view_deck = "View deck",
 			deck_preview = "Deck preview",
 			quick_highlight = "Fast hand selection",

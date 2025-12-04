@@ -640,6 +640,7 @@ return {
 			reroll_boss = "Переброс босс-блайнда",
 			run_info_hands = "Информация о забеге: покерные руки",
 			run_info_blinds = "Информация о забеге: блайнды",
+			lobby_info = "Мультиплеер: лобби инфо",
 			view_deck = "Открыть колоду",
 			deck_preview = "Превью колоды",
 			quick_highlight = "Быстрое выделение",

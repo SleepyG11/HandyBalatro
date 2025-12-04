@@ -714,6 +714,7 @@ return {
 			reroll_boss = "Renovar jefe",
 			run_info_hands = "Partida info: manos de póker",
 			run_info_blinds = "Partida info: ciegas",
+			lobby_info = "Multijugador: información de la sala",
 			view_deck = "Ver mazo",
 			deck_preview = "Prever mazo",
 			quick_highlight = "Selección rápida de mano",
