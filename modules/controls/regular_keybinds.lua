@@ -265,19 +265,6 @@ Handy.regular_keybinds = {
 		return true
 	end,
 
-	can_view_lobby_info = function(key)
-		return MP
-			and G.FUNCS.lobby_info
-			and Handy.is_in_multiplayer()
-			and Handy.controller.is_module_key(Handy.cc.regular_keybinds.lobby_info, key)
-	end,
-	view_lobby_info = function()
-		Handy.fake_events.execute({
-			func = G.FUNCS.lobby_info,
-		})
-		return true
-	end,
-
 	use = function(key, released)
 		if
 			not Handy.controller.is_triggered(released)
