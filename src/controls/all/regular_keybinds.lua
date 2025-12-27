@@ -1,0 +1,786 @@
+Handy.regular_keybinds = {
+	shop_reroll_blocker = false,
+	play_blocker = false,
+	discard_blocker = false,
+
+	shop_loaded = false,
+
+	swappable_overlay = false,
+
+	toggle_swappable_overlay = function(b)
+		if b then
+			G.E_MANAGER:add_event(Event({
+				blockable = false,
+				blocking = false,
+				no_delete = true,
+				pause_force = true,
+				timer = "REAL",
+				func = function()
+					Handy.regular_keybinds.swappable_overlay = true
+					return true
+				end,
+			}))
+		else
+			Handy.regular_keybinds.swappable_overlay = false
+		end
+	end,
+
+	get_current_sorting = function(opposite)
+		local hand_sorting = G.hand and G.hand.config.sort or "suit desc"
+		local sortings = { "rank", "suit" }
+		local sort_index = 0
+		if hand_sorting == "suit desc" then
+			sort_index = 1
+		elseif hand_sorting == "desc" then
+			sort_index = 0
+		end
+		if opposite then
+			sort_index = (sort_index + 1) % 2
+		end
+		return sortings[sort_index + 1]
+	end,
+	change_sort = function(sorter)
+		if sorter == "rank" then
+			Handy.fake_events.execute({
+				func = G.FUNCS.sort_hand_value,
+			})
+		elseif sorter == "suit" then
+			Handy.fake_events.execute({
+				func = G.FUNCS.sort_hand_suit,
+			})
+		end
+		if Handy.cc.notifications_level.value >= 3 then
+			Handy.UI.state_panel.display(function(state)
+				state.items.change_sort = {
+					text = Handy.L.variable("Handy_hand_sorting", {
+						Handy.L.dictionary("k_" .. Handy.regular_keybinds.get_current_sorting(false)),
+					}),
+					order = 30,
+					hold = false,
+				}
+				return true
+			end, nil, 3)
+		end
+		return true
+	end,
+
+	on_shop_loaded = function()
+		if not G.shop then
+			return
+		end
+		Handy.regular_keybinds.shop_loaded = true
+		local remove_func_ref = G.shop.remove
+		function G.shop:remove(...)
+			Handy.regular_keybinds.shop_loaded = false
+			return remove_func_ref(self, ...)
+		end
+	end,
+}
+
+--
+
+local exit_overlay_menu_ref = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(false)
+	return exit_overlay_menu_ref(...)
+end
+
+local deck_info_ref = G.FUNCS.deck_info
+function G.FUNCS.deck_info(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(true)
+	return deck_info_ref(...)
+end
+
+local run_info_ref = G.FUNCS.run_info
+function G.FUNCS.run_info(...)
+	Handy.regular_keybinds.toggle_swappable_overlay(true)
+	return run_info_ref(...)
+end
+
+Handy.e_mitter.on("steamodded_load", function()
+	G.E_MANAGER:add_event(Event({
+		blocking = false,
+		func = function()
+			G.njy_keybind = nil
+			if MP and G.FUNCS.lobby_info then
+				local lobby_info_ref = G.FUNCS.lobby_info
+				function G.FUNCS.lobby_info(...)
+					Handy.regular_keybinds.toggle_swappable_overlay(true)
+					return lobby_info_ref(...)
+				end
+			end
+			return true
+		end,
+	}))
+end)
+
+--
+
+Handy.controls.register("regular_keybinds_play", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_play, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return not Handy.regular_keybinds.play_blocker
+			and G.STATE == G.STATES.SELECTING_HAND
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
+			end, { visible = true })
+	end,
+	execute = function(self, context)
+		Handy.regular_keybinds.play_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("play_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				Handy.regular_keybinds.play_blocker = false
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_discard", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return not Handy.regular_keybinds.discard_blocker
+			and G.STATE == G.STATES.SELECTING_HAND
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
+			end, { visible = true })
+	end,
+	execute = function(self, context)
+		Handy.regular_keybinds.discard_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("discard_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				Handy.regular_keybinds.discard_blocker = false
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+
+Handy.controls.register("regular_keybinds_change_sort_rank", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_sort_by_rank, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.default_can_execute(self, context)
+	end,
+
+	execute = function(self, context)
+		Handy.regular_keybinds.change_sort("rank")
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_change_sort_suit", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_sort_by_suit, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.default_can_execute(self, context)
+	end,
+
+	execute = function(self, context)
+		Handy.regular_keybinds.change_sort("suit")
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_toggle_sort", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_toggle_sort, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.default_can_execute(self, context)
+	end,
+
+	execute = function(self, context)
+		Handy.regular_keybinds.change_sort(Handy.regular_keybinds.get_current_sorting(true))
+		return true
+	end,
+})
+
+Handy.controls.register("regular_keybinds_reroll_shop", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_reroll_shop, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return not Handy.regular_keybinds.shop_reroll_blocker
+			and Handy.regular_keybinds.shop_loaded
+			and G.STATE == G.STATES.SHOP
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+			end, { visible = true, require_exact_func = "can_reroll" })
+	end,
+	execute = function(self, context)
+		Handy.regular_keybinds.shop_reroll_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				Handy.regular_keybinds.shop_reroll_blocker = false
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_leave_shop", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_leave_shop, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return Handy.regular_keybinds.shop_loaded
+			and G.STATE == G.STATES.SHOP
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.shop:get_UIE_by_ID("next_round_button")
+			end, { visible = true })
+	end,
+	execute = function(self, context)
+		Handy.regular_keybinds.shop_loaded = false
+		Handy.fake_events.execute_button(function()
+			return G.shop:get_UIE_by_ID("next_round_button")
+		end)
+		return true
+	end,
+})
+
+Handy.controls.register("regular_keybinds_skip_blind", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_skip_blind, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.GAME
+			and G.GAME.blind_on_deck
+			and G.blind_select
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and G.STATE == G.STATES.BLIND_SELECT
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				local container = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID(
+					"tag_" .. G.GAME.blind_on_deck
+				)
+				return container.states.visible and container.children[2]
+			end, { visible = true })
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute_button(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck).children[2]
+		end)
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_select_blind", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_select_blind, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.GAME
+			and G.GAME.blind_on_deck
+			and G.blind_select
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and G.STATE == G.STATES.BLIND_SELECT
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+			end)
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute_button(function()
+			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
+		end)
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_reroll_boss", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_reroll_boss, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.GAME
+			and G.GAME.blind_on_deck
+			and G.blind_select
+			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
+			and G.STATE == G.STATES.BLIND_SELECT
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check_button(function()
+				return G.blind_prompt_box.UIRoot.children[3].children[1]
+			end, {
+				visible = true,
+				require_exact_func = "reroll_boss_button",
+			})
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute_button(function()
+			return G.blind_prompt_box.UIRoot.children[3].children[1]
+		end)
+		return true
+	end,
+})
+
+Handy.controls.register("regular_keybinds_run_info", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_run_info, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	can_execute = function(self, context)
+		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute({
+			func = G.FUNCS.run_info,
+		})
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_run_info_binds", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_run_info_blinds, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	can_execute = function(self, context)
+		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
+		Handy.fake_events.execute({
+			func = G.FUNCS.run_info,
+		})
+		Handy.override_create_tabs_chosen_by_label = nil
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_view_deck", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_view_deck, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	can_execute = function(self, context)
+		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute({
+			func = G.FUNCS.deck_info,
+		})
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_view_lobby_info", {
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_lobby_info, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	can_execute = function(self, context)
+		return MP
+			and G.FUNCS.lobby_info
+			and Handy.b_is_in_multiplayer()
+			and (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		Handy.fake_events.execute({
+			func = G.FUNCS.lobby_info,
+		})
+		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_mod_settings", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_mod_settings, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	can_execute = function(self, context)
+		return not G.OVERLAY_MENU and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function()
+		G.FUNCS.handy_options()
+		return true
+	end,
+})
+
+--
+
+Handy.show_deck_preview = {
+	is_hold = false,
+}
+
+Handy.e_mitter.on("update", function(dt)
+	if
+		G.STAGE == G.STAGES.RUN
+		and Handy.b_is_mod_active()
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
+	then
+		Handy.show_deck_preview.is_hold =
+			Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_show_deck_preview)
+	else
+		Handy.show_deck_preview.is_hold = not not G.CONTROLLER.held_buttons.triggerleft
+	end
+end)
+
+--
+
+Handy.insta_booster_skip = {
+	is_skipped = false,
+}
+
+Handy.controls.register("regular_keybinds_skip_booster", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_skip_booster, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+	trigger = "press",
+
+	in_run = true,
+	no_stop_use = true,
+
+	can_execute = function(self, context)
+		return not Handy.insta_booster_skip.is_skipped
+			and G.booster_pack
+			and G.pack_cards
+			and G.pack_cards.cards
+			and G.pack_cards.cards[1]
+			and Handy.controls.default_can_execute(self, context)
+			and Handy.fake_events.check({
+				func = G.FUNCS.can_skip_booster,
+			})
+	end,
+	execute = function(self, context)
+		Handy.insta_booster_skip.is_skipped = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						Handy.fake_events.execute({
+							func = G.FUNCS.skip_booster,
+						})
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+
+Handy.e_mitter.on("update", function(dt)
+	if
+		not Handy.insta_booster_skip.is_skipped
+		and Handy.b_is_mod_active()
+		and Handy.b_is_in_run()
+		and not Handy.b_is_stop_use()
+		and not Handy.controller.dp.b_is_console_opened()
+		and G.booster_pack
+		and G.pack_cards
+		and G.pack_cards.cards
+		and G.pack_cards.cards[1]
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_skip_booster)
+		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_skip_booster)
+		and Handy.fake_events.check({
+			func = G.FUNCS.can_skip_booster,
+		})
+	then
+		Handy.insta_booster_skip.is_skipped = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						Handy.fake_events.execute({
+							func = G.FUNCS.skip_booster,
+						})
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+	end
+end)
+
+--
+
+Handy.insta_cash_out = {
+	can_skip = false,
+	is_skipped = false,
+}
+
+-- TODO: stop_use check specific for this one, since we dont need to be locked when eval, only when consumables etc
+Handy.controls.register("regular_keybinds_cash_out", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+	trigger = "press",
+
+	in_run = true,
+
+	can_execute = function(self, context)
+		return Handy.insta_cash_out.can_skip
+			and not Handy.insta_cash_out.is_skipped
+			and G.STATE == G.STATES.ROUND_EVAL
+			and G.round_eval
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		Handy.insta_cash_out.is_skipped = true
+		G.E_MANAGER:add_event(Event({
+			trigger = "immediate",
+			func = function()
+				Handy.fake_events.execute({
+					func = G.FUNCS.cash_out,
+					id = "cash_out_button",
+				})
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+
+Handy.e_mitter.on("update", function(dt)
+	if
+		Handy.insta_cash_out.can_skip
+		and not Handy.insta_cash_out.is_skipped
+		and Handy.b_is_mod_active()
+		and Handy.b_is_in_run()
+		and not Handy.controller.dp.b_is_console_opened()
+		and G.STATE == G.STATES.ROUND_EVAL
+		and G.round_eval
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_cash_out)
+		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_cash_out)
+	then
+		Handy.insta_cash_out.is_skipped = true
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "immediate",
+			func = function()
+				Handy.fake_events.execute({
+					func = G.FUNCS.cash_out,
+					id = "cash_out_button",
+				})
+				return true
+			end,
+		}))
+	end
+end)
+
+--
+
+Handy.not_just_yet_interaction = {}
+
+-- TODO: test
+Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+	trigger = "press",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, context)
+		return G.FUNCS.njy_endround
+			and G.STATE == G.STATES.SELECTING_HAND
+			and G.buttons
+			and G.buttons.states.visible
+			and G.GAME.chips
+			and G.GAME.blind
+			and G.GAME.blind.chips
+			and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function(self, context)
+		stop_use()
+		G.STATE = G.STATES.NEW_ROUND
+		end_round()
+		return true
+	end,
+})
+
+Handy.e_mitter.on("update", function(dt)
+	if
+		G.FUNCS.njy_endround
+		and Handy.b_is_mod_active()
+		and Handy.b_is_in_run()
+		and not Handy.b_is_stop_use()
+		and not Handy.controller.dp.b_is_console_opened()
+		and G.STATE == G.STATES.SELECTING_HAND
+		and G.buttons
+		and G.buttons.states.visible
+		and G.GAME.chips
+		and G.GAME.blind
+		and G.GAME.blind.chips
+		and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_not_just_yet_interaction)
+		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_not_just_yet_interaction)
+	then
+		stop_use()
+		G.STATE = G.STATES.NEW_ROUND
+		end_round()
+	end
+end)

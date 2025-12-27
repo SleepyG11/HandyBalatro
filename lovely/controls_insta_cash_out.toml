@@ -37,3 +37,5 @@ Handy.insta_cash_out.can_skip = false
 '''
 match_indent = true
 overwrite = false
+
+# Speed applied in controls_speed_multiplier.toml

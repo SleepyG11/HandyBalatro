@@ -3,11 +3,22 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# A point where we can leave shop
+# Add hold event after scoring
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = '''if hand_chips*mult > 0 then'''
+position = "before"
+payload = '''
+Handy.scoring_hold.create_hold_event()
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''if  SMODS.calculate_round_score()  > 0 then'''
 position = "before"
 payload = '''
 Handy.scoring_hold.create_hold_event()

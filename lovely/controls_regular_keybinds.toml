@@ -22,7 +22,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.OVERLAY_MENU = true'''
 position = "before"
 payload = '''
-if Handy.regular_keybinds.swappable_overlay then
+if Handy.regular_keybinds.swappable_overlay or Handy.UI.remove_overlay_offset then
     args.config.offset.y = 0
 end
 '''

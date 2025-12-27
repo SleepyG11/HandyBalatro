@@ -1,0 +1,5 @@
+Handy.load_file("src/core/e_mitter.lua")
+Handy.load_file("src/core/buffer.lua")
+Handy.load_file("src/core/fake_events.lua")
+Handy.load_file("src/core/flags.lua")
+Handy.load_file("src/core/localization.lua")

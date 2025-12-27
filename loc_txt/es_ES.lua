@@ -157,12 +157,6 @@ return {
 					"#2#",
 				},
 			},
-			speed_multiplier_settings_toggle = {
-				unlock = { "Multiplicador de velocidad:", "activar en ajustes" },
-				text = {
-					"Añadir interruptor en los ajustes del juego",
-				},
-			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "Seleccionar", "mano completa" },
 				text = {
@@ -204,12 +198,6 @@ return {
 					"Disminuye la cantidad de",
 					"atajos de teclado necesarios para",
 					"#2#",
-				},
-			},
-			animation_skip_settings_toggle = {
-				unlock = { "Omitir animaciones:", "activar en ajustes" },
-				text = {
-					"Añadir interruptor en los ajustes del juego",
 				},
 			},
 			scoring_hold = {
@@ -308,7 +296,7 @@ return {
 					"del stick izquierdo y derecho",
 				},
 			},
-			controller_sensivity = {
+			controller_sensitivity = {
 				unlock = { "Controlador:", "sensibilidad del cursor" },
 				text = {
 					"Permitir ajustar la sensibilidad",
@@ -825,7 +813,7 @@ return {
 			Handy_presets_guide = "Conjunto de configuraciones que pueden ser aplicados cuando quieras",
 			Handy_danger_zone_guide = "*ELIMINAR carta/etiqueta - Elimina sin comprobaciones, efectos, activaciones o devoluciones",
 
-			Handy_default_value = "#1#: valor de inicio del juego",
+			Handy_default_value = "#1#: valor predeterminado",
 		},
 		dictionary = {
 			handy_or = "o",

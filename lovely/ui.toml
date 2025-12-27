@@ -3,29 +3,29 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Draw UI
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
-position = "after"
-payload = '''
-Handy.UI.init()
-'''
-match_indent = true
-overwrite = false
+# # Draw UI
+# [[patches]]
+# [patches.pattern]
+# target = "game.lua"
+# pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
+# position = "after"
+# payload = '''
+# Handy.UI.init()
+# '''
+# match_indent = true
+# overwrite = false
 
-# Override gamepad buttons
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''G.FUNCS.set_button_pip = function(e)'''
-position = "after"
-payload = '''
-if Handy.controller.override_node_button(e) then return end
-'''
-match_indent = true
-overwrite = false
+# # Override gamepad buttons
+# [[patches]]
+# [patches.pattern]
+# target = "functions/button_callbacks.lua"
+# pattern = '''G.FUNCS.set_button_pip = function(e)'''
+# position = "after"
+# payload = '''
+# if Handy.controller.override_node_button(e) then return end
+# '''
+# match_indent = true
+# overwrite = false
 
 # Prevent button pip crash
 [[patches]]
@@ -67,8 +67,20 @@ target = "functions/UI_definitions.lua"
 pattern = '''create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),'''
 position = "before"
 payload = '''
-Handy.UI.CD.speed_multiplier.settings_option_cycle({ compress = true }),
-Handy.UI.CD.animation_skip.settings_option_cycle({ compress = true }),
+Handy.UI.settings_speed_multiplier(),
+Handy.UI.settings_animation_skip(),
+'''
+match_indent = true
+overwrite = false
+
+# Add own timer for UI in config menu
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.TIMERS.TOTAL = self.TIMERS.TOTAL + dt*(self.SPEEDFACTOR)'''
+position = "after"
+payload = '''
+self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SPEEDFACTOR)
 '''
 match_indent = true
 overwrite = false

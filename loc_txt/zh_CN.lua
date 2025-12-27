@@ -158,12 +158,6 @@ return {
 					"所需的按键数量",
 				},
 			},
-			speed_multiplier_settings_toggle = {
-				unlock = { "速度倍率：", "在设置中切换" },
-				text = {
-					"在游戏设置中添加切换开关",
-				},
-			},
 			insta_highlight_entire_f_hand = {
 				unlock = { "高亮", "整手牌" },
 				text = {
@@ -205,12 +199,6 @@ return {
 					"减少使用",
 					"#2#",
 					"所需的按键数量",
-				},
-			},
-			animation_skip_settings_toggle = {
-				unlock = { "动画跳过：", "在设置中切换" },
-				text = {
-					"在游戏设置中添加切换开关",
 				},
 			},
 			scoring_hold = {
@@ -307,7 +295,7 @@ return {
 					"光标控制行为",
 				},
 			},
-			controller_sensivity = {
+			controller_sensitivity = {
 				unlock = { "手柄：调整", "光标灵敏度" },
 				text = {
 					"允许更改手柄",
@@ -713,7 +701,6 @@ return {
 			reroll_boss = "Roll Boss",
 			run_info_hands = "对局信息：牌型",
 			run_info_blinds = "对局信息：盲注",
-			lobby_info = "多人游戏：大厅信息",
 			view_deck = "查看牌组",
 			deck_preview = "牌组预览",
 			quick_highlight = "快速选牌",
@@ -814,7 +801,7 @@ return {
 			Handy_presets_guide = "预设——可随时应用的配置与键位集合。",
 			Handy_danger_zone_guide = "*移除卡牌/标签——不经检查、效果、触发或退款直接删除。",
 
-			Handy_default_value = "#1#: 游戏启动值",
+			Handy_default_value = "#1#：默认值",
 		},
 
 		dictionary = {

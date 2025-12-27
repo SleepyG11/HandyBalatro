@@ -3,6 +3,18 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
+# Allow to use gamespeed in menu when needed
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
+position = "before"
+payload = '''
+if Handy.__use_gamespeed then self.SPEEDFACTOR = self.SETTINGS.GAMESPEED or 1 end
+'''
+match_indent = true
+overwrite = false
+
 # Apply multiplier to speed
 [[patches]]
 [patches.pattern]
@@ -11,7 +23,7 @@ pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) -
 position = "after"
 payload = '''
 self.SPEEDFACTOR = self.SPEEDFACTOR * Handy.speed_multiplier.get_value() or 1
-if Handy.insta_cash_out.is_skipped and not Handy.is_in_multiplayer() then
+if Handy.insta_cash_out.is_skipped and not Handy.b_is_in_multiplayer() then
     self.SPEEDFACTOR = math.max(self.SPEEDFACTOR, 999)
 end
 '''
