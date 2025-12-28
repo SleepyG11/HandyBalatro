@@ -154,6 +154,7 @@ l({
 				return Handy.cc.speed_multiplier_settings_toggle, { Handy.D.dictionary.speed_multiplier }
 			end,
 			checkbox = true,
+			no_mp = true,
 		},
 		{
 			key = "animation_skip_settings_toggle",
@@ -161,6 +162,7 @@ l({
 				return Handy.cc.animation_skip_settings_toggle, { Handy.D.dictionary.animation_skip }
 			end,
 			checkbox = true,
+			no_mp = true,
 		},
 	},
 })
@@ -238,6 +240,8 @@ l({
 		return Handy.cc.speed_multiplier
 	end,
 
+	no_mp = true,
+
 	simple_option_cycle = {
 		left_callback = function()
 			Handy.speed_multiplier.change(-1)
@@ -283,6 +287,7 @@ l({
 					}
 				end,
 			},
+			no_mp = true,
 		},
 		{
 			key = "speed_multiplier_multiply",
@@ -297,6 +302,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.speed_multiplier_multiply, { Handy.D.dictionary.speed_multiplier }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "speed_multiplier_divide",
@@ -311,6 +317,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.speed_multiplier_divide, { Handy.D.dictionary.speed_multiplier }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "speed_multiplier_toggle_temp_disabled",
@@ -325,6 +332,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.speed_multiplier_toggle_temp_disabled, { Handy.D.dictionary.speed_multiplier }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_speed_multiplier_uncap",
@@ -335,6 +343,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_speed_multiplier_uncap, { Handy.D.dictionary.speed_multiplier }
 			end,
+			no_mp = true,
 		},
 	},
 })
@@ -362,6 +371,7 @@ l({
 		end,
 		colour = G.C.ORANGE,
 	},
+	no_mp = true,
 
 	group = true,
 	items = {
@@ -385,6 +395,7 @@ l({
 					}
 				end,
 			},
+			no_mp = true,
 		},
 		{
 			key = "animation_skip_increase",
@@ -399,6 +410,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.animation_skip_increase, { Handy.D.dictionary.animation_skip }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "animation_skip_decrease",
@@ -413,6 +425,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.animation_skip_decrease, { Handy.D.dictionary.animation_skip }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "animation_skip_toggle_temp_disabled",
@@ -427,6 +440,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.D.dictionary.animation_skip }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_animation_skip_unsafe",
@@ -437,6 +451,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_animation_skip_unsafe, { Handy.D.dictionary.animation_skip }
 			end,
+			no_mp = true,
 		},
 	},
 })
@@ -984,6 +999,7 @@ l({
 	end,
 	checkbox = true,
 	dangerous = true,
+	no_mp = true,
 
 	group = true,
 	items = {
@@ -997,6 +1013,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_sell_one
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_remove_one",
@@ -1008,6 +1025,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_remove_one
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_sell_all_same",
@@ -1019,6 +1037,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_sell_all_same
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_remove_all_same",
@@ -1030,6 +1049,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_remove_all_same
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_sell_all",
@@ -1041,6 +1061,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_sell_all
 			end,
+			no_mp = true,
 		},
 		{
 			key = "dangerous_actions_remove_all",
@@ -1052,6 +1073,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_remove_all
 			end,
+			no_mp = true,
 		},
 	},
 })
@@ -1076,6 +1098,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.misc_quick_restart, { Handy.D.dictionary.misc }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "misc_start_fantoms_preview",
@@ -1100,6 +1123,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.misc_save_run, { Handy.D.dictionary.misc }
 			end,
+			no_mp = true,
 		},
 		{
 			key = "misc_crash",
@@ -1112,6 +1136,7 @@ l({
 			get_module = function(self)
 				return Handy.cc.misc_crash, { Handy.D.dictionary.misc }
 			end,
+			no_mp = true,
 		},
 	},
 })

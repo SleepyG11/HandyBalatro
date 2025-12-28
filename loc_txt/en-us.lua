@@ -663,6 +663,11 @@ return {
 					"controls is enabled:",
 				},
 			},
+			cant_use_in_mp = {
+				text = {
+					"{C:mult}This control is disabled in Multiplayer{}",
+				},
+			},
 		},
 	},
 	misc = {

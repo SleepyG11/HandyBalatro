@@ -1030,13 +1030,14 @@ local function is_deps_resolved(item, quick)
 	return not is_missing, missing_list
 end
 
+-- TODO: this function is so ass, rebuild it somehow
 G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	local item = e.config.handy_item
 	if not e.handy_alert_popup_setup then
 		e.handy_alert_popup_setup = true
 
 		local module, deps = item:get_module()
-		if not deps and not item.dangerous then
+		if not deps and not item.dangerous and not item.no_mp then
 			e.config.func = nil
 			return
 		end
@@ -1047,38 +1048,59 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e.states.hover.can = true
 		e.states.collide.can = true
 		function e:hover(...)
-			local is_resolved, missing_list = is_deps_resolved(item)
-			if not is_resolved and not self.children.handy_h_popup then
-				local lines_col = Handy.L.description("Handy_Other", "missing_deps", {
-					align = "cm",
-				})
-				for _, dep in ipairs(missing_list) do
-					local res = {
-						set = "Handy_ConfigDictionary",
-						key = dep.key,
-					}
-					if dep.loc_vars and type(dep.loc_vars) == "function" then
-						local r = dep:loc_vars()
-						res.vars = r.vars or res.vars
-						res.set = r.set or res.set
-						res.key = r.key or res.key
+			if not self.children.handy_h_popup then
+				local lines = { n = G.UIT.C, config = { align = "cm" }, nodes = {} }
+
+				if (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer() then
+					local lines_col = Handy.L.description("Handy_Other", "cant_use_in_mp", {
+						align = "cm",
+					})
+					for _, l in ipairs(lines_col.nodes) do
+						table.insert(lines.nodes, l)
 					end
-					table.insert(lines_col.nodes, {
-						n = G.UIT.R,
-						config = { align = "cm" },
-						nodes = {
-							{
-								n = G.UIT.T,
-								config = {
-									text = Handy.L.name_text(res.set, res.key, res.vars or {}),
-									scale = 0.32,
-									colour = dep.dangerous and G.C.MULT or G.C.CHIPS,
+				end
+
+				local is_resolved, missing_list = is_deps_resolved(item)
+				if not is_resolved then
+					local lines_col = Handy.L.description("Handy_Other", "missing_deps", {
+						align = "cm",
+					})
+					for _, dep in ipairs(missing_list) do
+						local res = {
+							set = "Handy_ConfigDictionary",
+							key = dep.key,
+						}
+						if dep.loc_vars and type(dep.loc_vars) == "function" then
+							local r = dep:loc_vars()
+							res.vars = r.vars or res.vars
+							res.set = r.set or res.set
+							res.key = r.key or res.key
+						end
+						table.insert(lines_col.nodes, {
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.T,
+									config = {
+										text = Handy.L.name_text(res.set, res.key, res.vars or {}),
+										scale = 0.32,
+										colour = dep.dangerous and G.C.MULT or G.C.CHIPS,
+									},
 								},
 							},
-						},
-					})
+						})
+					end
+					if #lines.nodes > 0 then
+						table.insert(lines.nodes, { n = G.UIT.R, config = { minh = 0.32 } })
+					end
+					for _, l in ipairs(lines_col.nodes) do
+						table.insert(lines.nodes, l)
+					end
 				end
-				self.children.handy_h_popup = UIBox(Handy.UI.CP.popup_render(self, lines_col))
+				if #lines.nodes > 0 then
+					self.children.handy_h_popup = UIBox(Handy.UI.CP.popup_render(self, lines))
+				end
 			end
 			return old_hover(self, ...)
 		end
@@ -1093,11 +1115,13 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e = old_e
 	end
 
-	local is_resolved = is_deps_resolved(item, true)
-	if is_resolved and e.children.handy_alert then
+	local is_mp_fail = (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer()
+	local is_resolve_fail = not is_deps_resolved(item, true)
+	local is_fail = is_mp_fail or is_resolve_fail
+	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil
-	elseif not is_resolved and not e.children.handy_alert then
+	elseif is_fail and not e.children.handy_alert then
 		e.children.handy_alert = UIBox({
 			definition = Handy.UI.CP.alert_definition({
 				scale_mod = 0.45,
