@@ -21,8 +21,8 @@ function Handy.UI.insta_actions_page_definition()
 				)
 				card1.handy_preview_insta_actions = {
 					type = "hand",
-					sell = "Sell",
-					use = "Use",
+					sell = Handy.L.dictionary("k_handy_preview_sell"),
+					use = Handy.L.dictionary("k_handy_preview_use"),
 				}
 
 				function card1:handy_preview_buy_or_sell()
@@ -53,9 +53,9 @@ function Handy.UI.insta_actions_page_definition()
 				if is_shop then
 					card1.handy_preview_insta_actions = {
 						type = "shop",
-						sell = "Buy",
-						use = "Buy & Use",
-						buy_n_sell = "Buy'n'Sell",
+						sell = Handy.L.dictionary("k_handy_preview_sell"),
+						use = Handy.L.dictionary("k_handy_preview_buy_n_use"),
+						buy_n_sell = Handy.L.dictionary("k_handy_preview_buy_n_sell"),
 					}
 					local t1 = {
 						n = G.UIT.ROOT,

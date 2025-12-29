@@ -1,7 +1,8 @@
 Handy.dangerous_actions = {
 	sell_queue = {},
+	preview_sell_queue = {},
 
-	sell_next_card = function()
+	sell_next_card_in_queue = function()
 		local target = table.remove(Handy.dangerous_actions.sell_queue, 1)
 		if not target then
 			stop_use()
@@ -32,68 +33,134 @@ Handy.dangerous_actions = {
 				}))
 			end
 		end
-
-		Handy.dangerous_actions.sell_next_card()
+		Handy.dangerous_actions.sell_next_card_in_queue()
 	end,
-
-	process_card = function(card, use_queue, remove)
-		if use_queue then
-			if not card.ability then
-				card.ability = {}
-			end
-			card.ability.handy_dangerous_actions_used = true
-
-			table.insert(Handy.dangerous_actions.sell_queue, { card = card, remove = remove })
-			-- Handy.UI.state_panel.update(nil, nil)
-			return false
-		elseif remove then
-			card.ability.handy_dangerous_actions_used = true
-			card:stop_hover()
-			card:remove()
-			return true
-		else
-			local result = Handy.insta_actions.execute_card(card, true, false)
-			if result then
-				if not card.ability then
-					card.ability = {}
-				end
-				card.ability.handy_dangerous_actions_used = true
-
-				G.CONTROLLER.locks.selling_card = nil
-				G.CONTROLLER.locks.use = nil
-				G.GAME.STOP_USE = 0
-
-				G.E_MANAGER:add_event(Event({
-					no_delete = true,
-					blocking = false,
-					func = function()
-						if card.ability then
-							card.ability.handy_dangerous_actions_used = nil
-						end
-						return true
-					end,
-				}))
-			end
-			return result
+	sell_next_card_in_preview_queue = function()
+		local target = table.remove(Handy.dangerous_actions.preview_sell_queue, 1)
+		if not target then
+			return
 		end
-	end,
-	process_tag = function(tag, use_queue, remove)
-		if use_queue then
-			tag.handy_dangerous_actions_used = true
-			table.insert(Handy.dangerous_actions.sell_queue, { tag = tag, remove = remove })
-			-- Handy.UI.state_panel.update(nil, nil)
-			return false
-		else
-			tag.handy_dangerous_actions_used = true
+
+		if target.tag then
+			local tag = target.tag
 			tag:stop_hover()
-			tag:remove()
-			return true
+			-- tag:remove()
+		elseif target.card then
+			local card = target.card
+			if target.remove then
+				card.ability.handy_dangerous_actions_used = nil
+				Handy.UI.utils.card_eval_status_text(card, "extra", nil, nil, nil, {
+					message = Handy.L.dictionary("k_handy_preview_remove"),
+					colour = G.C.RED,
+					instant = true,
+					timer = "REAL",
+					no_skip = true,
+					delay = 0.2,
+				})
+			else
+				card.ability.handy_dangerous_actions_used = nil
+				if not card.ability.eternal then
+					Handy.UI.utils.card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = Handy.L.dictionary("k_handy_preview_sell"),
+						colour = G.C.SECONDARY_SET.Tarot,
+						instant = true,
+						timer = "REAL",
+						no_skip = true,
+						delay = 0.2,
+					})
+				end
+			end
 		end
+		Handy.dangerous_actions.sell_next_card_in_preview_queue()
+	end,
+	sell_next_card = function()
+		if
+			Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
+		then
+			Handy.dangerous_actions.sell_next_card_in_preview_queue()
+		else
+			Handy.dangerous_actions.sell_next_card_in_queue()
+		end
+	end,
+
+	process_card = function(card, remove)
+		if not card.ability then
+			card.ability = {}
+		end
+		card.ability.handy_dangerous_actions_used = true
+		if card.handy_preview_dangerous_actions then
+			table.insert(Handy.dangerous_actions.preview_sell_queue, { card = card, remove = remove })
+		else
+			table.insert(Handy.dangerous_actions.sell_queue, { card = card, remove = remove })
+		end
+		return false
+		-- if use_queue then
+		-- elseif remove then
+		-- 	card.ability.handy_dangerous_actions_used = true
+		-- 	card:stop_hover()
+		-- 	card:remove()
+		-- 	return true
+		-- else
+		-- 	local result = Handy.insta_actions.execute_card(card, true, false)
+		-- 	if result then
+		-- 		if not card.ability then
+		-- 			card.ability = {}
+		-- 		end
+		-- 		if card.handy_preview_dangerous_actions then
+		-- 			if remove then
+		-- 				card:handy_preview_dangerous_remove()
+		-- 			else
+		-- 				card:handy_preview_dangerous_sell()
+		-- 			end
+		-- 		else
+		-- 			card.ability.handy_dangerous_actions_used = true
+		-- 			G.CONTROLLER.locks.selling_card = nil
+		-- 			G.CONTROLLER.locks.use = nil
+		-- 			G.GAME.STOP_USE = 0
+
+		-- 			G.E_MANAGER:add_event(Event({
+		-- 				no_delete = true,
+		-- 				blocking = false,
+		-- 				func = function()
+		-- 					if card.ability then
+		-- 						card.ability.handy_dangerous_actions_used = nil
+		-- 					end
+		-- 					return true
+		-- 				end,
+		-- 			}))
+		-- 		end
+		-- 	end
+		-- 	return result
+		-- end
+	end,
+	process_tag = function(tag, remove)
+		tag.handy_dangerous_actions_used = true
+		if tag.handy_dangerous_actions_preview then
+			table.insert(Handy.dangerous_actions.preview_sell_queue, { tag = tag, remove = remove })
+		else
+			table.insert(Handy.dangerous_actions.sell_queue, { tag = tag, remove = remove })
+		end
+		return false
 	end,
 
 	can_execute = function(item, context)
-		if not Handy.controls.default_can_execute(item, context) then
-			return false
+		if
+			Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
+		then
+			if
+				not Handy.controls.default_can_execute(item, context, {
+					allow_mod_inactive = true,
+					allow_no_stop_use = true,
+					allow_mp = true,
+					allow_not_in_run = true,
+				})
+			then
+				return false
+			end
+		else
+			if not Handy.controls.default_can_execute(item, context) then
+				return false
+			end
 		end
 		if context.input_context then
 			return true
@@ -109,7 +176,7 @@ Handy.dangerous_actions = {
 		Handy.controller.prevent_default()
 		if all then
 			for _, target_card in ipairs(card.area.cards) do
-				Handy.dangerous_actions.process_card(target_card, true, remove)
+				Handy.dangerous_actions.process_card(target_card, remove)
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
@@ -130,12 +197,12 @@ Handy.dangerous_actions = {
 			end
 
 			for _, target_card in ipairs(target_cards) do
-				Handy.dangerous_actions.process_card(target_card, true, remove)
+				Handy.dangerous_actions.process_card(target_card, remove)
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
 		else
-			Handy.dangerous_actions.process_card(card, true, remove)
+			Handy.dangerous_actions.process_card(card, remove)
 			return true
 		end
 	end,
@@ -143,7 +210,7 @@ Handy.dangerous_actions = {
 		Handy.controller.prevent_default()
 		if all then
 			for _, target_tag in ipairs(G.GAME.tags) do
-				Handy.dangerous_actions.process_tag(target_tag, true, true)
+				Handy.dangerous_actions.process_tag(target_tag, true)
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
@@ -151,13 +218,13 @@ Handy.dangerous_actions = {
 			local tag_key = tag.key
 			for _, target_tag in ipairs(G.GAME.tags) do
 				if target_tag.key == tag_key then
-					Handy.dangerous_actions.process_tag(target_tag, true, true)
+					Handy.dangerous_actions.process_tag(target_tag, true)
 				end
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
 		else
-			Handy.dangerous_actions.process_tag(tag, true, true)
+			Handy.dangerous_actions.process_tag(tag, true)
 			return true
 		end
 	end,
@@ -197,7 +264,10 @@ local items = {
 Handy.e_mitter.on("update_state_panel", function(context)
 	Handy.UI.state_panel.display(function(state)
 		local holded = nil
-		if Handy.b_is_mod_active() and Handy.b_is_in_run() then
+		if
+			(Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED)
+			or (Handy.b_is_mod_active() and Handy.b_is_in_run())
+		then
 			for _, item_key in ipairs(items) do
 				local item = Handy.controls.dictionary[item_key]
 				if Handy.controls.is_module_keys_activated(item:get_module(), false, context, nil, true, true) then
@@ -223,7 +293,16 @@ Handy.e_mitter.on("update_state_panel", function(context)
 				return true
 			else
 				local text = Handy.L.dictionary("ph_handy_" .. holded.key)
-				text = text .. " " .. Handy.L.variable("Handy_items_in_queue", { #Handy.dangerous_actions.sell_queue })
+				local queue = (
+					Handy.UI.data.dangerous_actions_preview_area
+					and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
+				)
+						and Handy.dangerous_actions.preview_sell_queue
+					or Handy.dangerous_actions.sell_queue
+
+				text = text .. " " .. Handy.L.variable("Handy_items_in_queue", {
+					#queue,
+				})
 				state.items.dangerous_actions = {
 					text = text,
 					hold = true,
@@ -302,7 +381,7 @@ Handy.controls.register("dangerous_actions_remove_one", {
 	can_execute = Handy.dangerous_actions.can_execute,
 	execute = function(self, context)
 		if context.input_context then
-			if not context.released then
+			if context.released then
 				Handy.dangerous_actions.sell_next_card()
 			end
 		elseif context.tag_context then

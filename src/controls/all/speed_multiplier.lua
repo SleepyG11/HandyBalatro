@@ -32,8 +32,8 @@ Handy.speed_multiplier = {
 			local j = G.ROOM.jiggle
 			for i = 1, retriggers_count do
 				local events_count = 0
-				for k, v in pairs(queue.queues or {}) do
-					events_count = events_count + #v
+				for _k, _v in pairs(queue.queues or {}) do
+					events_count = events_count + #_v
 				end
 				if events_count > 1 then
 					queue:update(0, true)
@@ -86,7 +86,7 @@ Handy.speed_multiplier = {
 	change = function(dx)
 		local multiplier = 2 ^ (dx or 0)
 		Handy.speed_multiplier.value = math.min(
-			math.max(0.001953125, Handy.speed_multiplier.value * multiplier),
+			math.max(1 / 512, Handy.speed_multiplier.value * multiplier),
 			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
 		)
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)

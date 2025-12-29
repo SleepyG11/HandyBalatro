@@ -1024,6 +1024,13 @@ return {
 
 			handy_advanced_mode = "Advanced mode",
 			handy_advanced_mode_description = "More control over keybinds",
+
+			k_handy_preview_sell = "Sell",
+			k_handy_preview_buy = "Buy",
+			k_handy_preview_use = "Use",
+			k_handy_preview_buy_n_use = "Buy & Use",
+			k_handy_preview_buy_n_sell = "Buy & Use",
+			k_handy_preview_remove = "REMOVE",
 		},
 	},
 }

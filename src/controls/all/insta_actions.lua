@@ -65,11 +65,12 @@ Handy.insta_actions = {
 		local is_preview_card = card.handy_preview_insta_actions
 		local trigger_mode = Handy.cc.insta_actions_trigger_mode.value
 		if
-			not Handy.controls.default_can_execute(
-				item,
-				context,
-				{ no_keybinds = true, allow_not_in_run = is_preview_card, allow_stop_use = is_preview_card, allow_mod_inactive = is_preview_card }
-			)
+			not Handy.controls.default_can_execute(item, context, {
+				no_keybinds = true,
+				allow_not_in_run = is_preview_card,
+				allow_stop_use = is_preview_card,
+				allow_mod_inactive = is_preview_card,
+			})
 		then
 			return false
 		end
@@ -93,6 +94,10 @@ Handy.insta_actions = {
 	execute_card = function(card, buy_or_sell, use, only_sell)
 		if card.REMOVED then
 			return false
+		end
+
+		if card.handy_preview_dangerous_actions then
+			return true
 		end
 
 		local target_button = nil
@@ -267,7 +272,7 @@ Handy.insta_actions = {
 		end
 
 		if card.handy_preview_insta_actions then
-            -- TODO: preview for code card
+			-- TODO: preview for code card
 			if actions.use then
 				card:handy_preview_use()
 			elseif actions.buy_or_sell then

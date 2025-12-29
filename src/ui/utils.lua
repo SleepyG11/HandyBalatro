@@ -426,7 +426,7 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 			align = card_aligned,
 			major = card,
 			offset = { x = 0, y = y_off },
-			timer = "HANDY_TOTAL",
+			timer = extra.timer or "HANDY_TOTAL",
 			no_skip = extra.no_skip,
 		})
 		play_sound(sound, 0.8 + percent * 0.2, volume)

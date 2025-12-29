@@ -349,6 +349,7 @@ function Handy.UI.change_ui_page(arg)
 			G.OVERLAY_MENU:recalculate()
 		end
 	end
+	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
 end
 G.FUNCS.handy_change_ui_page = function(arg)
 	Handy.UI.change_ui_page({

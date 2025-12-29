@@ -32,9 +32,10 @@ Handy.load_file("src/index.lua")
 -- 0. controller for all this shit (god help me)
 -- 1. component for checkbox and option cycle (UIKit mod?)
 -- 3. show when keybind supports combinations
--- 4. more pages (advanced, dangerous, credits)
+-- 4. more pages (advanced, credits)
 -- 5. maybe icons for menu buttons?
 -- 6. toggle to allow speed & animations in MP
--- 7. popup for checkbox if not available in MP (+ mechanism to enable all of them on double click) + optimize it
+-- 7. popup for checkbox: optimize it
 -- 8. fill scoring hold page with something (specifically displaying is it holded?)
--- 9. cleanup loc_txt
+-- 9. fill dangerous actions
+-- 10. cleanup loc_txt
