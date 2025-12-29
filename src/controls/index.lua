@@ -186,9 +186,16 @@ function Handy.controls.get_stack(context)
 	if context.card_context then
 		return Handy.controls.stacks["card_" .. context.type] or {}
 	end
+	if context.tag_context then
+		return Handy.controls.stacks["tag_" .. context.type] or {}
+	end
 end
 
-function Handy.controls.call_stack(stack, context)
+function Handy.controls.call_stack(context, stack)
+	stack = stack or Handy.controls.get_stack(context)
+	if not stack then
+		return false
+	end
 	local operator = stack.op or "all"
 	local should_stop = false
 
@@ -197,7 +204,7 @@ function Handy.controls.call_stack(stack, context)
 			return true
 		end
 		if type(item) == "table" then
-			should_stop = Handy.controls.call_stack(item, context) or false
+			should_stop = Handy.controls.call_stack(context, item) or false
 		elseif type(item) == "string" then
 			should_stop = Handy.controls.execute(Handy.controls.dictionary[item], context) or false
 		end
@@ -212,7 +219,7 @@ end
 --
 
 function Handy.controls.process_context(context)
-	Handy.controls.call_stack(Handy.controls.get_stack(context), context)
+	Handy.controls.call_stack(context)
 end
 
 Handy.e_mitter.on("update", function(dt)

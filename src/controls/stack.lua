@@ -391,7 +391,6 @@ Handy.controls.stacks = {
 	},
 	tag_hover = {
 		op = "first",
-		"hand_selection_insta_highlight",
 		"dangerous_actions_sell_one",
 		"dangerous_actions_remove_one",
 	},
@@ -401,7 +400,6 @@ Handy.controls.stacks = {
 		"dangerous_actions_remove_all_same",
 		"dangerous_actions_sell_all",
 		"dangerous_actions_remove_all",
-		"insta_actions",
 	},
 }
 
