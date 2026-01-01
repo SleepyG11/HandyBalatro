@@ -7,7 +7,7 @@
 --- PRIORITY: 0
 --- DISPLAY_NAME: Handy
 --- PREFIX: handy
---- VERSION: 1.5.1n
+--- VERSION: 1.5.1o
 ----------------------------------------------
 ------------MOD CODE -------------------------
 

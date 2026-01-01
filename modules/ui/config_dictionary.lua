@@ -884,7 +884,9 @@ local dictionary = {
 		end,
 		settings_option_cycle = function()
 			if
-				Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
+				Handy.is_mod_active()
+				and not Handy.is_in_multiplayer()
+				and Handy.controller.is_module_enabled(Handy.cc.speed_multiplier)
 				and Handy.controller.is_module_enabled(Handy.cc.speed_multiplier.settings_toggle)
 			then
 				return {
@@ -1034,7 +1036,9 @@ local dictionary = {
 		end,
 		settings_option_cycle = function()
 			if
-				Handy.controller.is_module_enabled(Handy.cc.animation_skip)
+				Handy.is_mod_active()
+				and not Handy.is_in_multiplayer()
+				and Handy.controller.is_module_enabled(Handy.cc.animation_skip)
 				and Handy.controller.is_module_enabled(Handy.cc.animation_skip.settings_toggle)
 			then
 				return {
