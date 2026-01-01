@@ -160,7 +160,9 @@ end
 
 function Handy.UI.settings_speed_multiplier()
 	if
-		Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
+		not Handy.b_is_in_multiplayer()
+		and Handy.b_is_mod_active()
+		and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_settings_toggle)
 	then
 		return {
@@ -200,7 +202,9 @@ function Handy.UI.settings_speed_multiplier()
 end
 function Handy.UI.settings_animation_skip()
 	if
-		Handy.controls.is_module_enabled(Handy.cc.animation_skip)
+		not Handy.b_is_in_multiplayer()
+		and Handy.b_is_mod_active()
+		and Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 		and Handy.controls.is_module_enabled(Handy.cc.animation_skip_settings_toggle)
 	then
 		return {
