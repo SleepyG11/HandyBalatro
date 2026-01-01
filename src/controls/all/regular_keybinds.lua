@@ -620,7 +620,8 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 
 Handy.e_mitter.on("update", function(dt)
 	if
-		not Handy.insta_booster_skip.is_skipped
+		not Handy.controller.binding.current
+		and not Handy.insta_booster_skip.is_skipped
 		and Handy.b_is_mod_active()
 		and Handy.b_is_in_run()
 		and not Handy.b_is_stop_use()
@@ -698,7 +699,8 @@ Handy.controls.register("regular_keybinds_cash_out", {
 
 Handy.e_mitter.on("update", function(dt)
 	if
-		Handy.insta_cash_out.can_skip
+		not Handy.controller.binding.current
+		and Handy.insta_cash_out.can_skip
 		and not Handy.insta_cash_out.is_skipped
 		and Handy.b_is_mod_active()
 		and Handy.b_is_in_run()
@@ -763,7 +765,8 @@ Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 
 Handy.e_mitter.on("update", function(dt)
 	if
-		G.FUNCS.njy_endround
+		not Handy.controller.binding.current
+		and G.FUNCS.njy_endround
 		and Handy.b_is_mod_active()
 		and Handy.b_is_in_run()
 		and not Handy.b_is_stop_use()

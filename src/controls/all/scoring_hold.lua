@@ -43,7 +43,9 @@ Handy.scoring_hold = {
 
 Handy.e_mitter.on("update", function(dt)
 	local new_value
-	if Handy.UI.data.speed_n_animations_preview then
+	if Handy.controller.binding.current then
+		new_value = false
+	elseif Handy.UI.data.speed_n_animations_preview then
 		local old_value = Handy.scoring_hold.preview_is_hold
 		new_value = Handy.scoring_hold.get_preview_is_hold()
 		local old_hand_played_value = Handy.scoring_hold.preview_is_hand_played

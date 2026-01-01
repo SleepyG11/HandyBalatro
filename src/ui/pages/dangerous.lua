@@ -34,6 +34,51 @@ function Handy.UI.dangerous_page_definition()
 		},
 	}
 
+	local tags = {}
+	local get_tag_ui = function(t)
+		local tag = Tag(t, true)
+		tag.handy_dangerous_actions_preview = true
+		table.insert(tags, tag)
+		local tag_ui = tag:generate_UI()
+		return tag_ui
+	end
+
+	local result_tags_row = {}
+	for _, tag_key in ipairs({
+		"tag_double",
+		"tag_double",
+		"tag_double",
+		"tag_double",
+		"tag_charm",
+		"tag_charm",
+		"tag_charm",
+		"tag_charm",
+	}) do
+		table.insert(result_tags_row, {
+			n = G.UIT.C,
+			config = { align = "cm" },
+			nodes = {
+				get_tag_ui(tag_key),
+			},
+		})
+	end
+
+	local tags_area = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { padding = 0.1, r = 0.25, colour = { 0, 0, 0, 0.1 } },
+					nodes = result_tags_row,
+				},
+			},
+		},
+		config = {},
+	})
+	tags_area.tags = tags
+
 	local hand_area = Handy.UI.utils.card_area({
 		w = CAI.hand_W,
 		h = CAI.hand_H,
@@ -70,6 +115,7 @@ function Handy.UI.dangerous_page_definition()
 	})
 
 	Handy.UI.data.dangerous_actions_preview_area = hand_area
+	Handy.UI.data.dangerous_actions_preview_tags = tags_area
 
 	local example_hand_row = {
 		n = G.UIT.R,
@@ -109,11 +155,34 @@ function Handy.UI.dangerous_page_definition()
 		},
 	}
 
+	local example_tags_area = {
+		n = G.UIT.R,
+		config = {
+			padding = 0.125,
+			align = "cm",
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = tags_area,
+						},
+					},
+				},
+			},
+		},
+	}
+
 	return {
 		n = G.UIT.C,
 		nodes = {
 			content,
 			Handy.UI.CP.r_sep(0.1),
+			example_tags_area,
 			example_hand_row,
 			{
 				n = G.UIT.R,

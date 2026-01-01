@@ -11,8 +11,10 @@ Handy.dangerous_actions = {
 
 		if target.tag then
 			local tag = target.tag
-			tag:stop_hover()
-			tag:remove()
+			if target.remove then
+				tag.tag_sprite:stop_hover()
+				tag:remove()
+			end
 		elseif target.card then
 			local card = target.card
 			if target.remove then
@@ -43,8 +45,23 @@ Handy.dangerous_actions = {
 
 		if target.tag then
 			local tag = target.tag
-			tag:stop_hover()
-			-- tag:remove()
+			if target.remove then
+				tag.tag_sprite:stop_hover()
+				tag.handy_dangerous_actions_used = nil
+				tag:juice_up(0.6, 0.1)
+				play_sound("generic1", 0.8 + (0.9 + 0.2 * math.random()) * 0.2, 1)
+				Handy.UI.utils.attention_text({
+					text = Handy.L.dictionary("k_handy_preview_remove"),
+					scale = 1,
+					hold = 0.2 * 1.25 - 0.2,
+					background_colour = G.C.RED,
+					align = "bm",
+					major = tag.tag_sprite,
+					offset = { x = 0, y = 0.1 },
+					timer = "REAL",
+					no_skip = true,
+				})
+			end
 		elseif target.card then
 			local card = target.card
 			if target.remove then
@@ -165,7 +182,9 @@ Handy.dangerous_actions = {
 		if context.input_context then
 			return true
 		elseif context.tag_context then
-			return context.tag and not context.tag.handy_dangerous_actions_used
+			return context.tag
+				and (context.tag.HUD_tag or context.tag.handy_dangerous_actions_preview)
+				and not context.tag.handy_dangerous_actions_used
 		elseif context.card_context then
 			return context.card and not (context.card.ability and context.card.ability.handy_dangerous_actions_used)
 		else
@@ -207,16 +226,21 @@ Handy.dangerous_actions = {
 		end
 	end,
 	execute_tag = function(tag, remove, all_same, all)
+		local tags_list = (
+			Handy.UI.data.dangerous_actions_preview_tags
+			and not Handy.UI.data.dangerous_actions_preview_tags.REMOVED
+			and Handy.UI.data.dangerous_actions_preview_tags.tags
+		) or G.GAME.tags
 		Handy.controller.prevent_default()
 		if all then
-			for _, target_tag in ipairs(G.GAME.tags) do
+			for _, target_tag in ipairs(tags_list) do
 				Handy.dangerous_actions.process_tag(target_tag, true)
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
 		elseif all_same then
 			local tag_key = tag.key
-			for _, target_tag in ipairs(G.GAME.tags) do
+			for _, target_tag in ipairs(tags_list) do
 				if target_tag.key == tag_key then
 					Handy.dangerous_actions.process_tag(target_tag, true)
 				end
@@ -268,11 +292,13 @@ Handy.e_mitter.on("update_state_panel", function(context)
 			(Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED)
 			or (Handy.b_is_mod_active() and Handy.b_is_in_run())
 		then
-			for _, item_key in ipairs(items) do
-				local item = Handy.controls.dictionary[item_key]
-				if Handy.controls.is_module_keys_activated(item:get_module(), false, context, nil, true, true) then
-					holded = item
-					break
+			if not Handy.controller.binding.current then
+				for _, item_key in ipairs(items) do
+					local item = Handy.controls.dictionary[item_key]
+					if Handy.controls.is_module_keys_activated(item:get_module(), false, context, nil, true, true) then
+						holded = item
+						break
+					end
 				end
 			end
 		end
