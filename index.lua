@@ -36,6 +36,5 @@ Handy.load_file("src/index.lua")
 -- 5. maybe icons for menu buttons?
 -- 6. toggle to allow speed & animations in MP
 -- 7. popup for checkbox: optimize it
--- 8. fill scoring hold page with something (specifically displaying is it holded?)
--- 9. fill dangerous actions
+-- 9. fill dangerous actions (tags)
 -- 10. cleanup loc_txt

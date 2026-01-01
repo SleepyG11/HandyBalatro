@@ -42,9 +42,10 @@ Handy.scoring_hold = {
 }
 
 Handy.e_mitter.on("update", function(dt)
+	local new_value
 	if Handy.UI.data.speed_n_animations_preview then
 		local old_value = Handy.scoring_hold.preview_is_hold
-		local new_value = Handy.scoring_hold.get_preview_is_hold()
+		new_value = Handy.scoring_hold.get_preview_is_hold()
 		local old_hand_played_value = Handy.scoring_hold.preview_is_hand_played
 		local new_hand_played_value = Handy.UI.data.is_speed_n_animations_calculate
 
@@ -60,7 +61,7 @@ Handy.e_mitter.on("update", function(dt)
 		end
 	else
 		local old_value = Handy.scoring_hold.is_hold
-		local new_value = Handy.scoring_hold.get_is_hold()
+		new_value = Handy.scoring_hold.get_is_hold()
 		local old_hand_played_value = Handy.scoring_hold.is_hand_played
 		local new_hand_played_value = G.STATE == G.STATES.HAND_PLAYED
 
@@ -74,25 +75,26 @@ Handy.e_mitter.on("update", function(dt)
 				end
 			end
 		end
-
-		Handy.UI.state_panel.display(function(state)
-			if state.items.scoring_hold and state.items.scoring_hold.hold ~= new_value then
-				state.items.scoring_hold.hold = new_value and not G.SETTINGS.paused and not G.OVERLAY_MENU
-				return true
-			elseif new_value then
-				if Handy.cc.notifications_level.value < 3 or G.SETTINGS.paused or G.OVERLAY_MENU then
-					return false
-				end
-				state.items.scoring_hold = {
-					text = Handy.L.variable("Handy_scoring_hold"),
-					order = 7,
-					hold = Handy.scoring_hold.is_hold,
-					level = 3,
-				}
-				return true
-			end
-		end, "update", 3)
 	end
+
+	Handy.UI.state_panel.display(function(state)
+		local can_display = Handy.UI.data.speed_n_animations_preview or (not G.SETTINGS.paused and not G.OVERLAY_MENU)
+		if state.items.scoring_hold and state.items.scoring_hold.hold ~= new_value then
+			state.items.scoring_hold.hold = new_value and can_display
+			return true
+		elseif new_value then
+			if not can_display then
+				return false
+			end
+			state.items.scoring_hold = {
+				text = Handy.L.variable("Handy_scoring_hold"),
+				order = 7,
+				hold = Handy.scoring_hold.is_hold,
+				level = 3,
+			}
+			return true
+		end
+	end, "update", Handy.UI.data.speed_n_animations_preview and 1 or 3)
 end)
 
 --

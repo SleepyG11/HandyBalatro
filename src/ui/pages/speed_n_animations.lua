@@ -412,6 +412,7 @@ G.FUNCS.handy_leave_speed_n_animations = function(e)
 	Handy.__use_gamespeed = nil
 	Handy.UI.data.is_speed_n_animations_calculate = nil
 	G.FUNCS.handy_back_to_options(e)
+	Handy.UI.data.speed_n_animations_preview = nil
 end
 
 function G.FUNCS.handy_speed_n_animations_stop_calculation(e, without_cleanup)
