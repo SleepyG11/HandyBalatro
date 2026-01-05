@@ -775,81 +775,6 @@ return {
 			-- All NUM keys (NUM 0 ... NUM 9, NUM Enter, NUM +, NUM -, NUM *, NUM /, NUM .)
 			-- Other symbols (. ; / \ - + etc)
 		},
-		handy_keybind_labels = {
-			play_hand = "Play hand",
-			discard = "Discard",
-			toggle_sort = "Toggle sort",
-			sort_by_rank = "Sort by rank",
-			sort_by_suit = "Sort by suit",
-			deselect_hand = "Deselect hand",
-			cash_out = "Cash out",
-			not_just_yet_end_round = "NotJustYet: end round",
-			skip_booster = "Skip booster pack",
-			reroll_shop = "Shop reroll",
-			leave_shop = "Leave shop",
-			skip_blind = "Skip blind",
-			select_blind = "Select blind",
-			reroll_boss = "Reroll boss",
-			run_info_hands = "Run info: poker hands",
-			run_info_blinds = "Run info: blinds",
-			lobby_info = "Multiplayer: Lobby info",
-			view_deck = "View deck",
-			deck_preview = "Deck preview",
-			quick_highlight = "Fast hand selection",
-			quick_buy_or_sell = "Quick buy/sell",
-			quick_buy_n_sell = "Quick buy'n'sell",
-			quick_use = "Quick use",
-			highlight_entire_f_hand = "Highlight entire hand",
-			cryptid_code_use_last_interaction = "Cryptid: use previous input",
-			speed_multiplier = "Speed multiplier",
-			speed_multiplier_multiply = "Speed multiplier: Multiply",
-			speed_multiplier_divide = "Speed multiplier: Divide",
-			nopeus_interaction = "Nopeus: fast-forward",
-			nopeus_interaction_increase = "Nopeus: Increase",
-			nopeus_interaction_decrease = "Nopeus: Decrease",
-			animation_skip = "Animation skip",
-			animation_skip_increase = "Animation skip: Increase",
-			animation_skip_decrease = "Animation skip: Decrease",
-			move_highlight_one_left = "Move one left",
-			move_highlight_one_right = "Move one right",
-			move_highlight_move_card = "Move card",
-			move_highlight_to_end = "Move to end",
-
-			dangerous_modifier = '"Dangerous" modifier',
-			dangerous_all_same_modifier = '"All copies" modifier',
-			dangerous_all_modifier = '"ALL" modifier',
-			dangerous_remove_modifier = '"REMOVE" modifier',
-
-			scoring_hold = "Pause scoring animation",
-
-			presets_load_1 = "Load preset 1",
-			presets_load_2 = "Load preset 2",
-			presets_load_3 = "Load preset 3",
-			presets_load_next = "Load next preset",
-
-			misc_open_mod_settings = "Open mod settings",
-			misc_crash = "Crash a game",
-			misc_save_run = "Save run",
-			misc_quick_restart = "Quick restart",
-			misc_start_fantoms_preview = "Fantom's Preview: Calculate",
-		},
-		handy_keybind_sections = {
-			hand = "Hand",
-			round = "Round",
-			shop = "Shop",
-			blinds = "Blinds",
-			menus = "Menus",
-			quick_actions = "Quick actions",
-			gamespeed = "Game speed",
-			animations = "Animations",
-			highlight_movement = "Highlight movement",
-			shop_and_blinds = "Shop and Blinds",
-			gamespeed_and_animations = "Game speed and animations",
-			hand_selection = "Hand selection",
-			presets = "Presets",
-			dangerous_actions = "Dangerous actions",
-			misc = "Miscellaneous",
-		},
 		handy_tabs = {
 			["Overall"] = "General",
 			["Presets"] = "Presets",
@@ -873,16 +798,15 @@ return {
 		},
 		v_dictionary = {
 			Handy_by = "#1# by #2#",
-
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
+            Handy_temp_disabled = "[disabled]",
+
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
-			Handy_gamespeed_multiplier_temp_disabled = "Game speed multiplier: #1# [disabled]",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#",
-			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
 			Handy_animation_skip = "Animation skip: #1#",
-			Handy_animation_skip_temp_disabled = "Animation skip: #1# [disabled]",
+
 			Handy_skip_booster_pack = "Skip booster pack",
 
 			Handy_scoring_hold = "Pause scoring animation",
@@ -897,22 +821,10 @@ return {
 			Handy_preset_example_loaded = "Pre-made preset [#1#] loaded",
 			Handy_preset_nothing_to_load = "No presets to load",
 
-			Handy_overall_guide_button = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "#1#" tab.',
-			Handy_overall_guide_gamepad = 'Each control can be assigned to any gamepad buttons in "#1#" tab.',
-			Handy_popups_guide = "Hover controls to see more info about them.",
-			Handy_popups_guide_gamepad = "Move between controls to see more info about them.",
-			Handy_search_guide = 'Use "#1#" tab for search.',
-			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
-			Handy_keybinds_guide_gamepad = "#2# on a button and next inputted key will be assigned. #1# to unbind.",
-			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
-			Handy_danger_zone_guide = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
-
-			Handy_default_value = "#1#: default value",
-
 			Handy_binding_canceled = "Binding canceled",
 			Handy_binding_cancel_reason_no_safe = 'Cannot assign #1# here to prevent "softlock"',
 			Handy_binding_cancel_reason_no_hold = 'Cannot assign #1# here since it cannot be "holded"',
-			Handy_binding_cancel_reason_multiple_no_hold = "Keybind cannot contain multiple non-holdable keys",
+			Handy_binding_cancel_reason_multiple_no_hold = "Combination cannot contain multiple non-holdable keys",
 			Handy_binding_finished = "Binding finished: #1#",
 			Handy_binding_progress = "Binding: #1#",
 			Handy_binding_esc_hint = "#1# to save",
@@ -941,7 +853,6 @@ return {
 			b_handy_search_placeholder = "Search...",
 			b_handy_search = "Search",
 			b_handy_clear = "Clear",
-			ph_handy_search_no_results = 'Use keywords like "more speed", "animations", "sell" etc.',
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",
@@ -957,8 +868,6 @@ return {
 			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
 			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
-			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
-			ph_handy_notif_cannot_bind_non_safe = "Cannot bind this button here",
 
 			ph_handy_notif_misc_save_run_start = "Starting run saving...",
 			ph_handy_notif_misc_save_run_saving = "Saving a run...",
@@ -973,11 +882,6 @@ return {
 				[5] = "Unsafe",
 			},
 
-			handy_modals_speed_title = "Speed multiplier",
-			handy_modals_speed_description = "Increase speed of animations",
-			handy_modals_animations_title = "Animation skip",
-			handy_modals_animations_description = "Remove animations",
-
 			handy_modals_start_calculation = {
 				"Start",
 				"calculation",
@@ -988,17 +892,6 @@ return {
 			},
 			handy_modals_preview_description = "Use preview to see settings effect",
 			handy_modals_move_highlight_preview_description = "Use preview to test controls",
-
-			handy_modals_default_value_title = "Default value",
-			handy_modals_default_value_description = "Will be set on game startup",
-			handy_modals_no_hold_n_usage_title = "No hold / Usage",
-
-			handy_modals_hold_button = "Hold button",
-			handy_modals_increase_button = "Increase button",
-			handy_modals_decrease_button = "Decrease button",
-
-			handy_modals_dangerous_options_title = "Dangerous options",
-			handy_modals_dangerous_options_description = "Must be enabled in Danger Zone",
 
 			ph_handy_dangerous_actions_sell_one = "Sell one",
 			ph_handy_dangerous_actions_remove_one = "Remove one",
@@ -1023,7 +916,7 @@ return {
 			handy_buy_sell_use_mode_hover_n_press = "Hover or grab card + Press key",
 
 			handy_advanced_mode = "Advanced mode",
-			handy_advanced_mode_description = "More control over keybinds",
+			handy_advanced_mode_description = "More toggles + combinations",
 
 			k_handy_preview_sell = "Sell",
 			k_handy_preview_buy = "Buy",

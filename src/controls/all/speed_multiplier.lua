@@ -110,14 +110,12 @@ Handy.speed_multiplier = {
 		local is_dangerous = Handy.speed_multiplier.value > 512 and not Handy.speed_multiplier.temp_disabled
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
+            local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
+            if Handy.speed_multiplier.temp_disabled then
+                text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+            end
 			state.items.change_speed_multiplier = {
-				text = Handy.L.variable(
-					Handy.speed_multiplier.temp_disabled and "Handy_gamespeed_multiplier_temp_disabled"
-						or "Handy_gamespeed_multiplier",
-					{
-						Handy.speed_multiplier.value_text,
-					}
-				),
+				text = text,
 				hold = false,
 				order = 5,
 				dangerous = is_dangerous,

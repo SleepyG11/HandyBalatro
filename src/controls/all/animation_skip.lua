@@ -97,12 +97,12 @@ Handy.animation_skip = {
 		local level = (is_dangerous and not Handy.animation_skip.temp_disabled) and 2 or 3
 
 		Handy.UI.state_panel.display(function(state)
+            local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
+            if Handy.animation_skip.temp_disabled then
+                text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+            end
 			state.items.change_animation_skip = {
-				text = Handy.L.variable(
-					Handy.animation_skip.temp_disabled and "Handy_animation_skip_temp_disabled"
-						or "Handy_animation_skip",
-					{ Handy.animation_skip.value_text }
-				),
+				text = text,
 				hold = false,
 				order = 4,
 				dangerous = is_dangerous,
