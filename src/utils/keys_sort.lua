@@ -106,15 +106,15 @@ function Handy.utils.sort_keys(t)
 end
 
 function Handy.utils.normalize_keys(t)
-	local d = {}
-	local r = {}
+	local duplicates = {}
+	local result = {}
 	for _, key in pairs(t) do
-		if t == "None" or t == "Unknown" then
+		if key == "None" or key == "Unknown" then
 			return {}
-		elseif not d[key] then
-			table.insert(r, key)
-			d[key] = true
+		elseif not duplicates[key] then
+			table.insert(result, key)
+			duplicates[key] = true
 		end
 	end
-	return Handy.utils.sort_keys(r)
+	return Handy.utils.sort_keys(result)
 end
