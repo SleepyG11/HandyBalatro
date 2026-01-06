@@ -739,6 +739,23 @@ l({
 			group = true,
 			items = {
 				{
+					key = "regular_keybinds_restart",
+					checkbox = true,
+					keybind = {
+						allow_multiple = true,
+						only_holdable = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_restart, { Handy.D.dictionary.regular_keybinds }
+					end,
+					loc_vars = function()
+						return {
+							vars = { Handy.L.with_brackets(Handy.L.keys("R"), true) },
+						}
+					end,
+					no_mp = true,
+				},
+				{
 					key = "regular_keybinds_quick_restart",
 					checkbox = true,
 					keybind = {

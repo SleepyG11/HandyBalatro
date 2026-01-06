@@ -59,6 +59,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds, { bg = true }),
 							Handy.UI.CP.r_sep(0.1),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_game, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_restart),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_quick_restart),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_save_run),
 							Handy.UI.CP.r_sep(0.1),
@@ -129,6 +130,12 @@ end
 function Handy.UI.get_vanilla_keybinds_tabs()
 	local result = {
 		{
+			label = Handy.L.tab("Game & Menus"),
+			tab_definition_function = function()
+				return Handy.UI.vanilla_keybinds_menus_tab_definition()
+			end,
+		},
+		{
 			label = Handy.L.tab("Round"),
 			tab_definition_function = function()
 				return Handy.UI.vanilla_keybinds_round_tab_definition()
@@ -138,12 +145,6 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 			label = Handy.L.tab("Shop & Blind Select"),
 			tab_definition_function = function()
 				return Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
-			end,
-		},
-		{
-			label = Handy.L.tab("Game & Menus"),
-			tab_definition_function = function()
-				return Handy.UI.vanilla_keybinds_menus_tab_definition()
 			end,
 		},
 	}

@@ -29,16 +29,22 @@ Handy.insta_actions = {
 	get_actions = function(input_context)
 		return {
 			buy_n_sell = Handy.controls.is_module_enabled(Handy.cc.insta_actions_buy_n_sell)
-				and Handy.controls.is_module_keys_activated(Handy.cc.insta_actions_buy_n_sell, input_context),
+				and Handy.controls.is_module_keys_activated(
+					Handy.cc.insta_actions_buy_n_sell,
+					{ context = input_context }
+				),
 			buy_or_sell = Handy.controls.is_module_enabled(Handy.cc.insta_actions_buy_or_sell)
-				and Handy.controls.is_module_keys_activated(Handy.cc.insta_actions_buy_or_sell, input_context),
+				and Handy.controls.is_module_keys_activated(
+					Handy.cc.insta_actions_buy_or_sell,
+					{ context = input_context }
+				),
 			use = Handy.controls.is_module_enabled(Handy.cc.insta_actions_use)
-				and Handy.controls.is_module_keys_activated(Handy.cc.insta_actions_use, input_context),
+				and Handy.controls.is_module_keys_activated(Handy.cc.insta_actions_use, { context = input_context }),
 			cryptid_code_use_last_interaction = Handy.controls.is_module_enabled(
 				Handy.cc.insta_actions_cryptid_code_use_last_interaction
 			) and Handy.controls.is_module_keys_activated(
 				Handy.cc.insta_actions_cryptid_code_use_last_interaction,
-				input_context
+				{ context = input_context }
 			),
 		}
 	end,

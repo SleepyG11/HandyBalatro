@@ -114,7 +114,7 @@ function Handy.UI.get_config_tab_overall()
 								nodes = {
 									b({ label = "Generall & Appearance", button = "handy_appearance" }),
 									Handy.UI.CP.r_sep(0.1),
-									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
+									b({ label = "Speed & Animations", button = "handy_speed_n_animations" }),
 								},
 							},
 							Handy.UI.CP.c_sep(0.1),
@@ -136,7 +136,7 @@ function Handy.UI.get_config_tab_overall()
 								n = G.UIT.C,
 								config = { align = "cm" },
 								nodes = {
-									b({ label = "Speed & Animations", button = "handy_speed_n_animations" }),
+									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
 									Handy.UI.CP.r_sep(0.1),
 									b({ label = "Highlight movement", button = "handy_move_highlight" }),
 								},

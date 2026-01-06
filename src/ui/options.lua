@@ -15,7 +15,7 @@ end
 function Handy.UI.get_options_tabs()
 	local result = {
 		{
-			label = Handy.L.tab("Overall"),
+			label = "Handy",
 			tab_definition_function = function()
 				return Handy.UI.overall_tab()
 			end,

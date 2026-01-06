@@ -28,3 +28,15 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# Handle game restart manually
+[[patches]]
+[patches.regex]
+target = "engine/controller.lua"
+pattern = '''if key == "r" and not G.SETTINGS.paused'''
+position = "at"
+payload = '''
+if key == "r" and Handy.__can_restart
+'''
+match_indent = true
+overwrite = false

@@ -638,6 +638,72 @@ Handy.controls.register("regular_keybinds_mod_settings", {
 	end,
 })
 
+Handy.e_mitter.on("update", function(dt)
+	if
+		(G.CONTROLLER.locked and not G.SETTINGS.paused)
+		or G.CONTROLLER.locks.frame
+		or G.CONTROLLER.frame_buttonpress
+	then
+		return
+	end
+	if
+		Handy.b_is_mod_active()
+		and Handy.b_is_in_run()
+		and not Handy.b_is_in_multiplayer()
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_restart)
+		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_restart, {
+			check_context = false,
+			exact_keys = true,
+			hold_duration = 0.7,
+		})
+	then
+		local old_hold_value = G.CONTROLLER.held_key_times.r
+		G.CONTROLLER.held_key_times.r = 999
+		Handy.__can_restart = true
+		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
+		G.CONTROLLER:key_hold_update("r", 0)
+		Handy.__restart_from_game_over = nil
+		Handy.__can_restart = nil
+		G.CONTROLLER.held_key_times.r = old_hold_value
+	end
+end)
+
+Handy.controls.register("regular_keybinds_quick_restart", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	require_exact_keys = true,
+	no_mp = true,
+
+	can_execute = function(self, context)
+		return G.STAGE == G.STAGES.RUN
+			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function()
+		local old_hold_value = G.CONTROLLER.held_key_times.r
+		G.CONTROLLER.held_key_times.r = 999
+		Handy.animation_skip.skip_wipe_screen = true
+		Handy.animation_skip.force_non_blocking = true
+		Handy.__can_restart = true
+		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
+		G.CONTROLLER:key_hold_update("r", 0)
+		Handy.__restart_from_game_over = nil
+		Handy.__can_restart = nil
+		G.CONTROLLER.held_key_times.r = old_hold_value
+		Handy.animation_skip.skip_wipe_screen = false
+		Handy.animation_skip.force_non_blocking = false
+		return true
+	end,
+})
 Handy.controls.register("regular_keybinds_save_run", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_save_run, { Handy.cc.regular_keybinds }
@@ -690,44 +756,6 @@ Handy.controls.register("regular_keybinds_start_fantoms_preview", {
 		Handy.fake_events.execute_button(function()
 			return G.HUD:get_UIE_by_ID("calculate_score_button")
 		end)
-		return true
-	end,
-})
-
--- TODO: replacement for regular hold R keybind
-
-Handy.controls.register("regular_keybinds_quick_restart", {
-	get_module = function()
-		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	require_exact_keys = true,
-	no_mp = true,
-
-	can_execute = function(self, context)
-		return G.STAGE == G.STAGES.RUN
-			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
-			and Handy.controls.default_can_execute(self, context)
-	end,
-	execute = function()
-		local old_hold_value = G.CONTROLLER.held_key_times.r
-		G.CONTROLLER.held_key_times.r = 999
-		Handy.animation_skip.skip_wipe_screen = true
-		Handy.animation_skip.force_non_blocking = true
-		Handy.__force_restart = true
-		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
-		G.CONTROLLER:key_hold_update("r", 0)
-		Handy.__restart_from_game_over = nil
-		Handy.__force_restart = nil
-		G.CONTROLLER.held_key_times.r = old_hold_value
-		Handy.animation_skip.skip_wipe_screen = false
-		Handy.animation_skip.force_non_blocking = false
 		return true
 	end,
 })

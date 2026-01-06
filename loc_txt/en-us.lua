@@ -409,12 +409,21 @@ return {
 				name = "Game",
 				text = {},
 			},
-			regular_keybinds_quick_restart = {
-				name = { "Quick run restart" },
-				text = {
-					'"R" but instant',
-				},
+			regular_keybinds_restart = {
+				name = { "Run restart" },
+				text = {},
 				unlock = {
+					"Act as replacement for Vanilla",
+					"{C:chips}#1#{}, works {C:inactive,s:0.75}almost{} identical",
+				},
+			},
+			regular_keybinds_quick_restart = {
+				name = { "Instant run restart" },
+				text = {},
+				unlock = {
+					"Same as Vanilla restart",
+					"but with {C:attention}skipped animation{}",
+					" ",
 					"Works from {C:attention}Game Over{} screen too",
 				},
 			},

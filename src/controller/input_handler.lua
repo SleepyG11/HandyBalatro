@@ -174,9 +174,10 @@ end)
 Handy.controller.held_keys = {}
 Handy.controller.held_keys_pre = {}
 Handy.e_mitter.on("update", function(dt)
-	local t = Handy.controller.held_keys
-	for key, value in pairs(t) do
-		t[key] = value + dt
+	for _, t in ipairs({ Handy.controller.held_keys, Handy.controller.held_keys_pre }) do
+		for key, value in pairs(t) do
+			t[key] = value + dt
+		end
 	end
 end)
 

@@ -49,14 +49,15 @@ function Handy.UI.dangerous_page_definition()
 		"tag_double",
 		"tag_double",
 		"tag_double",
-		"tag_double",
-		"tag_charm",
+		"tag_ethereal",
+		"tag_ethereal",
+		"tag_ethereal",
 		"tag_charm",
 		"tag_charm",
 		"tag_charm",
 	}) do
 		table.insert(result_tags_row, {
-			n = G.UIT.C,
+			n = G.UIT.R,
 			config = { align = "cm" },
 			nodes = {
 				get_tag_ui(tag_key),
@@ -72,7 +73,9 @@ function Handy.UI.dangerous_page_definition()
 				{
 					n = G.UIT.C,
 					config = { padding = 0.1, r = 0.25, colour = { 0, 0, 0, 0.1 } },
-					nodes = result_tags_row,
+					nodes = {
+						{ n = G.UIT.C, config = { padding = 0.029 }, nodes = result_tags_row },
+					},
 				},
 			},
 		},
@@ -83,18 +86,19 @@ function Handy.UI.dangerous_page_definition()
 	local hand_area = Handy.UI.utils.card_area({
 		w = CAI.hand_W,
 		h = CAI.hand_H,
-		card_limit = 8,
+		card_limit = 9,
 		highlight_limit = 1,
 		on_create = function(area)
 			for index, center in ipairs({
-				"j_greedy_joker",
-				"j_greedy_joker",
-				"j_greedy_joker",
-				"j_greedy_joker",
-				"j_wrathful_joker",
-				"j_wrathful_joker",
-				"j_wrathful_joker",
-				"j_wrathful_joker",
+				"j_blueprint",
+				"j_blueprint",
+				"j_blueprint",
+				"j_hanging_chad",
+				"j_hanging_chad",
+				"j_hanging_chad",
+				"j_rocket",
+				"j_rocket",
+				"j_rocket",
 			}) do
 				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, index, 8)
 				local card1 = Card(
@@ -106,7 +110,7 @@ function Handy.UI.dangerous_page_definition()
 					G.P_CENTERS[center],
 					{ bypass_discovery_center = true, bypass_discovery_ui = true }
 				)
-				if (index - 1) % 4 < 2 then
+				if index % 3 == 1 then
 					card1.ability.eternal = true
 				end
 				area:emplace(card1)
@@ -157,15 +161,10 @@ function Handy.UI.dangerous_page_definition()
 	}
 
 	local example_tags_area = {
-		n = G.UIT.R,
-		config = {
-			padding = 0.125,
-			align = "cm",
-		},
+		n = G.UIT.C,
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.O,
@@ -178,13 +177,69 @@ function Handy.UI.dangerous_page_definition()
 		},
 	}
 
+	local container = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR },
+			nodes = {
+				{
+					n = G.UIT.C,
+					nodes = {
+						content,
+						Handy.UI.CP.r_sep(0.1),
+						example_hand_row,
+					},
+				},
+				Handy.UI.CP.c_sep(0.1),
+				{
+					n = G.UIT.C,
+					nodes = {
+						example_tags_area,
+					},
+				},
+			},
+		},
+		config = {},
+	})
+
+	function container.UIRoot:draw_children()
+		if self.states.visible then
+			-- Draw children in reverse order
+			for k = #self.children, 1, -1 do
+				local v = self.children[k]
+				if not v.config.draw_layer and k ~= "h_popup" and k ~= "alert" then
+					if v.draw_self and not v.config.draw_after then
+						v:draw_self()
+					else
+						v:draw()
+					end
+					if v.draw_children then
+						v:draw_children()
+					end
+					if v.draw_self and v.config.draw_after then
+						v:draw_self()
+					else
+						v:draw()
+					end
+				end
+			end
+		end
+	end
+
 	return {
 		n = G.UIT.C,
 		nodes = {
-			content,
-			Handy.UI.CP.r_sep(0.1),
-			example_tags_area,
-			example_hand_row,
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = container,
+						},
+					},
+				},
+			},
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },

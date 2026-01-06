@@ -5,9 +5,16 @@ Handy.controls = setmetatable({
 
 --
 
-function Handy.controls.is_module_keys_activated(module, check_context, context, blacklist, exact_keys, pre_release)
-	blacklist = blacklist or {}
-	context = context or Handy.controller.get_input_context()
+function Handy.controls.is_module_keys_activated(module, args)
+	args = args or {}
+
+	local blacklist = args.blacklist or {}
+	local check_context = args.check_context
+	local context = args.context or Handy.controller.get_input_context()
+	local exact_keys = args.exact_keys
+	local pre_release = args.pre_release
+	local hold_duration = args.hold_duration
+
 	local tables = { module.keys_1 or {}, module.keys_2 or {} }
 	if Handy.controller.is_gamepad() then
 		tables = {
@@ -28,7 +35,7 @@ function Handy.controls.is_module_keys_activated(module, check_context, context,
 				if not check_context or (context.released and pre_release) or key == context.key then
 					is_present = true
 				end
-				if blacklist[key] or not _t[key] then
+				if blacklist[key] or not _t[key] or (hold_duration and hold_duration > _t[key]) then
 					is_triggered = false
 					break
 				end
@@ -124,7 +131,11 @@ function Handy.controls.default_can_execute(item, context, args)
 				if
 					not args.no_keybinds
 					and deps.with_keybinds
-					and not Handy.controls.is_module_keys_activated(dep, false, context, item.keys_blacklist)
+					and not Handy.controls.is_module_keys_activated(dep, {
+						check_context = false,
+						context = context,
+						blacklist = item.keys_blacklist,
+					})
 				then
 					return false
 				end
@@ -144,14 +155,13 @@ function Handy.controls.default_can_execute(item, context, args)
 		end
 		if
 			not args.no_keybinds
-			and not Handy.controls.is_module_keys_activated(
-				module,
-				context.input_context,
-				context,
-				item.keys_blacklist,
-				item.require_exact_keys,
-				item.pre_release_keys
-			)
+			and not Handy.controls.is_module_keys_activated(module, {
+				check_context = context.input_context,
+				context = context,
+				blacklist = item.keys_blacklist,
+				exact_keys = item.require_exact_keys,
+				pre_release = item.pre_release_keys,
+			})
 		then
 			return false
 		end

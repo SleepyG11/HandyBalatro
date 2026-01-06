@@ -205,6 +205,13 @@ local default_config = {
 	regular_keybinds = {
 		enabled = true,
 	},
+	regular_keybinds_restart = {
+		enabled = true,
+		keys_1 = { "R" },
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 	regular_keybinds_quick_restart = {
 		enabled = true,
 		keys_1 = {},

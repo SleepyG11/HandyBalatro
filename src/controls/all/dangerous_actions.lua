@@ -295,7 +295,14 @@ Handy.e_mitter.on("update_state_panel", function(context)
 			if not Handy.controller.binding.current then
 				for _, item_key in ipairs(items) do
 					local item = Handy.controls.dictionary[item_key]
-					if Handy.controls.is_module_keys_activated(item:get_module(), false, context, nil, true, true) then
+					if
+						Handy.controls.is_module_keys_activated(item:get_module(), {
+							context = context,
+							check_context = false,
+							exact_keys = true,
+							pre_release = true,
+						})
+					then
 						holded = item
 						break
 					end
