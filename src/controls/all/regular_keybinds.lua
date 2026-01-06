@@ -941,7 +941,6 @@ end)
 
 Handy.not_just_yet_interaction = {}
 
--- TODO: test
 Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }

@@ -1030,7 +1030,7 @@ local function is_deps_resolved(item, quick)
 	return not is_missing, missing_list
 end
 
--- TODO: this function is so ass, rebuild it somehow
+-- this function is so ass, but it works ig
 G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	local item = e.config.handy_item
 	if not e.handy_alert_popup_setup then

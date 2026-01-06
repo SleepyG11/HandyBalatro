@@ -35,4 +35,3 @@ Handy.load_file("src/index.lua")
 -- 4. more pages (advanced, credits)
 -- 5. maybe icons for menu buttons?
 -- 6. toggle to allow speed & animations in MP
--- 7. migrator: debug properly

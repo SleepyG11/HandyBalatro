@@ -296,7 +296,8 @@ Handy.e_mitter.on("update_state_panel", function(context)
 				for _, item_key in ipairs(items) do
 					local item = Handy.controls.dictionary[item_key]
 					if
-						Handy.controls.is_module_keys_activated(item:get_module(), {
+						Handy.controls.is_module_enabled(item:get_module())
+						and Handy.controls.is_module_keys_activated(item:get_module(), {
 							context = context,
 							check_context = false,
 							exact_keys = true,

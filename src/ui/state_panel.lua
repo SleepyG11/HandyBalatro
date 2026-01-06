@@ -175,7 +175,6 @@ end
 
 --
 
--- TODO: implement some sort of opacity mask for element?
 state_panel.C = {
 	TEXT = HEX("FFFFFF"),
 	BLACK = HEX("000000"),
