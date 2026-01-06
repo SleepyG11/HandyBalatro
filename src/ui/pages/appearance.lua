@@ -21,20 +21,11 @@ function Handy.UI.appearance_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_settings_toggle),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_settings_toggle),
 							Handy.UI.CP.r_sep(0.1),
-							{
-								n = G.UIT.R,
-								config = { align = "cm", padding = 1, colour = { 0, 0, 0, 0.1 }, r = 0.1 },
-								nodes = {
-									{
-										n = G.UIT.T,
-										config = {
-											text = "Some stuff will be here",
-											scale = 0.5,
-											colour = G.C.UI.TEXT_LIGHT,
-										},
-									},
-								},
-							},
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.gamepad, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.controller_sensitivity),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.swap_controller_cursor_stick),
+							Handy.UI.CP.r_sep(0.1),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.prevent_if_debugplus, { bg = true }),
 							-- TODO: me
 						},
 					},

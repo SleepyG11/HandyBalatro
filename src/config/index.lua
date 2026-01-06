@@ -184,11 +184,16 @@ function Handy.config.migrate(old_config, to)
 		new_config.regular_keybinds = {
 			enabled = config.regular_keybinds.enabled,
 		}
+
+		new_config.regular_keybinds_quick_restart = config.misc.quick_restart
+		new_config.regular_keybinds_save_run = config.misc.save_run
+
 		new_config.regular_keybinds_play = config.regular_keybinds.play
 		new_config.regular_keybinds_discard = config.regular_keybinds.discard
 		new_config.regular_keybinds_sort_by_rank = config.regular_keybinds.sort_by_rank
 		new_config.regular_keybinds_sort_by_suit = config.regular_keybinds.sort_by_suit
 		new_config.regular_keybinds_toggle_sort = config.regular_keybinds.toggle_sort
+		new_config.regular_keybinds_start_fantoms_preview = config.misc.start_fantoms_preview
 
 		new_config.regular_keybinds_skip_booster = config.insta_booster_skip
 		new_config.regular_keybinds_reroll_shop = config.regular_keybinds.reroll_shop
@@ -245,12 +250,9 @@ function Handy.config.migrate(old_config, to)
 			config.dangerous_actions.card_remove,
 			config.dangerous_actions.sell_all
 		)
+		new_config.dangerous_actions_crash = config.misc.crash
 
 		-- misc
-		new_config.misc_crash = config.misc.crash
-		new_config.misc_quick_restart = config.misc.quick_restart
-		new_config.misc_save_run = config.misc.save_run
-		new_config.misc_start_fantoms_preview = config.misc.start_fantoms_preview
 
 		-- all old keys
 		for key, module in pairs(new_config) do

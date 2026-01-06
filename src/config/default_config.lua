@@ -205,6 +205,21 @@ local default_config = {
 	regular_keybinds = {
 		enabled = true,
 	},
+	regular_keybinds_quick_restart = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+	regular_keybinds_save_run = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+
 	regular_keybinds_play = {
 		enabled = true,
 		keys_1 = {},
@@ -234,6 +249,13 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 	regular_keybinds_toggle_sort = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+	regular_keybinds_start_fantoms_preview = {
 		enabled = true,
 		keys_1 = {},
 		keys_2 = {},
@@ -429,32 +451,7 @@ local default_config = {
 	dangerous_actions_speed_multiplier_uncap = {
 		enabled = false,
 	},
-
-	misc = {
-		enabled = true,
-	},
-	misc_crash = {
-		enabled = true,
-		keys_1 = {},
-		keys_2 = {},
-		keys_1_gamepad = {},
-		keys_2_gamepad = {},
-	},
-	misc_save_run = {
-		enabled = true,
-		keys_1 = {},
-		keys_2 = {},
-		keys_1_gamepad = {},
-		keys_2_gamepad = {},
-	},
-	misc_quick_restart = {
-		enabled = true,
-		keys_1 = {},
-		keys_2 = {},
-		keys_1_gamepad = {},
-		keys_2_gamepad = {},
-	},
-	misc_start_fantoms_preview = {
+	dangerous_actions_crash = {
 		enabled = true,
 		keys_1 = {},
 		keys_2 = {},

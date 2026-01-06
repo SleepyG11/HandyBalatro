@@ -27,6 +27,7 @@ function Handy.UI.dangerous_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_remove_all_same),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_sell_all),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_remove_all),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_crash),
 						},
 					},
 				},

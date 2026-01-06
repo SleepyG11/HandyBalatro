@@ -735,6 +735,35 @@ l({
 	group = true,
 	items = {
 		{
+			key = "regular_keybinds_group_game",
+			group = true,
+			items = {
+				{
+					key = "regular_keybinds_quick_restart",
+					checkbox = true,
+					keybind = {
+						allow_multiple = true,
+						only_safe = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_quick_restart, { Handy.D.dictionary.regular_keybinds }
+					end,
+					no_mp = true,
+				},
+				{
+					key = "regular_keybinds_save_run",
+					checkbox = true,
+					keybind = {
+						allow_multiple = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_save_run, { Handy.D.dictionary.regular_keybinds }
+					end,
+					no_mp = true,
+				},
+			},
+		},
+		{
 			key = "regular_keybinds_group_round",
 			group = true,
 			items = {
@@ -822,6 +851,18 @@ l({
 					checkbox = {
 						advanced = true,
 					},
+				},
+				{
+					key = "regular_keybinds_start_fantoms_preview",
+					checkbox = {
+						advanced = true,
+					},
+					keybind = {
+						allow_multiple = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.D.dictionary.regular_keybinds }
+					end,
 				},
 			},
 		},
@@ -1075,58 +1116,8 @@ l({
 			end,
 			no_mp = true,
 		},
-	},
-})
-l({
-	key = "misc",
-	get_module = function(self)
-		return Handy.cc.misc
-	end,
-	checkbox = true,
-
-	group = true,
-	items = {
 		{
-			key = "misc_quick_restart",
-			checkbox = {
-				advanced = true,
-			},
-			keybind = {
-				allow_multiple = true,
-				only_safe = true,
-			},
-			get_module = function(self)
-				return Handy.cc.misc_quick_restart, { Handy.D.dictionary.misc }
-			end,
-			no_mp = true,
-		},
-		{
-			key = "misc_start_fantoms_preview",
-			checkbox = {
-				advanced = true,
-			},
-			keybind = {
-				allow_multiple = true,
-			},
-			get_module = function(self)
-				return Handy.cc.misc_start_fantoms_preview, { Handy.D.dictionary.misc }
-			end,
-		},
-		{
-			key = "misc_save_run",
-			checkbox = {
-				advanced = true,
-			},
-			keybind = {
-				allow_multiple = true,
-			},
-			get_module = function(self)
-				return Handy.cc.misc_save_run, { Handy.D.dictionary.misc }
-			end,
-			no_mp = true,
-		},
-		{
-			key = "misc_crash",
+			key = "dangerous_actions_crash",
 			checkbox = true,
 			dangerous = true,
 			keybind = {
@@ -1134,12 +1125,23 @@ l({
 				only_safe = true,
 			},
 			get_module = function(self)
-				return Handy.cc.misc_crash, { Handy.D.dictionary.misc }
+				return Handy.cc.dangerous_actions_crash
 			end,
 			no_mp = true,
 		},
 	},
 })
+-- l({
+-- 	key = "misc",
+-- 	get_module = function(self)
+-- 		return Handy.cc.misc
+-- 	end,
+-- 	checkbox = true,
+
+-- 	group = true,
+-- 	items = {
+-- 	},
+-- })
 
 --
 

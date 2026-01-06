@@ -25,6 +25,7 @@ function Handy.UI.vanilla_keybinds_round_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_toggle_sort),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_cash_out),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_not_just_yet_interaction),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_start_fantoms_preview),
 						},
 					},
 				},
@@ -56,6 +57,10 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 						config = { align = "cm", r = 0.1 },
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds, { bg = true }),
+							Handy.UI.CP.r_sep(0.1),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_game, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_quick_restart),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_save_run),
 							Handy.UI.CP.r_sep(0.1),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_menus, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info),
@@ -136,7 +141,7 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 			end,
 		},
 		{
-			label = Handy.L.tab("Menus"),
+			label = Handy.L.tab("Game & Menus"),
 			tab_definition_function = function()
 				return Handy.UI.vanilla_keybinds_menus_tab_definition()
 			end,

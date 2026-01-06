@@ -78,10 +78,10 @@ Handy.controls.stacks = {
 			},
 			{
 				op = "first",
-				"misc_crash",
-				"misc_quick_restart",
-				"misc_save_run",
-				"misc_start_fantoms_preview",
+				"dangerous_actions_crash",
+				"regular_keybinds_quick_restart",
+				"regular_keybinds_save_run",
+				"regular_keybinds_start_fantoms_preview",
 			},
 			{
 				op = "first",
@@ -173,10 +173,10 @@ Handy.controls.stacks = {
 			},
 			{
 				op = "first",
-				"misc_crash",
-				"misc_quick_restart",
-				"misc_save_run",
-				"misc_start_fantoms_preview",
+				"dangerous_actions_crash",
+				"regular_keybinds_quick_restart",
+				"regular_keybinds_save_run",
+				"regular_keybinds_start_fantoms_preview",
 			},
 			{
 				op = "first",
@@ -268,10 +268,10 @@ Handy.controls.stacks = {
 			},
 			{
 				op = "first",
-				"misc_crash",
-				"misc_quick_restart",
-				"misc_save_run",
-				"misc_start_fantoms_preview",
+				"dangerous_actions_crash",
+				"regular_keybinds_quick_restart",
+				"regular_keybinds_save_run",
+				"regular_keybinds_start_fantoms_preview",
 			},
 			{
 				op = "first",
@@ -358,10 +358,10 @@ Handy.controls.stacks = {
 			},
 			{
 				op = "first",
-				"misc_crash",
-				"misc_quick_restart",
-				"misc_save_run",
-				"misc_start_fantoms_preview",
+				"dangerous_actions_crash",
+				"regular_keybinds_quick_restart",
+				"regular_keybinds_save_run",
+				"regular_keybinds_start_fantoms_preview",
 			},
 			{
 				op = "first",
@@ -410,7 +410,6 @@ Handy.load_files({
 	"scoring_hold.lua",
 	"regular_keybinds.lua",
 	"move_highlight.lua",
-	"misc.lua",
 	"controller_sensitivity.lua",
 	"insta_actions.lua",
 	"dangerous_actions.lua",

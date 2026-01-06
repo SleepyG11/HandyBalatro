@@ -405,6 +405,32 @@ return {
 				},
 			},
 
+			regular_keybinds_group_game = {
+				name = "Game",
+				text = {},
+			},
+			regular_keybinds_quick_restart = {
+				name = { "Quick run restart" },
+				text = {
+					'"R" but instant',
+				},
+				unlock = {
+					"Works from {C:attention}Game Over{} screen too",
+				},
+			},
+			regular_keybinds_save_run = {
+				name = { "Save run" },
+				text = {
+					"Like autosave but manual",
+				},
+				unlock = {
+					"Game autosave run after some actions",
+					"{C:inactive}(like Play hand, Discard, Shop reroll){}",
+					" ",
+					"This keybind allows to do this manually",
+				},
+			},
+
 			regular_keybinds_group_round = {
 				name = "Round",
 				text = {},
@@ -427,6 +453,10 @@ return {
 			},
 			regular_keybinds_toggle_sort = {
 				name = { "Toggle sort" },
+				text = {},
+			},
+			regular_keybinds_start_fantoms_preview = {
+				name = { "Fantom's Preview: Calculate score" },
 				text = {},
 			},
 			regular_keybinds_cash_out = {
@@ -586,12 +616,7 @@ return {
 					"{C:inactive}(bypasses all checks, no refund){}",
 				},
 			},
-
-			misc = {
-				name = "Miscellaneous",
-				text = {},
-			},
-			misc_crash = {
+			dangerous_actions_crash = {
 				name = { "Crash the game" },
 				text = {},
 				unlock = {
@@ -600,30 +625,10 @@ return {
 					"Can be used in any moment",
 				},
 			},
-			misc_quick_restart = {
-				name = { "Quick run restart" },
-				text = {
-					'"R" but instant',
-				},
-				unlock = {
-					"Works from {C:attention}Game Over{} screen too",
-				},
-			},
-			misc_start_fantoms_preview = {
-				name = { "Fantom's Preview: Calculate score" },
+
+			misc = {
+				name = "Miscellaneous",
 				text = {},
-			},
-			misc_save_run = {
-				name = { "Save run" },
-				text = {
-					"Like autosave but manual",
-				},
-				unlock = {
-					"Game autosave run after some actions",
-					"{C:inactive}(like Play hand, Discard, Shop reroll){}",
-					" ",
-					"This keybind allows to do this manually",
-				},
 			},
 		},
 
@@ -780,7 +785,7 @@ return {
 			["Presets"] = "Presets",
 			["Search"] = "Search",
 
-			["Appearance"] = "Appearance",
+			["Generall & Appearance"] = "Generall & Appearance",
 			["Fast hand selection"] = "Fast hand selection",
 			["Speed & Animations"] = "Speed & Animations",
 			["Vanilla keybinds"] = "Vanilla keybinds",
@@ -794,14 +799,14 @@ return {
 			["Hold"] = "Hold",
 			["Round"] = "Round",
 			["Shop & Blind Select"] = "Shop/Blinds",
-			["Menus"] = "Menus",
+			["Game & Menus"] = "Game/Menus",
 		},
 		v_dictionary = {
 			Handy_by = "#1# by #2#",
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
-            Handy_temp_disabled = "[disabled]",
+			Handy_temp_disabled = "[disabled]",
 
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#",

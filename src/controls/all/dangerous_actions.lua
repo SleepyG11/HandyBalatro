@@ -531,3 +531,33 @@ Handy.controls.register("dangerous_actions_remove_all", {
 		end
 	end,
 })
+
+Handy.controls.register("dangerous_actions_crash", {
+	get_module = function()
+		return Handy.cc.dangerous_actions_crash, { Handy.cc.dangerous_actions }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	only_safe = true,
+	no_mp = true,
+	require_exact_keys = true,
+
+	execute = function()
+		local key_1, key_2 = "keys_1", "keys_2"
+		if Handy.controller.is_gamepad() then
+			key_1, key_2 = "keys_1_gamepad", "keys_2_gamepad"
+		end
+		error(
+			'Crashed by "Crash a game" keybind in Handy mod '
+				.. Handy.L.with_brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_1]), true)
+				.. " or "
+				.. Handy.L.with_brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_2]), true)
+		)
+		return true
+	end,
+})

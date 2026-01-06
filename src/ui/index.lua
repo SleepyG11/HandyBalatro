@@ -57,7 +57,6 @@ Handy.load_files({
 	"vanilla_keybinds.lua",
 	"appearance.lua",
 	"speed_n_animations.lua",
-	"misc.lua",
 	"dangerous.lua",
 }, "src/ui/pages/")
 

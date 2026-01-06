@@ -112,7 +112,7 @@ function Handy.UI.get_config_tab_overall()
 								n = G.UIT.C,
 								config = { align = "cm" },
 								nodes = {
-									b({ label = "Appearance", button = "handy_appearance" }),
+									b({ label = "Generall & Appearance", button = "handy_appearance" }),
 									Handy.UI.CP.r_sep(0.1),
 									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
 								},
@@ -148,13 +148,13 @@ function Handy.UI.get_config_tab_overall()
 						n = G.UIT.R,
 						config = { align = "cm" },
 						nodes = {
-							{
-								n = G.UIT.C,
-								nodes = {
-									b({ label = "Misc", button = "handy_misc" }),
-								},
-							},
-							Handy.UI.CP.c_sep(0.1),
+							-- {
+							-- 	n = G.UIT.C,
+							-- 	nodes = {
+							-- 	},
+							-- },
+							-- Handy.UI.CP.c_sep(0.1),
+							-- TODO: add more buttons here
 							{
 								n = G.UIT.C,
 								nodes = {
