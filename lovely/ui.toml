@@ -3,17 +3,65 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# # Draw UI
-# [[patches]]
-# [patches.pattern]
-# target = "game.lua"
-# pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
-# position = "after"
-# payload = '''
-# Handy.UI.init()
-# '''
-# match_indent = true
-# overwrite = false
+# Make custom option cycles work on right direction
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''focused.children[3]:click()'''
+position = "after"
+payload = '''
+if focused.config.focus_args.handy_cycle then
+    focused.children[5]:click()
+end
+'''
+match_indent = true
+overwrite = false
+
+# Custom movement control
+# TODO: make this work for option cycles
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'press' then'''
+position = "before"
+payload = '''
+if (focused.config.focus_args.type == 'handy_dictionary_item' or focused.config.focus_args.handy_cycle) and input_type == 'press' then
+    local proto_choices = focused.UIBox:get_group(nil, focused.config.focus_args.handy_group or focused.config.group)
+    local choices = {}
+    for k, v in ipairs(proto_choices) do
+        if (v.config.button or v.config.hover or v == focused) and (not v.config.focus_args or v.config.focus_args.type ~= "none") then choices[#choices+1] = v end
+    end
+    print("custom focus arg", focused.config.focus_args.handy_group or focused.config.group, button, #choices)
+
+    for k, v in ipairs(choices) do
+        if v == focused then
+            print("Focused", k)
+            if (button == 'triggerleft') then 
+                local next_i = k ~= 1 and (k-1) or (#choices)
+                if focused.config.focus_args.no_loop and next_i > k then ret = nil
+                else
+                    self:snap_to({node = choices[next_i]})
+                    self:update_cursor()
+                    ret = true
+                end
+            elseif (button == 'triggerright') then 
+                local next_i = k ~= #choices and (k+1) or (1)
+                if focused.config.focus_args.no_loop and next_i < k then ret = nil
+                else
+                    self:snap_to({node = choices[next_i]})
+                    self:update_cursor()
+                    ret = true
+                end
+            end
+            break
+        else
+        end
+    end
+end
+'''
+match_indent = true
+overwrite = false
+
 
 # # Override gamepad buttons
 # [[patches]]

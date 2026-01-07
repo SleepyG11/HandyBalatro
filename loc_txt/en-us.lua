@@ -930,7 +930,7 @@ return {
 			handy_buy_sell_use_mode_hover_n_press = "Hover or grab card + Press key",
 
 			handy_advanced_mode = "Advanced mode",
-			handy_advanced_mode_description = "More toggles + combinations",
+			handy_advanced_mode_description = "More controls toggles",
 
 			k_handy_preview_sell = "Sell",
 			k_handy_preview_buy = "Buy",

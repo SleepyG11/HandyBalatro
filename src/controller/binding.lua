@@ -148,8 +148,8 @@ function Handy.controller.binding.process_binding(context)
 		Handy.utils.sort_keys(binding.buttons)
 		-- Update entered buttons display
 		if
-			binding.allow_multiple == true
-			or (binding.allow_multiple == "advanced" and Handy.cc.advanced_mode.enabled)
+			binding.allow_multiple
+			-- or (binding.allow_multiple == "advanced" and Handy.cc.advanced_mode.enabled)
 		then
 			Handy.controller.binding.update_binding_buttons_text()
 			-- Wait for cancel or finish by back key

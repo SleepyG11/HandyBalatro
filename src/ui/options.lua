@@ -54,8 +54,6 @@ function Handy.UI.options_UIBox()
 				nodes = {
 					create_tabs({
 						tabs = tabs,
-						snap_to_nav = true,
-						no_shoulders = true,
 						colour = G.C.BOOSTER,
 					}),
 				},

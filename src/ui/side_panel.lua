@@ -37,6 +37,7 @@ function Handy.UI.CP.small_option_cycle(item)
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
 	args.focus_args.type = "cycle"
+	args.focus_args.handy_cycle = true
 
 	local disabled = #args.options < 2
 	local pips = {}
@@ -336,7 +337,7 @@ function Handy.UI.attach_side_panel()
 						colour = G.C.L_BLACK,
 					},
 
-					nodes = { Handy.UI.CP.c_sep(1), Handy.UI.attach_side_panel_content() },
+					nodes = { Handy.UI.CP.c_sep(1), Handy.UI.attach_side_panel_content(), Handy.UI.CP.c_sep(0) },
 				},
 			},
 		},

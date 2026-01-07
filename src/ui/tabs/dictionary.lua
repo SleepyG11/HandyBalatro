@@ -1,3 +1,5 @@
+Handy.UI.__global_d_counter = 1
+
 local keybinds_per_page = 7
 
 --
@@ -28,6 +30,9 @@ function Handy.UI.CP.dictionary_item_info(item)
 			hover = true,
 			func = item.info_func or "hand_setup_hover_popups",
 			handy_item = item,
+
+			focus_args = { type = "handy_dictionary_item" },
+			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -72,9 +77,10 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 		n = G.UIT.C,
 		config = {
 			align = "cl",
-			focus_args = { funnel_from = true, nav = "wide" },
+			focus_args = { funnel_from = true },
 			func = "handy_setup_dictionary_checkbox_alert",
 			handy_item = item,
+			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -111,7 +117,11 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 								end
 							end,
 							func = "toggle",
-							focus_args = { funnel_to = true },
+							focus_args = {
+								funnel_to = true,
+								type = "handy_dictionary_item",
+								handy_group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+							},
 						},
 						nodes = {
 							{ n = G.UIT.O, config = { object = check } },
@@ -135,7 +145,7 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 		n = G.UIT.C,
 		config = {},
 		nodes = {
-			Handy.UI.CP.module_keybind_button(module, key_1, options, { nav_wide = true, dangerous = item.dangerous }),
+			Handy.UI.CP.module_keybind_button(module, key_1, options, { dangerous = item.dangerous }),
 			{
 				n = G.UIT.C,
 				config = { align = "cm", minw = 0.4, maxw = 0.4 },
@@ -174,6 +184,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
 	args.focus_args.type = "cycle"
+	args.focus_args.handy_cycle = true
 
 	local disabled = false
 
@@ -190,6 +201,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
+			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -344,6 +356,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
 	args.focus_args.type = "cycle"
+	args.focus_args.handy_cycle = true
 
 	local disabled = #args.options < 2
 	local pips = {}
@@ -374,6 +387,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
+			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -523,7 +537,8 @@ function Handy.UI.CP.dictionary_item_slider(item)
 			min_h = args.h,
 			r = 0.1,
 			colour = G.C.CLEAR,
-			focus_args = { type = "slider" },
+			focus_args = { type = "slider", handy_cycle = true },
+			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -584,6 +599,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 end
 
 function Handy.UI.CP.dictionary_item(item, options)
+	Handy.UI.__global_d_counter = Handy.UI.__global_d_counter + 1
 	options = options or {}
 	local colour
 	if options.bg then

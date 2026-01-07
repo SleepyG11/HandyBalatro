@@ -872,7 +872,6 @@ Handy.insta_cash_out = {
 	is_skipped = false,
 }
 
--- TODO: stop_use check specific for this one, since we dont need to be locked when eval, only when consumables etc
 Handy.controls.register("regular_keybinds_cash_out", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
@@ -889,6 +888,8 @@ Handy.controls.register("regular_keybinds_cash_out", {
 		return Handy.insta_cash_out.can_skip
 			and not Handy.insta_cash_out.is_skipped
 			and G.STATE == G.STATES.ROUND_EVAL
+			and not G.TAROT_INTERRUPT
+			and not G.PACK_INTERRUPT
 			and G.round_eval
 			and Handy.controls.default_can_execute(self, context)
 	end,
@@ -913,11 +914,13 @@ Handy.e_mitter.on("update", function(dt)
 		not Handy.controller.binding.current
 		and Handy.insta_cash_out.can_skip
 		and not Handy.insta_cash_out.is_skipped
+		and G.STATE == G.STATES.ROUND_EVAL
+		and not G.TAROT_INTERRUPT
+		and not G.PACK_INTERRUPT
+		and G.round_eval
 		and Handy.b_is_mod_active()
 		and Handy.b_is_in_run()
 		and not Handy.controller.dp.b_is_console_opened()
-		and G.STATE == G.STATES.ROUND_EVAL
-		and G.round_eval
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_cash_out)
 		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_cash_out)
