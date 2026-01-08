@@ -778,6 +778,17 @@ l({
 					end,
 					no_mp = true,
 				},
+				{
+					key = "regular_keybinds_reload_run",
+					checkbox = true,
+					keybind = {
+						allow_multiple = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_reload_run, { Handy.D.dictionary.regular_keybinds }
+					end,
+					no_mp = true,
+				},
 			},
 		},
 		{

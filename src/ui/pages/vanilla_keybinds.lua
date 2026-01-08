@@ -62,6 +62,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_restart),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_quick_restart),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_save_run),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_reload_run),
 							Handy.UI.CP.r_sep(0.1),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_menus, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info),

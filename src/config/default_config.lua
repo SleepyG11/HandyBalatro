@@ -226,6 +226,13 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	regular_keybinds_reload_run = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 
 	regular_keybinds_play = {
 		enabled = true,

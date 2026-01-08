@@ -2,6 +2,7 @@ Handy.regular_keybinds = {
 	shop_reroll_blocker = false,
 	play_blocker = false,
 	discard_blocker = false,
+	reload_run_blocker = false,
 
 	shop_loaded = false,
 
@@ -736,6 +737,63 @@ Handy.controls.register("regular_keybinds_save_run", {
 	execute = function(self, context)
 		Handy.regular_keybinds.save_run(self, context)
 		return true
+	end,
+})
+Handy.controls.register("regular_keybinds_reload_run", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_reload_run, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	require_exact_keys = true,
+	no_mp = true,
+
+	can_execute = function(self, context)
+		return not Handy.regular_keybinds.reload_run_blocker
+			and G.STAGE == G.STAGES.RUN
+			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
+			and Handy.controls.default_can_execute(self, context)
+	end,
+	execute = function()
+		local s
+		if not G.SAVED_GAME then
+			G.SAVED_GAME = get_compressed(G.SETTINGS.profile .. "/" .. "save.jkr")
+			if G.SAVED_GAME ~= nil then
+				G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
+				s = G.SAVED_GAME
+			end
+		end
+		if s then
+			Handy.regular_keybinds.reload_run_blocker = true
+			Handy.animation_skip.skip_wipe_screen = true
+			Handy.animation_skip.force_non_blocking = true
+			G.FUNCS.go_to_menu()
+			G.SETTINGS.current_setup = "Continue"
+			G.SAVED_GAME = s
+			G.FUNCS.start_setup_run()
+			Handy.animation_skip.skip_wipe_screen = false
+			Handy.animation_skip.force_non_blocking = false
+			G.E_MANAGER:add_event(Event({
+				no_delete = true,
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						no_delete = true,
+						func = function()
+							Handy.regular_keybinds.reload_run_blocker = false
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+			return true
+		end
+		return false
 	end,
 })
 

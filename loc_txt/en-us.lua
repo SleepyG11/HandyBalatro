@@ -440,6 +440,17 @@ return {
 					"This keybind allows to do this manually",
 				},
 			},
+			regular_keybinds_reload_run = {
+				name = { "Reload run" },
+				text = {
+					"Main menu -> Continue run",
+				},
+				unlock = {
+					"Simulates exiting to Main Menu",
+					"and then Continuing same run",
+					"with {C:attention}skipped animation{}",
+				},
+			},
 
 			regular_keybinds_group_round = {
 				name = "Round",

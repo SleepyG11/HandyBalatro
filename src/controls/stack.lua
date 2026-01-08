@@ -81,6 +81,7 @@ Handy.controls.stacks = {
 				"dangerous_actions_crash",
 				"regular_keybinds_quick_restart",
 				"regular_keybinds_save_run",
+				"regular_keybinds_reload_run",
 				"regular_keybinds_start_fantoms_preview",
 			},
 			{
@@ -176,6 +177,7 @@ Handy.controls.stacks = {
 				"dangerous_actions_crash",
 				"regular_keybinds_quick_restart",
 				"regular_keybinds_save_run",
+				"regular_keybinds_reload_run",
 				"regular_keybinds_start_fantoms_preview",
 			},
 			{
@@ -271,6 +273,7 @@ Handy.controls.stacks = {
 				"dangerous_actions_crash",
 				"regular_keybinds_quick_restart",
 				"regular_keybinds_save_run",
+				"regular_keybinds_reload_run",
 				"regular_keybinds_start_fantoms_preview",
 			},
 			{
@@ -361,6 +364,7 @@ Handy.controls.stacks = {
 				"dangerous_actions_crash",
 				"regular_keybinds_quick_restart",
 				"regular_keybinds_save_run",
+				"regular_keybinds_reload_run",
 				"regular_keybinds_start_fantoms_preview",
 			},
 			{
