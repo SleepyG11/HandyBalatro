@@ -544,6 +544,7 @@ Handy.controls.register("regular_keybinds_run_info", {
 
 	can_execute = function(self, context)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and G.STAGE == G.STAGES.RUN
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
@@ -566,6 +567,7 @@ Handy.controls.register("regular_keybinds_run_info_binds", {
 
 	can_execute = function(self, context)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and G.STAGE == G.STAGES.RUN
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
@@ -590,6 +592,7 @@ Handy.controls.register("regular_keybinds_view_deck", {
 
 	can_execute = function(self, context)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and G.STAGE == G.STAGES.RUN
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
@@ -615,6 +618,7 @@ Handy.controls.register("regular_keybinds_view_lobby_info", {
 			and G.FUNCS.lobby_info
 			and Handy.b_is_in_multiplayer()
 			and (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
+			and G.STAGE == G.STAGES.RUN
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
@@ -774,8 +778,8 @@ Handy.show_deck_preview = {
 
 Handy.e_mitter.on("update", function(dt)
 	if
-		G.STAGE == G.STAGES.RUN
-		and Handy.b_is_mod_active()
+		Handy.b_is_mod_active()
+		and Handy.b_is_in_run()
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
 	then

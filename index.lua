@@ -37,6 +37,7 @@ Handy.load_file("src/index.lua")
 -- 5. keywords
 -- 6. description for animation skip levels
 -- 7. hold implementation for move highlight
+-- 8. fix event stuck in base queue when exiting speed preview
 
 -- TODO: check for ALL controls
 -- mod toggle
@@ -45,12 +46,6 @@ Handy.load_file("src/index.lua")
 -- dangerous check when applicable
 
 -- TODO: check controls (pc)
--- regular keybinds:
---- game
---- menus
---- round
---- shop
---- blind select
 -- dangerous
 
 -- TODO: check controls (controller)
