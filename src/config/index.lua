@@ -14,7 +14,6 @@ function Handy.config.save()
 		local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
 		love.filesystem.write("config/Handy.jkr", serialized)
 	end
-	Handy.e_mitter.emit("settings_save")
 end
 function Handy.config.load()
 	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
@@ -47,6 +46,7 @@ function Handy.config.request_save(delay)
 		Handy.config.save_event = event
 		G.E_MANAGER:add_event(event, "other", true)
 	end
+	Handy.e_mitter.emit("settings_save")
 end
 
 function Handy.config.actualize(config)

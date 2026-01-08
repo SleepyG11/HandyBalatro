@@ -38,6 +38,7 @@ function Handy.presets.request_save(delay)
 		Handy.presets.save_event = event
 		G.E_MANAGER:add_event(event, "other", true)
 	end
+	Handy.e_mitter.emit("presets_save")
 end
 
 --
@@ -47,6 +48,8 @@ function Handy.presets.apply(preset, no_save_config, no_change_selected)
 
 	-- Keep mod enabled state
 	config_to_apply.handy = nil
+	-- Keep advanced mode
+	config_to_apply.advanced_mode = nil
 	-- Keep presets state and keybinds
 	config_to_apply.presets = nil
 	config_to_apply.presets_load_1 = nil
@@ -60,8 +63,6 @@ function Handy.presets.apply(preset, no_save_config, no_change_selected)
 	config_to_apply.notifications_level = nil
 	-- Keep current device setting
 	config_to_apply.current_device = nil
-	-- Keep controller sensitivity
-	config_to_apply.controller_sensitivity = nil
 	-- Displaying option cycle in settings
 	config_to_apply.speed_multiplier_settings_toggle = nil
 	config_to_apply.animation_skip_settings_toggle = nil
