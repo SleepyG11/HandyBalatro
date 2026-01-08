@@ -36,3 +36,41 @@ Handy.load_file("src/index.lua")
 -- 4. toggle to allow speed & animations in MP
 -- 5. keywords
 -- 6. description for animation skip levels
+
+-- TODO: check for ALL controls
+-- mod toggle
+-- multiplayer check
+-- trigger mode
+-- dangerous check when applicable
+
+-- TODO: check controls (pc)
+-- hand selection
+-- speed
+-- animations
+-- move selection
+-- insta actions
+-- presets
+-- scoring hold
+-- regular keybinds:
+--- game
+--- menus
+--- round
+--- shop
+--- blind select
+-- dangerous
+
+-- TODO: check controls (controller)
+-- hand selection
+-- speed
+-- animations
+-- move selection
+-- insta actions
+-- presets
+-- scoring hold
+-- regular keybinds:
+--- game
+--- menus
+--- round
+--- shop
+--- blind select
+-- dangerous
