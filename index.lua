@@ -45,7 +45,6 @@ Handy.load_file("src/index.lua")
 -- dangerous check when applicable
 
 -- TODO: check controls (pc)
--- presets
 -- regular keybinds:
 --- game
 --- menus

@@ -164,6 +164,12 @@ Handy.regular_keybinds = {
 		}))
 		return true
 	end,
+
+	restart_lock = nil,
+	bypass_restart = false,
+	can_restart = function()
+		return not Handy.b_is_mod_active() or Handy.regular_keybinds.bypass_restart
+	end,
 }
 
 --
@@ -648,7 +654,6 @@ Handy.e_mitter.on("update", function(dt)
 	end
 	if
 		Handy.b_is_mod_active()
-		and Handy.b_is_in_run()
 		and not Handy.b_is_in_multiplayer()
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_restart)
@@ -658,14 +663,17 @@ Handy.e_mitter.on("update", function(dt)
 			hold_duration = 0.7,
 		})
 	then
-		local old_hold_value = G.CONTROLLER.held_key_times.r
-		G.CONTROLLER.held_key_times.r = 999
-		Handy.__can_restart = true
-		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
-		G.CONTROLLER:key_hold_update("r", 0)
-		Handy.__restart_from_game_over = nil
-		Handy.__can_restart = nil
-		G.CONTROLLER.held_key_times.r = old_hold_value
+		if not Handy.regular_keybinds.restart_lock and Handy.b_is_in_run() then
+			Handy.regular_keybinds.restart_lock = true
+			local old_hold_value = G.CONTROLLER.held_key_times.r
+			G.CONTROLLER.held_key_times.r = 999
+			Handy.regular_keybinds.bypass_restart = true
+			G.CONTROLLER:key_hold_update("r", 0)
+			Handy.regular_keybinds.bypass_restart = nil
+			G.CONTROLLER.held_key_times.r = old_hold_value
+		end
+	else
+		Handy.regular_keybinds.restart_lock = nil
 	end
 end)
 
@@ -693,11 +701,9 @@ Handy.controls.register("regular_keybinds_quick_restart", {
 		G.CONTROLLER.held_key_times.r = 999
 		Handy.animation_skip.skip_wipe_screen = true
 		Handy.animation_skip.force_non_blocking = true
-		Handy.__can_restart = true
-		Handy.__restart_from_game_over = G.STATE == G.STATES.GAME_OVER
+		Handy.regular_keybinds.bypass_restart = true
 		G.CONTROLLER:key_hold_update("r", 0)
-		Handy.__restart_from_game_over = nil
-		Handy.__can_restart = nil
+		Handy.regular_keybinds.bypass_restart = nil
 		G.CONTROLLER.held_key_times.r = old_hold_value
 		Handy.animation_skip.skip_wipe_screen = false
 		Handy.animation_skip.force_non_blocking = false

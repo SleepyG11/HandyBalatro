@@ -415,7 +415,7 @@ return {
 				text = {},
 				unlock = {
 					"Act as {C:attention}replacement{} for Vanilla",
-					"{C:chips}#1#{}, works {C:inactive,s:0.75}almost{} identical",
+					"{C:chips}#1#{}, works identical",
 				},
 			},
 			regular_keybinds_quick_restart = {
