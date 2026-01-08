@@ -288,12 +288,13 @@ local items = {
 Handy.e_mitter.on("update_state_panel", function(context)
 	Handy.UI.state_panel.display(function(state)
 		local holded = nil
+		local append_queue = false
 		if
 			(Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED)
 			or (Handy.b_is_mod_active() and Handy.b_is_in_run())
 		then
 			if not Handy.controller.binding.current then
-				for _, item_key in ipairs(items) do
+				for index, item_key in ipairs(items) do
 					local item = Handy.controls.dictionary[item_key]
 					if
 						Handy.controls.is_module_enabled(item:get_module())
@@ -305,6 +306,9 @@ Handy.e_mitter.on("update_state_panel", function(context)
 						})
 					then
 						holded = item
+						if index < 3 then
+							append_queue = true
+						end
 						break
 					end
 				end
@@ -334,9 +338,11 @@ Handy.e_mitter.on("update_state_panel", function(context)
 						and Handy.dangerous_actions.preview_sell_queue
 					or Handy.dangerous_actions.sell_queue
 
-				text = text .. " " .. Handy.L.variable("Handy_items_in_queue", {
-					#queue,
-				})
+				if append_queue then
+					text = text .. " " .. Handy.L.variable("Handy_items_in_queue", {
+						#queue,
+					})
+				end
 				state.items.dangerous_actions = {
 					text = text,
 					hold = true,

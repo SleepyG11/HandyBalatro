@@ -45,9 +45,6 @@ Handy.load_file("src/index.lua")
 -- trigger mode
 -- dangerous check when applicable
 
--- TODO: check controls (pc)
--- dangerous
-
 -- TODO: check controls (controller)
 -- hand selection
 -- speed
