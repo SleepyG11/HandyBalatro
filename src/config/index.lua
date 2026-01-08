@@ -152,6 +152,14 @@ function Handy.config.migrate(old_config, to)
 			config.speed_multiplier.divide,
 			(not config.speed_multiplier.no_hold.enabled) and config.speed_multiplier or nil
 		)
+		merge_keys(
+			new_config.speed_multiplier_toggle_temp_disabled,
+			(not config.speed_multiplier.no_hold.enabled) and config.speed_multiplier or nil,
+			{
+				key_1 = "]",
+				key_2 = "None",
+			}
+		)
 
 		-- animation skip
 		new_config.animation_skip = {
@@ -173,6 +181,14 @@ function Handy.config.migrate(old_config, to)
 			new_config.animation_skip_decrease,
 			config.animation_skip.decrease,
 			(not config.animation_skip.no_hold.enabled) and config.animation_skip or nil
+		)
+		merge_keys(
+			new_config.animation_skip_toggle_temp_disabled,
+			(not config.animation_skip.no_hold.enabled) and config.animation_skip or nil,
+			{
+				key_1 = "]",
+				key_2 = "None",
+			}
 		)
 
 		-- scoring hold
@@ -219,40 +235,39 @@ function Handy.config.migrate(old_config, to)
 		}
 		new_config.dangerous_actions_speed_multiplier_uncap = config.dangerous_actions.speed_multiplier_uncap
 		new_config.dangerous_actions_animation_skip_unsafe = config.dangerous_actions.animation_skip_unsafe
-		new_config.dangerous_actions_sell_one = config.dangerous_actions.immediate_buy_and_sell
-		new_config.dangerous_actions_sell_one.queue = nil
-		new_config.dangerous_actions_sell_all_same = config.dangerous_actions.sell_all_same
-		new_config.dangerous_actions_sell_all = config.dangerous_actions.sell_all
-		merge_keys(
-			new_config.dangerous_actions_sell_all_same,
-			config.dangerous_actions.immediate_buy_and_sell,
-			config.dangerous_actions.sell_all_same
-		)
-		merge_keys(
-			new_config.dangerous_actions_sell_all,
-			config.dangerous_actions.immediate_buy_and_sell,
-			config.dangerous_actions.sell_all
-		)
-		merge_keys(
-			new_config.dangerous_actions_remove_one or {},
-			config.dangerous_actions.immediate_buy_and_sell,
-			config.dangerous_actions.card_remove
-		)
-		merge_keys(
-			new_config.dangerous_actions_remove_all_same or {},
-			config.dangerous_actions.immediate_buy_and_sell,
-			config.dangerous_actions.card_remove,
-			config.dangerous_actions.sell_all_same
-		)
-		merge_keys(
-			new_config.dangerous_actions_remove_all or {},
-			config.dangerous_actions.immediate_buy_and_sell,
-			config.dangerous_actions.card_remove,
-			config.dangerous_actions.sell_all
-		)
 		new_config.dangerous_actions_crash = config.misc.crash
 
-		-- misc
+		-- new_config.dangerous_actions_sell_one = config.dangerous_actions.immediate_buy_and_sell
+		-- new_config.dangerous_actions_sell_one.queue = nil
+		-- new_config.dangerous_actions_sell_all_same = config.dangerous_actions.sell_all_same
+		-- new_config.dangerous_actions_sell_all = config.dangerous_actions.sell_all
+		-- merge_keys(
+		-- 	new_config.dangerous_actions_sell_all_same,
+		-- 	config.dangerous_actions.immediate_buy_and_sell,
+		-- 	config.dangerous_actions.sell_all_same
+		-- )
+		-- merge_keys(
+		-- 	new_config.dangerous_actions_sell_all,
+		-- 	config.dangerous_actions.immediate_buy_and_sell,
+		-- 	config.dangerous_actions.sell_all
+		-- )
+		-- merge_keys(
+		-- 	new_config.dangerous_actions_remove_one or {},
+		-- 	config.dangerous_actions.immediate_buy_and_sell,
+		-- 	config.dangerous_actions.card_remove
+		-- )
+		-- merge_keys(
+		-- 	new_config.dangerous_actions_remove_all_same or {},
+		-- 	config.dangerous_actions.immediate_buy_and_sell,
+		-- 	config.dangerous_actions.card_remove,
+		-- 	config.dangerous_actions.sell_all_same
+		-- )
+		-- merge_keys(
+		-- 	new_config.dangerous_actions_remove_all or {},
+		-- 	config.dangerous_actions.immediate_buy_and_sell,
+		-- 	config.dangerous_actions.card_remove,
+		-- 	config.dangerous_actions.sell_all
+		-- )
 
 		-- all old keys
 		for key, module in pairs(new_config) do
