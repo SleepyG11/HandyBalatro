@@ -36,6 +36,7 @@ Handy.load_file("src/index.lua")
 -- 4. toggle to allow speed & animations in MP
 -- 5. keywords
 -- 6. description for animation skip levels
+-- 7. hold implementation for move highlight
 
 -- TODO: check for ALL controls
 -- mod toggle
@@ -44,7 +45,6 @@ Handy.load_file("src/index.lua")
 -- dangerous check when applicable
 
 -- TODO: check controls (pc)
--- move selection
 -- insta actions
 -- presets
 -- regular keybinds:

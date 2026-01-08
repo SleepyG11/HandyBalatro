@@ -239,15 +239,16 @@ return {
 				unlock = {
 					"{C:attention}While held{}, card itself",
 					"will be moved instead of selection",
+					"{C:inactive}(works not in all card areas){}",
 				},
 			},
 			move_highlight_to_end = {
 				name = { "Move selection: move to end" },
 				text = {},
 				unlock = {
-					"{C:attention}While held{}, instead of moving",
-					"one left/one    right, selection will be moved to",
-					"leftmost/rightmost position respectively",
+					"{C:attention}While held{}, instead of moving selection/card",
+					"{C:attention}one left/one right{}, will be moved to",
+					"{C:attention}leftmost/rightmost{} position respectively",
 				},
 			},
 

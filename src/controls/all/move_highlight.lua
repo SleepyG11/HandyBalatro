@@ -17,6 +17,9 @@ Handy.move_highlight = {
 		if not area then
 			return false
 		end
+		if area.handy_allow_move_highlight then
+			return not area.handy_prevent_move_highlight_swap
+		end
 		return not Handy.utils.table_contains({
 			G.pack_cards,
 			G.shop_jokers,
@@ -35,15 +38,18 @@ Handy.move_highlight = {
 			area
 			and area.highlighted
 			and area.highlighted[1]
-			and Handy.utils.table_contains({
-				G.consumeables,
-				G.jokers,
-				G.cine_quests,
-				G.pack_cards,
-				G.shop_jokers,
-				G.shop_booster,
-				G.shop_vouchers,
-			}, area)
+			and (
+				area.handy_allow_move_highlight
+				or Handy.utils.table_contains({
+					G.consumeables,
+					G.jokers,
+					G.cine_quests,
+					G.pack_cards,
+					G.shop_jokers,
+					G.shop_booster,
+					G.shop_vouchers,
+				}, area)
+			)
 		then
 			return area
 		end
@@ -58,7 +64,7 @@ Handy.move_highlight = {
 			not area
 			or not Handy.controls.default_can_execute(item, context, {
 				allow_not_in_run = area == Handy.UI.data.move_highlight_preview_area,
-                allow_mod_inactive = area == Handy.UI.data.move_highlight_preview_area,
+				allow_mod_inactive = area == Handy.UI.data.move_highlight_preview_area,
 			})
 		then
 			return false
