@@ -5,45 +5,61 @@ local examples = {
 	},
 	better_mouse_and_gamepad = {
 		config = {
-			insta_highlight = {
-				key_1 = "Right Mouse",
-				key_2 = "None",
-				key_1_gamepad = "(B)",
-				key_2_gamepad = "None",
+			version = 2,
 
-				allow_deselect = {
-					enabled = false,
-				},
+			hand_selection = {
+				enabled = true,
 			},
+			hand_selection_insta_highlight = {
+				enabled = true,
+
+				keys_1 = { "Right Mouse" },
+				keys_2 = { "None" },
+				keys_1_gamepad = { "(B)" },
+				keys_2_gamepad = { "None" },
+			},
+			hand_selection_deselect_hand = {
+				enabled = true,
+
+				keys_1 = { "Right Mouse" },
+				keys_2 = { "None" },
+				keys_1_gamepad = { "(B)" },
+				keys_2_gamepad = { "None" },
+			},
+			hand_selection_insta_highlight_allow_deselect = {
+				enabled = false,
+			},
+
 			regular_keybinds = {
 				enabled = true,
-				play = {
-					key_1 = "Wheel Up",
-					key_2 = "None",
-				},
-				discard = {
-					key_1 = "Wheel Down",
-					key_2 = "None",
-				},
-				sort_by_rank = {
-					key_1 = "Mouse 5",
-					key_2 = "None",
-					key_1_gamepad = "Right Bumper",
-					key_2_gamepad = "None",
-				},
-				sort_by_suit = {
-					key_1 = "Mouse 4",
-					key_2 = "None",
-					key_1_gamepad = "Left Bumper",
-					key_2_gamepad = "None",
-				},
 			},
-			deselect_hand = {
+			regular_keybinds_play = {
 				enabled = true,
-				key_1 = "Right Mouse",
-				key_2 = "None",
-				key_1_gamepad = "(B)",
-				key_2_gamepad = "None",
+
+				keys_1 = { "Wheel Up" },
+				keys_2 = { "None" },
+			},
+			regular_keybinds_discard = {
+				enabled = true,
+
+				keys_1 = { "Wheel Down" },
+				keys_2 = { "None" },
+			},
+			regular_keybinds_sort_by_rank = {
+				enabled = true,
+
+				keys_1 = { "Mouse 5" },
+				keys_2 = { "None" },
+				keys_1_gamepad = { "Right Bumper" },
+				keys_2_gamepad = { "None" },
+			},
+			regular_keybinds_sort_by_suit = {
+				enabled = true,
+
+				keys_1 = { "Mouse 4" },
+				keys_2 = { "None" },
+				keys_1_gamepad = { "Left Bumper" },
+				keys_2_gamepad = { "None" },
 			},
 		},
 		key = "better_mouse_and_gamepad",

@@ -28,7 +28,7 @@ Handy.presets_switch = {
 			if #available == 0 then
 				return ret()
 			elseif #available == 1 then
-				ret(available[1])
+				return ret(available[1])
 			else
 				local current_index = Handy.presets.current.selected
 				-- search for first index which is bigger than current
@@ -48,7 +48,7 @@ Handy.presets_switch = {
 		local switch_result = Handy.presets_switch.get_next_preset_index(index)
 		if switch_result.loaded then
 			Handy.presets.apply_index(switch_result.load_index)
-            Handy.UI.rerender(true)
+			Handy.UI.rerender(true)
 		end
 		Handy.presets_switch.show_notif(switch_result)
 		-- rerender config page

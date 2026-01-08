@@ -64,7 +64,9 @@ function Handy.config.migrate(old_config, to)
 		local config = Handy.utils.table_merge({}, Handy.config.old_defaults[1], old_config)
 		local new_config = {}
 
-		local merge_keys = function(target, ...)
+		local merge_keys = function(ref_value, ...)
+			new_config[ref_value] = new_config[ref_value] or {}
+			local target = new_config[ref_value]
 			local r1 = {}
 			local r2 = {}
 			local rg1 = {}
@@ -143,17 +145,17 @@ function Handy.config.migrate(old_config, to)
 		new_config.speed_multiplier_multiply = config.speed_multiplier.multiply
 		new_config.speed_multiplier_divide = config.speed_multiplier.divide
 		merge_keys(
-			new_config.speed_multiplier_multiply,
+			"speed_multiplier_multiply",
 			config.speed_multiplier.multiply,
 			(not config.speed_multiplier.no_hold.enabled) and config.speed_multiplier or nil
 		)
 		merge_keys(
-			new_config.speed_multiplier_divide,
+			"speed_multiplier_divide",
 			config.speed_multiplier.divide,
 			(not config.speed_multiplier.no_hold.enabled) and config.speed_multiplier or nil
 		)
 		merge_keys(
-			new_config.speed_multiplier_toggle_temp_disabled,
+			"speed_multiplier_toggle_temp_disabled",
 			(not config.speed_multiplier.no_hold.enabled) and config.speed_multiplier or nil,
 			{
 				key_1 = "]",
@@ -173,17 +175,17 @@ function Handy.config.migrate(old_config, to)
 		new_config.animation_skip_increase = config.animation_skip.increase
 		new_config.animation_skip_decrease = config.animation_skip.decrease
 		merge_keys(
-			new_config.animation_skip_increase,
+			"animation_skip_increase",
 			config.animation_skip.increase,
 			(not config.animation_skip.no_hold.enabled) and config.animation_skip or nil
 		)
 		merge_keys(
-			new_config.animation_skip_decrease,
+			"animation_skip_decrease",
 			config.animation_skip.decrease,
 			(not config.animation_skip.no_hold.enabled) and config.animation_skip or nil
 		)
 		merge_keys(
-			new_config.animation_skip_toggle_temp_disabled,
+			"animation_skip_toggle_temp_disabled",
 			(not config.animation_skip.no_hold.enabled) and config.animation_skip or nil,
 			{
 				key_1 = "]",

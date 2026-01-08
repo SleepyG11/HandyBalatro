@@ -459,7 +459,7 @@ local default_config = {
 		enabled = false,
 	},
 	dangerous_actions_crash = {
-		enabled = true,
+		enabled = false,
 		keys_1 = {},
 		keys_2 = {},
 		keys_1_gamepad = {},
