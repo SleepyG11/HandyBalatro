@@ -53,7 +53,7 @@ function Handy.UI.insta_actions_page_definition()
 				if is_shop then
 					card1.handy_preview_insta_actions = {
 						type = "shop",
-						sell = Handy.L.dictionary("k_handy_preview_sell"),
+						sell = Handy.L.dictionary("k_handy_preview_buy"),
 						use = Handy.L.dictionary("k_handy_preview_buy_n_use"),
 						buy_n_sell = Handy.L.dictionary("k_handy_preview_buy_n_sell"),
 					}
@@ -252,9 +252,9 @@ function Handy.UI.insta_actions_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.insta_actions_buy_or_sell),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.insta_actions_buy_n_sell),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.insta_actions_use),
-							Handy.UI.CP.dictionary_item(
-								Handy.D.dictionary.insta_actions_cryptid_code_use_last_interaction
-							),
+							-- Handy.UI.CP.dictionary_item(
+							-- 	Handy.D.dictionary.insta_actions_cryptid_code_use_last_interaction
+							-- ),
 						},
 					},
 				},

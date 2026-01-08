@@ -607,27 +607,27 @@ l({
 				}
 			end,
 		},
-		{
-			key = "insta_actions_cryptid_code_use_last_interaction",
-			keywords = {},
-			keybind = {
-				allow_multiple = "advanced",
-			},
-			checkbox = true,
+		-- {
+		-- 	key = "insta_actions_cryptid_code_use_last_interaction",
+		-- 	keywords = {},
+		-- 	keybind = {
+		-- 		allow_multiple = "advanced",
+		-- 	},
+		-- 	checkbox = true,
 
-			get_module = function(self)
-				return Handy.cc.insta_actions_cryptid_code_use_last_interaction, { Handy.D.dictionary.insta_actions }
-			end,
+		-- 	get_module = function(self)
+		-- 		return Handy.cc.insta_actions_cryptid_code_use_last_interaction, { Handy.D.dictionary.insta_actions }
+		-- 	end,
 
-			loc_vars = function()
-				return {
-					vars = { Handy.L.name_text("Handy_ConfigDictionary", "insta_actions_trigger_mode") },
-					key = Handy.cc.insta_actions_trigger_mode.value == 2
-							and "insta_actions_cryptid_code_use_last_interaction_alt"
-						or nil,
-				}
-			end,
-		},
+		-- 	loc_vars = function()
+		-- 		return {
+		-- 			vars = { Handy.L.name_text("Handy_ConfigDictionary", "insta_actions_trigger_mode") },
+		-- 			key = Handy.cc.insta_actions_trigger_mode.value == 2
+		-- 					and "insta_actions_cryptid_code_use_last_interaction_alt"
+		-- 				or nil,
+		-- 		}
+		-- 	end,
+		-- },
 	},
 })
 l({

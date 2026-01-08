@@ -48,9 +48,10 @@ Handy.controls.register("hand_selection_insta_highlight", {
 
 		return G.STATE ~= G.STATES.HAND_PLAYED
 			and card
-			and G.hand
-			and G.hand.states.visible
-			and card.area == G.hand
+			and card.area
+			and card.area.states
+			and card.area.states.visible
+			and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
 			and not G.CONTROLLER.dragging.target
 			and Handy.controls.default_can_execute(self, context)
 	end,

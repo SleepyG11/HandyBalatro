@@ -18,7 +18,7 @@ Handy.move_highlight = {
 			return false
 		end
 		if area.handy_allow_move_highlight then
-			return not area.handy_prevent_move_highlight_swap
+			return not (area.handy_prevent_move_highlight_swap or area.config.handy_prevent_move_highlight_swap)
 		end
 		return not Handy.utils.table_contains({
 			G.pack_cards,
@@ -39,7 +39,7 @@ Handy.move_highlight = {
 			and area.highlighted
 			and area.highlighted[1]
 			and (
-				area.handy_allow_move_highlight
+				(area.handy_allow_move_highlight or area.config.handy_allow_move_highlight)
 				or Handy.utils.table_contains({
 					G.consumeables,
 					G.jokers,

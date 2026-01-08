@@ -40,12 +40,12 @@ Handy.insta_actions = {
 				),
 			use = Handy.controls.is_module_enabled(Handy.cc.insta_actions_use)
 				and Handy.controls.is_module_keys_activated(Handy.cc.insta_actions_use, { context = input_context }),
-			cryptid_code_use_last_interaction = Handy.controls.is_module_enabled(
-				Handy.cc.insta_actions_cryptid_code_use_last_interaction
-			) and Handy.controls.is_module_keys_activated(
-				Handy.cc.insta_actions_cryptid_code_use_last_interaction,
-				{ context = input_context }
-			),
+			-- cryptid_code_use_last_interaction = Handy.controls.is_module_enabled(
+			-- 	Handy.cc.insta_actions_cryptid_code_use_last_interaction
+			-- ) and Handy.controls.is_module_keys_activated(
+			-- 	Handy.cc.insta_actions_cryptid_code_use_last_interaction,
+			-- 	{ context = input_context }
+			-- ),
 		}
 	end,
 	get_target_card = function(item, context)
@@ -278,7 +278,7 @@ Handy.insta_actions = {
 		end
 
 		if card.handy_preview_insta_actions then
-			-- TODO: preview for code card
+			-- TODO: preview for code card (maybe later)
 			if actions.use then
 				card:handy_preview_use()
 			elseif actions.buy_or_sell then
@@ -295,7 +295,7 @@ Handy.insta_actions = {
 			return false
 		end
 
-		if actions.cryptid_code_use_last_interaction then
+		if false and actions.cryptid_code_use_last_interaction then
 			local cards_events_list = {
 				c_cry_variable = "variable_apply_previous",
 				-- c_cry_pointer = "pointer_apply_previous",

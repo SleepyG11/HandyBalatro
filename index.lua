@@ -45,7 +45,6 @@ Handy.load_file("src/index.lua")
 -- dangerous check when applicable
 
 -- TODO: check controls (pc)
--- insta actions
 -- presets
 -- regular keybinds:
 --- game
