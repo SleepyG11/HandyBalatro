@@ -31,7 +31,8 @@ Handy.load_file("src/index.lua")
 -- TODO:
 -- 0. controller for all this shit (god help me)
 -- 1. component for checkbox and option cycle (UIKit mod?)
--- 3. show when keybind supports combinations
--- 4. more pages (advanced, credits)
--- 5. maybe icons for menu buttons?
--- 6. toggle to allow speed & animations in MP
+-- 2. more pages (advanced, credits)
+-- 3. maybe icons for menu buttons?
+-- 4. toggle to allow speed & animations in MP
+-- 5. keywords
+-- 6. description for animation skip levels

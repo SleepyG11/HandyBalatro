@@ -117,7 +117,6 @@ function Handy.UI.speed_n_animations_hold_tab_definition()
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.scoring_hold, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.scoring_hold_any_moment),
-							-- TODO: some text wtf is this
 						},
 					},
 				},

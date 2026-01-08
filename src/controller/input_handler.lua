@@ -211,7 +211,7 @@ function Handy.controller.handle_card_hover(card)
 	Handy.controller.reset_prevents()
 	Handy.controller.set_card_context("hover", card)
 	Handy.e_mitter.emit("raw_card_hover", card)
-	Handy.controller.set_card_context("hover")
+	Handy.controller.set_card_context("none")
 	return Handy.controller.is_default_prevented()
 end
 
@@ -235,7 +235,7 @@ function Handy.controller.handle_tag_hover(tag)
 	Handy.controller.reset_prevents()
 	Handy.controller.set_tag_context("hover", tag)
 	Handy.e_mitter.emit("raw_tag_hover", tag)
-	Handy.controller.set_tag_context("hover")
+	Handy.controller.set_tag_context("none")
 	return Handy.controller.is_default_prevented()
 end
 

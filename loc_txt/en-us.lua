@@ -133,7 +133,7 @@ return {
 			animation_skip = {
 				name = "Animation skip",
 				text = {
-					"Remove game or scoring animations",
+					"Remove scoring and other game animations",
 				},
 				unlock = {
 					"Direct replacement of same feature",
@@ -208,7 +208,7 @@ return {
 				unlock = {
 					"Increase limit of max Speed Multiplier",
 					" ",
-					"{C:mult}Tanks performance on very high speeds{}",
+					"{C:mult}Tanks performance on very high values{}",
 				},
 			},
 

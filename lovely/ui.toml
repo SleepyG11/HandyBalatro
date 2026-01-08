@@ -18,7 +18,6 @@ match_indent = true
 overwrite = false
 
 # Custom movement control
-# TODO: make this work for option cycles
 [[patches]]
 [patches.pattern]
 target = "engine/controller.lua"
