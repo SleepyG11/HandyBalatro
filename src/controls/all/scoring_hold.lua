@@ -5,26 +5,45 @@ Handy.scoring_hold = {
 	preview_is_hold = false,
 	preview_is_hand_played = false,
 
+	hold_event = nil,
+	preview_hold_event = nil,
+
 	create_hold_event = function(prepend)
+		if prepend and Handy.scoring_hold.hold_event then
+			return
+		end
 		local event = Event({
+			no_delete = true,
 			func = function()
 				if not Handy.scoring_hold.is_hold then
+					Handy.scoring_hold.hold_event = nil
 					return true
 				end
 			end,
 		})
 		event.handy_never_modify = true
+		if prepend then
+			Handy.scoring_hold.hold_event = event
+		end
 		G.E_MANAGER:add_event(event, nil, prepend)
 	end,
 	preview_create_hold_event = function(prepend)
+		if prepend and Handy.scoring_hold.preview_hold_event then
+			return
+		end
 		local event = Event({
+			no_delete = true,
 			func = function()
 				if not Handy.scoring_hold.preview_is_hold then
+					Handy.scoring_hold.preview_hold_event = nil
 					return true
 				end
 			end,
 		})
 		event.handy_never_modify = true
+		if prepend then
+			Handy.scoring_hold.preview_hold_event = event
+		end
 		G.E_MANAGER:add_event(event, "handy_config", prepend)
 	end,
 
@@ -46,36 +65,32 @@ Handy.e_mitter.on("update", function(dt)
 	if Handy.controller.binding.current then
 		new_value = false
 	elseif Handy.UI.data.speed_n_animations_preview then
-		local old_value = Handy.scoring_hold.preview_is_hold
 		new_value = Handy.scoring_hold.get_preview_is_hold()
-		local old_hand_played_value = Handy.scoring_hold.preview_is_hand_played
 		local new_hand_played_value = Handy.UI.data.is_speed_n_animations_calculate
 
 		Handy.scoring_hold.preview_is_hold = new_value
 		Handy.scoring_hold.preview_is_hand_played = new_hand_played_value
 
-		if new_value and new_hand_played_value then
-			if (old_hand_played_value ~= new_hand_played_value) or (old_value ~= new_value) then
-				if Handy.controls.is_module_enabled(Handy.cc.scoring_hold_any_moment) then
-					Handy.scoring_hold.preview_create_hold_event(true)
-				end
-			end
+		if
+			new_value
+			and new_hand_played_value
+			and Handy.controls.is_module_enabled(Handy.cc.scoring_hold_any_moment)
+		then
+			Handy.scoring_hold.preview_create_hold_event(true)
 		end
 	else
-		local old_value = Handy.scoring_hold.is_hold
 		new_value = Handy.scoring_hold.get_is_hold()
-		local old_hand_played_value = Handy.scoring_hold.is_hand_played
 		local new_hand_played_value = G.STATE == G.STATES.HAND_PLAYED
 
 		Handy.scoring_hold.is_hold = new_value
 		Handy.scoring_hold.is_hand_played = new_hand_played_value
 
-		if new_value and new_hand_played_value then
-			if (old_hand_played_value ~= new_hand_played_value) or (old_value ~= new_value) then
-				if Handy.controls.is_module_enabled(Handy.cc.scoring_hold_any_moment) then
-					Handy.scoring_hold.create_hold_event(true)
-				end
-			end
+		if
+			new_value
+			and new_hand_played_value
+			and Handy.controls.is_module_enabled(Handy.cc.scoring_hold_any_moment)
+		then
+			Handy.scoring_hold.create_hold_event(true)
 		end
 	end
 

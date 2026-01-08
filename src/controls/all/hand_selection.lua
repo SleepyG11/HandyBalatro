@@ -4,7 +4,7 @@ Handy.insta_highlight = {
 
 Handy.deselect_hand = {
 	should_prevent = function()
-		return Handy.b_is_mod_active() and Handy.controls.is_module_enabled(Handy.cc.hand_selection)
+		return Handy.b_is_mod_active()
 	end,
 }
 Handy.insta_highlight_entire_f_hand = {}
@@ -39,9 +39,11 @@ Handy.controls.register("hand_selection_insta_highlight", {
 
 		if card and card.handy_insta_highlight_preview then
 			return not G.CONTROLLER.dragging.target
-				and Handy.controls.is_module_enabled(Handy.cc.hand_selection)
-				and Handy.controls.is_module_enabled(Handy.cc.hand_selection_insta_highlight)
-				and Handy.controls.is_module_keys_activated(Handy.cc.hand_selection_insta_highlight)
+				and Handy.controls.default_can_execute(self, context, {
+					allow_not_in_run = true,
+					allow_stop_use = true,
+					allow_mod_inactive = true,
+				})
 		end
 
 		return G.STATE ~= G.STATES.HAND_PLAYED

@@ -44,13 +44,9 @@ Handy.load_file("src/index.lua")
 -- dangerous check when applicable
 
 -- TODO: check controls (pc)
--- hand selection
--- speed
--- animations
 -- move selection
 -- insta actions
 -- presets
--- scoring hold
 -- regular keybinds:
 --- game
 --- menus
@@ -74,3 +70,6 @@ Handy.load_file("src/index.lua")
 --- shop
 --- blind select
 -- dangerous
+
+-- TODO: make sure every preview works identical:
+--- work if mod disabled

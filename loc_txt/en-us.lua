@@ -117,7 +117,7 @@ return {
 				name = { "Deselect hand" },
 				text = {},
 				unlock = {
-					"Act as replacement for Vanilla",
+					"Act as {C:attention}replacement{} for Vanilla",
 					"{C:chips}#1#{}, works identical",
 				},
 			},
@@ -390,7 +390,7 @@ return {
 				},
 			},
 			scoring_hold_any_moment = {
-				name = { "Scoring hold: Any moment" },
+				name = { "Scoring hold: Any moment of scoring" },
 				text = {},
 				unlock = {
 					"Allow to pause animations during",
@@ -413,7 +413,7 @@ return {
 				name = { "Run restart" },
 				text = {},
 				unlock = {
-					"Act as replacement for Vanilla",
+					"Act as {C:attention}replacement{} for Vanilla",
 					"{C:chips}#1#{}, works {C:inactive,s:0.75}almost{} identical",
 				},
 			},
