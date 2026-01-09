@@ -831,7 +831,7 @@ return {
 			["Game & Menus"] = "Game/Menus",
 		},
 		v_dictionary = {
-			Handy_by = "#1# by #2#",
+			Handy_version_by = "v#1# by #2#",
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",

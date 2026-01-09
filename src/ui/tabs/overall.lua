@@ -16,7 +16,7 @@ function Handy.UI.get_config_tab_overall()
 							{
 								n = G.UIT.T,
 								config = {
-									text = Handy.L.variable("Handy_by", { Handy.version, "SleepyG11" }),
+									text = Handy.L.variable("Handy_version_by", { Handy.version, "SleepyG11" }),
 									scale = 0.28,
 									colour = G.C.UI.TEXT_LIGHT,
 								},

@@ -7,7 +7,7 @@ Handy = setmetatable({
 	NFS = NFS or require("handy/nativefs"),
 	---@diagnostic disable-next-line: undefined-global
 	PATH = Handy_main_file_path,
-	version = "2.0.0-alpha2",
+	version = "2.0.0~ALPHA-1",
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
