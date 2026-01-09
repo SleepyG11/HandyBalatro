@@ -1,13 +1,10 @@
-Handy.insta_highlight = {
+Handy.hand_selection = {
 	first_card_highlighted = nil,
-}
 
-Handy.deselect_hand = {
-	should_prevent = function()
+	should_prevent_deselect = function()
 		return Handy.b_is_mod_active()
 	end,
 }
-Handy.insta_highlight_entire_f_hand = {}
 
 --
 
@@ -59,8 +56,8 @@ Handy.controls.register("hand_selection_insta_highlight", {
 		local card_context = Handy.controller.get_card_context()
 		local card = card_context.card or card_context.hovered_current
 
-		if Handy.insta_highlight.first_card_highlighted == nil then
-			Handy.insta_highlight.first_card_highlighted = card.highlighted
+		if Handy.hand_selection.first_card_highlighted == nil then
+			Handy.hand_selection.first_card_highlighted = card.highlighted
 				and Handy.controls.is_module_enabled(Handy.cc.hand_selection_insta_highlight_allow_deselect)
 		end
 
@@ -72,7 +69,7 @@ Handy.controls.register("hand_selection_insta_highlight", {
 			func = function()
 				if
 					not G.CONTROLLER.dragging.target
-					and (not not card.highlighted == not not Handy.insta_highlight.first_card_highlighted)
+					and (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
 				then
 					card:click()
 				end
@@ -83,9 +80,9 @@ Handy.controls.register("hand_selection_insta_highlight", {
 	end,
 
 	update = function(self, dt)
-		if Handy.insta_highlight.first_card_highlighted ~= nil then
+		if Handy.hand_selection.first_card_highlighted ~= nil then
 			if not Handy.controls.is_module_keys_activated(Handy.cc.hand_selection_insta_highlight) then
-				Handy.insta_highlight.first_card_highlighted = nil
+				Handy.hand_selection.first_card_highlighted = nil
 			end
 		end
 	end,

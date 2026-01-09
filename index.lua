@@ -38,6 +38,7 @@ Handy.load_file("src/index.lua")
 -- 6. description for animation skip levels
 -- 7. hold implementation for move highlight
 -- 8. fix event stuck in base queue when exiting speed preview
+-- 9. hold trigger
 
 -- TODO: check for ALL controls
 -- mod toggle
