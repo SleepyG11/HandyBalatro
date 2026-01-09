@@ -11,8 +11,9 @@ function Handy.utils.string_join_keywords(t)
 end
 
 function Handy.utils.string_words_split(str)
+	str = str or ""
 	local result = {}
-	for word in str:gsub("[%p%c%d]", ""):gmatch("%S+") do
+	for word in str:gsub("[%p%c%d]", " "):gmatch("%S+") do
 		table.insert(result, word)
 	end
 	return result

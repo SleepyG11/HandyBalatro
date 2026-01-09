@@ -20,60 +20,61 @@ end
 
 Handy.e_mitter.on("localization_load", function()
 	for k, v in pairs(Handy.D.dictionary) do
-		local temp_keywords = {}
+		v.loc_loaded = false
+	end
 
-		local function insert_keywords(t)
-			for _, word in ipairs(t or {}) do
-				temp_keywords[string.lower(word)] = true
-			end
-		end
-		insert_keywords(v.keywords_list or {})
+	local load_loc
+	load_loc = function(v)
+		if not v.loc_loaded then
+			v.loc_loaded = true
+			local temp_keywords = {}
 
-		if v.checkbox then
-			if type(v.checkbox) ~= "table" then
-				v.checkbox = {}
+			local function insert_keywords(t)
+				for _, word in ipairs(t or {}) do
+					temp_keywords[string.lower(word)] = true
+				end
 			end
-			pcall(function()
-				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.checkbox.key or v.key] or {}
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
-			end)
-		end
-		if v.keybind then
-			if type(v.keybind) ~= "table" then
-				v.keybind = {}
-			end
-			pcall(function()
-				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.keybind.key or v.key] or {}
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
-			end)
-		end
-		if v.option_cycle then
-			if type(v.option_cycle) ~= "table" then
-				v.option_cycle = {}
-			end
-			pcall(function()
-				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.option_cycle.key or v.key] or {}
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
-			end)
-		end
-		if v.simple_option_cycle then
-			if type(v.simple_option_cycle) ~= "table" then
-				v.simple_option_cycle = {}
-			end
-			pcall(function()
-				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.simple_option_cycle.key or v.key]
-					or {}
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
-			end)
-		end
+			insert_keywords(v.keywords_list or {})
 
-		v.result_keywords = ""
-		for tk, _ in pairs(temp_keywords) do
-			v.result_keywords = v.result_keywords .. " " .. tk
+			if v.checkbox then
+				if type(v.checkbox) ~= "table" then
+					v.checkbox = {}
+				end
+			end
+			if v.keybind then
+				if type(v.keybind) ~= "table" then
+					v.keybind = {}
+				end
+			end
+			if v.option_cycle then
+				if type(v.option_cycle) ~= "table" then
+					v.option_cycle = {}
+				end
+			end
+			if v.simple_option_cycle then
+				if type(v.simple_option_cycle) ~= "table" then
+					v.simple_option_cycle = {}
+				end
+			end
+
+			pcall(function()
+				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.key] or {}
+				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
+				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
+			end)
+
+			v.result_keywords = ""
+			for _, parent in ipairs(v.parents or {}) do
+				load_loc(parent)
+				v.result_keywords = v.result_keywords .. " " .. parent.result_keywords
+			end
+			for tk, _ in pairs(temp_keywords) do
+				v.result_keywords = v.result_keywords .. " " .. tk
+			end
 		end
+	end
+
+	for k, v in pairs(Handy.D.dictionary) do
+		load_loc(v)
 	end
 end)

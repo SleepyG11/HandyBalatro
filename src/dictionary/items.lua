@@ -7,7 +7,7 @@ end
 l({
 	key = "general",
 
-	keywords = { "general global" },
+	keywords = { "general global common" },
 	loc_vars = function()
 		return {
 			vars = { Handy.version, "SleepyG11" },
@@ -28,6 +28,7 @@ l({
 		},
 		{
 			key = "keybinds_trigger_mode",
+			keywords = { "trigger mode on press on release key button" },
 			get_module = function(self)
 				return Handy.cc.keybinds_trigger_mode
 			end,
@@ -44,6 +45,7 @@ l({
 		},
 		{
 			key = "current_device",
+			keywords = { "current input device gamepad controller mouse keyboard auto" },
 			get_module = function(self)
 				return Handy.cc.current_device
 			end,
@@ -67,6 +69,7 @@ l({
 		},
 		{
 			key = "prevent_if_debugplus",
+			keywords = { "debug plus prevent intersections keybinds" },
 			get_module = function(self)
 				return Handy.cc.prevent_if_debugplus
 			end,
@@ -79,11 +82,12 @@ l({
 })
 l({
 	key = "gamepad",
-
+	keywords = { "gamepad controller" },
 	group = true,
 	items = {
 		{
 			key = "controller_sensitivity",
+			keywords = { "cursor sensitivity speed" },
 			get_module = function(self)
 				return Handy.cc.controller_sensitivity
 			end,
@@ -107,6 +111,7 @@ l({
 		},
 		{
 			key = "swap_controller_cursor_stick",
+			keywords = { "stick sticks swap change" },
 			get_module = function(self)
 				return Handy.cc.swap_controller_cursor_stick
 			end,
@@ -116,11 +121,12 @@ l({
 })
 l({
 	key = "appearance",
-
+	keywords = { "appearance buttons button toggle toggles checkboxes checkbox" },
 	group = true,
 	items = {
 		{
 			key = "notifications_level",
+			keywords = { "notifications popup" },
 			get_module = function(self)
 				return Handy.cc.notifications_level
 			end,
@@ -143,6 +149,7 @@ l({
 		},
 		{
 			key = "hide_options_button",
+			keywords = { "settings config mod blue button" },
 			get_module = function(self)
 				return Handy.cc.hide_options_button
 			end,
@@ -150,6 +157,7 @@ l({
 		},
 		{
 			key = "speed_multiplier_settings_toggle",
+			keywords = { "settings config speed multiplier more speed toggle checkbox cycle" },
 			get_module = function(self)
 				return Handy.cc.speed_multiplier_settings_toggle, { Handy.D.dictionary.speed_multiplier }
 			end,
@@ -158,6 +166,7 @@ l({
 		},
 		{
 			key = "animation_skip_settings_toggle",
+			keywords = { "settings config animation skip remove animations toggle checkbox cycle" },
 			get_module = function(self)
 				return Handy.cc.animation_skip_settings_toggle, { Handy.D.dictionary.animation_skip }
 			end,
@@ -168,7 +177,7 @@ l({
 })
 l({
 	key = "hand_selection",
-	keywords = {},
+	keywords = { "hand selection select cards card" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.hand_selection
@@ -178,7 +187,7 @@ l({
 	items = {
 		{
 			key = "hand_selection_insta_highlight",
-			keywords = {},
+			keywords = { "swipe hover drag slide insta highlight quick" },
 			keybind = {
 				allow_multiple = "advanced",
 			},
@@ -190,6 +199,7 @@ l({
 		},
 		{
 			key = "hand_selection_insta_highlight_allow_deselect",
+			keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight" },
 			checkbox = true,
 
 			get_module = function(self)
@@ -199,7 +209,7 @@ l({
 		},
 		{
 			key = "hand_selection_deselect_hand",
-			keywords = { "toggle", "temporary disable" },
+			keywords = { "deselect hand vanilla unhighlight all cards" },
 
 			keybind = {
 				allow_multiple = "advanced",
@@ -218,7 +228,7 @@ l({
 		},
 		{
 			key = "hand_selection_entire_f_hand",
-			keywords = { "decrease" },
+			keywords = { "select all cards hand highlight entire card" },
 			keybind = {
 				allow_multiple = true,
 			},
@@ -234,7 +244,7 @@ l({
 })
 l({
 	key = "speed_multiplier",
-	keywords = { "speed multiplier", "faster more speed" },
+	keywords = { "speed multiplier", "fast faster more speed accelerate acceleration increase decrease" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.speed_multiplier
@@ -263,6 +273,7 @@ l({
 	items = {
 		{
 			key = "speed_multiplier_default_value",
+			keywords = { "default value on startup game start launch" },
 			get_module = function(self)
 				return Handy.cc.speed_multiplier_default_value, { Handy.D.dictionary.speed_multiplier }
 			end,
@@ -336,7 +347,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_speed_multiplier_uncap",
-			keywords = { "no animations", "unsafe" },
+			keywords = { "dangerous max speed uncap unsafe" },
 			dangerous = true,
 			checkbox = true,
 
@@ -349,7 +360,7 @@ l({
 })
 l({
 	key = "animation_skip",
-	keywords = { "animation skip", "faster animations nopeus" },
+	keywords = { "animation skip", "faster remove no animations animation nopeus instant scoring game" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.animation_skip
@@ -377,6 +388,7 @@ l({
 	items = {
 		{
 			key = "animation_skip_default_value",
+			keywords = { "default value on startup game start launch" },
 			get_module = function(self)
 				return Handy.cc.animation_skip_default_value, { Handy.D.dictionary.animation_skip }
 			end,
@@ -444,7 +456,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_animation_skip_unsafe",
-			keywords = { "no animations", "unsafe" },
+			keywords = { "no animations", "dangerous unsafe remove all animations" },
 			checkbox = true,
 			dangerous = true,
 
@@ -457,7 +469,7 @@ l({
 })
 l({
 	key = "move_highlight",
-	keywords = {},
+	keywords = { "cards card selection highlight movement precise" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.move_highlight
@@ -469,7 +481,7 @@ l({
 	items = {
 		{
 			key = "move_highlight_one_left",
-			keywords = {},
+			keywords = { "left" },
 			keybind = {
 				allow_multiple = true,
 			},
@@ -485,7 +497,7 @@ l({
 		},
 		{
 			key = "move_highlight_one_right",
-			keywords = {},
+			keywords = { "right" },
 			keybind = {
 				allow_multiple = true,
 			},
@@ -499,7 +511,7 @@ l({
 		},
 		{
 			key = "move_highlight_swap",
-			keywords = {},
+			keywords = { "swap move card" },
 			keybind = {
 				allow_multiple = true,
 				only_holdable = true,
@@ -531,7 +543,7 @@ l({
 })
 l({
 	key = "insta_actions",
-	keywords = {},
+	keywords = { "insta quick actions quick buy sell use" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.insta_actions
@@ -541,6 +553,7 @@ l({
 	items = {
 		{
 			key = "insta_actions_trigger_mode",
+			keywords = { "trigger mode" },
 			get_module = function(self)
 				return Handy.cc.insta_actions_trigger_mode
 			end,
@@ -558,7 +571,7 @@ l({
 		},
 		{
 			key = "insta_actions_buy_or_sell",
-			keywords = {},
+			keywords = { "buy or sell card cards" },
 			keybind = {
 				allow_multiple = "advanced",
 			},
@@ -577,7 +590,7 @@ l({
 		},
 		{
 			key = "insta_actions_buy_n_sell",
-			keywords = {},
+			keywords = { "buy and sell buy n sell card cards" },
 			keybind = {
 				allow_multiple = "advanced",
 			},
@@ -596,7 +609,7 @@ l({
 		},
 		{
 			key = "insta_actions_use",
-			keywords = {},
+			keywords = { "use consumables consumeables card cards" },
 			keybind = {
 				allow_multiple = "advanced",
 			},
@@ -638,7 +651,7 @@ l({
 })
 l({
 	key = "presets",
-	keywords = {},
+	keywords = { "presets config layouts settings" },
 	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.presets
@@ -648,7 +661,7 @@ l({
 	items = {
 		{
 			key = "presets_load_1",
-			keywords = {},
+			keywords = { "load 1" },
 			keybind = {
 				allow_multiple = "advanced",
 				rerender = true,
@@ -663,7 +676,7 @@ l({
 		},
 		{
 			key = "presets_load_2",
-			keywords = {},
+			keywords = { "load 2" },
 			keybind = {
 				allow_multiple = "advanced",
 				rerender = true,
@@ -678,7 +691,7 @@ l({
 		},
 		{
 			key = "presets_load_3",
-			keywords = {},
+			keywords = { "load 3" },
 			keybind = {
 				allow_multiple = "advanced",
 				rerender = true,
@@ -693,7 +706,7 @@ l({
 		},
 		{
 			key = "presets_load_next",
-			keywords = {},
+			keywords = { "load next" },
 			keybind = {
 				allow_multiple = "advanced",
 				rerender = true,
@@ -710,7 +723,7 @@ l({
 })
 l({
 	key = "scoring_hold",
-	keywords = { "scoring hold", "pause animation" },
+	keywords = { "scoring hold", "pause stop animations before during scoring" },
 	get_module = function(self)
 		return Handy.cc.scoring_hold
 	end,
@@ -724,6 +737,7 @@ l({
 	items = {
 		{
 			key = "scoring_hold_any_moment",
+			keywords = { "pause any moment" },
 			get_module = function(self)
 				return Handy.cc.scoring_hold_any_moment, { Handy.D.dictionary.scoring_hold }
 			end,
@@ -737,15 +751,18 @@ l({
 		return Handy.cc.regular_keybinds
 	end,
 	checkbox = true,
+	keywords = { "vanilla regular common default keybinds" },
 
 	group = true,
 	items = {
 		{
 			key = "regular_keybinds_group_game",
+			kywords = { "general game" },
 			group = true,
 			items = {
 				{
 					key = "regular_keybinds_restart",
+					keywords = { "vanilla game restart" },
 					checkbox = {
 						advanced = true,
 					},
@@ -765,6 +782,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_quick_restart",
+					keywords = { "vanilla quick game restart instant without animation no animations instant" },
 					checkbox = {
 						advanced = true,
 					},
@@ -779,6 +797,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_save_run",
+					keywords = { "save run" },
 					checkbox = {
 						advanced = true,
 					},
@@ -792,6 +811,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_reload_run",
+					keywords = { "reload start run" },
 					checkbox = {
 						advanced = true,
 					},
@@ -807,10 +827,12 @@ l({
 		},
 		{
 			key = "regular_keybinds_group_round",
+			keywords = { "round" },
 			group = true,
 			items = {
 				{
 					key = "regular_keybinds_play",
+					keywords = { "play hand" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_play, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -823,6 +845,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_discard",
+					keywords = { "discard hand" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_discard, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -835,6 +858,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_change_sort_rank",
+					keywords = { "sort hand rank" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_sort_by_rank, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -847,6 +871,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_change_sort_suit",
+					keywords = { "sort hand suit" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_sort_by_suit, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -859,6 +884,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_toggle_sort",
+					keywords = { "sort hand rank suit toggle switch" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_toggle_sort, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -871,6 +897,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_cash_out",
+					keywords = { "cash out cashout" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_cash_out, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -883,6 +910,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_not_just_yet_interaction",
+					keywords = { "not just jet notjustyet end round" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_not_just_yet_interaction,
 							{ Handy.D.dictionary.regular_keybinds }
@@ -896,6 +924,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_start_fantoms_preview",
+					keywords = { "multiplayer mp score hand preview fantoms" },
 					checkbox = {
 						advanced = true,
 					},
@@ -910,10 +939,12 @@ l({
 		},
 		{
 			key = "regular_keybinds_group_shop",
+			keywords = { "shop" },
 			group = true,
 			items = {
 				{
 					key = "regular_keybinds_skip_booster",
+					keywords = { "booster pack packs boosters skip" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_skip_booster, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -926,6 +957,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_reroll_shop",
+					keywords = { "reroll one more" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_reroll_shop, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -938,6 +970,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_leave_shop",
+					keywords = { "go next leave shop" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_leave_shop, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -956,6 +989,7 @@ l({
 			items = {
 				{
 					key = "regular_keybinds_skip_blind",
+					keywords = { "skip blind" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_skip_blind, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -968,6 +1002,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_select_blind",
+					keywords = { "select start round blind" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_select_blind, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -980,6 +1015,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_reroll_boss",
+					keywords = { "reroll boss blind directors cut retcon director" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_reroll_boss, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -994,10 +1030,12 @@ l({
 		},
 		{
 			key = "regular_keybinds_group_menus",
+			keywords = { "ui menus panels menus" },
 			group = true,
 			items = {
 				{
 					key = "regular_keybinds_run_info",
+					keywords = { "run info poker hands" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_run_info, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1010,6 +1048,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_run_info_blinds",
+					keywords = { "run info blinds current ante" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_run_info_blinds, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1023,6 +1062,7 @@ l({
 
 				{
 					key = "regular_keybinds_view_deck",
+					keywords = { "open view deck" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_view_deck, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1035,6 +1075,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_show_deck_preview",
+					keywords = { "deck preview summary peek" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_show_deck_preview, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1049,6 +1090,7 @@ l({
 
 				{
 					key = "regular_keybinds_view_lobby_info",
+					keywords = { "multiplayer lobby info players" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_lobby_info, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1061,6 +1103,7 @@ l({
 				},
 				{
 					key = "regular_keybinds_mod_settings",
+					keywords = { "handy mod settings config" },
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_mod_settings, { Handy.D.dictionary.regular_keybinds }
 					end,
@@ -1080,6 +1123,7 @@ l({
 	get_module = function(self)
 		return Handy.cc.dangerous_actions
 	end,
+	keywords = { "dangerous unsafe" },
 	checkbox = true,
 	dangerous = true,
 	no_mp = true,
@@ -1088,6 +1132,7 @@ l({
 	items = {
 		{
 			key = "dangerous_actions_sell_one",
+			keywords = { "quick instant mass sell in bulk" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1100,6 +1145,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_remove_one",
+			keywords = { "quick instant mass remove in bulk card cards skip tags" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1112,6 +1158,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_sell_all_same",
+			keywords = { "quick instant mass sell in bulk all same copies card cards" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1124,6 +1171,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_remove_all_same",
+			keywords = { "quick instant mass remove in bulk all same copies card cards skip tags" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1136,6 +1184,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_sell_all",
+			keywords = { "quick instant mass sell in bulk all card cards" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1148,6 +1197,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_remove_all",
+			keywords = { "quick instant mass remove in bulk all card cards skip tags" },
 			checkbox = true,
 			keybind = {
 				allow_multiple = true,
@@ -1160,6 +1210,7 @@ l({
 		},
 		{
 			key = "dangerous_actions_crash",
+			keywords = { "crash game fuck you" },
 			checkbox = true,
 			dangerous = true,
 			keybind = {
