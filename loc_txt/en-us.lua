@@ -806,7 +806,7 @@ return {
 			["Presets"] = "Presets",
 			["Search"] = "Search",
 
-			["Generall & Appearance"] = "Generall & Appearance",
+			["General"] = "General",
 			["Fast hand selection"] = "Fast hand selection",
 			["Speed & Animations"] = "Speed & Animations",
 			["Vanilla keybinds"] = "Vanilla keybinds",

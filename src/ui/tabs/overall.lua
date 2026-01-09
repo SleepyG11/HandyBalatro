@@ -80,8 +80,8 @@ function Handy.UI.get_config_tab_overall()
 				shadow = true,
 				hover = true,
 				button = args.button or "handy_noop",
-				minw = 3,
-				maxw = 3,
+				minw = 3.25,
+				maxw = 3.25,
 			},
 			nodes = {
 				{
@@ -110,9 +110,8 @@ function Handy.UI.get_config_tab_overall()
 						nodes = {
 							{
 								n = G.UIT.C,
-								config = { align = "cm" },
 								nodes = {
-									b({ label = "Generall & Appearance", button = "handy_appearance" }),
+									b({ label = "General", button = "handy_appearance" }),
 									Handy.UI.CP.r_sep(0.1),
 									b({ label = "Speed & Animations", button = "handy_speed_n_animations" }),
 								},
@@ -120,7 +119,6 @@ function Handy.UI.get_config_tab_overall()
 							Handy.UI.CP.c_sep(0.1),
 							{
 								n = G.UIT.C,
-								config = { align = "cm" },
 								nodes = {
 									b({
 										label = "Fast hand selection",
@@ -129,12 +127,13 @@ function Handy.UI.get_config_tab_overall()
 									}),
 									Handy.UI.CP.r_sep(0.1),
 									b({ label = "Quick buy/sell/use", button = "handy_insta_actions" }),
+									Handy.UI.CP.r_sep(0.1),
+									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
 								},
 							},
 							Handy.UI.CP.c_sep(0.1),
 							{
 								n = G.UIT.C,
-								config = { align = "cm" },
 								nodes = {
 									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
 									Handy.UI.CP.r_sep(0.1),
@@ -143,26 +142,24 @@ function Handy.UI.get_config_tab_overall()
 							},
 						},
 					},
-					Handy.UI.CP.r_sep(0.1),
-					{
-						n = G.UIT.R,
-						config = { align = "cm" },
-						nodes = {
-							-- {
-							-- 	n = G.UIT.C,
-							-- 	nodes = {
-							-- 	},
-							-- },
-							-- Handy.UI.CP.c_sep(0.1),
-							-- TODO: add more buttons here
-							{
-								n = G.UIT.C,
-								nodes = {
-									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
-								},
-							},
-						},
-					},
+					-- Handy.UI.CP.r_sep(0.1),
+					-- {
+					-- 	n = G.UIT.R,
+					-- 	config = { align = "cm" },
+					-- 	nodes = {
+					-- 		-- {
+					-- 		-- 	n = G.UIT.C,
+					-- 		-- 	nodes = {
+					-- 		-- 	},
+					-- 		-- },
+					-- 		-- Handy.UI.CP.c_sep(0.1),
+					-- 		-- TODO: add more buttons here
+					-- 		{
+					-- 			n = G.UIT.C,
+					-- 			nodes = {},
+					-- 		},
+					-- 	},
+					-- },
 				},
 			},
 		},
