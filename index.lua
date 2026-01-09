@@ -41,17 +41,13 @@ Handy.load_file("src/index.lua")
 -- 9. decrease mod load when disabled (specifically input contexts)
 -- 10. touchscreen?
 -- 11. fix doubletap in hand selection preview (somehow)
+-- 12. override controller controls (somehow)
 
 -- TODO: check controls (controller)
--- hand selection
--- move selection
--- insta actions
+-- hand selection - fix preview
+-- insta actions - complicated
 -- regular keybinds:
---- game
 --- menus
---- round
---- shop
---- blind select
 -- dangerous
 
 -- TODO: make sure every preview works identical:

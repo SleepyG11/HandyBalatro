@@ -416,6 +416,7 @@ return {
 				unlock = {
 					"Act as {C:attention}replacement{} for Vanilla",
 					"{C:chips}#1#{}, works identical",
+					"{C:inactive}(still require holding keybind){}",
 				},
 			},
 			regular_keybinds_quick_restart = {
@@ -424,8 +425,9 @@ return {
 				unlock = {
 					"Same as Vanilla restart",
 					"but with {C:attention}skipped animation{}",
+					"and triggers immediately {C:inactive}(no need to hold){}",
 					" ",
-					"Works from {C:attention}Game Over{} screen too",
+					"Works from {C:attention}Game Over{} screen aswell",
 				},
 			},
 			regular_keybinds_save_run = {
@@ -441,13 +443,14 @@ return {
 				},
 			},
 			regular_keybinds_reload_run = {
-				name = { "Reload run" },
+				name = { "(Re)load run" },
 				text = {
 					"Main menu -> Continue run",
 				},
 				unlock = {
 					"Simulates exiting to Main Menu",
-					"and then Continuing same run",
+					"{C:inactive}(if not there already){}",
+					"and then Continuing run",
 					"with {C:attention}skipped animation{}",
 				},
 			},
@@ -859,6 +862,11 @@ return {
 			Handy_binding_finished = "Binding finished: #1#",
 			Handy_binding_progress = "Binding: #1#",
 			Handy_binding_esc_hint = "#1# to save",
+
+			Handy_reload_run_done = "Run reloaded",
+			Handy_reload_run_nothing_to_load = "No run to reload",
+			Handy_load_run_done = "Run loaded",
+			Handy_load_run_nothing_to_load = "No run to load",
 
 			Handy_prevented_by_debugplus = "Prevented by DebugPlus",
 		},

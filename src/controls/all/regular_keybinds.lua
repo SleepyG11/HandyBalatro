@@ -760,25 +760,24 @@ Handy.controls.register("regular_keybinds_reload_run", {
 	no_mp = true,
 
 	can_execute = function(self, context)
-		return not Handy.regular_keybinds.reload_run_blocker
-			and G.STAGE == G.STAGES.RUN
-			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
-			and Handy.controls.default_can_execute(self, context)
+		return not Handy.regular_keybinds.reload_run_blocker and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function()
-		local s
-		if not G.SAVED_GAME then
-			G.SAVED_GAME = get_compressed(G.SETTINGS.profile .. "/" .. "save.jkr")
-			if G.SAVED_GAME ~= nil then
-				G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
-				s = G.SAVED_GAME
+		local in_menu = G.STAGE == G.STAGES.MAIN_MENU
+		local s = G.SAVED_GAME
+		if not s then
+			s = get_compressed(G.SETTINGS.profile .. "/" .. "save.jkr")
+			if s ~= nil then
+				s = STR_UNPACK(s)
 			end
 		end
 		if s then
 			Handy.regular_keybinds.reload_run_blocker = true
 			Handy.animation_skip.skip_wipe_screen = true
 			Handy.animation_skip.force_non_blocking = true
-			G.FUNCS.go_to_menu()
+			if in_menu then
+				G.FUNCS.go_to_menu()
+			end
 			G.SETTINGS.current_setup = "Continue"
 			G.SAVED_GAME = s
 			G.FUNCS.start_setup_run()
@@ -790,6 +789,15 @@ Handy.controls.register("regular_keybinds_reload_run", {
 					G.E_MANAGER:add_event(Event({
 						no_delete = true,
 						func = function()
+							local msg = in_menu and "Handy_load_run_done" or "Handy_reload_run_done"
+							Handy.UI.state_panel.display(function(state)
+								state.items.reload_run = {
+									text = Handy.L.variable(msg),
+									hold = false,
+									order = 7,
+								}
+								return true
+							end, nil, 3)
 							Handy.regular_keybinds.reload_run_blocker = false
 							return true
 						end,
@@ -798,6 +806,16 @@ Handy.controls.register("regular_keybinds_reload_run", {
 				end,
 			}))
 			return true
+		else
+			local msg = in_menu and "Handy_load_run_nothing_to_load" or "Handy_reload_run_nothing_to_load"
+			Handy.UI.state_panel.display(function(state)
+				state.items.reload_run = {
+					text = Handy.L.variable(msg),
+					hold = false,
+					order = 7,
+				}
+				return true
+			end, nil, 3)
 		end
 		return false
 	end,
