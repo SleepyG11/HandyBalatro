@@ -37,7 +37,7 @@ return {
 				},
 			},
 			prevent_if_debugplus = {
-				name = "DebugPlus: prevent intersections",
+				name = "DebugPlus: Prevent intersections",
 				text = {},
 				unlock = {
 					"Do not execute any controls when {C:chips}#1#{}",
@@ -73,7 +73,7 @@ return {
 				name = "Hide mod button in options",
 				text = {},
 				unlock = {
-					"Only when {C:attention}Steamodded{} present",
+					"Only when {C:attention}SMODS{} present",
 				},
 			},
 			notifications_level = {
@@ -81,11 +81,11 @@ return {
 				text = {},
 			},
 			speed_multiplier_settings_toggle = {
-				name = "Speed multiplier: toggle in settings",
+				name = "Speed multiplier: Toggle in settings",
 				text = {},
 			},
 			animation_skip_settings_toggle = {
-				name = "Animation skip: toggle in settings",
+				name = "Animation skip: Toggle in settings",
 				text = {},
 			},
 
@@ -141,7 +141,7 @@ return {
 				},
 			},
 			animation_skip_default_value = {
-				name = "Animation Skip: game startup value",
+				name = "Animation Skip: Game startup value",
 				text = {},
 			},
 			animation_skip_increase = {
@@ -182,7 +182,7 @@ return {
 				},
 			},
 			speed_multiplier_default_value = {
-				name = "Speed Multiplier: game startup value",
+				name = "Speed Multiplier: Game startup value",
 				text = {},
 			},
 			speed_multiplier_multiply = {
@@ -226,15 +226,15 @@ return {
 				},
 			},
 			move_highlight_one_left = {
-				name = { "Move selection: one left" },
+				name = { "Move selection: One left" },
 				text = {},
 			},
 			move_highlight_one_right = {
-				name = { "Move selection: one right" },
+				name = { "Move selection: One right" },
 				text = {},
 			},
 			move_highlight_swap = {
-				name = { "Move selection: move card" },
+				name = { "Move selection: Move card" },
 				text = {},
 				unlock = {
 					"{C:attention}While held{}, card itself",
@@ -243,7 +243,7 @@ return {
 				},
 			},
 			move_highlight_to_end = {
-				name = { "Move selection: move to end" },
+				name = { "Move selection: Move to end" },
 				text = {},
 				unlock = {
 					"{C:attention}While held{}, instead of moving selection/card",
@@ -259,19 +259,19 @@ return {
 				},
 			},
 			presets_load_1 = {
-				name = { "Presets: load preset 1" },
+				name = { "Presets: Load preset 1" },
 				text = {},
 			},
 			presets_load_2 = {
-				name = { "Presets: load preset 2" },
+				name = { "Presets: Load preset 2" },
 				text = {},
 			},
 			presets_load_3 = {
-				name = { "Presets: load preset 3" },
+				name = { "Presets: Load preset 3" },
 				text = {},
 			},
 			presets_load_next = {
-				name = { "Presets: load next preset" },
+				name = { "Presets: Load next preset" },
 				text = {},
 				unlock = {
 					"Order: {C:attention}1{} -> {C:attention}2{} -> {C:attention}3{} -> {C:attention}1{}",

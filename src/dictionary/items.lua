@@ -740,7 +740,9 @@ l({
 			items = {
 				{
 					key = "regular_keybinds_restart",
-					checkbox = true,
+					checkbox = {
+						advanced = true,
+					},
 					keybind = {
 						allow_multiple = true,
 						only_holdable = true,
@@ -757,7 +759,9 @@ l({
 				},
 				{
 					key = "regular_keybinds_quick_restart",
-					checkbox = true,
+					checkbox = {
+						advanced = true,
+					},
 					keybind = {
 						allow_multiple = true,
 						only_safe = true,
@@ -769,7 +773,9 @@ l({
 				},
 				{
 					key = "regular_keybinds_save_run",
-					checkbox = true,
+					checkbox = {
+						advanced = true,
+					},
 					keybind = {
 						allow_multiple = true,
 					},
@@ -780,7 +786,9 @@ l({
 				},
 				{
 					key = "regular_keybinds_reload_run",
-					checkbox = true,
+					checkbox = {
+						advanced = true,
+					},
 					keybind = {
 						allow_multiple = true,
 					},

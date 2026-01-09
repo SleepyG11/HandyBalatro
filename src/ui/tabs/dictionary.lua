@@ -64,7 +64,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 	check.states.drag.can = false
 	check.states.visible = module.enabled
 
-	local opacity_mod = opacity and 0.2 or 1
+	local opacity_mod = opacity and 0.1 or 1
 
 	if opacity then
 		local old_draw = check.draw
