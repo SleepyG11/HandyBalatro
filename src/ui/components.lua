@@ -398,3 +398,12 @@ G.FUNCS.handy_slider = function(arg)
 		arg.handy_callback(arg)
 	end
 end
+local old_slider_descreet = G.FUNCS.slider_descreet
+G.FUNCS.slider_descreet = function(e, ...)
+	old_slider_descreet(e, ...)
+	local c = e.children[1]
+	local rt = c.config.ref_table
+	if rt.callback then
+		G.FUNCS[rt.callback](rt)
+	end
+end

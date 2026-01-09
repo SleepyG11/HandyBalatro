@@ -30,11 +30,11 @@ if (focused.config.focus_args.type == 'handy_dictionary_item' or focused.config.
     for k, v in ipairs(proto_choices) do
         if (v.config.button or v.config.hover or v == focused) and (not v.config.focus_args or v.config.focus_args.type ~= "none") then choices[#choices+1] = v end
     end
-    print("custom focus arg", focused.config.focus_args.handy_group or focused.config.group, button, #choices)
+    -- print("custom focus arg", focused.config.focus_args.handy_group or focused.config.group, button, #choices)
 
     for k, v in ipairs(choices) do
         if v == focused then
-            print("Focused", k)
+            -- print("Focused", k)
             if (button == 'triggerleft') then 
                 local next_i = k ~= 1 and (k-1) or (#choices)
                 if focused.config.focus_args.no_loop and next_i > k then ret = nil
@@ -61,6 +61,24 @@ end
 match_indent = true
 overwrite = false
 
+# Correct focus movement on hand selection preview
+
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if nu_rank ~= self.focused.target.rank then G.ARGS.focus_list[1] = {node = G.hand.cards[nu_rank]} end'''
+position = "after"
+payload = '''
+elseif Handy.UI.data.hand_selection_preview_area and (dir == 'L' or dir == 'R') and self.focused.target and self.focused.target:is(Card) and self.focused.target.area == Handy.UI.data.hand_selection_preview_area then 
+    local handy_area = Handy.UI.data.hand_selection_preview_area
+    local nu_rank = self.focused.target.rank + (dir == 'L' and -1 or 1)
+    if nu_rank > #handy_area.cards then nu_rank = 1 end
+    if nu_rank == 0 then nu_rank = #handy_area.cards end
+    if nu_rank ~= self.focused.target.rank then G.ARGS.focus_list[1] = {node = handy_area.cards[nu_rank]} end
+'''
+match_indent = true
+overwrite = false
 
 # # Override gamepad buttons
 # [[patches]]

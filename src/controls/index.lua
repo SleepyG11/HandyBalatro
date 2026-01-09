@@ -18,8 +18,8 @@ function Handy.controls.is_module_keys_activated(module, args)
 	local tables = { module.keys_1 or {}, module.keys_2 or {} }
 	if Handy.controller.is_gamepad() then
 		tables = {
-			module.keys_1_controller or {},
-			module.keys_2_controller or {},
+			module.keys_1_gamepad or {},
+			module.keys_2_gamepad or {},
 		}
 	end
 

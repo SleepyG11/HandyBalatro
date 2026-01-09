@@ -113,8 +113,9 @@ function Handy.controller.binding.update_binding_buttons_text()
 			hold = true,
 			order = 0,
 		}
+		local save_key = Handy.controller.is_gamepad() and "(Back)" or "Escape"
 		state.items.binding_cancel = {
-			text = Handy.L.variable("Handy_binding_esc_hint", { Handy.L.with_brackets(Handy.L.keys("Escape"), true) }),
+			text = Handy.L.variable("Handy_binding_esc_hint", { Handy.L.with_brackets(Handy.L.keys(save_key), true) }),
 			hold = false,
 			order = 0.1,
 		}

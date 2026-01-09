@@ -39,7 +39,11 @@ function Handy.UI.utils.card_area(options)
 		G.ROOM.T.h,
 		options.w,
 		options.h,
-		{ card_limit = options.card_limit or 5, type = "hand", highlight_limit = options.highlight_limit or 1 }
+		{
+			card_limit = options.card_limit or 5,
+			type = options.type or "hand",
+			highlight_limit = options.highlight_limit or 1,
+		}
 	)
 	area.draw = function(self)
 		if not self.states.visible then

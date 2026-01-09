@@ -39,15 +39,13 @@ Handy.load_file("src/index.lua")
 -- 7. hold implementation for move highlight
 -- 8. fix event stuck in base queue when exiting speed preview
 -- 9. decrease mod load when disabled (specifically input contexts)
+-- 10. touchscreen?
+-- 11. fix doubletap in hand selection preview (somehow)
 
 -- TODO: check controls (controller)
 -- hand selection
--- speed
--- animations
 -- move selection
 -- insta actions
--- presets
--- scoring hold
 -- regular keybinds:
 --- game
 --- menus
