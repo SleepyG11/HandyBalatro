@@ -367,7 +367,7 @@ Handy.controls.register("dangerous_actions_sell_one", {
 		return Handy.cc.dangerous_actions_sell_one
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			hover = true,
@@ -396,7 +396,7 @@ Handy.controls.register("dangerous_actions_remove_one", {
 		return Handy.cc.dangerous_actions_remove_one
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			hover = true,
@@ -432,7 +432,7 @@ Handy.controls.register("dangerous_actions_sell_all_same", {
 		return Handy.cc.dangerous_actions_sell_all_same
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			click = true,
@@ -457,7 +457,7 @@ Handy.controls.register("dangerous_actions_remove_all_same", {
 		return Handy.cc.dangerous_actions_remove_all_same
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			click = true,
@@ -489,7 +489,7 @@ Handy.controls.register("dangerous_actions_sell_all", {
 		return Handy.cc.dangerous_actions_sell_all
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			click = true,
@@ -514,7 +514,7 @@ Handy.controls.register("dangerous_actions_remove_all", {
 		return Handy.cc.dangerous_actions_remove_all
 	end,
 
-	context_triggers = {
+	context_types = {
 		input = true,
 		card = {
 			click = true,

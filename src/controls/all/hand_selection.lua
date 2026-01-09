@@ -92,6 +92,10 @@ Handy.controls.register("hand_selection_deselect_hand", {
 		return Handy.cc.hand_selection_deselect_hand, { Handy.cc.hand_selection }
 	end,
 
+	context_types = {
+		input = true,
+	},
+
 	trigger = "trigger",
 	in_run = true,
 	no_stop_use = true,
