@@ -40,12 +40,6 @@ Handy.load_file("src/index.lua")
 -- 8. fix event stuck in base queue when exiting speed preview
 -- 9. hold trigger
 
--- TODO: check for ALL controls
--- mod toggle
--- multiplayer check
--- trigger mode
--- dangerous check when applicable
-
 -- TODO: check controls (controller)
 -- hand selection
 -- speed

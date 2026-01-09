@@ -285,7 +285,7 @@ Handy.e_mitter.on("update_state_panel", function(context)
 		local append_queue = false
 		if
 			(Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED)
-			or (Handy.b_is_mod_active() and Handy.b_is_in_run())
+			or (Handy.b_is_mod_active() and Handy.b_is_dangerous_actions_active() and Handy.b_is_in_run())
 		then
 			if not Handy.controller.binding.current then
 				for index, item_key in ipairs(items) do
@@ -542,7 +542,7 @@ Handy.controls.register("dangerous_actions_remove_all", {
 
 Handy.controls.register("dangerous_actions_crash", {
 	get_module = function()
-		return Handy.cc.dangerous_actions_crash, { Handy.cc.dangerous_actions }
+		return Handy.cc.dangerous_actions_crash
 	end,
 
 	context_types = {
@@ -551,6 +551,7 @@ Handy.controls.register("dangerous_actions_crash", {
 
 	trigger = "trigger",
 
+	dangerous = true,
 	only_safe = true,
 	no_mp = true,
 	require_exact_keys = true,
