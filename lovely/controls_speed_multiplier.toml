@@ -23,7 +23,7 @@ pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) -
 position = "after"
 payload = '''
 self.SPEEDFACTOR = self.SPEEDFACTOR * (Handy.speed_multiplier.get_value() or 1)
-if Handy.insta_cash_out.is_skipped and not Handy.b_is_in_multiplayer() then
+if Handy.regular_keybinds.cashout_skipped and not Handy.b_is_in_multiplayer() then
     self.SPEEDFACTOR = math.max(self.SPEEDFACTOR, 999)
 end
 '''

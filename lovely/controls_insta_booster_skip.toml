@@ -10,7 +10,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.GAME.PACK_INTERRUPT = nil'''
 position = "after"
 payload = '''
-Handy.insta_booster_skip.is_skipped = false
+Handy.regular_keybinds.booster_pack_skipped = false
 '''
 match_indent = true
 overwrite = false

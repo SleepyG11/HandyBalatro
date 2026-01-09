@@ -161,23 +161,17 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute = function(item, context)
+		local is_preview = Handy.UI.data.dangerous_actions_preview_area
+			and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
 		if
-			Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
+			not Handy.controls.default_can_execute(item, context, {
+				allow_mod_inactive = is_preview,
+				allow_no_stop_use = is_preview,
+				allow_mp = is_preview,
+				allow_not_in_run = is_preview,
+			})
 		then
-			if
-				not Handy.controls.default_can_execute(item, context, {
-					allow_mod_inactive = true,
-					allow_no_stop_use = true,
-					allow_mp = true,
-					allow_not_in_run = true,
-				})
-			then
-				return false
-			end
-		else
-			if not Handy.controls.default_can_execute(item, context) then
-				return false
-			end
+			return false
 		end
 		if context.input_context then
 			return true

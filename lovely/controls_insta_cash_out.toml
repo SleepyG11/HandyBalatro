@@ -10,7 +10,7 @@ target = "game.lua"
 pattern = '''G.FUNCS.evaluate_round()'''
 position = "after"
 payload = '''
-Handy.insta_cash_out.can_skip = true
+Handy.regular_keybinds.can_skip_cashout = true
 '''
 match_indent = true
 overwrite = false
@@ -21,7 +21,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.FUNCS.cash_out = function(e)'''
 position = "after"
 payload = '''
-if Handy.insta_cash_out.is_skipped and e.config.button then return end
+if Handy.regular_keybinds.cashout_skipped and e.config.button then return end
 '''
 match_indent = true
 overwrite = false
@@ -32,8 +32,8 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.STATE = G.STATES.SHOP'''
 position = "after"
 payload = '''
-Handy.insta_cash_out.is_skipped = false
-Handy.insta_cash_out.can_skip = false
+Handy.regular_keybinds.cashout_skipped = false
+Handy.regular_keybinds.can_skip_cashout = false
 '''
 match_indent = true
 overwrite = false

@@ -10,7 +10,7 @@ target = "game.lua"
 pattern = '''G.CONTROLLER.held_buttons.triggerleft'''
 position = "at"
 payload = '''
-Handy.show_deck_preview.is_hold
+Handy.regular_keybinds.show_deck_preview_hold
 '''
 overwrite = false
 times = 2

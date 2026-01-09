@@ -35,7 +35,7 @@ Handy.speed_multiplier = {
 				for _k, _v in pairs(queue.queues or {}) do
 					events_count = events_count + #_v
 				end
-				if events_count > 1 then
+				if events_count > 2 then
 					queue:update(0, true)
 				else
 					break
@@ -110,10 +110,10 @@ Handy.speed_multiplier = {
 		local is_dangerous = Handy.speed_multiplier.value > 512 and not Handy.speed_multiplier.temp_disabled
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
-            local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
-            if Handy.speed_multiplier.temp_disabled then
-                text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
-            end
+			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
+			if Handy.speed_multiplier.temp_disabled then
+				text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+			end
 			state.items.change_speed_multiplier = {
 				text = text,
 				hold = false,

@@ -171,6 +171,12 @@ Handy.regular_keybinds = {
 	can_restart = function()
 		return not Handy.b_is_mod_active() or Handy.regular_keybinds.bypass_restart
 	end,
+
+	show_deck_preview_hold = false,
+	booster_pack_skipped = false,
+
+	can_skip_cashout = false,
+	cashout_skipped = false,
 }
 
 --
@@ -830,29 +836,18 @@ Handy.controls.register("regular_keybinds_start_fantoms_preview", {
 
 --
 
-Handy.show_deck_preview = {
-	is_hold = false,
-}
-
 Handy.e_mitter.on("update", function(dt)
-	if
-		Handy.b_is_mod_active()
-		and Handy.b_is_in_run()
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
-	then
-		Handy.show_deck_preview.is_hold =
-			Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_show_deck_preview)
+	if Handy.b_is_mod_active() then
+		Handy.regular_keybinds.show_deck_preview_hold = Handy.b_is_in_run()
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
+			and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_show_deck_preview)
 	else
-		Handy.show_deck_preview.is_hold = not not G.CONTROLLER.held_buttons.triggerleft
+		Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
 	end
 end)
 
 --
-
-Handy.insta_booster_skip = {
-	is_skipped = false,
-}
 
 Handy.controls.register("regular_keybinds_skip_booster", {
 	get_module = function()
@@ -868,7 +863,7 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 	no_stop_use = true,
 
 	can_execute = function(self, context)
-		return not Handy.insta_booster_skip.is_skipped
+		return not Handy.regular_keybinds.booster_pack_skipped
 			and G.booster_pack
 			and G.pack_cards
 			and G.pack_cards.cards
@@ -879,7 +874,7 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 			})
 	end,
 	execute = function(self, context)
-		Handy.insta_booster_skip.is_skipped = true
+		Handy.regular_keybinds.booster_pack_skipped = true
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				G.E_MANAGER:add_event(Event({
@@ -896,11 +891,10 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 		return true
 	end,
 })
-
 Handy.e_mitter.on("update", function(dt)
 	if
 		not Handy.controller.binding.current
-		and not Handy.insta_booster_skip.is_skipped
+		and not Handy.regular_keybinds.booster_pack_skipped
 		and Handy.b_is_mod_active()
 		and Handy.b_is_in_run()
 		and not Handy.b_is_stop_use()
@@ -916,7 +910,7 @@ Handy.e_mitter.on("update", function(dt)
 			func = G.FUNCS.can_skip_booster,
 		})
 	then
-		Handy.insta_booster_skip.is_skipped = true
+		Handy.regular_keybinds.booster_pack_skipped = true
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				G.E_MANAGER:add_event(Event({
@@ -935,11 +929,6 @@ end)
 
 --
 
-Handy.insta_cash_out = {
-	can_skip = false,
-	is_skipped = false,
-}
-
 Handy.controls.register("regular_keybinds_cash_out", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
@@ -953,8 +942,8 @@ Handy.controls.register("regular_keybinds_cash_out", {
 	in_run = true,
 
 	can_execute = function(self, context)
-		return Handy.insta_cash_out.can_skip
-			and not Handy.insta_cash_out.is_skipped
+		return Handy.regular_keybinds.can_skip_cashout
+			and not Handy.regular_keybinds.cashout_skipped
 			and G.STATE == G.STATES.ROUND_EVAL
 			and not G.TAROT_INTERRUPT
 			and not G.PACK_INTERRUPT
@@ -962,7 +951,7 @@ Handy.controls.register("regular_keybinds_cash_out", {
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
-		Handy.insta_cash_out.is_skipped = true
+		Handy.regular_keybinds.cashout_skipped = true
 		G.E_MANAGER:add_event(Event({
 			trigger = "immediate",
 			func = function()
@@ -976,12 +965,11 @@ Handy.controls.register("regular_keybinds_cash_out", {
 		return true
 	end,
 })
-
 Handy.e_mitter.on("update", function(dt)
 	if
 		not Handy.controller.binding.current
-		and Handy.insta_cash_out.can_skip
-		and not Handy.insta_cash_out.is_skipped
+		and Handy.regular_keybinds.can_skip_cashout
+		and not Handy.regular_keybinds.cashout_skipped
 		and G.STATE == G.STATES.ROUND_EVAL
 		and not G.TAROT_INTERRUPT
 		and not G.PACK_INTERRUPT
@@ -993,7 +981,7 @@ Handy.e_mitter.on("update", function(dt)
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_cash_out)
 		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_cash_out)
 	then
-		Handy.insta_cash_out.is_skipped = true
+		Handy.regular_keybinds.cashout_skipped = true
 
 		G.E_MANAGER:add_event(Event({
 			trigger = "immediate",
@@ -1009,8 +997,6 @@ Handy.e_mitter.on("update", function(dt)
 end)
 
 --
-
-Handy.not_just_yet_interaction = {}
 
 Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 	get_module = function()
@@ -1043,7 +1029,6 @@ Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 		return true
 	end,
 })
-
 Handy.e_mitter.on("update", function(dt)
 	if
 		not Handy.controller.binding.current
