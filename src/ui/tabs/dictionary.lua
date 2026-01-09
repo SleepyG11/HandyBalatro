@@ -1067,6 +1067,15 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 			if not self.children.handy_h_popup then
 				local lines = { n = G.UIT.C, config = { align = "cm" }, nodes = {} }
 
+				if item.no_gamepad and Handy.controller.is_gamepad() then
+					local lines_col = Handy.L.description("Handy_Other", "cant_use_with_gamepad", {
+						align = "cm",
+					})
+					for _, l in ipairs(lines_col.nodes) do
+						table.insert(lines.nodes, l)
+					end
+				end
+
 				if (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer() then
 					local lines_col = Handy.L.description("Handy_Other", "cant_use_in_mp", {
 						align = "cm",
@@ -1132,8 +1141,8 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	end
 
 	local is_mp_fail = (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer()
-	local is_resolve_fail = not is_deps_resolved(item, true)
-	local is_fail = is_mp_fail or is_resolve_fail
+	local is_gamepad_failed = item.no_gamepad and Handy.controller.is_gamepad()
+	local is_fail = is_mp_fail or is_gamepad_failed or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil

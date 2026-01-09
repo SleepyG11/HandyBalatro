@@ -463,6 +463,8 @@ l({
 		return Handy.cc.move_highlight
 	end,
 
+	no_gamepad = true,
+
 	group = true,
 	items = {
 		{
@@ -471,6 +473,7 @@ l({
 			keybind = {
 				allow_multiple = true,
 			},
+			no_gamepad = true,
 
 			checkbox = {
 				advanced = true,
@@ -486,6 +489,7 @@ l({
 			keybind = {
 				allow_multiple = true,
 			},
+			no_gamepad = true,
 			checkbox = {
 				advanced = true,
 			},
@@ -500,6 +504,7 @@ l({
 				allow_multiple = true,
 				only_holdable = true,
 			},
+			no_gamepad = true,
 			checkbox = {
 				advanced = true,
 			},
@@ -514,6 +519,7 @@ l({
 				allow_multiple = true,
 				only_holdable = true,
 			},
+			no_gamepad = true,
 			checkbox = {
 				advanced = true,
 			},

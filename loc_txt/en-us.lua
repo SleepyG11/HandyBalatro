@@ -694,6 +694,11 @@ return {
 					"{C:mult}This control is disabled in Multiplayer{}",
 				},
 			},
+			cant_use_with_gamepad = {
+				text = {
+					"{C:mult}This control is disabled on {}{C:attention}Gamepad{}",
+				},
+			},
 		},
 	},
 	misc = {
