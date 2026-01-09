@@ -7,7 +7,7 @@ Handy = setmetatable({
 	NFS = NFS or require("handy/nativefs"),
 	---@diagnostic disable-next-line: undefined-global
 	PATH = Handy_main_file_path,
-	version = "2.0.0-alpha1",
+	version = "2.0.0-alpha2",
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
@@ -38,7 +38,7 @@ Handy.load_file("src/index.lua")
 -- 6. description for animation skip levels
 -- 7. hold implementation for move highlight
 -- 8. fix event stuck in base queue when exiting speed preview
--- 9. hold trigger
+-- 9. decrease mod load when disabled (specifically input contexts)
 
 -- TODO: check controls (controller)
 -- hand selection
