@@ -12,7 +12,7 @@ Handy.load_file("src/controls/index.lua")
 
 Handy.e_mitter.on("raw_input", function()
 	if not Handy.controller.is_propagation_stopped() then
-		if Handy.controller.dp.b_is_console_opened() then
+		if Handy.is_input_prevented() then
 			Handy.controller.stop_propagation()
 		end
 	end

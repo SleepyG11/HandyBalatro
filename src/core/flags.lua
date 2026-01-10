@@ -32,3 +32,7 @@ end
 function Handy.b_is_dangerous_actions_active()
 	return Handy.buffered("is_dangerous_actions_active", Handy.is_dangerous_actions_active)
 end
+
+function Handy.is_input_prevented()
+	return not not Handy.controller.dp.b_is_console_opened() or G.TMJUI
+end
