@@ -1,4 +1,90 @@
+Handy.D = {
+	list = {},
+	dictionary = {},
+
+	groups = {},
+	items = {},
+
+	checkboxes = {},
+	keybinds = {},
+	option_cycles = {},
+	simple_option_cycles = {},
+	sliders = {},
+}
+
+--
+
 Handy.load_file("src/dictionary/items.lua")
+
+--
+
+function Handy.D.sorter(a, b)
+	local a_p_order = a.parent and a.parent.order or 999999
+	local b_p_order = b.parent and b.parent.order or 999999
+
+	if a_p_order ~= b_p_order then
+		return a_p_order < b_p_order
+	end
+	return a.order < b.order
+end
+
+table.sort(Handy.D.list, Handy.D.sorter)
+table.sort(Handy.D.checkboxes, Handy.D.sorter)
+table.sort(Handy.D.keybinds, Handy.D.sorter)
+table.sort(Handy.D.option_cycles, Handy.D.sorter)
+
+--
+
+function Handy.D.search(search_string, args)
+	args = args or {}
+	local items = args.items or Handy.D.list
+	if not search_string or #search_string == 0 then
+		return items
+	end
+
+	local matches = {}
+	local parents = {}
+	local input_words = Handy.utils.string_words_split(string.lower(search_string))
+	if #input_words == 0 then
+		return matches
+	end
+
+	for _, item in ipairs(items) do
+		for _, word in ipairs(input_words) do
+			if string.find(item.result_keywords or "", word, 1, true) then
+				matches[item.key] = item
+				if args.remove_parents then
+					while item.parent do
+						parents[item.parent.key] = true
+						item = item.parent
+					end
+				end
+				break
+			end
+		end
+	end
+
+	local result = {}
+	for _, item in pairs(matches) do
+		if
+			-- remove groups which will be rendered anyway
+			parents[item.key]
+			-- remove groups which can be rendered but have nothing to render
+			or (
+				item.items
+				and not (item.checkbox or item.keybind or item.option_cycle or item.simple_option_cycle or item.slider)
+			)
+		then
+		else
+			table.insert(result, item)
+		end
+	end
+	table.sort(result, Handy.D.sorter)
+
+	return result
+end
+
+--
 
 G.FUNCS.handy_show_example_state_panel = function(e)
 	local old_hover = e.hover
@@ -17,6 +103,8 @@ G.FUNCS.handy_show_example_state_panel = function(e)
 	end
 	e.config.func = e.config.handy_hover_set and "hand_setup_hover_popups" or "handy_noop"
 end
+
+--
 
 Handy.e_mitter.on("localization_load", function()
 	for k, v in pairs(Handy.D.dictionary) do

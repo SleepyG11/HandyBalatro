@@ -1238,20 +1238,6 @@ l({
 
 --
 
-Handy.D = {
-	list = {},
-	dictionary = {},
-
-	groups = {},
-	items = {},
-
-	checkboxes = {},
-	keybinds = {},
-	option_cycles = {},
-	simple_option_cycles = {},
-	sliders = {},
-}
-
 local next_index = 1
 local process_item
 process_item = function(item)
@@ -1312,72 +1298,4 @@ for index, item in ipairs(items_list) do
 		next_index = math.max(item.order + 1, next_index)
 	end
 	process_item(item)
-end
-
---
-
-local items_sorter = function(a, b)
-	local a_p_order = a.parent and a.parent.order or 999999
-	local b_p_order = b.parent and b.parent.order or 999999
-
-	if a_p_order ~= b_p_order then
-		return a_p_order < b_p_order
-	end
-	return a.order < b.order
-end
-
-table.sort(Handy.D.list, items_sorter)
-table.sort(Handy.D.checkboxes, items_sorter)
-table.sort(Handy.D.keybinds, items_sorter)
-table.sort(Handy.D.option_cycles, items_sorter)
-
---
-
-function Handy.D.search(search_string, args)
-	args = args or {}
-	local items = args.items or Handy.D.list
-	if not search_string or #search_string == 0 then
-		return items
-	end
-
-	local matches = {}
-	local parents = {}
-	local input_words = Handy.utils.string_words_split(string.lower(search_string))
-	if #input_words == 0 then
-		return matches
-	end
-
-	for _, item in ipairs(items) do
-		for _, word in ipairs(input_words) do
-			if string.find(item.result_keywords or "", word, 1, true) then
-				matches[item.key] = item
-				if args.remove_parents then
-					while item.parent do
-						parents[item.parent.key] = true
-						item = item.parent
-					end
-				end
-				break
-			end
-		end
-	end
-
-	local result = {}
-	for _, item in pairs(matches) do
-		if
-			-- remove groups which will be rendered anyway
-			parents[item.key]
-			-- remove groups which can be rendered but have nothing to render
-			or (
-				item.items
-				and not (item.checkbox or item.keybind or item.option_cycle or item.simple_option_cycle or item.slider)
-			)
-		then
-		else
-			table.insert(result, item)
-		end
-	end
-	table.sort(result, items_sorter)
-
-	return result
 end
