@@ -111,6 +111,9 @@ Handy.speed_multiplier = {
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
+			if Handy.b_is_in_multiplayer() then
+				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
+			end
 			if Handy.speed_multiplier.temp_disabled then
 				text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
 			end
@@ -121,7 +124,7 @@ Handy.speed_multiplier = {
 				dangerous = is_dangerous,
 			}
 			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
-			if retriggers_amount > 0 and not Handy.speed_multiplier.temp_disabled then
+			if retriggers_amount > 0 and not (Handy.speed_multiplier.temp_disabled or Handy.b_is_in_multiplayer()) then
 				state.items.change_queue_retriggers_count = {
 					text = Handy.L.variable("Handy_event_queue_retriggers_amount", {
 						retriggers_amount + 1,

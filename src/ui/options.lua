@@ -98,6 +98,9 @@ end
 G.FUNCS.handy_options = function(e)
 	Handy.UI.options()
 end
+G.FUNCS.handy_open_options = function(e)
+	Handy.UI.options()
+end
 G.FUNCS.handy_back_to_options = function(e)
 	return Handy.UI.back_to_options()
 end

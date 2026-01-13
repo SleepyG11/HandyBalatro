@@ -97,10 +97,13 @@ Handy.animation_skip = {
 		local level = (is_dangerous and not Handy.animation_skip.temp_disabled) and 2 or 3
 
 		Handy.UI.state_panel.display(function(state)
-            local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
-            if Handy.animation_skip.temp_disabled then
-                text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
-            end
+			local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
+			if Handy.b_is_in_multiplayer() then
+				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
+			end
+			if Handy.animation_skip.temp_disabled then
+				text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+			end
 			state.items.change_animation_skip = {
 				text = text,
 				hold = false,

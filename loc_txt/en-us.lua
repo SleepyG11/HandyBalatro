@@ -836,6 +836,7 @@ return {
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
 			Handy_temp_disabled = "[disabled]",
+			Handy_disabled_in_mp = "[disabled by Multiplayer]",
 
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#",
