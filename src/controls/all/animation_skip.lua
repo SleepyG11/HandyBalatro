@@ -58,16 +58,27 @@ Handy.animation_skip = {
 	get_value = function()
 		if
 			Handy.animation_skip.temp_disabled
-			or Handy.b_is_in_multiplayer()
+			or Handy.b_is_in_multiplayer("extension_animations")
 			or not Handy.b_is_mod_active()
 			or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 		then
 			return 1
 		end
-		if Handy.animation_skip.can_dangerous() then
-			return Handy.animation_skip.value
+		return Handy.animation_skip.get_limited_value()
+	end,
+	get_limited_value = function()
+		local max_value = 5
+		if not Handy.animation_skip.can_dangerous() then
+			max_value = 4
 		end
-		return math.min(4, Handy.animation_skip.value)
+		if Handy.b_is_in_multiplayer("extension_animations", 2) then
+			max_value = 2
+		end
+		if Handy.animation_skip.value > max_value then
+			Handy.animation_skip.value = max_value
+			Handy.animation_skip.localize_value()
+		end
+		return math.min(max_value, Handy.animation_skip.value)
 	end,
 	localize_value = function()
 		Handy.animation_skip.value_text = Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.value)
@@ -98,7 +109,7 @@ Handy.animation_skip = {
 
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
-			if Handy.b_is_in_multiplayer() then
+			if Handy.b_is_in_multiplayer("extension_animations") then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end
 			if Handy.animation_skip.temp_disabled then
@@ -123,8 +134,8 @@ Handy.animation_skip = {
 	end,
 
 	change = function(dx)
-		Handy.animation_skip.value =
-			math.max(1, math.min(Handy.animation_skip.can_dangerous() and 5 or 4, Handy.animation_skip.value + dx))
+		Handy.animation_skip.value = math.max(1, math.min(5, Handy.animation_skip.value + dx))
+		Handy.animation_skip.value = Handy.animation_skip.get_limited_value()
 		Handy.animation_skip.localize_value()
 		if dx ~= 0 then
 			Handy.animation_skip.show_notif(dx)
@@ -441,7 +452,7 @@ Handy.controls.register("animation_skip_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_animations",
 
 	execute = function(self, context)
 		Handy.animation_skip.toggle_temp_disabled()
@@ -455,7 +466,7 @@ Handy.controls.register("animation_skip_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_animations",
 
 	execute = function(self, context)
 		Handy.animation_skip.change(1)
@@ -469,7 +480,7 @@ Handy.controls.register("animation_skip_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_animations",
 
 	execute = function(self, context)
 		Handy.animation_skip.change(-1)

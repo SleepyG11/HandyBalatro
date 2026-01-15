@@ -8,6 +8,8 @@ Handy.load_file("src/dictionary/index.lua")
 Handy.load_file("src/controller/index.lua")
 Handy.load_file("src/controls/index.lua")
 
+Handy.load_file("src/extensions/index.lua")
+
 -- Blockers
 
 Handy.e_mitter.on("raw_input", function()

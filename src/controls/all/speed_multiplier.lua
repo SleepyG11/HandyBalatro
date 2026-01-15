@@ -10,7 +10,7 @@ Handy.speed_multiplier = {
 	get_queue_retriggers_count = function()
 		if
 			Handy.speed_multiplier.temp_disabled
-			or Handy.b_is_in_multiplayer()
+			or Handy.b_is_in_multiplayer("extension_speed", 2)
 			or not Handy.b_is_mod_active()
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
@@ -49,19 +49,35 @@ Handy.speed_multiplier = {
 	get_value = function()
 		if
 			Handy.speed_multiplier.temp_disabled
-			or Handy.b_is_in_multiplayer()
+			or Handy.b_is_in_multiplayer("extension_speed")
 			or not Handy.b_is_mod_active()
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
 		end
-		return math.min(Handy.speed_multiplier.value, Handy.speed_multiplier.throttle and 4 or math.huge)
+		return Handy.speed_multiplier.get_limited_value()
+	end,
+	get_limited_value = function()
+		local max_value = math.huge
+		if not Handy.speed_multiplier.is_uncapped() then
+			max_value = 512
+		end
+		if Handy.b_is_in_multiplayer("extension_speed", 2) then
+			max_value = 64
+		end
+		if Handy.speed_multiplier.value > max_value then
+			Handy.speed_multiplier.value = max_value
+			Handy.speed_multiplier.queue_retriggers_count = 0
+			Handy.speed_multiplier.localize_value()
+		end
+		return math.min(Handy.speed_multiplier.value, max_value)
 	end,
 	localize_value = function()
-		if Handy.speed_multiplier.value >= 1 then
-			Handy.speed_multiplier.value_text = tostring(Handy.speed_multiplier.value)
+		local current_value = Handy.speed_multiplier.value
+		if current_value >= 1 then
+			Handy.speed_multiplier.value_text = tostring(current_value)
 		else
-			Handy.speed_multiplier.value_text = "1/" .. tostring(1 / Handy.speed_multiplier.value)
+			Handy.speed_multiplier.value_text = "1/" .. tostring(1 / current_value)
 		end
 		Handy.speed_multiplier.value_text = Handy.speed_multiplier.value_text .. "x"
 		return Handy.speed_multiplier.value_text
@@ -89,6 +105,7 @@ Handy.speed_multiplier = {
 			math.max(1 / 512, Handy.speed_multiplier.value * multiplier),
 			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
 		)
+		Handy.speed_multiplier.value = Handy.speed_multiplier.get_limited_value()
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 		Handy.speed_multiplier.localize_value()
 		if dx ~= 0 then
@@ -111,7 +128,7 @@ Handy.speed_multiplier = {
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
-			if Handy.b_is_in_multiplayer() then
+			if Handy.b_is_in_multiplayer("extension_speed") then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end
 			if Handy.speed_multiplier.temp_disabled then
@@ -124,7 +141,10 @@ Handy.speed_multiplier = {
 				dangerous = is_dangerous,
 			}
 			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
-			if retriggers_amount > 0 and not (Handy.speed_multiplier.temp_disabled or Handy.b_is_in_multiplayer()) then
+			if
+				retriggers_amount > 0
+				and not (Handy.speed_multiplier.temp_disabled or Handy.b_is_in_multiplayer("extension_speed"))
+			then
 				state.items.change_queue_retriggers_count = {
 					text = Handy.L.variable("Handy_event_queue_retriggers_amount", {
 						retriggers_amount + 1,
@@ -174,7 +194,7 @@ Handy.controls.register("speed_multiplier_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_speed",
 
 	execute = function(self, context)
 		Handy.speed_multiplier.toggle_temp_disabled()
@@ -188,7 +208,7 @@ Handy.controls.register("speed_multiplier_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_speed",
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(1)
@@ -202,7 +222,7 @@ Handy.controls.register("speed_multiplier_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = true,
+	no_mp = "extension_speed",
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(-1)
