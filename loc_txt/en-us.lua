@@ -702,6 +702,12 @@ return {
 					"{C:mult}This control is disabled on {}{C:attention}Gamepad{}",
 				},
 			},
+			mp_lobby_require_all_hint = {
+				text = {
+					"All listed lobby settings have effect only when",
+					"{C:attention}ALL{} lobby members have {C:chips}Handy v2.0{} or newer installed",
+				},
+			},
 		},
 	},
 	misc = {
@@ -873,6 +879,7 @@ return {
 		},
 		dictionary = {
 			handy_or = "or",
+			handy_disabled = "Disabled",
 			handy_mod_enabled = "Mod enabled",
 			handy_mod_disabled = "Mod disabled",
 
@@ -964,6 +971,15 @@ return {
 			k_handy_preview_buy_n_use = "Buy & Use",
 			k_handy_preview_buy_n_sell = "Buy & Sell",
 			k_handy_preview_remove = "REMOVE",
+
+			handy_mp_speed_multiplier_mode = "Speed Multiplier: lobby max value",
+			handy_mp_animation_skip_mode = "Animation Skip: lobby max value",
+			handy_mp_dangerous_actions_mode = "Dangerous Actions: lobby mode",
+			handy_mp_dangerous_actions_modes = {
+				"Disabled",
+				"Mass sell",
+				"Mass sell & remove",
+			},
 		},
 	},
 }

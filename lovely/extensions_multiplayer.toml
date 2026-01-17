@@ -3,27 +3,14 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Check is Handy MP extension loaded from hash
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS Multiplayer "misc/utils.lua"]'''
-pattern = '''elseif key == "unlocked" then'''
-position = "before"
-payload = '''
-elseif key == "handy_mp_extension_loaded" then
-    config.handy_mp_extension_loaded = val == "true"
-'''
-match_indent = true
-overwrite = false
-
 # Send is Handy MP extension loaded to hash
 [[patches]]
 [patches.pattern]
-target = '''=[SMODS Multiplayer "misc/mod_hash.lua"]'''
-pattern = '''table.insert(mod_data, 1, "preview=" .. tostring(SMODS.Mods["Multiplayer"].config.integrations.Preview))'''
-position = "after"
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''if parsedAction.action == "connected" then'''
+position = "before"
 payload = '''
-table.insert(mod_data, 1, "handy_mp_extension_loaded=true")
+
 '''
 match_indent = true
 overwrite = false

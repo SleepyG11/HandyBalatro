@@ -10,8 +10,10 @@ Handy.speed_multiplier = {
 	get_queue_retriggers_count = function()
 		if
 			Handy.speed_multiplier.temp_disabled
-			or Handy.b_is_in_multiplayer("extension_speed", 2)
 			or not Handy.b_is_mod_active()
+			or Handy.mp_check(function(lobby, lobby_config)
+				return (lobby_config.handy_speed_multiplier_mode or 1) <= 2
+			end)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 0
@@ -49,8 +51,10 @@ Handy.speed_multiplier = {
 	get_value = function()
 		if
 			Handy.speed_multiplier.temp_disabled
-			or Handy.b_is_in_multiplayer("extension_speed")
 			or not Handy.b_is_mod_active()
+			or Handy.mp_check(function(lobby, lobby_config)
+				return lobby_config.handy_speed_multiplier_mode == 1
+			end)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
@@ -62,8 +66,9 @@ Handy.speed_multiplier = {
 		if not Handy.speed_multiplier.is_uncapped() then
 			max_value = 512
 		end
-		if Handy.b_is_in_multiplayer("extension_speed", 2) then
-			max_value = 64
+		local mp_value = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", nil)
+		if mp_value then
+			max_value = math.min(2 ^ (mp_value - 1), max_value)
 		end
 		if Handy.speed_multiplier.value > max_value then
 			Handy.speed_multiplier.value = max_value
@@ -128,7 +133,10 @@ Handy.speed_multiplier = {
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
-			if Handy.b_is_in_multiplayer("extension_speed") then
+			local mp_check = Handy.mp_check(function(lobby, lobby_config)
+				return lobby_config.handy_speed_multiplier_mode == 1
+			end)
+			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end
 			if Handy.speed_multiplier.temp_disabled then
@@ -141,10 +149,7 @@ Handy.speed_multiplier = {
 				dangerous = is_dangerous,
 			}
 			local retriggers_amount = Handy.speed_multiplier.get_queue_retriggers_count()
-			if
-				retriggers_amount > 0
-				and not (Handy.speed_multiplier.temp_disabled or Handy.b_is_in_multiplayer("extension_speed"))
-			then
+			if retriggers_amount > 0 and not (Handy.speed_multiplier.temp_disabled or mp_check) then
 				state.items.change_queue_retriggers_count = {
 					text = Handy.L.variable("Handy_event_queue_retriggers_amount", {
 						retriggers_amount + 1,
@@ -194,7 +199,9 @@ Handy.controls.register("speed_multiplier_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = "extension_speed",
+	no_mp = function(lobby, lobby_config)
+		return lobby_config.handy_speed_multiplier_mode == 1
+	end,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.toggle_temp_disabled()
@@ -208,7 +215,9 @@ Handy.controls.register("speed_multiplier_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = "extension_speed",
+	no_mp = function(lobby, lobby_config)
+		return lobby_config.handy_speed_multiplier_mode == 1
+	end,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(1)
@@ -222,7 +231,9 @@ Handy.controls.register("speed_multiplier_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = "extension_speed",
+	no_mp = function(lobby, lobby_config)
+		return lobby_config.handy_speed_multiplier_mode == 1
+	end,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(-1)
