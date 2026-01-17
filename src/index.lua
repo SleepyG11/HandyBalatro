@@ -4,9 +4,9 @@ Handy.load_file("src/config/index.lua")
 Handy.load_file("src/presets/index.lua")
 Handy.load_file("src/ui/index.lua")
 
-Handy.load_file("src/dictionary/index.lua")
 Handy.load_file("src/controller/index.lua")
 Handy.load_file("src/controls/index.lua")
+Handy.load_file("src/dictionary/index.lua")
 
 Handy.load_file("src/extensions/index.lua")
 

@@ -33,7 +33,7 @@ function Handy.b_is_mod_active()
 end
 
 function Handy.is_dangerous_actions_active()
-	return Handy.cc.dangerous_actions.enabled and not Handy.b_is_in_multiplayer() or false
+	return Handy.cc.dangerous_actions.enabled
 end
 function Handy.b_is_dangerous_actions_active()
 	return Handy.buffered("is_dangerous_actions_active", Handy.is_dangerous_actions_active)

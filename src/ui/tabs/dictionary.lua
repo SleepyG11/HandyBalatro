@@ -1023,7 +1023,7 @@ local function is_deps_resolved(item, quick)
 	local missing_list = {}
 	local is_missing = false
 	if module.enabled then
-		if item.dangerous and not Handy.cc.dangerous_actions.enabled then
+		if item.dangerous and not Handy.b_is_dangerous_actions_active() then
 			is_missing = true
 			if quick then
 				return false, {}
@@ -1053,7 +1053,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e.handy_alert_popup_setup = true
 
 		local module, deps = item:get_module()
-		if not deps and not item.dangerous and not item.no_mp then
+		if not deps and not item.dangerous and not item.no_mp and not item.no_gamepad then
 			e.config.func = nil
 			return
 		end
@@ -1076,7 +1076,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 					end
 				end
 
-				if (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer() then
+				if item.no_mp and Handy.mp_check(item.no_mp) then
 					local lines_col = Handy.L.description("Handy_Other", "cant_use_in_mp", {
 						align = "cm",
 					})
@@ -1140,7 +1140,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e = old_e
 	end
 
-	local is_mp_fail = (item.no_mp or item.dangerous) and Handy.b_is_in_multiplayer()
+	local is_mp_fail = item.no_mp and Handy.mp_check(item.no_mp)
 	local is_gamepad_failed = item.no_gamepad and Handy.controller.is_gamepad()
 	local is_fail = is_mp_fail or is_gamepad_failed or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then

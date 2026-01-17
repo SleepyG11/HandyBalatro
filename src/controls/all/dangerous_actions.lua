@@ -2,6 +2,13 @@ Handy.dangerous_actions = {
 	sell_queue = {},
 	preview_sell_queue = {},
 
+	is_sell_disabled_in_mp = function(lobby, lobby_config)
+		return (lobby_config.handy_dangerous_actions_mode or 1) <= 1
+	end,
+	is_remove_disabled_in_mp = function(lobby, lobby_config)
+		return (lobby_config.handy_dangerous_actions_mode or 1) <= 2
+	end,
+
 	sell_next_card_in_queue = function()
 		local target = table.remove(Handy.dangerous_actions.sell_queue, 1)
 		if not target then
@@ -377,6 +384,7 @@ Handy.controls.register("dangerous_actions_sell_one", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 
@@ -409,6 +417,7 @@ Handy.controls.register("dangerous_actions_remove_one", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 
@@ -442,6 +451,7 @@ Handy.controls.register("dangerous_actions_sell_all_same", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 
@@ -470,6 +480,7 @@ Handy.controls.register("dangerous_actions_remove_all_same", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 
@@ -499,6 +510,7 @@ Handy.controls.register("dangerous_actions_sell_all", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 
@@ -527,6 +539,7 @@ Handy.controls.register("dangerous_actions_remove_all", {
 	require_exact_keys = true,
 
 	dangerous = true,
+	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
 	in_run = true,
 	no_stop_use = true,
 

@@ -22,6 +22,10 @@ Handy.animation_skip = {
 
 	extract_func_from_event = 0,
 
+	is_disabled_by_mp = function(lobby, lobby_config)
+		return lobby_config.handy_animation_skip_mode == 1
+	end,
+
 	-- Animat
 	get_buffered_value = function()
 		if Handy.animation_skip.buffered_value == nil then
@@ -59,9 +63,7 @@ Handy.animation_skip = {
 		if
 			Handy.animation_skip.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(function(lobby, lobby_config)
-				return lobby_config.handy_animation_skip_mode == 1
-			end)
+			or Handy.mp_check(Handy.animation_skip.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 		then
 			return 1
@@ -100,6 +102,7 @@ Handy.animation_skip = {
 	can_dangerous = function()
 		return not not (
 			Handy.b_is_dangerous_actions_active()
+			and not Handy.b_is_in_multiplayer()
 			and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_animation_skip_unsafe)
 		)
 	end,
@@ -112,9 +115,7 @@ Handy.animation_skip = {
 
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
-			local mp_check = Handy.mp_check(function(lobby, lobby_config)
-				return lobby_config.handy_animation_skip_mode == 1
-			end)
+			local mp_check = Handy.mp_check(Handy.animation_skip.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end
@@ -458,9 +459,7 @@ Handy.controls.register("animation_skip_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_animation_skip_mode == 1
-	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.toggle_temp_disabled()
@@ -474,9 +473,7 @@ Handy.controls.register("animation_skip_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_animation_skip_mode == 1
-	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.change(1)
@@ -490,9 +487,7 @@ Handy.controls.register("animation_skip_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_animation_skip_mode == 1
-	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.change(-1)

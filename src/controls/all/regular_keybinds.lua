@@ -229,6 +229,7 @@ Handy.controls.register("regular_keybinds_play", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -267,6 +268,7 @@ Handy.controls.register("regular_keybinds_discard", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 

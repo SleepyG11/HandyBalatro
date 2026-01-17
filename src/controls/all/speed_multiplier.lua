@@ -7,13 +7,15 @@ Handy.speed_multiplier = {
 
 	temp_disabled = false,
 
+	is_disabled_by_mp = function(lobby, lobby_config)
+		return (lobby_config.handy_speed_multiplier_mode or 1) == 1
+	end,
+
 	get_queue_retriggers_count = function()
 		if
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(function(lobby, lobby_config)
-				return (lobby_config.handy_speed_multiplier_mode or 1) <= 2
-			end)
+			or Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 0
@@ -23,6 +25,7 @@ Handy.speed_multiplier = {
 
 	is_uncapped = function()
 		return Handy.b_is_dangerous_actions_active()
+			and not Handy.b_is_in_multiplayer()
 			and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_speed_multiplier_uncap)
 	end,
 
@@ -52,9 +55,7 @@ Handy.speed_multiplier = {
 		if
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(function(lobby, lobby_config)
-				return lobby_config.handy_speed_multiplier_mode == 1
-			end)
+			or Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
@@ -133,9 +134,7 @@ Handy.speed_multiplier = {
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
-			local mp_check = Handy.mp_check(function(lobby, lobby_config)
-				return lobby_config.handy_speed_multiplier_mode == 1
-			end)
+			local mp_check = Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end
@@ -199,9 +198,7 @@ Handy.controls.register("speed_multiplier_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_speed_multiplier_mode == 1
-	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.toggle_temp_disabled()
@@ -215,9 +212,7 @@ Handy.controls.register("speed_multiplier_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_speed_multiplier_mode == 1
-	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(1)
@@ -231,9 +226,7 @@ Handy.controls.register("speed_multiplier_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = function(lobby, lobby_config)
-		return lobby_config.handy_speed_multiplier_mode == 1
-	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.speed_multiplier.change(-1)
