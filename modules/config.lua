@@ -519,7 +519,10 @@ Handy.config = {
 		Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 		local lovely_mod_config = get_compressed("config/Handy.jkr")
 		if lovely_mod_config then
-			Handy.config.current = Handy.utils.table_merge(Handy.config.current, STR_UNPACK(lovely_mod_config))
+			local new_config = STR_UNPACK(lovely_mod_config)
+			if (new_config.version or 1) < 2 then
+				Handy.config.current = Handy.utils.table_merge(Handy.config.current, new_config)
+			end
 		end
 		Handy.cc = Handy.config.current
 	end,
