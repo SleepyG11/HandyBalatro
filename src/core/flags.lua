@@ -12,7 +12,9 @@ function Handy.b_is_in_multiplayer()
 	return Handy.buffered("is_in_multiplayer", Handy.is_in_multiplayer)
 end
 function Handy.is_mp_lobby_extension_active()
-	return MP.LOBBY.config.handy_allow_mp_extension and MP.LOBBY.handy_mp_extension_all_players_enabled
+	return MP.LOBBY.config.handy_mp_extension
+		and MP.LOBBY.config.handy_allow_mp_extension
+		and MP.LOBBY.handy_mp_extension_all_players_enabled
 end
 function Handy.b_is_mp_lobby_extension_active()
 	return Handy.buffered("is_mp_lobby_extension_active", Handy.is_mp_lobby_extension_active)

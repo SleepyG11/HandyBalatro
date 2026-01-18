@@ -693,7 +693,7 @@ return {
 
 			mp_extension_default_values = {
 				name = { "MP Extension: default lobby options" },
-				text = { " " },
+				text = {},
 			},
 			mp_extension_speed_multiplier_mode_default_value = {
 				name = "Speed Multiplier: lobby default max value",
@@ -1056,6 +1056,7 @@ return {
 				"Mass sell & remove",
 			},
 
+			handy_mp_extension_status_not_initialized = "Multiplayer Extension is NOT LOADED in this lobby",
 			handy_mp_extension_status_disabled = "Multiplayer Extension in this lobby is DISABLED by YOU",
 			handy_mp_extension_status_disabled_by_ruleset = "Multiplayer Extension in this lobby is DISABLED by RULESET",
 			handy_mp_extension_status_disabled_by_other_player = "Multiplayer Extension in this lobby is DISABLED by OTHER players",
