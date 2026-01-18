@@ -83,9 +83,14 @@ Handy.presets = {
 	end,
 	load = function()
 		Handy.presets.current = Handy.utils.table_merge({}, Handy.presets.default)
-		local lovely_mod_presets = get_compressed("config/Handy_Presets.jkr")
-		if lovely_mod_presets then
-			Handy.presets.current = Handy.utils.table_merge(Handy.presets.current, STR_UNPACK(lovely_mod_presets))
+		local success = pcall(function()
+			local lovely_mod_presets = get_compressed("config/Handy_Presets.jkr")
+			if lovely_mod_presets then
+				Handy.presets.current = Handy.utils.table_merge(Handy.presets.current, STR_UNPACK(lovely_mod_presets))
+			end
+		end)
+		if not success then
+			Handy.presets.current = Handy.utils.table_merge({}, Handy.presets.default)
 		end
 	end,
 
