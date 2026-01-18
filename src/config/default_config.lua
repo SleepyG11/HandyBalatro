@@ -472,6 +472,22 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+
+    mp_extension_enabled_default_value = {
+        enabled = false,
+    },
+	mp_extension_speed_multiplier_mode_default_value = {
+		enabled = true,
+		value = 1,
+	},
+	mp_extension_animation_skip_mode_default_value = {
+		enabled = true,
+		value = 1,
+	},
+	mp_extension_dangerous_actions_mode_default_value = {
+		enabled = true,
+		value = 1,
+	},
 }
 
 local old_default_v1 = {

@@ -654,6 +654,80 @@ return {
 				name = "Miscellaneous",
 				text = {},
 			},
+
+			mp_extension = {
+				name = { "Multiplayer Extension" },
+				text = { "Handy x Multiplayer crossmod" },
+			},
+
+			mp_extension_current_lobby = {
+				name = { "MP Extension: current lobby options" },
+				text = {},
+			},
+			mp_extension_enabled = {
+				name = "Allow MP Extension",
+				text = {},
+				unlock = {
+					"This value determines are YOU allow to",
+					"{C:mult}Multiplayer Extension{} be enabled in this lobby",
+					" ",
+					"{C:mult}Multiplayer Extension{} will be enabled only if",
+					"{C:attention}ALL players{} in lobby allow it",
+				},
+			},
+			mp_extension_speed_multiplier_mode = {
+				name = "Speed Multiplier: lobby max value",
+				text = {},
+			},
+			mp_extension_animation_skip_mode = {
+				name = "Animation Skip: lobby max value",
+				text = {},
+			},
+			mp_extension_dangerous_actions_mode = {
+				name = "Dangerous Actions: lobby mode",
+				text = {},
+				unlock = {
+					"Allow to enable some {C:mult}Dangerous Actions{}",
+				},
+			},
+
+			mp_extension_default_values = {
+				name = { "MP Extension: default lobby options" },
+				text = { " " },
+			},
+			mp_extension_speed_multiplier_mode_default_value = {
+				name = "Speed Multiplier: lobby default max value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
+				},
+			},
+			mp_extension_animation_skip_mode_default_value = {
+				name = "Animation Skip: lobby default max value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
+				},
+			},
+			mp_extension_dangerous_actions_mode_default_value = {
+				name = "Dangerous Actions: lobby default mode",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
+				},
+			},
+			mp_extension_enabled_default_value = {
+				name = "Allow MP extension: default value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create or join a lobby{}, this value",
+					"will be set by default to determine do you want",
+					"{C:mult}Multiplayer Extension{} be enabled in this lobby",
+				},
+			},
 		},
 
 		Handy_Preset = {
@@ -835,6 +909,7 @@ return {
 			["Round"] = "Round",
 			["Shop & Blind Select"] = "Shop/Blinds",
 			["Game & Menus"] = "Game/Menus",
+			["MP Extension"] = "Multiplayer Extension",
 		},
 		v_dictionary = {
 			Handy_version_by = "v#1# by #2#",
@@ -980,6 +1055,11 @@ return {
 				"Mass sell",
 				"Mass sell & remove",
 			},
+
+			handy_mp_extension_status_disabled = "Multiplayer Extension in this lobby is DISABLED by YOU",
+			handy_mp_extension_status_disabled_by_ruleset = "Multiplayer Extension in this lobby is DISABLED by RULESET",
+			handy_mp_extension_status_disabled_by_other_player = "Multiplayer Extension in this lobby is DISABLED by OTHER players",
+			handy_mp_extension_status_enabled = "Multiplayer Extension in this lobby is ENABLED",
 		},
 	},
 }

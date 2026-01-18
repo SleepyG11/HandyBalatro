@@ -459,7 +459,6 @@ Handy.controls.register("animation_skip_toggle_temp_disabled", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.toggle_temp_disabled()
@@ -473,7 +472,6 @@ Handy.controls.register("animation_skip_increase", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.change(1)
@@ -487,7 +485,6 @@ Handy.controls.register("animation_skip_decrease", {
 
 	context_types = { input = true },
 	trigger = "trigger",
-	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	execute = function(self, context)
 		Handy.animation_skip.change(-1)

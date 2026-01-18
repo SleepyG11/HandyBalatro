@@ -1234,6 +1234,239 @@ l({
 -- 	items = {
 -- 	},
 -- })
+l({
+	key = "mp_extension",
+
+	group = true,
+	items = {
+		{
+			key = "mp_extension_current_lobby",
+
+			group = true,
+			items = {
+				{
+					key = "mp_extension_enabled",
+					checkbox = {
+						get_values = function()
+							return {
+								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+							}
+						end,
+					},
+
+					get_module = function(self)
+						return setmetatable({}, {
+							__index = function(t, k)
+								local lobby = Handy.get_mp_lobby()
+								return lobby and lobby.handy_mp_extension_local_player_enabled
+							end,
+							__newindex = function(t, k, v)
+								local lobby = Handy.get_mp_lobby()
+								if not lobby or G.STAGE == G.STAGES.RUN then
+									return
+								end
+								Handy.EXT.Multiplayer.send_action_setEnabled(v)
+							end,
+						})
+					end,
+				},
+				{
+					key = "mp_extension_speed_multiplier_mode",
+					get_module = function()
+						return setmetatable({}, {
+							__index = function(t, k)
+								if G.STAGE == G.STAGES.RUN then
+									return Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", 1)
+								end
+								local lobby = Handy.get_mp_lobby()
+								return lobby and lobby.config and lobby.config.handy_speed_multiplier_mode or 1
+							end,
+							__newindex = function(t, k, v)
+								local lobby = Handy.get_mp_lobby()
+								if not lobby or G.STAGE == G.STAGES.RUN then
+									return
+								end
+								(lobby.config or {}).handy_speed_multiplier_mode = v
+								MP.ACTIONS.lobby_options()
+							end,
+						})
+					end,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									"1x",
+									"2x",
+									"4x",
+									"8x",
+									"16x",
+									"32x",
+									"64x",
+									"128x",
+									"256x",
+									"512x",
+								},
+								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+							}
+						end,
+						colour = G.C.CHIPS,
+					},
+				},
+				{
+					key = "mp_extension_animation_skip_mode",
+					get_module = function()
+						return setmetatable({}, {
+							__index = function(t, k)
+								if G.STAGE == G.STAGES.RUN then
+									return Handy.get_mp_lobby_config_value("handy_animation_skip_mode", 1)
+								end
+								local lobby = Handy.get_mp_lobby()
+								return lobby and lobby.config and lobby.config.handy_animation_skip_mode or 1
+							end,
+							__newindex = function(t, k, v)
+								local lobby = Handy.get_mp_lobby()
+								if not lobby or G.STAGE == G.STAGES.RUN then
+									return
+								end
+								(lobby.config or {}).handy_animation_skip_mode = v
+								MP.ACTIONS.lobby_options()
+							end,
+						})
+					end,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									Handy.L.dictionary("handy_animation_skip_levels", 1),
+									Handy.L.dictionary("handy_animation_skip_levels", 2),
+									Handy.L.dictionary("handy_animation_skip_levels", 3),
+									Handy.L.dictionary("handy_animation_skip_levels", 4),
+								},
+								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+							}
+						end,
+						colour = G.C.ORANGE,
+					},
+				},
+				{
+					key = "mp_extension_dangerous_actions_mode",
+					get_module = function()
+						return setmetatable({}, {
+							__index = function(t, k)
+								if G.STAGE == G.STAGES.RUN then
+									return Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", 1)
+								end
+								local lobby = Handy.get_mp_lobby()
+								return lobby and lobby.config and lobby.config.handy_dangerous_actions_mode or 1
+							end,
+							__newindex = function(t, k, v)
+								local lobby = Handy.get_mp_lobby()
+								if not lobby or G.STAGE == G.STAGES.RUN then
+									return
+								end
+								(lobby.config or {}).handy_dangerous_actions_mode = v
+								MP.ACTIONS.lobby_options()
+							end,
+						})
+					end,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 1),
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
+								},
+								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+							}
+						end,
+						colour = G.C.MULT,
+					},
+				},
+			},
+		},
+		{
+			key = "mp_extension_default_values",
+
+			group = true,
+			items = {
+				{
+					key = "mp_extension_enabled_default_value",
+					checkbox = true,
+
+					get_module = function(self)
+						return Handy.cc.mp_extension_enabled_default_value
+					end,
+				},
+				{
+					key = "mp_extension_speed_multiplier_mode_default_value",
+					get_module = function()
+						return Handy.cc.mp_extension_speed_multiplier_mode_default_value
+					end,
+					checkbox = true,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									"1x",
+									"2x",
+									"4x",
+									"8x",
+									"16x",
+									"32x",
+									"64x",
+									"128x",
+									"256x",
+									"512x",
+								},
+							}
+						end,
+						colour = G.C.CHIPS,
+					},
+				},
+				{
+					key = "mp_extension_animation_skip_mode_default_value",
+					get_module = function()
+						return Handy.cc.mp_extension_animation_skip_mode_default_value
+					end,
+					checkbox = true,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									Handy.L.dictionary("handy_animation_skip_levels", 1),
+									Handy.L.dictionary("handy_animation_skip_levels", 2),
+									Handy.L.dictionary("handy_animation_skip_levels", 3),
+									Handy.L.dictionary("handy_animation_skip_levels", 4),
+								},
+							}
+						end,
+						colour = G.C.ORANGE,
+					},
+				},
+				{
+					key = "mp_extension_dangerous_actions_mode_default_value",
+					get_module = function()
+						return Handy.cc.mp_extension_dangerous_actions_mode_default_value
+					end,
+					checkbox = true,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 1),
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
+									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
+								},
+							}
+						end,
+						colour = G.C.MULT,
+					},
+				},
+			},
+		},
+	},
+})
 
 --
 

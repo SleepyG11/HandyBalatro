@@ -127,8 +127,6 @@ function Handy.UI.get_config_tab_overall()
 									}),
 									Handy.UI.CP.r_sep(0.1),
 									b({ label = "Quick buy/sell/use", button = "handy_insta_actions" }),
-									Handy.UI.CP.r_sep(0.1),
-									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
 								},
 							},
 							Handy.UI.CP.c_sep(0.1),
@@ -164,10 +162,60 @@ function Handy.UI.get_config_tab_overall()
 			},
 		},
 	}
+
+	local buttons_2 = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.15, r = 0.25, colour = { 0, 0, 0, 0.1 } },
+		nodes = {
+			{
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = { align = "cm" },
+						nodes = {
+							{
+								n = G.UIT.C,
+								nodes = {
+									b({ label = "MP Extension", button = "handy_mp_extension", colour = G.C.MULT }),
+								},
+							},
+							Handy.UI.CP.c_sep(0.1),
+							{
+								n = G.UIT.C,
+								nodes = {
+									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
+								},
+							},
+						},
+					},
+					-- Handy.UI.CP.r_sep(0.1),
+					-- {
+					-- 	n = G.UIT.R,
+					-- 	config = { align = "cm" },
+					-- 	nodes = {
+					-- 		-- {
+					-- 		-- 	n = G.UIT.C,
+					-- 		-- 	nodes = {
+					-- 		-- 	},
+					-- 		-- },
+					-- 		-- Handy.UI.CP.c_sep(0.1),
+					-- 		-- TODO: add more buttons here
+					-- 		{
+					-- 			n = G.UIT.C,
+					-- 			nodes = {},
+					-- 		},
+					-- 	},
+					-- },
+				},
+			},
+		},
+	}
+
 	return {
 		n = G.UIT.C,
 		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, minh = 5, minw = 5, r = 0.25 },
-		nodes = { logo, buttons },
+		nodes = { logo, buttons, buttons_2 },
 	}
 end
 function Handy.UI.overall_tab_UIBox()

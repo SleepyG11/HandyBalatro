@@ -1,11 +1,24 @@
 function Handy.UI.get_options_button()
 	return UIBox_button({ label = { "Handy" }, button = "handy_options", minw = 5, colour = G.C.CHIPS })
 end
+function Handy.UI.get_mp_extension_button()
+	return UIBox_button({
+		label = { Handy.L.tab("MP Extension") },
+		button = "handy_mp_extension_back_to_options",
+		minw = 5,
+		colour = G.C.RED,
+		minh = 0.7,
+	})
+end
 local create_uibox_options_ref = create_UIBox_options
 function create_UIBox_options()
 	local contents = create_uibox_options_ref()
 	if not Handy.current_mod or not Handy.cc.hide_options_button.enabled then
 		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, Handy.UI.get_options_button())
+	end
+	-- TODO: fix buttons order
+	if MP and MP.LOBBY and MP.LOBBY.code and G.STAGE == G.STAGES.MAIN_MENU then
+		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, Handy.UI.get_mp_extension_button())
 	end
 	return contents
 end

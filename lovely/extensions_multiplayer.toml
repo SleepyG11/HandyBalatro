@@ -10,7 +10,31 @@ target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
 pattern = '''if parsedAction.action == "connected" then'''
 position = "before"
 payload = '''
+if parsedAction.action == "handyMPExtensionLobbyEnabled" then
+    Handy.EXT.Multiplayer.process_action_setLobbyEnabled(parsedAction.enabled)
+end
+'''
+match_indent = true
+overwrite = false
 
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''MP.LOBBY.code = code'''
+position = "after"
+payload = '''
+Handy.EXT.Multiplayer.set_local_enabled()
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''if different_decks_before ~= MP.LOBBY.config.different_decks then'''
+position = "before"
+payload = '''
+Handy.UI.rerender(true)
 '''
 match_indent = true
 overwrite = false

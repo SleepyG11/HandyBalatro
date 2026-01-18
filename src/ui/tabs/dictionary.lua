@@ -336,8 +336,12 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 		ref_table = oc_values.ref_table or module,
 		ref_value = oc_values.ref_value or "value",
 		handy_callback = oc_values.callback,
+		disabled = oc_values.disabled,
 	}
 	args.current_option = oc_values.current_option or args.ref_table[args.ref_value]
+	if args.disabled then
+		args.opt_callback = "handy_noop"
+	end
 
 	args.colour = args.colour or G.C.RED
 	args.options = args.options or {
@@ -358,7 +362,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	args.focus_args.type = "cycle"
 	args.focus_args.handy_cycle = true
 
-	local disabled = #args.options < 2
+	local disabled = #args.options < 2 or args.disabled
 	local pips = {}
 	for i = 1, #args.options do
 		pips[#pips + 1] = {
@@ -602,7 +606,9 @@ function Handy.UI.CP.dictionary_item(item, options)
 	Handy.UI.__global_d_counter = Handy.UI.__global_d_counter + 1
 	options = options or {}
 	local colour
-	if options.bg then
+	if options.colour then
+		colour = options.colour
+	elseif options.bg then
 		colour = item.dangerous and adjust_alpha(G.C.MULT, 0.2) or adjust_alpha(HEX("000000"), 0.1)
 	elseif options.dangerous_bg and item.dangerous or (item.checkbox and item.checkbox.dangerous) then
 		colour = adjust_alpha(G.C.MULT, 0.1)
