@@ -6,7 +6,7 @@ Handy.dangerous_actions = {
 		return (lobby_config.handy_dangerous_actions_mode or 1) <= 1
 	end,
 	is_remove_disabled_in_mp = function(lobby, lobby_config)
-		return (lobby_config.handy_dangerous_actions_mode or 1) <= 2
+		return true
 	end,
 
 	sell_next_card_in_queue = function()

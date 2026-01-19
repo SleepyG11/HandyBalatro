@@ -1375,7 +1375,7 @@ l({
 								options = {
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 1),
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
-									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
+									-- Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
 								},
 								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
 							}
@@ -1456,7 +1456,7 @@ l({
 								options = {
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 1),
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
-									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
+									-- Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
 								},
 							}
 						end,
