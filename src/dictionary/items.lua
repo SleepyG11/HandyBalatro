@@ -1236,16 +1236,19 @@ l({
 -- })
 l({
 	key = "mp_extension",
+	keywords = { "multiplayer extension mp lobby bmp" },
 
 	group = true,
 	items = {
 		{
 			key = "mp_extension_current_lobby",
+			keywords = { "current lobby" },
 
 			group = true,
 			items = {
 				{
 					key = "mp_extension_enabled",
+
 					checkbox = {
 						get_values = function()
 							return {
@@ -1272,6 +1275,7 @@ l({
 				},
 				{
 					key = "mp_extension_speed_multiplier_mode",
+
 					get_module = function()
 						return setmetatable({}, {
 							__index = function(t, k)
@@ -1314,6 +1318,7 @@ l({
 				},
 				{
 					key = "mp_extension_animation_skip_mode",
+
 					get_module = function()
 						return setmetatable({}, {
 							__index = function(t, k)
@@ -1387,6 +1392,7 @@ l({
 		},
 		{
 			key = "mp_extension_default_values",
+			keywords = { "default lobby values" },
 
 			group = true,
 			items = {

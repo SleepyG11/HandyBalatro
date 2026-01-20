@@ -34,8 +34,8 @@ Handy.load_file("src/index.lua")
 -- 1. component for checkbox and option cycle (UIKit mod?)
 -- 2. more pages (advanced, credits)
 -- 3. maybe icons for menu buttons?
--- 4. toggle to allow speed & animations in MP
--- 5. keywords
+-- 4. decide should speed n animations preview work when mod is disabled
+-- 5. keywords (make it better if makes sense)
 -- 6. description for animation skip levels
 -- 7. hold implementation for move highlight
 -- 8. fix event stuck in base queue when exiting speed preview
@@ -50,6 +50,3 @@ Handy.load_file("src/index.lua")
 -- regular keybinds:
 --- menus
 -- dangerous
-
--- TODO: make sure every preview works identical:
---- work if mod disabled
