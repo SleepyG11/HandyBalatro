@@ -43,7 +43,6 @@ Handy.load_file("src/index.lua")
 -- 10. touchscreen?
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
--- 13. Rething which controls should have require_exact_keys = true
 
 -- TODO: check controls (controller)
 -- hand selection - fix preview

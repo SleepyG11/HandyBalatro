@@ -372,6 +372,7 @@ Handy.controls.register("regular_keybinds_reroll_shop", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -411,6 +412,7 @@ Handy.controls.register("regular_keybinds_leave_shop", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -442,6 +444,7 @@ Handy.controls.register("regular_keybinds_skip_blind", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -477,6 +480,7 @@ Handy.controls.register("regular_keybinds_select_blind", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -509,6 +513,7 @@ Handy.controls.register("regular_keybinds_reroll_boss", {
 
 	trigger = "trigger",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
@@ -873,6 +878,7 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 	},
 	trigger = "press",
 
+	require_exact_keys = true,
 	in_run = true,
 	no_stop_use = true,
 
@@ -1022,6 +1028,7 @@ Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 	},
 	trigger = "press",
 
+	require_exact_keys = true,
 	no_stop_use = true,
 	in_run = true,
 
