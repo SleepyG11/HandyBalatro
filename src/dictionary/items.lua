@@ -1257,6 +1257,21 @@ l({
 						end,
 					},
 
+					loc_vars = function()
+						return {
+							vars = {
+								Handy.L.with_brackets(
+									Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier"),
+									true
+								),
+								Handy.L.with_brackets(
+									Handy.L.name_text("Handy_ConfigDictionary", "animation_skip"),
+									true
+								),
+							},
+						}
+					end,
+
 					get_module = function(self)
 						return setmetatable({}, {
 							__index = function(t, k)

@@ -100,7 +100,7 @@ return {
 				},
 				unlock = {
 					"When assigned to {C:chips}[Left Mouse]{},",
-					"start holding {C:attention}OUSIDE{} of card",
+					"start holding {C:attention}OUTSIDE{} of cards",
 					"and then hover them to select",
 					"{C:inactive}(because otherwise you'll grab a card){}",
 				},
@@ -668,20 +668,33 @@ return {
 				name = "Allow MP Extension",
 				text = {},
 				unlock = {
-					"This value determines are YOU allow to",
+					"By enabling this checkbox, {C:attention}YOU{} allow to",
 					"{C:mult}Multiplayer Extension{} be enabled in this lobby",
 					" ",
-					"{C:mult}Multiplayer Extension{} will be enabled only if",
-					"{C:attention}ALL players{} in lobby allow it",
+					"Only when {C:attention}ALL{} players in lobby have it enabled,",
+					"controls such {C:chips}#1#{} and {C:attention}#2#{}",
+					"became available to use for {C:attention}ALL{} players in lobby",
 				},
 			},
 			mp_extension_speed_multiplier_mode = {
 				name = "Speed Multiplier: lobby max value",
 				text = {},
+				unlock = {
+					"You still need increase value {C:attention}manually{}",
+					"{C:inactive}(by using keybinds or toggles in settings){}",
+					" ",
+					"Only {C:attention}maximum{} value is limited by lobby",
+				},
 			},
 			mp_extension_animation_skip_mode = {
 				name = "Animation Skip: lobby max value",
 				text = {},
+				unlock = {
+					"You still need increase value {C:attention}manually{}",
+					"{C:inactive}(by using keybinds or toggles in settings){}",
+					" ",
+					"Only {C:attention}maximum{} value is limited by lobby",
+				},
 			},
 			mp_extension_dangerous_actions_mode = {
 				name = "Dangerous Actions: lobby mode",
