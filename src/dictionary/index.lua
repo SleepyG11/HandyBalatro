@@ -35,9 +35,20 @@ table.sort(Handy.D.option_cycles, Handy.D.sorter)
 
 --
 
+function Handy.D.searchable_items(items)
+	local start_items = items or Handy.D.list
+	local result_items = {}
+	for _, item in ipairs(start_items) do
+		if not item.no_search then
+			table.insert(result_items, item)
+		end
+	end
+	return result_items
+end
+
 function Handy.D.search(search_string, args)
 	args = args or {}
-	local items = args.items or Handy.D.list
+	local items = args.items or Handy.D.searchable_items(Handy.D.list)
 	if not search_string or #search_string == 0 then
 		return items
 	end
