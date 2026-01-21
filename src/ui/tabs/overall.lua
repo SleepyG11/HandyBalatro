@@ -177,7 +177,7 @@ function Handy.UI.get_config_tab_overall()
 							{
 								n = G.UIT.C,
 								nodes = {
-									b({ label = "MP Extension", button = "handy_mp_extension", colour = G.C.MULT }),
+									b({ label = "MP Extension", button = "handy_mp_extension", colour = Handy.UI.C.MP }),
 								},
 							},
 							Handy.UI.CP.c_sep(0.1),

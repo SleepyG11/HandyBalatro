@@ -6,7 +6,7 @@ function Handy.UI.get_mp_extension_button()
 		label = { Handy.L.tab("MP Extension") },
 		button = "handy_mp_extension_back_to_options",
 		minw = 5,
-		colour = G.C.RED,
+		colour = Handy.UI.C.MP,
 		minh = 0.7,
 	})
 end

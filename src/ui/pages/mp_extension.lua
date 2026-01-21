@@ -1,10 +1,3 @@
-local mp_gradient_colour = { 1, 1, 1, 0.3 }
-Handy.e_mitter.on("update", function()
-	mp_gradient_colour[1] = G.C.DARK_EDITION[1]
-	mp_gradient_colour[2] = G.C.DARK_EDITION[2]
-	mp_gradient_colour[3] = G.C.DARK_EDITION[3]
-end)
-
 function Handy.UI.mp_extension_page_definition()
 	local status_colour = G.C.RED
 	local status_key = "handy_mp_extension_status_disabled"
@@ -68,7 +61,7 @@ function Handy.UI.mp_extension_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.mp_extension_current_lobby, { bg = true }),
 							Handy.UI.CP.dictionary_item(
 								Handy.D.dictionary.mp_extension_enabled,
-								{ colour = mp_gradient_colour }
+								{ colour = Handy.UI.C.DARK_EDITION_WEAK }
 							),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.mp_extension_speed_multiplier_mode),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.mp_extension_animation_skip_mode),

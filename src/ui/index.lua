@@ -1,5 +1,22 @@
 Handy.UI = {}
+Handy.UI.C = {
+	DARK_EDITION_WEAK = { 1, 0, 0, 0.3 },
+	MP = { 0, 0, 0, 1 },
+}
 Handy.UI.data = {}
+
+Handy.e_mitter.on("update", function()
+	local dew = Handy.UI.C.DARK_EDITION_WEAK
+	dew[1] = G.C.DARK_EDITION[1]
+	dew[2] = G.C.DARK_EDITION[2]
+	dew[3] = G.C.DARK_EDITION[3]
+
+	local mp = Handy.UI.C.MP
+	local new_mp = mix_colours(G.C.RED, G.C.ORANGE, math.sin(G.TIMERS.REAL) * 0.2 + 0.8)
+	mp[1] = new_mp[1]
+	mp[2] = new_mp[2]
+	mp[3] = new_mp[3]
+end)
 
 function Handy.UI.rerender(silent)
 	if Handy.UI.data.opened then
