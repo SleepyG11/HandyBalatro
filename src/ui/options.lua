@@ -117,3 +117,41 @@ end
 G.FUNCS.handy_back_to_options = function(e)
 	return Handy.UI.back_to_options()
 end
+
+Handy.e_mitter.on("steamodded_load", function()
+	local create_UIBox_mods_ref = create_UIBox_mods
+	function create_UIBox_mods(...)
+		if G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI == Handy.current_mod then
+			-- I'll handle config UI myself ok?
+			return { n = G.UIT.ROOT, config = { colour = G.C.CLEAR } }
+		end
+		return create_UIBox_mods_ref(...)
+	end
+
+	-- Config tabs
+	Handy.current_mod.config_tab = function()
+		return Handy.UI.get_options_tabs()[1].tab_definition_function
+	end
+	Handy.current_mod.extra_tabs = function()
+		local result = Handy.UI.get_options_tabs()
+		table.remove(result, 1)
+		return result
+	end
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		no_delete = true,
+		force_pause = true,
+		blocking = false,
+		blockable = false,
+		func = function()
+			local old_open_UI = G.FUNCS.openModUI_Handy or function() end
+			G.FUNCS.openModUI_Handy = function(e, ...)
+				old_open_UI(e, ...)
+				Handy.UI.data.from_smods = true
+				G.FUNCS.handy_options()
+			end
+			return true
+		end,
+	}))
+end)
