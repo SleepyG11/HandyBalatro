@@ -94,6 +94,7 @@ Handy.L = {
 				result = localize("None", "handy_keybinds")
 			end
 		else
+			key = Handy.keys_aliases[key] or key
 			result = localize(key, "handy_keybinds")
 		end
 

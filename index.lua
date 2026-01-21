@@ -16,6 +16,11 @@ Handy = setmetatable({
 		["2.0.0_update"] = true,
 		["2.0.0_mp_extension"] = true,
 	},
+
+	keys_aliases = {
+		["["] = "Left Bracket",
+		["]"] = "Right Bracket",
+	},
 }, {})
 
 function Handy.load_file(file)

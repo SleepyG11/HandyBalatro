@@ -61,7 +61,7 @@ return {
 				text = {},
 			},
 			controller_sensitivity = {
-				name = "Cursor sensitivity",
+				name = "Gamepad cursor sensitivity",
 				text = {},
 			},
 

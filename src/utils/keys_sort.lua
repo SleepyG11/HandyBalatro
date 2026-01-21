@@ -109,6 +109,7 @@ function Handy.utils.normalize_keys(t)
 	local duplicates = {}
 	local result = {}
 	for _, key in pairs(t) do
+		key = Handy.keys_aliases[key] or key
 		if key == "None" or key == "Unknown" then
 			return {}
 		elseif not duplicates[key] then

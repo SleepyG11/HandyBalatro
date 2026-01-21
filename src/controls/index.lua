@@ -31,6 +31,7 @@ function Handy.controls.is_module_keys_activated(module, args)
 		local keys_to_trigger = 0
 		for _, key in ipairs(t) do
 			if key and key ~= "None" then
+				key = Handy.keys_aliases[key] or key
 				keys_to_trigger = keys_to_trigger + 1
 				if not check_context or (context.released and pre_release) or key == context.key then
 					is_present = true
