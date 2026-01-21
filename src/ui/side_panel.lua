@@ -16,7 +16,7 @@ function Handy.UI.CP.small_option_cycle(item)
 		focus_args = { nav = "wide" },
 		ref_table = oc_values.ref_table or module,
 		ref_value = oc_values.ref_value or "value",
-		handy_callback = oc_values.callback,
+		handy_callback = item_oc.callback,
 	}
 	args.current_option = oc_values.current_option or args.ref_table[args.ref_value]
 

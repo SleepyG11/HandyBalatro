@@ -15,7 +15,7 @@ Handy.speed_multiplier = {
 		if
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
+			or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 0
@@ -55,7 +55,7 @@ Handy.speed_multiplier = {
 		if
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
+			or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
@@ -67,9 +67,11 @@ Handy.speed_multiplier = {
 		if not Handy.speed_multiplier.is_uncapped() then
 			max_value = 512
 		end
-		local mp_value = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", nil)
+		local mp_value = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
+			force = true,
+		})
 		if mp_value then
-			max_value = math.min(2 ^ (mp_value - 1), max_value)
+			max_value = math.max(1, math.min(2 ^ (mp_value - 1), max_value))
 		end
 		if Handy.speed_multiplier.value > max_value then
 			Handy.speed_multiplier.value = max_value
@@ -134,7 +136,7 @@ Handy.speed_multiplier = {
 		local level = is_dangerous and 2 or 3
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
-			local mp_check = Handy.mp_check(Handy.speed_multiplier.is_disabled_by_mp)
+			local mp_check = Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end

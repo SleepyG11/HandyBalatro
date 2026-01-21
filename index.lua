@@ -48,6 +48,7 @@ Handy.load_file("src/index.lua")
 -- 10. touchscreen?
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
+-- 13. "update mod" button
 
 -- TODO: check controls (controller)
 -- hand selection - fix preview

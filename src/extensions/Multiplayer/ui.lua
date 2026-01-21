@@ -13,6 +13,7 @@ end
 
 --
 
+-- TODO: decide what to do with this one: rerendr somehow or leave it as rest of MP lobby options behave like this basically
 local old_lobby_options = G.UIDEF.create_UIBox_lobby_options
 function G.UIDEF.create_UIBox_lobby_options(...)
 	Handy.__insert_mp_lobby_tab = true

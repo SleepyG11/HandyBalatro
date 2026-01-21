@@ -50,20 +50,36 @@ end
 function Handy.get_mp_lobby()
 	return Handy.b_is_in_multiplayer() and MP.LOBBY or nil
 end
-function Handy.mp_check(func, bypass_extension_check)
+function Handy.disabled_in_mp_check(func, args)
+	args = args or {}
 	local lobby = Handy.get_mp_lobby()
-	if not lobby then
+	if not lobby or not lobby.config then
 		return false
+	end
+	if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
+		return true
 	end
 	if type(func) ~= "function" then
 		return true
 	end
-	if not bypass_extension_check and not Handy.b_is_mp_lobby_extension_active() then
-		return true
-	end
-	return func(lobby, lobby.config or {})
+	return func(lobby, lobby.config)
 end
-function Handy.get_mp_lobby_config_value(ref_value, default_value)
+function Handy.get_mp_lobby_config_value(ref_value, args)
+	args = args or {}
 	local lobby = Handy.get_mp_lobby()
-	return (lobby and lobby.config or {})[ref_value] or default_value
+
+	-- no lobby - no value
+	if not lobby or not lobby.config then
+		return args.default_value
+	end
+	-- not enabled - no value
+	if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
+		return args.default_value
+	end
+	-- have forced value - use it
+	if args.force and lobby.config[ref_value .. "_force"] then
+		return lobby.config[ref_value .. "_force"], true
+	end
+	-- return actual value
+	return lobby.config[ref_value] or default_value, false
 end

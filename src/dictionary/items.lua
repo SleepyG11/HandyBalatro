@@ -57,10 +57,10 @@ l({
 							Handy.L.dictionary("handy_current_device_keyboard"),
 							Handy.L.dictionary("handy_current_device_gamepad"),
 						},
-						callback = function()
-							Handy.controller.device.update_type({ check = true })
-						end,
 					}
+				end,
+				callback = function()
+					Handy.controller.device.update_type({ check = true })
 				end,
 			},
 			loc_vars = function()
@@ -139,10 +139,10 @@ l({
 							Handy.L.dictionary("handy_notification_level_essential"),
 							Handy.L.dictionary("handy_notification_level_all"),
 						},
-						callback = function()
-							Handy.UI.state_panel.render(true)
-						end,
 					}
+				end,
+				callback = function()
+					Handy.UI.state_panel.render(true)
 				end,
 			},
 			info_func = "handy_show_example_state_panel",
@@ -1252,8 +1252,11 @@ l({
 					checkbox = {
 						get_values = function()
 							return {
-								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+								disabled = not Handy.b_is_in_multiplayer() or G.STAGE ~= G.STAGES.MAIN_MENU,
 							}
+						end,
+						callback = function()
+							Handy.EXT.Multiplayer.send_action_setEnabled()
 						end,
 					},
 
@@ -1283,7 +1286,7 @@ l({
 								if not lobby or G.STAGE == G.STAGES.RUN then
 									return
 								end
-								Handy.EXT.Multiplayer.send_action_setEnabled(v)
+								lobby.handy_mp_extension_local_player_enabled = v
 							end,
 						})
 					end,
@@ -1294,24 +1297,28 @@ l({
 					get_module = function()
 						return setmetatable({}, {
 							__index = function(t, k)
-								if G.STAGE == G.STAGES.RUN then
-									return Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", 1)
-								end
-								local lobby = Handy.get_mp_lobby()
-								return lobby and lobby.config and lobby.config.handy_speed_multiplier_mode or 1
+								local r = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
+									default_value = 1,
+									force = true,
+									bypass_active = G.STAGE == G.STAGES.MAIN_MENU,
+								})
+								return r
 							end,
 							__newindex = function(t, k, v)
 								local lobby = Handy.get_mp_lobby()
-								if not lobby or G.STAGE == G.STAGES.RUN then
+								if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
 									return
 								end
 								(lobby.config or {}).handy_speed_multiplier_mode = v
-								MP.ACTIONS.lobby_options()
 							end,
 						})
 					end,
 					option_cycle = {
 						get_values = function()
+							local _, is_forced = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
+								default_value = 1,
+								force = true,
+							})
 							return {
 								options = {
 									"1x",
@@ -1325,8 +1332,11 @@ l({
 									"256x",
 									"512x",
 								},
-								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+								disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
 							}
+						end,
+						callback = function()
+							MP.ACTIONS.lobby_options()
 						end,
 						colour = G.C.CHIPS,
 					},
@@ -1337,24 +1347,28 @@ l({
 					get_module = function()
 						return setmetatable({}, {
 							__index = function(t, k)
-								if G.STAGE == G.STAGES.RUN then
-									return Handy.get_mp_lobby_config_value("handy_animation_skip_mode", 1)
-								end
-								local lobby = Handy.get_mp_lobby()
-								return lobby and lobby.config and lobby.config.handy_animation_skip_mode or 1
+								local r = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
+									force = true,
+									default_value = 1,
+									bypass_active = G.STAGE == G.STAGES.MAIN_MENU,
+								})
+								return r
 							end,
 							__newindex = function(t, k, v)
 								local lobby = Handy.get_mp_lobby()
-								if not lobby or G.STAGE == G.STAGES.RUN then
+								if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
 									return
 								end
 								(lobby.config or {}).handy_animation_skip_mode = v
-								MP.ACTIONS.lobby_options()
 							end,
 						})
 					end,
 					option_cycle = {
 						get_values = function()
+							local _, is_forced = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
+								default_value = 1,
+								force = true,
+							})
 							return {
 								options = {
 									Handy.L.dictionary("handy_animation_skip_levels", 1),
@@ -1362,8 +1376,11 @@ l({
 									Handy.L.dictionary("handy_animation_skip_levels", 3),
 									Handy.L.dictionary("handy_animation_skip_levels", 4),
 								},
-								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+								disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
 							}
+						end,
+						callback = function()
+							MP.ACTIONS.lobby_options()
 						end,
 						colour = G.C.ORANGE,
 					},
@@ -1373,32 +1390,39 @@ l({
 					get_module = function()
 						return setmetatable({}, {
 							__index = function(t, k)
-								if G.STAGE == G.STAGES.RUN then
-									return Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", 1)
-								end
-								local lobby = Handy.get_mp_lobby()
-								return lobby and lobby.config and lobby.config.handy_dangerous_actions_mode or 1
+								local r = Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", {
+									force = true,
+									default_value = 1,
+									bypass_active = G.STAGE == G.STAGES.MAIN_MENU,
+								})
+								return r
 							end,
 							__newindex = function(t, k, v)
 								local lobby = Handy.get_mp_lobby()
-								if not lobby or G.STAGE == G.STAGES.RUN then
+								if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
 									return
 								end
 								(lobby.config or {}).handy_dangerous_actions_mode = v
-								MP.ACTIONS.lobby_options()
 							end,
 						})
 					end,
 					option_cycle = {
 						get_values = function()
+							local _, is_forced = Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", {
+								default_value = 1,
+								force = true,
+							})
 							return {
 								options = {
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 1),
 									Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
 									-- Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
 								},
-								disabled = not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+								disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
 							}
+						end,
+						callback = function()
+							MP.ACTIONS.lobby_options()
 						end,
 						colour = G.C.MULT,
 					},

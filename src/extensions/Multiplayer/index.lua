@@ -20,12 +20,12 @@ function Handy.EXT.Multiplayer.process_action_setLobbyEnabled(enabled)
 
 	Handy.UI.rerender(true)
 end
-function Handy.EXT.Multiplayer.send_action_setEnabled(enabled)
+function Handy.EXT.Multiplayer.send_action_setEnabled()
 	if not MP.LOBBY then
 		return
 	end
 
-	MP.LOBBY.handy_mp_extension_local_player_enabled = enabled
+	local enabled = MP.LOBBY.handy_mp_extension_local_player_enabled
 
 	Client.send({
 		action = enabled and "handyMPExtensionEnable" or "handyMPExtensionDisable",
@@ -34,9 +34,9 @@ function Handy.EXT.Multiplayer.send_action_setEnabled(enabled)
 	Handy.UI.rerender(true)
 end
 function Handy.EXT.Multiplayer.set_local_enabled()
-	Handy.EXT.Multiplayer.send_action_setEnabled(
+	MP.LOBBY.handy_mp_extension_local_player_enabled =
 		Handy.controls.is_module_enabled(Handy.cc.mp_extension_enabled_default_value)
-	)
+	Handy.EXT.Multiplayer.send_action_setEnabled()
 end
 
 Handy.e_mitter.on("game_start", function()
@@ -54,11 +54,16 @@ Handy.e_mitter.on("game_start", function()
 		MP.LOBBY.handy_mp_extension_all_players_enabled = false
 		MP.LOBBY.handy_mp_extension_local_player_enabled = false
 
+		-- TODO: make this system more versatile
 		MP.LOBBY.config.handy_mp_extension = true
 		MP.LOBBY.config.handy_allow_mp_extension = true
+
 		MP.LOBBY.config.handy_speed_multiplier_mode = 1
+		MP.LOBBY.config.handy_speed_multiplier_mode_force = nil
 		MP.LOBBY.config.handy_animation_skip_mode = 1
+		MP.LOBBY.config.handy_animation_skip_mode_force = nil
 		MP.LOBBY.config.handy_dangerous_actions_mode = 1
+		MP.LOBBY.config.handy_dangerous_actions_mode_force = nil
 
 		if Handy.controls.is_module_enabled(Handy.cc.mp_extension_speed_multiplier_mode_default_value) then
 			MP.LOBBY.config.handy_speed_multiplier_mode =

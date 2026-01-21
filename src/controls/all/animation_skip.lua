@@ -63,7 +63,7 @@ Handy.animation_skip = {
 		if
 			Handy.animation_skip.temp_disabled
 			or not Handy.b_is_mod_active()
-			or Handy.mp_check(Handy.animation_skip.is_disabled_by_mp)
+			or Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 		then
 			return 1
@@ -75,9 +75,11 @@ Handy.animation_skip = {
 		if not Handy.animation_skip.can_dangerous() then
 			max_value = 4
 		end
-		local mp_value = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", nil)
+		local mp_value = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
+			force = true,
+		})
 		if mp_value then
-			max_value = math.min(mp_value, max_value)
+			max_value = math.max(1, math.min(mp_value, max_value))
 		end
 		if Handy.animation_skip.value > max_value then
 			Handy.animation_skip.value = max_value
@@ -115,7 +117,7 @@ Handy.animation_skip = {
 
 		Handy.UI.state_panel.display(function(state)
 			local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
-			local mp_check = Handy.mp_check(Handy.animation_skip.is_disabled_by_mp)
+			local mp_check = Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
 			end

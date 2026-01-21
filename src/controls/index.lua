@@ -97,7 +97,7 @@ function Handy.controls.default_can_execute(item, context, args)
 		return false
 	end
 	-- MP check
-	if not args.allow_mp and item.no_mp and Handy.mp_check(item.no_mp) then
+	if not args.allow_mp and item.no_mp and Handy.disabled_in_mp_check(item.no_mp) then
 		return false
 	end
 	-- Dangerous keybind check

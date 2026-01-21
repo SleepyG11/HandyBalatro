@@ -54,19 +54,28 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 	local opacity = false
 
 	local module = item:get_module()
+	local oc_values = item.checkbox.get_values and item.checkbox:get_values() or {}
+	local disabled = oc_values.disabled
 	-- If checkbox in advanced mode, display if we are in advanced more or module is not enabled
 	-- So user can enable it without toggling advanced mode
 	if item.checkbox.advanced and not (Handy.cc.advanced_mode.enabled or not module.enabled) then
 		opacity = true
+		disabled = true
 	end
 
 	local check = Sprite(0, 0, 0.2, 0.2, G.ASSET_ATLAS["icons"], { x = 1, y = 0 })
 	check.states.drag.can = false
 	check.states.visible = module.enabled
 
-	local opacity_mod = opacity and 0.1 or 1
-
+	local opacity_mod = 1
+	if disabled then
+		opacity_mod = 0.25
+	end
 	if opacity then
+		opacity_mod = 0.1
+	end
+
+	if opacity_mod ~= 1 then
 		local old_draw = check.draw
 		function check:draw(...)
 			old_draw(self, { 1, 1, 1, opacity_mod })
@@ -106,11 +115,10 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 								inactive_colour = adjust_alpha(G.C.BLACK, opacity_mod),
 							},
 							colour = adjust_alpha(module.enabled and G.C.MULT or G.C.BLACK, opacity_mod),
-							button = not opacity and "toggle_button" or nil,
-							button_dist = not opacity and 0.2 or nil,
+							button = not disabled and "toggle_button" or nil,
+							button_dist = not disabled and 0.2 or nil,
 							hover = true,
 							toggle_callback = function(b)
-								module.enabled = b
 								Handy.config.request_save()
 								if item.checkbox.callback then
 									item.checkbox.callback(b)
@@ -335,7 +343,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 		focus_args = { nav = "wide" },
 		ref_table = oc_values.ref_table or module,
 		ref_value = oc_values.ref_value or "value",
-		handy_callback = oc_values.callback,
+		handy_callback = item_oc.callback,
 		disabled = oc_values.disabled,
 	}
 	args.current_option = oc_values.current_option or args.ref_table[args.ref_value]
@@ -1082,7 +1090,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 					end
 				end
 
-				if item.no_mp and Handy.mp_check(item.no_mp) then
+				if item.no_mp and Handy.disabled_in_mp_check(item.no_mp) then
 					local lines_col = Handy.L.description("Handy_Other", "cant_use_in_mp", {
 						align = "cm",
 					})
@@ -1146,7 +1154,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e = old_e
 	end
 
-	local is_mp_fail = item.no_mp and Handy.mp_check(item.no_mp)
+	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
 	local is_gamepad_failed = item.no_gamepad and Handy.controller.is_gamepad()
 	local is_fail = is_mp_fail or is_gamepad_failed or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
