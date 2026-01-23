@@ -101,8 +101,8 @@ Handy.controls.register("hand_selection_deselect_hand", {
 	no_stop_use = true,
 
 	can_execute = function(self, context)
-		local preview_area = Handy.UI.data.hand_selection_preview_area
-		if preview_area and not preview_area.REMOVED then
+		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
+		if preview_area then
 			return preview_area.highlighted[1]
 				and Handy.controls.default_can_execute(self, context, {
 					allow_not_in_run = true,
@@ -123,11 +123,7 @@ Handy.controls.register("hand_selection_deselect_hand", {
 	end,
 	execute = function(self, context)
 		-- local area = G.handy_config_storage.insta_highlight_area or G.hand
-		local area = G.hand
-		local preview_area = Handy.UI.data.hand_selection_preview_area
-		if preview_area and not preview_area.REMOVED then
-			area = preview_area
-		end
+		local area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area) or G.hand
 		area:unhighlight_all()
 		return true
 	end,
@@ -146,8 +142,8 @@ Handy.controls.register("hand_selection_entire_f_hand", {
 	no_stop_use = true,
 
 	can_execute = function(self, context)
-		local preview_area = Handy.UI.data.hand_selection_preview_area
-		if preview_area and not preview_area.REMOVED then
+		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
+		if preview_area then
 			return Handy.controls.default_can_execute(self, context, {
 				allow_not_in_run = true,
 				allow_stop_use = true,
@@ -160,11 +156,7 @@ Handy.controls.register("hand_selection_entire_f_hand", {
 			and Handy.controls.default_can_execute(self, context)
 	end,
 	execute = function(self, context)
-		local area = G.hand
-		local preview_area = Handy.UI.data.hand_selection_preview_area
-		if preview_area and not preview_area.REMOVED then
-			area = preview_area
-		end
+		local area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area) or G.hand
 		area:unhighlight_all()
 		local cards_count = math.min(area.config.highlighted_limit, #area.cards)
 		for i = 1, cards_count do

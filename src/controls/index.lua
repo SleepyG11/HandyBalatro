@@ -30,7 +30,7 @@ function Handy.controls.is_module_keys_activated(module, args)
 		local is_triggered = true
 		local keys_to_trigger = 0
 		for _, key in ipairs(t) do
-			if key and key ~= "None" then
+			if key ~= "None" then
 				key = Handy.keys_aliases[key] or key
 				keys_to_trigger = keys_to_trigger + 1
 				if not check_context or (context.released and pre_release) or key == context.key then
@@ -118,57 +118,60 @@ function Handy.controls.default_can_execute(item, context, args)
 	local module, deps = item:get_module()
 	module = Handy.m(module)
 
-	if module then
-		-- Enabled state
-		if not args.allow_disabled and not item.allow_disabled then
-			if not module.enabled then
-				return false
-			end
-			deps = deps or {}
-			for _, dep in ipairs(deps) do
-				if not Handy.controls.is_module_enabled(dep) then
-					return false
-				end
-				if
-					not args.no_keybinds
-					and deps.with_keybinds
-					and not Handy.controls.is_module_keys_activated(dep, {
-						check_context = false,
-						context = context,
-						blacklist = item.keys_blacklist,
-					})
-				then
-					return false
-				end
-			end
-		end
-		if context.input_context then
-			-- Proper trigger mode
-			if item.trigger then
-				if
-					(item.trigger == "press" and context.released)
-					or (item.trigger == "release" and not context.released)
-					or (item.trigger == "trigger" and not context.triggered)
-				then
-					return false
-				end
-			end
-		end
-		if
-			not args.no_keybinds
-			and not Handy.controls.is_module_keys_activated(module, {
-				check_context = context.input_context,
-				context = context,
-				blacklist = item.keys_blacklist,
-				exact_keys = item.require_exact_keys,
-				pre_release = item.pre_release_keys,
-			})
-		then
-			return false
-		end
-	else
+	if not module then
 		return false
 	end
+
+	-- Enabled state
+	if not args.allow_disabled and not item.allow_disabled then
+		if not module.enabled then
+			return false
+		end
+		deps = deps or {}
+		for _, dep in ipairs(deps) do
+			if not Handy.controls.is_module_enabled(dep) then
+				return false
+			end
+			if
+				not args.no_keybinds
+				and deps.with_keybinds
+				and not Handy.controls.is_module_keys_activated(dep, {
+					check_context = false,
+					context = context,
+					blacklist = dep.keys_blacklist,
+				})
+			then
+				return false
+			end
+		end
+	end
+
+	if context.input_context then
+		-- Proper trigger mode
+		if item.trigger then
+			if
+				(item.trigger == "press" and context.released)
+				or (item.trigger == "release" and not context.released)
+				or (item.trigger == "trigger" and not context.triggered)
+			then
+				return false
+			end
+		end
+	end
+
+	if
+		not args.no_keybinds
+		and not Handy.controls.is_module_keys_activated(module, {
+			check_context = context.input_context,
+			context = context,
+			blacklist = item.keys_blacklist,
+			exact_keys = item.require_exact_keys,
+			pre_release = item.pre_release_keys,
+		})
+	then
+		return false
+	end
+
 	return true
 end
 
@@ -189,18 +192,6 @@ function Handy.controls.execute(item, context)
 end
 
 --
-
-function Handy.controls.get_stack(context)
-	if context.input_context then
-		return Handy.controls.stacks[context.type] or {}
-	end
-	if context.card_context then
-		return Handy.controls.stacks["card_" .. context.type] or {}
-	end
-	if context.tag_context then
-		return Handy.controls.stacks["tag_" .. context.type] or {}
-	end
-end
 
 function Handy.controls.call_stack(context, stack)
 	stack = stack or Handy.controls.get_stack(context)

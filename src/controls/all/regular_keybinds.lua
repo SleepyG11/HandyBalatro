@@ -656,39 +656,6 @@ Handy.controls.register("regular_keybinds_mod_settings", {
 	end,
 })
 
-Handy.e_mitter.on("update", function(dt)
-	if
-		(G.CONTROLLER.locked and not G.SETTINGS.paused)
-		or G.CONTROLLER.locks.frame
-		or G.CONTROLLER.frame_buttonpress
-	then
-		return
-	end
-	if
-		Handy.b_is_mod_active()
-		and not Handy.b_is_in_multiplayer()
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_restart)
-		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_restart, {
-			check_context = false,
-			exact_keys = true,
-			hold_duration = 0.7,
-		})
-	then
-		if not Handy.regular_keybinds.restart_lock and Handy.b_is_in_run() then
-			Handy.regular_keybinds.restart_lock = true
-			local old_hold_value = G.CONTROLLER.held_key_times.r
-			G.CONTROLLER.held_key_times.r = 999
-			Handy.regular_keybinds.bypass_restart = true
-			G.CONTROLLER:key_hold_update("r", 0)
-			Handy.regular_keybinds.bypass_restart = nil
-			G.CONTROLLER.held_key_times.r = old_hold_value
-		end
-	else
-		Handy.regular_keybinds.restart_lock = nil
-	end
-end)
-
 Handy.controls.register("regular_keybinds_quick_restart", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
@@ -855,19 +822,6 @@ Handy.controls.register("regular_keybinds_start_fantoms_preview", {
 
 --
 
-Handy.e_mitter.on("update", function(dt)
-	if Handy.b_is_mod_active() then
-		Handy.regular_keybinds.show_deck_preview_hold = Handy.b_is_in_run()
-			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
-			and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_show_deck_preview)
-	else
-		Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
-	end
-end)
-
---
-
 Handy.controls.register("regular_keybinds_skip_booster", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_skip_booster, { Handy.cc.regular_keybinds }
@@ -911,44 +865,6 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 		return true
 	end,
 })
-Handy.e_mitter.on("update", function(dt)
-	if
-		not Handy.controller.binding.current
-		and not Handy.regular_keybinds.booster_pack_skipped
-		and Handy.b_is_mod_active()
-		and Handy.b_is_in_run()
-		and not Handy.b_is_stop_use()
-		and not Handy.controller.dp.b_is_console_opened()
-		and G.booster_pack
-		and G.pack_cards
-		and G.pack_cards.cards
-		and G.pack_cards.cards[1]
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_skip_booster)
-		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_skip_booster)
-		and Handy.fake_events.check({
-			func = G.FUNCS.can_skip_booster,
-		})
-	then
-		Handy.regular_keybinds.booster_pack_skipped = true
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						Handy.fake_events.execute({
-							func = G.FUNCS.skip_booster,
-						})
-						return true
-					end,
-				}))
-				return true
-			end,
-		}))
-	end
-end)
-
---
-
 Handy.controls.register("regular_keybinds_cash_out", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
@@ -985,39 +901,6 @@ Handy.controls.register("regular_keybinds_cash_out", {
 		return true
 	end,
 })
-Handy.e_mitter.on("update", function(dt)
-	if
-		not Handy.controller.binding.current
-		and Handy.regular_keybinds.can_skip_cashout
-		and not Handy.regular_keybinds.cashout_skipped
-		and G.STATE == G.STATES.ROUND_EVAL
-		and not G.TAROT_INTERRUPT
-		and not G.PACK_INTERRUPT
-		and G.round_eval
-		and Handy.b_is_mod_active()
-		and Handy.b_is_in_run()
-		and not Handy.controller.dp.b_is_console_opened()
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_cash_out)
-		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_cash_out)
-	then
-		Handy.regular_keybinds.cashout_skipped = true
-
-		G.E_MANAGER:add_event(Event({
-			trigger = "immediate",
-			func = function()
-				Handy.fake_events.execute({
-					func = G.FUNCS.cash_out,
-					id = "cash_out_button",
-				})
-				return true
-			end,
-		}))
-	end
-end)
-
---
-
 Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }
@@ -1050,27 +933,106 @@ Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 		return true
 	end,
 })
+
+--
+
 Handy.e_mitter.on("update", function(dt)
-	if
-		not Handy.controller.binding.current
-		and G.FUNCS.njy_endround
-		and Handy.b_is_mod_active()
-		and Handy.b_is_in_run()
-		and not Handy.b_is_stop_use()
-		and not Handy.controller.dp.b_is_console_opened()
-		and G.STATE == G.STATES.SELECTING_HAND
-		and G.buttons
-		and G.buttons.states.visible
-		and G.GAME.chips
-		and G.GAME.blind
-		and G.GAME.blind.chips
-		and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
+	if Handy.controller.binding.current then
+		return
+	end
+	if not Handy.b_is_mod_active() or Handy.controller.dp.b_is_console_opened() then
+		Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
+		return
+	end
+
+	-- deck preview
+	Handy.regular_keybinds.show_deck_preview_hold = Handy.b_is_in_run()
 		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
-		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_not_just_yet_interaction)
-		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_not_just_yet_interaction)
+		and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
+		and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_show_deck_preview)
+
+	-- restart
+	if
+		not (
+			(G.CONTROLLER.locked and not G.SETTINGS.paused)
+			or G.CONTROLLER.locks.frame
+			or G.CONTROLLER.frame_buttonpress
+		)
 	then
-		stop_use()
-		G.STATE = G.STATES.NEW_ROUND
-		end_round()
+		if
+			not Handy.b_is_in_multiplayer()
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_restart)
+			and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_restart, {
+				check_context = false,
+				exact_keys = true,
+				hold_duration = 0.7,
+			})
+		then
+			if not Handy.regular_keybinds.restart_lock and Handy.b_is_in_run() then
+				Handy.regular_keybinds.restart_lock = true
+				local old_hold_value = G.CONTROLLER.held_key_times.r
+				G.CONTROLLER.held_key_times.r = 999
+				Handy.regular_keybinds.bypass_restart = true
+				G.CONTROLLER:key_hold_update("r", 0)
+				Handy.regular_keybinds.bypass_restart = nil
+				G.CONTROLLER.held_key_times.r = old_hold_value
+			end
+		else
+			Handy.regular_keybinds.restart_lock = nil
+		end
+	end
+
+	if Handy.b_is_in_run() then
+		if not Handy.b_is_stop_use() then
+			-- booster skip
+			if
+				not Handy.regular_keybinds.booster_pack_skipped
+				and G.booster_pack
+				and G.pack_cards
+				and G.pack_cards.cards
+				and G.pack_cards.cards[1]
+				and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+				and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_skip_booster)
+				and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_skip_booster)
+				and Handy.fake_events.check({
+					func = G.FUNCS.can_skip_booster,
+				})
+			then
+				Handy.controls.dictionary.regular_keybinds_skip_booster:execute()
+			end
+
+			-- not just yet
+			if
+				G.FUNCS.njy_endround
+				and G.STATE == G.STATES.SELECTING_HAND
+				and G.buttons
+				and G.buttons.states.visible
+				and G.GAME.chips
+				and G.GAME.blind
+				and G.GAME.blind.chips
+				and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
+				and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+				and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_not_just_yet_interaction)
+				and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_not_just_yet_interaction)
+			then
+				Handy.controls.dictionary.regular_keybinds_not_just_yet_interaction:execute()
+			end
+		end
+
+		-- cash out
+		if
+			Handy.regular_keybinds.can_skip_cashout
+			and not Handy.regular_keybinds.cashout_skipped
+			and G.STATE == G.STATES.ROUND_EVAL
+			and not G.TAROT_INTERRUPT
+			and not G.PACK_INTERRUPT
+			and G.round_eval
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_cash_out)
+			and Handy.controls.is_module_keys_activated(Handy.cc.regular_keybinds_cash_out)
+		then
+			Handy.controls.dictionary.regular_keybinds_cash_out:execute()
+		end
 	end
 end)

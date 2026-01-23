@@ -91,3 +91,7 @@ function Handy.utils.print_moveables_list()
 		end
 	end
 end
+
+function Handy.utils.alive_element(area)
+	return area and not area.REMOVED and area or nil
+end

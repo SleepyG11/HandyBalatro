@@ -98,9 +98,7 @@ Handy.dangerous_actions = {
 		Handy.dangerous_actions.sell_next_card_in_preview_queue()
 	end,
 	sell_next_card = function()
-		if
-			Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
-		then
+		if Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area) then
 			Handy.dangerous_actions.sell_next_card_in_preview_queue()
 		else
 			Handy.dangerous_actions.sell_next_card_in_queue()
@@ -168,8 +166,7 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute = function(item, context)
-		local is_preview = Handy.UI.data.dangerous_actions_preview_area
-			and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
+		local is_preview = Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area)
 		if
 			not Handy.controls.default_can_execute(item, context, {
 				allow_mod_inactive = is_preview,
@@ -227,11 +224,8 @@ Handy.dangerous_actions = {
 		end
 	end,
 	execute_tag = function(tag, remove, all_same, all)
-		local tags_list = (
-			Handy.UI.data.dangerous_actions_preview_tags
-			and not Handy.UI.data.dangerous_actions_preview_tags.REMOVED
-			and Handy.UI.data.dangerous_actions_preview_tags.tags
-		) or G.GAME.tags
+		local tags_list = (Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_tags) or {}).tags
+			or G.GAME.tags
 		Handy.controller.prevent_default()
 		if all then
 			for _, target_tag in ipairs(tags_list) do
@@ -252,14 +246,6 @@ Handy.dangerous_actions = {
 			Handy.dangerous_actions.process_tag(tag, true)
 			return true
 		end
-	end,
-
-	use = function(key, released)
-		if released or not Handy.controller.is_gamepad() then
-			return false
-		end
-		return Handy.dangerous_actions.can_execute(Handy.last_hovered_card)
-			and Handy.dangerous_actions.execute(key, Handy.last_hovered_card)
 	end,
 
 	show_notif = function(item, state, context, executed, key)
@@ -291,7 +277,7 @@ Handy.e_mitter.on("update_state_panel", function(context)
 		local holded = nil
 		local append_queue = false
 		if
-			(Handy.UI.data.dangerous_actions_preview_area and not Handy.UI.data.dangerous_actions_preview_area.REMOVED)
+			Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area)
 			or (Handy.b_is_mod_active() and Handy.b_is_dangerous_actions_active() and Handy.b_is_in_run())
 		then
 			if not Handy.controller.binding.current then
@@ -332,10 +318,7 @@ Handy.e_mitter.on("update_state_panel", function(context)
 				return true
 			else
 				local text = Handy.L.dictionary("ph_handy_" .. holded.key)
-				local queue = (
-					Handy.UI.data.dangerous_actions_preview_area
-					and not Handy.UI.data.dangerous_actions_preview_area.REMOVED
-				)
+				local queue = Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area)
 						and Handy.dangerous_actions.preview_sell_queue
 					or Handy.dangerous_actions.sell_queue
 

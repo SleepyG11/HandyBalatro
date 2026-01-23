@@ -404,7 +404,17 @@ Handy.controls.stacks = {
 	},
 }
 
--- TODO: gamepad
+function Handy.controls.get_stack(context)
+	if context.input_context then
+		return Handy.controls.stacks[context.type] or {}
+	end
+	if context.card_context then
+		return Handy.controls.stacks["card_" .. context.type] or {}
+	end
+	if context.tag_context then
+		return Handy.controls.stacks["tag_" .. context.type] or {}
+	end
+end
 
 Handy.load_files({
 	"speed_multiplier.lua",

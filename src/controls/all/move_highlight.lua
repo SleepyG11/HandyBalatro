@@ -29,7 +29,7 @@ Handy.move_highlight = {
 	end,
 
 	get_area = function()
-		if Handy.UI.data.move_highlight_preview_area and not Handy.UI.data.move_highlight_preview_area.REMOVED then
+		if Handy.utils.alive_element(Handy.UI.data.move_highlight_preview_area) then
 			return Handy.UI.data.move_highlight_preview_area
 		end
 		local card_context = Handy.controller.get_card_context()
