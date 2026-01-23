@@ -4,6 +4,8 @@ function Handy.UI.hand_selection_page_definition()
 		hand_H = 0.95 * G.CARD_H,
 	}
 
+	local drag_alerted = false
+
 	local hand_area = Handy.UI.utils.card_area({
 		w = CAI.hand_W,
 		h = CAI.hand_H,
@@ -31,6 +33,33 @@ function Handy.UI.hand_selection_page_definition()
 					{ bypass_discovery_center = true, bypass_discovery_ui = true }
 				)
 				card1.handy_insta_highlight_preview = true
+				local old_drag = card1.drag
+				function card1:drag(...)
+					old_drag(self, ...)
+					if not drag_alerted then
+						drag_alerted = true
+						Handy.UI.CHAR.set_sprite_pos("me", "angry")
+						Handy.UI.CHAR.jump("me")
+						delay(0.1, "handy_chars")
+						Handy.UI.CHAR.set_sprite_pos("me", "default", true)
+					end
+				end
+				local old_stop_drag = card1.stop_drag
+				function card1:stop_drag(...)
+					old_stop_drag(self, ...)
+					G.E_MANAGER:add_event(
+						Event({
+							trigger = "after",
+							delay = 0.25,
+							blocking = false,
+							func = function()
+								drag_alerted = false
+								return true
+							end,
+						}),
+						"handy_chars"
+					)
+				end
 				area:emplace(card1)
 			end
 		end,

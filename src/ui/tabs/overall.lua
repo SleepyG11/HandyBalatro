@@ -239,8 +239,11 @@ G.FUNCS.handy_overall_toggle_mod = function(e)
 	if Handy.cc.handy.enabled then
 		e.config.colour = G.C.CHIPS
 		e.children[1].config.ref_table.text = Handy.L.dictionary("handy_mod_enabled")
+		G.E_MANAGER:clear_queue("handy_chars")
 		Handy.UI.CHAR.set_sprite_pos("me", "happy")
 		Handy.UI.CHAR.jump("me")
+		delay(0.2, "handy_chars")
+		Handy.UI.CHAR.set_sprite_pos("me", "default", true)
 	else
 		e.config.colour = G.C.MULT
 		e.children[1].config.ref_table.text = Handy.L.dictionary("handy_mod_disabled")

@@ -250,13 +250,13 @@ function Handy.UI.presets_tab_UIBox()
 end
 
 function Handy.UI.presets_tab()
-    return {
-        n = G.UIT.ROOT,
-        config = { colour = G.C.CLEAR },
-        nodes = {
-            Handy.UI.presets_tab_UIBox()
-        }
-    }
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			Handy.UI.presets_tab_UIBox(),
+		},
+	}
 end
 
 --
@@ -310,6 +310,14 @@ G.FUNCS.handy_apply_preset_key = function(e)
 		}
 		return true
 	end)
+
+	if key == "better_mouse_and_gamepad" then
+		G.E_MANAGER:clear_queue("handy_chars")
+		Handy.UI.CHAR.set_sprite_pos("me", "happy")
+		Handy.UI.CHAR.jump("me")
+		delay(0.2, "handy_chars")
+		Handy.UI.CHAR.set_sprite_pos("me", "default", true)
+	end
 end
 
 G.FUNCS.handy_can_load_preset_index = function(e)

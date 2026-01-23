@@ -242,7 +242,7 @@ function Handy.UI.CHAR.remove(key)
 	end
 end
 
-function Handy.UI.CHAR.set_position(key, new_offset)
+function Handy.UI.CHAR.set_position(key, new_offset, with_delay)
 	local v = Handy.UI.CHAR.current[key]
 	if not v or not v.sprite_box then
 		return
@@ -251,8 +251,25 @@ function Handy.UI.CHAR.set_position(key, new_offset)
 	local offset = v.char.offset[new_offset] or { x = 0, y = 0 }
 	v.args.offset = new_offset
 
-	v.sprite_box.alignment.offset.x = offset.x or 0
-	v.sprite_box.alignment.offset.y = offset.y or 0
+	if with_delay then
+		G.E_MANAGER:add_event(
+			Event({
+				blocking = false,
+				pause_force = true,
+				func = function()
+					if v.sprite_box then
+						v.sprite_box.alignment.offset.x = offset.x or 0
+						v.sprite_box.alignment.offset.y = offset.y or 0
+					end
+					return true
+				end,
+			}),
+			"handy_chars"
+		)
+	else
+		v.sprite_box.alignment.offset.x = offset.x or 0
+		v.sprite_box.alignment.offset.y = offset.y or 0
+	end
 end
 function Handy.UI.CHAR.ease_position(key, new_offset, duration)
 	local v = Handy.UI.CHAR.current[key]
@@ -295,7 +312,7 @@ function Handy.UI.CHAR.ease_position(key, new_offset, duration)
 		"handy_chars"
 	)
 end
-function Handy.UI.CHAR.set_sprite_pos(key, new_pos)
+function Handy.UI.CHAR.set_sprite_pos(key, new_pos, with_delay)
 	local v = Handy.UI.CHAR.current[key]
 	if not v or not v.sprite then
 		return
@@ -303,7 +320,23 @@ function Handy.UI.CHAR.set_sprite_pos(key, new_pos)
 
 	local pos = v.char.pos[new_pos] or { x = 0, y = 0 }
 	v.args.pos = new_pos
-	v.sprite:set_sprite_pos(pos)
+	if with_delay then
+		G.E_MANAGER:add_event(
+			Event({
+				blocking = false,
+				pause_force = true,
+				func = function()
+					if v.sprite then
+						v.sprite:set_sprite_pos(pos)
+					end
+					return true
+				end,
+			}),
+			"handy_chars"
+		)
+	else
+		v.sprite:set_sprite_pos(pos)
+	end
 end
 
 function Handy.UI.CHAR.jump(key)
@@ -321,6 +354,7 @@ function Handy.UI.CHAR.jump(key)
 			ease_to = start_value - 0.2,
 			delay = 0.06,
 			pause_force = true,
+			no_delete = true,
 			func = function(t)
 				return t
 			end,
@@ -335,6 +369,7 @@ function Handy.UI.CHAR.jump(key)
 			ease_to = start_value,
 			delay = 0.075,
 			pause_force = true,
+			no_delete = true,
 			func = function(t)
 				return t
 			end,
@@ -346,7 +381,6 @@ function Handy.UI.CHAR.hide(key)
 	G.E_MANAGER:add_event(
 		Event({
 			blocking = false,
-			no_delete = true,
 			pause_force = true,
 			func = function()
 				Handy.UI.CHAR.toggle_scissors(key, true)
@@ -361,7 +395,6 @@ function Handy.UI.CHAR.show(key)
 	Handy.UI.CHAR.ease_position(key, "visible")
 	G.E_MANAGER:add_event(
 		Event({
-			no_delete = true,
 			pause_force = true,
 			blocking = false,
 			func = function()
@@ -390,7 +423,6 @@ function create_UIBox_game_over(...)
 			pause_force = true,
 			blocking = false,
 			blockable = false,
-			no_delete = true,
 			func = function()
 				Handy.UI.CHAR.emplace({
 					key = "game_over_me",
@@ -421,7 +453,6 @@ function create_UIBox_win(...)
 			pause_force = true,
 			blocking = false,
 			blockable = false,
-			no_delete = true,
 			func = function()
 				Handy.UI.CHAR.emplace({
 					key = "game_over_me",
