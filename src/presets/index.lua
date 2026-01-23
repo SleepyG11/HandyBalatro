@@ -66,6 +66,11 @@ function Handy.presets.apply(preset, no_save_config, no_change_selected)
 	-- Displaying option cycle in settings
 	config_to_apply.speed_multiplier_settings_toggle = nil
 	config_to_apply.animation_skip_settings_toggle = nil
+	-- Keep MP extension
+	config_to_apply.mp_extension_enabled_default_value = nil
+	config_to_apply.mp_extension_speed_multiplier_mode_default_value = nil
+	config_to_apply.mp_extension_animation_skip_mode_default_value = nil
+	config_to_apply.mp_extension_dangerous_actions_mode_default_value = nil
 	-- Bad idea
 	config_to_apply.__empty = nil
 

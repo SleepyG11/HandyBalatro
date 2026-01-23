@@ -223,7 +223,15 @@ l({
 			end,
 
 			loc_vars = function()
-				return { vars = { Handy.L.with_brackets(Handy.L.keys("Right Mouse"), true) } }
+				return {
+					vars = {
+						Handy.L.with_brackets(Handy.L.keys("Right Mouse"), true),
+						Handy.L.with_brackets(
+							Handy.L.name_text("Handy_ConfigDictionary", "hand_selection_insta_highlight"),
+							true
+						),
+					},
+				}
 			end,
 		},
 		{
@@ -351,6 +359,14 @@ l({
 			dangerous = true,
 			checkbox = true,
 
+			loc_vars = function()
+				return {
+					vars = {
+						Handy.L.with_brackets(Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier"), true),
+					},
+				}
+			end,
+
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_speed_multiplier_uncap, { Handy.D.dictionary.speed_multiplier }
 			end,
@@ -459,6 +475,15 @@ l({
 			keywords = { "no animations", "dangerous unsafe remove all animations" },
 			checkbox = true,
 			dangerous = true,
+
+			loc_vars = function()
+				return {
+					vars = {
+						Handy.L.with_brackets(Handy.L.name_text("Handy_ConfigDictionary", "animation_skip"), true),
+						Handy.L.dictionary("handy_animation_skip_levels", 5),
+					},
+				}
+			end,
 
 			get_module = function(self)
 				return Handy.cc.dangerous_actions_animation_skip_unsafe, { Handy.D.dictionary.animation_skip }

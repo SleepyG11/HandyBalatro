@@ -119,6 +119,9 @@ return {
 				unlock = {
 					"Act as {C:attention}replacement{} for Vanilla",
 					"{C:chips}#1#{}, works identical",
+					" ",
+					"When shares same keybind with {C:chips}#2#{}",
+					"triggers only when you're {C:attention}not hovering{} a card",
 				},
 			},
 			hand_selection_entire_f_hand = {
@@ -131,13 +134,19 @@ return {
 			},
 
 			animation_skip = {
-				name = "Animation skip",
+				name = "Animation Skip",
 				text = {
 					"Remove scoring and other game animations",
 				},
 				unlock = {
 					"Direct replacement of same feature",
-					"from mods like {C:attention}Saturn{} or {C:attention}Nopeus{}",
+					"from mods like {C:attention}Talisman{}, {C:attention}Saturn{} or {C:attention}Nopeus{}",
+					" ",
+					"Has 4 levels:",
+					"{C:chips}None{} - no changes",
+					"{C:chips}Messages{} - no {C:mult}XMult{}, {C:attention}Again!{} and other trigger messages",
+					"{C:attention}Animations{} - instant scoring",
+					"{C:attention}Everything{} - most animations removed; instant cards draw",
 				},
 			},
 			animation_skip_default_value = {
@@ -165,20 +174,24 @@ return {
 				name = { "Animation Skip: Unsafe" },
 				text = {},
 				unlock = {
-					"Allow to increase Animation Skip to level {C:mult}Unsafe{}",
+					"Allow increase {C:attention}#1#{} to level {C:mult}#2#{}",
 					" ",
 					"{C:mult}Game's absolute limit: everything is instant{}",
 				},
 			},
 
 			speed_multiplier = {
-				name = "Speed multiplier",
+				name = "Speed Multiplier",
 				text = {
 					"Increase game speed",
 				},
 				unlock = {
-					"Game speed can be changed from",
-					"{C:attention}x1/512{} to {C:attention}x512{}",
+					"As name suggests, {C:attention}multiplies{} game speed,",
+					"which means default value is always {C:attention}1x{}",
+					" ",
+					"Starting from {C:attention}128x{}, accelerates",
+					"{C:attention}Event Queue{} to bypass limit",
+					"of 60 actions per second",
 				},
 			},
 			speed_multiplier_default_value = {
@@ -206,7 +219,7 @@ return {
 				name = { "Speed Multiplier: Uncap" },
 				text = {},
 				unlock = {
-					"Increase limit of max Speed Multiplier",
+					"Increases limit of max {C:chips}#1#{}",
 					" ",
 					"{C:mult}Tanks performance on very high values{}",
 				},
@@ -956,7 +969,8 @@ return {
 			Handy_binding_cancel_reason_multiple_no_hold = "Combination cannot contain multiple non-holdable keys",
 			Handy_binding_finished = "Binding finished: #1#",
 			Handy_binding_progress = "Binding: #1#",
-			Handy_binding_esc_hint = "#1# to save",
+			Handy_binding_esc_hint = "Press #1# to save",
+			Handy_binding_guide = "Press keys to add them to combination",
 
 			Handy_reload_run_done = "Run reloaded",
 			Handy_reload_run_nothing_to_load = "No run to reload",
@@ -982,7 +996,7 @@ return {
 
 			handy_preset_name_placeholder = "Preset name",
 
-			b_handy_notif_quick = "Quick actions",
+			b_handy_notif_quick = "Handy actions",
 			b_handy_notif_dangerous = "Dangerous actions",
 
 			b_handy_search_placeholder = "Search...",
