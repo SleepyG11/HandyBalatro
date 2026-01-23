@@ -90,7 +90,7 @@ function Handy.UI.options()
 		offset = "hidden",
 		scissors = true,
 	})
-	delay(0.05)
+	delay(0.05, "handy_chars")
 	Handy.UI.CHAR.show("me")
 	Handy.UI.attach_side_panel()
 	G.OVERLAY_MENU:recalculate()
@@ -141,7 +141,7 @@ Handy.e_mitter.on("steamodded_load", function()
 	G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
 		no_delete = true,
-		force_pause = true,
+		pause_force = true,
 		blocking = false,
 		blockable = false,
 		func = function()

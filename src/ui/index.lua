@@ -20,12 +20,7 @@ end)
 
 function Handy.UI.rerender(silent)
 	if Handy.UI.data.opened then
-		if G.E_MANAGER then
-			if not G.E_MANAGER.queues.handy_config then
-				G.E_MANAGER.queues.handy_config = {}
-			end
-			G.E_MANAGER:clear_queue("handy_config")
-		end
+		G.E_MANAGER:clear_queue("handy_config")
 		Handy.__override_event_queue = nil
 		Handy.__use_gamespeed = nil
 		local result = {
@@ -60,6 +55,7 @@ Handy.load_file("src/ui/state_panel.lua")
 Handy.load_file("src/ui/characters.lua")
 Handy.load_file("src/ui/side_panel.lua")
 Handy.load_file("src/ui/game_settings.lua")
+Handy.load_file("src/ui/tutorial.lua")
 
 Handy.load_files({
 	"dictionary.lua",
@@ -85,12 +81,7 @@ Handy.load_file("src/ui/options.lua")
 function Handy.UI.check_for_cleanup()
 	if (not G.OVERLAY_MENU or not G.OVERLAY_MENU.is_handy_config) and Handy.UI.data.opened then
 		Handy.UI.data = {}
-		if G.E_MANAGER then
-			if not G.E_MANAGER.queues.handy_config then
-				G.E_MANAGER.queues.handy_config = {}
-			end
-			G.E_MANAGER:clear_queue("handy_config")
-		end
+		G.E_MANAGER:clear_queue("handy_config")
 
 		Handy.__override_event_queue = nil
 		Handy.__use_gamespeed = nil

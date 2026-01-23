@@ -41,7 +41,6 @@ Handy.load_file("src/index.lua")
 -- 3. maybe icons for menu buttons?
 -- 4. decide should speed n animations preview work when mod is disabled
 -- 5. keywords (make it better if makes sense)
--- 6. description for animation skip levels
 -- 7. hold implementation for move highlight
 -- 8. fix event stuck in base queue when exiting speed preview
 -- 9. decrease mod load when disabled (specifically input contexts)

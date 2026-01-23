@@ -111,6 +111,10 @@ end)
 local game_start_up_ref = Game.start_up
 function Game:start_up(...)
 	local result = game_start_up_ref(self, ...)
+
+	G.E_MANAGER.queues["handy_config"] = G.E_MANAGER.queues["handy_config"] or {}
+	G.E_MANAGER.queues["handy_chars"] = G.E_MANAGER.queues["handy_chars"] or {}
+
 	Handy.e_mitter.emit("game_start")
 	return result
 end

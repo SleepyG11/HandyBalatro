@@ -210,9 +210,6 @@ end
 --
 
 function Handy.UI.speed_n_animations_page_definition()
-	if not G.E_MANAGER.queues.handy_config then
-		G.E_MANAGER.queues.handy_config = {}
-	end
 	local CAI = {
 		deck_W = G.CARD_W,
 		deck_H = 0.95 * G.CARD_H,
@@ -426,7 +423,7 @@ function G.FUNCS.handy_speed_n_animations_stop_calculation(e, without_cleanup)
 	end
 	if not without_cleanup then
 		G.E_MANAGER:add_event(Event({
-			force_pause = true,
+			pause_force = true,
 			func = function()
 				Handy.__override_event_queue = nil
 				Handy.__use_gamespeed = nil
@@ -445,7 +442,7 @@ function G.FUNCS.handy_speed_n_animations_calculate(e)
 	Handy.__use_gamespeed = true
 	Handy.UI.utils.delay(0.2)
 	G.E_MANAGER:add_event(Event({
-		force_pause = true,
+		pause_force = true,
 		func = function()
 			calculate(d.deck, d.hand, d.jokers)
 			return true

@@ -34,17 +34,11 @@ function Handy.UI.utils.calc_card_pos(self, w, h, k, max_index)
 end
 
 function Handy.UI.utils.card_area(options)
-	local area = CardArea(
-		G.ROOM.T.x + G.ROOM.T.w / 2,
-		G.ROOM.T.h,
-		options.w,
-		options.h,
-		{
-			card_limit = options.card_limit or 5,
-			type = options.type or "hand",
-			highlight_limit = options.highlight_limit or 1,
-		}
-	)
+	local area = CardArea(G.ROOM.T.x + G.ROOM.T.w / 2, G.ROOM.T.h, options.w, options.h, {
+		card_limit = options.card_limit or 5,
+		type = options.type or "hand",
+		highlight_limit = options.highlight_limit or 1,
+	})
 	area.draw = function(self)
 		if not self.states.visible then
 			return
@@ -100,7 +94,6 @@ function Handy.UI.utils.card_area(options)
 	end
 
 	if options.on_create then
-		G.E_MANAGER.queues["handy_config"] = G.E_MANAGER.queues["handy_config"] or {}
 		G.E_MANAGER:add_event(
 			Event({
 				timer = "REAL",

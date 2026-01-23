@@ -58,17 +58,14 @@ local load_atlas = function(asset)
 		py = asset.py,
 	}
 end
--- load_atlas({
--- 	name = "handy_me",
--- 	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/me.png",
--- 	px = 109,
--- 	py = 142,
--- })
+load_atlas({
+	name = "handy_me",
+	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/me.png",
+	px = 109,
+	py = 142,
+})
 
 function Handy.UI.CHAR.emplace(args)
-	if true then
-		return
-	end
 	if not G.OVERLAY_MENU then
 		return
 	end
@@ -265,29 +262,38 @@ function Handy.UI.CHAR.ease_position(key, new_offset, duration)
 
 	local offset = v.char.offset[new_offset] or { x = 0, y = 0 }
 	v.args.offset = new_offset
-	G.E_MANAGER:add_event(Event({
-		trigger = "ease",
-		ease = "quad",
-		ref_table = v.sprite_box.alignment.offset,
-		ref_value = "y",
-		ease_to = offset.y,
-		blocking = false,
-		delay = duration or 0.15,
-		func = function(t)
-			return t
-		end,
-	}))
-	G.E_MANAGER:add_event(Event({
-		trigger = "ease",
-		ease = "quad",
-		ref_table = v.sprite_box.alignment.offset,
-		ref_value = "x",
-		ease_to = offset.x,
-		delay = duration or 0.15,
-		func = function(t)
-			return t
-		end,
-	}))
+
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "ease",
+			ease = "quad",
+			ref_table = v.sprite_box.alignment.offset,
+			ref_value = "y",
+			ease_to = offset.y,
+			blocking = false,
+			delay = duration or 0.15,
+			pause_force = true,
+			func = function(t)
+				return t
+			end,
+		}),
+		"handy_chars"
+	)
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "ease",
+			ease = "quad",
+			ref_table = v.sprite_box.alignment.offset,
+			ref_value = "x",
+			ease_to = offset.x,
+			delay = duration or 0.15,
+			pause_force = true,
+			func = function(t)
+				return t
+			end,
+		}),
+		"handy_chars"
+	)
 end
 function Handy.UI.CHAR.set_sprite_pos(key, new_pos)
 	local v = Handy.UI.CHAR.current[key]
@@ -307,50 +313,64 @@ function Handy.UI.CHAR.jump(key)
 	end
 
 	local start_value = v.sprite_box.alignment.offset.y
-	G.E_MANAGER:add_event(Event({
-		trigger = "ease",
-		ref_table = v.sprite_box.alignment.offset,
-		ref_value = "y",
-		ease_to = start_value - 0.2,
-		delay = 0.06,
-		func = function(t)
-			return t
-		end,
-	}))
-	G.E_MANAGER:add_event(Event({
-		trigger = "ease",
-		ref_table = v.sprite_box.alignment.offset,
-		ref_value = "y",
-		ease_to = start_value,
-		delay = 0.075,
-		func = function(t)
-			return t
-		end,
-	}))
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "ease",
+			ref_table = v.sprite_box.alignment.offset,
+			ref_value = "y",
+			ease_to = start_value - 0.2,
+			delay = 0.06,
+			pause_force = true,
+			func = function(t)
+				return t
+			end,
+		}),
+		"handy_chars"
+	)
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "ease",
+			ref_table = v.sprite_box.alignment.offset,
+			ref_value = "y",
+			ease_to = start_value,
+			delay = 0.075,
+			pause_force = true,
+			func = function(t)
+				return t
+			end,
+		}),
+		"handy_chars"
+	)
 end
 function Handy.UI.CHAR.hide(key)
-	G.E_MANAGER:add_event(Event({
-		blocking = false,
-		no_delete = true,
-		force_pause = true,
-		func = function()
-			Handy.UI.CHAR.toggle_scissors(key, true)
-			return true
-		end,
-	}))
+	G.E_MANAGER:add_event(
+		Event({
+			blocking = false,
+			no_delete = true,
+			pause_force = true,
+			func = function()
+				Handy.UI.CHAR.toggle_scissors(key, true)
+				return true
+			end,
+		}),
+		"handy_chars"
+	)
 	Handy.UI.CHAR.ease_position(key, "hidden")
 end
 function Handy.UI.CHAR.show(key)
 	Handy.UI.CHAR.ease_position(key, "visible")
-	G.E_MANAGER:add_event(Event({
-		no_delete = true,
-		force_pause = true,
-		blocking = false,
-		func = function()
-			Handy.UI.CHAR.toggle_scissors(key, false)
-			return true
-		end,
-	}))
+	G.E_MANAGER:add_event(
+		Event({
+			no_delete = true,
+			pause_force = true,
+			blocking = false,
+			func = function()
+				Handy.UI.CHAR.toggle_scissors(key, false)
+				return true
+			end,
+		}),
+		"handy_chars"
+	)
 end
 
 function Handy.UI.CHAR.toggle_scissors(key, b)
@@ -365,59 +385,65 @@ end
 local old_game_over = create_UIBox_game_over
 function create_UIBox_game_over(...)
 	local ret = old_game_over(...)
-	G.E_MANAGER:add_event(Event({
-		force_pause = true,
-		blocking = false,
-		blockable = false,
-		no_delete = true,
-		func = function()
-			Handy.UI.CHAR.emplace({
-				key = "game_over_me",
+	G.E_MANAGER:add_event(
+		Event({
+			pause_force = true,
+			blocking = false,
+			blockable = false,
+			no_delete = true,
+			func = function()
+				Handy.UI.CHAR.emplace({
+					key = "game_over_me",
 
-				character = "SleepyG11_ui_left_border",
-				ui_type = "game_over",
+					character = "SleepyG11_ui_left_border",
+					ui_type = "game_over",
 
-				offset = "visible",
-				pos = "scary",
+					offset = "visible",
+					pos = "scary",
 
-				scissors = false,
-			})
-			delay(0.5)
-			Handy.UI.CHAR.hide("game_over_me")
-			return true
-		end,
-	}))
+					scissors = false,
+				})
+				delay(0.5, "handy_chars")
+				Handy.UI.CHAR.hide("game_over_me")
+				return true
+			end,
+		}),
+		"handy_chars"
+	)
 	return ret
 end
 
 local old_you_win = create_UIBox_win
 function create_UIBox_win(...)
 	local ret = old_you_win(...)
-	G.E_MANAGER:add_event(Event({
-		force_pause = true,
-		blocking = false,
-		blockable = false,
-		no_delete = true,
-		func = function()
-			Handy.UI.CHAR.emplace({
-				key = "game_over_me",
+	G.E_MANAGER:add_event(
+		Event({
+			pause_force = true,
+			blocking = false,
+			blockable = false,
+			no_delete = true,
+			func = function()
+				Handy.UI.CHAR.emplace({
+					key = "game_over_me",
 
-				character = "SleepyG11_ui_left_border",
-				ui_type = "game_over",
+					character = "SleepyG11_ui_left_border",
+					ui_type = "game_over",
 
-				offset = "visible",
-				pos = "happy",
+					offset = "visible",
+					pos = "happy",
 
-				scissors = false,
-			})
-			delay(0.25)
-			Handy.UI.CHAR.jump("game_over_me")
-			delay(0.025)
-			Handy.UI.CHAR.jump("game_over_me")
-			delay(0.25)
-			Handy.UI.CHAR.hide("game_over_me")
-			return true
-		end,
-	}))
+					scissors = false,
+				})
+				delay(0.05, "handy_chars")
+				Handy.UI.CHAR.jump("game_over_me")
+				delay(0.05, "handy_chars")
+				Handy.UI.CHAR.jump("game_over_me")
+				delay(0.5, "handy_chars")
+				Handy.UI.CHAR.hide("game_over_me")
+				return true
+			end,
+		}),
+		"handy_chars"
+	)
 	return ret
 end
