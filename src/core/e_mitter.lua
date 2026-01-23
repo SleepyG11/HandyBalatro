@@ -26,7 +26,6 @@ function Handy.e_mitter.on(type, callback, args)
 		end
 	elseif args.start then
 		table.insert(Handy.e_mitter.queues[type], 1, result)
-		return
 	else
 		table.insert(Handy.e_mitter.queues[type], result)
 	end

@@ -13,8 +13,9 @@ function Handy.b_is_in_multiplayer()
 end
 function Handy.is_mp_lobby_extension_active()
 	return MP.LOBBY.config.handy_mp_extension
-		and MP.LOBBY.config.handy_allow_mp_extension
-		and MP.LOBBY.handy_mp_extension_all_players_enabled
+			and MP.LOBBY.config.handy_allow_mp_extension
+			and MP.LOBBY.handy_mp_extension_all_players_enabled
+		or false
 end
 function Handy.b_is_mp_lobby_extension_active()
 	return Handy.buffered("is_mp_lobby_extension_active", Handy.is_mp_lobby_extension_active)
@@ -35,14 +36,14 @@ function Handy.b_is_mod_active()
 end
 
 function Handy.is_dangerous_actions_active()
-	return Handy.cc.dangerous_actions.enabled
+	return Handy.cc.dangerous_actions.enabled or false
 end
 function Handy.b_is_dangerous_actions_active()
 	return Handy.buffered("is_dangerous_actions_active", Handy.is_dangerous_actions_active)
 end
 
 function Handy.is_input_prevented()
-	return not not Handy.controller.dp.b_is_console_opened() or G.TMJUI
+	return not not (Handy.controller.dp.b_is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook)
 end
 
 --
@@ -70,11 +71,11 @@ function Handy.get_mp_lobby_config_value(ref_value, args)
 
 	-- no lobby - no value
 	if not lobby or not lobby.config then
-		return args.default_value
+		return args.default_value, false
 	end
 	-- not enabled - no value
 	if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
-		return args.default_value
+		return args.default_value, false
 	end
 	-- have forced value - use it
 	if args.force and lobby.config[ref_value .. "_force"] then

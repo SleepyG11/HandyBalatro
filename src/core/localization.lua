@@ -57,19 +57,6 @@ Handy.L = {
 		return Handy.L.parsed(set, key, "unlock_parsed", args, config)
 	end,
 
-	keybind_name = function(key, args, config)
-		return Handy.L.name("Handy_ConfigKeybind", key, args, config)
-	end,
-	keybind_name_text = function(key, vars)
-		return Handy.L.name_text("Handy_ConfigKeybind", key, vars)
-	end,
-	keybind_description = function(key, args, config)
-		return Handy.L.description("Handy_ConfigKeybind", key, args, config)
-	end,
-	keybind_hover_popup = function(key, args, config)
-		return Handy.L.unlock("Handy_ConfigKeybind", key, args, config)
-	end,
-
 	keys = function(key)
 		if not key then
 			key = "None"
@@ -104,45 +91,6 @@ Handy.L = {
 	tab = function(key)
 		return localize(key, "handy_tabs")
 	end,
-
-	-- module_keybinds = function(module, only_first)
-	-- 	local key_1, key_2 = "keys_1", "keys_2"
-	-- 	if Handy.controller.is_gamepad() then
-	-- 		key_1, key_2 = "keys_1_gamepad", "keys_2_gamepad"
-	-- 	end
-
-	-- 	local keys_table = {
-	-- 		[key_1] = #(module[key_1] or {}) > 0 and module[key_1] or nil,
-	-- 		[key_2] = #(module[key_2] or {}) > 0 and module[key_2] or nil,
-	-- 	}
-
-	-- 	local keys_count = 0
-	-- 	if keys_table[key_1] then
-	-- 		keys_count = keys_count + 1
-	-- 	end
-	-- 	if keys_table[key_2] then
-	-- 		keys_count = keys_count + 1
-	-- 	end
-
-	-- 	if only_first or keys_count < 2 then
-	-- 		return Handy.L.variable(
-	-- 			"Handy_module_keys_single",
-	-- 			{ Handy.L.keys(keys_table[key_1] or keys_table[key_2] or "None") }
-	-- 		)
-	-- 	else
-	-- 		return Handy.L.variable("Handy_module_keys_or", {
-	-- 			Handy.L.keys(keys_table[key_1]),
-	-- 			Handy.L.keys(keys_table[key_2]),
-	-- 		})
-	-- 	end
-	-- end,
-
-	-- module_checkbox_name = function(key, vars, options)
-	-- 	return Handy.L.multiline_unlock("Handy_ConfigCheckbox", key, vars, options)
-	-- end,
-	-- module_checkbox_description = function(key, vars, options)
-	-- 	return Handy.L.multiline_description("Handy_ConfigCheckbox", key, vars, options)
-	-- end,
 }
 
 Handy.L.localize_box = function(lines, args)

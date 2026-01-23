@@ -191,7 +191,7 @@ function Handy.controller.handle_input(type, key, released)
 		Handy.controller.held_keys_pre[context.key] = nil
 	end
 	Handy.e_mitter.emit("raw_input", type, key, released)
-	if context.wheel or released then
+	if not context.holdable or released then
 		Handy.controller.held_keys[context.key] = nil
 		Handy.controller.held_keys_pre[context.key] = nil
 	end

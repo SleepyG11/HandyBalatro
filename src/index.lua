@@ -66,43 +66,43 @@ Handy.e_mitter.on("input", function(context)
 		Handy.controller.binding.process_binding(context)
 		Handy.controller.dp.should_prevent()
 	end
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("card_click", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("card_hover", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("card_stop_hover", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("tag_click", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("tag_hover", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
 end)
 Handy.e_mitter.on("tag_stop_hover", function(context)
-	if not Handy.controller.is_propagation_stopped() and not G.CONTROLLER.text_input_hook then
+	if not Handy.controller.is_propagation_stopped() then
 		Handy.controls.process_context(context)
 		Handy.e_mitter.emit("update_state_panel", context)
 	end
@@ -129,7 +129,7 @@ end
 local old_tag_generate_ui = Tag.generate_UI
 function Tag:generate_UI(...)
 	local t = self
-	local tag_cont, tag_sprite = old_tag_generate_ui(self, ...)
+	local tag_cont, tag_sprite, a, b, c = old_tag_generate_ui(self, ...)
 
 	tag_sprite.states.click.can = true
 	local _handy_tag_click_ref = tag_sprite.click
@@ -156,7 +156,7 @@ function Tag:generate_UI(...)
 		return _handy_tag_stop_hover_ref(self, ...)
 	end
 
-	return tag_cont, tag_sprite
+	return tag_cont, tag_sprite, a, b, c
 end
 
 -- Mod is ready, lets start!

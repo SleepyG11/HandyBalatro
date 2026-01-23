@@ -38,6 +38,7 @@ function Handy.config.request_save(delay)
 			timer = "REAL",
 			trigger = "after",
 			delay = delay or 1,
+			pause_force = true,
 			func = function()
 				Handy.config.save()
 				return true
