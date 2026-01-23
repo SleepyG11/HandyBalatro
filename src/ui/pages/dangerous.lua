@@ -280,6 +280,7 @@ function Handy.UI.dangerous_page()
 		is_handy_config = true,
 	})
 	Handy.UI.CHAR.rerender()
+	Handy.UI.CHAR.set_sprite_pos("me", "angry")
 	Handy.UI.attach_side_panel()
 	G.OVERLAY_MENU:recalculate()
 end

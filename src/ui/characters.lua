@@ -302,7 +302,7 @@ function Handy.UI.CHAR.set_sprite_pos(key, new_pos)
 	end
 
 	local pos = v.char.pos[new_pos] or { x = 0, y = 0 }
-	v.pos = new_pos
+	v.args.pos = new_pos
 	v.sprite:set_sprite_pos(pos)
 end
 

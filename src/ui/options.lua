@@ -89,6 +89,7 @@ function Handy.UI.options()
 		character = "SleepyG11_ui_left_border",
 		offset = "hidden",
 		scissors = true,
+		pos = Handy.cc.handy.enabled and "default" or "scary",
 	})
 	delay(0.05, "handy_chars")
 	Handy.UI.CHAR.show("me")
@@ -104,6 +105,7 @@ function Handy.UI.back_to_options()
 		is_handy_config = true,
 	})
 	Handy.UI.CHAR.rerender()
+	Handy.UI.CHAR.set_sprite_pos("me", Handy.cc.handy.enabled and "default" or "scary")
 	Handy.UI.attach_side_panel()
 	G.OVERLAY_MENU:recalculate()
 end
