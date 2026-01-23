@@ -576,9 +576,9 @@ Handy.controls.register("dangerous_actions_crash", {
 		end
 		error(
 			'Crashed by "Crash a game" keybind in Handy mod '
-				.. Handy.L.with_brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_1]), true)
+				.. Handy.L.brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_1]))
 				.. " or "
-				.. Handy.L.with_brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_2]), true)
+				.. Handy.L.brackets(Handy.L.keys(Handy.cc.dangerous_actions_crash[key_2]))
 		)
 		return true
 	end,

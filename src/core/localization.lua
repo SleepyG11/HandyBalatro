@@ -1,6 +1,6 @@
 Handy.L = {
-	with_brackets = function(line, b)
-		return b and "[" .. (line or "") .. "]" or line
+	brackets = function(line)
+		return "[" .. (line or "") .. "]"
 	end,
 
 	-- Shortcut for localizing `G.localization.misc.v_dictionary`

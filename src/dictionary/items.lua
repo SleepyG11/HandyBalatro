@@ -74,7 +74,7 @@ l({
 				return Handy.cc.prevent_if_debugplus
 			end,
 			loc_vars = function()
-				return { vars = { Handy.L.with_brackets(Handy.L.keys("Ctrl"), true) } }
+				return { vars = { Handy.L.brackets(Handy.L.keys("Ctrl")) } }
 			end,
 			checkbox = true,
 		},
@@ -225,11 +225,8 @@ l({
 			loc_vars = function()
 				return {
 					vars = {
-						Handy.L.with_brackets(Handy.L.keys("Right Mouse"), true),
-						Handy.L.with_brackets(
-							Handy.L.name_text("Handy_ConfigDictionary", "hand_selection_insta_highlight"),
-							true
-						),
+						Handy.L.brackets(Handy.L.keys("Right Mouse")),
+						Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "hand_selection_insta_highlight")),
 					},
 				}
 			end,
@@ -362,7 +359,7 @@ l({
 			loc_vars = function()
 				return {
 					vars = {
-						Handy.L.with_brackets(Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier"), true),
+						Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier")),
 					},
 				}
 			end,
@@ -479,7 +476,7 @@ l({
 			loc_vars = function()
 				return {
 					vars = {
-						Handy.L.with_brackets(Handy.L.name_text("Handy_ConfigDictionary", "animation_skip"), true),
+						Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "animation_skip")),
 						Handy.L.dictionary("handy_animation_skip_levels", 5),
 					},
 				}
@@ -800,7 +797,7 @@ l({
 					end,
 					loc_vars = function()
 						return {
-							vars = { Handy.L.with_brackets(Handy.L.keys("R"), true) },
+							vars = { Handy.L.brackets(Handy.L.keys("R")) },
 						}
 					end,
 					no_mp = true,
@@ -1288,14 +1285,8 @@ l({
 					loc_vars = function()
 						return {
 							vars = {
-								Handy.L.with_brackets(
-									Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier"),
-									true
-								),
-								Handy.L.with_brackets(
-									Handy.L.name_text("Handy_ConfigDictionary", "animation_skip"),
-									true
-								),
+								Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier")),
+								Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "animation_skip")),
 							},
 						}
 					end,

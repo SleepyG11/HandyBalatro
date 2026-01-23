@@ -8,7 +8,7 @@ function Handy.controller.binding.update_keybind_button(text_type, enabled)
 		local button_text = binding.element.children[1]
 		button_text.config.text_drawable = nil
 		if text_type == "old_brackets" then
-			button_text.config.text = Handy.L.with_brackets(button_text.config.text, true)
+			button_text.config.text = Handy.L.brackets(button_text.config.text)
 		elseif text_type == "new" then
 			button_text.config.text = Handy.L.keys(binding.module[binding.key])
 		end
@@ -57,7 +57,7 @@ function Handy.controller.binding.finish_binding()
 	if not binding then
 		return
 	end
-	binding.buttons_entered_text = Handy.L.with_brackets(Handy.L.keys(binding.buttons), true)
+	binding.buttons_entered_text = Handy.L.brackets(Handy.L.keys(binding.buttons))
 	binding.module[binding.key] = binding.buttons
 	Handy.config.request_save()
 	Handy.UI.state_panel.display(function(state)
@@ -89,7 +89,7 @@ function Handy.controller.binding.cancel_binding(reason)
 			state.items.binding_cancel = {
 				text = Handy.L.variable(
 					"Handy_binding_cancel_reason_" .. reason,
-					{ Handy.L.with_brackets(Handy.L.keys(context.key), true) }
+					{ Handy.L.brackets(Handy.L.keys(context.key)) }
 				),
 				hold = false,
 				order = 0.1,
@@ -106,7 +106,7 @@ function Handy.controller.binding.update_binding_buttons_text()
 	if not binding then
 		return
 	end
-	binding.buttons_entered_text = Handy.L.with_brackets(Handy.L.keys(binding.buttons), true)
+	binding.buttons_entered_text = Handy.L.brackets(Handy.L.keys(binding.buttons))
 	Handy.UI.state_panel.display(function(state)
 		state.items.binding = {
 			text = Handy.L.variable("Handy_binding_progress", { binding.buttons_entered_text }),
@@ -120,7 +120,7 @@ function Handy.controller.binding.update_binding_buttons_text()
 		}
 		local save_key = Handy.controller.is_gamepad() and "(Back)" or "Escape"
 		state.items.binding_cancel = {
-			text = Handy.L.variable("Handy_binding_esc_hint", { Handy.L.with_brackets(Handy.L.keys(save_key), true) }),
+			text = Handy.L.variable("Handy_binding_esc_hint", { Handy.L.brackets(Handy.L.keys(save_key)) }),
 			hold = false,
 			order = 0.1,
 		}
