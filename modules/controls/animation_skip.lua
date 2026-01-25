@@ -152,8 +152,22 @@ Handy.animation_skip = {
 	end,
 
 	change = function(dx)
-		Handy.animation_skip.value =
-			math.max(1, math.min(Handy.animation_skip.can_dangerous() and 5 or 4, Handy.animation_skip.value + dx))
+		local min_value = 1
+		local max_value = Handy.animation_skip.can_dangerous() and 5 or 4
+		local new_value = Handy.animation_skip.value + dx
+
+		-- Wrap around at boundaries (like vanilla game speed)
+		if new_value < min_value then
+			-- Trying to go below minimum, wrap to maximum
+			Handy.animation_skip.value = max_value
+		elseif new_value > max_value then
+			-- Trying to go above maximum, wrap to minimum
+			Handy.animation_skip.value = min_value
+		else
+			-- Within bounds, set normally
+			Handy.animation_skip.value = new_value
+		end
+
 		Handy.animation_skip.localize_value()
 		Handy.animation_skip.show_notif(dx)
 	end,

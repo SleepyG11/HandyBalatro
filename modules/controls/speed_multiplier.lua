@@ -141,11 +141,24 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.change(-1)
 	end,
 	change = function(dx)
+		local min_value = 0.001953125 -- 2^-9 = 1/512
+		local max_value = Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512 -- 2^9 = 512
+
 		local multiplier = 2 ^ (dx or 0)
-		Handy.speed_multiplier.value = math.min(
-			math.max(0.001953125, Handy.speed_multiplier.value * multiplier),
-			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
-		)
+		local new_value = Handy.speed_multiplier.value * multiplier
+
+		-- Wrap around at boundaries (like vanilla game speed)
+		if new_value < min_value then
+			-- Trying to go below minimum, wrap to maximum
+			Handy.speed_multiplier.value = max_value
+		elseif new_value > max_value then
+			-- Trying to go above maximum, wrap to minimum
+			Handy.speed_multiplier.value = min_value
+		else
+			-- Within bounds, set normally
+			Handy.speed_multiplier.value = new_value
+		end
+
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 		Handy.speed_multiplier.localize_value()
 		if dx ~= 0 then

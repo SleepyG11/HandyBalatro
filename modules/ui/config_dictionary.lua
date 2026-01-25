@@ -869,6 +869,16 @@ local dictionary = {
 		end,
 		option_cycle = function(options)
 			options = options or {}
+			-- Add pip configuration
+			options.num_pips = 19
+			options.current_pip_fn = function()
+				-- Calculate current pip index based on logarithm of value
+				-- Value ranges from 2^-9 (1/512) to 2^9 (512)
+				-- Index should be 1 to 19
+				local log_value = math.log(Handy.speed_multiplier.value) / math.log(2)
+				local index = math.floor(log_value + 0.5) + 10
+				return math.max(1, math.min(19, index))
+			end
 			return Handy.UI.PARTS.create_option_cycle_simple(
 				localize("speed_multiplier", "handy_keybind_labels"),
 				Handy.speed_multiplier,
@@ -1021,6 +1031,13 @@ local dictionary = {
 		end,
 		option_cycle = function(options)
 			options = options or {}
+			-- Add pip configuration
+			-- Number of pips depends on whether dangerous mode is enabled (5 levels) or not (4 levels)
+			options.num_pips = Handy.animation_skip.can_dangerous() and 5 or 4
+			options.current_pip_fn = function()
+				-- Animation skip value is already 1-indexed (1 to 4 or 1 to 5)
+				return Handy.animation_skip.value
+			end
 			return Handy.UI.PARTS.create_option_cycle_simple(
 				localize("animation_skip", "handy_keybind_labels"),
 				Handy.animation_skip,

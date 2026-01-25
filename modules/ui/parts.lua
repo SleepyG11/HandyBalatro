@@ -385,6 +385,8 @@ Handy.UI.PARTS = {
 			ref_table = ref_table,
 			ref_value = ref_value,
 			prefix = options.compress and label and label .. ": " or nil,
+			num_pips = options.num_pips,
+			current_pip_fn = options.current_pip_fn,
 		}
 
 		args.colour = args.colour or G.C.RED
@@ -428,6 +430,11 @@ Handy.UI.PARTS = {
 						ref_table = callbacks,
 						ref_value = "l",
 						focus_args = { type = "none" },
+						pip_update_info = args.num_pips and {
+							num_pips = args.num_pips,
+							current_pip_fn = args.current_pip_fn,
+							scale = args.scale,
+						} or nil,
 					},
 					nodes = {
 						{
@@ -491,6 +498,35 @@ Handy.UI.PARTS = {
 										},
 									},
 								},
+								{
+									n = G.UIT.R,
+									config = { align = "cm", minh = 0.05 },
+									nodes = {},
+								},
+								args.num_pips and (function()
+									local pips = {}
+									local current_pip = args.current_pip_fn and args.current_pip_fn() or 1
+									for i = 1, args.num_pips do
+										pips[#pips + 1] = {
+											n = G.UIT.B,
+											config = {
+												w = 0.1 * args.scale,
+												h = 0.1 * args.scale,
+												r = 0.05,
+												id = "pip_" .. i,
+												colour = current_pip == i and G.C.WHITE or G.C.BLACK,
+											},
+										}
+									end
+									return {
+										n = G.UIT.R,
+										config = {
+											align = "cm",
+											padding = (0.05 - (args.num_pips > 15 and 0.03 or 0)) * args.scale,
+										},
+										nodes = pips,
+									}
+								end)() or nil,
 							},
 						},
 					},
@@ -508,6 +544,11 @@ Handy.UI.PARTS = {
 						ref_table = callbacks,
 						ref_value = "r",
 						focus_args = { type = "none" },
+						pip_update_info = args.num_pips and {
+							num_pips = args.num_pips,
+							current_pip_fn = args.current_pip_fn,
+							scale = args.scale,
+						} or nil,
 					},
 					nodes = {
 						{

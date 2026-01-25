@@ -279,8 +279,36 @@ function G.FUNCS.handy_change_controller_sensivity()
 end
 
 function G.FUNCS.handy_option_cycle_simple(e)
+	-- Store the old pip index before calling the callback
+	local old_pip_index = nil
+	if e.config.pip_update_info then
+		local pip_info = e.config.pip_update_info
+		old_pip_index = pip_info.current_pip_fn and pip_info.current_pip_fn() or nil
+	end
+
+	-- Call the user's callback (divide/multiply)
 	local callback = e.config.ref_table[e.config.ref_value]
 	if callback then
 		callback()
+	end
+
+	-- Update pips if they exist (using the same method as vanilla)
+	if e.config.pip_update_info and e.UIBox and e.parent and e.parent.parent then
+		local pip_info = e.config.pip_update_info
+		local new_pip_index = pip_info.current_pip_fn and pip_info.current_pip_fn() or 1
+
+		-- Find and update the old pip
+		if old_pip_index then
+			local old_pip = e.UIBox:get_UIE_by_ID('pip_'..old_pip_index, e.parent.parent)
+			if old_pip then
+				old_pip.config.colour = G.C.BLACK
+			end
+		end
+
+		-- Find and update the new pip
+		local new_pip = e.UIBox:get_UIE_by_ID('pip_'..new_pip_index, e.parent.parent)
+		if new_pip then
+			new_pip.config.colour = G.C.WHITE
+		end
 	end
 end
