@@ -2,6 +2,10 @@ local keys_hold = {}
 local keys_press = {}
 local keys_release = {}
 
+local real_keys_hold = {}
+local real_keys_press = {}
+local real_keys_release = {}
+
 local keys_hold_size = nil
 local function get_keys_hold_size()
 	if not keys_hold_size then
@@ -9,12 +13,17 @@ local function get_keys_hold_size()
 	end
 	return keys_hold_size
 end
-local function update_hold(dt)
+local function update_hold(dt, only_real)
 	dt = dt or 0
+	if not only_real then
+		for key, value in pairs(keys_hold) do
+			keys_hold[key] = value + dt
+		end
+	end
 	local result = 0
-	for key, value in pairs(keys_hold) do
+	for key, value in pairs(real_keys_hold) do
 		result = result + 1
-		keys_hold[key] = value + dt
+		real_keys_hold[key] = value + dt
 	end
 	return result
 end
@@ -28,8 +37,12 @@ local function pre_press_key(input_type, raw_key)
 		keys_hold[input_ctx.key] = input_ctx.hold_duration or 0
 		keys_press[input_ctx.key] = input_ctx.hold_duration or 0
 		keys_release[input_ctx.key] = nil
-		keys_hold_size = nil
+		real_keys_hold[input_ctx.key] = input_ctx.real_hold_duration or 0
+		real_keys_press[input_ctx.key] = input_ctx.real_hold_duration or 0
+		real_keys_release[input_ctx.key] = nil
 	end
+
+	keys_hold_size = nil
 
 	return input_ctx
 end
@@ -38,9 +51,14 @@ local function post_press_key()
 
 	if input_ctx.key then
 		local hold_duration = input_ctx.holdable and (input_ctx.hold_duration or 0) or nil
+		local real_hold_duration = input_ctx.holdable and (input_ctx.real_hold_duration or 0) or nil
+
 		keys_hold[input_ctx.key] = hold_duration
 		keys_press[input_ctx.key] = nil
 		keys_release[input_ctx.key] = nil
+		real_keys_hold[input_ctx.key] = real_hold_duration
+		real_keys_press[input_ctx.key] = nil
+		real_keys_release[input_ctx.key] = nil
 	end
 
 	Handy.controller_v2.input.update_context()
@@ -54,10 +72,17 @@ local function pre_release_key(input_type, raw_key)
 
 	if input_ctx.key then
 		local hold_duration = keys_hold[input_ctx.key]
+		local real_hold_duration = real_keys_hold[input_ctx.key]
+
 		input_ctx.hold_duration = hold_duration
+		input_ctx.real_hold_duration = real_hold_duration
+
 		keys_hold[input_ctx.key] = nil
 		keys_press[input_ctx.key] = nil
 		keys_release[input_ctx.key] = hold_duration
+		real_keys_hold[input_ctx.key] = nil
+		real_keys_press[input_ctx.key] = nil
+		real_keys_release[input_ctx.key] = real_hold_duration
 	end
 
 	keys_hold_size = nil
@@ -71,6 +96,9 @@ local function post_release_key()
 		keys_hold[input_ctx.key] = nil
 		keys_press[input_ctx.key] = nil
 		keys_release[input_ctx.key] = nil
+		real_keys_hold[input_ctx.key] = nil
+		real_keys_press[input_ctx.key] = nil
+		real_keys_release[input_ctx.key] = nil
 	end
 
 	Handy.controller_v2.input.update_context()
@@ -123,6 +151,10 @@ local key_states = {
 	hold = keys_hold,
 	press = keys_press,
 	release = keys_release,
+
+	real_hold = real_keys_hold,
+	real_press = real_keys_press,
+	real_release = real_keys_release,
 
 	get_hold_size = get_keys_hold_size,
 

@@ -13,6 +13,10 @@ local function create_empty_input_context()
 		action = "none",
 
 		hold_duration = 0,
+		real_hold_duration = 0,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 	return context
 end
@@ -48,6 +52,7 @@ local function create_input_context(input_type, raw_key, released, starting_hold
 		key = key,
 
 		hold_duration = holdable and starting_hold_duration or 0,
+		real_hold_duration = holdable and starting_hold_duration or 0,
 
 		back = back,
 		safe = safe,
@@ -109,6 +114,9 @@ local function create_empty_card_context()
 		clicked_previous = nil,
 
 		target = nil,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 	return context
 end
@@ -129,6 +137,9 @@ local function create_card_context(input_type, card)
 		clicked_previous = card_context.clicked_previous,
 
 		target = card,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 
 	if input_type == "hover" then
@@ -191,6 +202,9 @@ local function create_empty_tag_context()
 		clicked_previous = nil,
 
 		target = nil,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 	return context
 end
@@ -211,6 +225,9 @@ local function create_tag_context(input_type, tag)
 		clicked_previous = tag_context.clicked_previous,
 
 		target = tag,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 
 	if input_type == "hover" then
@@ -266,6 +283,9 @@ local function create_empty_hold_context()
 
 		dt = 0,
 		holded_size = 0,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 	return context
 end
@@ -278,7 +298,11 @@ local function create_hold_context(dt, size)
 		none = size == 0,
 
 		dt = size > 0 and dt or 0,
+		read_dt = size > 0 and dt or 0,
 		holded_size = size,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	}
 
 	return context
