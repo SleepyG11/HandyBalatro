@@ -9,15 +9,15 @@ Handy.load_file("src/controller_v2/debugplus.lua")
 
 ---
 
-function Handy.controller_v2.should_stop()
+function Handy.controller_v2.should_prevent()
 	return (Handy.controller_v2.dp.is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook) and true or false
 end
 
 function Handy.controller_v2.filter_context(ctx)
-	if Handy.controller.binding.current then
+	if Handy.controller_v2.binding.get_current() then
 		ctx.default_prevented = true
 		ctx.propagation_stopped = true
-	elseif Handy.controller_v2.should_stop() then
+	elseif Handy.controller_v2.should_prevent() then
 		ctx.propagation_stopped = true
 	elseif Handy.controller_v2.dp.should_prevent_input() then
 		ctx.propagation_stopped = true
@@ -32,8 +32,11 @@ end
 function Handy.controller_v2.process_input(input_type, raw_key, released)
 	local input_context = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
 	if not input_context.none then
-		Handy.controller_v2.filter_context(input_context)
+		Handy.controller_v2.binding.process_binding(input_context)
 
+		if not input_context.propagation_stopped then
+			Handy.controller_v2.filter_context(input_context)
+		end
 		if not input_context.propagation_stopped then
 			-- start processing controls here
 		end
