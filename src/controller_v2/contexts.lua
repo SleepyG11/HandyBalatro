@@ -173,7 +173,7 @@ local controller_card = {
 	create_context = create_card_context,
 
 	update_context = function(input_type, card)
-		return set_card_context(create_input_context(input_type, card))
+		return set_card_context(create_card_context(input_type, card))
 	end,
 }
 
@@ -261,7 +261,7 @@ local controller_tag = {
 	create_context = create_tag_context,
 
 	update_context = function(input_type, tag)
-		return set_tag_context(create_input_context(input_type, tag))
+		return set_tag_context(create_tag_context(input_type, tag))
 	end,
 }
 
