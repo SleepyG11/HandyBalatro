@@ -1,4 +1,4 @@
-local debugplus = {
+local debugplus_module = {
 	config_imported = false,
 	config = nil,
 
@@ -7,8 +7,8 @@ local debugplus = {
 }
 
 local function get_dp_config()
-	if debugplus.config_imported then
-		return debugplus.config
+	if debugplus_module.config_imported then
+		return debugplus_module.config
 	end
 	local success, dpconfig = pcall(function()
 		return require("debugplus-config")
@@ -18,20 +18,20 @@ local function get_dp_config()
 			return require("debugplus.config")
 		end)
 	end
-	debugplus.config_imported = true
-	debugplus.config = success and dpconfig or nil
-	return debugplus.config
+	debugplus_module.config_imported = true
+	debugplus_module.config = success and dpconfig or nil
+	return debugplus_module.config
 end
 local function get_dp_console()
-	if debugplus.console_imported then
-		return debugplus.config
+	if debugplus_module.console_imported then
+		return debugplus_module.console
 	end
 	local console_success, dpconsole = pcall(function()
 		return require("debugplus.console")
 	end)
-	debugplus.console_imported = true
-	debugplus.console = console_success and dpconsole or nil
-	return debugplus.console
+	debugplus_module.console_imported = true
+	debugplus_module.console = console_success and dpconsole or nil
+	return debugplus_module.console
 end
 
 local console_open_timer = 0
@@ -72,9 +72,9 @@ local function notify_about_prevented_input()
 	end, nil, 3)
 end
 
-debugplus.is_console_opened = b_is_dp_console_opened
-debugplus.should_prevent_input = b_should_prevent_input
-debugplus.notify_about_prevented_input = notify_about_prevented_input
-debugplus.update_console_opened = update_dp_console_opened
+debugplus_module.is_console_opened = b_is_dp_console_opened
+debugplus_module.should_prevent_input = b_should_prevent_input
+debugplus_module.notify_about_prevented_input = notify_about_prevented_input
+debugplus_module.update_console_opened = update_dp_console_opened
 
-Handy.controller_v2.dp = debugplus
+Handy.controller_v2.dp = debugplus_module

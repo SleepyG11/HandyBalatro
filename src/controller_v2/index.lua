@@ -2,6 +2,12 @@ Handy.controller_v2 = {}
 
 ---
 
+Handy.load_file("src/controller_v2/contexts.lua")
+Handy.load_file("src/controller_v2/key_states.lua")
+Handy.load_file("src/controller_v2/debugplus.lua")
+
+---
+
 function Handy.controller_v2.should_stop()
 	return (Handy.controller_v2.dp.is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook) and true or false
 end
