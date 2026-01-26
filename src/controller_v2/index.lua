@@ -2,13 +2,34 @@ Handy.controller_v2 = {}
 
 ---
 
+function Handy.controller_v2.should_stop()
+	return (Handy.controller_v2.dp.is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook) and true or false
+end
+
+function Handy.controller_v2.filter_context(ctx)
+	if Handy.controller.binding.current then
+		ctx.default_prevented = true
+		ctx.propagation_stopped = true
+	elseif Handy.controller_v2.should_stop() then
+		ctx.propagation_stopped = true
+	elseif Handy.controller_v2.dp.should_prevent_input() then
+		ctx.propagation_stopped = true
+		if not ctx.hold then
+			Handy.controller_v2.dp.notify_about_prevented_input()
+		end
+	end
+end
+
+---
+
 function Handy.controller_v2.process_input(input_type, raw_key, released)
 	local input_context = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
 	if not input_context.none then
-		-- start filters here
-	end
-	if not input_context.none and not input_context.propagation_stopped then
-		-- start processing controls here
+		Handy.controller_v2.filter_context(input_context)
+
+		if not input_context.propagation_stopped then
+			-- start processing controls here
+		end
 	end
 	local is_default_prevented = input_context.default_prevented
 	Handy.controller_v2.key_states.post_action(released)
@@ -33,28 +54,39 @@ end
 
 ---
 
-Handy.e_mitter.on("update", function(dt)
+function Handy.controller_v2.process_hold(dt)
 	local size = Handy.controller_v2.key_states.update(dt, false)
 	local hold_context = Handy.controller_v2.hold.update_context(dt, size)
 	local deducted = false
 	if not hold_context.none then
-		-- start filters here
-	end
-	if not hold_context.none and hold_context.default_prevented or hold_context.propagation_stopped then
-		hold_context.dt = 0
-		if not deducted then
-			deducted = true
-			Handy.controller_v2.key_states.update(-dt, true)
+		Handy.controller_v2.filter_context(hold_context)
+
+		if hold_context.default_prevented or hold_context.propagation_stopped then
+			hold_context.dt = 0
+			if not deducted then
+				deducted = true
+				Handy.controller_v2.key_states.update(-dt, true)
+			end
+		else
+			-- start processing hold here
+		end
+
+		if hold_context.default_prevented or hold_context.propagation_stopped then
+			hold_context.dt = 0
+			if not deducted then
+				deducted = true
+				Handy.controller_v2.key_states.update(-dt, true)
+			end
 		end
 	end
-	if not hold_context.none and not hold_context.default_prevented and not hold_context.propagation_stopped then
-		-- start processing hold here
-	end
-	if not hold_context.none and hold_context.default_prevented or hold_context.propagation_stopped then
-		hold_context.dt = 0
-		if not deducted then
-			deducted = true
-			Handy.controller_v2.key_states.update(-dt, true)
-		end
-	end
+	local is_default_prevented = hold_context.default_prevented
+	Handy.controller_v2.hold.update_context()
+	return is_default_prevented
+end
+
+---
+
+Handy.e_mitter.on("update", function(dt)
+	Handy.controller_v2.dp.update_console_opened()
+	Handy.controller_v2.process_hold(dt)
 end)
