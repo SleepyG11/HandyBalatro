@@ -124,26 +124,68 @@ end
 
 ---
 
-local function is_key_press(key)
-	return key and keys_press[key] or nil
+local function is_trigger(released)
+	if Handy.cc.keybinds_trigger_mode.value == 2 then
+		return released
+	else
+		return not released
+	end
 end
-local function is_key_hold(key)
-	return key and keys_hold[key] or nil
+
+local function is_key_press(key)
+	return key and keys_press[key] and true or nil
 end
 local function is_key_release(key)
-	return key and keys_release[key] or nil
+	return key and keys_release[key] and true or nil
 end
 local function is_key_trigger(key, released)
 	if not key then
 		return false
 	elseif not Handy.controller_v2.keys.is_holdable_key(key) then
 		return not released
-	elseif Handy.cc.keybinds_trigger_mode.value == 2 then
-		return released
 	else
-		return not released
+		return is_trigger(released)
 	end
 end
+
+---
+
+local function get_key_hold_duration(key, args)
+	if not key then
+		return nil
+	end
+	args = args or {}
+
+	local hold_d = args.real and real_keys_hold[key] or keys_hold[key]
+	if not hold_d and args.include_release then
+		hold_d = args.real and real_keys_release[key] or keys_release[key]
+	end
+	return hold_d
+end
+local function get_keys_hold_duration(keys, args)
+	local max_value = 0
+	local is_empty = true
+	for _, key in ipairs(keys or {}) do
+		is_empty = false
+		local hold_d = get_key_hold_duration(key, args)
+		if not hold_d then
+			return nil
+		end
+		max_value = math.max(max_value, hold_d)
+	end
+	return not is_empty and max_value or nil
+end
+
+local function is_key_hold(keys, args)
+	local d = get_key_hold_duration(keys, args)
+	return d ~= nil, d or 0
+end
+local function is_keys_hold(keys, args)
+	local d = get_keys_hold_duration(keys, args)
+	return d ~= nil, d or 0
+end
+
+---
 
 local key_states = {
 	hold = keys_hold,
@@ -167,7 +209,12 @@ local key_states = {
 	is_press = is_key_press,
 	is_hold = is_key_hold,
 	is_release = is_key_release,
-	is_trigger = is_key_trigger,
+	is_trigger = is_trigger,
+	is_key_trigger = is_key_trigger,
+
+	get_key_hold_duration = get_keys_hold_duration,
+	get_keys_hold_duration = get_keys_hold_duration,
+	is_keys_hold = is_keys_hold,
 
 	update = update_hold,
 }
@@ -177,6 +224,8 @@ local key_states = {
 Handy.controller_v2.key_states = key_states
 
 Handy.controller_v2.is_key_press = is_key_press
-Handy.controller_v2.is_key_hold = is_key_hold
 Handy.controller_v2.is_key_release = is_key_release
 Handy.controller_v2.is_key_trigger = is_key_trigger
+
+Handy.controller_v2.is_key_hold = is_key_hold
+Handy.controller_v2.is_keys_hold = is_keys_hold

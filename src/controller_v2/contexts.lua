@@ -24,7 +24,7 @@ local function create_input_context(input_type, raw_key, released, starting_hold
 	local action = released and "release" or "press"
 	local key = Handy.controller_v2.keys.raw_to_key(input_type, raw_key)
 
-	local trigger = Handy.controller_v2.key_states.is_trigger(key, released)
+	local trigger = Handy.controller_v2.key_states.is_key_trigger(key, released)
 
 	local back = Handy.controller_v2.keys.is_back_key(key)
 	local safe = Handy.controller_v2.keys.is_safe_key(key)
