@@ -6,6 +6,8 @@ Handy.load_file("src/controller_v2/keys.lua")
 Handy.load_file("src/controller_v2/contexts.lua")
 Handy.load_file("src/controller_v2/key_states.lua")
 Handy.load_file("src/controller_v2/debugplus.lua")
+Handy.load_file("src/controller_v2/binding.lua")
+Handy.load_file("src/controller_v2/device.lua")
 
 ---
 
@@ -31,6 +33,8 @@ end
 
 function Handy.controller_v2.process_input(input_type, raw_key, released)
 	local input_context = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
+	Handy.controller_v2.device.update_type(input_context)
+
 	if not input_context.none then
 		Handy.controller_v2.binding.process_binding(input_context)
 
@@ -41,6 +45,7 @@ function Handy.controller_v2.process_input(input_type, raw_key, released)
 			-- start processing controls here
 		end
 	end
+
 	local is_default_prevented = input_context.default_prevented
 	Handy.controller_v2.key_states.post_action(released)
 	return is_default_prevented
@@ -68,6 +73,7 @@ function Handy.controller_v2.process_hold(dt)
 	local size = Handy.controller_v2.key_states.update(dt)
 	local hold_context = Handy.controller_v2.hold.update_context(dt, size)
 	local deducted = false
+
 	if not hold_context.none then
 		Handy.controller_v2.filter_context(hold_context)
 
@@ -89,6 +95,7 @@ function Handy.controller_v2.process_hold(dt)
 			end
 		end
 	end
+
 	local is_default_prevented = hold_context.default_prevented
 	Handy.controller_v2.hold.update_context()
 	return is_default_prevented
