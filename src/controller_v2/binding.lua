@@ -167,8 +167,8 @@ local function process_binding(ctx)
 			finish_binding()
 		end
 	end
-	ctx.default_prevented = true
-	ctx.propagation_stopped = true
+	ctx:prevent_default()
+	ctx:stop_propagation()
 end
 
 ---

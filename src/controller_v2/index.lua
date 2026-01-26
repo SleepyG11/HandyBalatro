@@ -17,12 +17,12 @@ end
 
 function Handy.controller_v2.filter_context(ctx)
 	if Handy.controller_v2.binding.get_current() then
-		ctx.default_prevented = true
-		ctx.propagation_stopped = true
+		ctx:prevent_default()
+		ctx:stop_propagation()
 	elseif Handy.controller_v2.should_prevent() then
-		ctx.propagation_stopped = true
+		ctx:stop_propagation()
 	elseif Handy.controller_v2.dp.should_prevent_input() then
-		ctx.propagation_stopped = true
+		ctx:stop_propagation()
 		if not ctx.hold then
 			Handy.controller_v2.dp.notify_about_prevented_input()
 		end
@@ -38,15 +38,16 @@ function Handy.controller_v2.process_input(input_type, raw_key, released)
 	if not ctx.none then
 		Handy.controller_v2.binding.process_binding(ctx)
 
-		if not ctx.propagation_stopped then
+		if not ctx:is_propagation_stopped() then
 			Handy.controller_v2.filter_context(ctx)
 		end
-		if not ctx.propagation_stopped then
-			-- start processing controls here
+		if not ctx:is_propagation_stopped() then
+			print(ctx)
+			Handy.e_mitter.emit("controller_input", ctx)
 		end
 	end
 
-	local is_default_prevented = ctx.default_prevented
+	local is_default_prevented = ctx:is_default_prevented()
 	Handy.controller_v2.key_states.post_action(released)
 	return is_default_prevented
 end
@@ -73,15 +74,15 @@ function Handy.controller_v2.process_card(input_type, card)
 	local ctx = Handy.controller_v2.card.update_context(input_type, card)
 
 	if not ctx.none then
-		if not ctx.propagation_stopped then
+		if not ctx:is_propagation_stopped() then
 			Handy.controller_v2.filter_context(ctx)
 		end
-		if not ctx.propagation_stopped then
-			-- start processing card here
+		if not ctx:is_propagation_stopped() then
+			Handy.e_mitter.emit("controller_card", ctx)
 		end
 	end
 
-	local is_default_prevented = ctx.default_prevented
+	local is_default_prevented = ctx:is_default_prevented()
 	if ctx.input_type == "click" then
 		Handy.controller_v2.card.update_context("stop_click", card)
 	end
@@ -104,15 +105,15 @@ function Handy.controller_v2.process_tag(input_type, tag)
 	local ctx = Handy.controller_v2.tag.update_context(input_type, tag)
 
 	if not ctx.none then
-		if not ctx.propagation_stopped then
+		if not ctx:is_propagation_stopped() then
 			Handy.controller_v2.filter_context(ctx)
 		end
-		if not ctx.propagation_stopped then
-			-- start processing tag here
+		if not ctx:is_propagation_stopped() then
+			Handy.e_mitter.emit("controller_tag", ctx)
 		end
 	end
 
-	local is_default_prevented = ctx.default_prevented
+	local is_default_prevented = ctx:is_default_prevented()
 	if ctx.input_type == "click" then
 		Handy.controller_v2.tag.update_context("stop_click", tag)
 	end
@@ -139,17 +140,17 @@ function Handy.controller_v2.process_hold(dt)
 	if not ctx.none then
 		Handy.controller_v2.filter_context(ctx)
 
-		if ctx.default_prevented or ctx.propagation_stopped then
+		if ctx:is_default_prevented() or ctx:is_propagation_stopped() then
 			ctx.dt = 0
 			if not deducted then
 				Handy.controller_v2.key_states.update(-dt, true)
 				deducted = true
 			end
 		else
-			-- start processing hold here
+			Handy.e_mitter.emit("controller_hold", ctx)
 		end
 
-		if ctx.default_prevented or ctx.propagation_stopped then
+		if ctx:is_default_prevented() or ctx:is_propagation_stopped() then
 			ctx.dt = 0
 			if not deducted then
 				deducted = true
@@ -158,7 +159,7 @@ function Handy.controller_v2.process_hold(dt)
 		end
 	end
 
-	local is_default_prevented = ctx.default_prevented
+	local is_default_prevented = ctx:is_default_prevented()
 	Handy.controller_v2.hold.update_context()
 	return is_default_prevented
 end
@@ -186,7 +187,7 @@ end)
 
 -- local wheel_moved_ref = love.wheelmoved or function() end
 -- function love.wheelmoved(x, y)
--- 	if Handy.controller.handle_input("wheel", y > 0 and 1 or 2) then
+-- 	if Handy.controller_v2.process_wheel_input(y > 0 and 1 or 2) then
 -- 		return
 -- 	end
 -- 	return wheel_moved_ref(x, y)
@@ -194,7 +195,7 @@ end)
 
 -- local controller_button_press_ref = Controller.button_press
 -- function Controller:button_press(button, ...)
--- 	if Handy.controller.handle_input("gamepad", button, false) then
+-- 	if Handy.controller_v2.process_gamepad_input(button, false) then
 -- 		return
 -- 	end
 -- 	return controller_button_press_ref(self, button, ...)
@@ -202,7 +203,7 @@ end)
 
 -- local controller_button_release_ref = Controller.button_release
 -- function Controller:button_release(button, ...)
--- 	if Handy.controller.handle_input("gamepad", button, true) then
+-- 	if Handy.controller_v2.process_gamepad_input(button, true) then
 -- 		return
 -- 	end
 -- 	return controller_button_release_ref(self, button, ...)

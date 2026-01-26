@@ -1,7 +1,32 @@
+local PreventableContext = Object:extend()
+
+function PreventableContext:init()
+	self.default_prevented = false
+	self.propagation_stopped = false
+
+	self.is_default_prevented = function(self)
+		return self.default_prevented or false
+	end
+	self.is_propagation_stopped = function(self)
+		return self.propagation_stopped or false
+	end
+
+	self.prevent_default = function(self)
+		self.default_prevented = true
+	end
+	self.stop_propagation = function(self)
+		self.propagation_stopped = true
+	end
+
+	return self
+end
+
+---
+
 local input_context
 
 local function create_empty_input_context()
-	local context = {
+	local context = PreventableContext.init({
 		type = "input",
 		input = true,
 		none = true,
@@ -14,10 +39,7 @@ local function create_empty_input_context()
 
 		hold_duration = 0,
 		real_hold_duration = 0,
-
-		default_prevented = false,
-		propagation_stopped = false,
-	}
+	})
 	return context
 end
 local function create_input_context(input_type, raw_key, released, starting_hold_duration)
@@ -34,7 +56,7 @@ local function create_input_context(input_type, raw_key, released, starting_hold
 		return create_empty_input_context()
 	end
 
-	local context = {
+	local context = PreventableContext.init({
 		type = "input",
 		input = true,
 
@@ -56,10 +78,7 @@ local function create_input_context(input_type, raw_key, released, starting_hold
 		[input_type] = true,
 		[input_type .. "_" .. action] = true,
 		[input_type .. "_trigger"] = trigger and true or nil,
-
-		default_prevented = false,
-		propagation_stopped = false,
-	}
+	})
 	return context
 end
 
@@ -94,7 +113,7 @@ local controller_input = {
 local card_context
 
 local function create_empty_card_context()
-	local context = {
+	local context = PreventableContext.init({
 		type = "card",
 		card = true,
 		none = true,
@@ -108,16 +127,13 @@ local function create_empty_card_context()
 		clicked_previous = nil,
 
 		target = nil,
-
-		default_prevented = false,
-		propagation_stopped = false,
-	}
+	})
 	return context
 end
 local function create_card_context(input_type, card)
 	input_type = input_type or "none"
 
-	local context = {
+	local context = PreventableContext.init({
 		type = "card",
 		card = true,
 
@@ -131,10 +147,7 @@ local function create_card_context(input_type, card)
 		clicked_previous = card_context.clicked_previous,
 
 		target = card,
-
-		default_prevented = false,
-		propagation_stopped = false,
-	}
+	})
 
 	if input_type == "hover" then
 		context.hovered_previous = context.hovered_current or context.hovered_previous
@@ -182,7 +195,7 @@ local controller_card = {
 local tag_context
 
 local function create_empty_tag_context()
-	local context = {
+	local context = PreventableContext.init({
 		type = "tag",
 		tag = true,
 		none = true,
@@ -196,16 +209,13 @@ local function create_empty_tag_context()
 		clicked_previous = nil,
 
 		target = nil,
-
-		default_prevented = false,
-		propagation_stopped = false,
-	}
+	})
 	return context
 end
 local function create_tag_context(input_type, tag)
 	input_type = input_type or "none"
 
-	local context = {
+	local context = PreventableContext.init({
 		type = "tag",
 		tag = true,
 
@@ -222,7 +232,7 @@ local function create_tag_context(input_type, tag)
 
 		default_prevented = false,
 		propagation_stopped = false,
-	}
+	})
 
 	if input_type == "hover" then
 		context.hovered_previous = context.hovered_current or context.hovered_previous
@@ -270,7 +280,7 @@ local controller_tag = {
 local hold_context
 
 local function create_empty_hold_context()
-	local context = {
+	local context = PreventableContext.init({
 		type = "hold",
 		hold = true,
 		none = true,
@@ -280,13 +290,13 @@ local function create_empty_hold_context()
 
 		default_prevented = false,
 		propagation_stopped = false,
-	}
+	})
 	return context
 end
 local function create_hold_context(dt, size)
 	size = size or 0
 
-	local context = {
+	local context = PreventableContext.init({
 		type = "hold",
 		hold = true,
 		none = size == 0,
@@ -297,8 +307,7 @@ local function create_hold_context(dt, size)
 
 		default_prevented = false,
 		propagation_stopped = false,
-	}
-
+	})
 	return context
 end
 
