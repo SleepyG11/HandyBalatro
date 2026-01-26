@@ -2,6 +2,7 @@ Handy.controller_v2 = {}
 
 ---
 
+Handy.load_file("src/controller_v2/keys.lua")
 Handy.load_file("src/controller_v2/contexts.lua")
 Handy.load_file("src/controller_v2/key_states.lua")
 Handy.load_file("src/controller_v2/debugplus.lua")
@@ -61,7 +62,7 @@ end
 ---
 
 function Handy.controller_v2.process_hold(dt)
-	local size = Handy.controller_v2.key_states.update(dt, false)
+	local size = Handy.controller_v2.key_states.update(dt)
 	local hold_context = Handy.controller_v2.hold.update_context(dt, size)
 	local deducted = false
 	if not hold_context.none then
@@ -70,8 +71,8 @@ function Handy.controller_v2.process_hold(dt)
 		if hold_context.default_prevented or hold_context.propagation_stopped then
 			hold_context.dt = 0
 			if not deducted then
-				deducted = true
 				Handy.controller_v2.key_states.update(-dt, true)
+				deducted = true
 			end
 		else
 			-- start processing hold here

@@ -133,18 +133,29 @@ end
 local function is_key_release(key)
 	return key and keys_release[key] or nil
 end
+local function is_key_trigger(key, released)
+	if not key then
+		return false
+	elseif not Handy.controller_v2.keys.is_holdable_key(key) then
+		return not released
+	elseif Handy.cc.keybinds_trigger_mode.value == 2 then
+		return released
+	else
+		return not released
+	end
+end
 
 local function is_raw_key_press(input_type, raw_key)
-	local key = Handy.controller.from_raw(raw_key, { [input_type or ""] = true })
-	return is_key_press(key)
+	return is_key_press(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
 end
 local function is_raw_key_hold(input_type, raw_key)
-	local key = Handy.controller.from_raw(raw_key, { [input_type or ""] = true })
-	return is_key_hold(key)
+	return is_key_hold(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
 end
 local function is_raw_key_release(input_type, raw_key)
-	local key = Handy.controller.from_raw(raw_key, { [input_type or ""] = true })
-	return is_key_release(key)
+	return is_key_release(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
+end
+local function is_raw_key_trigger(input_type, raw_key, released)
+	return is_key_trigger(Handy.controller_v2.keys.raw_to_key(input_type, raw_key), released)
 end
 
 local key_states = {
@@ -169,10 +180,12 @@ local key_states = {
 	is_press = is_key_press,
 	is_hold = is_key_hold,
 	is_release = is_key_release,
+	is_trigger = is_key_trigger,
 
 	is_raw_press = is_raw_key_press,
 	is_raw_hold = is_raw_key_hold,
 	is_raw_release = is_raw_key_release,
+	is_raw_trigger = is_raw_key_trigger,
 
 	update = update_hold,
 }

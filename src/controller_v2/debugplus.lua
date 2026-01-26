@@ -39,7 +39,7 @@ local function is_dp_console_opened()
 	return Handy.b_is_mod_active() and console_open_timer > G.TIMERS.UPTIME
 end
 local function b_is_dp_console_opened()
-	return Handy.buffered("dp_is_console_opened", is_dp_console_opened)
+	return Handy.buffered("v2_dp_is_console_opened", is_dp_console_opened)
 end
 local function update_dp_console_opened()
 	local dpconsole = get_dp_console()

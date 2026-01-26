@@ -22,19 +22,13 @@ local function create_empty_input_context()
 end
 local function create_input_context(input_type, raw_key, released, starting_hold_duration)
 	local action = released and "release" or "press"
-	local trigger = Handy.controller.is_triggered(released)
+	local key = Handy.controller_v2.keys.raw_to_key(input_type, raw_key)
 
-	local key, back
-	if input_type == "mouse" or input_type == "touch" then
-		key, back = Handy.controller.from_raw(Handy.controller.D.RAW_TO_MOUSE[raw_key], { [input_type] = true })
-	elseif input_type == "wheel" then
-		key, back = Handy.controller.from_raw(Handy.controller.D.RAW_TO_WHEEL[raw_key], { [input_type] = true })
-	else
-		key, back = Handy.controller.from_raw(raw_key, { [input_type or ""] = true })
-	end
+	local trigger = Handy.controller_v2.key_states.is_trigger(key, released)
 
-	local holdable = not Handy.controller.D.NON_HOLDABLE_INPUTS[key]
-	local safe = not Handy.controller.D.NON_SAFE_INPUTS[key]
+	local back = Handy.controller_v2.keys.is_back_key(key)
+	local safe = Handy.controller_v2.keys.is_safe_key(key)
+	local holdable = Handy.controller_v2.keys.is_holdable_key(key)
 
 	if released and not holdable then
 		return create_empty_input_context()
@@ -336,16 +330,3 @@ Handy.controller_v2.input = controller_input
 Handy.controller_v2.card = controller_card
 Handy.controller_v2.tag = controller_tag
 Handy.controller_v2.hold = controller_hold
-
-Handy.controller_v2.is_input_context = function(ctx)
-	return ctx and ctx.input or false
-end
-Handy.controller_v2.is_card_context = function(ctx)
-	return ctx and ctx.card or false
-end
-Handy.controller_v2.is_tag_context = function(ctx)
-	return ctx and ctx.tag or false
-end
-Handy.controller_v2.is_hold_context = function(ctx)
-	return ctx and ctx.hold or false
-end
