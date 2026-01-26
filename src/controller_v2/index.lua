@@ -32,21 +32,21 @@ end
 ---
 
 function Handy.controller_v2.process_input(input_type, raw_key, released)
-	local input_context = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
-	Handy.controller_v2.device.update_type(input_context)
+	local ctx = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
+	Handy.controller_v2.device.update_type(ctx)
 
-	if not input_context.none then
-		Handy.controller_v2.binding.process_binding(input_context)
+	if not ctx.none then
+		Handy.controller_v2.binding.process_binding(ctx)
 
-		if not input_context.propagation_stopped then
-			Handy.controller_v2.filter_context(input_context)
+		if not ctx.propagation_stopped then
+			Handy.controller_v2.filter_context(ctx)
 		end
-		if not input_context.propagation_stopped then
+		if not ctx.propagation_stopped then
 			-- start processing controls here
 		end
 	end
 
-	local is_default_prevented = input_context.default_prevented
+	local is_default_prevented = ctx.default_prevented
 	Handy.controller_v2.key_states.post_action(released)
 	return is_default_prevented
 end
@@ -70,19 +70,19 @@ end
 ---
 
 function Handy.controller_v2.process_card(input_type, card)
-	local card_context = Handy.controller_v2.card.update_context(input_type, card)
+	local ctx = Handy.controller_v2.card.update_context(input_type, card)
 
-	if not card_context.none then
-		if not card_context.propagation_stopped then
-			Handy.controller_v2.filter_context(card_context)
+	if not ctx.none then
+		if not ctx.propagation_stopped then
+			Handy.controller_v2.filter_context(ctx)
 		end
-		if not card_context.propagation_stopped then
+		if not ctx.propagation_stopped then
 			-- start processing card here
 		end
 	end
 
-	local is_default_prevented = card_context.default_prevented
-	if card_context.input_type == "click" then
+	local is_default_prevented = ctx.default_prevented
+	if ctx.input_type == "click" then
 		Handy.controller_v2.card.update_context("stop_click", card)
 	end
 	return is_default_prevented
@@ -101,19 +101,19 @@ end
 ---
 
 function Handy.controller_v2.process_tag(input_type, tag)
-	local tag_context = Handy.controller_v2.tag.update_context(input_type, tag)
+	local ctx = Handy.controller_v2.tag.update_context(input_type, tag)
 
-	if not tag_context.none then
-		if not tag_context.propagation_stopped then
-			Handy.controller_v2.filter_context(tag_context)
+	if not ctx.none then
+		if not ctx.propagation_stopped then
+			Handy.controller_v2.filter_context(ctx)
 		end
-		if not tag_context.propagation_stopped then
+		if not ctx.propagation_stopped then
 			-- start processing tag here
 		end
 	end
 
-	local is_default_prevented = tag_context.default_prevented
-	if tag_context.input_type == "click" then
+	local is_default_prevented = ctx.default_prevented
+	if ctx.input_type == "click" then
 		Handy.controller_v2.tag.update_context("stop_click", tag)
 	end
 	return is_default_prevented
@@ -133,14 +133,14 @@ end
 
 function Handy.controller_v2.process_hold(dt)
 	local size = Handy.controller_v2.key_states.update(dt)
-	local hold_context = Handy.controller_v2.hold.update_context(dt, size)
+	local ctx = Handy.controller_v2.hold.update_context(dt, size)
 	local deducted = false
 
-	if not hold_context.none then
-		Handy.controller_v2.filter_context(hold_context)
+	if not ctx.none then
+		Handy.controller_v2.filter_context(ctx)
 
-		if hold_context.default_prevented or hold_context.propagation_stopped then
-			hold_context.dt = 0
+		if ctx.default_prevented or ctx.propagation_stopped then
+			ctx.dt = 0
 			if not deducted then
 				Handy.controller_v2.key_states.update(-dt, true)
 				deducted = true
@@ -149,8 +149,8 @@ function Handy.controller_v2.process_hold(dt)
 			-- start processing hold here
 		end
 
-		if hold_context.default_prevented or hold_context.propagation_stopped then
-			hold_context.dt = 0
+		if ctx.default_prevented or ctx.propagation_stopped then
+			ctx.dt = 0
 			if not deducted then
 				deducted = true
 				Handy.controller_v2.key_states.update(-dt, true)
@@ -158,7 +158,7 @@ function Handy.controller_v2.process_hold(dt)
 		end
 	end
 
-	local is_default_prevented = hold_context.default_prevented
+	local is_default_prevented = ctx.default_prevented
 	Handy.controller_v2.hold.update_context()
 	return is_default_prevented
 end
