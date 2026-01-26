@@ -145,19 +145,6 @@ local function is_key_trigger(key, released)
 	end
 end
 
-local function is_raw_key_press(input_type, raw_key)
-	return is_key_press(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
-end
-local function is_raw_key_hold(input_type, raw_key)
-	return is_key_hold(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
-end
-local function is_raw_key_release(input_type, raw_key)
-	return is_key_release(Handy.controller_v2.keys.raw_to_key(input_type, raw_key))
-end
-local function is_raw_key_trigger(input_type, raw_key, released)
-	return is_key_trigger(Handy.controller_v2.keys.raw_to_key(input_type, raw_key), released)
-end
-
 local key_states = {
 	hold = keys_hold,
 	press = keys_press,
@@ -182,11 +169,6 @@ local key_states = {
 	is_release = is_key_release,
 	is_trigger = is_key_trigger,
 
-	is_raw_press = is_raw_key_press,
-	is_raw_hold = is_raw_key_hold,
-	is_raw_release = is_raw_key_release,
-	is_raw_trigger = is_raw_key_trigger,
-
 	update = update_hold,
 }
 
@@ -197,3 +179,4 @@ Handy.controller_v2.key_states = key_states
 Handy.controller_v2.is_key_press = is_key_press
 Handy.controller_v2.is_key_hold = is_key_hold
 Handy.controller_v2.is_key_release = is_key_release
+Handy.controller_v2.is_key_trigger = is_key_trigger

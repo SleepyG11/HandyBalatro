@@ -72,6 +72,8 @@ local function notify_about_prevented_input()
 	end, nil, 3)
 end
 
+---
+
 debugplus_module.is_console_opened = b_is_dp_console_opened
 debugplus_module.should_prevent_input = b_should_prevent_input
 debugplus_module.notify_about_prevented_input = notify_about_prevented_input

@@ -257,14 +257,14 @@ local keys = {
 	NON_HOLDABLE_KEYS = non_holdable_keys,
 	NON_SAFE_KEYS = non_safe_keys,
 	BACK_KEYS = back_keys,
+
+	is_back_key = is_back_key,
+	is_safe_key = is_safe_key,
+	is_holdable_key = is_holdable_key,
+
+	raw_to_key = raw_to_key,
+	key_to_raws = key_to_raws,
 }
-
-keys.is_back_key = is_back_key
-keys.is_safe_key = is_safe_key
-keys.is_holdable_key = is_holdable_key
-
-keys.raw_to_key = raw_to_key
-keys.key_to_raws = key_to_raws
 
 ---
 
