@@ -18,6 +18,10 @@ function PreventableContext:init()
 		self.propagation_stopped = true
 	end
 
+	self.is_empty = function(self)
+		return self.none
+	end
+
 	return self
 end
 
@@ -335,7 +339,15 @@ local controller_hold = {
 
 ---
 
+local function non_empty_context(ctx)
+	return ctx and not ctx:is_empty() and ctx or nil
+end
+
+---
+
 Handy.controller_v2.input = controller_input
 Handy.controller_v2.card = controller_card
 Handy.controller_v2.tag = controller_tag
 Handy.controller_v2.hold = controller_hold
+
+Handy.controller_v2.non_empty_context = non_empty_context

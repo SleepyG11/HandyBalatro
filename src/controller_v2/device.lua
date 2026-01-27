@@ -7,7 +7,8 @@ local device_module = {
 }
 
 local function update_device_type(ctx)
-	if not ctx or ctx.none or not ctx.input or ctx.touch then
+	ctx = Handy.controller_v2.non_empty_context(ctx)
+	if not ctx or not ctx.input or ctx.touch then
 		-- perform just check
 	elseif ctx.gamepad or G.CONTROLLER.HID.controller then
 		device_module.real = "gamepad"
@@ -48,3 +49,5 @@ device_module.is_gamepad = is_gamepad
 device_module.is_keyboard = is_keyboard
 
 Handy.controller_v2.device = device_module
+Handy.controller_v2.is_gamepad = is_gamepad
+Handy.controller_v2.is_keyboard = is_gamepad

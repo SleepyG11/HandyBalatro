@@ -35,7 +35,7 @@ function Handy.controller_v2.process_input(input_type, raw_key, released)
 	local ctx = Handy.controller_v2.key_states.pre_action(input_type, raw_key, released)
 	Handy.controller_v2.device.update_type(ctx)
 
-	if not ctx.none then
+	if Handy.controller_v2.non_empty_context(ctx) then
 		Handy.controller_v2.binding.process_binding(ctx)
 
 		if not ctx:is_propagation_stopped() then
@@ -72,7 +72,7 @@ end
 function Handy.controller_v2.process_card(input_type, card)
 	local ctx = Handy.controller_v2.card.update_context(input_type, card)
 
-	if not ctx.none then
+	if Handy.controller_v2.non_empty_context(ctx) then
 		if not ctx:is_propagation_stopped() then
 			Handy.controller_v2.filter_context(ctx)
 		end
@@ -103,7 +103,7 @@ end
 function Handy.controller_v2.process_tag(input_type, tag)
 	local ctx = Handy.controller_v2.tag.update_context(input_type, tag)
 
-	if not ctx.none then
+	if Handy.controller_v2.non_empty_context(ctx) then
 		if not ctx:is_propagation_stopped() then
 			Handy.controller_v2.filter_context(ctx)
 		end
@@ -136,7 +136,7 @@ function Handy.controller_v2.process_hold(dt)
 	local ctx = Handy.controller_v2.hold.update_context(dt, size)
 	local deducted = false
 
-	if not ctx.none then
+	if Handy.controller_v2.non_empty_context(ctx) then
 		Handy.controller_v2.filter_context(ctx)
 
 		if ctx:is_default_prevented() or ctx:is_propagation_stopped() then

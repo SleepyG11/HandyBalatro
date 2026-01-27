@@ -7,9 +7,13 @@ local real_keys_press = {}
 local real_keys_release = {}
 
 local keys_hold_size = nil
-local function get_keys_hold_size()
+local function get_keys_hold_size(args)
+	args = args or {}
 	if not keys_hold_size then
 		keys_hold_size = Handy.utils.table_keys_count(keys_hold)
+	end
+	if args.include_release then
+		keys_hold_size = keys_hold_size + Handy.utils.table_keys_count(keys_release)
 	end
 	return keys_hold_size
 end
@@ -156,6 +160,10 @@ local function get_key_hold_duration(key, args)
 	end
 	args = args or {}
 
+	if not args.no_aliases then
+		key = Handy.keys_aliases[key] or key
+	end
+
 	local hold_d = args.real and real_keys_hold[key] or keys_hold[key]
 	if not hold_d and args.include_release then
 		hold_d = args.real and real_keys_release[key] or keys_release[key]
@@ -165,15 +173,24 @@ end
 local function get_keys_hold_duration(keys, args)
 	local max_value = 0
 	local is_empty = true
+
+	local is_present = not args.check_key
+	local check_key = args.check_key
+	if check_key and not args.no_aliases then
+		check_key = Handy.keys_aliases[key] or check_key
+	end
 	for _, key in ipairs(keys or {}) do
 		is_empty = false
+		if check_key and key == check_key then
+			is_present = true
+		end
 		local hold_d = get_key_hold_duration(key, args)
 		if not hold_d then
 			return nil
 		end
 		max_value = math.max(max_value, hold_d)
 	end
-	return not is_empty and max_value or nil
+	return is_present and not is_empty and max_value or nil
 end
 
 local function is_key_hold(keys, args)
@@ -183,6 +200,10 @@ end
 local function is_keys_hold(keys, args)
 	local d = get_keys_hold_duration(keys, args)
 	return d ~= nil, d or 0
+end
+
+local function is_keys_count_match(keys, args)
+	return keys and #keys == get_keys_hold_size(args)
 end
 
 ---
@@ -216,6 +237,8 @@ local key_states = {
 	get_keys_hold_duration = get_keys_hold_duration,
 	is_keys_hold = is_keys_hold,
 
+	is_keys_count_match = is_keys_count_match,
+
 	update = update_hold,
 }
 
@@ -229,3 +252,4 @@ Handy.controller_v2.is_key_trigger = is_key_trigger
 
 Handy.controller_v2.is_key_hold = is_key_hold
 Handy.controller_v2.is_keys_hold = is_keys_hold
+Handy.controller_v2.is_keys_count_match = is_keys_count_match

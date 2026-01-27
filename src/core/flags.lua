@@ -21,6 +21,13 @@ function Handy.b_is_mp_lobby_extension_active()
 	return Handy.buffered("is_mp_lobby_extension_active", Handy.is_mp_lobby_extension_active)
 end
 
+-- function Handy.is_in_overlay()
+-- 	return not not (G.SETTINGS.paused or G.OVERLAY_MENU)
+-- end
+-- function Handy.b_is_in_overlay()
+-- 	return Handy.buffered("is_in_overlay", Handy.is_in_overlay)
+-- end
+
 function Handy.is_in_run()
 	return G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused and not G.OVERLAY_MENU
 end
