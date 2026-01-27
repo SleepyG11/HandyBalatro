@@ -182,22 +182,22 @@ Handy.e_mitter.on("update", function(dt)
 end)
 
 function Handy.controller.handle_input(type, key, released)
-	-- return Handy.controller_v2.process_input(type, key, released)
-	Handy.controller.reset_prevents()
-	local context = Handy.controller.set_input_context(type, key, released)
-	if not released then
-		Handy.controller.held_keys[context.key] = 0
-		Handy.controller.held_keys_pre[context.key] = 0
-	else
-		Handy.controller.held_keys_pre[context.key] = nil
-	end
-	Handy.e_mitter.emit("raw_input", type, key, released)
-	if not context.holdable or released then
-		Handy.controller.held_keys[context.key] = nil
-		Handy.controller.held_keys_pre[context.key] = nil
-	end
-	Handy.controller.set_input_context("none")
-	return Handy.controller.is_default_prevented()
+	return Handy.controller_v2.process_input(type, key, released)
+	-- Handy.controller.reset_prevents()
+	-- local context = Handy.controller.set_input_context(type, key, released)
+	-- if not released then
+	-- 	Handy.controller.held_keys[context.key] = 0
+	-- 	Handy.controller.held_keys_pre[context.key] = 0
+	-- else
+	-- 	Handy.controller.held_keys_pre[context.key] = nil
+	-- end
+	-- Handy.e_mitter.emit("raw_input", type, key, released)
+	-- if not context.holdable or released then
+	-- 	Handy.controller.held_keys[context.key] = nil
+	-- 	Handy.controller.held_keys_pre[context.key] = nil
+	-- end
+	-- Handy.controller.set_input_context("none")
+	-- return Handy.controller.is_default_prevented()
 end
 
 function Handy.controller.handle_card_click(card)

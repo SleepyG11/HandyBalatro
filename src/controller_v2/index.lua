@@ -42,7 +42,6 @@ function Handy.controller_v2.process_input(input_type, raw_key, released)
 			Handy.controller_v2.filter_context(ctx)
 		end
 		if not ctx:is_propagation_stopped() then
-			print(ctx)
 			Handy.e_mitter.emit("controller_input", ctx)
 		end
 	end

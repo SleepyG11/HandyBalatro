@@ -45,6 +45,7 @@ Handy.load_file("src/index.lua")
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
 -- 13. "update mod" button
+-- 14. "copy lovely log" keybind
 
 -- TODO: check controls (controller)
 -- hand selection - fix preview
