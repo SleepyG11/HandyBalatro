@@ -7,11 +7,13 @@ Handy.load_file("src/controls_v2/controls.lua")
 
 Handy.load_file("src/controls_v2/stacks/input.lua")
 
-Handy.load_file("src/controls_v2/controls/speed_multiplier.lua")
-Handy.load_file("src/controls_v2/controls/animation_skip.lua")
-Handy.load_file("src/controls_v2/controls/presets_switch.lua")
-Handy.load_file("src/controls_v2/controls/controller_sensitivity.lua")
-Handy.load_file("src/controls_v2/controls/scoring_hold.lua")
+Handy.load_files({
+	"speed_multiplier.lua",
+	"animation_skip/index.lua",
+	"presets_switch.lua",
+	"controller_sensitivity.lua",
+	"scoring_hold.lua",
+}, "src/controls_v2/controls/")
 
 ---
 

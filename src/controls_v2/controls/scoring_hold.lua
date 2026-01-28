@@ -58,13 +58,13 @@ Handy.controls_v2.register("scoring_hold", {
 		if Handy.controller_v2.should_prevent() then
 			new_value = false
 		elseif is_preview then
-			new_value = self:can_execute(self)
+			new_value = self:can_execute()
 			new_hand_played_value = Handy.UI.data.is_speed_n_animations_calculate
 
 			Handy.scoring_hold.preview_is_hold = new_value
 			Handy.scoring_hold.preview_is_hand_played = new_hand_played_value
 		else
-			new_value = self:can_execute(self)
+			new_value = self:can_execute()
 			new_hand_played_value = G.STATE == G.STATES.HAND_PLAYED
 
 			Handy.scoring_hold.is_hold = new_value
