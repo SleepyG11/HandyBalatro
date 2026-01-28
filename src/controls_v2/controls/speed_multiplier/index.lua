@@ -1,3 +1,7 @@
+Handy.load_file("src/controls_v2/controls/speed_multiplier/logic.lua")
+
+---
+
 Handy.controls_v2.register("speed_multiplier_toggle_temp_disabled", {
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_toggle_temp_disabled, { Handy.cc.speed_multiplier }

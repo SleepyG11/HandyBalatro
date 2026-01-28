@@ -320,7 +320,7 @@ function Handy.UI.CP.module_keybind_button(module, key, options, additional_opti
 	}
 end
 G.FUNCS.handy_start_binding = function(e)
-	Handy.controller.binding.start_binding(e.config.ref_table, e)
+	Handy.controller_v2.binding.start_binding(e.config.ref_table, e)
 end
 
 --

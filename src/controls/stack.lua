@@ -417,9 +417,9 @@ function Handy.controls.get_stack(context)
 end
 
 Handy.load_files({
-	"speed_multiplier.lua",
+	-- "speed_multiplier.lua",
 	-- "animation_skip.lua",
-	"presets_switch.lua",
+	-- "presets_switch.lua",
 	"hand_selection.lua",
 	-- "scoring_hold.lua",
 	"regular_keybinds.lua",

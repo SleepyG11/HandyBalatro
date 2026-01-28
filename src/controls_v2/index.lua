@@ -8,9 +8,9 @@ Handy.load_file("src/controls_v2/controls.lua")
 Handy.load_file("src/controls_v2/stacks/input.lua")
 
 Handy.load_files({
-	"speed_multiplier.lua",
+	"speed_multiplier/index.lua",
 	"animation_skip/index.lua",
-	"presets_switch.lua",
+	"presets_switch/index.lua",
 	"controller_sensitivity.lua",
 	"scoring_hold.lua",
 }, "src/controls_v2/controls/")
