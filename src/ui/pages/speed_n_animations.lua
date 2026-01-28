@@ -45,7 +45,7 @@ local function calculate(deck, hand, jokers)
 				end
 			end
 			Handy.UI.utils.delay(1.5)
-			Handy.scoring_hold.preview_create_hold_event(false)
+			Handy.scoring_hold.create_hold_event(false, true)
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					G.FUNCS.handy_speed_n_animations_stop_calculation(nil)

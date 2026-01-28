@@ -5,7 +5,7 @@ Handy.controls_v2.dictionary = {}
 function Handy.controls_v2.register(key, item)
 	item.get_module = item.get_module or function() end
 	item.update = item.update or function() end
-	item.update_state_panel = item.update_state_panel or function() end
+	-- item.update_state_panel = item.update_state_panel or function() end
 
 	item.key = key
 
@@ -62,9 +62,10 @@ end
 
 function Handy.controls_v2.can_execute_control(item, args)
 	-- Cant execute nothing or non-executable
-	if not item or not item.execute then
+	if not item then
 		return false, "no_item"
 	end
+	args = args or {}
 
 	local module, deps = item:get_module()
 	module = Handy.m(module)
@@ -165,9 +166,15 @@ function Handy.controls_v2.execute_control(key, args)
 	local check_func = target and target.can_execute or Handy.controls_v2.can_execute_control
 	local can_execute, leftover_data = check_func(target, args)
 	if can_execute then
-		local execute_result = target.execute(target, args, leftover_data)
-		return execute_result or false, true, "ok"
+		local execute_result = target.execute and target.execute(target, args, leftover_data) or false
+		return execute_result, true, "ok"
 	else
 		return false, false, leftover_data or "unknown"
 	end
 end
+
+Handy.e_mitter.on("update", function(dt)
+	for _, item in pairs(Handy.controls_v2.dictionary) do
+		item:update(dt)
+	end
+end)

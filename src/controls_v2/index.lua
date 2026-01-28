@@ -5,11 +5,13 @@ Handy.controls_v2 = {
 Handy.load_file("src/controls_v2/stack.lua")
 Handy.load_file("src/controls_v2/controls.lua")
 
-Handy.load_file("src/controls_v2/stacks/test.lua")
+Handy.load_file("src/controls_v2/stacks/input.lua")
 
 Handy.load_file("src/controls_v2/controls/speed_multiplier.lua")
 Handy.load_file("src/controls_v2/controls/animation_skip.lua")
 Handy.load_file("src/controls_v2/controls/presets_switch.lua")
+Handy.load_file("src/controls_v2/controls/controller_sensitivity.lua")
+Handy.load_file("src/controls_v2/controls/scoring_hold.lua")
 
 ---
 
