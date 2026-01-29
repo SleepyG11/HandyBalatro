@@ -102,8 +102,17 @@ function Handy.controls_v2.can_execute_control(item, args)
 		if ctx:is_empty() then
 			return false, "empty_context"
 		end
-		if item.ctx_type and not item.ctx_type[ctx.type] then
-			return false, "context_type_mismatch"
+
+		if item.ctx_type then
+			local v = item.ctx_type[ctx.type]
+			if not v then
+				return false, "context_type_mismatch"
+			end
+			if type(v) == "table" then
+				if not ctx.input_type or not v[ctx.input_type] then
+					return false, "context_input_type_mismatch"
+				end
+			end
 		end
 		if ctx.input then
 			-- Back button (avoid usage of it, especially preventing)

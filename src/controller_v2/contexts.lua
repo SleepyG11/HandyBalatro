@@ -120,9 +120,9 @@ local function create_empty_card_context()
 	local context = PreventableContext.init({
 		type = "card",
 		card = true,
-		none = true,
 
-		input_type = "none",
+		action = "none",
+		none = true,
 
 		hovered_current = nil,
 		hovered_previous = nil,
@@ -134,15 +134,15 @@ local function create_empty_card_context()
 	})
 	return context
 end
-local function create_card_context(input_type, card)
-	input_type = input_type or "none"
+local function create_card_context(action, card)
+	action = action or "none"
 
 	local context = PreventableContext.init({
 		type = "card",
 		card = true,
 
-		input_type = input_type,
-		[input_type] = true,
+		action = action,
+		[action] = true,
 
 		hovered_current = card_context.hovered_current,
 		hovered_previous = card_context.hovered_previous,
@@ -153,18 +153,18 @@ local function create_card_context(input_type, card)
 		target = card,
 	})
 
-	if input_type == "hover" then
+	if action == "hover" then
 		context.hovered_previous = context.hovered_current or context.hovered_previous
 		context.hovered_current = card
-	elseif input_type == "stop_hover" then
+	elseif action == "stop_hover" then
 		if context.hovered_current == card then
 			context.hovered_previous = context.hovered_current or context.hovered_previous
 			context.hovered_current = nil
 		end
-	elseif input_type == "click" then
+	elseif action == "click" then
 		context.clicked_previous = context.clicked_current or context.clicked_previous
 		context.clicked_current = card
-	elseif input_type == "stop_click" or input_type == "none" then
+	elseif action == "stop_click" or action == "none" then
 		context.clicked_previous = context.clicked_current or context.clicked_previous
 		context.clicked_current = nil
 	end
@@ -189,8 +189,8 @@ local controller_card = {
 	create_empty_context = create_empty_card_context,
 	create_context = create_card_context,
 
-	update_context = function(input_type, card)
-		return set_card_context(create_card_context(input_type, card))
+	update_context = function(action, card)
+		return set_card_context(create_card_context(action, card))
 	end,
 }
 
@@ -202,9 +202,9 @@ local function create_empty_tag_context()
 	local context = PreventableContext.init({
 		type = "tag",
 		tag = true,
-		none = true,
 
-		input_type = "none",
+		action = "none",
+		none = true,
 
 		hovered_current = nil,
 		hovered_previous = nil,
@@ -216,15 +216,15 @@ local function create_empty_tag_context()
 	})
 	return context
 end
-local function create_tag_context(input_type, tag)
-	input_type = input_type or "none"
+local function create_tag_context(action, tag)
+	action = action or "none"
 
 	local context = PreventableContext.init({
 		type = "tag",
 		tag = true,
 
-		input_type = input_type,
-		[input_type] = true,
+		action = action,
+		[action] = true,
 
 		hovered_current = tag_context.hovered_current,
 		hovered_previous = tag_context.hovered_previous,
@@ -233,23 +233,20 @@ local function create_tag_context(input_type, tag)
 		clicked_previous = tag_context.clicked_previous,
 
 		target = tag,
-
-		default_prevented = false,
-		propagation_stopped = false,
 	})
 
-	if input_type == "hover" then
+	if action == "hover" then
 		context.hovered_previous = context.hovered_current or context.hovered_previous
 		context.hovered_current = tag
-	elseif input_type == "stop_hover" then
+	elseif action == "stop_hover" then
 		if context.hovered_current == tag then
 			context.hovered_previous = context.hovered_current or context.hovered_previous
 			context.hovered_current = nil
 		end
-	elseif input_type == "click" then
+	elseif action == "click" then
 		context.clicked_previous = context.clicked_current or context.clicked_previous
 		context.clicked_current = tag
-	elseif input_type == "stop_click" or input_type == "none" then
+	elseif action == "stop_click" or action == "none" then
 		context.clicked_previous = context.clicked_current or context.clicked_previous
 		context.clicked_current = nil
 	end
@@ -274,8 +271,8 @@ local controller_tag = {
 	create_empty_context = create_empty_tag_context,
 	create_context = create_tag_context,
 
-	update_context = function(input_type, tag)
-		return set_tag_context(create_tag_context(input_type, tag))
+	update_context = function(action, tag)
+		return set_tag_context(create_tag_context(action, tag))
 	end,
 }
 
