@@ -6,11 +6,11 @@ for _, index in ipairs({ 1, 2, 3, "next" }) do
 			return Handy.cc["presets_load_" .. index], { Handy.cc.presets }
 		end,
 
-		context_type = {
+		context_types = {
 			input = true,
 		},
 		trigger = "trigger",
-		require_exact = true,
+		require_exact_keys = true,
 
 		execute = function(self, context)
 			return Handy.presets_switch.execute(index)

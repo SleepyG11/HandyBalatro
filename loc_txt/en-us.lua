@@ -468,8 +468,8 @@ return {
 				},
 			},
 
-			regular_keybinds_group_round = {
-				name = "Round",
+			regular_keybinds_group_hand = {
+				name = "Hand",
 				text = {},
 			},
 			regular_keybinds_play = {
@@ -481,15 +481,20 @@ return {
 				text = {},
 			},
 			regular_keybinds_change_sort_rank = {
-				name = { "Sort by Rank" },
+				name = { "Sort hand by Rank" },
 				text = {},
 			},
 			regular_keybinds_change_sort_suit = {
-				name = { "Sort by Suit" },
+				name = { "Sort hand by Suit" },
 				text = {},
 			},
 			regular_keybinds_toggle_sort = {
-				name = { "Toggle sort" },
+				name = { "Switch hand sorting" },
+				text = { "Suit > Rank > Suit..." },
+			},
+
+			regular_keybinds_group_round = {
+				name = "Round",
 				text = {},
 			},
 			regular_keybinds_start_fantoms_preview = {
@@ -933,6 +938,7 @@ return {
 			["Animations"] = "Animations",
 			["Hold"] = "Hold",
 			["Round"] = "Round",
+			["Hand & Round"] = "Hand/Round",
 			["Shop & Blind Select"] = "Shop/Blinds",
 			["Game & Menus"] = "Game/Menus",
 			["MP Extension"] = "Multiplayer Extension",

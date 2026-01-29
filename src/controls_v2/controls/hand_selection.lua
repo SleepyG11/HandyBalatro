@@ -13,7 +13,7 @@ Handy.controls_v2.register("hand_selection_insta_highlight", {
 		return Handy.cc.hand_selection_insta_highlight, { Handy.cc.hand_selection }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 	},
@@ -108,7 +108,7 @@ Handy.controls_v2.register("hand_selection_deselect_hand", {
 		return Handy.cc.hand_selection_deselect_hand, { Handy.cc.hand_selection }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 	trigger = "trigger",
@@ -163,7 +163,7 @@ Handy.controls_v2.register("hand_selection_entire_f_hand", {
 		return Handy.cc.hand_selection_entire_f_hand, { Handy.cc.hand_selection }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 

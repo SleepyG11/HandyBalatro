@@ -62,7 +62,7 @@ Handy.animation_skip = {
 			Handy.animation_skip.temp_disabled
 			or not Handy.b_is_mod_active()
 			or Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
-			or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
+			or not Handy.controls_v2.is_module_enabled(Handy.cc.animation_skip)
 		then
 			return 1
 		end
@@ -90,8 +90,8 @@ Handy.animation_skip = {
 	end,
 	load_default_value = function()
 		if
-			Handy.controls.is_module_enabled(Handy.cc.animation_skip)
-			and Handy.controls.is_module_enabled(Handy.cc.animation_skip_default_value)
+			Handy.controls_v2.is_module_enabled(Handy.cc.animation_skip)
+			and Handy.controls_v2.is_module_enabled(Handy.cc.animation_skip_default_value)
 		then
 			Handy.animation_skip.value =
 				math.max(1, math.min(4, math.floor(Handy.cc.animation_skip_default_value.value) or 1))
@@ -103,7 +103,7 @@ Handy.animation_skip = {
 		return not not (
 			Handy.b_is_dangerous_actions_active()
 			and not Handy.b_is_in_multiplayer()
-			and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_animation_skip_unsafe)
+			and Handy.controls_v2.is_module_enabled(Handy.cc.dangerous_actions_animation_skip_unsafe)
 		)
 	end,
 

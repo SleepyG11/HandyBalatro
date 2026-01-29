@@ -848,8 +848,8 @@ l({
 			},
 		},
 		{
-			key = "regular_keybinds_group_round",
-			keywords = { "round" },
+			key = "regular_keybinds_group_hand",
+			keywords = { "hand" },
 			group = true,
 			items = {
 				{
@@ -917,6 +917,13 @@ l({
 						advanced = true,
 					},
 				},
+			},
+		},
+		{
+			key = "regular_keybinds_group_round",
+			keywords = { "round" },
+			group = true,
+			items = {
 				{
 					key = "regular_keybinds_cash_out",
 					keywords = { "cash out cashout" },

@@ -127,12 +127,14 @@ end
 
 ---
 
+local was_hold_before = false
 function Handy.controller_v2.process_hold(dt)
 	local size = Handy.controller_v2.key_states.update(dt)
-	local ctx = Handy.controller_v2.hold.update_context(dt, size)
+	local ctx = Handy.controller_v2.hold.update_context(dt, size, was_hold_before)
 	local deducted = false
 
 	if Handy.controller_v2.non_empty_context(ctx) then
+		was_hold_before = not ctx.keeped_alive
 		Handy.controller_v2.filter_context(ctx)
 
 		if ctx:is_default_prevented() or ctx:is_propagation_stopped() then

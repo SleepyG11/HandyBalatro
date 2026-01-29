@@ -295,25 +295,23 @@ local function create_empty_hold_context()
 		dt = 0,
 		holded_size = 0,
 
-		default_prevented = false,
-		propagation_stopped = false,
+		keeped_alive = false,
 	})
 	return context
 end
-local function create_hold_context(dt, size)
+local function create_hold_context(dt, size, keep_alive)
 	size = size or 0
 
 	local context = PreventableContext.init({
 		type = "hold",
 		hold = true,
-		none = size == 0,
+		none = not keep_alive and size == 0,
 
 		dt = size > 0 and dt or 0,
 		read_dt = size > 0 and dt or 0,
 		holded_size = size,
 
-		default_prevented = false,
-		propagation_stopped = false,
+		keeped_alive = keep_alive and size == 0,
 	})
 	return context
 end
@@ -335,8 +333,8 @@ local controller_hold = {
 	create_empty_context = create_empty_hold_context,
 	create_context = create_hold_context,
 
-	update_context = function(dt, size)
-		return set_hold_context(create_hold_context(dt, size))
+	update_context = function(dt, size, keep_alive)
+		return set_hold_context(create_hold_context(dt, size, keep_alive))
 	end,
 }
 

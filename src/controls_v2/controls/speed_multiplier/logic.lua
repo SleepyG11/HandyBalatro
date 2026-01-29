@@ -16,7 +16,7 @@ Handy.speed_multiplier = {
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
 			or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
-			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
+			or not Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 0
 		end
@@ -26,7 +26,7 @@ Handy.speed_multiplier = {
 	is_uncapped = function()
 		return Handy.b_is_dangerous_actions_active()
 			and not Handy.b_is_in_multiplayer()
-			and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_speed_multiplier_uncap)
+			and Handy.controls_v2.is_module_enabled(Handy.cc.dangerous_actions_speed_multiplier_uncap)
 	end,
 
 	accelerate_queue = function(queue)
@@ -56,7 +56,7 @@ Handy.speed_multiplier = {
 			Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
 			or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
-			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
+			or not Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			return 1
 		end
@@ -92,8 +92,8 @@ Handy.speed_multiplier = {
 	end,
 	load_default_value = function()
 		if
-			Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
-			and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_default_value)
+			Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier)
+			and Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier_default_value)
 		then
 			local value = math.max(1, math.min(10, math.floor(Handy.cc.speed_multiplier_default_value.value) or 1))
 			Handy.speed_multiplier.value = 2 ^ (value - 1)

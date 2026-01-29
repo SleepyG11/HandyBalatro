@@ -17,12 +17,13 @@ function Handy.UI.vanilla_keybinds_round_tab_definition()
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds, { bg = true }),
 							Handy.UI.CP.r_sep(0.1),
-							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_round, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_hand, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_play),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_discard),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_change_sort_rank),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_change_sort_suit),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_toggle_sort),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_round, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_cash_out),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_not_just_yet_interaction),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_start_fantoms_preview),
@@ -137,7 +138,7 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 			end,
 		},
 		{
-			label = Handy.L.tab("Round"),
+			label = Handy.L.tab("Hand & Round"),
 			tab_definition_function = function()
 				return Handy.UI.vanilla_keybinds_round_tab_definition()
 			end,

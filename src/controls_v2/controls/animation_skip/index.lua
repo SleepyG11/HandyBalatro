@@ -27,7 +27,7 @@ Handy.controls_v2.register("animation_skip_toggle_temp_disabled", {
 		return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.cc.animation_skip }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 	trigger = "trigger",
@@ -42,7 +42,7 @@ Handy.controls_v2.register("animation_skip_increase", {
 		return Handy.cc.animation_skip_increase, { Handy.cc.animation_skip }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 	trigger = "trigger",
@@ -57,7 +57,7 @@ Handy.controls_v2.register("animation_skip_decrease", {
 		return Handy.cc.animation_skip_decrease, { Handy.cc.animation_skip }
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 	trigger = "trigger",

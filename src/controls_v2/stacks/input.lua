@@ -92,3 +92,136 @@ c({
 	key = "hand_selection_entire_f_hand",
 	stack_path = "input.hand_selection",
 })
+
+---
+
+l({
+	key = "regular_keybinds",
+	operator = "first",
+	stack_path = "input",
+})
+
+l({
+	key = "hand_sorting",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+l({
+	key = "hand_actions",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+l({
+	key = "shop_actions",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+l({
+	key = "blind_select_actions",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+l({
+	key = "menus",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+l({
+	key = "game_actions",
+	operator = "first",
+	stack_path = "input.regular_keybinds",
+})
+
+c({
+	key = "regular_keybinds_change_sort_rank",
+	stack_path = "input.regular_keybinds.hand_sorting",
+})
+c({
+	key = "regular_keybinds_change_sort_suit",
+	stack_path = "input.regular_keybinds.hand_sorting",
+})
+c({
+	key = "regular_keybinds_toggle_sort",
+	stack_path = "input.regular_keybinds.hand_sorting",
+})
+
+c({
+	key = "regular_keybinds_discard",
+	stack_path = "input.regular_keybinds.hand_actions",
+})
+c({
+	key = "regular_keybinds_play",
+	stack_path = "input.regular_keybinds.hand_actions",
+})
+c({
+	key = "regular_keybinds_not_just_yet_interaction",
+	stack_path = "input.regular_keybinds.hand_actions",
+})
+
+c({
+	key = "regular_keybinds_cash_out",
+	stack_path = "input.regular_keybinds.shop_actions",
+})
+c({
+	key = "regular_keybinds_skip_booster",
+	stack_path = "input.regular_keybinds.shop_actions",
+})
+c({
+	key = "regular_keybinds_reroll_shop",
+	stack_path = "input.regular_keybinds.shop_actions",
+})
+c({
+	key = "regular_keybinds_leave_shop",
+	stack_path = "input.regular_keybinds.shop_actions",
+})
+
+c({
+	key = "regular_keybinds_reroll_boss",
+	stack_path = "input.regular_keybinds.blind_select_actions",
+})
+c({
+	key = "regular_keybinds_skip_blind",
+	stack_path = "input.regular_keybinds.blind_select_actions",
+})
+c({
+	key = "regular_keybinds_select_blind",
+	stack_path = "input.regular_keybinds.blind_select_actions",
+})
+
+c({
+	key = "regular_keybinds_run_info",
+	stack_path = "input.regular_keybinds.menus",
+})
+c({
+	key = "regular_keybinds_run_info_binds",
+	stack_path = "input.regular_keybinds.menus",
+})
+c({
+	key = "regular_keybinds_view_deck",
+	stack_path = "input.regular_keybinds.menus",
+})
+c({
+	key = "regular_keybinds_view_lobby_info",
+	stack_path = "input.regular_keybinds.menus",
+})
+c({
+	key = "regular_keybinds_mod_settings",
+	stack_path = "input.regular_keybinds.menus",
+})
+
+c({
+	key = "regular_keybinds_quick_restart",
+	stack_path = "input.regular_keybinds.game_actions",
+})
+c({
+	key = "regular_keybinds_save_run",
+	stack_path = "input.regular_keybinds.game_actions",
+})
+c({
+	key = "regular_keybinds_reload_run",
+	stack_path = "input.regular_keybinds.game_actions",
+})
+c({
+	key = "regular_keybinds_start_fantoms_preview",
+	stack_path = "input.regular_keybinds.game_actions",
+})

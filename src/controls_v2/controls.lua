@@ -5,6 +5,7 @@ Handy.controls_v2.dictionary = {}
 function Handy.controls_v2.register(key, item)
 	item.get_module = item.get_module or function() end
 	item.update = item.update or function() end
+	item.can_execute = item.can_execute or Handy.controls_v2.can_execute_control
 	-- item.update_state_panel = item.update_state_panel or function() end
 
 	item.key = key
@@ -46,7 +47,7 @@ function Handy.controls_v2.is_module_keys_hold(module, args)
 					include_release = include_release,
 				})
 			then
-				return is_hold, hold_duration, index
+				return true, hold_duration or 0, index
 			end
 		end
 	end
@@ -103,8 +104,8 @@ function Handy.controls_v2.can_execute_control(item, args)
 			return false, "empty_context"
 		end
 
-		if item.ctx_type then
-			local v = item.ctx_type[ctx.type]
+		if item.context_types then
+			local v = item.context_types[ctx.type]
 			if not v then
 				return false, "context_type_mismatch"
 			end
@@ -144,7 +145,7 @@ function Handy.controls_v2.can_execute_control(item, args)
 		not args.no_keybinds
 		and not Handy.controls_v2.is_module_keys_hold(module, {
 			ctx = ctx,
-			require_exact = item.require_exact,
+			require_exact = item.require_exact_keys,
 		})
 	then
 		return false, "keybinds_mismatch"
