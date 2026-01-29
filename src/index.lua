@@ -136,7 +136,7 @@ function Tag:generate_UI(...)
 	tag_sprite.states.click.can = true
 	local _handy_tag_click_ref = tag_sprite.click
 	function tag_sprite:click(...)
-		if Handy.controller.handle_tag_click(t) then
+		if Handy.controller_v2.process_tag_click(t) then
 			return
 		end
 		return _handy_tag_click_ref(self, ...)
@@ -144,7 +144,7 @@ function Tag:generate_UI(...)
 
 	local _handy_tag_hover_ref = tag_sprite.hover
 	function tag_sprite:hover(...)
-		if Handy.controller.handle_tag_hover(t) then
+		if Handy.controller_v2.process_tag_hover(t) then
 			return
 		end
 		return _handy_tag_hover_ref(self, ...)
@@ -152,7 +152,7 @@ function Tag:generate_UI(...)
 
 	local _handy_tag_stop_hover_ref = tag_sprite.stop_hover
 	function tag_sprite:stop_hover(...)
-		if Handy.controller.handle_tag_stop_hover(t) then
+		if Handy.controller_v2.process_tag_stop_hover(t) then
 			return
 		end
 		return _handy_tag_stop_hover_ref(self, ...)

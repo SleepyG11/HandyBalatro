@@ -175,7 +175,7 @@ function Handy.controls_v2.execute_control(key, args)
 	local check_func = target and target.can_execute or Handy.controls_v2.can_execute_control
 	local can_execute, leftover_data = check_func(target, args)
 	if can_execute then
-		local execute_result = target.execute and target.execute(target, args, leftover_data) or false
+		local execute_result = target.execute and target:execute(args, leftover_data) or false
 		return execute_result, true, "ok"
 	else
 		return false, false, leftover_data or "unknown"

@@ -69,8 +69,8 @@ end
 
 ---
 
-function Handy.controller_v2.process_card(input_type, card)
-	local ctx = Handy.controller_v2.card.update_context(input_type, card)
+function Handy.controller_v2.process_card(action, card)
+	local ctx = Handy.controller_v2.card.update_context(action, card)
 
 	if Handy.controller_v2.non_empty_context(ctx) then
 		if not ctx:is_propagation_stopped() then
@@ -82,26 +82,24 @@ function Handy.controller_v2.process_card(input_type, card)
 	end
 
 	local is_default_prevented = ctx:is_default_prevented()
-	if ctx.input_type == "click" then
-		Handy.controller_v2.card.update_context("stop_click", card)
-	end
+	Handy.controller_v2.card.post_update_context(action, card)
 	return is_default_prevented
 end
 
-function Handy.controller_v2.handle_card_click(card)
+function Handy.controller_v2.process_card_click(card)
 	return Handy.controller_v2.process_card("click", card)
 end
-function Handy.controller_v2.handle_card_hover(card)
+function Handy.controller_v2.process_card_hover(card)
 	return Handy.controller_v2.process_card("hover", card)
 end
-function Handy.controller_v2.handle_card_stop_hover(card)
+function Handy.controller_v2.process_card_stop_hover(card)
 	return Handy.controller_v2.process_card("stop_hover", card)
 end
 
 ---
 
-function Handy.controller_v2.process_tag(input_type, tag)
-	local ctx = Handy.controller_v2.tag.update_context(input_type, tag)
+function Handy.controller_v2.process_tag(action, tag)
+	local ctx = Handy.controller_v2.tag.update_context(action, tag)
 
 	if Handy.controller_v2.non_empty_context(ctx) then
 		if not ctx:is_propagation_stopped() then
@@ -113,19 +111,17 @@ function Handy.controller_v2.process_tag(input_type, tag)
 	end
 
 	local is_default_prevented = ctx:is_default_prevented()
-	if ctx.input_type == "click" then
-		Handy.controller_v2.tag.update_context("stop_click", tag)
-	end
+	Handy.controller_v2.tag.post_update_context(action, tag)
 	return is_default_prevented
 end
 
-function Handy.controller_v2.handle_tag_click(tag)
+function Handy.controller_v2.process_tag_click(tag)
 	return Handy.controller_v2.process_tag("click", tag)
 end
-function Handy.controller_v2.handle_tag_hover(tag)
+function Handy.controller_v2.process_tag_hover(tag)
 	return Handy.controller_v2.process_tag("hover", tag)
 end
-function Handy.controller_v2.handle_tag_stop_hover(tag)
+function Handy.controller_v2.process_tag_stop_hover(tag)
 	return Handy.controller_v2.process_tag("stop_hover", tag)
 end
 

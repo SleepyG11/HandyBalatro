@@ -420,7 +420,7 @@ Handy.load_files({
 	-- "speed_multiplier.lua",
 	-- "animation_skip.lua",
 	-- "presets_switch.lua",
-	"hand_selection.lua",
+	-- "hand_selection.lua",
 	-- "scoring_hold.lua",
 	"regular_keybinds.lua",
 	"move_highlight.lua",

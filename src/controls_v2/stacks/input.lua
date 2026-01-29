@@ -72,3 +72,23 @@ c({
 	key = "animation_skip_decrease",
 	stack_path = "input.speed_n_animations.decrease",
 })
+
+---
+
+l({
+	key = "hand_selection",
+	operator = "first",
+	stack_path = "input",
+})
+c({
+	key = "hand_selection_insta_highlight",
+	stack_path = "input.hand_selection",
+})
+c({
+	key = "hand_selection_deselect_hand",
+	stack_path = "input.hand_selection",
+})
+c({
+	key = "hand_selection_entire_f_hand",
+	stack_path = "input.hand_selection",
+})

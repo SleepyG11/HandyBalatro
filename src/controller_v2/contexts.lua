@@ -192,6 +192,9 @@ local controller_card = {
 	update_context = function(action, card)
 		return set_card_context(create_card_context(action, card))
 	end,
+	post_update_context = function(action, card)
+		return set_card_context(create_card_context(action == "click" and "stop_click" or "none"))
+	end,
 }
 
 ---
@@ -273,6 +276,9 @@ local controller_tag = {
 
 	update_context = function(action, tag)
 		return set_tag_context(create_tag_context(action, tag))
+	end,
+	post_update_context = function(action, tag)
+		return set_tag_context(create_tag_context(action == "click" and "stop_click" or "none"))
 	end,
 }
 

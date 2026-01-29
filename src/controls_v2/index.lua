@@ -5,7 +5,10 @@ Handy.controls_v2 = {
 Handy.load_file("src/controls_v2/stack.lua")
 Handy.load_file("src/controls_v2/controls.lua")
 
-Handy.load_file("src/controls_v2/stacks/input.lua")
+Handy.load_files({
+	"input.lua",
+	"card.lua",
+}, "src/controls_v2/stacks/")
 
 Handy.load_files({
 	"speed_multiplier/index.lua",
@@ -13,6 +16,7 @@ Handy.load_files({
 	"presets_switch/index.lua",
 	"controller_sensitivity.lua",
 	"scoring_hold.lua",
+	"hand_selection.lua",
 }, "src/controls_v2/controls/")
 
 ---

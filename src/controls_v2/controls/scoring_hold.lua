@@ -41,14 +41,12 @@ Handy.controls_v2.register("scoring_hold", {
 		if Handy.UI.data.is_speed_n_animations_calculate then
 			return Handy.controls_v2.can_execute_control(self, {
 				allow_mod_inactive = true,
-				data = { preview = true },
 			})
+		else
+			if G.STAGE == G.STAGES.RUN and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND) then
+				return Handy.controls_v2.can_execute_control(self)
+			end
 		end
-		return G.STAGE == G.STAGES.RUN
-			and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND)
-			and Handy.controls_v2.can_execute_control(self, {
-				data = { preview = false },
-			})
 	end,
 
 	update = function(self, dt)

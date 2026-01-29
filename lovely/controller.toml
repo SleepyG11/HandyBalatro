@@ -10,7 +10,7 @@ target = "main.lua"
 pattern = '''function love.mousepressed(x, y, button, touch)'''
 position = "after"
 payload = '''
-if Handy.controller.handle_input(touch and "touch" or "mouse", button, false) then return end
+if Handy.controller_v2.process_input(touch and "touch" or "mouse", button, false) then return end
 '''
 match_indent = true
 overwrite = false
@@ -21,7 +21,7 @@ target = "main.lua"
 pattern = '''function love.mousereleased(x, y, button)'''
 position = "after"
 payload = '''
-if Handy.controller.handle_input("mouse", button, true) then return end
+if Handy.controller_v2.process_mouse_input(button, true) then return end
 '''
 match_indent = true
 overwrite = false
@@ -33,7 +33,7 @@ target = "main.lua"
 pattern = '''function love.keypressed(key)'''
 position = "after"
 payload = '''
-if Handy.controller.handle_input("keyboard", key, false) then return end
+if Handy.controller_v2.process_keyboard_input(key, false) then return end
 '''
 match_indent = true
 overwrite = false
@@ -44,7 +44,7 @@ target = "main.lua"
 pattern = '''function love.keyreleased(key)'''
 position = "after"
 payload = '''
-if Handy.controller.handle_input("keyboard", key, true) then return end
+if Handy.controller_v2.process_keyboard_input(key, true) then return end
 '''
 match_indent = true
 overwrite = false
@@ -56,7 +56,7 @@ target = "card.lua"
 pattern = '''function Card:click()'''
 position = "after"
 payload = '''
-if Handy.controller.handle_card_click(self) then return end
+if Handy.controller_v2.process_card_click(self) then return end
 '''
 match_indent = true
 overwrite = false
@@ -68,7 +68,7 @@ target = "card.lua"
 pattern = '''function Card:hover()'''
 position = "after"
 payload = '''
-if Handy.controller.handle_card_hover(self) then return end
+if Handy.controller_v2.process_card_hover(self) then return end
 '''
 match_indent = true
 overwrite = false
@@ -80,7 +80,7 @@ target = "card.lua"
 pattern = '''function Card:stop_hover()'''
 position = "after"
 payload = '''
-if Handy.controller.handle_card_stop_hover(self) then return end
+if Handy.controller_v2.process_card_stop_hover(self) then return end
 '''
 match_indent = true
 overwrite = false
