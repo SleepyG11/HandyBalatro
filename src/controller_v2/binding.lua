@@ -15,8 +15,12 @@ local function update_keybind_button(text_type, enabled)
 		button_text.config.text_drawable = nil
 		if text_type == "old_brackets" then
 			button_text.config.text = Handy.L.brackets(button_text.config.text)
+			button_text.config.colour = G.C.UI.TEXT_LIGHT
 		elseif text_type == "new" then
-			button_text.config.text = Handy.L.keys(binding.module[binding.key])
+			local new_text = Handy.L.keys(binding.module[binding.key])
+			local is_none = new_text == Handy.L.keys()
+			button_text.config.colour = is_none and Handy.UI.C.NONE_KEYBIND or G.C.UI.TEXT_LIGHT
+			button_text.config.text = new_text
 		end
 		button_text:update_text()
 		button_text.UIBox:recalculate()

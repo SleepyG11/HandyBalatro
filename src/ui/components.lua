@@ -280,6 +280,8 @@ function Handy.UI.CP.module_keybind_button(module, key, options, additional_opti
 	-- or (allow_multiple == "advanced" and Handy.cc.advanced_mode.enabled)
 
 	local colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS
+	local button_text = Handy.L.keys(module[key])
+	local is_none = button_text == Handy.L.keys()
 
 	return {
 		n = G.UIT.C,
@@ -311,9 +313,9 @@ function Handy.UI.CP.module_keybind_button(module, key, options, additional_opti
 			{
 				n = G.UIT.T,
 				config = {
-					text = Handy.L.keys(module[key]),
+					text = button_text,
 					scale = 0.25,
-					colour = G.C.UI.TEXT_LIGHT,
+					colour = is_none and Handy.UI.C.NONE_KEYBIND or G.C.UI.TEXT_LIGHT,
 				},
 			},
 		},

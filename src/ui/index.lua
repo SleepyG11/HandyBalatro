@@ -2,6 +2,8 @@ Handy.UI = {}
 Handy.UI.C = {
 	DARK_EDITION_WEAK = { 1, 0, 0, 0.3 },
 	MP = { 0, 0, 0, 1 },
+
+	NONE_KEYBIND = { 0.9, 0.9, 0.9, 0.85 },
 }
 Handy.UI.data = {}
 
