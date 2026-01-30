@@ -423,7 +423,7 @@ Handy.load_files({
 	-- "hand_selection.lua",
 	-- "scoring_hold.lua",
 	-- "regular_keybinds.lua",
-	"move_highlight.lua",
+	-- "move_highlight.lua",
 	-- "controller_sensitivity.lua",
 	"insta_actions.lua",
 	"dangerous_actions.lua",

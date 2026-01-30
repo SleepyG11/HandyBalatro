@@ -6,10 +6,10 @@ Handy.move_highlight = {
 
 	get_actions = function(area)
 		return {
-			swap = Handy.controls.is_module_enabled(Handy.cc.move_highlight_swap)
-				and Handy.controls.is_module_keys_activated(Handy.cc.move_highlight_swap),
-			to_end = Handy.controls.is_module_enabled(Handy.cc.move_highlight_to_end)
-				and Handy.controls.is_module_keys_activated(Handy.cc.move_highlight_to_end),
+			swap = Handy.controls_v2.is_module_enabled(Handy.cc.move_highlight_swap)
+				and Handy.controls_v2.is_module_keys_hold(Handy.cc.move_highlight_swap),
+			to_end = Handy.controls_v2.is_module_enabled(Handy.cc.move_highlight_to_end)
+				and Handy.controls_v2.is_module_keys_hold(Handy.cc.move_highlight_to_end),
 		}
 	end,
 
@@ -32,7 +32,7 @@ Handy.move_highlight = {
 		if Handy.utils.alive_element(Handy.UI.data.move_highlight_preview_area) then
 			return Handy.UI.data.move_highlight_preview_area
 		end
-		local card_context = Handy.controller.get_card_context()
+		local card_context = Handy.controller_v2.card.get_context()
 		local area = (card_context.clicked_current or card_context.clicked_previous or {}).area
 		if
 			area
@@ -58,13 +58,14 @@ Handy.move_highlight = {
 		return Handy.buffered("move_highlight_area", Handy.move_highlight.get_area)
 	end,
 
-	can_execute = function(item, context)
+	can_execute = function(item, args)
 		local area = Handy.move_highlight.b_get_area()
 		if
 			not area
-			or not Handy.controls.default_can_execute(item, context, {
+			or not Handy.controls_v2.can_execute_control(item, {
 				allow_not_in_run = area == Handy.UI.data.move_highlight_preview_area,
 				allow_mod_inactive = area == Handy.UI.data.move_highlight_preview_area,
+				ctx = args and args.ctx,
 			})
 		then
 			return false
@@ -72,7 +73,7 @@ Handy.move_highlight = {
 		return true
 	end,
 
-	move = function(item, context, dx)
+	move = function(item, args, dx)
 		local area = Handy.move_highlight.b_get_area()
 		if not area or not dx then
 			return
@@ -110,52 +111,3 @@ Handy.move_highlight = {
 		end
 	end,
 }
-
-Handy.controls.register("move_highlight_one_left", {
-	get_module = function()
-		return Handy.cc.move_highlight_dx_one_left, { Handy.cc.move_highlight }
-	end,
-
-	context_types = {
-		input = {
-			mouse = true,
-			wheel = true,
-			keyboard = true,
-			gamepad = false,
-		},
-	},
-
-	in_run = true,
-
-	trigger = "trigger",
-
-	can_execute = Handy.move_highlight.can_execute,
-	execute = function(self, context)
-		Handy.move_highlight.move(self, context, -1)
-		return true
-	end,
-})
-Handy.controls.register("move_highlight_one_right", {
-	get_module = function()
-		return Handy.cc.move_highlight_dx_one_right, { Handy.cc.move_highlight }
-	end,
-
-	context_types = {
-		input = {
-			mouse = true,
-			wheel = true,
-			keyboard = true,
-			gamepad = false,
-		},
-	},
-
-	in_run = true,
-
-	trigger = "trigger",
-
-	can_execute = Handy.move_highlight.can_execute,
-	execute = function(self, context)
-		Handy.move_highlight.move(self, context, 1)
-		return true
-	end,
-})

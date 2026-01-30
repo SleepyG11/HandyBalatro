@@ -225,3 +225,19 @@ c({
 	key = "regular_keybinds_start_fantoms_preview",
 	stack_path = "input.regular_keybinds.game_actions",
 })
+
+---
+
+l({
+	key = "move_highlight",
+	operator = "first",
+	stack_path = "input",
+})
+c({
+	key = "move_highlight_one_left",
+	stack_path = "input.move_highlight",
+})
+c({
+	key = "move_highlight_one_right",
+	stack_path = "input.move_highlight",
+})
