@@ -234,10 +234,6 @@ l({
 	stack_path = "input",
 })
 c({
-	key = "move_highlight_one_left",
-	stack_path = "input.move_highlight",
-})
-c({
-	key = "move_highlight_one_right",
+	key = "move_highlight",
 	stack_path = "input.move_highlight",
 })

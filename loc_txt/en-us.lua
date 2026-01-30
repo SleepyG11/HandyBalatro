@@ -241,10 +241,16 @@ return {
 			move_highlight_one_left = {
 				name = { "Move selection: One left" },
 				text = {},
+				unlock = {
+					"You can {C:attention}hold{} this keybind to keep moving",
+				},
 			},
 			move_highlight_one_right = {
 				name = { "Move selection: One right" },
 				text = {},
+				unlock = {
+					"You can {C:attention}hold{} this keybind to keep moving",
+				},
 			},
 			move_highlight_swap = {
 				name = { "Move selection: Move card" },

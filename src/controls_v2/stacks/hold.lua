@@ -23,8 +23,6 @@ l({
 	stack_path = "hold.regular_keybinds",
 })
 
----
-
 c({
 	key = "regular_keybinds_not_just_yet_interaction",
 	stack_path = "hold.regular_keybinds.hand_actions",
@@ -42,4 +40,16 @@ c({
 c({
 	key = "regular_keybinds_restart",
 	stack_path = "hold.regular_keybinds.game_actions",
+})
+
+---
+
+l({
+	key = "move_highlight",
+	operator = "first",
+	stack_path = "hold",
+})
+c({
+	key = "move_highlight",
+	stack_path = "hold.move_highlight",
 })

@@ -40,7 +40,6 @@ Handy.load_file("src/index.lua")
 -- 2. more pages (advanced, credits)
 -- 3. maybe icons for menu buttons?
 -- 4. decide should speed n animations preview work when mod is disabled
--- 7. hold implementation for move highlight (later)
 -- 10. touchscreen?
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
