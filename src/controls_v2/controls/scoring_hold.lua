@@ -32,6 +32,8 @@ Handy.scoring_hold = {
 	end,
 }
 
+-- TODO: use new hold thing
+
 Handy.controls_v2.register("scoring_hold", {
 	get_module = function()
 		return Handy.cc.scoring_hold
