@@ -172,7 +172,9 @@ Handy.e_mitter.on("update", function(dt)
 		Handy.animation_skip.dollars_buffer_cleared = false
 	end
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
-		ease_dollars_ref(Handy.animation_skip.ease_dollars_buffer, true)
+		Handy.__no_modify_ease_dollars = true
+		ease_dollars(Handy.animation_skip.ease_dollars_buffer, true)
+		Handy.__no_modify_ease_dollars = nil
 		Handy.animation_skip.ease_dollars_buffer = 0
 	end
 end)

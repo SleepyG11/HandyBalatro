@@ -96,6 +96,18 @@ c({
 ---
 
 l({
+	key = "insta_actions",
+	operator = "first",
+	stack_path = "input",
+})
+c({
+	key = "insta_actions",
+	stack_path = "input.insta_actions",
+})
+
+---
+
+l({
 	key = "regular_keybinds",
 	operator = "first",
 	stack_path = "input",

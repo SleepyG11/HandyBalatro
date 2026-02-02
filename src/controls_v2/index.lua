@@ -17,6 +17,7 @@ Handy.load_files({
 	"presets_switch/index.lua",
 	"regular_keybinds/index.lua",
 	"move_highlight/index.lua",
+	"insta_actions/index.lua",
 	"controller_sensitivity.lua",
 	"scoring_hold.lua",
 	"hand_selection.lua",

@@ -3,23 +3,23 @@ local c = Handy.controls_v2.register_control
 
 l({
 	key = "regular_keybinds",
-	operator = "first",
+	operator = "all",
 	stack_path = "hold",
 })
 
 l({
 	key = "hand_actions",
-	operator = "first",
+	operator = "all",
 	stack_path = "hold.regular_keybinds",
 })
 l({
 	key = "shop_actions",
-	operator = "first",
+	operator = "all",
 	stack_path = "hold.regular_keybinds",
 })
 l({
 	key = "game_actions",
-	operator = "first",
+	operator = "all",
 	stack_path = "hold.regular_keybinds",
 })
 
@@ -46,7 +46,7 @@ c({
 
 l({
 	key = "move_highlight",
-	operator = "first",
+	operator = "all",
 	stack_path = "hold",
 })
 c({

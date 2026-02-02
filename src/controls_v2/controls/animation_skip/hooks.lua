@@ -102,6 +102,9 @@ function ease_hands_played(...)
 end
 local ease_dollars_ref = ease_dollars
 function ease_dollars(amount, instant, ...)
+	if Handy.__no_modify_ease_dollars then
+		return ease_dollars_ref(amount, instant, ...)
+	end
 	if Handy.animation_skip.should_skip_animation() then
 		Handy.animation_skip.ease_dollars_buffer = Handy.animation_skip.ease_dollars_buffer + amount
 		return

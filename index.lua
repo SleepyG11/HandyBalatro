@@ -46,6 +46,7 @@ Handy.load_file("src/index.lua")
 -- 13. "update mod" button
 -- 14. "copy lovely log" keybind
 -- 15. make swappable overlays close when they was opened by same keybind
+-- 16. cleanup insta actions code, goddamn
 
 -- TODO: check controls (controller)
 -- hand selection - fix preview
