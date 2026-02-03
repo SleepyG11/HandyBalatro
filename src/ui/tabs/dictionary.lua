@@ -145,7 +145,7 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 	local options = type(item.keybind) == "table" and item.keybind or {}
 
 	local key_1, key_2 = "keys_1", "keys_2"
-	if Handy.controller.is_gamepad() then
+	if Handy.controller_v2.is_gamepad() then
 		key_1, key_2 = "keys_1_gamepad", "keys_2_gamepad"
 	end
 
@@ -922,7 +922,7 @@ function Handy.UI.dictionary_tab_UIBox()
 													id = "handy_dictionary_search",
 													prompt_text = localize("b_handy_search_placeholder"),
 													callback = function()
-														if not Handy.controller.is_gamepad() then
+														if not Handy.controller_v2.is_gamepad() then
 															G.FUNCS.handy_apply_dictionary_search()
 														end
 													end,
@@ -1081,7 +1081,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 			if not self.children.handy_h_popup then
 				local lines = { n = G.UIT.C, config = { align = "cm" }, nodes = {} }
 
-				if item.no_gamepad and Handy.controller.is_gamepad() then
+				if item.no_gamepad and Handy.controller_v2.is_gamepad() then
 					local lines_col = Handy.L.description("Handy_Other", "cant_use_with_gamepad", {
 						align = "cm",
 					})
@@ -1155,7 +1155,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	end
 
 	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
-	local is_gamepad_failed = item.no_gamepad and Handy.controller.is_gamepad()
+	local is_gamepad_failed = item.no_gamepad and Handy.controller_v2.is_gamepad()
 	local is_fail = is_mp_fail or is_gamepad_failed or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()

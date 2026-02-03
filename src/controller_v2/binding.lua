@@ -42,7 +42,7 @@ local function update_binding_buttons_text()
 				hold = false,
 				order = 0.05,
 			}
-			local save_key = Handy.controller.is_gamepad() and "(Back)" or "Escape"
+			local save_key = Handy.controller_v2.is_gamepad() and "(Back)" or "Escape"
 			state.items.binding_cancel = {
 				text = Handy.L.variable("Handy_binding_esc_hint", { Handy.L.brackets(Handy.L.keys(save_key)) }),
 				hold = false,
@@ -97,11 +97,11 @@ local function cancel_binding(reason)
 				order = 0,
 			}
 			if reason then
-				local context = Handy.controller.get_input_context()
+				local ctx = Handy.controller_v2.input.get_context()
 				state.items.binding_cancel = {
 					text = Handy.L.variable(
 						"Handy_binding_cancel_reason_" .. reason,
-						{ Handy.L.brackets(Handy.L.keys(context.key)) }
+						{ Handy.L.brackets(Handy.L.keys(ctx.key)) }
 					),
 					hold = false,
 					order = 0.1,

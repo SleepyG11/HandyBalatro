@@ -50,7 +50,7 @@ function Handy.b_is_dangerous_actions_active()
 end
 
 function Handy.is_input_prevented()
-	return not not (Handy.controller.dp.b_is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook)
+	return not not (Handy.controller_v2.dp.is_console_opened() or G.TMJUI or G.CONTROLLER.text_input_hook)
 end
 
 --

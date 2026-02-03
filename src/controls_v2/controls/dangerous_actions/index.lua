@@ -259,7 +259,7 @@ Handy.controls_v2.register("dangerous_actions_crash", {
 
 	execute = function()
 		local key_1, key_2 = "keys_1", "keys_2"
-		if Handy.controller.is_gamepad() then
+		if Handy.controller_v2.is_gamepad() then
 			key_1, key_2 = "keys_1_gamepad", "keys_2_gamepad"
 		end
 		error(

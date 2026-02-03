@@ -792,7 +792,7 @@ Handy.controls_v2.register("regular_keybinds_show_deck_preview", {
 	in_run = true,
 
 	update = function(self, dt)
-		if not Handy.b_is_mod_active() or Handy.controller.dp.b_is_console_opened() then
+		if not Handy.b_is_mod_active() then
 			Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
 		else
 			Handy.regular_keybinds.show_deck_preview_hold = self:can_execute()
