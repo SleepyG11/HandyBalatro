@@ -28,12 +28,9 @@ Handy.insta_actions = {
 
 	get_actions = function(ctx)
 		return {
-			buy_n_sell = Handy.controls.is_module_enabled(Handy.cc.insta_actions_buy_n_sell)
-				and Handy.controls.is_module_keys_hold(Handy.cc.insta_actions_buy_n_sell, { ctx = ctx }),
-			buy_or_sell = Handy.controls.is_module_enabled(Handy.cc.insta_actions_buy_or_sell)
-				and Handy.controls.is_module_keys_hold(Handy.cc.insta_actions_buy_or_sell, { ctx = ctx }),
-			use = Handy.controls.is_module_enabled(Handy.cc.insta_actions_use)
-				and Handy.controls.is_module_keys_hold(Handy.cc.insta_actions_use, { ctx = ctx }),
+			buy_n_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_n_sell, { ctx = ctx }),
+			buy_or_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_or_sell, { ctx = ctx }),
+			use = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_use, { ctx = ctx }),
 		}
 	end,
 	get_target_card = function(item, context)

@@ -845,6 +845,19 @@ l({
 					end,
 					no_mp = true,
 				},
+				{
+					key = "regular_keybinds_copy_log_file",
+					keywords = { "copy lovely log file get" },
+					checkbox = {
+						advanced = true,
+					},
+					keybind = {
+						allow_multiple = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_copy_log_file, { Handy.D.dictionary.regular_keybinds }
+					end,
+				},
 			},
 		},
 		{
@@ -1111,6 +1124,32 @@ l({
 					keybind = {
 						allow_multiple = "advanced",
 						only_holdable = true,
+					},
+					checkbox = {
+						advanced = true,
+					},
+				},
+				{
+					key = "regular_keybinds_options",
+					keywords = { "game options esc escape menu" },
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_options, { Handy.D.dictionary.regular_keybinds }
+					end,
+					keybind = {
+						allow_multiple = "advanced",
+					},
+					checkbox = {
+						advanced = true,
+					},
+				},
+				{
+					key = "regular_keybinds_collection",
+					keywords = { "collection menu" },
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_collection, { Handy.D.dictionary.regular_keybinds }
+					end,
+					keybind = {
+						allow_multiple = "advanced",
 					},
 					checkbox = {
 						advanced = true,

@@ -233,6 +233,13 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	regular_keybinds_copy_log_file = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 
 	regular_keybinds_play = {
 		enabled = true,
@@ -363,6 +370,20 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	regular_keybinds_options = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+	regular_keybinds_collection = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 
 	regular_keybinds_not_just_yet_interaction = {
 		enabled = true,
@@ -473,9 +494,9 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
-    mp_extension_enabled_default_value = {
-        enabled = false,
-    },
+	mp_extension_enabled_default_value = {
+		enabled = false,
+	},
 	mp_extension_speed_multiplier_mode_default_value = {
 		enabled = true,
 		value = 1,

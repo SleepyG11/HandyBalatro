@@ -59,6 +59,10 @@ function Handy.controls.is_module_enabled(module)
 	return module and module.enabled
 end
 
+function Handy.controls.is_enabled_module_keys_hold(module, args)
+	return Handy.controls.is_module_enabled(module) and Handy.controls.is_module_keys_hold(module, args)
+end
+
 ---
 
 function Handy.controls.can_execute_control(item, args)

@@ -616,6 +616,8 @@ function Handy.UI.CP.dictionary_item(item, options)
 	local colour
 	if options.colour then
 		colour = options.colour
+	elseif item.colour then
+		colour = item.colour
 	elseif options.bg then
 		colour = item.dangerous and adjust_alpha(G.C.MULT, 0.2) or adjust_alpha(HEX("000000"), 0.1)
 	elseif options.dangerous_bg and item.dangerous or (item.checkbox and item.checkbox.dangerous) then

@@ -44,10 +44,9 @@ Handy.load_file("src/index.lua")
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
 -- 13. "update mod" button
--- 14. "copy lovely log" keybind
+-- 14. fix non-smods visual bugs
 -- 15. make swappable overlays close when they was opened by same keybind
 -- 16. cleanup insta actions code, goddamn
--- 17. left click for hand selection unlock
 
 -- TODO: check controls (controller)
 -- hand selection - fix preview

@@ -220,6 +220,14 @@ c({
 	key = "regular_keybinds_mod_settings",
 	stack_path = "input.regular_keybinds.menus",
 })
+c({
+	key = "regular_keybinds_options",
+	stack_path = "input.regular_keybinds.menus",
+})
+c({
+	key = "regular_keybinds_collection",
+	stack_path = "input.regular_keybinds.menus",
+})
 
 c({
 	key = "regular_keybinds_quick_restart",
@@ -235,6 +243,10 @@ c({
 })
 c({
 	key = "regular_keybinds_start_fantoms_preview",
+	stack_path = "input.regular_keybinds.game_actions",
+})
+c({
+	key = "regular_keybinds_copy_log_file",
 	stack_path = "input.regular_keybinds.game_actions",
 })
 

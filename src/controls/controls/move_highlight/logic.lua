@@ -21,10 +21,8 @@ Handy.move_highlight = {
 		return {
 			dx = dx,
 			hold_duration = hold_duration,
-			swap = Handy.controls.is_module_enabled(Handy.cc.move_highlight_swap)
-				and Handy.controls.is_module_keys_hold(Handy.cc.move_highlight_swap),
-			to_end = Handy.controls.is_module_enabled(Handy.cc.move_highlight_to_end)
-				and Handy.controls.is_module_keys_hold(Handy.cc.move_highlight_to_end),
+			swap = Handy.controls.is_enabled_module_keys_hold(Handy.cc.move_highlight_swap),
+			to_end = Handy.controls.is_enabled_module_keys_hold(Handy.cc.move_highlight_to_end),
 		}
 	end,
 	can_swap = function(area)

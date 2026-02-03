@@ -19,7 +19,11 @@ Handy.L = {
 		return result
 	end,
 	name_text = function(set, key, vars)
-		return localize({ type = "name_text", set = set, key = key, vars = vars or {} })
+		local r = localize({ type = "name_text", set = set, key = key, vars = vars or {} })
+		if type(r) == "table" then
+			r = table.concat(r, " ")
+		end
+		return r
 	end,
 
 	parse_lines = function(lines, args, config)

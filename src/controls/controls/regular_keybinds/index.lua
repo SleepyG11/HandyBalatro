@@ -1,5 +1,6 @@
 Handy.load_file("src/controls/controls/regular_keybinds/logic.lua")
 Handy.load_file("src/controls/controls/regular_keybinds/hooks.lua")
+Handy.load_file("src/controls/controls/regular_keybinds/menus.lua")
 
 ---
 
@@ -330,123 +331,6 @@ Handy.controls.register("regular_keybinds_reroll_boss", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_run_info", {
-	get_module = function(self)
-		return Handy.cc.regular_keybinds_run_info, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	can_execute = function(self, args)
-		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
-			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
-	end,
-	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.run_info,
-		})
-		return true
-	end,
-})
-Handy.controls.register("regular_keybinds_run_info_binds", {
-	get_module = function(self)
-		return Handy.cc.regular_keybinds_run_info_blinds, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	can_execute = function(self, args)
-		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
-			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
-	end,
-	execute = function(self, args)
-		Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
-		Handy.fake_events.execute({
-			func = G.FUNCS.run_info,
-		})
-		Handy.override_create_tabs_chosen_by_label = nil
-		return true
-	end,
-})
-Handy.controls.register("regular_keybinds_view_deck", {
-	get_module = function(self)
-		return Handy.cc.regular_keybinds_view_deck, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	can_execute = function(self, args)
-		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
-			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
-	end,
-	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.deck_info,
-		})
-		return true
-	end,
-})
-Handy.controls.register("regular_keybinds_view_lobby_info", {
-	get_module = function(self)
-		return Handy.cc.regular_keybinds_lobby_info, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	can_execute = function(self, args)
-		return MP
-			and G.FUNCS.lobby_info
-			and Handy.b_is_in_multiplayer()
-			and (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
-			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
-	end,
-	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.lobby_info,
-		})
-		return true
-	end,
-})
-Handy.controls.register("regular_keybinds_mod_settings", {
-	get_module = function()
-		return Handy.cc.regular_keybinds_mod_settings, { Handy.cc.regular_keybinds }
-	end,
-
-	context_types = {
-		input = true,
-	},
-
-	trigger = "trigger",
-
-	can_execute = function(self, args)
-		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, args)
-	end,
-	execute = function()
-		G.FUNCS.handy_options()
-		return true
-	end,
-})
-
 Handy.controls.register("regular_keybinds_restart", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_restart, { Handy.cc.regular_keybinds }
@@ -637,6 +521,36 @@ Handy.controls.register("regular_keybinds_reload_run", {
 		return false
 	end,
 })
+Handy.controls.register("regular_keybinds_copy_log_file", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_copy_log_file, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+	require_exact_keys = true,
+
+	execute = function(self)
+		pcall(function()
+			local log_file_content = Handy.NFS.read(require("lovely").log_path)
+			if log_file_content and log_file_content ~= "" then
+				love.system.setClipboardText(log_file_content)
+				Handy.UI.state_panel.display(function(state)
+					state.items.copy_log_file = {
+						text = Handy.L.variable("Handy_log_file_copied"),
+						order = 6,
+						hold = false,
+					}
+					return true
+				end, nil, 3)
+			end
+		end)
+		return true
+	end,
+})
 
 Handy.controls.register("regular_keybinds_start_fantoms_preview", {
 	get_module = function()
@@ -801,3 +715,5 @@ Handy.controls.register("regular_keybinds_show_deck_preview", {
 		end
 	end,
 })
+
+--

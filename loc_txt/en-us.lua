@@ -473,6 +473,10 @@ return {
 					"with {C:attention}skipped animation{}",
 				},
 			},
+			regular_keybinds_copy_log_file = {
+				name = { "Copy Lovely log file" },
+				text = {},
+			},
 
 			regular_keybinds_group_hand = {
 				name = "Hand",
@@ -597,6 +601,15 @@ return {
 					"Displays a panel which shows",
 					"when hover a deck",
 				},
+			},
+			regular_keybinds_options = {
+				name = { "Options" },
+				text = {},
+				unlock = { "Same as {C:chips}[Escape]{} button" },
+			},
+			regular_keybinds_collection = {
+				name = { "Collection" },
+				text = {},
 			},
 
 			dangerous_actions = {
@@ -990,6 +1003,7 @@ return {
 			Handy_load_run_nothing_to_load = "No run to load",
 
 			Handy_prevented_by_debugplus = "Prevented by DebugPlus",
+			Handy_log_file_copied = "Lovely log file copied to buffer",
 		},
 		dictionary = {
 			handy_or = "or",
