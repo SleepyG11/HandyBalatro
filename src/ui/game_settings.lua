@@ -162,8 +162,8 @@ function Handy.UI.settings_speed_multiplier()
 	if
 		Handy.b_is_mod_active()
 		and not Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
-		and Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier)
-		and Handy.controls_v2.is_module_enabled(Handy.cc.speed_multiplier_settings_toggle)
+		and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
+		and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_settings_toggle)
 	then
 		return {
 			n = G.UIT.R,
@@ -204,8 +204,8 @@ function Handy.UI.settings_animation_skip()
 	if
 		Handy.b_is_mod_active()
 		and not Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
-		and Handy.controls_v2.is_module_enabled(Handy.cc.animation_skip)
-		and Handy.controls_v2.is_module_enabled(Handy.cc.animation_skip_settings_toggle)
+		and Handy.controls.is_module_enabled(Handy.cc.animation_skip)
+		and Handy.controls.is_module_enabled(Handy.cc.animation_skip_settings_toggle)
 	then
 		return {
 			n = G.UIT.R,

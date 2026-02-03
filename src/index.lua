@@ -4,8 +4,8 @@ Handy.load_file("src/config/index.lua")
 Handy.load_file("src/presets/index.lua")
 Handy.load_file("src/ui/index.lua")
 
-Handy.load_file("src/controller_v2/index.lua")
-Handy.load_file("src/controls_v2/index.lua")
+Handy.load_file("src/controller/index.lua")
+Handy.load_file("src/controls/index.lua")
 Handy.load_file("src/dictionary/index.lua")
 
 Handy.load_file("src/extensions/index.lua")
@@ -36,7 +36,7 @@ function Tag:generate_UI(...)
 	tag_sprite.states.click.can = true
 	local _handy_tag_click_ref = tag_sprite.click
 	function tag_sprite:click(...)
-		if Handy.controller_v2.process_tag_click(t) then
+		if Handy.controller.process_tag_click(t) then
 			return
 		end
 		return _handy_tag_click_ref(self, ...)
@@ -44,7 +44,7 @@ function Tag:generate_UI(...)
 
 	local _handy_tag_hover_ref = tag_sprite.hover
 	function tag_sprite:hover(...)
-		if Handy.controller_v2.process_tag_hover(t) then
+		if Handy.controller.process_tag_hover(t) then
 			return
 		end
 		return _handy_tag_hover_ref(self, ...)
@@ -52,7 +52,7 @@ function Tag:generate_UI(...)
 
 	local _handy_tag_stop_hover_ref = tag_sprite.stop_hover
 	function tag_sprite:stop_hover(...)
-		if Handy.controller_v2.process_tag_stop_hover(t) then
+		if Handy.controller.process_tag_stop_hover(t) then
 			return
 		end
 		return _handy_tag_stop_hover_ref(self, ...)

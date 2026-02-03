@@ -35,7 +35,7 @@ function Handy.EXT.Multiplayer.send_action_setEnabled()
 end
 function Handy.EXT.Multiplayer.set_local_enabled()
 	MP.LOBBY.handy_mp_extension_local_player_enabled =
-		Handy.controls_v2.is_module_enabled(Handy.cc.mp_extension_enabled_default_value)
+		Handy.controls.is_module_enabled(Handy.cc.mp_extension_enabled_default_value)
 	Handy.EXT.Multiplayer.send_action_setEnabled()
 end
 
@@ -65,14 +65,14 @@ Handy.e_mitter.on("game_start", function()
 		MP.LOBBY.config.handy_dangerous_actions_mode = 1
 		MP.LOBBY.config.handy_dangerous_actions_mode_force = nil
 
-		if Handy.controls_v2.is_module_enabled(Handy.cc.mp_extension_speed_multiplier_mode_default_value) then
+		if Handy.controls.is_module_enabled(Handy.cc.mp_extension_speed_multiplier_mode_default_value) then
 			MP.LOBBY.config.handy_speed_multiplier_mode =
 				Handy.cc.mp_extension_speed_multiplier_mode_default_value.value
 		end
-		if Handy.controls_v2.is_module_enabled(Handy.cc.mp_extension_animation_skip_mode_default_value) then
+		if Handy.controls.is_module_enabled(Handy.cc.mp_extension_animation_skip_mode_default_value) then
 			MP.LOBBY.config.handy_animation_skip_mode = Handy.cc.mp_extension_animation_skip_mode_default_value.value
 		end
-		if Handy.controls_v2.is_module_enabled(Handy.cc.mp_extension_dangerous_actions_mode_default_value) then
+		if Handy.controls.is_module_enabled(Handy.cc.mp_extension_dangerous_actions_mode_default_value) then
 			MP.LOBBY.config.handy_dangerous_actions_mode =
 				Handy.cc.mp_extension_dangerous_actions_mode_default_value.value
 		end

@@ -60,7 +60,7 @@ l({
 					}
 				end,
 				callback = function()
-					Handy.controller_v2.device.update_type()
+					Handy.controller.device.update_type()
 				end,
 			},
 			loc_vars = function()
