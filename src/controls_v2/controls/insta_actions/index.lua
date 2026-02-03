@@ -5,7 +5,7 @@ Handy.controls_v2.register("insta_actions", {
 		return Handy.cc.insta_actions
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 	},

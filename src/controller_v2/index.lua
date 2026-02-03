@@ -182,26 +182,26 @@ Handy.e_mitter.on("update", function(dt)
 	Handy.controller_v2.process_hold(dt)
 end)
 
--- local wheel_moved_ref = love.wheelmoved or function() end
--- function love.wheelmoved(x, y)
--- 	if Handy.controller_v2.process_wheel_input(y > 0 and 1 or 2) then
--- 		return
--- 	end
--- 	return wheel_moved_ref(x, y)
--- end
+local wheel_moved_ref = love.wheelmoved or function() end
+function love.wheelmoved(x, y)
+	if Handy.controller_v2.process_wheel_input(y > 0 and 1 or 2) then
+		return
+	end
+	return wheel_moved_ref(x, y)
+end
 
--- local controller_button_press_ref = Controller.button_press
--- function Controller:button_press(button, ...)
--- 	if Handy.controller_v2.process_gamepad_input(button, false) then
--- 		return
--- 	end
--- 	return controller_button_press_ref(self, button, ...)
--- end
+local controller_button_press_ref = Controller.button_press
+function Controller:button_press(button, ...)
+	if Handy.controller_v2.process_gamepad_input(button, false) then
+		return
+	end
+	return controller_button_press_ref(self, button, ...)
+end
 
--- local controller_button_release_ref = Controller.button_release
--- function Controller:button_release(button, ...)
--- 	if Handy.controller_v2.process_gamepad_input(button, true) then
--- 		return
--- 	end
--- 	return controller_button_release_ref(self, button, ...)
--- end
+local controller_button_release_ref = Controller.button_release
+function Controller:button_release(button, ...)
+	if Handy.controller_v2.process_gamepad_input(button, true) then
+		return
+	end
+	return controller_button_release_ref(self, button, ...)
+end

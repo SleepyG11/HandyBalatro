@@ -47,7 +47,7 @@ Handy.controls_v2.register("regular_keybinds_discard", {
 		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types == {
+	context_types = {
 		input = true,
 	},
 

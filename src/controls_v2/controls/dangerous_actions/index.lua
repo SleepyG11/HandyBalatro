@@ -6,7 +6,7 @@ Handy.controls_v2.register("dangerous_actions_sell_one", {
 		return Handy.cc.dangerous_actions_sell_one
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 	},
@@ -30,7 +30,7 @@ Handy.controls_v2.register("dangerous_actions_remove_one", {
 		return Handy.cc.dangerous_actions_remove_one
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 		tag = true,
@@ -57,7 +57,7 @@ Handy.controls_v2.register("dangerous_actions_sell_all_same", {
 		return Handy.cc.dangerous_actions_sell_all_same
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 	},
@@ -81,7 +81,7 @@ Handy.controls_v2.register("dangerous_actions_remove_all_same", {
 		return Handy.cc.dangerous_actions_remove_all_same
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 		tag = true,
@@ -108,7 +108,7 @@ Handy.controls_v2.register("dangerous_actions_sell_all", {
 		return Handy.cc.dangerous_actions_sell_all
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 	},
@@ -132,7 +132,7 @@ Handy.controls_v2.register("dangerous_actions_remove_all", {
 		return Handy.cc.dangerous_actions_remove_all
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 		card = true,
 		tag = true,
@@ -246,7 +246,7 @@ Handy.controls_v2.register("dangerous_actions_crash", {
 		return Handy.cc.dangerous_actions_crash
 	end,
 
-	context_type = {
+	context_types = {
 		input = true,
 	},
 
