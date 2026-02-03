@@ -241,7 +241,7 @@ end)
 
 ---
 
-Handy.controls.register("dangerous_actions_crash", {
+Handy.controls_v2.register("dangerous_actions_crash", {
 	get_module = function()
 		return Handy.cc.dangerous_actions_crash
 	end,

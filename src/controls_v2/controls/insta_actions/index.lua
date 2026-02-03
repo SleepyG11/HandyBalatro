@@ -21,7 +21,7 @@ Handy.controls_v2.register("insta_actions", {
 				Handy.b_is_mod_active()
 				and Handy.b_is_in_run()
 				and Handy.controller_v2.key_states.get_hold_size() > 0
-				and Handy.controls.is_module_enabled(Handy.cc.insta_actions)
+				and Handy.controls_v2.is_module_enabled(Handy.cc.insta_actions)
 			)
 		then
 			return
