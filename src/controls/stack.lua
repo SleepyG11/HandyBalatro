@@ -426,5 +426,5 @@ Handy.load_files({
 	-- "move_highlight.lua",
 	-- "controller_sensitivity.lua",
 	-- "insta_actions.lua",
-	"dangerous_actions.lua",
+	-- "dangerous_actions.lua",
 }, "src/controls/all/")

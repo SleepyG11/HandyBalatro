@@ -9,6 +9,7 @@ Handy.load_files({
 	"input.lua",
 	"card.lua",
 	"hold.lua",
+	"tag.lua",
 }, "src/controls_v2/stacks/")
 
 Handy.load_files({
@@ -18,6 +19,7 @@ Handy.load_files({
 	"regular_keybinds/index.lua",
 	"move_highlight/index.lua",
 	"insta_actions/index.lua",
+	"dangerous_actions/index.lua",
 	"controller_sensitivity.lua",
 	"scoring_hold.lua",
 	"hand_selection.lua",

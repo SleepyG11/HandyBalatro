@@ -249,3 +249,40 @@ c({
 	key = "move_highlight",
 	stack_path = "input.move_highlight",
 })
+
+---
+
+l({
+	key = "dangerous_actions",
+	operator = "first",
+	stack_path = "input",
+})
+
+c({
+	key = "dangerous_actions_crash",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_sell_one",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_remove_one",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_sell_all_same",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_remove_all_same",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_sell_all",
+	stack_path = "input.dangerous_actions",
+})
+c({
+	key = "dangerous_actions_remove_all",
+	stack_path = "input.dangerous_actions",
+})

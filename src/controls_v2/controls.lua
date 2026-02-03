@@ -146,6 +146,7 @@ function Handy.controls_v2.can_execute_control(item, args)
 		and not Handy.controls_v2.is_module_keys_hold(module, {
 			ctx = ctx,
 			require_exact = item.require_exact_keys,
+			include_release = args.include_release,
 		})
 	then
 		return false, "keybinds_mismatch"

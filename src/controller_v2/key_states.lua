@@ -6,17 +6,15 @@ local real_keys_hold = {}
 local real_keys_press = {}
 local real_keys_release = {}
 
-local keys_hold_size = nil
 local function get_keys_hold_size(args)
 	args = args or {}
-	if not keys_hold_size then
-		keys_hold_size = Handy.utils.table_keys_count(keys_hold)
-	end
 	if args.include_release then
-		keys_hold_size = keys_hold_size + Handy.utils.table_keys_count(keys_release)
+		return Handy.utils.table_keys_count(keys_hold) + Handy.utils.table_keys_count(keys_release)
+	else
+		return Handy.utils.table_keys_count(keys_hold)
 	end
-	return keys_hold_size
 end
+
 local function update_hold(dt, only_real)
 	dt = dt or 0
 	if not only_real then
@@ -46,8 +44,6 @@ local function pre_press_key(input_type, raw_key)
 		real_keys_release[input_ctx.key] = nil
 	end
 
-	keys_hold_size = nil
-
 	return input_ctx
 end
 local function post_press_key()
@@ -66,7 +62,6 @@ local function post_press_key()
 	end
 
 	Handy.controller_v2.input.update_context()
-	keys_hold_size = nil
 
 	return input_ctx
 end
@@ -89,8 +84,6 @@ local function pre_release_key(input_type, raw_key)
 		real_keys_release[input_ctx.key] = real_hold_duration
 	end
 
-	keys_hold_size = nil
-
 	return input_ctx
 end
 local function post_release_key()
@@ -106,7 +99,6 @@ local function post_release_key()
 	end
 
 	Handy.controller_v2.input.update_context()
-	keys_hold_size = nil
 
 	return input_ctx
 end

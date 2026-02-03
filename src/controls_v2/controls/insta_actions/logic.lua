@@ -88,10 +88,13 @@ Handy.insta_actions = {
 	execute = function(item, args, data)
 		local target_card = data and data.card
 		local ctx = Handy.controller_v2.non_empty_context(args and args.ctx)
+		if not ctx then
+			return false
+		end
 		local actions = Handy.insta_actions.get_actions(ctx and ctx.input and ctx or nil)
 		item.b_actions = actions
 		if Handy.insta_actions.process_card(target_card, actions) then
-			Handy.controller.prevent_default()
+			ctx:prevent_default()
 			if not target_card.handy_preview_insta_actions then
 				Handy.insta_actions.show_notif(actions)
 			end
