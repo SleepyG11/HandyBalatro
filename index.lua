@@ -55,3 +55,4 @@ Handy.load_file("src/index.lua")
 -- regular keybinds:
 --- menus
 -- dangerous
+--- controller sensitivity

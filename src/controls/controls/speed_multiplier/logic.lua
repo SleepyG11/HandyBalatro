@@ -63,9 +63,9 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.get_limited_value()
 	end,
 	get_limited_value = function()
-		local max_value = math.huge
+		local max_value = 2 ^ 18
 		if not Handy.speed_multiplier.is_uncapped() then
-			max_value = 512
+			max_value = 2 ^ 9
 		end
 		local mp_value = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
 			force = true,
@@ -109,10 +109,7 @@ Handy.speed_multiplier = {
 	end,
 	change = function(dx)
 		local multiplier = 2 ^ (dx or 0)
-		Handy.speed_multiplier.value = math.min(
-			math.max(1 / 512, Handy.speed_multiplier.value * multiplier),
-			Handy.speed_multiplier.is_uncapped() and 2 ^ 24 or 512
-		)
+		Handy.speed_multiplier.value = math.max(1 / (2 ^ 9), Handy.speed_multiplier.value * multiplier)
 		Handy.speed_multiplier.value = Handy.speed_multiplier.get_limited_value()
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 		Handy.speed_multiplier.localize_value()
