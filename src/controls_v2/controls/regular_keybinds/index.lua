@@ -459,6 +459,7 @@ Handy.controls_v2.register("regular_keybinds_restart", {
 	require_exact_keys = true,
 	no_mp = true,
 	in_run = true,
+	only_holdable = true,
 
 	hold_lock = false,
 	last_hold = 0,
@@ -790,6 +791,7 @@ Handy.controls_v2.register("regular_keybinds_show_deck_preview", {
 	end,
 
 	in_run = true,
+	only_holdable = true,
 
 	update = function(self, dt)
 		if not Handy.b_is_mod_active() then

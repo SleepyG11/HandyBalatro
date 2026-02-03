@@ -39,6 +39,8 @@ Handy.controls_v2.register("scoring_hold", {
 		return Handy.cc.scoring_hold
 	end,
 
+	only_holdable = true,
+
 	can_execute = function(self, args)
 		if Handy.UI.data.is_speed_n_animations_calculate then
 			return Handy.controls_v2.can_execute_control(self, {
