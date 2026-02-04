@@ -77,21 +77,12 @@ Handy.controls.register("hand_selection_insta_highlight", {
 				and Handy.controls.is_module_enabled(Handy.cc.hand_selection_insta_highlight_allow_deselect)
 		end
 
-		G.E_MANAGER:add_event(Event({
-			trigger = "immediate",
-			blocking = false,
-			blockable = false,
-			no_delete = true,
-			func = function()
-				if
-					not G.CONTROLLER.dragging.target
-					and (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
-				then
-					card:click()
-				end
-				return true
-			end,
-		}))
+		if
+			not G.CONTROLLER.dragging.target
+			and (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
+		then
+			card:click()
+		end
 		return true
 	end,
 
