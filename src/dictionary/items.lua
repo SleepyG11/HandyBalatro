@@ -151,9 +151,19 @@ l({
 			key = "hide_options_button",
 			keywords = { "settings config mod blue button" },
 			get_module = function(self)
-				return Handy.cc.hide_options_button
+				if SMODS then
+					return Handy.cc.hide_options_button
+				else
+					return { enabled = false }
+				end
 			end,
-			checkbox = true,
+			checkbox = {
+				get_values = function()
+					return {
+						disabled = not SMODS and true or false,
+					}
+				end,
+			},
 		},
 		{
 			key = "speed_multiplier_settings_toggle",

@@ -1,4 +1,4 @@
-Handy.e_mitter = setmetatable({}, {})
+Handy.e_mitter = {}
 Handy.e_mitter.queues = {}
 
 function Handy.e_mitter.on(type, callback, args)

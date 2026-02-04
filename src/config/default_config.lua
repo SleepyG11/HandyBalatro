@@ -21,6 +21,7 @@ local default_config = {
 		enabled = false,
 	},
 
+	-- Presets
 	presets = {
 		enabled = true,
 	},
@@ -67,7 +68,7 @@ local default_config = {
 		enabled = false,
 	},
 
-	-- Speed and Animations
+	-- Speed Multiplier
 	speed_multiplier = {
 		enabled = true,
 	},
@@ -100,6 +101,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Animation Skip
 	animation_skip = {
 		enabled = true,
 	},
@@ -132,6 +134,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Scoring hold
 	scoring_hold = {
 		enabled = true,
 	},
@@ -170,6 +173,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Highlight movement
 	move_highlight = {
 		enabled = true,
 	},
@@ -202,9 +206,12 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Regular keybinds
 	regular_keybinds = {
 		enabled = true,
 	},
+
+	-- Game
 	regular_keybinds_restart = {
 		enabled = true,
 		keys_1 = { "R" },
@@ -241,6 +248,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Hand
 	regular_keybinds_play = {
 		enabled = true,
 		keys_1 = {},
@@ -276,6 +284,8 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+
+	-- Round
 	regular_keybinds_start_fantoms_preview = {
 		enabled = true,
 		keys_1 = {},
@@ -283,7 +293,22 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	regular_keybinds_not_just_yet_interaction = {
+		enabled = true,
+		keys_1 = { "Enter" },
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+	regular_keybinds_cash_out = {
+		enabled = true,
+		keys_1 = { "Enter" },
+		keys_2 = {},
+		keys_1_gamepad = { "(Y)" },
+		keys_2_gamepad = {},
+	},
 
+	-- Shop
 	regular_keybinds_skip_booster = {
 		enabled = true,
 		keys_1 = { "Enter" },
@@ -306,6 +331,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Blinds
 	regular_keybinds_select_blind = {
 		enabled = true,
 		keys_1 = {},
@@ -328,6 +354,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Menus
 	regular_keybinds_run_info = {
 		enabled = true,
 		keys_1 = {},
@@ -385,21 +412,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
-	regular_keybinds_not_just_yet_interaction = {
-		enabled = true,
-		keys_1 = { "Enter" },
-		keys_2 = {},
-		keys_1_gamepad = {},
-		keys_2_gamepad = {},
-	},
-	regular_keybinds_cash_out = {
-		enabled = true,
-		keys_1 = { "Enter" },
-		keys_2 = {},
-		keys_1_gamepad = { "(Y)" },
-		keys_2_gamepad = {},
-	},
-
+	-- Quick Buy/Sell/Use
 	insta_actions = {
 		enabled = true,
 	},
@@ -435,6 +448,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Dangerous Actions
 	dangerous_actions = {
 		enabled = false,
 	},
@@ -494,6 +508,7 @@ local default_config = {
 		keys_2_gamepad = {},
 	},
 
+	-- Multiplayer Extension
 	mp_extension_enabled_default_value = {
 		enabled = false,
 	},
