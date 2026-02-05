@@ -44,32 +44,105 @@ local function replace_mod(callback)
 end
 
 Handy.updater = {
+	STATES = {
+		IDLE = 1,
+		CHECKING = 2,
+		DOWNLOADING = 3,
+		INSTALLING = 4,
+	},
+	STATE = 1,
+
+	loc_state = "",
+
+	localize_state = function() end,
+	set_state = function(state)
+		Handy.updater.STATE = state
+		Handy.updater.localize_state()
+	end,
+
+	releases = nil,
 	request_releases = request_releases,
 
-	download_stable_release = function()
-		request_releases(function(releases_event)
-			if releases_event.success and releases_event.stable then
-				download_release(releases_event.stable.zipball_url, function(download_event)
-					unzip_archive(function(unzip_event)
-						replace_mod(function(replace_event)
-							print("Installation is done")
-						end)
-					end)
-				end)
-			end
-		end)
+	get_releases = function(args, callback)
+		-- TODO: stale check
+
+		args = args or {}
+		callback = callback or function() end
+
+		if Handy.updater.releases and not args.no_cache then
+			callback(nil, Handy.updater.releases)
+			return Handy.updater.releases
+		elseif Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
+			callback("busy")
+		else
+			Handy.updater.set_state(Handy.updater.STATES.CHECKING)
+			request_releases(function(releases)
+				if not args.no_idle_state then
+					Handy.updater.set_state(Handy.updater.STATES.IDLE)
+				end
+				if releases and releases.success then
+					Handy.updater.releases = releases
+					callback(nil, releases)
+				else
+					callback("fetch_error")
+				end
+			end)
+		end
 	end,
-	download_pre_release = function()
-		request_releases(function(releases_event)
-			if releases_event.success and releases_event.pre_release then
-				download_release(releases_event.pre_release.zipball_url, function(download_event)
-					unzip_archive(function(unzip_event)
-						replace_mod(function(replace_event)
-							print("Installation is done")
-						end)
+
+	install_release = function(args, callback)
+		args = args or {}
+		callback = callback or function() end
+
+		local function exit(message, no_set_state)
+			if not no_set_state then
+				Handy.updater.set_state(Handy.updater.STATES.IDLE)
+			end
+			callback(message)
+		end
+
+		if Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
+			return exit("busy", true)
+		end
+
+		local download = function(url)
+			Handy.updater.set_state(Handy.updater.STATES.DOWNLOADING)
+			download_release(url, function(download_event)
+				if not download_event.success then
+					return exit("download_error")
+				end
+				Handy.updater.set_state(Handy.updater.STATES.INSTALLING)
+				unzip_archive(function(unzip_event)
+					if not unzip_event.success then
+						return exit("unzip_error")
+					end
+					replace_mod(function(replace_event)
+						if not replace_event.success then
+							return exit("replace_error")
+						end
+						exit(nil)
 					end)
 				end)
-			end
-		end)
+			end)
+		end
+
+		if args.url then
+			download(args.url)
+		elseif args.release_type then
+			Handy.updater.get_releases({
+				no_idle_state = true,
+				no_cache = args.no_cache,
+			}, function(error, releases)
+				if error then
+					exit(error)
+				end
+				if not (releases and releases.success and releases[args.release_type]) then
+					return exit("not_found")
+				end
+				download(releases[args.release_type].zipball_url)
+			end)
+		else
+			exit("invalid_args")
+		end
 	end,
 }
