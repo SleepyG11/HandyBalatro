@@ -36,23 +36,22 @@ end
 local function unzip_archive(callback)
 	send_to_updater({ unzip_archive = true }, "unzip_archive_complete", callback)
 end
-local function replace_mod(delete_old, callback)
+local function replace_mod(callback)
 	send_to_updater({
 		replace_mod = true,
 		mod_path = Handy.PATH,
-		delete_old = delete_old and true or false,
 	}, "replace_mod_complete", callback)
 end
 
 Handy.updater = {
 	request_releases = request_releases,
 
-	download_stable_release = function(delete_old)
+	download_stable_release = function()
 		request_releases(function(releases_event)
 			if releases_event.success and releases_event.stable then
 				download_release(releases_event.stable.zipball_url, function(download_event)
 					unzip_archive(function(unzip_event)
-						replace_mod(delete_old, function(replace_event)
+						replace_mod(function(replace_event)
 							print("Installation is done")
 						end)
 					end)
@@ -60,12 +59,12 @@ Handy.updater = {
 			end
 		end)
 	end,
-	download_pre_release = function(delete_old)
+	download_pre_release = function()
 		request_releases(function(releases_event)
 			if releases_event.success and releases_event.pre_release then
 				download_release(releases_event.pre_release.zipball_url, function(download_event)
 					unzip_archive(function(unzip_event)
-						replace_mod(delete_old, function(replace_event)
+						replace_mod(function(replace_event)
 							print("Installation is done")
 						end)
 					end)

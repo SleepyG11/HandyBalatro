@@ -96,8 +96,12 @@ local function download_release(url, use_smods)
 	if code == 200 then
 		local appdata_dir = love.filesystem.getSaveDirectory()
 		local temp_dir = appdata_dir .. "/" .. temp_folder
-		recursivelyDelete(temp_dir)
+
+		-- create temp
 		NFS.createDirectory(temp_dir)
+		-- delete zip
+		recursivelyDelete(temp_dir .. "/" .. zip_file)
+		-- write zip
 		NFS.write(temp_dir .. "/" .. zip_file, response)
 		return {
 			success = true,
@@ -117,22 +121,23 @@ local function unzip_archive()
 	local zipPath = temp_dir .. "/" .. zip_file
 	local destination = temp_dir .. "/" .. unzip_folder
 
+	-- delete unzip
 	recursivelyDelete(destination)
+	-- create unzip
 	NFS.createDirectory(destination)
-
+	-- unzip archive
 	if love.system.getOS() == "Windows" then
 		os.execute(string.format('powershell -Command "Expand-Archive -Force \\"%s\\" \\"%s\\""', zipPath, destination))
-		return {
-			success = true,
-		}
 	else
 		os.execute(string.format('unzip -o "%s" -d "%s"', zipPath, destination))
-		return {
-			success = true,
-		}
 	end
+	-- delete zip
+	NFS.remove(zipPath)
+	return {
+		success = true,
+	}
 end
-local function replace_mod(mod_path, delete_old)
+local function replace_mod(mod_path)
 	local appdata_dir = love.filesystem.getSaveDirectory()
 	local temp_dir = appdata_dir .. "/" .. temp_folder
 
@@ -140,14 +145,13 @@ local function replace_mod(mod_path, delete_old)
 	local mod_folder = NFS.getDirectoryItems(unzipped_dir)[1]
 
 	if mod_folder then
-		os.rename(mod_path, mod_path .. temp_suffix)
+		-- delete backup
+		recursivelyDelete(temp_dir .. "/" .. stored_folder)
+		-- rename current -> backup
+		os.rename(mod_path, temp_dir .. "/" .. stored_folder)
+		-- rename unzip -> current
 		os.rename(unzipped_dir .. "/" .. mod_folder, mod_path)
-		if delete_old then
-			recursivelyDelete(mod_path)
-		else
-			os.rename(mod_path .. temp_suffix, temp_dir .. "/" .. stored_folder)
-		end
-		NFS.remove(temp_dir .. "/" .. zip_file)
+		-- delete unzip
 		NFS.remove(temp_dir .. "/" .. unzip_folder)
 		return {
 			success = true,
@@ -184,7 +188,7 @@ end
 				return
 			end
 			if event.replace_mod then
-				local data = replace_mod(event.mod_path, event.delete_old)
+				local data = replace_mod(event.mod_path)
 				data.replace_mod_complete = true
 				https_output:push(data)
 				return
