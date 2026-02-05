@@ -96,9 +96,11 @@ local function download_release(url, use_smods)
 		},
 	})
 	if code == 200 then
-		recursivelyDelete(temp_folder)
-		love.filesystem.createDirectory(temp_folder)
-		love.filesystem.write(temp_folder .. "/" .. zip_file, response)
+		local appdata_dir = love.filesystem.getSaveDirectory()
+		local temp_dir = appdata_dir .. "/" .. temp_folder
+		recursivelyDelete(temp_dir)
+		NFS.createDirectory(temp_dir)
+		NFS.write(temp_dir .. "/" .. zip_file, response)
 		return {
 			success = true,
 		}
@@ -112,12 +114,14 @@ local function download_release(url, use_smods)
 	end
 end
 local function unzip_archive()
-	local appdataDir = love.filesystem.getSaveDirectory()
-	recursivelyDelete(appdataDir .. "/" .. temp_folder .. "/" .. unzip_folder)
-	love.filesystem.createDirectory(temp_folder .. "/" .. unzip_folder)
+	local appdata_dir = love.filesystem.getSaveDirectory()
+	local temp_dir = appdata_dir .. "/" .. temp_folder
 
-	local zipPath = appdataDir .. "/" .. temp_folder .. "/" .. zip_file
-	local destination = appdataDir .. "/" .. temp_folder .. "/" .. unzip_folder
+	local zipPath = temp_dir .. "/" .. zip_file
+	local destination = temp_dir .. "/" .. unzip_folder
+
+	recursivelyDelete(destination)
+	NFS.createDirectory(destination)
 
 	if love.system.getOS() == "Windows" then
 		os.execute(string.format('powershell -Command "Expand-Archive -Force \\"%s\\" \\"%s\\""', zipPath, destination))
@@ -132,20 +136,22 @@ local function unzip_archive()
 	end
 end
 local function replace_mod(mod_path, delete_old)
-	local appdataDir = love.filesystem.getSaveDirectory()
-	local unzippedDir = appdataDir .. "/" .. temp_folder .. "/" .. unzip_folder
-	local mod_folder = NFS.getDirectoryItems(unzippedDir)[1]
+	local appdata_dir = love.filesystem.getSaveDirectory()
+	local temp_dir = appdata_dir .. "/" .. temp_folder
+
+	local unzipped_dir = temp_dir .. "/" .. unzip_folder
+	local mod_folder = NFS.getDirectoryItems(unzipped_dir)[1]
 
 	if mod_folder then
 		os.rename(mod_path, mod_path .. temp_suffix)
-		os.rename(unzippedDir .. "/" .. mod_folder, mod_path)
+		os.rename(unzipped_dir .. "/" .. mod_folder, mod_path)
 		if delete_old then
 			recursivelyDelete(mod_path)
 		else
-			os.rename(mod_path .. temp_suffix, appdataDir .. "/" .. temp_folder .. "/" .. stored_folder)
+			os.rename(mod_path .. temp_suffix, temp_dir .. "/" .. stored_folder)
 		end
-		recursivelyDelete(temp_folder .. "/" .. zip_file)
-		recursivelyDelete(temp_folder .. "/" .. unzip_folder)
+		NFS.remove(temp_dir .. "/" .. zip_file)
+		NFS.remove(temp_dir .. "/" .. unzip_folder)
 		return {
 			success = true,
 		}
