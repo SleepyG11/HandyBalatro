@@ -144,6 +144,8 @@ local function replace_mod(mod_path, delete_old)
 		else
 			os.rename(mod_path .. temp_suffix, appdataDir .. "/" .. temp_folder .. "/" .. stored_folder)
 		end
+		recursivelyDelete(temp_folder .. "/" .. zip_file)
+		recursivelyDelete(temp_folder .. "/" .. unzip_folder)
 		return {
 			success = true,
 		}
