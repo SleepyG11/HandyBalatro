@@ -1,5 +1,8 @@
 require("love.system")
 require("love.filesystem")
+sendDebugMessage = sendDebugMessage or function() end
+arg = args or {}
+
 local json = require("handy/json")
 local NFS = require("handy/nativefs")
 
@@ -28,11 +31,6 @@ local function recursivelyDelete(item)
 	NFS.remove(item)
 end
 local function get_fetcher(use_smods)
-	if use_smods then
-		sendDebugMessage = sendDebugMessage or function() end
-		arg = args or {}
-		require("love.system")
-	end
 	return use_smods and require("SMODS.https") or require("https")
 end
 
@@ -105,7 +103,6 @@ local function download_release(url, use_smods)
 			success = true,
 		}
 	else
-		https_output:push({ log = true, message = "we fail" })
 		return {
 			success = false,
 			code = code,

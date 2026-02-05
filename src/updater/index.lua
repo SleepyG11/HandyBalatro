@@ -46,7 +46,6 @@ end
 
 Handy.updater = {
 	request_releases = request_releases,
-	download_release = download_release,
 
 	download_stable_release = function(delete_old)
 		request_releases(function(releases_event)
