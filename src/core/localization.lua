@@ -21,7 +21,7 @@ Handy.L = {
 	name_text = function(set, key, vars)
 		local r = localize({ type = "name_text", set = set, key = key, vars = vars or {} })
 		if type(r) == "table" then
-			r = table.concat(r, " ")
+			r = Handy.utils.string_remove_balatro_formatting(table.concat(r, " "))
 		end
 		return r
 	end,

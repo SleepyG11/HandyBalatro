@@ -40,3 +40,14 @@ function Handy.e_mitter.emit(type, ...)
 	end
 	return false
 end
+function Handy.e_mitter.off(type, key)
+	if Handy.e_mitter.queues[type] then
+		for index, item in ipairs(Handy.e_mitter.queues[type]) do
+			if item.key and item.key == key then
+				table.remove(Handy.e_mitter.queues[type], index)
+				return true
+			end
+		end
+	end
+	return false
+end

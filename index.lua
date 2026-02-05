@@ -23,14 +23,19 @@ Handy = setmetatable({
 	},
 }, {})
 
+function Handy.read_file(file)
+	return Handy.NFS.read(Handy.PATH .. "/" .. file)
+end
 function Handy.load_file(file)
-	return assert(load(Handy.NFS.read(Handy.PATH .. "/" .. file), '=[SMODS Handy "' .. file .. '"]'))()
+	return assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))()
 end
 function Handy.load_files(files, prefix)
 	for _, file in pairs(files) do
 		Handy.load_file(prefix .. file)
 	end
 end
+
+Handy.JSON = Handy.load_file("src/libs/json.lua")
 
 Handy.load_file("src/index.lua")
 
