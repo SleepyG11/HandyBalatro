@@ -74,6 +74,7 @@ Handy.load_files({
 	"speed_n_animations.lua",
 	"dangerous.lua",
 	"mp_extension.lua",
+	"updater.lua",
 }, "src/ui/pages/")
 
 Handy.load_file("src/ui/options.lua")

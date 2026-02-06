@@ -502,3 +502,88 @@ function Handy.UI.utils.delay(time, queue)
 		queue
 	)
 end
+
+-- I'll be honest: this function is written by ChatGPT.
+-- Too much effort just to wrap text. Yea I know, sorry.
+function Handy.UI.utils.wrap_text(text, maxChars)
+	local out = {}
+
+	local i, n = 1, #text
+	while true do
+		local j = text:find("\n", i, true)
+		local line
+		if j then
+			line = text:sub(i, j - 1)
+			i = j + 1
+		else
+			line = text:sub(i)
+		end
+
+		if line == "" then
+			table.insert(out, "")
+		else
+			local indent = line:match("^[\t ]*") or ""
+			local rest = line:sub(#indent + 1)
+
+			local current = indent
+			local currentLen = #indent
+			local hadWord = false
+
+			for word, ws in rest:gmatch("(%S+)(%s*)") do
+				local pieceLen = #word + #ws
+
+				if not hadWord then
+					current = indent .. word .. ws
+					currentLen = #indent + pieceLen
+					hadWord = true
+				else
+					if currentLen + pieceLen <= maxChars then
+						current = current .. word .. ws
+						currentLen = currentLen + pieceLen
+					else
+						local r = current:gsub("%s+$", "")
+						table.insert(out, r)
+						-- новая строка с тем же отступом
+						current = indent .. word .. ws
+						currentLen = #indent + pieceLen
+					end
+				end
+			end
+
+			if not hadWord then
+				table.insert(out, line)
+			else
+				local r = current:gsub("%s+$", "")
+				table.insert(out, r)
+			end
+		end
+
+		if not j then
+			break
+		end
+	end
+
+	return out
+end
+
+function Handy.UI.utils.format_iso_date(iso, format)
+	local y, m, d, h, min, s = iso:match("^(%d+)%-(%d+)%-(%d+)T(%d+):(%d+):(%d+)Z$")
+	if not y then
+		return nil
+	end
+
+	local utc = os.time({
+		year = tonumber(y),
+		month = tonumber(m),
+		day = tonumber(d),
+		hour = tonumber(h),
+		min = tonumber(min),
+		sec = tonumber(s),
+		isdst = false,
+	})
+
+	local localOffset = os.difftime(os.time(), os.time(os.date("!*t")))
+	local localTime = utc + localOffset
+
+	return os.date(format, localTime)
+end

@@ -140,24 +140,6 @@ function Handy.UI.get_config_tab_overall()
 							},
 						},
 					},
-					-- Handy.UI.CP.r_sep(0.1),
-					-- {
-					-- 	n = G.UIT.R,
-					-- 	config = { align = "cm" },
-					-- 	nodes = {
-					-- 		-- {
-					-- 		-- 	n = G.UIT.C,
-					-- 		-- 	nodes = {
-					-- 		-- 	},
-					-- 		-- },
-					-- 		-- Handy.UI.CP.c_sep(0.1),
-					-- 		-- TODO: add more buttons here
-					-- 		{
-					-- 			n = G.UIT.C,
-					-- 			nodes = {},
-					-- 		},
-					-- 	},
-					-- },
 				},
 			},
 		},
@@ -187,26 +169,15 @@ function Handy.UI.get_config_tab_overall()
 									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
 								},
 							},
+							Handy.UI.CP.c_sep(0.1),
+							{
+								n = G.UIT.C,
+								nodes = {
+									b({ label = "Updater", button = "handy_updater", colour = G.C.CHIPS }),
+								},
+							},
 						},
 					},
-					-- Handy.UI.CP.r_sep(0.1),
-					-- {
-					-- 	n = G.UIT.R,
-					-- 	config = { align = "cm" },
-					-- 	nodes = {
-					-- 		-- {
-					-- 		-- 	n = G.UIT.C,
-					-- 		-- 	nodes = {
-					-- 		-- 	},
-					-- 		-- },
-					-- 		-- Handy.UI.CP.c_sep(0.1),
-					-- 		-- TODO: add more buttons here
-					-- 		{
-					-- 			n = G.UIT.C,
-					-- 			nodes = {},
-					-- 		},
-					-- 	},
-					-- },
 				},
 			},
 		},

@@ -961,6 +961,8 @@ return {
 			["Shop & Blind Select"] = "Shop/Blinds",
 			["Game & Menus"] = "Game/Menus",
 			["MP Extension"] = "Multiplayer Extension",
+
+			["Updater"] = "Check updates",
 		},
 		v_dictionary = {
 			Handy_version_by = "v#1# by #2#",
@@ -1004,6 +1006,16 @@ return {
 
 			Handy_prevented_by_debugplus = "Prevented by DebugPlus",
 			Handy_log_file_copied = "Lovely log file copied to buffer",
+
+			Handy_updater_finish_success = "Update installed successfully",
+			Handy_updater_finish_busy = "Cannot start updating right now, pleae wait",
+			Handy_updater_finish_download_error = "Cannot download update",
+			Handy_updater_finish_unzip_error = "Cannot extract update files",
+			Handy_updater_finish_replace_error = "Cannot apply update files",
+
+			Handy_updater_getting_updates = "Downloading update...",
+			Handy_updater_downloading = "Downloading update...",
+			Handy_updater_installing = "Installing update...",
 		},
 		dictionary = {
 			handy_or = "or",
@@ -1114,6 +1126,12 @@ return {
 			handy_mp_extension_status_disabled_by_ruleset = "Multiplayer Extension in this lobby is DISABLED by RULESET",
 			handy_mp_extension_status_disabled_by_other_player = "Multiplayer Extension in this lobby is DISABLED by OTHER players",
 			handy_mp_extension_status_enabled = "Multiplayer Extension in this lobby is ENABLED",
+
+			handy_updater_status_no_data = "No release data",
+			handy_updater_status_already_installed = "Already installed",
+			handy_updater_status_busy = "Please wait...",
+			handy_updater_status_ready_for_installation = "Ready for installation",
+			b_handy_install = "Install",
 		},
 	},
 }
