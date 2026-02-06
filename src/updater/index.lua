@@ -47,8 +47,7 @@ Handy.updater = {
 	STATES = {
 		IDLE = 1,
 		CHECKING = 2,
-		DOWNLOADING = 3,
-		INSTALLING = 4,
+		INSTALLING = 3,
 	},
 	STATE = 1,
 
@@ -107,9 +106,7 @@ Handy.updater = {
 		else
 			Handy.updater.set_state(Handy.updater.STATES.CHECKING)
 			request_releases(function(releases)
-				if not args.no_idle_state then
-					Handy.updater.set_state(Handy.updater.STATES.IDLE)
-				end
+				Handy.updater.set_state(Handy.updater.STATES.IDLE)
 				if releases and releases.success then
 					Handy.updater.releases = releases
 					Handy.updater.check_is_new_version_available()
@@ -121,8 +118,7 @@ Handy.updater = {
 		end
 	end,
 
-	install_release = function(args, callback)
-		args = args or {}
+	install_release = function(release_type, callback)
 		callback = callback or function() end
 
 		local function exit(message, no_set_state)
@@ -143,70 +139,126 @@ Handy.updater = {
 		if Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
 			return exit("busy", true)
 		end
+		Handy.updater.set_state(Handy.updater.STATES.INSTALLING)
 
-		local download = function(url)
-			Handy.updater.set_state(Handy.updater.STATES.DOWNLOADING)
-			Handy.UI.state_panel.display(function(state)
-				state.items.updater = {
-					text = Handy.L.variable("Handy_updater_downloading"),
-					hold = true,
-					order = -1,
-				}
-				return true
-			end)
-			download_release(url, function(download_event)
-				if not download_event.success then
-					return exit("download_error")
-				end
-				Handy.updater.set_state(Handy.updater.STATES.INSTALLING)
-				Handy.UI.state_panel.display(function(state)
-					state.items.updater = {
-						text = Handy.L.variable("Handy_updater_installing"),
-						hold = true,
-						order = -1,
-					}
-					return true
-				end)
-				unzip_archive(function(unzip_event)
-					if not unzip_event.success then
-						return exit("unzip_error")
-					end
-					replace_mod(function(replace_event)
-						if not replace_event.success then
-							return exit("replace_error")
-						end
-						Handy.updater.installed_update = args.release_type
-						exit(nil)
+		Handy.e_mitter.on("update", function(dt)
+			local event = https_updater_output:pop()
+			if event then
+				if event.install_update_error then
+					https_updater_thread:wait()
+					Handy.e_mitter.off("update", "handy_updater")
+					exit(event.message)
+				elseif event.install_update_progress then
+					Handy.UI.state_panel.display(function(state)
+						state.items.updater = {
+							text = Handy.L.variable("Handy_updater_progress_" .. event.message),
+							hold = true,
+							order = -1,
+						}
+						return true
 					end)
-				end)
-			end)
-		end
+				elseif event.install_update_success then
+					https_updater_thread:wait()
+					Handy.e_mitter.off("update", "handy_updater")
+					Handy.updater.installed_update = release_type
+					exit()
+				end
+			end
+		end, {
+			key = "handy_updater",
+		})
 
-		if args.release_type then
-			Handy.UI.state_panel.display(function(state)
-				state.items.updater = {
-					text = Handy.L.variable("Handy_updater_getting_updates"),
-					hold = true,
-					order = -1,
-				}
-				return true
-			end)
-			Handy.updater.get_releases({
-				no_idle_state = true,
-				no_cache = args.no_cache,
-			}, function(error, releases)
-				if error then
-					exit(error)
-				end
-				if not (releases and releases.success and releases[args.release_type]) then
-					return exit("not_found")
-				end
-				download(releases[args.release_type].zipball_url)
-			end)
-		else
-			exit("invalid_args")
-		end
+		https_updater_thread:start()
+		https_updater_input:push({
+			install_release = true,
+			release_type = release_type,
+			use_smods = SMODS and true or false,
+			mod_path = Handy.PATH,
+		})
 	end,
+
+	-- _install_release = function(args, callback)
+	-- 	args = args or {}
+	-- 	callback = callback or function() end
+
+	-- 	local function exit(message, no_set_state)
+	-- 		if not no_set_state then
+	-- 			Handy.updater.set_state(Handy.updater.STATES.IDLE)
+	-- 		end
+	-- 		Handy.UI.state_panel.display(function(state)
+	-- 			state.items.updater = {
+	-- 				text = Handy.L.variable("Handy_updater_finish_" .. (message or "success")),
+	-- 				hold = false,
+	-- 				order = -1,
+	-- 			}
+	-- 			return true
+	-- 		end)
+	-- 		callback(message)
+	-- 	end
+
+	-- 	local download = function(url)
+	-- 		Handy.updater.set_state(Handy.updater.STATES.DOWNLOADING)
+	-- 		Handy.UI.state_panel.display(function(state)
+	-- 			state.items.updater = {
+	-- 				text = Handy.L.variable("Handy_updater_downloading"),
+	-- 				hold = true,
+	-- 				order = -1,
+	-- 			}
+	-- 			return true
+	-- 		end)
+	-- 		download_release(url, function(download_event)
+	-- 			if not download_event.success then
+	-- 				return exit("download_error")
+	-- 			end
+	-- 			Handy.updater.set_state(Handy.updater.STATES.INSTALLING)
+	-- 			Handy.UI.state_panel.display(function(state)
+	-- 				state.items.updater = {
+	-- 					text = Handy.L.variable("Handy_updater_installing"),
+	-- 					hold = true,
+	-- 					order = -1,
+	-- 				}
+	-- 				return true
+	-- 			end)
+	-- 			unzip_archive(function(unzip_event)
+	-- 				if not unzip_event.success then
+	-- 					return exit("unzip_error")
+	-- 				end
+	-- 				replace_mod(function(replace_event)
+	-- 					if not replace_event.success then
+	-- 						return exit("replace_error")
+	-- 					end
+	-- 					Handy.updater.installed_update = args.release_type
+	-- 					exit(nil)
+	-- 				end)
+	-- 			end)
+	-- 		end)
+	-- 	end
+
+	-- 	if args.release_type then
+	-- 		Handy.UI.state_panel.display(function(state)
+	-- 			state.items.updater = {
+	-- 				text = Handy.L.variable("Handy_updater_getting_updates"),
+	-- 				hold = true,
+	-- 				order = -1,
+	-- 			}
+	-- 			return true
+	-- 		end)
+	-- 		Handy.updater.get_releases({
+	-- 			no_idle_state = true,
+	-- 			no_cache = args.no_cache,
+	-- 		}, function(error, releases)
+	-- 			if error then
+	-- 				exit(error)
+	-- 			end
+	-- 			if not (releases and releases.success and releases[args.release_type]) then
+	-- 				return exit("not_found")
+	-- 			end
+	-- 			download(releases[args.release_type].zipball_url)
+	-- 		end)
+	-- 	else
+	-- 		exit("invalid_args")
+	-- 	end
+	-- end,
 
 	can_install_release = function(release_type)
 		local release = (Handy.updater.releases or {})[release_type]

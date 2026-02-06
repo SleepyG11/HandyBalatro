@@ -272,7 +272,5 @@ G.FUNCS.handy_can_install_release = function(e)
 end
 G.FUNCS.handy_install_release = function(e)
 	local release_type = e.config.ref_table.release_type
-	Handy.updater.install_release({
-		release_type = release_type,
-	})
+	Handy.updater.install_release(release_type)
 end

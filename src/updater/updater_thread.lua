@@ -41,8 +41,7 @@ local function get_latest_releases(use_smods)
 	if not fetcher then
 		return {
 			success = false,
-			code = 0,
-			cannot_fetch = true,
+			message = "no_fetcher",
 		}
 	end
 	local code, response = fetcher.request("https://api.github.com/repos/SleepyG11/HandyBalatro/releases?per_page=5", {
@@ -51,8 +50,23 @@ local function get_latest_releases(use_smods)
 			["User-Agent"] = "Mozilla/5.0",
 		},
 	})
+	if not response then
+		return {
+			success = false,
+			message = "no_connection",
+		}
+	end
 	if code == 200 then
-		local body = json.decode(response)
+		local success, body = pcall(function()
+			return json.decode(response)
+		end)
+
+		if not success then
+			return {
+				success = false,
+				message = "invalid_server_response",
+			}
+		end
 
 		local latest_stable, latest_pre_release
 		for _, release in ipairs(body) do
@@ -70,8 +84,7 @@ local function get_latest_releases(use_smods)
 	else
 		return {
 			success = false,
-			code = code,
-			response = response,
+			message = "check_request_failed",
 		}
 	end
 end
@@ -83,8 +96,7 @@ local function download_release(url, use_smods)
 	if not fetcher then
 		return {
 			success = false,
-			code = 0,
-			cannot_fetch = true,
+			message = "no_fetcher",
 		}
 	end
 	local code, response = fetcher.request(url, {
@@ -93,6 +105,12 @@ local function download_release(url, use_smods)
 			["User-Agent"] = "Mozilla/5.0",
 		},
 	})
+	if not response then
+		return {
+			success = false,
+			message = "no_connection",
+		}
+	end
 	if code == 200 then
 		local appdata_dir = love.filesystem.getSaveDirectory()
 		local temp_dir = appdata_dir .. "/" .. temp_folder
@@ -102,15 +120,19 @@ local function download_release(url, use_smods)
 		-- delete zip
 		recursivelyDelete(temp_dir .. "/" .. zip_file)
 		-- write zip
-		NFS.write(temp_dir .. "/" .. zip_file, response)
+		if not NFS.write(temp_dir .. "/" .. zip_file, response) then
+			return {
+				success = false,
+				message = "cannot_write_zip",
+			}
+		end
 		return {
 			success = true,
 		}
 	else
 		return {
 			success = false,
-			code = code,
-			response = response,
+			message = "download_request_failed",
 		}
 	end
 end
@@ -126,10 +148,19 @@ local function unzip_archive()
 	-- create unzip
 	NFS.createDirectory(destination)
 	-- unzip archive
+	local unzip_success
 	if love.system.getOS() == "Windows" then
-		os.execute(string.format('powershell -Command "Expand-Archive -Force \\"%s\\" \\"%s\\""', zipPath, destination))
+		unzip_success = os.execute(
+			string.format('powershell -Command "Expand-Archive -Force \\"%s\\" \\"%s\\""', zipPath, destination)
+		)
 	else
-		os.execute(string.format('unzip -o "%s" -d "%s"', zipPath, destination))
+		unzip_success = os.execute(string.format('unzip -o "%s" -d "%s"', zipPath, destination))
+	end
+	if not unzip_success or not NFS.getInfo(destination) then
+		return {
+			success = false,
+			message = "cannot_unzip",
+		}
 	end
 	-- delete zip
 	NFS.remove(zipPath)
@@ -148,9 +179,21 @@ local function replace_mod(mod_path)
 		-- delete backup
 		recursivelyDelete(temp_dir .. "/" .. stored_folder)
 		-- rename current -> backup
-		os.rename(mod_path, temp_dir .. "/" .. stored_folder)
+		local backup_success = os.rename(mod_path, temp_dir .. "/" .. stored_folder)
+		if not backup_success then
+			return {
+				success = false,
+				message = "cannot_move_files",
+			}
+		end
 		-- rename unzip -> current
-		os.rename(unzipped_dir .. "/" .. mod_folder, mod_path)
+		local replace_success = os.rename(unzipped_dir .. "/" .. mod_folder, mod_path)
+		if not replace_success then
+			return {
+				success = false,
+				message = "cannot_move_files",
+			}
+		end
 		-- delete unzip
 		NFS.remove(temp_dir .. "/" .. unzip_folder)
 		return {
@@ -160,6 +203,7 @@ local function replace_mod(mod_path)
 
 	return {
 		success = false,
+		message = "no_data_to_replace",
 	}
 end
 
@@ -192,6 +236,39 @@ end
 				data.replace_mod_complete = true
 				https_output:push(data)
 				return
+			end
+			if event.install_release then
+				https_output:push({ install_update_progress = true, message = "getting_releases" })
+				local releases = get_latest_releases(event.use_smods)
+				if not releases.success then
+					return https_output:push({ install_update_error = true, message = releases.message })
+				end
+
+				local release = releases[event.release_type]
+				if not release then
+					return https_output:push({ install_update_error = true, message = "no_release" })
+				end
+
+				local release_url = release.zipball_url
+				https_output:push({ install_update_progress = true, message = "downloading_release" })
+				local download = download_release(release_url, event.use_smods)
+				if not download.success then
+					return https_output:push({ install_update_error = true, message = releases.message })
+				end
+
+				https_output:push({ install_update_progress = true, message = "unzipping_archive" })
+				local unzip = unzip_archive()
+				if not unzip.success then
+					return https_output:push({ install_update_error = true, message = releases.message })
+				end
+
+				https_output:push({ install_update_progress = true, message = "installing_files" })
+				local replace = replace_mod(event.mod_path)
+				if not replace.success then
+					return https_output:push({ install_update_error = true, message = releases.message })
+				end
+
+				return https_output:push({ install_update_success = true, message = releases.message })
 			end
 		end
 	end
