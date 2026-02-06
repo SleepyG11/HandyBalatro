@@ -6,7 +6,7 @@ function Handy.UI.updater_release_definition(release_type)
 
 	local release = releases[release_type]
 
-	local body_lines = Handy.UI.utils.wrap_text(release.body, 80)
+	local body_lines = Handy.UI.utils.wrap_text(release.body, 100)
 
 	local patchnote_lines = {}
 	for _, line in ipairs(Handy.utils.table_slice(body_lines, 1, 12)) do
@@ -58,7 +58,7 @@ function Handy.UI.updater_release_definition(release_type)
 					{
 						n = G.UIT.T,
 						config = {
-							text = Handy.UI.utils.format_iso_date(release.published_at, "%Y/%m/%d %H:%M:%S"),
+							text = Handy.UI.utils.format_iso_date(release.published_at, "%Y/%m/%d %H:%M"),
 							scale = 0.3,
 							colour = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.6),
 							shadow = true,
@@ -70,7 +70,7 @@ function Handy.UI.updater_release_definition(release_type)
 	}
 	local content = {
 		n = G.UIT.R,
-		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1, minw = 11, minh = 4 },
+		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1, minw = 13, minh = 4 },
 		nodes = {
 			{
 				n = G.UIT.C,
@@ -175,27 +175,64 @@ function Handy.UI.updater_release_definition(release_type)
 		},
 	}
 end
+function Handy.UI.updater_settings_definition()
+	local content = {
+		n = G.UIT.R,
+		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					colour = adjust_alpha(HEX("000000"), 0.1),
+					align = "cm",
+					r = 0.5,
+				},
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", r = 0.1 },
+						nodes = {
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.updater, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.updater_target_release_type),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.updater_notify_about_new_update),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.updater_auto_install_new_update),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.updater_auto_restart_game_after_update),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return {
+		n = G.UIT.C,
+		config = { minh = 6.5, align = "cm" },
+		nodes = {
+			content,
+		},
+	}
+end
 
 function Handy.UI.get_updater_tabs()
 	local result = {
 		{
-			label = "Stable",
+			label = Handy.L.dictionary("handy_release_type_stable"),
 			tab_definition_function = function()
 				return Handy.UI.updater_release_definition("stable")
 			end,
 		},
 		{
-			label = "Pre-release",
+			label = Handy.L.dictionary("handy_release_type_pre_release"),
 			tab_definition_function = function()
 				return Handy.UI.updater_release_definition("pre_release")
 			end,
 		},
-		-- {
-		-- 	label = Handy.L.tab("Shop & Blind Select"),
-		-- 	tab_definition_function = function()
-		-- 		return Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
-		-- 	end,
-		-- },
+		{
+			label = Handy.L.tab("Updater Settings"),
+			tab_definition_function = function()
+				return Handy.UI.updater_settings_definition()
+			end,
+		},
 	}
 	for index, item in ipairs(result) do
 		local old_def = item.tab_definition_function

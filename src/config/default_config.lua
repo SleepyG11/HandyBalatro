@@ -21,6 +21,22 @@ local default_config = {
 		enabled = false,
 	},
 
+	updater = {
+		enabled = true,
+	},
+	updater_release_type = {
+		value = 1,
+	},
+	updater_notify_about_new_update = {
+		enabled = true,
+	},
+	updater_auto_install_new_update = {
+		enabled = false,
+	},
+	updater_auto_restart_game_after_update = {
+		enabled = false,
+	},
+
 	-- Presets
 	presets = {
 		enabled = true,

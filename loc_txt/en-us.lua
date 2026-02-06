@@ -89,6 +89,33 @@ return {
 				text = {},
 			},
 
+			updater = {
+				name = "Mod auto-updating",
+				text = { "I know you're lazy, Balatro player" },
+			},
+			updater_target_release_type = {
+				name = "Target release",
+				text = {},
+			},
+			updater_notify_about_new_update = {
+				name = "Notify about new update",
+				text = {},
+				unlock = {
+					"You'll see small notification on {C:attention}game startup{}",
+				},
+			},
+			updater_auto_install_new_update = {
+				name = "Auto-install new update",
+				text = {},
+				unlock = {
+					"Update will be installed on {C:attention}game startup{}",
+				},
+			},
+			updater_auto_restart_game_after_update = {
+				name = "Auto-restart a game after update",
+				text = {},
+			},
+
 			hand_selection = {
 				name = "Hand selection & Deselection",
 				text = {},
@@ -962,7 +989,8 @@ return {
 			["Game & Menus"] = "Game/Menus",
 			["MP Extension"] = "Multiplayer Extension",
 
-			["Updater"] = "Check updates",
+			["Updater"] = "Mod updates",
+			["Updater Settings"] = "Settings",
 		},
 		v_dictionary = {
 			Handy_version_by = "v#1# by #2#",
@@ -1018,11 +1046,17 @@ return {
 			Handy_updater_finish_cannot_unzip = "Cannot extract release files",
 			Handy_updater_finish_cannot_move_files = "Cannot install release files",
 			Handy_updater_finish_no_data_to_replace = "No release files to install",
+			Handy_updater_finish_description = "Restart a game to apply changes",
 
 			Handy_updater_progress_getting_releases = "Getting releases...",
 			Handy_updater_progress_downloading_release = "Downloading release...",
 			Handy_updater_progress_unzipping_archive = "Unzipping release...",
 			Handy_updater_progress_installing_files = "Installing release...",
+
+			Handy_new_pre_release_available = "New Pre-release available",
+			Handy_new_stable_available = "New Stable release available",
+			Handy_new_release_description = "Go to mod settings for details and download",
+			Handy_updater_auto_restart = "Restarting a game to apply changes...",
 		},
 		dictionary = {
 			handy_or = "or",
@@ -1140,6 +1174,9 @@ return {
 			handy_updater_status_busy = "Please wait...",
 			handy_updater_status_ready_for_installation = "Ready for installation",
 			b_handy_install = "Install",
+
+			handy_release_type_stable = "Stable",
+			handy_release_type_pre_release = "Pre-release",
 		},
 	},
 }

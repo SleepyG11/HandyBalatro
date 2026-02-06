@@ -122,15 +122,23 @@ Handy.updater = {
 		callback = callback or function() end
 
 		local function exit(message, no_set_state)
+			message = message or "success"
 			if not no_set_state then
 				Handy.updater.set_state(Handy.updater.STATES.IDLE)
 			end
 			Handy.UI.state_panel.display(function(state)
 				state.items.updater = {
-					text = Handy.L.variable("Handy_updater_finish_" .. (message or "success")),
+					text = Handy.L.variable("Handy_updater_finish_" .. message),
 					hold = false,
 					order = -1,
 				}
+				if message == "success" then
+					state.items.updater_description = {
+						text = Handy.L.variable("Handy_updater_finish_description"),
+						hold = false,
+						order = -1,
+					}
+				end
 				return true
 			end)
 			callback(message)
@@ -198,10 +206,81 @@ Handy.updater = {
 		end
 		return true
 	end,
+
+	game_startup_check_updates = function()
+		Handy.updater.get_releases(nil, function()
+			if not Handy.cc.updater.enabled then
+				return
+			end
+			local is_new_stable = Handy.updater.is_new_stable
+			local is_new_pre_release = Handy.cc.updater_release_type.value == 2 and Handy.updater.is_new_pre_release
+			if not (is_new_pre_release or is_new_stable) then
+				return
+			end
+			if Handy.cc.updater_auto_install_new_update.enabled then
+				Handy.updater.install_release(is_new_pre_release and "pre_release" or "stable", function(error)
+					if not error and Handy.cc.updater_auto_restart_game_after_update.enabled then
+						Handy.UI.state_panel.display(function(state)
+							state.items.updater_auto_restart = {
+								text = Handy.L.variable("Handy_updater_auto_restart"),
+								dangerous = true,
+								order = -1000000,
+								hold = true,
+							}
+						end)
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 2,
+							no_delete = true,
+							blocking = false,
+							blockable = false,
+							timer = "REAL",
+							func = function()
+								Handy.utils.restart_game()
+								return true
+							end,
+						}))
+					end
+				end)
+			elseif Handy.cc.updater_notify_about_new_update.enabled then
+				Handy.UI.state_panel.display(function(state)
+					state.items.new_update = {
+						text = Handy.L.variable(
+							is_new_pre_release and "Handy_new_pre_release_available" or "Handy_new_stable_available"
+						),
+						hold = false,
+						order = -1,
+					}
+					state.items.new_update_desc = {
+						text = Handy.L.variable("Handy_new_release_description"),
+						hold = false,
+						order = -0.99,
+					}
+					return true
+				end)
+			end
+		end)
+	end,
 }
 
 Handy.load_file("src/updater/versioner.lua")
 
+--
+
 Handy.e_mitter.on("game_start", function()
-	Handy.updater.get_releases()
+	G.E_MANAGER:add_event(Event({
+		no_delete = true,
+		blocking = false,
+		func = function()
+			G.E_MANAGER:add_event(Event({
+				no_delete = true,
+				blocking = false,
+				func = function()
+					Handy.updater.game_startup_check_updates()
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
 end)

@@ -95,3 +95,32 @@ end
 function Handy.utils.alive_element(area)
 	return area and not area.REMOVED and area or nil
 end
+
+function Handy.utils.restart_game()
+	if SMODS then
+		return SMODS.restart_game()
+	end
+	-- Taken from SMODS
+	if ((G or {}).SOUND_MANAGER or {}).channel then
+		G.SOUND_MANAGER.channel:push({
+			type = "kill",
+		})
+	end
+	if ((G or {}).SAVE_MANAGER or {}).channel then
+		G.SAVE_MANAGER.channel:push({
+			type = "kill",
+		})
+	end
+	if ((G or {}).HTTP_MANAGER or {}).channel then
+		G.HTTP_MANAGER.channel:push({
+			type = "kill",
+		})
+	end
+	if love.system.getOS() ~= "OS X" then
+		love.thread.newThread("os.execute(...)\n"):start('"' .. arg[-2] .. '" ' .. table.concat(arg, " "))
+	else
+		os.execute('sh "/Users/$USER/Library/Application Support/Steam/steamapps/common/Balatro/run_lovely_macos.sh" &')
+	end
+
+	love.event.quit()
+end
