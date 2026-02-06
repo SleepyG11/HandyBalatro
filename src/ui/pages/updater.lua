@@ -86,8 +86,8 @@ function Handy.UI.updater_release_definition(release_type)
 			{
 				n = G.UIT.C,
 				config = {
-					minw = 4.5,
-					maxw = 4.5,
+					minw = 5.5,
+					maxw = 5.5,
 					align = "c",
 				},
 				nodes = {

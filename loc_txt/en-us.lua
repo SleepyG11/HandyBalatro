@@ -1135,7 +1135,8 @@ return {
 			handy_mp_extension_status_enabled = "Multiplayer Extension in this lobby is ENABLED",
 
 			handy_updater_status_no_data = "No release data",
-			handy_updater_status_already_installed = "Already installed",
+			handy_updater_status_current_version = "Current version",
+			handy_updater_status_already_installed = "Installed - Restart a game",
 			handy_updater_status_busy = "Please wait...",
 			handy_updater_status_ready_for_installation = "Ready for installation",
 			b_handy_install = "Install",
