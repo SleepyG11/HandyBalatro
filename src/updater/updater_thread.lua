@@ -253,22 +253,22 @@ end
 				https_output:push({ install_update_progress = true, message = "downloading_release" })
 				local download = download_release(release_url, event.use_smods)
 				if not download.success then
-					return https_output:push({ install_update_error = true, message = releases.message })
+					return https_output:push({ install_update_error = true, message = download.message })
 				end
 
 				https_output:push({ install_update_progress = true, message = "unzipping_archive" })
 				local unzip = unzip_archive()
 				if not unzip.success then
-					return https_output:push({ install_update_error = true, message = releases.message })
+					return https_output:push({ install_update_error = true, message = unzip.message })
 				end
 
 				https_output:push({ install_update_progress = true, message = "installing_files" })
 				local replace = replace_mod(event.mod_path)
 				if not replace.success then
-					return https_output:push({ install_update_error = true, message = releases.message })
+					return https_output:push({ install_update_error = true, message = replace.message })
 				end
 
-				return https_output:push({ install_update_success = true, message = releases.message })
+				return https_output:push({ install_update_success = true })
 			end
 		end
 	end
