@@ -69,4 +69,8 @@ function V.is_valid(v, allow_wildcard)
 	)
 end
 
+V.is_newer = function(a, b)
+	return V_MT.__le(b, a) and not V_MT.__eq(b, a)
+end
+
 Handy.updater.V = V

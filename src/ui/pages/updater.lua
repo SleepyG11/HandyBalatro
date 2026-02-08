@@ -1,7 +1,7 @@
 function Handy.UI.updater_release_definition(release_type)
 	local releases = Handy.updater.get_releases()
 	local release = releases and releases[release_type]
-	if true or not release then
+	if not release then
 		return {
 			n = G.UIT.C,
 			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.5 },
@@ -117,7 +117,11 @@ function Handy.UI.updater_release_definition(release_type)
 														local can_install, reason_message =
 															Handy.updater.can_install_release(release_type)
 														if can_install then
-															reason_message = "ready_for_installation"
+															if Handy.updater["is_new_" .. release_type] then
+																reason_message = "new_version_available"
+															else
+																reason_message = "ready_for_installation"
+															end
 														end
 														return Handy.L.dictionary(
 															"handy_updater_status_" .. reason_message

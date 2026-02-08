@@ -51,6 +51,10 @@ Handy.updater = {
 	},
 	STATE = 1,
 
+	is_loaded = false,
+	last_check_updates_time = 0,
+	stale_timeout = 60 * 15,
+
 	is_new_stable = false,
 	is_current_stable = false,
 	is_new_pre_release = false,
@@ -80,32 +84,36 @@ Handy.updater = {
 			if Handy.updater.releases.stable and not Handy.updater.releases.stable.draft then
 				local stable_version = Handy.updater.releases.stable.tag_name
 				stable_version = stable_version:gsub("^v", "")
-				Handy.updater.is_new_stable = Handy.updater.V(stable_version) > current_v
+				Handy.updater.is_new_stable = Handy.updater.V.is_newer(Handy.updater.V(stable_version), current_v)
 				Handy.updater.is_current_stable = stable_version == Handy.version
 			end
 			if Handy.updater.releases.pre_release and not Handy.updater.releases.pre_release.draft then
 				local pre_release_version = Handy.updater.releases.pre_release.tag_name
 				pre_release_version = pre_release_version:gsub("^v", ""):gsub("-", "~", 1)
-				Handy.updater.is_new_pre_release = Handy.updater.V(pre_release_version) > current_v
+				Handy.updater.is_new_pre_release =
+					Handy.updater.V.is_newer(Handy.updater.V(pre_release_version), current_v)
 				Handy.updater.is_current_pre_release = pre_release_version == Handy.version
 			end
 		end
 	end,
 
-	get_releases = function(args, callback)
-		-- TODO: stale check
+	is_updated_info = function()
+		return G.TIMERS.REAL - (Handy.updater.last_check_updates_time or 0) < Handy.updater.stale_timeout
+	end,
 
+	get_releases = function(args, callback)
 		args = args or {}
 		callback = callback or function() end
 
-		if Handy.updater.releases and not args.no_cache then
+		if Handy.updater.releases and not args.no_cache and Handy.updater.is_updated_info() then
 			callback(nil, Handy.updater.releases)
-			return Handy.updater.releases
 		elseif Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
 			callback("busy")
 		else
+			Handy.updater.last_check_updates_time = nil
 			Handy.updater.set_state(Handy.updater.STATES.CHECKING)
 			request_releases(function(releases)
+				Handy.updater.last_check_updates_time = G.TIMERS.REAL
 				Handy.updater.set_state(Handy.updater.STATES.IDLE)
 				if releases and releases.success then
 					Handy.updater.releases = releases
@@ -116,6 +124,8 @@ Handy.updater = {
 				end
 			end)
 		end
+		-- Return this as old result for responsive UI
+		return Handy.updater.releases
 	end,
 
 	install_release = function(release_type, callback)
@@ -208,7 +218,7 @@ Handy.updater = {
 	end,
 
 	game_startup_check_updates = function()
-		Handy.updater.get_releases(nil, function()
+		Handy.updater.get_releases({ no_cache = true }, function()
 			if not Handy.cc.updater.enabled then
 				return
 			end
@@ -277,10 +287,21 @@ Handy.e_mitter.on("game_start", function()
 				blocking = false,
 				func = function()
 					Handy.updater.game_startup_check_updates()
+					Handy.updater.is_loaded = true
 					return true
 				end,
 			}))
 			return true
 		end,
 	}))
+end)
+
+Handy.e_mitter.on("update", function()
+	if
+		Handy.updater.is_loaded
+		and not Handy.updater.is_updated_info()
+		and Handy.updater.STATE == Handy.updater.STATES.IDLE
+	then
+		Handy.updater.get_releases({ no_cache = true })
+	end
 end)

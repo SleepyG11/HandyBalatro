@@ -1174,6 +1174,7 @@ return {
 			handy_updater_status_already_installed = "Installed - Restart a game",
 			handy_updater_status_busy = "Please wait...",
 			handy_updater_status_ready_for_installation = "Ready for installation",
+			handy_updater_status_new_version_available = "New version available",
 			b_handy_install = "Install",
 
 			handy_release_type_stable = "Stable",
