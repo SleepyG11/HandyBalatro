@@ -500,6 +500,10 @@ return {
 					"with {C:attention}skipped animation{}",
 				},
 			},
+			regular_keybinds_restart_game = {
+				name = "Restart Balatro",
+				text = {},
+			},
 			regular_keybinds_copy_log_file = {
 				name = { "Copy Lovely log file" },
 				text = {},

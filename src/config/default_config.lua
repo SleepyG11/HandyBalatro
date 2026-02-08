@@ -256,6 +256,13 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	regular_keybinds_restart_game = {
+		enabled = true,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 	regular_keybinds_copy_log_file = {
 		enabled = true,
 		keys_1 = {},

@@ -271,10 +271,6 @@ l({
 })
 
 c({
-	key = "dangerous_actions_crash",
-	stack_path = "input.dangerous_actions",
-})
-c({
 	key = "dangerous_actions_sell_one",
 	stack_path = "input.dangerous_actions",
 })
@@ -297,4 +293,20 @@ c({
 c({
 	key = "dangerous_actions_remove_all",
 	stack_path = "input.dangerous_actions",
+})
+
+--
+
+l({
+	key = "finish",
+	operator = "first",
+	stack_path = "input",
+})
+c({
+	key = "dangerous_actions_crash",
+	stack_path = "input.finish",
+})
+c({
+	key = "regular_keybinds_restart_game",
+	stack_path = "input.finish",
 })

@@ -912,6 +912,20 @@ l({
 					no_mp = true,
 				},
 				{
+					key = "regular_keybinds_restart_game",
+					keywords = { "restart game" },
+					checkbox = {
+						advanced = true,
+					},
+					keybind = {
+						allow_multiple = true,
+					},
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_restart_game, { Handy.D.dictionary.regular_keybinds }
+					end,
+					no_mp = true,
+				},
+				{
 					key = "regular_keybinds_copy_log_file",
 					keywords = { "copy lovely log file get" },
 					checkbox = {

@@ -275,14 +275,11 @@ Handy.updater = {
 			elseif Handy.cc.updater_notify_about_new_update.enabled then
 				Handy.UI.state_panel.display(function(state)
 					state.items.new_update = {
-						text = Handy.L.variable("Handy_new_" .. release_type .. "_available"),
+						text = Handy.L.variable("Handy_new_" .. release_type .. "_available")
+							.. " "
+							.. Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
 						hold = false,
 						order = -1,
-					}
-					state.items.updater_version = {
-						text = Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
-						hold = false,
-						order = -0.995,
 					}
 					state.items.new_update_desc = {
 						text = Handy.L.variable("Handy_new_release_description"),

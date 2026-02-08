@@ -521,6 +521,25 @@ Handy.controls.register("regular_keybinds_reload_run", {
 		return false
 	end,
 })
+Handy.controls.register("regular_keybinds_restart_game", {
+	get_module = function()
+		return Handy.cc.regular_keybinds_restart_game, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	require_exact_keys = true,
+	no_mp = true,
+
+	execute = function()
+		Handy.utils.restart_game()
+		return true
+	end,
+})
 Handy.controls.register("regular_keybinds_copy_log_file", {
 	get_module = function()
 		return Handy.cc.regular_keybinds_copy_log_file, { Handy.cc.regular_keybinds }
