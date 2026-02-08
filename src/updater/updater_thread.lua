@@ -30,6 +30,28 @@ local function recursivelyDelete(item)
 	end
 	NFS.remove(item)
 end
+local function recursivelyCopy(folder, saveDir)
+	local lfs = love.filesystem
+	local filesTable = lfs.getDirectoryItems(folder)
+	if saveDir ~= "" and not lfs.isDirectory(saveDir) then
+		lfs.createDirectory(saveDir)
+	end
+
+	for i, v in ipairs(filesTable) do
+		local file = folder .. "/" .. v
+		local saveFile = saveDir .. "/" .. v
+		if saveDir == "" then
+			saveFile = v
+		end
+
+		if lfs.isDirectory(file) then
+			lfs.createDirectory(saveFile)
+			recursivelyCopy(file, saveFile)
+		else
+			lfs.write(saveFile, tostring(lfs.read(file)))
+		end
+	end
+end
 local function get_fetcher(use_smods)
 	return use_smods and require("SMODS.https") or require("https")
 end
@@ -143,25 +165,33 @@ local function unzip_archive()
 	local zipPath = temp_dir .. "/" .. zip_file
 	local destination = temp_dir .. "/" .. unzip_folder
 
+	local local_zipPath = temp_folder .. "/" .. zip_file
+	local local_destination = temp_folder .. "/" .. unzip_folder
+
+	local mount_prefix = "_temp"
+
 	-- delete unzip
 	recursivelyDelete(destination)
-	-- create unzip
-	NFS.createDirectory(destination)
-	-- unzip archive
-	local unzip_success
-	if love.system.getOS() == "Windows" then
-		unzip_success = os.execute(
-			string.format('powershell -Command "Expand-Archive -Force \\"%s\\" \\"%s\\""', zipPath, destination)
-		)
-	else
-		unzip_success = os.execute(string.format('unzip -o "%s" -d "%s"', zipPath, destination))
-	end
-	if not unzip_success or not NFS.getInfo(destination) then
+	-- mount archive
+	local mount_success = love.filesystem.mount(local_zipPath, local_destination .. mount_prefix)
+	if not mount_success then
 		return {
 			success = false,
 			message = "cannot_unzip",
 		}
 	end
+	-- copy archive content
+	recursivelyCopy(local_destination .. mount_prefix, local_destination)
+	-- unmount
+	love.filesystem.unmount(local_zipPath)
+
+	if not NFS.getInfo(destination) then
+		return {
+			success = false,
+			message = "cannot_unzip",
+		}
+	end
+
 	-- delete zip
 	NFS.remove(zipPath)
 	return {
