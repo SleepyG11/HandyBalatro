@@ -30,7 +30,7 @@ local function recursivelyDelete(item)
 	end
 	NFS.remove(item)
 end
-local function recursivelyCopy(folder, saveDir)
+local function loveRecursivelyCopy(folder, saveDir)
 	local lfs = love.filesystem
 	local filesTable = lfs.getDirectoryItems(folder)
 	if saveDir ~= "" and not lfs.isDirectory(saveDir) then
@@ -46,7 +46,7 @@ local function recursivelyCopy(folder, saveDir)
 
 		if lfs.isDirectory(file) then
 			lfs.createDirectory(saveFile)
-			recursivelyCopy(file, saveFile)
+			loveRecursivelyCopy(file, saveFile)
 		else
 			lfs.write(saveFile, tostring(lfs.read(file)))
 		end
@@ -181,7 +181,7 @@ local function unzip_archive()
 		}
 	end
 	-- copy archive content
-	recursivelyCopy(local_destination .. mount_prefix, local_destination)
+	loveRecursivelyCopy(local_destination .. mount_prefix, local_destination)
 	-- unmount
 	love.filesystem.unmount(local_zipPath)
 
