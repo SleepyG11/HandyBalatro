@@ -1168,6 +1168,7 @@ return {
 			handy_mp_extension_status_disabled_by_other_player = "Multiplayer Extension in this lobby is DISABLED by OTHER players",
 			handy_mp_extension_status_enabled = "Multiplayer Extension in this lobby is ENABLED",
 
+			handy_updater_no_release_found = "No release data found",
 			handy_updater_status_no_data = "No release data",
 			handy_updater_status_current_version = "Current version",
 			handy_updater_status_already_installed = "Installed - Restart a game",

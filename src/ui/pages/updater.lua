@@ -1,10 +1,22 @@
 function Handy.UI.updater_release_definition(release_type)
 	local releases = Handy.updater.get_releases()
-	if not releases then
-		return nil
+	local release = releases and releases[release_type]
+	if true or not release then
+		return {
+			n = G.UIT.C,
+			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.5 },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = Handy.L.dictionary("handy_updater_no_release_found"),
+						scale = 0.5,
+						colour = mix_colours(G.C.MULT, G.C.UI.TEXT_LIGHT, 0.5),
+					},
+				},
+			},
+		}
 	end
-
-	local release = releases[release_type]
 
 	local body_lines = Handy.UI.utils.wrap_text(release.body, 100)
 
