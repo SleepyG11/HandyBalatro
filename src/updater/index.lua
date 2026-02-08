@@ -59,6 +59,8 @@ Handy.updater = {
 	is_current_stable = false,
 	is_new_pre_release = false,
 	is_current_pre_release = false,
+	new_version_stable = nil,
+	new_version_pre_release = nil,
 
 	installed_update = nil,
 
@@ -84,12 +86,14 @@ Handy.updater = {
 			if Handy.updater.releases.stable and not Handy.updater.releases.stable.draft then
 				local stable_version = Handy.updater.releases.stable.tag_name
 				stable_version = stable_version:gsub("^v", "")
+				Handy.updater.new_version_stable = stable_version
 				Handy.updater.is_new_stable = Handy.updater.V.is_newer(Handy.updater.V(stable_version), current_v)
 				Handy.updater.is_current_stable = stable_version == Handy.version
 			end
 			if Handy.updater.releases.pre_release and not Handy.updater.releases.pre_release.draft then
 				local pre_release_version = Handy.updater.releases.pre_release.tag_name
 				pre_release_version = pre_release_version:gsub("^v", ""):gsub("-", "~", 1)
+				Handy.updater.new_version_pre_release = pre_release_version
 				Handy.updater.is_new_pre_release =
 					Handy.updater.V.is_newer(Handy.updater.V(pre_release_version), current_v)
 				Handy.updater.is_current_pre_release = pre_release_version == Handy.version
@@ -142,11 +146,16 @@ Handy.updater = {
 					hold = false,
 					order = -1,
 				}
+				state.items.updater_version = {
+					text = Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
+					hold = false,
+					order = -0.995,
+				}
 				if message == "success" then
 					state.items.updater_description = {
 						text = Handy.L.variable("Handy_updater_finish_description"),
 						hold = false,
-						order = -1,
+						order = -0.99,
 					}
 				end
 				return true
@@ -172,6 +181,11 @@ Handy.updater = {
 							text = Handy.L.variable("Handy_updater_progress_" .. event.message),
 							hold = true,
 							order = -1,
+						}
+						state.items.updater_version = {
+							text = Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
+							hold = true,
+							order = -0.995,
 						}
 						return true
 					end)
@@ -218,7 +232,7 @@ Handy.updater = {
 	end,
 
 	game_startup_check_updates = function()
-		Handy.updater.get_releases({ no_cache = true }, function()
+		Handy.updater.get_releases({ no_cache = true }, function(releases)
 			if not Handy.cc.updater.enabled then
 				return
 			end
@@ -227,8 +241,9 @@ Handy.updater = {
 			if not (is_new_pre_release or is_new_stable) then
 				return
 			end
+			local release_type = is_new_pre_release and "pre_release" or "stable"
 			if Handy.cc.updater_auto_install_new_update.enabled then
-				Handy.updater.install_release(is_new_pre_release and "pre_release" or "stable", function(error)
+				Handy.updater.install_release(release_type, function(error)
 					if not error and Handy.cc.updater_auto_restart_game_after_update.enabled then
 						Handy.UI.state_panel.display(function(state)
 							state.items.updater_auto_restart = {
@@ -236,6 +251,11 @@ Handy.updater = {
 								dangerous = true,
 								order = -1000000,
 								hold = true,
+							}
+							state.items.updater_version = {
+								text = Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
+								hold = true,
+								order = -0.995,
 							}
 						end)
 						G.E_MANAGER:add_event(Event({
@@ -255,11 +275,14 @@ Handy.updater = {
 			elseif Handy.cc.updater_notify_about_new_update.enabled then
 				Handy.UI.state_panel.display(function(state)
 					state.items.new_update = {
-						text = Handy.L.variable(
-							is_new_pre_release and "Handy_new_pre_release_available" or "Handy_new_stable_available"
-						),
+						text = Handy.L.variable("Handy_new_" .. release_type .. "_available"),
 						hold = false,
 						order = -1,
+					}
+					state.items.updater_version = {
+						text = Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
+						hold = false,
+						order = -0.995,
 					}
 					state.items.new_update_desc = {
 						text = Handy.L.variable("Handy_new_release_description"),
