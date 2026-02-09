@@ -271,6 +271,15 @@ function Handy.UI.get_updater_tabs()
 		local old_def = item.tab_definition_function
 		item.tab_definition_function = function()
 			Handy.UI.data.updater_page_tab_index = index
+			if index == 1 then
+				Handy.UI.CHAR.jump("me")
+				Handy.UI.CHAR.set_sprite_pos("me", "happy")
+			elseif index == 2 then
+				Handy.UI.CHAR.jump("me")
+				Handy.UI.CHAR.set_sprite_pos("me", "scary")
+			elseif index == 3 then
+				Handy.UI.CHAR.set_sprite_pos("me", "default")
+			end
 			return {
 				n = G.UIT.ROOT,
 				config = { colour = G.C.CLEAR, minh = 5, align = "cm" },

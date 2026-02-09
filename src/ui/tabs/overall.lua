@@ -111,6 +111,7 @@ function Handy.UI.get_config_tab_overall()
 						nodes = {
 							{
 								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
 									b({ label = "General", button = "handy_appearance" }),
 									Handy.UI.CP.r_sep(0.1),
@@ -120,6 +121,7 @@ function Handy.UI.get_config_tab_overall()
 							Handy.UI.CP.c_sep(0.1),
 							{
 								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
 									b({
 										label = "Fast hand selection",
@@ -133,6 +135,7 @@ function Handy.UI.get_config_tab_overall()
 							Handy.UI.CP.c_sep(0.1),
 							{
 								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
 									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
 									Handy.UI.CP.r_sep(0.1),
@@ -159,6 +162,7 @@ function Handy.UI.get_config_tab_overall()
 						nodes = {
 							{
 								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
 									b({ label = "MP Extension", button = "handy_mp_extension", colour = Handy.UI.C.MP }),
 								},
@@ -166,13 +170,7 @@ function Handy.UI.get_config_tab_overall()
 							Handy.UI.CP.c_sep(0.1),
 							{
 								n = G.UIT.C,
-								nodes = {
-									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
-								},
-							},
-							Handy.UI.CP.c_sep(0.1),
-							{
-								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
 									b({
 										label = "Updater",
@@ -180,6 +178,14 @@ function Handy.UI.get_config_tab_overall()
 										colour = G.C.CHIPS,
 										func = "handy_updates_alert",
 									}),
+								},
+							},
+							Handy.UI.CP.c_sep(0.1),
+							{
+								n = G.UIT.C,
+								config = { minw = 3.25, maxw = 3.25 },
+								nodes = {
+									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
 								},
 							},
 						},
