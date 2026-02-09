@@ -79,6 +79,24 @@ Handy.e_mitter.on("game_start", function()
 		return r
 	end
 
+	local old_game_over = create_UIBox_game_over
+	function create_UIBox_game_over(...)
+		local ret = old_game_over(...)
+		if MP and MP.LOBBY and MP.LOBBY.code then
+			Handy.UI.CHAR.show_me_as_game_over()
+		end
+		return ret
+	end
+
+	local old_you_win = create_UIBox_win
+	function create_UIBox_win(...)
+		local ret = old_you_win(...)
+		if MP and MP.LOBBY and MP.LOBBY.code then
+			Handy.UI.CHAR.show_me_as_game_win()
+		end
+		return ret
+	end
+
 	Handy.e_mitter.on("update", function()
 		if not MP.LOBBY.code then
 			MP.LOBBY.handy_mp_extension_local_player_enabled = nil

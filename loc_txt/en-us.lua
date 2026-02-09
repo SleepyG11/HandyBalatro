@@ -101,7 +101,7 @@ return {
 				name = "Notify about new update",
 				text = {},
 				unlock = {
-					"You'll see small notification on {C:attention}game startup{}",
+					"You'll see notification on {C:attention}game startup{}",
 				},
 			},
 			updater_auto_install_new_update = {

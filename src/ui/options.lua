@@ -114,6 +114,7 @@ function Handy.UI.back_to_options()
 	})
 	if Handy.cc.me_in_mod_config.enabled then
 		Handy.UI.CHAR.rerender()
+		Handy.UI.CHAR.show("me")
 		Handy.UI.CHAR.set_sprite_pos("me", Handy.cc.handy.enabled and "default" or "scary")
 	end
 	Handy.UI.attach_side_panel()

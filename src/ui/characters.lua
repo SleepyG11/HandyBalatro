@@ -290,6 +290,7 @@ function Handy.UI.CHAR.ease_position(key, new_offset, duration)
 			blocking = false,
 			delay = duration or 0.15,
 			pause_force = true,
+			timer = "REAL",
 			func = function(t)
 				return t
 			end,
@@ -305,6 +306,7 @@ function Handy.UI.CHAR.ease_position(key, new_offset, duration)
 			ease_to = offset.x,
 			delay = duration or 0.15,
 			pause_force = true,
+			timer = "REAL",
 			func = function(t)
 				return t
 			end,
@@ -355,6 +357,7 @@ function Handy.UI.CHAR.jump(key)
 			delay = 0.06,
 			pause_force = true,
 			no_delete = true,
+			timer = "REAL",
 			func = function(t)
 				return t
 			end,
@@ -370,6 +373,7 @@ function Handy.UI.CHAR.jump(key)
 			delay = 0.075,
 			pause_force = true,
 			no_delete = true,
+			timer = "REAL",
 			func = function(t)
 				return t
 			end,
@@ -453,9 +457,21 @@ end
 
 ---
 
-local old_game_over = create_UIBox_game_over
-function create_UIBox_game_over(...)
-	local ret = old_game_over(...)
+local function char_delay(delay)
+	G.E_MANAGER:add_event(
+		Event({
+			timer = "REAL",
+			trigger = "after",
+			delay = delay or 0.5,
+			func = function()
+				return true
+			end,
+		}),
+		"handy_chars"
+	)
+end
+
+function Handy.UI.CHAR.show_me_as_game_over()
 	if Handy.cc.me_in_game_over.enabled then
 		G.E_MANAGER:add_event(
 			Event({
@@ -474,7 +490,9 @@ function create_UIBox_game_over(...)
 
 						scissors = false,
 					})
-					delay(0.5, "handy_chars")
+					char_delay(0.05)
+					Handy.UI.CHAR.jump("game_over_me")
+					char_delay(0.5)
 					Handy.UI.CHAR.hide("game_over_me")
 					return true
 				end,
@@ -482,12 +500,8 @@ function create_UIBox_game_over(...)
 			"handy_chars"
 		)
 	end
-	return ret
 end
-
-local old_you_win = create_UIBox_win
-function create_UIBox_win(...)
-	local ret = old_you_win(...)
+function Handy.UI.CHAR.show_me_as_game_win()
 	if Handy.cc.me_in_game_win.enabled then
 		G.E_MANAGER:add_event(
 			Event({
@@ -506,11 +520,11 @@ function create_UIBox_win(...)
 
 						scissors = false,
 					})
-					delay(0.05, "handy_chars")
+					char_delay(0.05)
 					Handy.UI.CHAR.jump("game_over_me")
-					delay(0.05, "handy_chars")
+					char_delay(0.05)
 					Handy.UI.CHAR.jump("game_over_me")
-					delay(0.5, "handy_chars")
+					char_delay(0.5)
 					Handy.UI.CHAR.hide("game_over_me")
 					return true
 				end,
@@ -518,5 +532,20 @@ function create_UIBox_win(...)
 			"handy_chars"
 		)
 	end
+end
+
+---
+
+local old_game_over = create_UIBox_game_over
+function create_UIBox_game_over(...)
+	local ret = old_game_over(...)
+	Handy.UI.CHAR.show_me_as_game_over()
+	return ret
+end
+
+local old_you_win = create_UIBox_win
+function create_UIBox_win(...)
+	local ret = old_you_win(...)
+	Handy.UI.CHAR.show_me_as_game_win()
 	return ret
 end
