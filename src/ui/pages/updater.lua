@@ -146,7 +146,7 @@ function Handy.UI.updater_release_definition(release_type)
 							{
 								n = G.UIT.T,
 								config = {
-									text = "v" .. Handy.version .. " -> " .. release.tag_name,
+									text = "v" .. Handy.version .. " -> v" .. release_info.new_version,
 									scale = 0.3,
 									colour = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.6),
 								},
