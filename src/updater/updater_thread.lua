@@ -17,8 +17,6 @@ local https_output = love.thread.getChannel("handy_updater_output")
 
 --
 
--- TODO: checks everywhere
-
 local function recursivelyDelete(item)
 	if NFS.getInfo(item, "directory") then
 		for _, child in ipairs(NFS.getDirectoryItems(item)) do
@@ -66,13 +64,24 @@ local function get_latest_releases(use_smods)
 			message = "no_fetcher",
 		}
 	end
-	local code, response = fetcher.request("https://api.github.com/repos/SleepyG11/HandyBalatro/releases?per_page=5", {
-		method = "GET",
-		headers = {
-			["User-Agent"] = "Mozilla/5.0",
-		},
-	})
-	if not response then
+	local code, response, headers
+	local url = "https://api.github.com/repos/SleepyG11/HandyBalatro/releases?per_page=5"
+	local is_redirect = false
+
+	repeat
+		code, response, headers = fetcher.request(url, {
+			method = "GET",
+			headers = {
+				["User-Agent"] = "Mozilla/5.0",
+			},
+		})
+		is_redirect = code >= 300 and code < 400
+		if is_redirect then
+			url = headers["location"]
+		end
+	until is_redirect and url
+
+	if not response or not url then
 		return {
 			success = false,
 			message = "no_connection",
@@ -121,13 +130,23 @@ local function download_release(url, use_smods)
 			message = "no_fetcher",
 		}
 	end
-	local code, response = fetcher.request(url, {
-		method = "GET",
-		headers = {
-			["User-Agent"] = "Mozilla/5.0",
-		},
-	})
-	if not response then
+
+	local code, response, headers
+	local is_redirect = false
+	repeat
+		code, response, headers = fetcher.request(url, {
+			method = "GET",
+			headers = {
+				["User-Agent"] = "Mozilla/5.0",
+			},
+		})
+		is_redirect = code >= 300 and code < 400
+		if is_redirect then
+			url = headers["location"]
+		end
+	until is_redirect and url
+
+	if not response or not url then
 		return {
 			success = false,
 			message = "no_connection",
