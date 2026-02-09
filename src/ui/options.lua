@@ -1,5 +1,11 @@
 function Handy.UI.get_options_button()
-	return UIBox_button({ label = { "Handy" }, button = "handy_options", minw = 5, colour = G.C.CHIPS })
+	return UIBox_button({
+		label = { "Handy" },
+		button = "handy_options",
+		minw = 5,
+		colour = G.C.CHIPS,
+		func = "handy_updates_alert",
+	})
 end
 function Handy.UI.get_mp_extension_button()
 	return UIBox_button({
@@ -157,3 +163,28 @@ Handy.e_mitter.on("steamodded_load", function()
 		end,
 	}))
 end)
+
+G.FUNCS.handy_updates_alert = function(e)
+	local is_update_present = not Handy.updater.installed_update and Handy.updater.get_new_available_release()
+	is_update_present = true
+	if not is_update_present and e.children.handy_alert then
+		e.children.handy_alert:remove()
+		e.children.handy_alert = nil
+	elseif is_update_present and not e.children.handy_alert then
+		e.children.handy_alert = UIBox({
+			definition = Handy.UI.CP.alert_definition({
+				scale_mod = 0.8,
+			}),
+			config = {
+				align = "tri",
+				offset = {
+					x = 0.065,
+					y = -0.065,
+				},
+				major = e,
+				instance_type = "ALERT",
+			},
+		})
+		e.children.handy_alert.states.collide.can = false
+	end
+end

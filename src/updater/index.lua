@@ -12,6 +12,9 @@ local function send_to_updater(data, response_event, callback)
 	Handy.e_mitter.on("update", function(dt)
 		local event = https_updater_output:pop()
 		if event then
+			if event.log then
+				print(event.message)
+			end
 			if event[response_event] then
 				https_updater_thread:wait()
 				Handy.e_mitter.off("update", "handy_updater")
@@ -124,6 +127,7 @@ Handy.updater = {
 					Handy.updater.check_is_new_version_available()
 					callback(nil, releases)
 				else
+					print(releases)
 					callback("fetch_error")
 				end
 			end)
@@ -231,17 +235,24 @@ Handy.updater = {
 		return true
 	end,
 
+	get_new_available_release = function()
+		local is_new_stable = Handy.updater.is_new_stable
+		local is_new_pre_release = Handy.cc.updater_release_type.value == 2 and Handy.updater.is_new_pre_release
+		if not (is_new_pre_release or is_new_stable) then
+			return nil
+		end
+		return is_new_pre_release and "pre_release" or "stable"
+	end,
+
 	game_startup_check_updates = function()
 		Handy.updater.get_releases({ no_cache = true }, function(releases)
 			if not Handy.cc.updater.enabled then
 				return
 			end
-			local is_new_stable = Handy.updater.is_new_stable
-			local is_new_pre_release = Handy.cc.updater_release_type.value == 2 and Handy.updater.is_new_pre_release
-			if not (is_new_pre_release or is_new_stable) then
+			local release_type = Handy.updater.get_new_available_release()
+			if not release_type then
 				return
 			end
-			local release_type = is_new_pre_release and "pre_release" or "stable"
 			if Handy.cc.updater_auto_install_new_update.enabled then
 				Handy.updater.install_release(release_type, function(error)
 					if not error and Handy.cc.updater_auto_restart_game_after_update.enabled then

@@ -82,6 +82,7 @@ function Handy.UI.get_config_tab_overall()
 				button = args.button or "handy_noop",
 				minw = 3.25,
 				maxw = 3.25,
+				func = args.func or nil,
 			},
 			nodes = {
 				{
@@ -173,7 +174,12 @@ function Handy.UI.get_config_tab_overall()
 							{
 								n = G.UIT.C,
 								nodes = {
-									b({ label = "Updater", button = "handy_updater", colour = G.C.CHIPS }),
+									b({
+										label = "Updater",
+										button = "handy_updater",
+										colour = G.C.CHIPS,
+										func = "handy_updates_alert",
+									}),
 								},
 							},
 						},

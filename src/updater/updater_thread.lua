@@ -79,7 +79,7 @@ local function get_latest_releases(use_smods)
 		if is_redirect then
 			url = headers["location"]
 		end
-	until is_redirect and url
+	until not is_redirect or not url
 
 	if not response or not url then
 		return {
@@ -144,7 +144,7 @@ local function download_release(url, use_smods)
 		if is_redirect then
 			url = headers["location"]
 		end
-	until is_redirect and url
+	until not is_redirect or not url
 
 	if not response or not url then
 		return {
