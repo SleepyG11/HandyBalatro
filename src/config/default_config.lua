@@ -21,6 +21,21 @@ local default_config = {
 		enabled = false,
 	},
 
+	-- Me
+	me_in_mod_config = {
+		enabled = true,
+	},
+	me_in_game_win = {
+		enabled = true,
+	},
+	me_in_game_over = {
+		enabled = true,
+	},
+	me_in_handy_tag = {
+		enabled = true,
+	},
+
+	-- Updater
 	updater = {
 		enabled = true,
 	},

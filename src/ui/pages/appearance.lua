@@ -15,7 +15,21 @@ function Handy.UI.appearance_page_definition()
 						n = G.UIT.C,
 						config = { align = "cm", r = 0.1 },
 						nodes = {
-							Handy.UI.CP.dictionary_item(Handy.D.dictionary.appearance, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_mod_config),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_game_over),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_game_win),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_handy_tag),
+							Handy.UI.CP.r_sep(0.1),
+							{
+								n = G.UIT.R,
+								config = {
+									func = "handy_setup_me_in_appearance",
+								},
+								nodes = {
+									Handy.UI.CP.dictionary_item(Handy.D.dictionary.appearance, { bg = true }),
+								},
+							},
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.notifications_level),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hide_options_button),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_settings_toggle),
@@ -26,7 +40,6 @@ function Handy.UI.appearance_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.swap_controller_cursor_stick),
 							Handy.UI.CP.r_sep(0.1),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.prevent_if_debugplus, { bg = true }),
-							-- TODO: me
 						},
 					},
 				},
@@ -57,11 +70,76 @@ function Handy.UI.appearance_page()
 		definition = Handy.UI.appearance_page_UIBox(),
 		is_handy_config = true,
 	})
-	Handy.UI.CHAR.rerender()
+	Handy.UI.CHAR.hide("me")
 	Handy.UI.attach_side_panel()
 	G.OVERLAY_MENU:recalculate()
 end
 
 G.FUNCS.handy_appearance = function(e)
 	Handy.UI.appearance_page()
+end
+G.FUNCS.handy_setup_me_in_appearance = function(e)
+	local atlas = G.ASSET_ATLAS["handy_me"]
+	local pos = { x = 2, y = 2 }
+	local ratio = atlas.py / atlas.px
+	local h = 4.1
+	local sprite = Sprite(0, 0, h / ratio, h, atlas, pos)
+	local sprite_box = UIBox({
+		definition = {
+			n = G.UIT.ROOT,
+			config = { colour = G.C.CLEAR },
+			nodes = {
+				{
+					n = G.UIT.R,
+					nodes = {
+						{
+							n = G.UIT.O,
+							config = {
+								object = sprite,
+							},
+						},
+					},
+				},
+			},
+		},
+		config = {
+			parent = e,
+			major = e,
+			align = "bri",
+			offset = { x = 0.3, y = 0.6 },
+		},
+	})
+	sprite.role.r_bond = "Strong"
+	sprite.role.xy_bond = "Strong"
+	sprite.role.scale_bond = "Strong"
+	sprite_box.role.xy_bond = "Strong"
+	sprite_box.role.r_bond = "Strong"
+	sprite_box.role.scale_bond = "Strong"
+	sprite_box.states.collide.can = true
+	sprite.states.collide.can = false
+	table.insert(e.children, sprite_box)
+
+	function sprite_box:click()
+		sprite_box.states.collide.can = false
+		Handy.UI.CHAR.jump_container(self)
+		if math.random() > 0.75 then
+			sprite:set_sprite_pos({ x = 0, y = 2 })
+		else
+			sprite:set_sprite_pos({ x = 1, y = 2 })
+		end
+		G.E_MANAGER:add_event(
+			Event({
+				trigger = "after",
+				delay = 0.25,
+				func = function()
+					sprite_box.states.collide.can = true
+					sprite:set_sprite_pos({ x = 2, y = 2 })
+					return true
+				end,
+			}),
+			"handy_chars"
+		)
+	end
+
+	e.config.func = nil
 end

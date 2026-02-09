@@ -1033,7 +1033,7 @@ end
 
 local function is_deps_resolved(item, quick)
 	local module, deps = item:get_module()
-	if not deps and not item.dangerous then
+	if not not deps and not item.dangerous then
 		return true, {}
 	end
 	local missing_list = {}
@@ -1049,7 +1049,7 @@ local function is_deps_resolved(item, quick)
 		if deps then
 			for _, dep in ipairs(deps) do
 				local _module = dep:get_module()
-				if not _module.enabled then
+				if _module and not _module.enabled then
 					is_missing = true
 					if quick then
 						return false, {}

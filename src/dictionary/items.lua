@@ -186,6 +186,45 @@ l({
 	},
 })
 l({
+	key = "me",
+
+	group = true,
+	items = {
+		{
+			key = "me_in_mod_config",
+			get_module = function()
+				return Handy.cc.me_in_mod_config
+			end,
+
+			checkbox = true,
+		},
+		{
+			key = "me_in_game_over",
+			get_module = function()
+				return Handy.cc.me_in_game_over
+			end,
+
+			checkbox = true,
+		},
+		{
+			key = "me_in_game_win",
+			get_module = function()
+				return Handy.cc.me_in_game_win
+			end,
+
+			checkbox = true,
+		},
+		{
+			key = "me_in_handy_tag",
+			get_module = function()
+				return Handy.cc.me_in_handy_tag
+			end,
+
+			checkbox = true,
+		},
+	},
+})
+l({
 	key = "updater",
 	keywords = { "auto mod update updating patch note notes patchnotes install" },
 	group = true,

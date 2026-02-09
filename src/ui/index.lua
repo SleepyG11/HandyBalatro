@@ -42,7 +42,9 @@ function Handy.UI.rerender(silent)
 		if Handy.UI.data.rerender_callback then
 			Handy.UI.data.rerender_callback()
 		end
-		Handy.UI.CHAR.rerender()
+		if Handy.cc.me_in_mod_config.enabled then
+			Handy.UI.CHAR.rerender()
+		end
 		Handy.UI.attach_side_panel()
 		G.OVERLAY_MENU:recalculate()
 		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")

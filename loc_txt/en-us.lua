@@ -116,6 +116,31 @@ return {
 				text = {},
 			},
 
+			me = {
+				name = "Hello, that's Me! I'll follow you...",
+				text = {},
+			},
+			me_in_mod_config = {
+				name = "...in mod config",
+				text = { "I built this amazing place!" },
+			},
+			me_in_game_over = {
+				name = "...in game over screen",
+				text = { "Lose is not your fault!" },
+			},
+			me_in_game_win = {
+				name = "...in game win screen",
+				text = { "Lets celebrate win together!" },
+			},
+			me_in_handy_tag = {
+				name = "..maybe somewhere else!",
+				text = { "I did not decided yet..." },
+			},
+			-- me_in_handy_tag = {
+			-- 	name = "..near Handy tag",
+			-- 	text = { "I like this one!" },
+			-- },
+
 			hand_selection = {
 				name = "Hand selection & Deselection",
 				text = {},

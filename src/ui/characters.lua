@@ -415,66 +415,108 @@ function Handy.UI.CHAR.toggle_scissors(key, b)
 	v.box.handy_scissors = b
 end
 
-local old_game_over = create_UIBox_game_over
-function create_UIBox_game_over(...)
-	local ret = old_game_over(...)
+---
+
+function Handy.UI.CHAR.jump_container(element)
+	local start_value = element.alignment.offset.y
 	G.E_MANAGER:add_event(
 		Event({
+			trigger = "ease",
+			ref_table = element.alignment.offset,
+			ref_value = "y",
+			ease_to = start_value - 0.2,
+			delay = 0.06,
 			pause_force = true,
-			blocking = false,
-			blockable = false,
-			func = function()
-				Handy.UI.CHAR.emplace({
-					key = "game_over_me",
-
-					character = "SleepyG11_ui_left_border",
-					ui_type = "game_over",
-
-					offset = "visible",
-					pos = "scary",
-
-					scissors = false,
-				})
-				delay(0.5, "handy_chars")
-				Handy.UI.CHAR.hide("game_over_me")
-				return true
+			no_delete = true,
+			func = function(t)
+				return t
 			end,
 		}),
 		"handy_chars"
 	)
+	G.E_MANAGER:add_event(
+		Event({
+			trigger = "ease",
+			ref_table = element.alignment.offset,
+			ref_value = "y",
+			ease_to = start_value,
+			delay = 0.075,
+			pause_force = true,
+			no_delete = true,
+			func = function(t)
+				return t
+			end,
+		}),
+		"handy_chars"
+	)
+end
+
+---
+
+local old_game_over = create_UIBox_game_over
+function create_UIBox_game_over(...)
+	local ret = old_game_over(...)
+	if Handy.cc.me_in_game_over.enabled then
+		G.E_MANAGER:add_event(
+			Event({
+				pause_force = true,
+				blocking = false,
+				blockable = false,
+				func = function()
+					Handy.UI.CHAR.emplace({
+						key = "game_over_me",
+
+						character = "SleepyG11_ui_left_border",
+						ui_type = "game_over",
+
+						offset = "visible",
+						pos = "scary",
+
+						scissors = false,
+					})
+					delay(0.5, "handy_chars")
+					Handy.UI.CHAR.hide("game_over_me")
+					return true
+				end,
+			}),
+			"handy_chars"
+		)
+	end
 	return ret
 end
 
 local old_you_win = create_UIBox_win
 function create_UIBox_win(...)
 	local ret = old_you_win(...)
-	G.E_MANAGER:add_event(
-		Event({
-			pause_force = true,
-			blocking = false,
-			blockable = false,
-			func = function()
-				Handy.UI.CHAR.emplace({
-					key = "game_over_me",
+	if Handy.cc.me_in_game_win.enabled then
+		G.E_MANAGER:add_event(
+			Event({
+				pause_force = true,
+				blocking = false,
+				blockable = false,
+				func = function()
+					Handy.UI.CHAR.emplace({
+						key = "game_over_me",
 
-					character = "SleepyG11_ui_left_border",
-					ui_type = "game_over",
+						character = "SleepyG11_ui_left_border",
+						ui_type = "game_over",
 
-					offset = "visible",
-					pos = "happy",
+						offset = "visible",
+						pos = "happy",
 
-					scissors = false,
-				})
-				delay(0.05, "handy_chars")
-				Handy.UI.CHAR.jump("game_over_me")
-				delay(0.05, "handy_chars")
-				Handy.UI.CHAR.jump("game_over_me")
-				delay(0.5, "handy_chars")
-				Handy.UI.CHAR.hide("game_over_me")
-				return true
-			end,
-		}),
-		"handy_chars"
-	)
+						scissors = false,
+					})
+					delay(0.05, "handy_chars")
+					Handy.UI.CHAR.jump("game_over_me")
+					delay(0.05, "handy_chars")
+					Handy.UI.CHAR.jump("game_over_me")
+					delay(0.5, "handy_chars")
+					Handy.UI.CHAR.hide("game_over_me")
+					return true
+				end,
+			}),
+			"handy_chars"
+		)
+	end
 	return ret
 end
