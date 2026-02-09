@@ -101,10 +101,12 @@ local function get_latest_releases(use_smods)
 
 		local latest_stable, latest_pre_release
 		for _, release in ipairs(body) do
-			if release.prerelease and not latest_pre_release then
-				latest_pre_release = release
-			elseif not release.prerelease and not latest_stable then
-				latest_stable = release
+			if not release.draft then
+				if release.prerelease and not latest_pre_release then
+					latest_pre_release = release
+				elseif not release.prerelease and not latest_stable then
+					latest_stable = release
+				end
 			end
 		end
 		return {
