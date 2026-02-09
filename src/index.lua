@@ -62,6 +62,16 @@ function Tag:generate_UI(...)
 	return tag_cont, tag_sprite, a, b, c
 end
 
+if CardArea.handle_card_limit then
+	-- On very high animation skip/speed, SMODS CardArea's limit freaks out, so I need to fix it
+	local old_cardarea_init = CardArea.init
+	function CardArea:init(...)
+		local r = old_cardarea_init(self, ...)
+		self:handle_card_limit()
+		return r
+	end
+end
+
 -- Mod is ready, lets start!
 
 Handy.e_mitter.emit("load")
