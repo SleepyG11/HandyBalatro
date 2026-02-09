@@ -457,7 +457,7 @@ return {
 				text = {},
 			},
 			regular_keybinds_restart = {
-				name = { "Run restart" },
+				name = { "Restart run" },
 				text = {},
 				unlock = {
 					"Act as {C:attention}replacement{} for Vanilla",
@@ -505,8 +505,12 @@ return {
 				text = {},
 			},
 			regular_keybinds_copy_log_file = {
-				name = { "Copy Lovely log file" },
+				name = { "Copy Lovely log" },
 				text = {},
+				unlock = {
+					"Due to technical limitations, log",
+					"copied {C:attention}as text{}, not as file",
+				},
 			},
 
 			regular_keybinds_group_hand = {
@@ -600,9 +604,35 @@ return {
 			regular_keybinds_group_menus = {
 				name = "Menus",
 				text = {},
+			},
+			regular_keybinds_mod_settings = {
+				name = { "Handy: Mod settings" },
+				text = {},
+			},
+			regular_keybinds_show_deck_preview = {
+				name = { "Deck preview" },
+				text = {},
 				unlock = {
-					"By using this keybinds, you can go",
-					"between menus {C:attention}without closing{} them",
+					"Same as hovering a deck",
+				},
+			},
+			regular_keybinds_options = {
+				name = { "Options" },
+				text = {},
+				unlock = { "Same as {C:chips}[Escape]{} button" },
+			},
+			regular_keybinds_collection = {
+				name = { "Collection" },
+				text = {},
+			},
+
+			regular_keybinds_group_swappable_menus = {
+				name = "Swappable Menus",
+				text = {},
+				unlock = {
+					"You can move between this menus",
+					"by using keybinds",
+					"{C:attention}without closing{} them first",
 				},
 			},
 			regular_keybinds_run_info = {
@@ -619,27 +649,6 @@ return {
 			},
 			regular_keybinds_view_lobby_info = {
 				name = { "Multiplayer: Lobby info" },
-				text = {},
-			},
-			regular_keybinds_mod_settings = {
-				name = { "Handy: Mod settings" },
-				text = {},
-			},
-			regular_keybinds_show_deck_preview = {
-				name = { "Deck preview" },
-				text = {},
-				unlock = {
-					"Displays a panel which shows",
-					"when hover a deck",
-				},
-			},
-			regular_keybinds_options = {
-				name = { "Options" },
-				text = {},
-				unlock = { "Same as {C:chips}[Escape]{} button" },
-			},
-			regular_keybinds_collection = {
-				name = { "Collection" },
 				text = {},
 			},
 
@@ -990,7 +999,8 @@ return {
 			["Round"] = "Round",
 			["Hand & Round"] = "Hand/Round",
 			["Shop & Blind Select"] = "Shop/Blinds",
-			["Game & Menus"] = "Game/Menus",
+			["Game"] = "Game",
+			["Menus"] = "Menus",
 			["MP Extension"] = "Multiplayer Extension",
 
 			["Updater"] = "Mod updates",
@@ -1180,6 +1190,7 @@ return {
 			handy_updater_status_ready_for_installation = "Ready for installation",
 			handy_updater_status_new_version_available = "New version available",
 			b_handy_install = "Install",
+			b_handy_restart_game = "Restart game",
 
 			handy_release_type_stable = "Stable",
 			handy_release_type_pre_release = "Pre-release",

@@ -40,7 +40,7 @@ function Handy.UI.vanilla_keybinds_round_tab_definition()
 		},
 	}
 end
-function Handy.UI.vanilla_keybinds_menus_tab_definition()
+function Handy.UI.vanilla_keybinds_game_tab_definition()
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -66,15 +66,51 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_reload_run),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_restart_game),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_copy_log_file),
+						},
+					},
+				},
+			},
+		},
+	}
+	return {
+		n = G.UIT.C,
+		nodes = {
+			content,
+		},
+	}
+end
+function Handy.UI.vanilla_keybinds_menus_tab_definition()
+	local content = {
+		n = G.UIT.R,
+		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					colour = adjust_alpha(HEX("000000"), 0.1),
+					align = "cm",
+					r = 0.5,
+				},
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", r = 0.1 },
+						nodes = {
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds, { bg = true }),
 							Handy.UI.CP.r_sep(0.1),
-							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_menus, { bg = true }),
+							Handy.UI.CP.dictionary_item(
+								Handy.D.dictionary.regular_keybinds_group_swappable_menus,
+								{ bg = true }
+							),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info_blinds),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_deck),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_lobby_info),
+							Handy.UI.CP.r_sep(0.1),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_group_menus, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_show_deck_preview),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_options),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_collection),
-							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_lobby_info),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_mod_settings),
 						},
 					},
@@ -136,7 +172,13 @@ end
 function Handy.UI.get_vanilla_keybinds_tabs()
 	local result = {
 		{
-			label = Handy.L.tab("Game & Menus"),
+			label = Handy.L.tab("Game"),
+			tab_definition_function = function()
+				return Handy.UI.vanilla_keybinds_game_tab_definition()
+			end,
+		},
+		{
+			label = Handy.L.tab("Menus"),
 			tab_definition_function = function()
 				return Handy.UI.vanilla_keybinds_menus_tab_definition()
 			end,

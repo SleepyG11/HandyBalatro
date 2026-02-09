@@ -1150,8 +1150,9 @@ l({
 				},
 			},
 		},
+
 		{
-			key = "regular_keybinds_group_menus",
+			key = "regular_keybinds_group_swappable_menus",
 			keywords = { "ui menus panels menus" },
 			group = true,
 			items = {
@@ -1195,6 +1196,27 @@ l({
 						advanced = true,
 					},
 				},
+
+				{
+					key = "regular_keybinds_view_lobby_info",
+					keywords = { "multiplayer lobby info players" },
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_lobby_info, { Handy.D.dictionary.regular_keybinds }
+					end,
+					keybind = {
+						allow_multiple = "advanced",
+					},
+					checkbox = {
+						advanced = true,
+					},
+				},
+			},
+		},
+		{
+			key = "regular_keybinds_group_menus",
+			keywords = { "ui menus panels menus" },
+			group = true,
+			items = {
 				{
 					key = "regular_keybinds_show_deck_preview",
 					keywords = { "deck preview summary peek" },
@@ -1236,19 +1258,6 @@ l({
 					},
 				},
 
-				{
-					key = "regular_keybinds_view_lobby_info",
-					keywords = { "multiplayer lobby info players" },
-					get_module = function(self)
-						return Handy.cc.regular_keybinds_lobby_info, { Handy.D.dictionary.regular_keybinds }
-					end,
-					keybind = {
-						allow_multiple = "advanced",
-					},
-					checkbox = {
-						advanced = true,
-					},
-				},
 				{
 					key = "regular_keybinds_mod_settings",
 					keywords = { "handy mod settings config" },

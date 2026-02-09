@@ -20,10 +20,10 @@ function Handy.UI.CP.dictionary_item_info(item)
 			outline = 0.5,
 			line_emboss = 0.125,
 			outline_colour = G.C.WHITE,
-			minh = 0.325,
-			maxh = 0.325,
-			minw = 0.325,
-			maxw = 0.325,
+			minh = 0.305,
+			maxh = 0.305,
+			minw = 0.305,
+			maxw = 0.305,
 			r = 0.1,
 			align = "cm",
 
@@ -39,7 +39,7 @@ function Handy.UI.CP.dictionary_item_info(item)
 				n = G.UIT.T,
 				config = {
 					text = "?",
-					scale = 0.3,
+					scale = 0.25,
 					colour = G.C.UI.TEXT_LIGHT,
 				},
 			},
@@ -101,10 +101,10 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 						config = {
 							align = "cm",
 							r = 0,
-							minw = 0.325,
-							minh = 0.325,
-							maxh = 0.325,
-							maxw = 0.325,
+							minw = 0.305,
+							minh = 0.305,
+							maxh = 0.305,
+							maxw = 0.305,
 							outline_colour = adjust_alpha(G.C.WHITE, opacity_mod),
 							outline = 0.5,
 							line_emboss = 0.125,
@@ -648,7 +648,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 				nodes = {
 					{
 						n = G.UIT.C,
-						config = { minw = 0.4, align = "c" },
+						config = { minw = 0.4, align = "c", minh = 0.305 },
 						nodes = {
 							item.checkbox and Handy.UI.CP.dictionary_item_checkbox(item) or nil,
 						},

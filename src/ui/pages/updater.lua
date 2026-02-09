@@ -159,6 +159,7 @@ function Handy.UI.updater_release_definition(release_type)
 				n = G.UIT.C,
 				config = {
 					align = "cm",
+					padding = 0.1,
 				},
 				nodes = {
 					UIBox_button({
@@ -168,13 +169,25 @@ function Handy.UI.updater_release_definition(release_type)
 						scale = 0.45,
 						minh = 0.75,
 						maxh = 0.75,
-						minw = 2.5,
-						maxw = 2.5,
+						minw = 3,
+						maxw = 3,
 						button = "handy_install_release",
 						ref_table = {
 							handy_release_type = release_type,
 						},
 						func = "handy_can_install_release",
+					}),
+					UIBox_button({
+						label = { Handy.L.dictionary("b_handy_restart_game") },
+						col = true,
+						colour = G.C.MULT,
+						scale = 0.45,
+						minh = 0.75,
+						maxh = 0.75,
+						minw = 3,
+						maxw = 3,
+						button = "handy_restart_game",
+						func = "handy_updater_can_restart_game",
 					}),
 				},
 			},
@@ -222,7 +235,7 @@ function Handy.UI.updater_settings_definition()
 
 	return {
 		n = G.UIT.C,
-		config = { minh = 6.5, align = "cm" },
+		config = { align = "cm" },
 		nodes = {
 			content,
 		},
@@ -330,4 +343,16 @@ end
 G.FUNCS.handy_install_release = function(e)
 	local release_type = e.config.ref_table.handy_release_type
 	Handy.updater.install_release(release_type)
+end
+G.FUNCS.handy_updater_can_restart_game = function(e)
+	if Handy.updater.installed_update then
+		e.config.button = "handy_restart_game"
+		e.config.colour = G.C.MULT
+	else
+		e.config.button = nil
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+	end
+end
+G.FUNCS.handy_restart_game = function()
+	Handy.utils.restart_game()
 end
