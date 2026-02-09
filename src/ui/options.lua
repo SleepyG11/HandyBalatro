@@ -165,8 +165,15 @@ Handy.e_mitter.on("steamodded_load", function()
 end)
 
 G.FUNCS.handy_updates_alert = function(e)
-	local is_update_present = not Handy.updater.installed_update and Handy.updater.get_new_available_release()
-	is_update_present = true
+	local release_type = e.config.ref_table and e.config.ref_table.handy_release_type
+	if release_type then
+		local release_info = Handy.updater.get_release_info(release_type)
+		is_update_present = release_info.is_new and Handy.updater.can_install_release(release_type)
+	else
+		is_update_present = Handy.cc.updater.enabled
+			and not Handy.updater.installed_update
+			and Handy.updater.get_new_available_release()
+	end
 	if not is_update_present and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil

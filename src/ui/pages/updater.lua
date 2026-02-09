@@ -1,6 +1,6 @@
 function Handy.UI.updater_release_definition(release_type)
-	local releases = Handy.updater.get_releases()
-	local release = releases and releases[release_type]
+	local release_info = Handy.updater.get_release_info(release_type)
+	local release = release_info.release
 	if not release then
 		return {
 			n = G.UIT.C,
@@ -172,7 +172,7 @@ function Handy.UI.updater_release_definition(release_type)
 						maxw = 2.5,
 						button = "handy_install_release",
 						ref_table = {
-							release_type = release_type,
+							handy_release_type = release_type,
 						},
 						func = "handy_can_install_release",
 					}),
@@ -236,12 +236,16 @@ function Handy.UI.get_updater_tabs()
 			tab_definition_function = function()
 				return Handy.UI.updater_release_definition("stable")
 			end,
+			func = "handy_updates_alert",
+			handy_release_type = "stable",
 		},
 		{
 			label = Handy.L.dictionary("handy_release_type_pre_release"),
 			tab_definition_function = function()
 				return Handy.UI.updater_release_definition("pre_release")
 			end,
+			func = "handy_updates_alert",
+			handy_release_type = "pre_release",
 		},
 		{
 			label = Handy.L.tab("Updater Settings"),
@@ -313,7 +317,7 @@ G.FUNCS.handy_updater = function(e)
 end
 
 G.FUNCS.handy_can_install_release = function(e)
-	local release_type = e.config.ref_table.release_type
+	local release_type = e.config.ref_table.handy_release_type
 	local can_install = Handy.updater.can_install_release(release_type)
 	if can_install then
 		e.config.button = "handy_install_release"
@@ -324,6 +328,6 @@ G.FUNCS.handy_can_install_release = function(e)
 	end
 end
 G.FUNCS.handy_install_release = function(e)
-	local release_type = e.config.ref_table.release_type
+	local release_type = e.config.ref_table.handy_release_type
 	Handy.updater.install_release(release_type)
 end

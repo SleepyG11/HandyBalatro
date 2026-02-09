@@ -78,7 +78,19 @@ Handy.updater = {
 	releases = nil,
 	request_releases = request_releases,
 
-	check_is_new_version_available = function()
+	get_release_info = function(release_type)
+		local release = (Handy.updater.releases or {})[release_type]
+
+		return {
+			release = release,
+			is_new = Handy.updater["is_new_" .. release_type] or false,
+			is_current = Handy.updater["is_current_" .. release_type] or false,
+			new_version = Handy.updater["new_version_" .. release_type] or nil,
+			is_installed = Handy.updater.installed_update == release_type,
+		}
+	end,
+
+	update_versions = function()
 		if not Handy.updater.releases then
 			Handy.updater.is_new_stable = false
 			Handy.updater.is_new_pre_release = false
@@ -104,15 +116,14 @@ Handy.updater = {
 		end
 	end,
 
-	is_updated_info = function()
+	is_updated_releases_data = function()
 		return G.TIMERS.REAL - (Handy.updater.last_check_updates_time or 0) < Handy.updater.stale_timeout
 	end,
-
 	get_releases = function(args, callback)
 		args = args or {}
 		callback = callback or function() end
 
-		if Handy.updater.releases and not args.no_cache and Handy.updater.is_updated_info() then
+		if Handy.updater.releases and not args.no_cache and Handy.updater.is_updated_releases_data() then
 			callback(nil, Handy.updater.releases)
 		elseif Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
 			callback("busy")
@@ -124,7 +135,7 @@ Handy.updater = {
 				Handy.updater.set_state(Handy.updater.STATES.IDLE)
 				if releases and releases.success then
 					Handy.updater.releases = releases
-					Handy.updater.check_is_new_version_available()
+					Handy.updater.update_versions()
 					callback(nil, releases)
 				else
 					print(releases)
@@ -136,6 +147,27 @@ Handy.updater = {
 		return Handy.updater.releases
 	end,
 
+	can_install_release = function(release_type)
+		local release_info = Handy.updater.get_release_info(release_type)
+		-- no release to install
+		if not release_info.release then
+			return false, "no_data"
+		end
+		-- already installed
+		if release_info.is_installed then
+			return false, "already_installed"
+		end
+		-- busy
+		if Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
+			return false, "busy"
+		end
+		-- already installed even before updating
+		-- but, if we install some update, we're not in any current update, probably
+		if not Handy.updater.installed_update and release_info.is_current then
+			return false, "current_version"
+		end
+		return true
+	end,
 	install_release = function(release_type, callback)
 		callback = callback or function() end
 
@@ -213,37 +245,23 @@ Handy.updater = {
 		})
 	end,
 
-	can_install_release = function(release_type)
-		local release = (Handy.updater.releases or {})[release_type]
-		-- no release to install
-		if not release then
-			return false, "no_data"
-		end
-		-- already installed
-		if Handy.updater.installed_update == release_type then
-			return false, "already_installed"
-		end
-		-- busy
-		if Handy.updater.STATE ~= Handy.updater.STATES.IDLE then
-			return false, "busy"
-		end
-		-- already installed even before updating
-		-- but, if we install some update, we're not in any current update, probably
-		if not Handy.updater.installed_update and Handy.updater["is_current_" .. release_type] then
-			return false, "current_version"
-		end
-		return true
-	end,
-
 	get_new_available_release = function()
-		local is_new_stable = Handy.updater.is_new_stable
-		local is_new_pre_release = Handy.cc.updater_release_type.value == 2 and Handy.updater.is_new_pre_release
-		if not (is_new_pre_release or is_new_stable) then
+		local stable_info = Handy.updater.get_release_info("stable")
+		local pre_release_info = Handy.updater.get_release_info("pre_release")
+
+		local is_new_stable = stable_info.is_new and not stable_info.is_installed
+		local is_new_pre_release = Handy.cc.updater_release_type.value == 2
+			and pre_release_info.is_new
+			and not pre_release_info.is_installed
+
+		if is_new_pre_release then
+			return "pre_release"
+		elseif is_new_stable then
+			return "stable"
+		else
 			return nil
 		end
-		return is_new_pre_release and "pre_release" or "stable"
 	end,
-
 	game_startup_check_updates = function()
 		Handy.updater.get_releases({ no_cache = true }, function(releases)
 			if not Handy.cc.updater.enabled then
@@ -330,7 +348,7 @@ end)
 Handy.e_mitter.on("update", function()
 	if
 		Handy.updater.is_loaded
-		and not Handy.updater.is_updated_info()
+		and not Handy.updater.is_updated_releases_data()
 		and Handy.updater.STATE == Handy.updater.STATES.IDLE
 	then
 		Handy.updater.get_releases({ no_cache = true })
