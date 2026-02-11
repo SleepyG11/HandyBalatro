@@ -15,6 +15,9 @@ if not SMODS or not SMODS.current_mod then
 	return
 end
 
+print(SMODS.current_mod.path)
+print(SMODS.current_mod.load_type)
+
 if SMODS.current_mod.path then
 	local function normalize_path(path)
 		return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")

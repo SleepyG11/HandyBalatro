@@ -53,6 +53,34 @@ end
 
 --
 
+function Handy.UI.load_atlas(asset)
+	local file_data
+	if Handy.LOCAL_PATH then
+		file_data = assert(
+			love.filesystem.newFileData(Handy.LOCAL_PATH .. "/" .. asset.path),
+			("Failed to collect file data for Atlas %s"):format(asset.name)
+		)
+	else
+		file_data = assert(
+			Handy.NFS.newFileData(Handy.PATH .. "/" .. asset.path),
+			("Failed to collect file data for Atlas %s"):format(asset.name)
+		)
+	end
+	local image_data =
+		assert(love.image.newImageData(file_data), ("Failed to initialize image data for Atlas %s"):format(asset.name))
+	local image = love.graphics.newImage(image_data, { mipmaps = true, dpiscale = G.SETTINGS.GRAPHICS.texture_scaling })
+
+	G.ASSET_ATLAS[asset.name] = {
+		name = asset.name,
+		image = image,
+		type = asset.type,
+		px = asset.px,
+		py = asset.py,
+	}
+end
+
+--
+
 Handy.load_file("src/ui/components.lua")
 Handy.load_file("src/ui/utils.lua")
 Handy.load_file("src/ui/state_panel.lua")
