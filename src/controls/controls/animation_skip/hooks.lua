@@ -134,6 +134,17 @@ function level_up_hand(...)
 	end
 	return level_up_hand_ref(...)
 end
+
+local non_skippable_timers = {
+	["REAL"] = true,
+	["REAL_SHADER"] = true,
+	["UPTIME"] = true,
+}
+
+function Handy.animation_skip.is_skippable_timer(timer)
+	return not non_skippable_timers[timer or "TOTAL"]
+end
+
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, queue, ...)
 	if not queue or Handy.animation_skip.queues_to_skip[queue] then
@@ -152,8 +163,9 @@ function EventManager:add_event(event, queue, ...)
 			if Handy.animation_skip.should_skip_unsafe() then
 				event.blocking = false
 				event.blockable = false
-				-- This line basically taken from Nopeus by jenwalter666
-				event.delay = (event.timer == "REAL") and event.delay or (event.trigger == "ease" and 0.0001 or 0)
+				if Handy.animation_skip.is_skippable_timer(event.timer) then
+					event.delay = (event.trigger == "ease" and 0.0001 or 0)
+				end
 			else
 				if Handy.animation_skip.force_non_blocking then
 					event.blocking = false
@@ -162,7 +174,9 @@ function EventManager:add_event(event, queue, ...)
 					event.blockable = false
 				end
 				if Handy.animation_skip.should_skip_everything() then
-					event.delay = (event.timer == "REAL") and event.delay or ((event.delay or 0) * 0.01)
+					if Handy.animation_skip.is_skippable_timer(event.timer) then
+						event.delay = (event.delay or 0) * 0.01
+					end
 				end
 			end
 		end
