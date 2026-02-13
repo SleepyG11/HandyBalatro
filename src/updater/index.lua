@@ -5,6 +5,7 @@ local https_updater_output = love.thread.getChannel("handy_updater_output")
 
 local https_updater_thread =
 	love.thread.newThread(love.filesystem.newFileData(updater_thread_file, '=[SMODS Handy "threads/updater"]'))
+https_updater_thread:start()
 
 local function send_to_updater(data, response_event, callback)
 	callback = callback or function() end
@@ -16,7 +17,6 @@ local function send_to_updater(data, response_event, callback)
 				print(event.message)
 			end
 			if event[response_event] then
-				https_updater_thread:wait()
 				Handy.e_mitter.off("update", "handy_updater")
 				callback(event)
 			end
@@ -25,7 +25,6 @@ local function send_to_updater(data, response_event, callback)
 		key = "handy_updater",
 	})
 
-	https_updater_thread:start()
 	data.use_smods = SMODS and true or false
 	https_updater_input:push(data)
 end
@@ -138,7 +137,6 @@ Handy.updater = {
 					Handy.updater.update_versions()
 					callback(nil, releases)
 				else
-					print(releases)
 					callback("fetch_error")
 				end
 			end)
@@ -208,7 +206,6 @@ Handy.updater = {
 			local event = https_updater_output:pop()
 			if event then
 				if event.install_update_error then
-					https_updater_thread:wait()
 					Handy.e_mitter.off("update", "handy_updater")
 					exit(event.message)
 				elseif event.install_update_progress then
@@ -226,7 +223,6 @@ Handy.updater = {
 						return true
 					end)
 				elseif event.install_update_success then
-					https_updater_thread:wait()
 					Handy.e_mitter.off("update", "handy_updater")
 					Handy.updater.installed_update = release_type
 					exit()
@@ -236,7 +232,6 @@ Handy.updater = {
 			key = "handy_updater",
 		})
 
-		https_updater_thread:start()
 		https_updater_input:push({
 			install_release = true,
 			release_type = release_type,

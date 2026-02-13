@@ -268,59 +268,65 @@ end
 				local data = get_latest_releases(event.use_smods)
 				data.check_update_complete = true
 				https_output:push(data)
-				return
+				goto continue
 			end
 			if event.download_release then
 				local data = download_release(event.url, event.use_smods)
 				data.download_release_complete = true
 				https_output:push(data)
-				return
+				goto continue
 			end
 			if event.unzip_archive then
 				local data = unzip_archive()
 				data.unzip_archive_complete = true
 				https_output:push(data)
-				return
+				goto continue
 			end
 			if event.replace_mod then
 				local data = replace_mod(event.mod_path)
 				data.replace_mod_complete = true
 				https_output:push(data)
-				return
+				goto continue
 			end
 			if event.install_release then
 				https_output:push({ install_update_progress = true, message = "getting_releases" })
 				local releases = get_latest_releases(event.use_smods)
 				if not releases.success then
-					return https_output:push({ install_update_error = true, message = releases.message })
+					https_output:push({ install_update_error = true, message = releases.message })
+					goto continue
 				end
 
 				local release = releases[event.release_type]
 				if not release then
-					return https_output:push({ install_update_error = true, message = "no_release" })
+					https_output:push({ install_update_error = true, message = "no_release" })
+					goto continue
 				end
 
 				local release_url = release.zipball_url
 				https_output:push({ install_update_progress = true, message = "downloading_release" })
 				local download = download_release(release_url, event.use_smods)
 				if not download.success then
-					return https_output:push({ install_update_error = true, message = download.message })
+					https_output:push({ install_update_error = true, message = download.message })
+					goto continue
 				end
 
 				https_output:push({ install_update_progress = true, message = "unzipping_archive" })
 				local unzip = unzip_archive()
 				if not unzip.success then
-					return https_output:push({ install_update_error = true, message = unzip.message })
+					https_output:push({ install_update_error = true, message = unzip.message })
+					goto continue
 				end
 
 				https_output:push({ install_update_progress = true, message = "installing_files" })
 				local replace = replace_mod(event.mod_path)
 				if not replace.success then
-					return https_output:push({ install_update_error = true, message = replace.message })
+					https_output:push({ install_update_error = true, message = replace.message })
+					goto continue
 				end
 
-				return https_output:push({ install_update_success = true })
+				https_output:push({ install_update_success = true })
 			end
 		end
+		::continue::
 	end
 end)()
