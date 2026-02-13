@@ -1,6 +1,6 @@
 function Handy.UI.hand_selection_page_definition()
 	local CAI = {
-		hand_W = 4 * G.CARD_W,
+		hand_W = 5.5 * G.CARD_W,
 		hand_H = 0.95 * G.CARD_H,
 	}
 
@@ -12,15 +12,16 @@ function Handy.UI.hand_selection_page_definition()
 		card_limit = 8,
 		highlight_limit = 5,
 		on_create = function(area)
+			local suit = pseudorandom_element({ "C", "S", "H", "D" }, "handy_" .. tostring(math.random()))
 			for index, front in ipairs({
-				"C_A",
-				"C_K",
-				"C_Q",
-				"C_J",
-				"C_T",
-				"C_9",
-				"C_8",
-				"C_7",
+				suit .. "_A",
+				suit .. "_K",
+				suit .. "_Q",
+				suit .. "_J",
+				suit .. "_T",
+				suit .. "_9",
+				suit .. "_8",
+				suit .. "_7",
 			}) do
 				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, index, 8)
 				local card1 = Card(

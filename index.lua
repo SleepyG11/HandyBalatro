@@ -15,6 +15,7 @@ Handy = setmetatable({
 		["1.5.1a_multiplayer_check"] = true,
 		["2.0.0_update"] = true,
 		["2.0.0_mp_extension"] = true,
+		["2.0.0_updater"] = true,
 	},
 
 	keys_aliases = {

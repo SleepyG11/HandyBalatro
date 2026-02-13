@@ -28,11 +28,13 @@ function Handy.UI.CP.dictionary_item_info(item)
 			align = "cm",
 
 			hover = true,
-			func = item.info_func or "hand_setup_hover_popups",
+			func = item.info_func or "handy_setup_hover_popups",
 			handy_item = item,
 
 			focus_args = { type = "handy_dictionary_item" },
 			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+
+			id = "handy_item_info",
 		},
 		nodes = {
 			{
@@ -658,6 +660,9 @@ function Handy.UI.CP.dictionary_item(item, options)
 						n = G.UIT.C,
 						config = {
 							align = "c",
+							hover = true,
+							func = item.info_func or "handy_setup_hover_popups",
+							handy_item = item,
 						},
 						nodes = {
 							{

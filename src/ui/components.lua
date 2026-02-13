@@ -225,7 +225,7 @@ function Handy.UI.CP.popup_render(e, desc_lines)
 		},
 	}
 end
-G.FUNCS.hand_setup_hover_popups = function(e)
+G.FUNCS.handy_setup_hover_popups = function(e)
 	local item = e.config.handy_item
 	local old_hover = e.hover
 	e.states.hover.can = true

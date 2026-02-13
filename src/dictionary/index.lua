@@ -112,7 +112,7 @@ G.FUNCS.handy_show_example_state_panel = function(e)
 		end)
 		return old_hover(self, ...)
 	end
-	e.config.func = e.config.handy_hover_set and "hand_setup_hover_popups" or "handy_noop"
+	e.config.func = e.config.handy_hover_set and "handy_setup_hover_popups" or "handy_noop"
 end
 
 --
