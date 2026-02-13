@@ -8,7 +8,14 @@ function Handy.UI.insta_actions_page_definition()
 
 	local create_cards = function(is_shop)
 		return function(area)
-			for index, center in ipairs({ "j_joker", "c_earth" }) do
+			local joker_center = pseudorandom_element(G.P_CENTER_POOLS["Joker"], "handy_" .. tostring(math.random()))
+				or G.P_CENTERS.j_joker
+			local planet_center = pseudorandom_element(
+				G.P_CENTER_POOLS["Tarot_Planet"],
+				"handy_" .. tostring(math.random())
+			) or G.P_CENTERS.j_earth
+
+			for index, center in ipairs({ joker_center, planet_center }) do
 				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, index, 2)
 				local card1 = Card(
 					pos.x,
@@ -16,7 +23,7 @@ function Handy.UI.insta_actions_page_definition()
 					G.CARD_W,
 					G.CARD_H,
 					nil,
-					G.P_CENTERS[center],
+					center,
 					{ bypass_discovery_center = true, bypass_discovery_ui = true }
 				)
 				card1.handy_preview_insta_actions = {
@@ -36,7 +43,7 @@ function Handy.UI.insta_actions_page_definition()
 					})
 				end
 				function card1:handy_preview_use()
-					if self.config.center.key ~= "c_earth" then
+					if self.config.center.set ~= "Planet" then
 						return
 					end
 					Handy.UI.utils.card_eval_status_text(self, "extra", nil, nil, nil, {
