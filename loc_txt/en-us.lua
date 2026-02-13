@@ -118,7 +118,9 @@ return {
 
 			me = {
 				name = "Hello, that's Me! I'll follow you...",
-				text = {},
+				text = {
+					"Art by {C:mult}#1#{}",
+				},
 			},
 			me_in_mod_config = {
 				name = "...in mod config",

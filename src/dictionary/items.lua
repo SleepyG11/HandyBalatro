@@ -187,6 +187,11 @@ l({
 })
 l({
 	key = "me",
+	loc_vars = function()
+		return {
+			vars = { "@lord.ruby" },
+		}
+	end,
 
 	group = true,
 	items = {
