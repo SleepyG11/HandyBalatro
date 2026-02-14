@@ -1038,7 +1038,7 @@ end
 
 local function is_deps_resolved(item, quick)
 	local module, deps = item:get_module()
-	if not not deps and not item.dangerous then
+	if not deps and not item.dangerous then
 		return true, {}
 	end
 	local missing_list = {}
@@ -1162,8 +1162,8 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	end
 
 	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
-	local is_gamepad_failed = item.no_gamepad and Handy.controller.is_gamepad()
-	local is_fail = is_mp_fail or is_gamepad_failed or not is_deps_resolved(item, true)
+	local is_gamepad_fail = item.no_gamepad and Handy.controller.is_gamepad()
+	local is_fail = is_mp_fail or is_gamepad_fail or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil
