@@ -11,7 +11,7 @@ function Handy.UI.insta_actions_page_definition()
 			local joker_center = pseudorandom_element(G.P_CENTER_POOLS["Joker"], "handy_" .. tostring(math.random()))
 				or G.P_CENTERS.j_joker
 			local planet_center = pseudorandom_element(
-				G.P_CENTER_POOLS["Tarot_Planet"],
+				G.P_CENTER_POOLS["Consumeables"],
 				"handy_" .. tostring(math.random())
 			) or G.P_CENTERS.j_earth
 
@@ -43,7 +43,7 @@ function Handy.UI.insta_actions_page_definition()
 					})
 				end
 				function card1:handy_preview_use()
-					if self.config.center.set ~= "Planet" then
+					if index == 1 then
 						return
 					end
 					Handy.UI.utils.card_eval_status_text(self, "extra", nil, nil, nil, {
