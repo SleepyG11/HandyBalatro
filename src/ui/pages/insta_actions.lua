@@ -155,7 +155,7 @@ function Handy.UI.insta_actions_page_definition()
 	})
 	local example_hand_row = {
 		n = G.UIT.R,
-		config = { align = "cm", padding = 0.125 },
+		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, r = 0.25 },
 		nodes = {
 			{
 				n = G.UIT.C,
@@ -274,23 +274,24 @@ function Handy.UI.insta_actions_page_definition()
 		nodes = {
 			content,
 			Handy.UI.CP.r_sep(0.5),
-			example_hand_row,
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					example_hand_row,
+				},
+			},
+			Handy.UI.CP.r_sep(0.1),
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
 				nodes = {
 					{
-						n = G.UIT.C,
-						config = { align = "cm" },
-						nodes = {
-							{
-								n = G.UIT.T,
-								config = {
-									text = Handy.L.dictionary("handy_modals_move_highlight_preview_description"),
-									colour = { 1, 1, 1, 0.6 },
-									scale = 0.3,
-								},
-							},
+						n = G.UIT.T,
+						config = {
+							text = Handy.L.dictionary("handy_modals_move_highlight_preview_description"),
+							colour = { 1, 1, 1, 0.6 },
+							scale = 0.3,
 						},
 					},
 				},

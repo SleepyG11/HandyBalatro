@@ -318,6 +318,16 @@ l({
 			end,
 		},
 		{
+			key = "hand_selection_combine_select_deselect",
+			keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight combine combined" },
+			checkbox = true,
+
+			get_module = function(self)
+				return Handy.cc.hand_selection_combine_select_deselect,
+					{ Handy.D.dictionary.hand_selection, Handy.D.dictionary.hand_selection_insta_highlight }
+			end,
+		},
+		{
 			key = "hand_selection_deselect_hand",
 			keywords = { "deselect hand vanilla unhighlight all cards" },
 

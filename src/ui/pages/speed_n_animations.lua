@@ -220,8 +220,12 @@ function Handy.UI.speed_n_animations_page_definition()
 	}
 
 	local jokers_area, hand_area, deck_area
-	jokers_area =
-		CardArea(G.ROOM.T.x + G.ROOM.T.w / 2, G.ROOM.T.h, CAI.jokers_W, CAI.jokers_H, { card_limit = 2, type = "play" })
+	jokers_area = Handy.UI.utils.card_area({
+		w = CAI.jokers_W,
+		h = CAI.jokers_H,
+		card_limit = 2,
+		highlight_limit = 0,
+	})
 	hand_area =
 		CardArea(G.ROOM.T.x + G.ROOM.T.w / 2, G.ROOM.T.h, CAI.hand_W, CAI.hand_H, { card_limit = 5, type = "play" })
 	deck_area =
@@ -273,7 +277,10 @@ function Handy.UI.speed_n_animations_page_definition()
 	}
 
 	local areas_containers = {}
-	for _, area in ipairs({ jokers_area, hand_area, deck_area }) do
+	for index, area in ipairs({ jokers_area, hand_area, deck_area }) do
+		if index ~= 1 then
+			table.insert(areas_containers, Handy.UI.CP.c_sep(0.11))
+		end
 		table.insert(areas_containers, {
 			n = G.UIT.C,
 			config = {
@@ -295,8 +302,10 @@ function Handy.UI.speed_n_animations_page_definition()
 	local example_calc_row = {
 		n = G.UIT.R,
 		config = {
-			padding = 0.125,
+			padding = 0.1,
 			align = "cm",
+			r = 0.25,
+			colour = { 0, 0, 0, 0.1 },
 		},
 		nodes = {
 			{
@@ -305,11 +314,12 @@ function Handy.UI.speed_n_animations_page_definition()
 				nodes = {
 					{
 						n = G.UIT.R,
-						config = { align = "cm", padding = 0.125 },
+						config = { align = "cm" },
 						nodes = areas_containers,
 					},
 				},
 			},
+			Handy.UI.CP.c_sep(0.025),
 			{
 				n = G.UIT.C,
 				config = { align = "cm" },
@@ -350,24 +360,19 @@ function Handy.UI.speed_n_animations_page_definition()
 		n = G.UIT.C,
 		nodes = {
 			content,
-			Handy.UI.CP.c_sep(0.1),
+			Handy.UI.CP.r_sep(0.2),
 			example_calc_row,
+			Handy.UI.CP.r_sep(0.1),
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
 				nodes = {
 					{
-						n = G.UIT.C,
-						config = { align = "cm" },
-						nodes = {
-							{
-								n = G.UIT.T,
-								config = {
-									text = Handy.L.dictionary("handy_modals_preview_description"),
-									colour = { 1, 1, 1, 0.6 },
-									scale = 0.3,
-								},
-							},
+						n = G.UIT.T,
+						config = {
+							text = Handy.L.dictionary("handy_modals_preview_description"),
+							colour = { 1, 1, 1, 0.6 },
+							scale = 0.3,
 						},
 					},
 				},

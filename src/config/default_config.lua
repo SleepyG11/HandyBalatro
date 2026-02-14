@@ -203,6 +203,9 @@ local default_config = {
 		keys_1_gamepad = { "Right Stick" },
 		keys_2_gamepad = {},
 	},
+	hand_selection_combine_select_deselect = {
+		enabled = false,
+	},
 
 	-- Highlight movement
 	move_highlight = {

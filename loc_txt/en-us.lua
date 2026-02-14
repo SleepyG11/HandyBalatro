@@ -167,6 +167,15 @@ return {
 					"{C:attention}Deselect{} cards if first card {C:attention}was{} selected",
 				},
 			},
+			hand_selection_combine_select_deselect = {
+				name = { "Combine select & deselect" },
+				text = {},
+				unlock = {
+					"{C:attention}Select{} card if it {C:attention}is not{} selected",
+					"{C:attention}Deselect{} card if it {C:attention}is{} selected",
+					"{C:inactive}(you can do both at the same time){}",
+				},
+			},
 			hand_selection_deselect_hand = {
 				name = { "Deselect hand" },
 				text = {},
@@ -498,7 +507,8 @@ return {
 				unlock = {
 					"Same as Vanilla restart",
 					"but with {C:attention}skipped animation{}",
-					"and triggers immediately {C:inactive}(no need to hold){}",
+					"and triggers immediately",
+					"{C:inactive}(no need to hold){}",
 					" ",
 					"Works from {C:attention}Game Over{} screen aswell",
 				},

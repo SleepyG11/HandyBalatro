@@ -79,7 +79,10 @@ Handy.controls.register("hand_selection_insta_highlight", {
 
 		if
 			not G.CONTROLLER.dragging.target
-			and (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
+			and (
+				Handy.cc.hand_selection_combine_select_deselect.enabled
+				or (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
+			)
 		then
 			card:click()
 		end

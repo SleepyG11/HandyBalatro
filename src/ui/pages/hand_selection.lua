@@ -69,31 +69,27 @@ function Handy.UI.hand_selection_page_definition()
 	local example_hand_row = {
 		n = G.UIT.R,
 		config = {
-			padding = 0.125,
+			padding = 0.1,
 			align = "cm",
+			colour = { 0, 0, 0, 0.1 },
+			r = 0.25,
 		},
 		nodes = {
 			{
 				n = G.UIT.C,
 				nodes = {
 					{
-						n = G.UIT.R,
-						config = { align = "cm", padding = 0.125 },
+						n = G.UIT.C,
+						config = {
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.1,
+							padding = 0.1,
+						},
 						nodes = {
 							{
-								n = G.UIT.C,
+								n = G.UIT.O,
 								config = {
-									colour = { 0, 0, 0, 0.1 },
-									r = 0.1,
-									padding = 0.1,
-								},
-								nodes = {
-									{
-										n = G.UIT.O,
-										config = {
-											object = hand_area,
-										},
-									},
+									object = hand_area,
 								},
 							},
 						},
@@ -124,6 +120,7 @@ function Handy.UI.hand_selection_page_definition()
 							Handy.UI.CP.dictionary_item(
 								Handy.D.dictionary.hand_selection_insta_highlight_allow_deselect
 							),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection_combine_select_deselect),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection_deselect_hand),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection_entire_f_hand),
 						},
@@ -138,23 +135,24 @@ function Handy.UI.hand_selection_page_definition()
 		nodes = {
 			content,
 			Handy.UI.CP.r_sep(0.5),
-			example_hand_row,
+			{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					example_hand_row,
+				},
+			},
+			Handy.UI.CP.r_sep(0.1),
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },
 				nodes = {
 					{
-						n = G.UIT.C,
-						config = { align = "cm" },
-						nodes = {
-							{
-								n = G.UIT.T,
-								config = {
-									text = Handy.L.dictionary("handy_modals_move_highlight_preview_description"),
-									colour = { 1, 1, 1, 0.6 },
-									scale = 0.3,
-								},
-							},
+						n = G.UIT.T,
+						config = {
+							text = Handy.L.dictionary("handy_modals_move_highlight_preview_description"),
+							colour = { 1, 1, 1, 0.6 },
+							scale = 0.3,
 						},
 					},
 				},

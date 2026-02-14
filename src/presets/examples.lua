@@ -29,6 +29,9 @@ local examples = {
 			hand_selection_insta_highlight_allow_deselect = {
 				enabled = true,
 			},
+			hand_selection_combine_select_deselect = {
+				enabled = true,
+			},
 
 			regular_keybinds = {
 				enabled = true,
