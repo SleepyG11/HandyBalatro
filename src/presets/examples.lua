@@ -27,7 +27,7 @@ local examples = {
 				keys_2_gamepad = { "None" },
 			},
 			hand_selection_insta_highlight_allow_deselect = {
-				enabled = false,
+				enabled = true,
 			},
 
 			regular_keybinds = {
@@ -45,6 +45,14 @@ local examples = {
 				keys_1 = { "Wheel Down" },
 				keys_2 = { "None" },
 			},
+			regular_keybinds_sort_by_suit = {
+				enabled = true,
+
+				keys_1 = { "Mouse 4" },
+				keys_2 = { "None" },
+				keys_1_gamepad = { "Left Bumper" },
+				keys_2_gamepad = { "None" },
+			},
 			regular_keybinds_sort_by_rank = {
 				enabled = true,
 
@@ -53,12 +61,12 @@ local examples = {
 				keys_1_gamepad = { "Right Bumper" },
 				keys_2_gamepad = { "None" },
 			},
-			regular_keybinds_sort_by_suit = {
+			regular_keybinds_options = {
 				enabled = true,
 
-				keys_1 = { "Mouse 4" },
+				keys_1 = { "Mouse 3" },
 				keys_2 = { "None" },
-				keys_1_gamepad = { "Left Bumper" },
+				keys_1_gamepad = { "Right Stick" },
 				keys_2_gamepad = { "None" },
 			},
 		},

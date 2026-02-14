@@ -44,36 +44,50 @@ end
 
 --
 
+Handy.presets.configs_blacklist = {
+	-- mod global toggle
+	"handy",
+	-- appearance
+	"hide_in_menu",
+	"hide_options_button",
+	"notifications_level",
+	"speed_multiplier_settings_toggle",
+	"animation_skip_settings_toggle",
+	-- me
+	"me_in_mod_config",
+	"me_in_game_win",
+	"me_in_game_over",
+	"me_in_handy_tag",
+	-- general configs
+	"current_device",
+	"advanced_mode",
+	-- presets
+	"presets",
+	"presets_load_1",
+	"presets_load_2",
+	"presets_load_3",
+	"presets_load_next",
+	-- mp extension
+	"mp_extension_enabled_default_value",
+	"mp_extension_speed_multiplier_mode_default_value",
+	"mp_extension_animation_skip_mode_default_value",
+	"mp_extension_dangerous_actions_mode_default_value",
+	-- updater
+	"updater",
+	"updater_release_type",
+	"updater_notify_about_new_update",
+	"updater_auto_install_new_update",
+	"updater_auto_restart_game_after_update",
+	-- other
+	"__empty",
+}
+
 function Handy.presets.apply(preset, no_save_config, no_change_selected)
 	local config_to_apply = preset.config and Handy.config.actualize(preset.config) or { version = 2 }
 
-	-- Keep mod enabled state
-	config_to_apply.handy = nil
-	-- Keep advanced mode
-	config_to_apply.advanced_mode = nil
-	-- Keep presets state and keybinds
-	config_to_apply.presets = nil
-	config_to_apply.presets_load_1 = nil
-	config_to_apply.presets_load_2 = nil
-	config_to_apply.presets_load_3 = nil
-	config_to_apply.presets_load_next = nil
-	-- Keep hide in menu button value
-	config_to_apply.hide_in_menu = nil
-	config_to_apply.hide_options_button = nil
-	-- Keep notifications level
-	config_to_apply.notifications_level = nil
-	-- Keep current device setting
-	config_to_apply.current_device = nil
-	-- Displaying option cycle in settings
-	config_to_apply.speed_multiplier_settings_toggle = nil
-	config_to_apply.animation_skip_settings_toggle = nil
-	-- Keep MP extension
-	config_to_apply.mp_extension_enabled_default_value = nil
-	config_to_apply.mp_extension_speed_multiplier_mode_default_value = nil
-	config_to_apply.mp_extension_animation_skip_mode_default_value = nil
-	config_to_apply.mp_extension_dangerous_actions_mode_default_value = nil
-	-- Bad idea
-	config_to_apply.__empty = nil
+	for _, key in ipairs(Handy.presets.configs_blacklist) do
+		config_to_apply[key] = nil
+	end
 
 	preset.config = config_to_apply
 
