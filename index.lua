@@ -1,13 +1,16 @@
 to_big = to_big or function(x)
 	return x
 end
+to_number = to_number or function(x)
+	return tonumber(x)
+end
 
 Handy = setmetatable({
 	---@diagnostic disable-next-line: undefined-global
 	NFS = NFS or require("handy/nativefs"),
 	---@diagnostic disable-next-line: undefined-global
 	PATH = Handy_main_file_path,
-	version = "2.0.0~ALPHA-5b",
+	version = "2.0.0~ALPHA-6",
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
