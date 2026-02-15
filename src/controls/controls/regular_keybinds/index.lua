@@ -350,8 +350,16 @@ Handy.controls.register("regular_keybinds_restart", {
 
 	can_execute = function(self, args)
 		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+
+		local is_hold, hold_duration = Handy.controls.is_module_keys_hold(Handy.cc.regular_keybinds_restart)
+		if not is_hold or hold_duration < self.last_hold then
+			self.hold_lock = false
+		end
+
 		if
 			not ctx
+			or not is_hold
+			or self.hold_lock
 			or (G.CONTROLLER.locked and not G.SETTINGS.paused)
 			or G.CONTROLLER.locks.frame
 			or G.CONTROLLER.frame_buttonpress
@@ -364,15 +372,7 @@ Handy.controls.register("regular_keybinds_restart", {
 		then
 			self.last_hold = 0
 		else
-			local is_hold, hold_duration = Handy.controls.is_module_keys_hold(Handy.cc.regular_keybinds_restart)
-			if not is_hold or hold_duration < self.last_hold then
-				self.hold_lock = false
-			end
-			if not is_hold or self.hold_lock then
-				self.last_hold = 0
-			else
-				self.last_hold = self.last_hold + ctx.dt
-			end
+			self.last_hold = self.last_hold + ctx.dt
 		end
 
 		return self.last_hold > 0.7
