@@ -46,7 +46,7 @@ function Handy.UI.dangerous_page_definition()
 
 	local result_tags_row = {}
 	for i = 1, 3 do
-		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, "handy_" .. os.time())
+		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, pseudoseed("handy_" .. math.random()))
 		for j = 1, 3 do
 			table.insert(result_tags_row, {
 				n = G.UIT.R,
@@ -83,7 +83,7 @@ function Handy.UI.dangerous_page_definition()
 		highlight_limit = 1,
 		on_create = function(area)
 			for i = 1, 3 do
-				local center = pseudorandom_element(G.P_CENTER_POOLS.Joker, "handy_" .. os.time())
+				local center = pseudorandom_element(G.P_CENTER_POOLS.Joker, pseudoseed("handy_" .. math.random()))
 					or G.P_CENTERS.j_rocket
 				for j = 1, 3 do
 					local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, (i - 1) * 3 + j, 9)

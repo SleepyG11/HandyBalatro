@@ -8,11 +8,11 @@ function Handy.UI.insta_actions_page_definition()
 
 	local create_cards = function(is_shop)
 		return function(area)
-			local joker_center = pseudorandom_element(G.P_CENTER_POOLS["Joker"], "handy_" .. tostring(math.random()))
+			local joker_center = pseudorandom_element(G.P_CENTER_POOLS["Joker"], pseudoseed("handy_" .. math.random()))
 				or G.P_CENTERS.j_joker
 			local planet_center = pseudorandom_element(
 				G.P_CENTER_POOLS["Consumeables"],
-				"handy_" .. tostring(math.random())
+				pseudoseed("handy_" .. math.random())
 			) or G.P_CENTERS.j_earth
 
 			for index, center in ipairs({ joker_center, planet_center }) do

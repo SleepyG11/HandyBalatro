@@ -12,7 +12,7 @@ function Handy.UI.hand_selection_page_definition()
 		card_limit = 8,
 		highlight_limit = 5,
 		on_create = function(area)
-			local suit = pseudorandom_element({ "C", "S", "H", "D" }, "handy_" .. tostring(math.random()))
+			local suit = pseudorandom_element({ "C", "S", "H", "D" }, pseudoseed("handy_" .. math.random()))
 			for index, front in ipairs({
 				suit .. "_A",
 				suit .. "_K",
