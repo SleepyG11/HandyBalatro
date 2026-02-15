@@ -27,19 +27,46 @@ Handy.regular_keybinds = {
 			Handy.regular_keybinds.current_swappable_overlay = nil
 		end
 	end,
-	open_or_close_swappable_overlay = function(key, func)
-		if
-			Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_close_on_double_press)
-			and Handy.regular_keybinds.current_swappable_overlay == key
-		then
+	open_or_close_swappable_overlay = function(ctx, key, func)
+		ctx = Handy.controller.non_empty_context(ctx)
+		if not ctx or not ctx.input then
+			return false
+		end
+		local swappable_mode = Handy.cc.regular_keybinds_swappable_overlays_mode.value
+		local close = function()
 			Handy.fake_events.execute({
 				func = G.FUNCS.exit_overlay_menu,
 			})
-		else
+		end
+		local open = function()
 			func()
 			if G.OVERLAY_MENU then
 				Handy.regular_keybinds.current_swappable_overlay = key
 			end
+		end
+		if swappable_mode == 1 then
+			if ctx.trigger then
+				open()
+				return true
+			end
+		elseif swappable_mode == 2 then
+			if ctx.trigger then
+				if Handy.regular_keybinds.current_swappable_overlay == key then
+					close()
+				else
+					open()
+				end
+				return true
+			end
+		elseif swappable_mode == 3 then
+			if ctx.release then
+				if Handy.regular_keybinds.current_swappable_overlay == key then
+					close()
+				end
+			else
+				open()
+			end
+			return true
 		end
 	end,
 

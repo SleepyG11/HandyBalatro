@@ -1220,12 +1220,23 @@ l({
 			group = true,
 			items = {
 				{
-					key = "regular_keybinds_close_on_double_press",
-					keywords = { "close on double press" },
+					key = "regular_keybinds_swappable_overlays_mode",
+					keywords = { "swappable menus mode hold to open release to close double press again" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_close_on_double_press, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_swappable_overlays_mode,
+							{ Handy.D.dictionary.regular_keybinds }
 					end,
-					checkbox = true,
+					option_cycle = {
+						get_values = function()
+							return {
+								options = {
+									Handy.L.dictionary("handy_regular_keybinds_swappable_overlays_mode", 1),
+									Handy.L.dictionary("handy_regular_keybinds_swappable_overlays_mode", 2),
+									Handy.L.dictionary("handy_regular_keybinds_swappable_overlays_mode", 3),
+								},
+							}
+						end,
+					},
 				},
 				{
 					key = "regular_keybinds_run_info",

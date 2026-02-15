@@ -491,14 +491,6 @@ return {
 					"All controls from base game, and more",
 				},
 			},
-			regular_keybinds_close_on_double_press = {
-				name = "Close menu on double press",
-				text = {},
-				unlock = {
-					"After using keybind to open a menu,",
-					"use same keybind again to close it",
-				},
-			},
 
 			regular_keybinds_group_game = {
 				name = "Game",
@@ -683,6 +675,10 @@ return {
 					"by using keybinds",
 					"{C:attention}without closing{} them first",
 				},
+			},
+			regular_keybinds_swappable_overlays_mode = {
+				name = "Swappable menus mode",
+				text = {},
 			},
 			regular_keybinds_run_info = {
 				name = { "Run info: Poker hands" },
@@ -1224,6 +1220,12 @@ return {
 				"Disabled",
 				"Mass sell",
 				"Mass sell & remove",
+			},
+
+			handy_regular_keybinds_swappable_overlays_mode = {
+				"Press to open",
+				"Press to open / Press again to close",
+				"Hold to open / Release to close",
 			},
 
 			handy_mp_extension_status_not_initialized = "Multiplayer Extension is NOT LOADED in this lobby",
