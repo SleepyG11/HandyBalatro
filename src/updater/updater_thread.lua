@@ -294,6 +294,9 @@ end
 	while true do
 		local event = https_input:demand()
 		if event then
+			if event.kill then
+				return
+			end
 			if event.check_update then
 				local data = get_latest_releases(event.use_smods)
 				data.check_update_complete = true
