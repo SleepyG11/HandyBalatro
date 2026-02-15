@@ -109,6 +109,36 @@ local function get_latest_releases(use_smods)
 				end
 			end
 		end
+
+		if not latest_stable then
+			local code, response, headers
+			local url = "https://api.github.com/repos/SleepyG11/HandyBalatro/releases/latest"
+			local is_redirect = false
+
+			repeat
+				code, response, headers = fetcher.request(url, {
+					method = "GET",
+					headers = {
+						["User-Agent"] = "Mozilla/5.0",
+					},
+				})
+				is_redirect = code >= 300 and code < 400
+				if is_redirect then
+					url = headers["location"]
+				end
+			until not is_redirect or not url
+
+			if code == 200 then
+				local success, body = pcall(function()
+					return json.decode(response)
+				end)
+
+				if success then
+					latest_stable = body
+				end
+			end
+		end
+
 		return {
 			success = true,
 			stable = latest_stable,
