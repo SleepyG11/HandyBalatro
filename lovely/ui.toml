@@ -149,3 +149,15 @@ self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SP
 '''
 match_indent = true
 overwrite = false
+
+## Remove incorrect check for Moveable alignment change (fix taken from SMODS)
+# Moveable:align_to_major()
+[[patches]]
+[patches.regex]
+target = 'engine/moveable.lua'
+pattern = '''
+(?<indent>[\t ]*)if +self\.alignment\.prev_offset\.x == self\.alignment\.offset\.x[\s\S]*?return end
+'''
+position = 'at'
+payload = 'if not self.alignment.type_list then return end'
+line_prepend = '$indent'
