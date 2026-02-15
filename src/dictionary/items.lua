@@ -187,6 +187,7 @@ l({
 })
 l({
 	key = "me",
+	keywords = { "me sleepy sleepyg11 g11 sprite girl tyan anime self insert author" },
 	loc_vars = function()
 		return {
 			vars = { "@lord.ruby" },
@@ -220,13 +221,21 @@ l({
 			checkbox = true,
 		},
 		{
-			key = "me_in_handy_tag",
+			key = "me_in_screenswipe",
 			get_module = function()
-				return Handy.cc.me_in_handy_tag
+				return Handy.cc.me_in_screenswipe
 			end,
 
 			checkbox = true,
 		},
+		-- {
+		-- 	key = "me_in_handy_tag",
+		-- 	get_module = function()
+		-- 		return Handy.cc.me_in_handy_tag
+		-- 	end,
+
+		-- 	checkbox = true,
+		-- },
 	},
 })
 l({

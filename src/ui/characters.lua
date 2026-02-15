@@ -64,6 +64,12 @@ load_atlas({
 	px = 109,
 	py = 142,
 })
+load_atlas({
+	name = "handy_me_joker",
+	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/me_joker.png",
+	px = 71,
+	py = 95,
+})
 
 function Handy.UI.CHAR.emplace(args)
 	if not G.OVERLAY_MENU then
@@ -548,4 +554,17 @@ function create_UIBox_win(...)
 	local ret = old_you_win(...)
 	Handy.UI.CHAR.show_me_as_game_win()
 	return ret
+end
+
+local wipe_on_ref = G.FUNCS.wipe_on
+function G.FUNCS.wipe_on(...)
+	local r = wipe_on_ref(...)
+	if G.screenwipecard then
+		if Handy.cc.me_in_screenswipe.enabled and math.random() > 0.75 then
+			G.screenwipecard.children.front.states.visible = false
+			G.screenwipecard.children.center.atlas = G.ASSET_ATLAS["handy_me_joker"]
+			G.screenwipecard.children.center:set_sprite_pos({ x = 0, y = 0 })
+		end
+	end
+	return r
 end

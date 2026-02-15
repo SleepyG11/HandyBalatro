@@ -34,6 +34,9 @@ local default_config = {
 	me_in_handy_tag = {
 		enabled = true,
 	},
+	me_in_screenswipe = {
+		enabled = true,
+	},
 
 	-- Updater
 	updater = {

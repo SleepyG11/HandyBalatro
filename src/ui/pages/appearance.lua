@@ -19,7 +19,7 @@ function Handy.UI.appearance_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_mod_config),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_game_over),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_game_win),
-							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_handy_tag),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.me_in_screenswipe),
 							Handy.UI.CP.r_sep(0.1),
 							{
 								n = G.UIT.R,

@@ -138,6 +138,10 @@ return {
 				name = "..maybe somewhere else!",
 				text = { "I did not decided yet..." },
 			},
+			me_in_screenswipe = {
+				name = "...in screen swipe card",
+				text = { "I'm a Joker now!" },
+			},
 			-- me_in_handy_tag = {
 			-- 	name = "..near Handy tag",
 			-- 	text = { "I like this one!" },
