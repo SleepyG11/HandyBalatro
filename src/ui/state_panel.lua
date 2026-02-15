@@ -52,6 +52,8 @@ function state_panel.get_definition()
 					n = G.UIT.T,
 					config = {
 						text = item.text,
+						ref_table = item.ref_table,
+						ref_value = item.ref_value,
 						scale = 0.225,
 						colour = item.dangerous and state_panel.C.DYN.TEXT_DANGEROUS or state_panel.C.DYN.TEXT,
 						shadow = true,

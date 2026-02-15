@@ -1058,6 +1058,7 @@ return {
 			Handy_skip_booster_pack = "Skip booster pack",
 
 			Handy_scoring_hold = "Pause scoring animation",
+			Handy_scoring_hold_hand_score = "Hand score: [#1#]",
 
 			Handy_hand_sorting = "Hand sorting: #1#",
 

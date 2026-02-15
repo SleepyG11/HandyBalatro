@@ -42,7 +42,7 @@ Handy.controls.register("scoring_hold", {
 	only_holdable = true,
 
 	can_execute = function(self, args)
-		if Handy.UI.data.is_speed_n_animations_calculate then
+		if Handy.UI.data.speed_n_animations_preview then
 			return Handy.controls.can_execute_control(self, {
 				allow_mod_inactive = true,
 			})
@@ -69,7 +69,9 @@ Handy.controls.register("scoring_hold", {
 			new_value = self:can_execute()
 			new_hand_played_value = G.STATE == G.STATES.HAND_PLAYED
 
-			Handy.scoring_hold.is_hold = new_value
+			if not G.SETTINGS.paused then
+				Handy.scoring_hold.is_hold = new_value
+			end
 			Handy.scoring_hold.is_hand_played = new_hand_played_value
 		end
 
@@ -82,22 +84,42 @@ Handy.controls.register("scoring_hold", {
 		end
 
 		Handy.UI.state_panel.display(function(state)
+			local r = false
+
 			local can_display = is_preview or (not G.SETTINGS.paused and not G.OVERLAY_MENU)
 			if state.items.scoring_hold and state.items.scoring_hold.hold ~= new_value then
 				state.items.scoring_hold.hold = new_value and can_display
-				return true
-			elseif new_value then
-				if not can_display then
-					return false
-				end
+				r = true
+			elseif not state.items.scoring_hold and new_value and can_display then
 				state.items.scoring_hold = {
 					text = Handy.L.variable("Handy_scoring_hold"),
 					order = 7,
 					hold = Handy.scoring_hold.is_hold,
 					level = 3,
 				}
-				return true
+				r = true
 			end
+
+			local can_display_score = can_display
+				and G.GAME
+				and G.GAME.current_round
+				and G.GAME.current_round.current_hand.chip_total > 0
+			if state.items.scoring_hold_score and not (new_value and can_display_score) then
+				state.items.scoring_hold_score = nil
+				r = true
+			elseif not state.items.scoring_hold_score and new_value and can_display_score then
+				state.items.scoring_hold_score = {
+					text = Handy.L.variable(
+						"Handy_scoring_hold_hand_score",
+						{ number_format(G.GAME.current_round.current_hand.chip_total) }
+					),
+					order = 7.01,
+					hold = Handy.scoring_hold.is_hold,
+					level = 3,
+				}
+				r = true
+			end
+			return r
 		end, "update", is_preview and 1 or 3)
 	end,
 })
