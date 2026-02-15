@@ -58,6 +58,7 @@ Handy.presets.configs_blacklist = {
 	"me_in_game_win",
 	"me_in_game_over",
 	"me_in_handy_tag",
+	"me_in_screenswipe",
 	-- general configs
 	"current_device",
 	"advanced_mode",
