@@ -259,7 +259,11 @@ function Handy.UI.speed_n_animations_page_definition()
 						G.CARD_H,
 						G.P_CARDS.H_K,
 						G.P_CENTERS.m_steel,
-						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+						{
+							bypass_discovery_center = true,
+							bypass_discovery_ui = true,
+							bypass_back = G.P_CENTERS.b_nebula.pos,
+						}
 					)
 					card1:set_seal("Red", true, true)
 					deck_area:emplace(card1)

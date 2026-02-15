@@ -45,24 +45,17 @@ function Handy.UI.dangerous_page_definition()
 	end
 
 	local result_tags_row = {}
-	for _, tag_key in ipairs({
-		"tag_double",
-		"tag_double",
-		"tag_double",
-		"tag_ethereal",
-		"tag_ethereal",
-		"tag_ethereal",
-		"tag_charm",
-		"tag_charm",
-		"tag_charm",
-	}) do
-		table.insert(result_tags_row, {
-			n = G.UIT.R,
-			config = { align = "cm" },
-			nodes = {
-				get_tag_ui(tag_key),
-			},
-		})
+	for i = 1, 3 do
+		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, "handy_" .. os.time())
+		for j = 1, 3 do
+			table.insert(result_tags_row, {
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					get_tag_ui(tag and tag.key or "tag_double"),
+				},
+			})
+		end
 	end
 
 	local tags_area = UIBox({
@@ -89,32 +82,26 @@ function Handy.UI.dangerous_page_definition()
 		card_limit = 9,
 		highlight_limit = 1,
 		on_create = function(area)
-			for index, center in ipairs({
-				"j_blueprint",
-				"j_blueprint",
-				"j_blueprint",
-				"j_hanging_chad",
-				"j_hanging_chad",
-				"j_hanging_chad",
-				"j_rocket",
-				"j_rocket",
-				"j_rocket",
-			}) do
-				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, index, 8)
-				local card1 = Card(
-					pos.x,
-					pos.y,
-					G.CARD_W,
-					G.CARD_H,
-					nil,
-					G.P_CENTERS[center],
-					{ bypass_discovery_center = true, bypass_discovery_ui = true }
-				)
-				if index % 3 == 1 then
-					card1.ability.eternal = true
+			for i = 1, 3 do
+				local center = pseudorandom_element(G.P_CENTER_POOLS.Joker, "handy_" .. os.time())
+					or G.P_CENTERS.j_rocket
+				for j = 1, 3 do
+					local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, (i - 1) * 3 + j, 9)
+					local card1 = Card(
+						pos.x,
+						pos.y,
+						G.CARD_W,
+						G.CARD_H,
+						nil,
+						center,
+						{ bypass_discovery_center = true, bypass_discovery_ui = true }
+					)
+					if j % 3 == 1 then
+						card1.ability.eternal = true
+					end
+					area:emplace(card1)
+					card1.handy_preview_dangerous_actions = true
 				end
-				area:emplace(card1)
-				card1.handy_preview_dangerous_actions = true
 			end
 		end,
 	})
