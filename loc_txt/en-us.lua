@@ -491,6 +491,14 @@ return {
 					"All controls from base game, and more",
 				},
 			},
+			regular_keybinds_close_on_double_press = {
+				name = "Close menu on double press",
+				text = {},
+				unlock = {
+					"After using keybind to open a menu,",
+					"use same keybind again to close it",
+				},
+			},
 
 			regular_keybinds_group_game = {
 				name = "Game",

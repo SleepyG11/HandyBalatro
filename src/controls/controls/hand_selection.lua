@@ -80,7 +80,7 @@ Handy.controls.register("hand_selection_insta_highlight", {
 		if
 			not G.CONTROLLER.dragging.target
 			and (
-				Handy.cc.hand_selection_combine_select_deselect.enabled
+				Handy.controls.is_module_enabled(Handy.cc.hand_selection_combine_select_deselect)
 				or (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
 			)
 		then

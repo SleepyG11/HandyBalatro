@@ -399,6 +399,9 @@ local default_config = {
 	},
 
 	-- Menus
+	regular_keybinds_close_on_double_press = {
+		enabled = true,
+	},
 	regular_keybinds_run_info = {
 		enabled = true,
 		keys_1 = {},

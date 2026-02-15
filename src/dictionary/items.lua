@@ -1220,6 +1220,14 @@ l({
 			group = true,
 			items = {
 				{
+					key = "regular_keybinds_close_on_double_press",
+					keywords = { "close on double press" },
+					get_module = function(self)
+						return Handy.cc.regular_keybinds_close_on_double_press, { Handy.D.dictionary.regular_keybinds }
+					end,
+					checkbox = true,
+				},
+				{
 					key = "regular_keybinds_run_info",
 					keywords = { "run info poker hands" },
 					get_module = function(self)

@@ -52,8 +52,6 @@ Handy.load_file("src/index.lua")
 -- 10. touchscreen?
 -- 11. fix doubletap in hand selection preview (somehow)
 -- 12. override controller controls (somehow)
--- 14. fix non-smods visual bugs
--- 15. make swappable overlays close when they was opened by same keybind
 -- 16. cleanup insta actions code, goddamn
 
 -- TODO: check controls (controller)

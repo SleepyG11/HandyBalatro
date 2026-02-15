@@ -15,9 +15,11 @@ Handy.controls.register("regular_keybinds_run_info", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.run_info,
-		})
+		Handy.regular_keybinds.open_or_close_swappable_overlay("run_info_poker_hands", function()
+			Handy.fake_events.execute({
+				func = G.FUNCS.run_info,
+			})
+		end)
 		return true
 	end,
 })
@@ -38,11 +40,13 @@ Handy.controls.register("regular_keybinds_run_info_binds", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
-		Handy.fake_events.execute({
-			func = G.FUNCS.run_info,
-		})
-		Handy.override_create_tabs_chosen_by_label = nil
+		Handy.regular_keybinds.open_or_close_swappable_overlay("run_info_blinds", function()
+			Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
+			Handy.fake_events.execute({
+				func = G.FUNCS.run_info,
+			})
+			Handy.override_create_tabs_chosen_by_label = nil
+		end)
 		return true
 	end,
 })
@@ -105,9 +109,11 @@ Handy.controls.register("regular_keybinds_view_deck", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.deck_info,
-		})
+		Handy.regular_keybinds.open_or_close_swappable_overlay("deck", function()
+			Handy.fake_events.execute({
+				func = G.FUNCS.deck_info,
+			})
+		end)
 		return true
 	end,
 })
@@ -131,9 +137,11 @@ Handy.controls.register("regular_keybinds_view_lobby_info", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		Handy.fake_events.execute({
-			func = G.FUNCS.lobby_info,
-		})
+		Handy.regular_keybinds.open_or_close_swappable_overlay("lobby_info", function()
+			Handy.fake_events.execute({
+				func = G.FUNCS.lobby_info,
+			})
+		end)
 		return true
 	end,
 })

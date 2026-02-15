@@ -7,6 +7,7 @@ Handy.regular_keybinds = {
 	shop_loaded = false,
 
 	swappable_overlay = false,
+	current_swappable_overlay = nil,
 
 	toggle_swappable_overlay = function(b)
 		if b then
@@ -23,6 +24,22 @@ Handy.regular_keybinds = {
 			}))
 		else
 			Handy.regular_keybinds.swappable_overlay = false
+			Handy.regular_keybinds.current_swappable_overlay = nil
+		end
+	end,
+	open_or_close_swappable_overlay = function(key, func)
+		if
+			Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_close_on_double_press)
+			and Handy.regular_keybinds.current_swappable_overlay == key
+		then
+			Handy.fake_events.execute({
+				func = G.FUNCS.exit_overlay_menu,
+			})
+		else
+			func()
+			if G.OVERLAY_MENU then
+				Handy.regular_keybinds.current_swappable_overlay = key
+			end
 		end
 	end,
 

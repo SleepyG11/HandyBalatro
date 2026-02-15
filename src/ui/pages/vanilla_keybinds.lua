@@ -102,6 +102,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 								Handy.D.dictionary.regular_keybinds_group_swappable_menus,
 								{ bg = true }
 							),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_close_on_double_press),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info_blinds),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_deck),
