@@ -67,7 +67,7 @@ function Handy.UI.dangerous_page_definition()
 					n = G.UIT.C,
 					config = { padding = 0.1, r = 0.25, colour = { 0, 0, 0, 0.1 } },
 					nodes = {
-						{ n = G.UIT.C, config = { padding = 0.029 }, nodes = result_tags_row },
+						{ n = G.UIT.C, config = { padding = 0.005 }, nodes = result_tags_row },
 					},
 				},
 			},
@@ -112,8 +112,10 @@ function Handy.UI.dangerous_page_definition()
 	local example_hand_row = {
 		n = G.UIT.R,
 		config = {
-			padding = 0.125,
+			padding = 0.1,
 			align = "cm",
+			colour = { 0, 0, 0, 0.1 },
+			r = 0.25,
 		},
 		nodes = {
 			{
@@ -121,23 +123,17 @@ function Handy.UI.dangerous_page_definition()
 				config = { align = "cm" },
 				nodes = {
 					{
-						n = G.UIT.R,
-						config = { align = "cm", padding = 0.125 },
+						n = G.UIT.C,
+						config = {
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.1,
+							padding = 0.1,
+						},
 						nodes = {
 							{
-								n = G.UIT.C,
+								n = G.UIT.O,
 								config = {
-									colour = { 0, 0, 0, 0.1 },
-									r = 0.1,
-									padding = 0.1,
-								},
-								nodes = {
-									{
-										n = G.UIT.O,
-										config = {
-											object = hand_area,
-										},
-									},
+									object = hand_area,
 								},
 							},
 						},
@@ -172,14 +168,27 @@ function Handy.UI.dangerous_page_definition()
 				{
 					n = G.UIT.C,
 					nodes = {
-						content,
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								content,
+							},
+						},
 						Handy.UI.CP.r_sep(0.1),
-						example_hand_row,
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								example_hand_row,
+							},
+						},
 					},
 				},
 				Handy.UI.CP.c_sep(0.1),
 				{
 					n = G.UIT.C,
+					config = { padding = 0.1, r = 0.25, colour = { 0, 0, 0, 0.1 } },
 					nodes = {
 						example_tags_area,
 					},
