@@ -1,5 +1,5 @@
 Handy.config = setmetatable({}, {})
-Handy.load_file("src/config/default_config.lua")
+Handy.load_file("src/core/config/default_config.lua")
 
 -- Save/load
 

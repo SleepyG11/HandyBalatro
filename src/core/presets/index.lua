@@ -1,7 +1,7 @@
 Handy.presets = setmetatable({}, {})
 
-Handy.load_file("src/presets/default_config.lua")
-Handy.load_file("src/presets/examples.lua")
+Handy.load_file("src/core/presets/default_config.lua")
+Handy.load_file("src/core/presets/examples.lua")
 
 --
 

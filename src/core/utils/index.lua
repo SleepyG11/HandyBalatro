@@ -1,7 +1,7 @@
 Handy.utils = {}
-Handy.load_file("src/utils/table.lua")
-Handy.load_file("src/utils/keys_sort.lua")
-Handy.load_file("src/utils/dictionary.lua")
+Handy.load_file("src/core/utils/table.lua")
+Handy.load_file("src/core/utils/keys_sort.lua")
+Handy.load_file("src/core/utils/dictionary.lua")
 
 function Handy.utils.cleanup_dead_elements(ref_table, ref_key)
 	local new_values = {}

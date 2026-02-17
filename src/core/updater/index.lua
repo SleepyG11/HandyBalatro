@@ -1,4 +1,4 @@
-local updater_thread_file = Handy.read_file("src/updater/updater_thread.lua")
+local updater_thread_file = Handy.read_file("src/core/updater/updater_thread.lua")
 
 local https_updater_input = love.thread.getChannel("handy_updater_input")
 local https_updater_output = love.thread.getChannel("handy_updater_output")
@@ -317,7 +317,7 @@ Handy.updater = {
 	end,
 }
 
-Handy.load_file("src/updater/versioner.lua")
+Handy.load_file("src/core/updater/versioner.lua")
 
 --
 
