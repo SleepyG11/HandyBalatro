@@ -1,4 +1,6 @@
-Handy.load_file("src/controls/controls/speed_multiplier/logic.lua")
+Handy.load_files({
+	"logic.lua",
+}, "src/controls/controls/speed_multiplier/")
 
 ---
 

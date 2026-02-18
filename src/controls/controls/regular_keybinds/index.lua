@@ -1,6 +1,8 @@
-Handy.load_file("src/controls/controls/regular_keybinds/logic.lua")
-Handy.load_file("src/controls/controls/regular_keybinds/hooks.lua")
-Handy.load_file("src/controls/controls/regular_keybinds/menus.lua")
+Handy.load_files({
+	"logic.lua",
+	"hooks.lua",
+	"menus.lua",
+}, "src/controls/controls/regular_keybinds/")
 
 ---
 

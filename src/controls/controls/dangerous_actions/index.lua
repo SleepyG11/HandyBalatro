@@ -1,4 +1,6 @@
-Handy.load_file("src/controls/controls/dangerous_actions/logic.lua")
+Handy.load_files({
+	"logic.lua",
+}, "src/controls/controls/dangerous_actions/")
 
 -- One-by-one
 Handy.controls.register("dangerous_actions_sell_one", {

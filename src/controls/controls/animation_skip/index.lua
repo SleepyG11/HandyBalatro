@@ -1,5 +1,7 @@
-Handy.load_file("src/controls/controls/animation_skip/logic.lua")
-Handy.load_file("src/controls/controls/animation_skip/hooks.lua")
+Handy.load_files({
+	"logic.lua",
+	"hooks.lua",
+}, "src/controls/controls/animation_skip/")
 
 -- Code to debug event queue
 

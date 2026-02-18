@@ -2,8 +2,10 @@ Handy.controls = {
 	controls_sorted = false,
 }
 
-Handy.load_file("src/controls/stack.lua")
-Handy.load_file("src/controls/controls.lua")
+Handy.load_files({
+	"stack.lua",
+	"controls.lua",
+}, "src/controls/")
 
 Handy.load_files({
 	"input.lua",

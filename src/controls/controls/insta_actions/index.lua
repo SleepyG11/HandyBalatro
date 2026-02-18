@@ -1,4 +1,6 @@
-Handy.load_file("src/controls/controls/insta_actions/logic.lua")
+Handy.load_files({
+	"logic.lua",
+}, "src/controls/controls/insta_actions/")
 
 Handy.controls.register("insta_actions", {
 	get_module = function()

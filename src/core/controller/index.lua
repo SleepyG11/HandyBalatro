@@ -2,12 +2,14 @@ Handy.controller = {}
 
 ---
 
-Handy.load_file("src/core/controller/keys.lua")
-Handy.load_file("src/core/controller/contexts.lua")
-Handy.load_file("src/core/controller/key_states.lua")
-Handy.load_file("src/core/controller/debugplus.lua")
-Handy.load_file("src/core/controller/binding.lua")
-Handy.load_file("src/core/controller/device.lua")
+Handy.load_files({
+	"keys.lua",
+	"contexts.lua",
+	"key_states.lua",
+	"debugplus.lua",
+	"binding.lua",
+	"device.lua",
+}, "src/core/controller/")
 
 ---
 

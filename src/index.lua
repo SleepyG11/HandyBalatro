@@ -1,10 +1,12 @@
-Handy.load_file("src/core/index.lua")
-Handy.load_file("src/ui/index.lua")
+Handy.load_files({
+	"core/index.lua",
+	"ui/index.lua",
 
-Handy.load_file("src/controls/index.lua")
-Handy.load_file("src/dictionary/index.lua")
+	"controls/index.lua",
 
-Handy.load_file("src/extensions/index.lua")
+	"dictionary/index.lua",
+	"extensions/index.lua",
+}, "src/")
 
 local game_start_up_ref = Game.start_up
 function Game:start_up(...)

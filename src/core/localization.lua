@@ -97,6 +97,7 @@ Handy.L = {
 	end,
 }
 
+-- This function is taken from SMODS
 Handy.L.localize_box = function(lines, args)
 	local function format_ui_value(value)
 		if type(value) ~= "number" then

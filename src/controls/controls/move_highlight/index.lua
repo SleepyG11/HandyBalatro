@@ -1,4 +1,6 @@
-Handy.load_file("src/controls/controls/move_highlight/logic.lua")
+Handy.load_files({
+	"logic.lua",
+}, "src/controls/controls/move_highlight/")
 
 Handy.controls.register("move_highlight", {
 	get_module = function()
