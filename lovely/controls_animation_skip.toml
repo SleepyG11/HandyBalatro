@@ -82,7 +82,7 @@ overwrite = false
 target = "functions/common_events.lua"
 pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
 position = "at"
-payload = "func = (function() if eval_func(card) then if not first or first then Handy.animation_skip.allow_juice_up = true card:juice_up(0.1, 0.1); Handy.animation_skip.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+payload = "func = (function() if eval_func(card) then if not first or first then Handy.animation_skip.allow_juice_up = true; card:juice_up(0.1, 0.1); Handy.animation_skip.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
 match_indent = true
 overwrite = false
 
@@ -110,8 +110,8 @@ overwrite = false
 [patches.pattern]
 target = 'functions/common_events.lua'
 pattern = "play_sound('coin1')"
-position = "before"
-payload = "if handy_ease_muted then return end"
+position = "at"
+payload = "if not handy_ease_muted then play_sound('coin1') end"
 match_indent = true
 overwrite = false
 

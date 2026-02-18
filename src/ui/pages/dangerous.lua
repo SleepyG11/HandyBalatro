@@ -236,6 +236,7 @@ function Handy.UI.dangerous_page_definition()
 					},
 				},
 			},
+			Handy.UI.CP.r_sep(0.1),
 			{
 				n = G.UIT.R,
 				config = { align = "cm" },

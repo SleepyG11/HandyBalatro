@@ -9,6 +9,8 @@ Handy = setmetatable({
 	---@diagnostic disable-next-line: undefined-global
 	NFS = NFS or require("handy/nativefs"),
 	---@diagnostic disable-next-line: undefined-global
+	JSON = JSON or json or require("handy/json"),
+	---@diagnostic disable-next-line: undefined-global
 	PATH = Handy_main_file_path,
 	version = "2.0.0~ALPHA-6b",
 
@@ -38,8 +40,6 @@ function Handy.load_files(files, prefix)
 		Handy.load_file(prefix .. file)
 	end
 end
-
-Handy.JSON = Handy.load_file("src/libs/json.lua")
 
 Handy.load_file("src/index.lua")
 

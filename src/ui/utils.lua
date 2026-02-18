@@ -543,7 +543,6 @@ function Handy.UI.utils.wrap_text(text, maxChars)
 					else
 						local r = current:gsub("%s+$", "")
 						table.insert(out, r)
-						-- новая строка с тем же отступом
 						current = indent .. word .. ws
 						currentLen = #indent + pieceLen
 					end

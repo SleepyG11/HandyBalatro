@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Send is Handy MP extension loaded to hash
+# Process server action
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
@@ -17,6 +17,7 @@ end
 match_indent = true
 overwrite = false
 
+# Set default values
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
@@ -28,6 +29,7 @@ Handy.EXT.Multiplayer.set_local_enabled()
 match_indent = true
 overwrite = false
 
+# Rerender UI if MP lobby ui was rerendered
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''

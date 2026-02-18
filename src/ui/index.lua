@@ -7,24 +7,27 @@ Handy.UI.C = {
 }
 Handy.UI.data = {}
 
-Handy.e_mitter.on("update", function()
-	local dew = Handy.UI.C.DARK_EDITION_WEAK
-	dew[1] = G.C.DARK_EDITION[1]
-	dew[2] = G.C.DARK_EDITION[2]
-	dew[3] = G.C.DARK_EDITION[3]
+---
 
-	local mp = Handy.UI.C.MP
-	local new_mp = mix_colours(G.C.RED, G.C.ORANGE, math.sin(G.TIMERS.REAL) * 0.2 + 0.8)
-	mp[1] = new_mp[1]
-	mp[2] = new_mp[2]
-	mp[3] = new_mp[3]
-end)
+function Handy.UI.cleanup(full)
+	if full then
+		Handy.UI.data = {}
+	end
+	G.E_MANAGER:clear_queue("handy_config")
+
+	Handy.__override_event_queue = nil
+	Handy.__use_gamespeed = nil
+end
+function Handy.UI.check_for_cleanup(full)
+	if (not G.OVERLAY_MENU or not G.OVERLAY_MENU.is_handy_config) and Handy.UI.data.opened then
+		Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
+		Handy.UI.cleanup(full)
+	end
+end
 
 function Handy.UI.rerender(silent)
 	if Handy.UI.data.opened then
-		G.E_MANAGER:clear_queue("handy_config")
-		Handy.__override_event_queue = nil
-		Handy.__use_gamespeed = nil
+		Handy.UI.cleanup(false)
 		local result = {
 			definition = Handy.UI.data.rerender_uibox_func(),
 			is_handy_config = true,
@@ -53,13 +56,54 @@ end
 
 --
 
-Handy.load_file("src/ui/components.lua")
-Handy.load_file("src/ui/utils.lua")
-Handy.load_file("src/ui/state_panel.lua")
-Handy.load_file("src/ui/characters.lua")
-Handy.load_file("src/ui/side_panel.lua")
-Handy.load_file("src/ui/game_settings.lua")
-Handy.load_file("src/ui/tutorial.lua")
+Handy.e_mitter.on("update", function()
+	local dew = Handy.UI.C.DARK_EDITION_WEAK
+	dew[1] = G.C.DARK_EDITION[1]
+	dew[2] = G.C.DARK_EDITION[2]
+	dew[3] = G.C.DARK_EDITION[3]
+
+	local mp = Handy.UI.C.MP
+	local new_mp = mix_colours(G.C.RED, G.C.ORANGE, math.sin(G.TIMERS.REAL) * 0.2 + 0.8)
+	mp[1] = new_mp[1]
+	mp[2] = new_mp[2]
+	mp[3] = new_mp[3]
+	Handy.UI.check_for_cleanup(true)
+end)
+Handy.e_mitter.on("device_change", function()
+	Handy.UI.rerender(true)
+end)
+
+local old_overlay_menu = G.FUNCS.overlay_menu
+function G.FUNCS.overlay_menu(d, ...)
+	local r = old_overlay_menu(d, ...)
+	if d and d.is_handy_config and G.OVERLAY_MENU then
+		G.OVERLAY_MENU.is_handy_config = true
+	end
+	Handy.UI.check_for_cleanup(true)
+	return r
+end
+local old_exit_overlay = G.FUNCS.exit_overlay_menu
+function G.FUNCS.exit_overlay_menu(...)
+	local r = old_exit_overlay(...)
+	Handy.UI.check_for_cleanup(true)
+	return r
+end
+
+G.FUNCS.handy_noop = function() end
+
+---
+
+Handy.load_files({
+	"utils.lua",
+	"assets.lua",
+	"components/index.lua",
+	"state_panel.lua",
+	"characters.lua",
+	"side_panel.lua",
+	"game_settings.lua",
+	"tutorial.lua",
+	"options.lua",
+}, "src/ui/")
 
 Handy.load_files({
 	"dictionary.lua",
@@ -78,39 +122,3 @@ Handy.load_files({
 	"mp_extension.lua",
 	"updater.lua",
 }, "src/ui/pages/")
-
-Handy.load_file("src/ui/options.lua")
-
---
-
-function Handy.UI.check_for_cleanup()
-	if (not G.OVERLAY_MENU or not G.OVERLAY_MENU.is_handy_config) and Handy.UI.data.opened then
-		Handy.UI.data = {}
-		G.E_MANAGER:clear_queue("handy_config")
-
-		Handy.__override_event_queue = nil
-		Handy.__use_gamespeed = nil
-	end
-end
-
-Handy.e_mitter.on("update", Handy.UI.check_for_cleanup)
-Handy.e_mitter.on("device_change", function()
-	Handy.UI.rerender(true)
-end)
-
-local old_overlay_menu = G.FUNCS.overlay_menu
-function G.FUNCS.overlay_menu(d, ...)
-	local r = old_overlay_menu(d, ...)
-	if d and d.is_handy_config and G.OVERLAY_MENU then
-		G.OVERLAY_MENU.is_handy_config = true
-	end
-	Handy.UI.check_for_cleanup()
-	return r
-end
-
-local old_exit_overlay = G.FUNCS.exit_overlay_menu
-function G.FUNCS.exit_overlay_menu(...)
-	local r = old_exit_overlay(...)
-	Handy.UI.check_for_cleanup()
-	return r
-end

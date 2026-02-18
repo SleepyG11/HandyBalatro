@@ -9,6 +9,12 @@ source = 'src/libs/nativefs.lua'
 before = 'main.lua'
 name = 'handy/nativefs'
 
+[[patches]]
+[patches.module]
+source = 'src/libs/json.lua'
+before = 'main.lua'
+name = 'handy/json'
+
 # Init
 [[patches]]
 [patches.copy]

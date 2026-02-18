@@ -1,27 +1,3 @@
-Handy.UI.CP = {}
-
-local load_atlas = function(asset)
-	local file_data =
-		assert(Handy.NFS.newFileData(asset.path), ("Failed to collect file data for Atlas %s"):format(asset.name))
-	local image_data =
-		assert(love.image.newImageData(file_data), ("Failed to initialize image data for Atlas %s"):format(asset.name))
-	local image = love.graphics.newImage(image_data, { mipmaps = true, dpiscale = G.SETTINGS.GRAPHICS.texture_scaling })
-
-	G.ASSET_ATLAS[asset.name] = {
-		name = asset.name,
-		image = image,
-		type = asset.type,
-		px = asset.px,
-		py = asset.py,
-	}
-end
-load_atlas({
-	name = "handy_mod_icon",
-	px = 32,
-	py = 32,
-	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/icon.png",
-})
-
 function Handy.UI.CP.logo(scale)
 	scale = scale or 1.2
 
@@ -132,7 +108,22 @@ function Handy.UI.CP.logo(scale)
 	}
 end
 
---
+---
+
+function Handy.UI.CP.r_sep(minh)
+	return {
+		n = G.UIT.R,
+		config = { minh = minh or 0.05 },
+	}
+end
+function Handy.UI.CP.c_sep(minw)
+	return {
+		n = G.UIT.C,
+		config = { minw = minw or 0.05 },
+	}
+end
+
+---
 
 function Handy.UI.CP.alert_definition(args)
 	args = args or {}
@@ -262,150 +253,4 @@ G.FUNCS.handy_setup_hover_popups = function(e)
 		return old_stop_hover(self, ...)
 	end
 	e.config.func = e.config.handy_func or "handy_noop"
-end
-
---
-
-function Handy.UI.CP.module_keybind_button(module, key, options, additional_options)
-	options = Handy.utils.table_shallow_merge({}, additional_options or {}, options or {})
-
-	local dangerous = options.dangerous
-	local rerender = Handy.UI.is_in_search_result_page or options.rerender
-	local disabled = options.disabled
-	local only_holdable = options.only_holdable
-	local only_safe = options.only_safe
-	local allow_multiple = options.allow_multiple
-
-	local can_bind_multiple = not not allow_multiple
-	-- or (allow_multiple == "advanced" and Handy.cc.advanced_mode.enabled)
-
-	local colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS
-	local button_text = Handy.L.keys(module[key])
-	local is_none = button_text == Handy.L.keys()
-
-	return {
-		n = G.UIT.C,
-		config = {
-			colour = colour,
-			minw = 3.3725,
-			maxw = 3.3725,
-			minh = 0.35,
-			maxh = 0.35,
-			padding = 0,
-			r = 0.075,
-			hover = true,
-			shadow = true,
-			align = "cm",
-			ref_table = {
-				module = module,
-				key = key,
-				rerender = rerender,
-				only_holdable = only_holdable,
-				only_safe = only_safe,
-				allow_multiple = allow_multiple,
-			},
-			focus_args = options.nav_wide and { nav = "wide", type = "handy_dictionary_item" }
-				or { type = "handy_dictionary_item" },
-			button = disabled and "handy_noop" or "handy_start_binding",
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
-		},
-		nodes = {
-			{
-				n = G.UIT.T,
-				config = {
-					text = button_text,
-					scale = 0.25,
-					colour = is_none and Handy.UI.C.NONE_KEYBIND or G.C.UI.TEXT_LIGHT,
-				},
-			},
-		},
-	}
-end
-G.FUNCS.handy_start_binding = function(e)
-	Handy.controller.binding.start_binding(e.config.ref_table, e)
-end
-
---
-
-function Handy.UI.change_ui_page(arg)
-	if arg.ref_table then
-		arg.ref_table[arg.ref_value] = arg.to_key
-	end
-	if G.OVERLAY_MENU then
-		-- G.UIT.O UIElement object basically
-		local object_container = G.OVERLAY_MENU:get_UIE_by_ID(arg.container_id)
-		if object_container then
-			if object_container.config.object then
-				object_container.config.object:remove()
-			end
-			object_container.config.object = UIBox({
-				-- regular definition (G.UIT.ROOT)
-				definition = arg.definition(arg.to_key),
-				config = {
-					offset = { x = 0, y = 0 },
-					parent = object_container,
-					align = "cm",
-				},
-			})
-			G.OVERLAY_MENU:recalculate()
-		end
-	end
-	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
-end
-G.FUNCS.handy_change_ui_page = function(arg)
-	Handy.UI.change_ui_page({
-		ref_table = arg.cycle_config.handy_ref_table,
-		ref_value = arg.cycle_config.handy_ref_value,
-		container_id = arg.cycle_config.handy_container_id,
-		definition = arg.cycle_config.handy_page_definition,
-		to_key = arg.to_key,
-	})
-end
-
---
-
-function Handy.UI.CP.r_sep(minh)
-	return {
-		n = G.UIT.R,
-		config = { minh = minh or 0.05 },
-	}
-end
-function Handy.UI.CP.c_sep(minw)
-	return {
-		n = G.UIT.C,
-		config = { minw = minw or 0.05 },
-	}
-end
-
---
-
-G.FUNCS.handy_noop = function() end
-
-G.FUNCS.handy_option_cycle_simple = function(e)
-	local callback = e.config.ref_table[e.config.ref_value]
-	if callback then
-		callback()
-	end
-end
-G.FUNCS.handy_option_cycle = function(arg)
-	arg.cycle_config.ref_table[arg.cycle_config.ref_value] = arg.to_key
-	Handy.config.request_save()
-	if arg.cycle_config.handy_callback then
-		arg.cycle_config.handy_callback(arg)
-	end
-end
-G.FUNCS.handy_slider = function(arg)
-	Handy.config.request_save()
-	if arg.handy_callback then
-		arg.handy_callback(arg)
-	end
-end
-local old_slider_descreet = G.FUNCS.slider_descreet
-G.FUNCS.slider_descreet = function(e, ...)
-	old_slider_descreet(e, ...)
-	local c = e.children[1]
-	local rt = c.config.ref_table
-	if rt.callback then
-		G.FUNCS[rt.callback](rt)
-	end
 end
