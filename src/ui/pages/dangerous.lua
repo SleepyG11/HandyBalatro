@@ -23,6 +23,7 @@ function Handy.UI.dangerous_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_sell_one),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_remove_one),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_mass_sell_remove_mode),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_sell_all_same),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_remove_all_same),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_sell_all),
@@ -47,7 +48,7 @@ function Handy.UI.dangerous_page_definition()
 	local result_tags_row = {}
 	for i = 1, 3 do
 		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, pseudoseed("handy_" .. math.random()))
-		for j = 1, 3 do
+		for j = 1, (i == 1 and 4 or 3) do
 			table.insert(result_tags_row, {
 				n = G.UIT.R,
 				config = { align = "cm" },
@@ -67,7 +68,7 @@ function Handy.UI.dangerous_page_definition()
 					n = G.UIT.C,
 					config = { padding = 0.1, r = 0.25, colour = { 0, 0, 0, 0.1 } },
 					nodes = {
-						{ n = G.UIT.C, config = { padding = 0.005 }, nodes = result_tags_row },
+						{ n = G.UIT.C, config = { padding = 0 }, nodes = result_tags_row },
 					},
 				},
 			},
@@ -175,7 +176,7 @@ function Handy.UI.dangerous_page_definition()
 								content,
 							},
 						},
-						Handy.UI.CP.r_sep(0.1),
+						Handy.UI.CP.r_sep(0.165),
 						{
 							n = G.UIT.R,
 							config = { align = "cm" },

@@ -728,6 +728,15 @@ return {
 					"{C:inactive}(bypasses all checks, no refund){}",
 				},
 			},
+			dangerous_actions_mass_sell_remove_mode = {
+				name = "Mass Sell/Remove mode",
+				text = {},
+				unlock = {
+					"Applied to controls",
+					"{C:mult}[Instant sell/remove all same]{}",
+					"and {C:mult}[Instant sell/remove ALL]{}",
+				},
+			},
 			dangerous_actions_sell_all_same = {
 				name = { "Instant sell all same" },
 				text = {},
@@ -1226,6 +1235,11 @@ return {
 				"Press to open",
 				"Press to open / Press again to close",
 				"Hold to open / Release to close",
+			},
+
+			handy_dangerous_actions_mass_sell_remove_mode = {
+				"Affect all cards",
+				"Affect all but target card",
 			},
 
 			handy_mp_extension_status_not_initialized = "Multiplayer Extension is NOT LOADED in this lobby",

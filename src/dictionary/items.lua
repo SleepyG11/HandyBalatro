@@ -1395,6 +1395,23 @@ l({
 			no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
 		},
 		{
+			key = "dangerous_actions_mass_sell_remove_mode",
+			get_module = function()
+				return Handy.cc.dangerous_actions_mass_sell_remove_mode
+			end,
+			dangerous = true,
+			option_cycle = {
+				get_values = function()
+					return {
+						options = {
+							Handy.L.dictionary("handy_dangerous_actions_mass_sell_remove_mode", 1),
+							Handy.L.dictionary("handy_dangerous_actions_mass_sell_remove_mode", 2),
+						},
+					}
+				end,
+			},
+		},
+		{
 			key = "dangerous_actions_sell_all_same",
 			keywords = { "quick instant mass sell in bulk all same copies card cards" },
 			checkbox = true,

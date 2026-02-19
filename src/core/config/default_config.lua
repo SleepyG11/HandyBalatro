@@ -513,6 +513,9 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	dangerous_actions_mass_sell_remove_mode = {
+		value = 1,
+	},
 	dangerous_actions_sell_all_same = {
 		enabled = false,
 		keys_1 = {},

@@ -194,9 +194,12 @@ Handy.dangerous_actions = {
 		end
 	end,
 	execute_card = function(card, remove, all_same, all)
+		local ignore_self = Handy.cc.dangerous_actions_mass_sell_remove_mode.value == 2
 		if all then
 			for _, target_card in ipairs(card.area.cards) do
-				Handy.dangerous_actions.process_card(target_card, remove)
+				if not ignore_self or target_card ~= card then
+					Handy.dangerous_actions.process_card(target_card, remove)
+				end
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
@@ -217,7 +220,9 @@ Handy.dangerous_actions = {
 			end
 
 			for _, target_card in ipairs(target_cards) do
-				Handy.dangerous_actions.process_card(target_card, remove)
+				if not ignore_self or target_card ~= card then
+					Handy.dangerous_actions.process_card(target_card, remove)
+				end
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
@@ -227,11 +232,14 @@ Handy.dangerous_actions = {
 		end
 	end,
 	execute_tag = function(tag, remove, all_same, all)
+		local ignore_self = Handy.cc.dangerous_actions_mass_sell_remove_mode.value == 2
 		local tags_list = (Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_tags) or {}).tags
 			or G.GAME.tags
 		if all then
 			for _, target_tag in ipairs(tags_list) do
-				Handy.dangerous_actions.process_tag(target_tag, true)
+				if not ignore_self or target_tag ~= tag then
+					Handy.dangerous_actions.process_tag(target_tag, true)
+				end
 			end
 			Handy.dangerous_actions.sell_next_card()
 			return true
@@ -239,7 +247,9 @@ Handy.dangerous_actions = {
 			local tag_key = tag.key
 			for _, target_tag in ipairs(tags_list) do
 				if target_tag.key == tag_key then
-					Handy.dangerous_actions.process_tag(target_tag, true)
+					if not ignore_self or target_tag ~= tag then
+						Handy.dangerous_actions.process_tag(target_tag, true)
+					end
 				end
 			end
 			Handy.dangerous_actions.sell_next_card()
