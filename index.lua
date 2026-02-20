@@ -44,17 +44,25 @@ end
 Handy.load_file("src/index.lua")
 
 -- TODO:
--- 0. controller for all this shit (god help me)
 -- 1. localization
--- 2. more pages (advanced, credits)
--- 3. maybe icons for menu buttons?
--- 4. decide should speed n animations preview work when mod is disabled
--- 10. touchscreen?
--- 11. fix doubletap in hand selection preview (somehow)
--- 12. override controller controls (somehow)
--- 16. cleanup insta actions code, goddamn
+-- 2. keywords
+-- 3. API for adding items to dictionary
+-- 4. Credits?
+-- 5. Cleanup code
+--- Insta actions
+--- UI
+-- 6. loading from archive
+-- 7. sprites loading
+-- 8. fix slider
+-- 9. cutting-edge technology: scrollbar for patchnotes
 
--- TODO: check controls (controller)
+-- TODO: controller
+-- 1. fix doubletap in hand selection preview (somehow)
+-- 2. touchscreen? (somehow)
+-- 3. override controller controls (somehow)
+-- 4. multiple buttons render?
+
+-- TODO: check controls (controller & touchscreen)
 -- hand selection - fix preview
 -- insta actions - complicated
 -- regular keybinds:
