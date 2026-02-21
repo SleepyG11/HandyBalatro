@@ -968,6 +968,7 @@ l({
 					},
 					keybind = {
 						allow_multiple = true,
+						only_safe = true,
 					},
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_reload_run, { Handy.D.dictionary.regular_keybinds }
@@ -982,6 +983,7 @@ l({
 					},
 					keybind = {
 						allow_multiple = true,
+						only_safe = true,
 					},
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_restart_game, { Handy.D.dictionary.regular_keybinds }

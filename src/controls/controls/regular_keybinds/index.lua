@@ -404,6 +404,7 @@ Handy.controls.register("regular_keybinds_quick_restart", {
 
 	require_exact_keys = true,
 	no_mp = true,
+	only_safe = true,
 
 	can_execute = function(self, args)
 		return G.STAGE == G.STAGES.RUN
@@ -461,6 +462,7 @@ Handy.controls.register("regular_keybinds_reload_run", {
 
 	require_exact_keys = true,
 	no_mp = true,
+	only_safe = true,
 
 	can_execute = function(self, args)
 		return not Handy.regular_keybinds.reload_run_blocker and Handy.controls.can_execute_control(self, args)
@@ -536,6 +538,7 @@ Handy.controls.register("regular_keybinds_restart_game", {
 
 	require_exact_keys = true,
 	no_mp = true,
+	only_safe = true,
 
 	execute = function()
 		Handy.utils.restart_game()
