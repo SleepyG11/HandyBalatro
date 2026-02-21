@@ -1479,6 +1479,20 @@ l({
 			end,
 			no_mp = true,
 		},
+		{
+			key = "dangerous_actions_stack_overflow",
+			keywords = { "crash game fuck you stack overflow" },
+			checkbox = true,
+			dangerous = true,
+			keybind = {
+				allow_multiple = true,
+				only_safe = true,
+			},
+			get_module = function(self)
+				return Handy.cc.dangerous_actions_stack_overflow
+			end,
+			no_mp = true,
+		},
 	},
 })
 -- l({

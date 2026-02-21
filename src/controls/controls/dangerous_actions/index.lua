@@ -273,3 +273,28 @@ Handy.controls.register("dangerous_actions_crash", {
 		return true
 	end,
 })
+Handy.controls.register("dangerous_actions_stack_overflow", {
+	get_module = function()
+		return Handy.cc.dangerous_actions_stack_overflow
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	dangerous = true,
+	only_safe = true,
+	no_mp = true,
+	require_exact_keys = true,
+
+	execute = function()
+		local t = {
+			a = 1,
+		}
+		t.b = t
+		Handy.utils.table_merge(t, t)
+		return true
+	end,
+})

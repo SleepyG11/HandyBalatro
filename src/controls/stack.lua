@@ -10,6 +10,7 @@ local input_layer = {
 	operator = "first",
 
 	stack = {},
+	dictionary = {},
 }
 local card_layer = {
 	layer = true,
@@ -19,6 +20,7 @@ local card_layer = {
 	operator = "first",
 
 	stack = {},
+	dictionary = {},
 }
 local tag_layer = {
 	layer = true,
@@ -28,6 +30,7 @@ local tag_layer = {
 	operator = "first",
 
 	stack = {},
+	dictionary = {},
 }
 local hold_layer = {
 	layer = true,
@@ -37,6 +40,7 @@ local hold_layer = {
 	operator = "first",
 
 	stack = {},
+	dictionary = {},
 }
 
 Handy.controls.global_layers = {
@@ -59,6 +63,7 @@ Handy.controls.global_layer = {
 		tag_layer,
 		hold_layer,
 	},
+	dictionary = Handy.controls.global_layers,
 }
 
 ---
@@ -70,15 +75,8 @@ function Handy.controls.crawl(path)
 			if not target_layer or not target_layer.layer then
 				return nil
 			end
-			local is_found = false
-			for _, item in ipairs(target_layer.stack) do
-				if item.key == part then
-					target_layer = item
-					is_found = true
-					break
-				end
-			end
-			if not is_found then
+			target_layer = target_layer.dictionary[part]
+			if not target_layer then
 				return nil
 			end
 		end
@@ -97,6 +95,7 @@ function Handy.controls.insert_into_stack(item, path)
 
 	item.parent = target_layer
 	table.insert(target_layer.stack, item)
+	target_layer.dictionary[item.key] = item
 
 	return item
 end
@@ -110,6 +109,7 @@ function Handy.controls.register_layer(layer)
 
 	layer.layer = true
 	layer.stack = layer.stack or {}
+	layer.dictionary = layer.dictionary or {}
 	layer.stack_path = layer.stack_path or ""
 
 	layer.operator = layer.operator or "all"

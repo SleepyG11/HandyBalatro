@@ -85,7 +85,7 @@ Handy.load_file("src/index.lua")
 -- 1. fix doubletap in hand selection preview (somehow)
 -- 2. touchscreen? (somehow)
 -- 3. override controller controls (somehow)
--- 4. multiple buttons render?
+-- 4. multiple buttons render? (somehow)
 
 -- TODO: check controls (controller & touchscreen)
 -- hand selection - fix preview

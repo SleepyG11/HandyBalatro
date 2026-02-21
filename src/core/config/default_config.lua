@@ -557,6 +557,13 @@ local default_config = {
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
+	dangerous_actions_stack_overflow = {
+		enabled = false,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 
 	-- Multiplayer Extension
 	mp_extension_enabled_default_value = {

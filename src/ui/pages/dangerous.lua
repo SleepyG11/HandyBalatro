@@ -29,6 +29,7 @@ function Handy.UI.dangerous_page_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_sell_all),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_remove_all),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_crash),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_stack_overflow),
 						},
 					},
 				},
@@ -48,7 +49,7 @@ function Handy.UI.dangerous_page_definition()
 	local result_tags_row = {}
 	for i = 1, 3 do
 		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, pseudoseed("handy_" .. math.random()))
-		for j = 1, (i == 1 and 4 or 3) do
+		for j = 1, (i == 2 and 3 or 4) do
 			table.insert(result_tags_row, {
 				n = G.UIT.R,
 				config = { align = "cm" },
@@ -176,7 +177,7 @@ function Handy.UI.dangerous_page_definition()
 								content,
 							},
 						},
-						Handy.UI.CP.r_sep(0.165),
+						Handy.UI.CP.r_sep(0.465),
 						{
 							n = G.UIT.R,
 							config = { align = "cm" },

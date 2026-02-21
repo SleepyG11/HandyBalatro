@@ -775,9 +775,15 @@ return {
 				name = { "Crash the game" },
 				text = {},
 				unlock = {
-					"{C:mult}Literally.{}",
-					" ",
-					"Can be used in any moment",
+					"{C:mult}Literally{}",
+				},
+			},
+			dangerous_actions_stack_overflow = {
+				name = { "Crash the game: Stack overflow" },
+				text = {},
+				unlock = {
+					"{C:mult}Literally{}",
+					"{C:mult}Game will freeze and/or exit itself{}",
 				},
 			},
 

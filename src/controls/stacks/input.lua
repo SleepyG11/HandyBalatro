@@ -307,6 +307,10 @@ c({
 	stack_path = "input.finish",
 })
 c({
+	key = "dangerous_actions_stack_overflow",
+	stack_path = "input.finish",
+})
+c({
 	key = "regular_keybinds_restart_game",
 	stack_path = "input.finish",
 })
