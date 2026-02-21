@@ -42,7 +42,7 @@ function Handy.load_files(files, prefix)
 	end
 end
 
-if true or not Handy.NFS.getInfo(Handy.PATH .. "/src") then
+if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 	local function normalize_path(path)
 		return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")
 	end
@@ -54,23 +54,12 @@ if true or not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 	local normalized_save_path = normalize_path(save_folder)
 	local normalized_mods_path = normalize_path(mods_folder)
 	local local_mod_folder = normalized_mod_path:sub(#normalized_save_path + 2)
-	local local_mods_folder = normalized_mods_path:sub(#normalized_save_path + 2)
+	local mod_folder = normalized_mod_path:sub(#normalized_mods_path + 2)
 
-	local os_prefix = os.time()
-	local new_local_path = local_mods_folder .. "/HandyBalatro_" .. os_prefix
+	local new_local_path = "__SMODS_MOUNTS__/" .. mod_folder
 
-	print(normalized_mod_path)
-	print(normalized_save_path)
-	print(normalized_mods_path)
-	print(local_mods_folder)
-	print(local_mod_folder)
-	print(new_local_path)
-
-	local mount_result = love.filesystem.mount(local_mod_folder, new_local_path)
-	print(mount_result)
+	love.filesystem.mount(local_mod_folder, new_local_path)
 	Handy.LOCAL_PATH = new_local_path
-
-	print(love.filesystem.getDirectoryItems(new_local_path))
 end
 
 Handy.JSON = Handy.load_file("src/libs/json.lua")
