@@ -6,10 +6,10 @@ local function calculate(deck, hand, jokers)
 		Handy.UI.utils.draw_from_to(deck, hand)
 	end
 	Handy.UI.utils.delay(1)
-	local total_triggers = 100
-	local current_trigger = 1
 	G.E_MANAGER:add_event(Event({
 		func = function()
+			local total_triggers = 48
+			local current_trigger = 1
 			local again = function(card)
 				Handy.UI.utils.card_eval_status_text(card, "extra", nil, 0.75, nil, {
 					message = localize("k_again_ex"),
@@ -49,6 +49,8 @@ local function calculate(deck, hand, jokers)
 			Handy.UI.utils.delay(0.75)
 			Handy.scoring_hold.create_hold_event(false, true)
 			Handy.UI.utils.delay(0.75)
+			total_triggers = 12
+			current_trigger = 1
 			for i, king in ipairs(hand.cards) do
 				if king.config.center.key == "m_gold" then
 					local juice = function(baron)
