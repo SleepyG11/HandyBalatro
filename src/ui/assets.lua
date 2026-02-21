@@ -1,14 +1,25 @@
--- TODO: properly insert them
-
-local load_atlas = function(asset)
-	local file_data =
-		assert(Handy.NFS.newFileData(asset.path), ("Failed to collect file data for Atlas %s"):format(asset.name))
+function Handy.UI.load_atlas(asset)
+	local asset_path = "assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/"
+	if Handy.LOCAL_PATH then
+		asset_path = Handy.LOCAL_PATH .. "/" .. asset_path
+		file_data = assert(
+			love.filesystem.newFileData(asset_path .. asset.path),
+			("Failed to collect file data for Atlas %s"):format(asset.key)
+		)
+	else
+		asset_path = Handy.PATH .. "/" .. asset_path
+		file_data = assert(
+			Handy.NFS.newFileData(asset_path("/") .. asset.path),
+			("Failed to collect file data for Atlas %s"):format(asset.key)
+		)
+	end
 	local image_data =
-		assert(love.image.newImageData(file_data), ("Failed to initialize image data for Atlas %s"):format(asset.name))
+		assert(love.image.newImageData(file_data), ("Failed to initialize image data for Atlas %s"):format(asset.key))
 	local image = love.graphics.newImage(image_data, { mipmaps = true, dpiscale = G.SETTINGS.GRAPHICS.texture_scaling })
 
-	G.ASSET_ATLAS[asset.name] = {
-		name = asset.name,
+	G.ASSET_ATLAS["handy_" .. asset.key] = {
+		key = "handy_" .. asset.key,
+		name = "handy_" .. asset.key,
 		image = image,
 		type = asset.type,
 		px = asset.px,
@@ -16,22 +27,23 @@ local load_atlas = function(asset)
 	}
 end
 
-load_atlas({
-	name = "handy_mod_icon",
-	px = 32,
-	py = 32,
-	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/icon.png",
-})
-
-load_atlas({
-	name = "handy_me",
-	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/me.png",
-	px = 109,
-	py = 142,
-})
-load_atlas({
-	name = "handy_me_joker",
-	path = Handy.PATH .. "/assets/" .. G.SETTINGS.GRAPHICS.texture_scaling .. "x/me_joker.png",
-	px = 71,
-	py = 95,
-})
+function Handy.UI.load_all_atlases()
+	Handy.UI.load_atlas({
+		key = "modicon",
+		px = 32,
+		py = 32,
+		path = "icon.png",
+	})
+	Handy.UI.load_atlas({
+		key = "me",
+		path = "me.png",
+		px = 109,
+		py = 142,
+	})
+	Handy.UI.load_atlas({
+		key = "me_joker",
+		path = "me_joker.png",
+		px = 71,
+		py = 95,
+	})
+end

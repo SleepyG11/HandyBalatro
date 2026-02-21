@@ -1,7 +1,7 @@
 function Handy.UI.CP.logo(scale)
 	scale = scale or 1.2
 
-	local tag_sprite = Sprite(0, 0, 1.205 * scale, 1.205 * scale, G.ASSET_ATLAS["handy_mod_icon"], { x = 0, y = 0 })
+	local tag_sprite = Sprite(0, 0, 1.205 * scale, 1.205 * scale, G.ASSET_ATLAS["handy_modicon"], { x = 0, y = 0 })
 	tag_sprite:define_draw_steps({
 		{ shader = "dissolve", shadow_height = 0.05 },
 		{ shader = "dissolve" },

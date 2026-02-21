@@ -69,6 +69,10 @@ if CardArea.handle_card_limit then
 	end
 end
 
+--
+
+Handy.UI.load_all_atlases()
+
 -- Mod is ready, lets start!
 
 Handy.e_mitter.emit("load")
