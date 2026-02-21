@@ -47,7 +47,7 @@ function Handy.load_files(files, prefix)
 	end
 end
 
-if true or not Handy.NFS.getInfo(Handy.PATH .. "/src") then
+if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 	local function normalize_path(path)
 		return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")
 	end
@@ -77,7 +77,6 @@ Handy.load_file("src/index.lua")
 -- 5. Cleanup code
 --- Insta actions
 --- UI
--- 6. loading from archive
 -- 7. sprites loading
 -- 8. fix slider
 -- 9. cutting-edge technology: scrollbar for patchnotes

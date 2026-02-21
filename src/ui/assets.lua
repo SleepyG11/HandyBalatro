@@ -9,7 +9,7 @@ function Handy.UI.load_atlas(asset)
 	else
 		asset_path = Handy.PATH .. "/" .. asset_path
 		file_data = assert(
-			Handy.NFS.newFileData(asset_path("/") .. asset.path),
+			Handy.NFS.newFileData(asset_path .. asset.path),
 			("Failed to collect file data for Atlas %s"):format(asset.key)
 		)
 	end

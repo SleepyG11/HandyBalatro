@@ -1260,6 +1260,8 @@ return {
 
 			handy_release_type_stable = "Stable",
 			handy_release_type_pre_release = "Pre-release",
+
+			handy_smods_compat_mode = "Compat mode: update SMODS to load mod from .zip archive properly!",
 		},
 	},
 }

@@ -195,10 +195,33 @@ function Handy.UI.get_config_tab_overall()
 		},
 	}
 
+	local compat_mode_message = nil
+	if SMODS and SMODS.Mods and not SMODS.Mods.Handy then
+		compat_mode_message = {
+			n = G.UIT.R,
+			config = {
+				align = "cm",
+				maxw = 9.5,
+			},
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = Handy.L.dictionary("handy_smods_compat_mode"),
+						scale = 0.35,
+						colour = Handy.UI.C.MP,
+						shadow = true,
+						maxw = 9.5,
+					},
+				},
+			},
+		}
+	end
+
 	return {
 		n = G.UIT.C,
 		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, minh = 5, minw = 5, r = 0.25 },
-		nodes = { logo, buttons, buttons_2 },
+		nodes = { logo, buttons, buttons_2, compat_mode_message },
 	}
 end
 function Handy.UI.overall_tab_UIBox()
