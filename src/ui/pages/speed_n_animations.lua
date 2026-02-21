@@ -6,7 +6,7 @@ local function calculate(deck, hand, jokers)
 		Handy.UI.utils.draw_from_to(deck, hand)
 	end
 	Handy.UI.utils.delay(1)
-	local total_triggers = 80
+	local total_triggers = 100
 	local current_trigger = 1
 	G.E_MANAGER:add_event(Event({
 		func = function()
@@ -24,7 +24,9 @@ local function calculate(deck, hand, jokers)
 					current_trigger = current_trigger + 1
 				end
 				local barons = function()
-					juice()
+					if king.config.center.key == "m_steel" then
+						juice()
+					end
 					for j, baron in ipairs(jokers.cards) do
 						if baron.config.center.key == "j_baron" then
 							juice(baron)
@@ -44,8 +46,38 @@ local function calculate(deck, hand, jokers)
 					end
 				end
 			end
-			Handy.UI.utils.delay(1.5)
+			Handy.UI.utils.delay(0.75)
 			Handy.scoring_hold.create_hold_event(false, true)
+			Handy.UI.utils.delay(0.75)
+			for i, king in ipairs(hand.cards) do
+				if king.config.center.key == "m_gold" then
+					local juice = function(baron)
+						Handy.UI.utils.card_eval_status_text(
+							king,
+							"dollars",
+							king.ability.h_dollars or 3,
+							current_trigger / total_triggers + 0.5
+						)
+						current_trigger = current_trigger + 1
+					end
+					local gold = function()
+						juice()
+					end
+					-- card itself: gold
+					gold()
+					-- red seals
+					again(king)
+					gold()
+					-- mimes
+					for i, mime in ipairs(jokers.cards) do
+						if mime.config.center.key == "j_mime" then
+							again(mime)
+							gold()
+						end
+					end
+				end
+			end
+			Handy.UI.utils.delay(0.75)
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					G.FUNCS.handy_speed_n_animations_stop_calculation(nil)
@@ -252,13 +284,14 @@ function Handy.UI.speed_n_animations_page_definition()
 					jokers_area:emplace(card)
 				end
 				for i = 1, 15 do
+					local center = ((i - 1) % 5) < 3 and G.P_CENTERS.m_steel or G.P_CENTERS.m_gold
 					local card1 = Card(
 						deck_area.VT.x + deck_area.VT.w / 2 - G.CARD_W / 2,
 						deck_area.VT.y,
 						G.CARD_W,
 						G.CARD_H,
 						G.P_CARDS.H_K,
-						G.P_CENTERS.m_steel,
+						center,
 						{
 							bypass_discovery_center = true,
 							bypass_discovery_ui = true,
