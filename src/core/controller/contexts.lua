@@ -373,8 +373,8 @@ local function create_move_context(dx, dy)
 		dx = dx,
 		dy = dy,
 
-		sdx = dx * (scale or 1),
-		sdy = dy * (scale or 1),
+		sdx = dx / (scale or 1),
+		sdy = dy / (scale or 1),
 	})
 end
 
