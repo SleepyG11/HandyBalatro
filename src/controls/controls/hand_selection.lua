@@ -112,6 +112,14 @@ Handy.controls.register("hand_selection_deselect_hand", {
 
 	can_execute = function(self, args)
 		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
+		local target_area = preview_area or G.hand
+		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local card_ctx = Handy.controller.card.get_context()
+		local card = card_ctx.hovered_current
+		-- Edge-case: when input mode is "on key release", prevent deselection if we hover a card in hand
+		if ctx and ctx.release and card and card.area and card.area == target_area then
+			return false
+		end
 		if preview_area then
 			if preview_area.highlighted[1] then
 				return Handy.controls.can_execute_control(self, {

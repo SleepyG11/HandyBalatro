@@ -94,3 +94,6 @@ Handy.load_file("src/index.lua")
 --- menus
 -- dangerous
 --- controller sensitivity
+
+-- TODO: plans for v2.1
+-- 1. keymapper
