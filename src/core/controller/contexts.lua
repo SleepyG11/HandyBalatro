@@ -302,7 +302,7 @@ end
 local function create_hold_context(dt, size, keep_alive)
 	size = size or 0
 
-	local context = PreventableContext.init({
+	return Handy.utils.table_shallow_merge(hold_context or create_empty_hold_context(), {
 		type = "hold",
 		hold = true,
 		none = not keep_alive and size == 0,
@@ -313,7 +313,6 @@ local function create_hold_context(dt, size, keep_alive)
 
 		keeped_alive = keep_alive and size == 0,
 	})
-	return context
 end
 
 hold_context = create_empty_hold_context()
@@ -366,7 +365,7 @@ local function create_move_context(dx, dy)
 	dx = dx or 0
 	dy = dy or 0
 	local scale = G.TILESCALE and G.TILESCALE * G.TILESIZE or nil
-	local context = PreventableContext.init({
+	return Handy.utils.table_shallow_merge(hold_context or create_empty_move_context(), {
 		type = "move",
 		move = true,
 		none = not scale or (dx == 0 and dy == 0),
@@ -377,7 +376,6 @@ local function create_move_context(dx, dy)
 		sdx = dx * (scale or 1),
 		sdy = dy * (scale or 1),
 	})
-	return context
 end
 
 move_context = create_empty_move_context()
