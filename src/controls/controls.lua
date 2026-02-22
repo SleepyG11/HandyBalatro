@@ -65,7 +65,48 @@ end
 
 ---
 
+function Handy.controls.resolve_control_context(item, args)
+	local ctx = Handy.controller.non_empty_context(args and args.ctx)
+	if not ctx then
+		return false, "empty_context"
+	end
+
+	if item.context_types then
+		local v = item.context_types[ctx.type]
+		if not v then
+			return false, "context_type_mismatch"
+		end
+		if type(v) == "table" then
+			if not ctx.input_type or not v[ctx.input_type] then
+				return false, "context_input_type_mismatch"
+			end
+		end
+	end
+	if ctx.input then
+		-- Back button (avoid usage of it, especially preventing)
+		if not item.allow_back and ctx.back then
+			return false, "back_button"
+		end
+		-- Non-safe button
+		if item.only_safe and not ctx.safe then
+			return false, "non_safe_button"
+		end
+		-- Non-holdable button
+		if item.only_holdable and not ctx.holdable then
+			return false, "non_holdable_button"
+		end
+		-- Check for press/release/trigger
+		if item.trigger and not ctx[item.trigger] then
+			return false, "trigger_mismatch"
+		end
+	end
+	return ctx
+end
+
 function Handy.controls.can_execute_control(item, args)
+	if type(item) == "string" then
+		item = Handy.controls.dictionary[item]
+	end
 	-- Cant execute nothing or non-executable
 	if not item then
 		return false, "no_item"
@@ -102,40 +143,11 @@ function Handy.controls.can_execute_control(item, args)
 		return false, "stop_use"
 	end
 
-	local ctx = args.ctx
-	if ctx then
-		if ctx:is_empty() then
-			return false, "empty_context"
-		end
-
-		if item.context_types then
-			local v = item.context_types[ctx.type]
-			if not v then
-				return false, "context_type_mismatch"
-			end
-			if type(v) == "table" then
-				if not ctx.input_type or not v[ctx.input_type] then
-					return false, "context_input_type_mismatch"
-				end
-			end
-		end
-		if ctx.input then
-			-- Back button (avoid usage of it, especially preventing)
-			if not item.allow_back and ctx.back then
-				return false, "back_button"
-			end
-			-- Non-safe button
-			if item.only_safe and not ctx.safe then
-				return false, "non_safe_button"
-			end
-			-- Non-holdable button
-			if item.only_holdable and not ctx.holdable then
-				return false, "non_holdable_button"
-			end
-			-- Check for press/release/trigger
-			if item.trigger and not ctx[item.trigger] then
-				return false, "trigger_mismatch"
-			end
+	local ctx, ctx_error = args.ctx, nil
+	if ctx and not args.allow_any_context then
+		ctx, ctx_error = Handy.controls.resolve_control_context(item, args)
+		if ctx_error then
+			return false, ctx_error
 		end
 	end
 
