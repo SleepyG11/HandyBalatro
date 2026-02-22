@@ -1,5 +1,6 @@
 Handy.hand_selection = {
 	first_card_highlighted = nil,
+	first_card_travel_distance = 0,
 
 	should_prevent_deselect = function()
 		return Handy.b_is_mod_active() and Handy.controls.is_module_enabled(Handy.cc.hand_selection)
@@ -16,6 +17,7 @@ Handy.controls.register("hand_selection_insta_highlight", {
 	context_types = {
 		input = true,
 		card = true,
+		move = true,
 	},
 
 	only_holdable = true,
@@ -27,44 +29,68 @@ Handy.controls.register("hand_selection_insta_highlight", {
 		if not ctx then
 			return false
 		end
+
 		if ctx.card and not ctx.hover then
 			return false
 		end
-		if ctx.input and (ctx.key == "Left Mouse" or ctx.key == "(A)") then
+		if ctx.input and (ctx.key == "Left Mouse" or ctx.key == "(A)" or Handy.cc.hand_selection_mode.value ~= 1) then
 			return false
+		end
+		if ctx.move then
+			if Handy.cc.hand_selection_mode.value == 2 then
+				if Handy.hand_selection.first_card_highlighted ~= nil then
+					return false
+				end
+				local ds = math.sqrt(ctx.sdx * ctx.sdx + ctx.sdy * ctx.sdy)
+				Handy.hand_selection.first_card_travel_distance = Handy.hand_selection.first_card_travel_distance + ds
+				if Handy.hand_selection.first_card_travel_distance < 0.1 then
+					return false
+				end
+			else
+				return false
+			end
 		end
 
 		local card_ctx = Handy.controller.card.get_context()
 		local card = card_ctx.target or card_ctx.hovered_current
 
-		if card and card.handy_insta_highlight_preview then
-			if not G.CONTROLLER.dragging.target then
-				return Handy.controls.can_execute_control(self, {
-					allow_not_in_run = true,
-					allow_stop_use = true,
-					allow_mod_inactive = true,
-					data = {
-						card = card,
-					},
-				})
+		if not card then
+			return false
+		end
+
+		if card.handy_insta_highlight_preview then
+			if
+				not (
+					not G.CONTROLLER.dragging.target
+					and Handy.controls.can_execute_control(self, {
+						allow_not_in_run = true,
+						allow_stop_use = true,
+						allow_mod_inactive = true,
+						ctx = ctx,
+					})
+				)
+			then
+				return false
 			end
 		else
 			if
-				G.STATE ~= G.STATES.HAND_PLAYED
-				and card
-				and card.area
-				and card.area.states
-				and card.area.states.visible
-				and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
-				and not G.CONTROLLER.dragging.target
+				not (
+					G.STATE ~= G.STATES.HAND_PLAYED
+					and card.area
+					and card.area.states
+					and card.area.states.visible
+					and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
+					and not G.CONTROLLER.dragging.target
+					and Handy.controls.can_execute_control(self, {
+						ctx = ctx,
+					})
+				)
 			then
-				return Handy.controls.can_execute_control(self, {
-					data = {
-						card = card,
-					},
-				})
+				return false
 			end
 		end
+
+		return true, { card = card }
 	end,
 	execute = function(self, args, data)
 		local card = data and data.card
@@ -90,10 +116,9 @@ Handy.controls.register("hand_selection_insta_highlight", {
 	end,
 
 	update = function(self, dt)
-		if Handy.hand_selection.first_card_highlighted ~= nil then
-			if not Handy.controls.is_module_keys_hold(Handy.cc.hand_selection_insta_highlight) then
-				Handy.hand_selection.first_card_highlighted = nil
-			end
+		if not Handy.controls.is_module_keys_hold(Handy.cc.hand_selection_insta_highlight) then
+			Handy.hand_selection.first_card_highlighted = nil
+			Handy.hand_selection.first_card_travel_distance = 0
 		end
 	end,
 })
@@ -105,7 +130,6 @@ Handy.controls.register("hand_selection_deselect_hand", {
 	context_types = {
 		input = true,
 	},
-	trigger = "trigger",
 
 	in_run = true,
 	no_stop_use = true,
@@ -115,46 +139,62 @@ Handy.controls.register("hand_selection_deselect_hand", {
 		if not ctx then
 			return false
 		end
-		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
-		local target_area = preview_area or G.hand
-		local card_ctx = Handy.controller.card.get_context()
-		local card = card_ctx.hovered_current
-		-- Edge-case: when input mode is "on key release", prevent deselection if we hover a card in hand
-		if ctx and ctx.release and card and card.area and card.area == target_area then
-			return false
+
+		if Handy.cc.hand_selection_mode.value == 2 then
+			if not ctx.release or Handy.hand_selection.first_card_highlighted ~= nil then
+				return false
+			end
+		else
+			if not ctx.trigger then
+				return false
+			end
+			local target_area = preview_area or G.hand
+			local card_ctx = Handy.controller.card.get_context()
+			local card = card_ctx.hovered_current
+			-- Edge-case: when input mode is "on key release", prevent deselection if we hover a card in hand
+			if ctx.release and card and card.area and card.area == target_area then
+				return false
+			end
 		end
+
+		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
+
 		if preview_area then
-			if preview_area.highlighted[1] then
-				return Handy.controls.can_execute_control(self, {
-					ctx = ctx,
-					allow_not_in_run = true,
-					allow_stop_use = true,
-					allow_mod_inactive = true,
-					allow_any_context = true,
-					data = {
-						area = preview_area,
-					},
-				})
+			if
+				not (
+					preview_area.highlighted[1]
+					and Handy.controls.can_execute_control(self, {
+						ctx = ctx,
+						allow_not_in_run = true,
+						allow_stop_use = true,
+						allow_mod_inactive = true,
+						allow_any_context = true,
+					})
+				)
+			then
+				return false
 			end
 		else
 			if
-				G.STATE ~= G.STATES.HAND_PLAYED
-				and G.hand
-				and G.hand.states.visible
-				and G.hand.highlighted[1]
-				and G.play
-				and G.play.cards
-				and #G.play.cards == 0
+				not (
+					G.STATE ~= G.STATES.HAND_PLAYED
+					and G.hand
+					and G.hand.states.visible
+					and G.hand.highlighted[1]
+					and G.play
+					and G.play.cards
+					and #G.play.cards == 0
+					and Handy.controls.can_execute_control(self, {
+						ctx = ctx,
+						allow_any_context = true,
+					})
+				)
 			then
-				return Handy.controls.can_execute_control(self, {
-					ctx = ctx,
-					allow_any_context = true,
-					data = {
-						area = G.hand,
-					},
-				})
+				return false
 			end
 		end
+
+		return true, { area = preview_area or G.hand }
 	end,
 	execute = function(self, args, data)
 		local area = data and data.area
@@ -181,25 +221,30 @@ Handy.controls.register("hand_selection_entire_f_hand", {
 	can_execute = function(self, args)
 		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
 		if preview_area then
-			return Handy.controls.can_execute_control(self, {
-				ctx = args and args.ctx,
-				allow_not_in_run = true,
-				allow_stop_use = true,
-				allow_mod_inactive = true,
-				data = {
-					area = preview_area,
-				},
-			})
-		else
-			if G.STATE ~= G.STATES.HAND_PLAYED and G.hand and G.hand.states.visible then
-				return Handy.controls.can_execute_control(self, {
+			if
+				not Handy.controls.can_execute_control(self, {
 					ctx = args and args.ctx,
-					data = {
-						area = G.hand,
-					},
+					allow_not_in_run = true,
+					allow_stop_use = true,
+					allow_mod_inactive = true,
 				})
+			then
+				return false
+			end
+		else
+			if
+				not (
+					G.STATE ~= G.STATES.HAND_PLAYED
+					and G.hand
+					and G.hand.states.visible
+					and Handy.controls.can_execute_control(self, args)
+				)
+			then
+				return false
 			end
 		end
+
+		return true, { area = preview_area or G.hand }
 	end,
 	execute = function(self, args, data)
 		local area = data and data.area

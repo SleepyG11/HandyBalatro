@@ -10,6 +10,9 @@ local examples = {
 			hand_selection = {
 				enabled = true,
 			},
+			hand_selection_mode = {
+				value = 2,
+			},
 			hand_selection_insta_highlight = {
 				enabled = true,
 

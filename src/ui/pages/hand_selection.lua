@@ -116,6 +116,7 @@ function Handy.UI.hand_selection_page_definition()
 						config = { align = "cm", r = 0.1 },
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection_mode),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hand_selection_insta_highlight),
 							Handy.UI.CP.dictionary_item(
 								Handy.D.dictionary.hand_selection_insta_highlight_allow_deselect

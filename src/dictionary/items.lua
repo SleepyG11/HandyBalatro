@@ -305,6 +305,23 @@ l({
 	group = true,
 	items = {
 		{
+			key = "hand_selection_mode",
+			option_cycle = {
+				get_values = function()
+					return {
+						options = {
+							"Handy",
+							"Better Mouse and Gamepad",
+						},
+					}
+				end,
+			},
+
+			get_module = function()
+				return Handy.cc.hand_selection_mode
+			end,
+		},
+		{
 			key = "hand_selection_insta_highlight",
 			keywords = { "swipe hover drag slide insta highlight quick" },
 			keybind = {

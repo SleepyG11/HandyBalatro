@@ -32,8 +32,6 @@ Handy.scoring_hold = {
 	end,
 }
 
--- TODO: use new hold thing
-
 Handy.controls.register("scoring_hold", {
 	get_module = function()
 		return Handy.cc.scoring_hold
@@ -44,12 +42,13 @@ Handy.controls.register("scoring_hold", {
 	can_execute = function(self, args)
 		if Handy.UI.data.speed_n_animations_preview then
 			return Handy.controls.can_execute_control(self, {
+				ctx = args and args.ctx,
 				allow_mod_inactive = true,
 			})
 		else
-			if G.STAGE == G.STAGES.RUN and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND) then
-				return Handy.controls.can_execute_control(self)
-			end
+			return G.STAGE == G.STAGES.RUN
+				and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND)
+				and Handy.controls.can_execute_control(self, args)
 		end
 	end,
 

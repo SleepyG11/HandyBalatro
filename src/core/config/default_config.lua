@@ -180,6 +180,9 @@ local default_config = {
 	hand_selection = {
 		enabled = true,
 	},
+	hand_selection_mode = {
+		value = 1,
+	},
 	hand_selection_insta_highlight = {
 		enabled = true,
 

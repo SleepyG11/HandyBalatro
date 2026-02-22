@@ -151,6 +151,15 @@ return {
 				name = "Hand selection & Deselection",
 				text = {},
 			},
+			hand_selection_mode = {
+				name = "Hand selection implementation",
+				text = {},
+				unlock = {
+					"Affects how some details of",
+					"{C:attention}hand selection{} and {C:attention}deselection{} works",
+					"{C:inactive}(to match implementation of other mod){}",
+				},
+			},
 			hand_selection_insta_highlight = {
 				name = { "Fast hand selection" },
 				text = {
