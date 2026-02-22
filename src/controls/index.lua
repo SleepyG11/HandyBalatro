@@ -12,6 +12,7 @@ Handy.load_files({
 	"card.lua",
 	"hold.lua",
 	"tag.lua",
+	"move.lua",
 }, "src/controls/stacks/")
 
 Handy.load_files({
@@ -41,3 +42,4 @@ Handy.e_mitter.on("controller_input", process_controller_context)
 Handy.e_mitter.on("controller_hold", process_controller_context)
 Handy.e_mitter.on("controller_card", process_controller_context)
 Handy.e_mitter.on("controller_tag", process_controller_context)
+Handy.e_mitter.on("controller_move", process_controller_context)

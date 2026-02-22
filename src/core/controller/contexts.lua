@@ -346,9 +346,68 @@ end
 
 ---
 
+local move_context
+
+local function create_empty_move_context()
+	local context = PreventableContext.init({
+		type = "move",
+		move = true,
+		none = true,
+
+		dx = 0,
+		dy = 0,
+
+		sdx = 0,
+		sdy = 0,
+	})
+	return context
+end
+local function create_move_context(dx, dy)
+	dx = dx or 0
+	dy = dy or 0
+	local scale = G.TILESCALE and G.TILESCALE * G.TILESIZE or nil
+	local context = PreventableContext.init({
+		type = "move",
+		move = true,
+		none = not scale or (dx == 0 and dy == 0),
+
+		dx = dx,
+		dy = dy,
+
+		sdx = dx * (scale or 1),
+		sdy = dy * (scale or 1),
+	})
+	return context
+end
+
+move_context = create_empty_move_context()
+
+local function get_move_context()
+	return move_context
+end
+local function set_move_context(ctx)
+	move_context = ctx or create_empty_move_context()
+	return move_context
+end
+
+local controller_move = {
+	get_context = get_move_context,
+	set_context = set_move_context,
+
+	create_empty_context = create_empty_move_context,
+	create_context = create_move_context,
+
+	update_context = function(dx, dy)
+		return set_move_context(create_move_context(dx, dy))
+	end,
+}
+
+---
+
 Handy.controller.input = controller_input
 Handy.controller.card = controller_card
 Handy.controller.tag = controller_tag
 Handy.controller.hold = controller_hold
+Handy.controller.move = controller_move
 
 Handy.controller.non_empty_context = non_empty_context

@@ -165,6 +165,21 @@ end
 
 ---
 
+function Handy.controller.process_move(x, y, dx, dy, istouch)
+	local ctx = Handy.controller.move.update_context(dx, dy)
+	if Handy.controller.non_empty_context(ctx) then
+		if not ctx:is_propagation_stopped() then
+			Handy.e_mitter.emit("controller_move", ctx)
+		end
+	end
+
+	local is_default_prevented = ctx:is_default_prevented()
+	Handy.controller.move.update_context()
+	return is_default_prevented
+end
+
+---
+
 Handy.e_mitter.on("update", function(dt)
 	Handy.controller.dp.update_console_opened()
 

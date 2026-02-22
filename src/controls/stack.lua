@@ -42,12 +42,23 @@ local hold_layer = {
 	stack = {},
 	dictionary = {},
 }
+local move_layer = {
+	layer = true,
+	global = true,
+	key = "move",
+	order = -1,
+	operator = "first",
+
+	stack = {},
+	dictionary = {},
+}
 
 Handy.controls.global_layers = {
 	input = input_layer,
 	card = card_layer,
 	tag = tag_layer,
 	hold = hold_layer,
+	move = move_layer,
 }
 Handy.controls.global_layer = {
 	layer = true,
@@ -62,6 +73,7 @@ Handy.controls.global_layer = {
 		card_layer,
 		tag_layer,
 		hold_layer,
+		move_layer,
 	},
 	dictionary = Handy.controls.global_layers,
 }

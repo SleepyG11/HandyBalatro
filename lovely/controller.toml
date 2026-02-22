@@ -49,6 +49,17 @@ if Handy.controller.process_keyboard_input(key, true) then return end
 match_indent = true
 overwrite = false
 
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousemoved(x, y, dx, dy, istouch)'''
+position = "after"
+payload = '''
+if Handy.controller.process_move(x, y, dx, dy, istouch) then return end
+'''
+match_indent = true
+overwrite = false
+
 # Handle card click
 [[patches]]
 [patches.pattern]
