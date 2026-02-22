@@ -49,7 +49,7 @@ Handy.insta_actions = {
 		if Handy.insta_actions.action_blocker then
 			return false
 		end
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local ctx = Handy.controls.resolve_control_context(item, args)
 		if not ctx then
 			return false
 		end
@@ -65,6 +65,7 @@ Handy.insta_actions = {
 				allow_not_in_run = is_preview_card,
 				allow_stop_use = is_preview_card,
 				allow_mod_inactive = is_preview_card,
+				allow_any_context = true,
 				ctx = ctx,
 			})
 		then

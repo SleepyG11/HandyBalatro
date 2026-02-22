@@ -81,13 +81,14 @@ Handy.move_highlight = {
 			return false
 		end
 
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local ctx = Handy.controls.resolve_control_context(item, args)
 		if
 			not ctx
 			or not Handy.controls.can_execute_control(item, {
 				allow_not_in_run = is_preview,
 				allow_mod_inactive = is_preview,
 				no_keybinds = true,
+				allow_any_context = true,
 				ctx = ctx,
 			})
 		then

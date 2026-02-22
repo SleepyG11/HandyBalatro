@@ -128,7 +128,7 @@ Handy.dangerous_actions = {
 	end,
 
 	can_execute = function(remove, all_same, all, item, args)
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local ctx = Handy.controls.resolve_control_context(item, args)
 		if not ctx then
 			return false
 		end
@@ -139,6 +139,7 @@ Handy.dangerous_actions = {
 				allow_no_stop_use = is_preview,
 				allow_mp = is_preview,
 				allow_not_in_run = is_preview,
+				allow_any_context = true,
 				ctx = ctx,
 				require_exact = true,
 			})

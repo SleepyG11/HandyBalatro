@@ -351,7 +351,7 @@ Handy.controls.register("regular_keybinds_restart", {
 	last_hold = 0,
 
 	can_execute = function(self, args)
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local ctx = Handy.controls.resolve_control_context(self, args)
 
 		local is_hold, hold_duration = Handy.controls.is_module_keys_hold(Handy.cc.regular_keybinds_restart)
 		if not is_hold or hold_duration < self.last_hold then
@@ -369,6 +369,7 @@ Handy.controls.register("regular_keybinds_restart", {
 			or (G.SETTINGS.paused and G.STATE ~= G.STATES.GAME_OVER)
 			or not Handy.controls.can_execute_control(self, {
 				ctx = ctx,
+				allow_any_context = true,
 				no_keybinds = true,
 			})
 		then

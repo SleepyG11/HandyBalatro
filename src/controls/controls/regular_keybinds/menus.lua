@@ -13,15 +13,11 @@ Handy.controls.register("regular_keybinds_run_info", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(
-			args and args.ctx,
-			"run_info_poker_hands",
-			function()
-				Handy.fake_events.execute({
-					func = G.FUNCS.run_info,
-				})
-			end
-		)
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "run_info_poker_hands", function()
+			Handy.fake_events.execute({
+				func = G.FUNCS.run_info,
+			})
+		end)
 	end,
 })
 Handy.controls.register("regular_keybinds_run_info_binds", {
@@ -39,7 +35,7 @@ Handy.controls.register("regular_keybinds_run_info_binds", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(args and args.ctx, "run_info_blinds", function()
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "run_info_blinds", function()
 			Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
 			Handy.fake_events.execute({
 				func = G.FUNCS.run_info,
@@ -105,7 +101,7 @@ Handy.controls.register("regular_keybinds_view_deck", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(args and args.ctx, "deck", function()
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "deck", function()
 			Handy.fake_events.execute({
 				func = G.FUNCS.deck_info,
 			})
@@ -130,7 +126,7 @@ Handy.controls.register("regular_keybinds_view_lobby_info", {
 			and Handy.controls.can_execute_control(self, args)
 	end,
 	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(args and args.ctx, "lobby_info", function()
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "lobby_info", function()
 			Handy.fake_events.execute({
 				func = G.FUNCS.lobby_info,
 			})

@@ -23,7 +23,7 @@ Handy.controls.register("hand_selection_insta_highlight", {
 	no_stop_use = true,
 
 	can_execute = function(self, args)
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+		local ctx = Handy.controls.resolve_control_context(self, args)
 		if not ctx then
 			return false
 		end
@@ -111,9 +111,12 @@ Handy.controls.register("hand_selection_deselect_hand", {
 	no_stop_use = true,
 
 	can_execute = function(self, args)
+		local ctx = Handy.controls.resolve_control_context(self, args)
+		if not ctx then
+			return false
+		end
 		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
 		local target_area = preview_area or G.hand
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
 		local card_ctx = Handy.controller.card.get_context()
 		local card = card_ctx.hovered_current
 		-- Edge-case: when input mode is "on key release", prevent deselection if we hover a card in hand
@@ -123,10 +126,11 @@ Handy.controls.register("hand_selection_deselect_hand", {
 		if preview_area then
 			if preview_area.highlighted[1] then
 				return Handy.controls.can_execute_control(self, {
-					ctx = args and args.ctx,
+					ctx = ctx,
 					allow_not_in_run = true,
 					allow_stop_use = true,
 					allow_mod_inactive = true,
+					allow_any_context = true,
 					data = {
 						area = preview_area,
 					},
@@ -143,7 +147,8 @@ Handy.controls.register("hand_selection_deselect_hand", {
 				and #G.play.cards == 0
 			then
 				return Handy.controls.can_execute_control(self, {
-					ctx = args and args.ctx,
+					ctx = ctx,
+					allow_any_context = true,
 					data = {
 						area = G.hand,
 					},
