@@ -48,6 +48,8 @@ function Handy.UI.updater_release_definition(release_type)
 				n = G.UIT.R,
 				config = {
 					align = "cm",
+					maxw = 12,
+					minh = 0.525,
 				},
 				nodes = {
 					{
@@ -57,6 +59,7 @@ function Handy.UI.updater_release_definition(release_type)
 							scale = 0.5,
 							colour = G.C.UI.TEXT_LIGHT,
 							shadow = true,
+							maxw = 12,
 						},
 					},
 				},
