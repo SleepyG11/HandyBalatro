@@ -102,7 +102,7 @@ Handy.controls.register("scoring_hold", {
 			local can_display_score = can_display
 				and G.GAME
 				and G.GAME.current_round
-				and G.GAME.current_round.current_hand.chip_total > 0
+				and to_big(G.GAME.current_round.current_hand.chip_total) > to_big(0)
 			if state.items.scoring_hold_score and not (new_value and can_display_score) then
 				state.items.scoring_hold_score = nil
 				r = true

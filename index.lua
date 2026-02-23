@@ -14,7 +14,7 @@ Handy = setmetatable({
 	PATH = Handy_main_file_path,
 	LOCAL_PATH = nil,
 
-	version = "2.0.0~ALPHA-7",
+	version = "2.0.0~ALPHA-7a",
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
