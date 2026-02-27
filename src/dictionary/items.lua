@@ -332,6 +332,10 @@ l({
 			get_module = function(self)
 				return Handy.cc.hand_selection_insta_highlight, { Handy.D.dictionary.hand_selection }
 			end,
+
+			mods_deps = {
+				["BetterMouseAndGamepad"] = "conflict",
+			},
 		},
 		{
 			key = "hand_selection_insta_highlight_allow_deselect",
@@ -342,6 +346,9 @@ l({
 				return Handy.cc.hand_selection_insta_highlight_allow_deselect,
 					{ Handy.D.dictionary.hand_selection, Handy.D.dictionary.hand_selection_insta_highlight }
 			end,
+			mods_deps = {
+				["BetterMouseAndGamepad"] = "conflict",
+			},
 		},
 		{
 			key = "hand_selection_combine_select_deselect",
@@ -352,6 +359,9 @@ l({
 				return Handy.cc.hand_selection_combine_select_deselect,
 					{ Handy.D.dictionary.hand_selection, Handy.D.dictionary.hand_selection_insta_highlight }
 			end,
+			mods_deps = {
+				["BetterMouseAndGamepad"] = "conflict",
+			},
 		},
 		{
 			key = "hand_selection_deselect_hand",
@@ -1125,6 +1135,9 @@ l({
 					checkbox = {
 						advanced = true,
 					},
+					mods_deps = {
+						["NotJustYet"] = "required",
+					},
 				},
 				{
 					key = "regular_keybinds_start_fantoms_preview",
@@ -1138,6 +1151,9 @@ l({
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.D.dictionary.regular_keybinds }
 					end,
+					mods_deps = {
+						["Multiplayer"] = "required",
+					},
 				},
 			},
 		},
@@ -1309,6 +1325,9 @@ l({
 					},
 					checkbox = {
 						advanced = true,
+					},
+					mods_deps = {
+						["Multiplayer"] = "required",
 					},
 				},
 			},

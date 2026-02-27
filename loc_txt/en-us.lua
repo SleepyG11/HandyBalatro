@@ -935,30 +935,40 @@ return {
 					"{C:mult}This control is disabled on {}{C:attention}Gamepad{}",
 				},
 			},
+			missing_req_mods = {
+				text = {
+					"This control require other mods to work:",
+				},
+			},
+			conflict_mods = {
+				text = {
+					"This control is inactive due to other mods:",
+				},
+			},
 			mp_lobby_require_all_hint = {
 				text = {
 					"All listed lobby settings have effect only when",
 					"{C:attention}ALL{} lobby members have {C:chips}Handy v2.0{} or newer installed",
 				},
 			},
-            better_mouse_and_gamepad_in_hand_selection = {
-                text = {
-                    "{C:mult,s:1.5}Ooopsie...{}",
-                    " ",
-                    "Looks like {C:attention}Better Mouse and Gamepad{} is installed.",
-                    "I have 2 news for you: {C:mult}Bad{} and {C:green}Good{}.",
-                    " ",
-                    "{C:mult}Bad news{} is {C:attention}BMaG{} overrides {C:chips}Handy{}'s hand selection entirely",
-                    'and options in it like "Mouse 3 for Esc" basically remaps buttons',
-                    'which, in theory, can lead to unintented behaviour.',
-                    " ",
-                    "{C:green}Good news{} is {C:chips}Handy{} has {C:inactive,s:0.75}almost{} all controls implemented from it",
-                    "so you can uninstall {C:attention}BMaG{} and don't lose anything.",
-                    " ",
-                    "Or, you can continue use {C:attention}both mods{} and all should be fine.",
-                    "{s:0.8}Despite me not liking it, who am I to tell you which mods to use?{}"
-                }
-            }
+			better_mouse_and_gamepad_in_hand_selection = {
+				text = {
+					"{C:mult,s:1.5}Ooopsie...{}",
+					" ",
+					"Looks like {C:attention}Better Mouse and Gamepad{} is installed.",
+					"I have 2 news for you: {C:mult}Bad{} and {C:green}Good{}.",
+					" ",
+					"{C:mult}Bad news{} is {C:attention}BMaG{} overrides {C:chips}Handy{}'s hand selection entirely",
+					"and breaks input for buttons such as",
+					"{C:chips}[Wheel Up/Down]{}, {C:chips}[Mouse 3]{}, {C:chips}[Right Mouse]{} and more.",
+					" ",
+					"{C:green}Good news{} is {C:chips}Handy{} has {C:inactive,s:0.75}almost{} all controls implemented from it",
+					"so you can uninstall {C:attention}BMaG{} and don't lose anything.",
+					" ",
+					"Or, you can continue use {C:attention}both mods{} and mostly you're fine.",
+					"{s:0.8}Despite me not liking it, who am I to tell you which mods to use?{}",
+				},
+			},
 		},
 	},
 	misc = {

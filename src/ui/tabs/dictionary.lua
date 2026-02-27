@@ -316,15 +316,44 @@ local function is_deps_resolved(item, quick)
 	end
 	return not is_missing, missing_list
 end
+local function is_mods_deps_resolved(item, quick)
+	if not item.mods_deps then
+		return true, {}, {}
+	end
 
--- this function is so ass, but it works ig
+	local missing_reqs = {}
+	local conflicts = {}
+	for mod, operator in pairs(item.mods_deps) do
+		local mod_object = SMODS and SMODS.Mods and (SMODS.Mods[mod] or {})
+		local value = mod_object.can_load or false
+		local name = mod_object.name or mod
+		if type(operator) == "function" then
+			value, operator, name = operator()
+		end
+		if operator == "required" and not value then
+			table.insert(missing_reqs, { id = mod, name = name })
+			if quick then
+				return false
+			end
+		elseif operator == "conflict" and value then
+			table.insert(conflicts, { id = mod, name = name })
+			if quick then
+				return false
+			end
+		end
+	end
+	return #missing_reqs == 0 and #conflicts == 0, missing_reqs, conflicts
+end
+
+-- this function is SO ASS, but it works ig
+-- I definitely need to optimize it, later
 G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	local item = e.config.handy_item
 	if not e.handy_alert_popup_setup then
 		e.handy_alert_popup_setup = true
 
 		local module, deps = item:get_module()
-		if not deps and not item.dangerous and not item.no_mp and not item.no_gamepad then
+		if not (deps or item.dangerous or item.no_mp or item.no_gamepad or item.mods_deps) then
 			e.config.func = nil
 			return
 		end
@@ -394,6 +423,65 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 						table.insert(lines.nodes, l)
 					end
 				end
+
+				local is_mods_resolved, missing_reqs, conflicts = is_mods_deps_resolved(item)
+				if not is_mods_resolved then
+					if missing_reqs and #missing_reqs > 0 then
+						local lines_col = Handy.L.description("Handy_Other", "missing_req_mods", {
+							align = "cm",
+						})
+						for _, req in ipairs(missing_reqs) do
+							table.insert(lines_col.nodes, {
+								n = G.UIT.R,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = req.name,
+											scale = 0.32,
+											colour = G.C.CHIPS,
+										},
+									},
+								},
+							})
+						end
+						if #lines.nodes > 0 then
+							table.insert(lines.nodes, { n = G.UIT.R, config = { minh = 0.32 } })
+						end
+						for _, l in ipairs(lines_col.nodes) do
+							table.insert(lines.nodes, l)
+						end
+					end
+					if conflicts and #conflicts > 0 then
+						local lines_col = Handy.L.description("Handy_Other", "conflict_mods", {
+							align = "cm",
+						})
+						for _, req in ipairs(conflicts) do
+							table.insert(lines_col.nodes, {
+								n = G.UIT.R,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.T,
+										config = {
+											text = req.name,
+											scale = 0.32,
+											colour = G.C.RED,
+										},
+									},
+								},
+							})
+						end
+						if #lines.nodes > 0 then
+							table.insert(lines.nodes, { n = G.UIT.R, config = { minh = 0.32 } })
+						end
+						for _, l in ipairs(lines_col.nodes) do
+							table.insert(lines.nodes, l)
+						end
+					end
+				end
+
 				if #lines.nodes > 0 then
 					self.children.handy_h_popup = UIBox(Handy.UI.CP.popup_render(self, lines))
 				end
@@ -413,7 +501,8 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 
 	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
 	local is_gamepad_fail = item.no_gamepad and Handy.controller.is_gamepad()
-	local is_fail = is_mp_fail or is_gamepad_fail or not is_deps_resolved(item, true)
+	local is_mods_fail = item.mods_deps and not is_mods_deps_resolved(item, true)
+	local is_fail = is_mods_fail or is_mp_fail or is_gamepad_fail or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil
