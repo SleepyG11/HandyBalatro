@@ -28,7 +28,7 @@ Handy.regular_keybinds = {
 		end
 	end,
 	open_or_close_swappable_overlay = function(item, args, key, func)
-		ctx = Handy.controls.non_empty_context(args and args.ctx)
+		ctx = Handy.controller.non_empty_context(args and args.ctx)
 		if not ctx or not ctx.input then
 			return false
 		end
