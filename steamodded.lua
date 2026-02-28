@@ -15,47 +15,20 @@ if not SMODS or not SMODS.current_mod then
 	return
 end
 
-if SMODS.current_mod.path then
-	local function normalize_path(path)
-		return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")
-	end
-
-	local function resolve_path(base, path)
-		base = normalize_path(base)
-		path = normalize_path(path)
-		if path:sub(1, #base) == base then
-			return path
-		end
-		local suffix = path:match("^[^/]+/(.+)")
-		if suffix then
-			return base .. "/" .. suffix
-		end
-		return base .. "/" .. path
-	end
-
-	local mod_folder = require("lovely").mod_dir
-	local normalized_path = resolve_path(mod_folder, SMODS.current_mod.path)
-	local last = normalized_path:match("/([^/]+)$")
-	local correct_path = normalize_path(mod_folder) .. "/" .. last
-	if normalized_path ~= correct_path then
-		error(string.format(
-			[[
+if not Handy then
+	error([[
 
 
 Handy mod installed incorrectly.
 
-Right now it's placed in %s, which is called "Nested folder".
-To make it work properly, move mentioned folder in %s,
-so result mod directory should be %s
-]],
-			normalized_path,
-			normalize_path(mod_folder),
-			correct_path
-		))
-	end
+To fix this, do one of the followings:
+- Update Lovely to 0.9.0 or newer
+- Make sure mod is not "nested" (folder in folder), like "/Mods/HandyBalatro/HandyBalatro"
+- Optionally, if mod in .zip archive, unzip it
+]])
 end
 
-if not Handy or Handy.current_mod then
+if Handy.current_mod then
 	return
 end
 

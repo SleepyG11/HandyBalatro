@@ -249,7 +249,7 @@ local function unzip_archive()
 		success = true,
 	}
 end
-local function replace_mod(mod_path)
+local function replace_mod(mod_path, mod_local_path, mod_local_real_path, new_mod_path)
 	local appdata_dir = love.filesystem.getSaveDirectory()
 	local temp_dir = appdata_dir .. "/" .. temp_folder
 
@@ -259,16 +259,22 @@ local function replace_mod(mod_path)
 	if mod_folder then
 		-- delete backup
 		recursivelyDelete(temp_dir .. "/" .. stored_folder)
+		-- unmount current
+		if mod_local_real_path and not new_mod_path then
+			love.filesystem.unmount(mod_local_real_path)
+		end
 		-- rename current -> backup
-		local backup_success = os.rename(mod_path, temp_dir .. "/" .. stored_folder)
+		local backup_success = os.rename(new_mod_path or mod_path, temp_dir .. "/" .. stored_folder)
 		if not backup_success then
 			return {
 				success = false,
 				message = "cannot_move_files",
 			}
 		end
+		-- remove file extension if it's present (mainly to remove .zip part)
+		local destination = (new_mod_path or mod_path):gsub("%.%w+$", "")
 		-- rename unzip -> current
-		local replace_success = os.rename(unzipped_dir .. "/" .. mod_folder, mod_path)
+		local replace_success = os.rename(unzipped_dir .. "/" .. mod_folder, destination)
 		if not replace_success then
 			return {
 				success = false,
@@ -279,6 +285,7 @@ local function replace_mod(mod_path)
 		NFS.remove(temp_dir .. "/" .. unzip_folder)
 		return {
 			success = true,
+			new_mod_path = destination,
 		}
 	end
 
@@ -316,7 +323,8 @@ end
 				goto continue
 			end
 			if event.replace_mod then
-				local data = replace_mod(event.mod_path)
+				local data =
+					replace_mod(event.mod_path, event.mod_local_path, event.mod_local_real_path, event.new_mod_path)
 				data.replace_mod_complete = true
 				https_output:push(data)
 				goto continue
@@ -351,13 +359,15 @@ end
 				end
 
 				https_output:push({ install_update_progress = true, message = "installing_files" })
-				local replace = replace_mod(event.mod_path)
+				local replace =
+					replace_mod(event.mod_path, event.mod_local_path, event.mod_local_real_path, event.new_mod_path)
 				if not replace.success then
 					https_output:push({ install_update_error = true, message = replace.message })
 					goto continue
 				end
 
-				https_output:push({ install_update_success = true })
+				https_output:push({ install_update_success = true, new_mod_path = replace.new_mod_path })
+				goto continue
 			end
 		end
 		::continue::

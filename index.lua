@@ -12,9 +12,9 @@ Handy = setmetatable({
 	JSON = JSON or json or require("handy/json"),
 	---@diagnostic disable-next-line: undefined-global
 	PATH = Handy_main_file_path,
+	NEW_PATH = nil,
 	LOCAL_PATH = nil,
-
-	version = "2.0.0~ALPHA-7b",
+	LOCAL_REAL_PATH = nil,
 
 	meta = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
@@ -62,10 +62,38 @@ if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 	local mod_folder = normalized_mod_path:sub(#normalized_mods_path + 2)
 
 	local new_local_path = "__SMODS_MOUNTS__/" .. mod_folder
-
 	love.filesystem.mount(local_mod_folder, new_local_path)
+
+	if not love.filesystem.getInfo(new_local_path .. "/src") then
+		local found = false
+		local folders = love.filesystem.getDirectoryItems(new_local_path)
+		for _, folder in ipairs(folders) do
+			if love.filesystem.getInfo(new_local_path .. "/" .. folder .. "/src") then
+				found = true
+				new_local_path = new_local_path .. "/" .. folder
+				break
+			end
+		end
+		if not found then
+			error([[
+
+
+Handy mod installed incorrectly.
+
+To fix this, do one of the followings:
+- Update Lovely to 0.9.0 or newer
+- Make sure mod is not "nested" (folder in folder), like "/Mods/HandyBalatro/HandyBalatro"
+- Optionally, if mod in .zip archive, unzip it
+]])
+		end
+	end
+
+	Handy.LOCAL_REAL_PATH = local_mod_folder
 	Handy.LOCAL_PATH = new_local_path
 end
+
+Handy.mod_metadata = Handy.JSON.decode(Handy.read_file("metadata.json"))
+Handy.version = Handy.mod_metadata.version
 
 Handy.load_file("src/index.lua")
 

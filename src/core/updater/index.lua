@@ -42,6 +42,9 @@ local function replace_mod(callback)
 	send_to_updater({
 		replace_mod = true,
 		mod_path = Handy.PATH,
+		mod_local_path = Handy.LOCAL_PATH,
+		mod_local_real_path = Handy.LOCAL_REAL_PATH,
+		new_mod_path = Handy.NEW_PATH,
 	}, "replace_mod_complete", callback)
 end
 
@@ -225,6 +228,7 @@ Handy.updater = {
 				elseif event.install_update_success then
 					Handy.e_mitter.off("update", "handy_updater")
 					Handy.updater.installed_update = release_type
+					Handy.NEW_PATH = event.new_mod_path
 					exit()
 				end
 			end
@@ -237,6 +241,9 @@ Handy.updater = {
 			release_type = release_type,
 			use_smods = SMODS and true or false,
 			mod_path = Handy.PATH,
+			mod_local_path = Handy.LOCAL_PATH,
+			mod_local_real_path = Handy.LOCAL_REAL_PATH,
+			new_mod_path = Handy.NEW_PATH,
 		})
 	end,
 
