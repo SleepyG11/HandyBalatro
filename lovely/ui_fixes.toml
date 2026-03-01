@@ -114,3 +114,23 @@ pattern = '''if hook.children[i].config and hook.children[i].config.id:sub(1, 7)
 position = 'at'
 payload = '''if hook.children[i].config and hook.children[i].config.id:sub(1, 8+string.len(G.CONTROLLER.text_input_id)) == G.CONTROLLER.text_input_id..'_letter_' and hook.children[i].config.text ~= '' then'''
 match_indent = true
+
+# Prevent button pip crash
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local BUTTON_SPRITE = Sprite(0,0,args.scale or 0.45,args.scale or 0.45,G.ASSET_ATLAS["gamepad_ui"],'''
+position = "before"
+payload = '''
+if not args.button or not button_sprite_map[args.button] then
+    return {
+        n = G.UIT.ROOT,
+        config = { align = "cm", colour = G.C.CLEAR },
+        nodes = {
+            { n = G.UIT.O, config = { object = Moveable() } },
+        },
+    }
+end
+'''
+match_indent = true
+overwrite = false

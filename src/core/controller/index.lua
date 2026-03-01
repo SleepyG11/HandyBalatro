@@ -9,6 +9,7 @@ Handy.load_files({
 	"debugplus.lua",
 	"binding.lua",
 	"device.lua",
+	"gamepad.lua",
 }, "src/core/controller/")
 
 ---
