@@ -25,6 +25,13 @@ function PreventableContext:init()
 	return self
 end
 
+local function update_context_data(old_ctx, new_data)
+	return Handy.utils.table_shallow_merge(old_ctx, new_data or {}, {
+		default_prevented = false,
+		propagation_stopped = false,
+	})
+end
+
 ---
 
 local input_context
@@ -302,7 +309,7 @@ end
 local function create_hold_context(dt, size, keep_alive)
 	size = size or 0
 
-	return Handy.utils.table_shallow_merge(hold_context or create_empty_hold_context(), {
+	return update_context_data(hold_context or create_empty_hold_context(), {
 		type = "hold",
 		hold = true,
 		none = not keep_alive and size == 0,
@@ -312,9 +319,6 @@ local function create_hold_context(dt, size, keep_alive)
 		holded_size = size,
 
 		keeped_alive = keep_alive and size == 0,
-
-		default_prevented = false,
-		propagation_stopped = false,
 	})
 end
 
@@ -368,7 +372,7 @@ local function create_move_context(dx, dy)
 	dx = dx or 0
 	dy = dy or 0
 	local scale = G.TILESCALE and G.TILESCALE * G.TILESIZE or nil
-	return Handy.utils.table_shallow_merge(hold_context or create_empty_move_context(), {
+	return update_context_data(hold_context or create_empty_move_context(), {
 		type = "move",
 		move = true,
 		none = not scale or (dx == 0 and dy == 0),
@@ -378,9 +382,6 @@ local function create_move_context(dx, dy)
 
 		sdx = dx / (scale or 1),
 		sdy = dy / (scale or 1),
-
-		default_prevented = false,
-		propagation_stopped = false,
 	})
 end
 
