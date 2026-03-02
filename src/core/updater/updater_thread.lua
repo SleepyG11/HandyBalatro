@@ -3,7 +3,7 @@ require("love.filesystem")
 sendDebugMessage = sendDebugMessage or function() end
 arg = args or {}
 
-local json = require("handy/json")
+local JSON = require("handy/json")
 local NFS = require("handy/nativefs")
 
 local temp_folder = "Handy_UpdaterTempFiles"
@@ -89,7 +89,7 @@ local function get_latest_releases(use_smods)
 	end
 	if code == 200 then
 		local success, body = pcall(function()
-			return json.decode(response)
+			return JSON.decode(response)
 		end)
 
 		if not success then
@@ -130,7 +130,7 @@ local function get_latest_releases(use_smods)
 
 			if code == 200 then
 				local success, body = pcall(function()
-					return json.decode(response)
+					return JSON.decode(response)
 				end)
 
 				if success then
