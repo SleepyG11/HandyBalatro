@@ -122,7 +122,7 @@ function Handy.UI.utils.attention_text(args)
 	args.text = args.text or "test"
 	args.scale = args.scale or 1
 	args.colour = copy_table(args.colour or G.C.WHITE)
-	args.hold = (args.hold or 0) + 0.1
+	args.hold = (args.hold or 0) + (G.HANDY_REAL_SPEEDFACTOR or G.SPEEDFACTOR) * 0.1
 	args.pos = args.pos or { x = 0, y = 0 }
 	args.align = args.align or "cm"
 	args.emboss = args.emboss or nil

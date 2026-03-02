@@ -1,5 +1,6 @@
 Handy.load_files({
 	"logic.lua",
+	"hooks.lua",
 }, "src/controls/controls/speed_multiplier/")
 
 ---
