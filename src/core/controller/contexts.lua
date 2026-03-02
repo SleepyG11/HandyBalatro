@@ -312,6 +312,9 @@ local function create_hold_context(dt, size, keep_alive)
 		holded_size = size,
 
 		keeped_alive = keep_alive and size == 0,
+
+		default_prevented = false,
+		propagation_stopped = false,
 	})
 end
 
@@ -375,6 +378,9 @@ local function create_move_context(dx, dy)
 
 		sdx = dx / (scale or 1),
 		sdy = dy / (scale or 1),
+
+		default_prevented = false,
+		propagation_stopped = false,
 	})
 end
 
