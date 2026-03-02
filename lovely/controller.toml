@@ -125,14 +125,14 @@ end
 match_indent = true
 overwrite = false
 
-# Override gamepad buttons
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''G.FUNCS.set_button_pip = function(e)'''
-position = "after"
-payload = '''
-if Handy.controller.override_node_button(e) then return end
-'''
-match_indent = true
-overwrite = false
+# # Override gamepad buttons
+# [[patches]]
+# [patches.pattern]
+# target = "functions/button_callbacks.lua"
+# pattern = '''G.FUNCS.set_button_pip = function(e)'''
+# position = "after"
+# payload = '''
+# if Handy.controller.override_node_button(e) then return end
+# '''
+# match_indent = true
+# overwrite = false
