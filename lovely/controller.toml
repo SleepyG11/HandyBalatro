@@ -125,14 +125,29 @@ end
 match_indent = true
 overwrite = false
 
-# # Override gamepad buttons
-# [[patches]]
-# [patches.pattern]
-# target = "functions/button_callbacks.lua"
-# pattern = '''G.FUNCS.set_button_pip = function(e)'''
-# position = "after"
-# payload = '''
-# if Handy.controller.override_node_button(e) then return end
-# '''
-# match_indent = true
-# overwrite = false
+# Prevent constant gamepad deselection on hand selection preview area
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end'''
+position = "at"
+payload = '''
+if not self.handy_prevent_gamepad_unhighlight then
+    if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end
+end
+'''
+match_indent = true
+overwrite = false
+
+
+# Override gamepad buttons
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.set_button_pip = function(e)'''
+position = "after"
+payload = '''
+if Handy.controller.override_node_button(e) then return end
+'''
+match_indent = true
+overwrite = false

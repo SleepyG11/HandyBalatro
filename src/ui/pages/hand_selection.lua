@@ -71,6 +71,7 @@ function Handy.UI.hand_selection_page_definition()
 						{ bypass_discovery_center = true, bypass_discovery_ui = true }
 					)
 					card1.handy_insta_highlight_preview = true
+
 					local old_drag = card1.drag
 					function card1:drag(...)
 						old_drag(self, ...)
@@ -102,6 +103,8 @@ function Handy.UI.hand_selection_page_definition()
 				end
 			end,
 		})
+		hand_area.handy_prevent_gamepad_unhighlight = true
+
 		Handy.UI.data.hand_selection_preview_area = hand_area
 		local example_hand_row = {
 			n = G.UIT.R,
