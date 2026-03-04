@@ -678,13 +678,24 @@ Handy.controls.register("regular_keybinds_cash_out", {
 	end,
 	execute = function(self, args)
 		Handy.regular_keybinds.cashout_skipped = true
+		stop_use()
 		G.E_MANAGER:add_event(Event({
-			trigger = "immediate",
 			func = function()
-				Handy.fake_events.execute({
-					func = G.FUNCS.cash_out,
-					id = "cash_out_button",
-				})
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						stop_use()
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								Handy.fake_events.execute({
+									func = G.FUNCS.cash_out,
+									id = "cash_out_button",
+								})
+								return true
+							end,
+						}))
+						return true
+					end,
+				}))
 				return true
 			end,
 		}))
