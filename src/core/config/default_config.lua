@@ -397,7 +397,7 @@ local default_config = {
 		enabled = true,
 		keys_1 = {},
 		keys_2 = {},
-		keys_1_gamepad = { "(Guide)" },
+		keys_1_gamepad = {},
 		keys_2_gamepad = {},
 	},
 
@@ -409,7 +409,7 @@ local default_config = {
 		enabled = true,
 		keys_1 = {},
 		keys_2 = {},
-		keys_1_gamepad = {},
+		keys_1_gamepad = { "(Guide)" },
 		keys_2_gamepad = {},
 	},
 	regular_keybinds_run_info_blinds = {

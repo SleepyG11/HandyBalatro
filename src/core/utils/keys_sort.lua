@@ -119,3 +119,13 @@ function Handy.utils.normalize_keys(t)
 	end
 	return Handy.utils.sort_keys(result)
 end
+
+function Handy.utils.first_non_empty_keys(...)
+	for _, keys in ipairs({ ... }) do
+		keys = Handy.utils.normalize_keys(keys or {})
+		if #keys > 0 then
+			return table.concat(keys, " "), keys
+		end
+	end
+	return ""
+end

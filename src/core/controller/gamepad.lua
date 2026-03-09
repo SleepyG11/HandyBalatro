@@ -72,40 +72,156 @@ Handy.controller.remove_button_from_registry = function(e)
 	end
 end
 
-Handy.controller.override_node_button = function(e)
-	if e.REMOVED then
-		return false
+function Handy.custom_button_pip(args)
+	args = args or {}
+
+	local button_sprite_map = {
+		["(A)"] = G.F_SWAP_AB_PIPS and 1 or 0,
+		["(B)"] = G.F_SWAP_AB_PIPS and 0 or 1,
+		["(X)"] = 2,
+		["(Y)"] = 3,
+		["Left Bumper"] = 4,
+		["Right Bumper"] = 5,
+		["Left Trigger"] = 6,
+		["Right Trigger"] = 7,
+		["(Start)"] = 8,
+		["(Back)"] = 9,
+		["(Up)"] = 10,
+		["(Right)"] = 11,
+		["(Down)"] = 12,
+		["(Left)"] = 13,
+		["left"] = 14, -- ?
+		["right"] = 15, -- ?
+		["Left Stick"] = 16,
+		["Right Stick"] = 17,
+		-- ["(Guide)"] = 19,
+	}
+	local y = G.CONTROLLER.GAMEPAD_CONSOLE == "Nintendo" and 2
+		or G.CONTROLLER.GAMEPAD_CONSOLE == "Playstation" and (G.F_PS4_PLAYSTATION_GLYPHS and 3 or 1)
+		or 0
+
+	local cols = {}
+	for _, button in ipairs(args.override.prev_buttons_array) do
+		if button_sprite_map[button] then
+			table.insert(cols, {
+				n = G.UIT.C,
+				nodes = {
+					{
+						n = G.UIT.O,
+						config = {
+							object = Sprite(
+								0,
+								0,
+								(args.scale or 0.45) * 0.8,
+								(args.scale or 0.45) * 0.8,
+								G.ASSET_ATLAS["gamepad_ui"],
+								{
+									x = button_sprite_map[button],
+									y = y,
+								}
+							),
+						},
+					},
+				},
+			})
+		else
+			table.insert(cols, {
+				n = G.UIT.C,
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = button or "ERROR",
+							scale = (args.scale or 0.45) * 0.5,
+							colour = G.C.UI.TEXT_LIGHT,
+						},
+					},
+				},
+			})
+		end
 	end
 
-	local patched_button = e.handy_gamepad_override
-		and Handy.controller.gamepad_patched_buttons[e.handy_gamepad_override]
-	if patched_button and patched_button.node == e then
-		local new_button
-		local is_replaced_button = Handy.b_is_mod_active() and patched_button.enabled_func()
+	if #cols == 0 then
+		return {
+			n = G.UIT.ROOT,
+			config = {
+				colour = G.C.CLEAR,
+			},
+		}
+	else
+		table.insert(cols, 1, {
+			n = G.UIT.B,
+			config = { w = 0.025, h = 0 },
+		})
+		table.insert(cols, {
+			n = G.UIT.B,
+			config = { w = 0.025, h = 0 },
+		})
+	end
+
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			align = "cm",
+			colour = { 0, 0, 0, 0.4 },
+			padding = 0.04,
+			r = 0.1,
+			minw = 0.45,
+			minh = 0.301,
+		},
+		nodes = {
+			{
+				n = G.UIT.R,
+				config = { padding = 0.025, align = "cm" },
+				nodes = cols,
+			},
+		},
+	}
+end
+
+Handy.controller.override_node_button = function(e)
+	if e.REMOVED then
+		return
+	end
+
+	-- Step 1: update override if change occurs
+	local override = e.handy_gamepad_override
+	if override then
+		local new_button, new_button_arr
+		local is_replaced_button = Handy.b_is_mod_active() and Handy.controller.is_gamepad() and override.enabled_func()
 		if is_replaced_button then
-			new_button = nil
+			-- Set buttons & array if it should be replaced
+			new_button, new_button_arr =
+				Handy.utils.first_non_empty_keys(override.module.keys_1_gamepad, override.module.keys_2_gamepad)
 		else
-			new_button = e.handy_replaced_button
+			-- Return to vanilla keys
+			new_button = nil
+			new_button_arr = nil
 		end
-		if e.handy_previous_button ~= new_button then
+		if override.prev_button ~= new_button then
+			override.prev_button = new_button
+			override.render_array = true
+			e.config.focus_args.button = nil
+
 			Handy.controller.remove_button_from_registry(e)
-			e.config.focus_args.button = new_button
 			if not is_replaced_button then
-				Handy.controller.add_button_to_registry(e, e.handy_replaced_registry_menu_value)
+				e.config.focus_args.button = override.button
+				Handy.controller.add_button_to_registry(e, override.menu_value)
+				override.render_array = false
 			end
-			e.handy_previous_button = new_button
+
+			override.prev_button = new_button
+			override.prev_buttons_array = new_button_arr
+
+			-- Rerender the thing
 			if e.children.button_pip then
 				e.children.button_pip:remove()
 				e.children.button_pip = nil
 			end
-			if not e.config.focus_args.button then
-				return true
-			end
 		end
-		return false
 	end
 
-	local override_key
+	-- Step 2: setup new override if it's new element
 	if
 		not e.handy_gamepad_override_checked
 		and e.config.focus_args
@@ -113,6 +229,7 @@ Handy.controller.override_node_button = function(e)
 		and not G.OVERLAY_MENU
 	then
 		e.handy_gamepad_override_checked = true
+		local override_key
 		local button = e.config.focus_args.button
 		if button == "triggerleft" then
 			if e.UIBox.parent == G.deck then
@@ -178,41 +295,74 @@ Handy.controller.override_node_button = function(e)
 			-- 	end
 			-- end
 		end
-	end
-	if override_key then
-		local module, deps = controller_keys_functions[override_key]()
-		local enabled_func = function()
-			if not Handy.controls.is_module_enabled(module) then
-				return false
-			end
-			for _, _module in ipairs(deps) do
-				if not Handy.controls.is_module_enabled(_module) then
+		if override_key then
+			local module, deps = controller_keys_functions[override_key]()
+			local enabled_func = function()
+				if not Handy.controls.is_module_enabled(module) then
 					return false
 				end
+				for _, _module in ipairs(deps) do
+					if not Handy.controls.is_module_enabled(_module) then
+						return false
+					end
+				end
+				return true
 			end
-			return true
-		end
-		e.handy_gamepad_override = override_key
-		e.handy_replaced_button = e.config.focus_args.button
-		e.handy_replaced_registry_menu_value = (not not G.OVERLAY_MENU) or not not G.SETTINGS.paused
+			override = {
+				node = e,
+				module = module,
 
-		if Handy.b_is_mod_active() and enabled_func() then
-			Handy.controller.remove_button_from_registry(e)
-			e.config.focus_args.button = nil
-			e.handy_previous_button = new_button
+				key = override_key,
+				button = e.config.focus_args.button,
+				menu_value = (not not G.OVERLAY_MENU) or not not G.SETTINGS.paused,
+				enabled_func = enabled_func,
+
+				prev_buttons_array = {},
+				prev_button = nil,
+				render_array = false,
+			}
+			e.handy_gamepad_override = override
+
+			if Handy.b_is_mod_active() and Handy.controller.is_gamepad() and enabled_func() then
+				Handy.controller.remove_button_from_registry(e)
+				e.config.focus_args.button = nil
+				override.prev_button, override.prev_buttons_array =
+					Handy.utils.first_non_empty_keys(module.keys_1_gamepad, module.keys_2_gamepad)
+				override.render_array = true
+
+				if e.children.button_pip then
+					e.children.button_pip:remove()
+					e.children.button_pip = nil
+				end
+			end
+			Handy.controller.gamepad_patched_buttons[override_key] = override
 		end
-		Handy.controller.gamepad_patched_buttons[override_key] = {
-			node = e,
-			module = override_module,
-			enabled_func = enabled_func,
-		}
 	end
-	if not e.config.focus_args or not e.config.focus_args.button then
-		if e.children.button_pip then
+
+	-- Step 3: render override. or return as usual
+	if override and override.render_array then
+		if #override.prev_buttons_array > 0 and not e.children.button_pip then
+			e.children.button_pip = UIBox({
+				definition = Handy.custom_button_pip({
+					override = override,
+					scale = e.config.focus_args.scale,
+				}),
+				config = {
+					align = e.config.focus_args.orientation or "cr",
+					offset = e.config.focus_args.offset
+						or e.config.focus_args.orientation == "bm" and { x = 0, y = 0.02 }
+						or { x = 0.1, y = 0.02 },
+					major = e,
+					parent = e,
+				},
+			})
+			e.children.button_pip.states.collide.can = false
+		elseif #override.prev_buttons_array == 0 and e.children.button_pip then
 			e.children.button_pip:remove()
 			e.children.button_pip = nil
 		end
 		return true
+	else
+		return false
 	end
-	return false
 end
