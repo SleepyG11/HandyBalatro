@@ -11,6 +11,7 @@ function Handy.UI.settings_speed_multiplier()
 			nodes = {
 				{
 					n = G.UIT.C,
+					config = {},
 					nodes = {
 						create_toggle({
 							scale = 0.65,
@@ -31,6 +32,7 @@ function Handy.UI.settings_speed_multiplier()
 				},
 				{
 					n = G.UIT.C,
+					config = {},
 					nodes = {
 						Handy.UI.CP.settings_simple_option_cycle(Handy.D.dictionary.speed_multiplier),
 					},
