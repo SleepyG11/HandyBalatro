@@ -1,8 +1,6 @@
 function Handy.utils.string_remove_balatro_formatting(str)
 	str = str:gsub("#%d+#", "")
-	str = str .. "{}"
-	str = str:gsub("{[^}]*}", "")
-	str = str:gsub("%b{}", "")
+	str = str:gsub("{.-}", "")
 	return str
 end
 
