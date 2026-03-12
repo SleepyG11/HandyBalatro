@@ -214,7 +214,7 @@ local init_localization_ref = init_localization
 function init_localization(...)
 	if not G.localization.__handy_injected then
 		local en_loc = Handy.load_file("loc_txt/en-us.lua")
-		Handy.utils.table_merge(G.localization, en_loc)
+		Handy.utils.table_merge_objects(G.localization, en_loc)
 		-- Handy.UI.cache_config_dictionary_search()
 		if G.SETTINGS.language ~= "en-us" then
 			local success, current_loc = pcall(function()
@@ -225,7 +225,7 @@ function init_localization(...)
 			-- 	print("Missing key: " .. missing_key)
 			-- end
 			if success and current_loc then
-				Handy.utils.table_merge(G.localization, current_loc)
+				Handy.utils.table_merge_objects(G.localization, current_loc)
 				-- Handy.UI.cache_config_dictionary_search(true)
 			end
 		end

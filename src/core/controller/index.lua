@@ -168,6 +168,8 @@ end
 
 function Handy.controller.process_move(x, y, dx, dy, istouch)
 	local ctx = Handy.controller.move.update_context(dx, dy)
+	Handy.controller.device.update_type()
+
 	if Handy.controller.non_empty_context(ctx) then
 		if not ctx:is_propagation_stopped() then
 			Handy.e_mitter.emit("controller_move", ctx)

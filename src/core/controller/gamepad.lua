@@ -1,49 +1,67 @@
-local controller_keys_functions = {
-	regular_keybinds_show_deck_preview = function()
-		return Handy.cc.regular_keybinds_show_deck_preview, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_view_deck = function()
-		return Handy.cc.regular_keybinds_view_deck, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_leave_shop = function()
-		return Handy.cc.regular_keybinds_leave_shop, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_skip_booster = function()
-		return Handy.cc.regular_keybinds_skip_booster, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_discard_hand = function()
-		return Handy.cc.regular_keybinds_discard, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_reroll_shop = function()
-		return Handy.cc.regular_keybinds_reroll_shop, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_play_hand = function()
-		return Handy.cc.regular_keybinds_play, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_run_info = function()
-		return Handy.cc.regular_keybinds_run_info, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
-	regular_keybinds_options = function()
-		return Handy.cc.regular_keybinds_options, {
-			Handy.cc.regular_keybinds,
-		}
-	end,
+local controller_overrides = {
+	regular_keybinds_show_deck_preview = {
+		get_module = function()
+			return Handy.cc.regular_keybinds_show_deck_preview, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_view_deck = {
+		get_module = function()
+			return Handy.cc.regular_keybinds_view_deck, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_leave_shop = {
+		align = "bm",
+		offset = { x = 0, y = 0 },
+		scale = 0.85 * 0.45,
+		get_module = function()
+			return Handy.cc.regular_keybinds_leave_shop, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_skip_booster = {
+		get_module = function()
+			return Handy.cc.regular_keybinds_skip_booster, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_discard_hand = {
+		get_module = function()
+			return Handy.cc.regular_keybinds_discard, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_reroll_shop = {
+		align = "bm",
+		offset = { x = 0, y = 0 },
+		scale = 0.85 * 0.45,
+		get_module = function()
+			return Handy.cc.regular_keybinds_reroll_shop, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_play_hand = {
+		get_module = function()
+			return Handy.cc.regular_keybinds_play, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
+	regular_keybinds_run_info = {
+		scale = 0.925 * 0.45,
+		get_module = function()
+			return Handy.cc.regular_keybinds_run_info, {
+				Handy.cc.regular_keybinds,
+			}
+		end,
+	},
 }
 
 Handy.controller.gamepad_patched_buttons = {}
@@ -75,6 +93,9 @@ end
 function Handy.custom_button_pip(args)
 	args = args or {}
 
+	local y = G.CONTROLLER.GAMEPAD_CONSOLE == "Nintendo" and 2
+		or G.CONTROLLER.GAMEPAD_CONSOLE == "Playstation" and (G.F_PS4_PLAYSTATION_GLYPHS and 3 or 1)
+		or 0
 	local button_sprite_map = {
 		["(A)"] = G.F_SWAP_AB_PIPS and 1 or 0,
 		["(B)"] = G.F_SWAP_AB_PIPS and 0 or 1,
@@ -94,17 +115,31 @@ function Handy.custom_button_pip(args)
 		["right"] = 15, -- ?
 		["Left Stick"] = 16,
 		["Right Stick"] = 17,
-		-- ["(Guide)"] = 19,
+		["(Guide)"] = (y == 1 or y == 3) and 19 or nil,
 	}
-	local y = G.CONTROLLER.GAMEPAD_CONSOLE == "Nintendo" and 2
-		or G.CONTROLLER.GAMEPAD_CONSOLE == "Playstation" and (G.F_PS4_PLAYSTATION_GLYPHS and 3 or 1)
-		or 0
 
 	local cols = {}
 	for _, button in ipairs(args.override.prev_buttons_array) do
+		if cols[1] then
+			table.insert(cols, {
+				n = G.UIT.C,
+				config = { align = "cm" },
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = "+",
+							scale = (args.scale or 0.45) * 0.4,
+							colour = G.C.UI.TEXT_LIGHT,
+						},
+					},
+				},
+			})
+		end
 		if button_sprite_map[button] then
 			table.insert(cols, {
 				n = G.UIT.C,
+				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.O,
@@ -112,8 +147,8 @@ function Handy.custom_button_pip(args)
 							object = Sprite(
 								0,
 								0,
-								(args.scale or 0.45) * 0.8,
-								(args.scale or 0.45) * 0.8,
+								(args.scale or 0.45) * 0.65,
+								(args.scale or 0.45) * 0.65,
 								G.ASSET_ATLAS["gamepad_ui"],
 								{
 									x = button_sprite_map[button],
@@ -127,6 +162,7 @@ function Handy.custom_button_pip(args)
 		else
 			table.insert(cols, {
 				n = G.UIT.C,
+				config = { align = "cm" },
 				nodes = {
 					{
 						n = G.UIT.T,
@@ -150,8 +186,37 @@ function Handy.custom_button_pip(args)
 		}
 	else
 		table.insert(cols, 1, {
+			n = G.UIT.C,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "[",
+						scale = (args.scale or 0.45) * 0.4,
+						colour = G.C.UI.TEXT_LIGHT,
+					},
+				},
+			},
+		})
+		table.insert(cols, 1, {
 			n = G.UIT.B,
 			config = { w = 0.025, h = 0 },
+		})
+
+		table.insert(cols, {
+			n = G.UIT.C,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.T,
+					config = {
+						text = "]",
+						scale = (args.scale or 0.45) * 0.4,
+						colour = G.C.UI.TEXT_LIGHT,
+					},
+				},
+			},
 		})
 		table.insert(cols, {
 			n = G.UIT.B,
@@ -172,7 +237,7 @@ function Handy.custom_button_pip(args)
 		nodes = {
 			{
 				n = G.UIT.R,
-				config = { padding = 0.025, align = "cm" },
+				config = { padding = 0.035, align = "cm" },
 				nodes = cols,
 			},
 		},
@@ -211,7 +276,7 @@ Handy.controller.override_node_button = function(e)
 			end
 
 			override.prev_button = new_button
-			override.prev_buttons_array = new_button_arr
+			override.prev_buttons_array = new_button_arr or {}
 
 			-- Rerender the thing
 			if e.children.button_pip then
@@ -296,12 +361,13 @@ Handy.controller.override_node_button = function(e)
 			-- end
 		end
 		if override_key then
-			local module, deps = controller_keys_functions[override_key]()
+			local definition = controller_overrides[override_key]
+			local module, deps = definition.get_module()
 			local enabled_func = function()
 				if not Handy.controls.is_module_enabled(module) then
 					return false
 				end
-				for _, _module in ipairs(deps) do
+				for _, _module in ipairs(deps or {}) do
 					if not Handy.controls.is_module_enabled(_module) then
 						return false
 					end
@@ -320,6 +386,8 @@ Handy.controller.override_node_button = function(e)
 				prev_buttons_array = {},
 				prev_button = nil,
 				render_array = false,
+
+				arg = definition,
 			}
 			e.handy_gamepad_override = override
 
@@ -342,9 +410,39 @@ Handy.controller.override_node_button = function(e)
 	-- Step 3: render override. or return as usual
 	if override and override.render_array then
 		if #override.prev_buttons_array > 0 and not e.children.button_pip then
+			local align = override.arg.align or e.config.focus_args.orientation or "cr"
+			local offset = override.arg.offset
+				or e.config.focus_args.offset
+				or align == "bm" and { x = 0, y = 0.05 }
+				or { x = 0.1, y = 0.05 }
+			local scale = override.arg.scale or e.config.focus_args.scale
+
 			e.children.button_pip = UIBox({
 				definition = Handy.custom_button_pip({
 					override = override,
+					scale = scale,
+				}),
+				config = {
+					align = align,
+					offset = offset,
+					major = e,
+					parent = e,
+				},
+			})
+			e.children.button_pip.states.collide.can = false
+		elseif #override.prev_buttons_array == 0 and e.children.button_pip then
+			e.children.button_pip:remove()
+			e.children.button_pip = nil
+		end
+		return true
+	end
+
+	-- Display vanilla controller things if we mimic gamepad
+	if Handy.controller.is_gamepad() and not G.CONTROLLER.HID.controller then
+		if e.config.focus_args and not e.children.button_pip then
+			e.children.button_pip = UIBox({
+				definition = create_button_binding_pip({
+					button = e.config.focus_args.button,
 					scale = e.config.focus_args.scale,
 				}),
 				config = {
@@ -354,10 +452,12 @@ Handy.controller.override_node_button = function(e)
 						or { x = 0.1, y = 0.02 },
 					major = e,
 					parent = e,
+					instance_type = "CARD",
 				},
 			})
 			e.children.button_pip.states.collide.can = false
-		elseif #override.prev_buttons_array == 0 and e.children.button_pip then
+		end
+		if not e.config.focus_args and e.children.button_pip then
 			e.children.button_pip:remove()
 			e.children.button_pip = nil
 		end

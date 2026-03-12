@@ -98,6 +98,37 @@ function Handy.utils.table_shallow_merge(target, source, ...)
 	return target
 end
 
+--- @generic T
+--- @generic S
+--- @param target T
+--- @param source S
+--- @param ... any
+--- @return T | S
+function Handy.utils.table_merge_objects(target, source, ...)
+	assert(type(target) == "table", "Target is not a table")
+	local tables_to_merge = { source, ... }
+	if #tables_to_merge == 0 then
+		return target
+	end
+
+	for k, t in ipairs(tables_to_merge) do
+		assert(type(t) == "table", string.format("Expected a table as parameter %d", k))
+	end
+
+	for i = 1, #tables_to_merge do
+		local from = tables_to_merge[i]
+		for k, v in pairs(from) do
+			if type(v) == "table" and not v[1] then
+				target[k] = Handy.utils.table_merge_objects(target[k] or {}, v)
+			else
+				target[k] = v
+			end
+		end
+	end
+
+	return target
+end
+
 function Handy.utils.serialize_string(s)
 	return string.format("%q", s)
 end

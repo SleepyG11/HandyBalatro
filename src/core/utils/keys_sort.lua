@@ -127,5 +127,5 @@ function Handy.utils.first_non_empty_keys(...)
 			return table.concat(keys, " "), keys
 		end
 	end
-	return ""
+	return "", {}
 end
