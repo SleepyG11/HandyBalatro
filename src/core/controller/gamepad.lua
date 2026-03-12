@@ -360,7 +360,7 @@ Handy.controller.override_node_button = function(e)
 			-- 	end
 			-- end
 		end
-		if override_key then
+		if override_key and controller_overrides[override_key] then
 			local definition = controller_overrides[override_key]
 			local module, deps = definition.get_module()
 			local enabled_func = function()
