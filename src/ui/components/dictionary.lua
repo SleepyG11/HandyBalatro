@@ -530,7 +530,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 	}
 
 	args.colour = args.colour or G.C.RED
-	args.w = args.w or 1
+	args.w = (args.w or 1) - 0.9
 	args.h = args.h or 0.35
 	args.label_scale = args.label_scale or 0.45
 	args.text_scale = args.text_scale or 0.25
@@ -540,7 +540,6 @@ function Handy.UI.CP.dictionary_item_slider(item)
 	args.text = string.format("%." .. tostring(args.decimal_places) .. "f", args.ref_table[args.ref_value])
 	local startval = args.w * (args.ref_table[args.ref_value] - args.min) / (args.max - args.min)
 
-	-- TODO: fix overshot
 	local t = {
 		n = G.UIT.C,
 		config = {
@@ -557,7 +556,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 				n = G.UIT.C,
 				config = {
 					align = "cl",
-					minw = args.w - 0.9,
+					minw = args.w,
 					r = 0.1,
 					min_h = args.h,
 					collideable = true,
