@@ -206,7 +206,7 @@ local default_config = {
 
 		keys_1 = { "Right Mouse" },
 		keys_2 = {},
-		keys_1_gamepad = { "Right Stick" },
+		keys_1_gamepad = { "(B)" },
 		keys_2_gamepad = {},
 	},
 	hand_selection_combine_select_deselect = {
