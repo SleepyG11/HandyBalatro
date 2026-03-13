@@ -109,9 +109,7 @@ Handy.load_file("src/index.lua")
 -- 8. fix slider
 -- 9. cutting-edge technology: scrollbar for patchnotes
 -- 10. touchscreen? (somehow)
--- 11. default keybinds for keyboard/controller
--- 12. reset config button
--- 13. UI for gamepad
+-- 11. UI for gamepad
 
 -- TODO: check controls (controller & touchscreen)
 -- insta actions - complicated

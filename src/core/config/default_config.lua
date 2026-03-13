@@ -282,7 +282,7 @@ local default_config = {
 	},
 	regular_keybinds_restart_game = {
 		enabled = true,
-		keys_1 = {},
+		keys_1 = { "Alt", "F5" },
 		keys_2 = {},
 		keys_1_gamepad = {},
 		keys_2_gamepad = {},

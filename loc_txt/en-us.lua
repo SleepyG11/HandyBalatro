@@ -902,6 +902,12 @@ return {
 					"Controls similar to Better Mouse and Gamepad mod",
 				},
 			},
+			["full_default"] = {
+				name = "Reset to Default",
+				text = {
+					"Full configuration reset to default",
+				},
+			},
 		},
 		Handy_Other = {
 			overall_title = {

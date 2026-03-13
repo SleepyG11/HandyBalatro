@@ -87,8 +87,10 @@ Handy.presets.configs_blacklist = {
 function Handy.presets.apply(preset, no_save_config, no_change_selected)
 	local config_to_apply = preset.config and Handy.config.actualize(preset.config) or { version = 2 }
 
-	for _, key in ipairs(Handy.presets.configs_blacklist) do
-		config_to_apply[key] = nil
+	if not preset.ignore_blacklist then
+		for _, key in ipairs(Handy.presets.configs_blacklist) do
+			config_to_apply[key] = nil
+		end
 	end
 
 	preset.config = config_to_apply
@@ -101,6 +103,9 @@ function Handy.presets.apply(preset, no_save_config, no_change_selected)
 
 	if not no_change_selected then
 		Handy.presets.current.selected = preset.key or -1
+	end
+	if preset.rerender then
+		Handy.UI.rerender(true)
 	end
 	Handy.presets.request_save()
 end

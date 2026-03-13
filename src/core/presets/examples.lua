@@ -1,4 +1,11 @@
 local examples = {
+	full_default = {
+		config = Handy.utils.table_merge({}, Handy.config.default),
+		key = "full_default",
+		ignore_blacklist = true,
+		dangerous = true,
+		rerender = true,
+	},
 	default = {
 		config = Handy.utils.table_merge({}, Handy.config.default),
 		key = "default",

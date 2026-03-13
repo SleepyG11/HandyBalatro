@@ -1,4 +1,5 @@
 function Handy.UI.CP.example_preset(key)
+	local preset = Handy.presets.examples[key]
 	return {
 		n = G.UIT.R,
 		config = {
@@ -8,7 +9,7 @@ function Handy.UI.CP.example_preset(key)
 			UIBox_button({
 				label = { Handy.L.name_text("Handy_Preset", key) },
 				col = true,
-				colour = G.C.ORANGE,
+				colour = preset.dangerous and G.C.MULT or G.C.ORANGE,
 				scale = 0.3,
 				minw = 4,
 				maxw = 4,
@@ -166,6 +167,7 @@ function Handy.UI.presets_tab_UIBox()
 								nodes = {
 									Handy.UI.CP.example_preset("default"),
 									Handy.UI.CP.example_preset("better_mouse_and_gamepad"),
+									Handy.UI.CP.example_preset("full_default"),
 								},
 							},
 						},
