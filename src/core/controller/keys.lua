@@ -151,7 +151,7 @@ local non_safe_keys = {
 
 local back_keys = {
 	["Escape"] = true,
-	["(Back)"] = true,
+	["(Start)"] = true,
 }
 
 ---
