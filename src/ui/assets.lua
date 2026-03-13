@@ -47,3 +47,9 @@ function Handy.UI.load_all_atlases()
 		py = 95,
 	})
 end
+
+local old_set_render_settings = Game.set_render_settings
+function Game:set_render_settings(...)
+	old_set_render_settings(self, ...)
+	Handy.UI.load_all_atlases()
+end

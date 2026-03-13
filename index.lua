@@ -105,8 +105,6 @@ Handy.load_file("src/index.lua")
 -- 5. Cleanup code
 --- Insta actions
 --- UI
--- 7. sprites loading
--- 8. fix slider
 -- 9. cutting-edge technology: scrollbar for patchnotes
 -- 10. touchscreen? (somehow)
 -- 11. UI for gamepad
