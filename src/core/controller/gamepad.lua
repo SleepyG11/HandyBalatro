@@ -31,6 +31,7 @@ local controller_overrides = {
 		end,
 	},
 	regular_keybinds_discard_hand = {
+		offset = { x = 0, y = 0.15 },
 		get_module = function()
 			return Handy.cc.regular_keybinds_discard, {
 				Handy.cc.regular_keybinds,
@@ -48,6 +49,7 @@ local controller_overrides = {
 		end,
 	},
 	regular_keybinds_play_hand = {
+		offset = { x = 0, y = 0.15 },
 		get_module = function()
 			return Handy.cc.regular_keybinds_play, {
 				Handy.cc.regular_keybinds,

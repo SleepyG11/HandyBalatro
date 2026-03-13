@@ -108,20 +108,14 @@ Handy.load_file("src/index.lua")
 -- 7. sprites loading
 -- 8. fix slider
 -- 9. cutting-edge technology: scrollbar for patchnotes
-
--- TODO: controller
--- 1. fix doubletap in hand selection preview (somehow)
--- 2. touchscreen? (somehow)
--- 3. override controller controls (somehow)
--- 4. multiple buttons render? (somehow)
+-- 10. touchscreen? (somehow)
+-- 11. default keybinds for keyboard/controller
+-- 12. reset config button
+-- 13. UI for gamepad
 
 -- TODO: check controls (controller & touchscreen)
--- hand selection - fix preview
 -- insta actions - complicated
--- regular keybinds:
---- menus
--- dangerous
---- controller sensitivity
+-- dangerous - complicated
 
 -- TODO: plans for v2.1
 -- 1. keymapper
