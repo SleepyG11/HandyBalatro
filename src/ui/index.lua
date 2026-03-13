@@ -103,6 +103,7 @@ Handy.load_files({
 	"game_settings.lua",
 	"tutorial.lua",
 	"options.lua",
+	"gamepad.lua",
 }, "src/ui/")
 
 Handy.load_files({
