@@ -3,7 +3,8 @@ Handy.load_files({
 }, "src/controls/controls/dangerous_actions/")
 
 -- One-by-one
-Handy.controls.register("dangerous_actions_sell_one", {
+Handy.controls.register({
+	key = "dangerous_actions_sell_one",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_one
 	end,
@@ -27,7 +28,8 @@ Handy.controls.register("dangerous_actions_sell_one", {
 		return Handy.dangerous_actions.execute(false, false, false, ...)
 	end,
 })
-Handy.controls.register("dangerous_actions_remove_one", {
+Handy.controls.register({
+	key = "dangerous_actions_remove_one",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_one
 	end,
@@ -54,7 +56,8 @@ Handy.controls.register("dangerous_actions_remove_one", {
 })
 
 -- All same
-Handy.controls.register("dangerous_actions_sell_all_same", {
+Handy.controls.register({
+	key = "dangerous_actions_sell_all_same",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_all_same
 	end,
@@ -78,7 +81,8 @@ Handy.controls.register("dangerous_actions_sell_all_same", {
 		return Handy.dangerous_actions.execute(false, true, false, ...)
 	end,
 })
-Handy.controls.register("dangerous_actions_remove_all_same", {
+Handy.controls.register({
+	key = "dangerous_actions_remove_all_same",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_all_same
 	end,
@@ -105,7 +109,8 @@ Handy.controls.register("dangerous_actions_remove_all_same", {
 })
 
 -- All
-Handy.controls.register("dangerous_actions_sell_all", {
+Handy.controls.register({
+	key = "dangerous_actions_sell_all",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_all
 	end,
@@ -129,7 +134,8 @@ Handy.controls.register("dangerous_actions_sell_all", {
 		return Handy.dangerous_actions.execute(false, false, true, ...)
 	end,
 })
-Handy.controls.register("dangerous_actions_remove_all", {
+Handy.controls.register({
+	key = "dangerous_actions_remove_all",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_all
 	end,
@@ -240,7 +246,8 @@ end)
 
 ---
 
-Handy.controls.register("dangerous_actions_crash", {
+Handy.controls.register({
+	key = "dangerous_actions_crash",
 	get_module = function()
 		return Handy.cc.dangerous_actions_crash
 	end,
@@ -273,7 +280,8 @@ Handy.controls.register("dangerous_actions_crash", {
 		return true
 	end,
 })
-Handy.controls.register("dangerous_actions_stack_overflow", {
+Handy.controls.register({
+	key = "dangerous_actions_stack_overflow",
 	get_module = function()
 		return Handy.cc.dangerous_actions_stack_overflow
 	end,

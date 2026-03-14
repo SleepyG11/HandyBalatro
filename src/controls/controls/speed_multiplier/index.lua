@@ -5,7 +5,8 @@ Handy.load_files({
 
 ---
 
-Handy.controls.register("speed_multiplier_toggle_temp_disabled", {
+Handy.controls.register({
+	key = "speed_multiplier_toggle_temp_disabled",
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_toggle_temp_disabled, { Handy.cc.speed_multiplier }
 	end,
@@ -20,7 +21,8 @@ Handy.controls.register("speed_multiplier_toggle_temp_disabled", {
 		return true
 	end,
 })
-Handy.controls.register("speed_multiplier_increase", {
+Handy.controls.register({
+	key = "speed_multiplier_increase",
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_multiply, { Handy.cc.speed_multiplier }
 	end,
@@ -35,7 +37,8 @@ Handy.controls.register("speed_multiplier_increase", {
 		return true
 	end,
 })
-Handy.controls.register("speed_multiplier_decrease", {
+Handy.controls.register({
+	key = "speed_multiplier_decrease",
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_divide, { Handy.cc.speed_multiplier }
 	end,

@@ -6,7 +6,8 @@ Handy.load_files({
 
 ---
 
-Handy.controls.register("regular_keybinds_play", {
+Handy.controls.register({
+	key = "regular_keybinds_play",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_play, { Handy.cc.regular_keybinds }
 	end,
@@ -45,7 +46,8 @@ Handy.controls.register("regular_keybinds_play", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_discard", {
+Handy.controls.register({
+	key = "regular_keybinds_discard",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
 	end,
@@ -85,7 +87,8 @@ Handy.controls.register("regular_keybinds_discard", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_change_sort_rank", {
+Handy.controls.register({
+	key = "regular_keybinds_change_sort_rank",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_sort_by_rank, { Handy.cc.regular_keybinds }
 	end,
@@ -108,7 +111,8 @@ Handy.controls.register("regular_keybinds_change_sort_rank", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_change_sort_suit", {
+Handy.controls.register({
+	key = "regular_keybinds_change_sort_suit",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_sort_by_suit, { Handy.cc.regular_keybinds }
 	end,
@@ -131,7 +135,8 @@ Handy.controls.register("regular_keybinds_change_sort_suit", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_toggle_sort", {
+Handy.controls.register({
+	key = "regular_keybinds_toggle_sort",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_toggle_sort, { Handy.cc.regular_keybinds }
 	end,
@@ -155,7 +160,8 @@ Handy.controls.register("regular_keybinds_toggle_sort", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_reroll_shop", {
+Handy.controls.register({
+	key = "regular_keybinds_reroll_shop",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_reroll_shop, { Handy.cc.regular_keybinds }
 	end,
@@ -195,7 +201,8 @@ Handy.controls.register("regular_keybinds_reroll_shop", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_leave_shop", {
+Handy.controls.register({
+	key = "regular_keybinds_leave_shop",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_leave_shop, { Handy.cc.regular_keybinds }
 	end,
@@ -227,7 +234,8 @@ Handy.controls.register("regular_keybinds_leave_shop", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_skip_blind", {
+Handy.controls.register({
+	key = "regular_keybinds_skip_blind",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_skip_blind, { Handy.cc.regular_keybinds }
 	end,
@@ -263,7 +271,8 @@ Handy.controls.register("regular_keybinds_skip_blind", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_select_blind", {
+Handy.controls.register({
+	key = "regular_keybinds_select_blind",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_select_blind, { Handy.cc.regular_keybinds }
 	end,
@@ -296,7 +305,8 @@ Handy.controls.register("regular_keybinds_select_blind", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_reroll_boss", {
+Handy.controls.register({
+	key = "regular_keybinds_reroll_boss",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_reroll_boss, { Handy.cc.regular_keybinds }
 	end,
@@ -333,7 +343,8 @@ Handy.controls.register("regular_keybinds_reroll_boss", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_restart", {
+Handy.controls.register({
+	key = "regular_keybinds_restart",
 	get_module = function()
 		return Handy.cc.regular_keybinds_restart, { Handy.cc.regular_keybinds }
 	end,
@@ -392,7 +403,8 @@ Handy.controls.register("regular_keybinds_restart", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_quick_restart", {
+Handy.controls.register({
+	key = "regular_keybinds_quick_restart",
 	get_module = function()
 		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
 	end,
@@ -426,7 +438,8 @@ Handy.controls.register("regular_keybinds_quick_restart", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_save_run", {
+Handy.controls.register({
+	key = "regular_keybinds_save_run",
 	get_module = function()
 		return Handy.cc.regular_keybinds_save_run, { Handy.cc.regular_keybinds }
 	end,
@@ -450,7 +463,8 @@ Handy.controls.register("regular_keybinds_save_run", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_reload_run", {
+Handy.controls.register({
+	key = "regular_keybinds_reload_run",
 	get_module = function()
 		return Handy.cc.regular_keybinds_reload_run, { Handy.cc.regular_keybinds }
 	end,
@@ -526,7 +540,8 @@ Handy.controls.register("regular_keybinds_reload_run", {
 		return false
 	end,
 })
-Handy.controls.register("regular_keybinds_restart_game", {
+Handy.controls.register({
+	key = "regular_keybinds_restart_game",
 	get_module = function()
 		return Handy.cc.regular_keybinds_restart_game, { Handy.cc.regular_keybinds }
 	end,
@@ -546,7 +561,8 @@ Handy.controls.register("regular_keybinds_restart_game", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_copy_log_file", {
+Handy.controls.register({
+	key = "regular_keybinds_copy_log_file",
 	get_module = function()
 		return Handy.cc.regular_keybinds_copy_log_file, { Handy.cc.regular_keybinds }
 	end,
@@ -577,7 +593,8 @@ Handy.controls.register("regular_keybinds_copy_log_file", {
 	end,
 })
 
-Handy.controls.register("regular_keybinds_start_fantoms_preview", {
+Handy.controls.register({
+	key = "regular_keybinds_start_fantoms_preview",
 	get_module = function()
 		return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.cc.regular_keybinds }
 	end,
@@ -610,7 +627,8 @@ Handy.controls.register("regular_keybinds_start_fantoms_preview", {
 
 --
 
-Handy.controls.register("regular_keybinds_skip_booster", {
+Handy.controls.register({
+	key = "regular_keybinds_skip_booster",
 	get_module = function()
 		return Handy.cc.regular_keybinds_skip_booster, { Handy.cc.regular_keybinds }
 	end,
@@ -654,7 +672,8 @@ Handy.controls.register("regular_keybinds_skip_booster", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_cash_out", {
+Handy.controls.register({
+	key = "regular_keybinds_cash_out",
 	get_module = function()
 		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
 	end,
@@ -702,7 +721,8 @@ Handy.controls.register("regular_keybinds_cash_out", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
+Handy.controls.register({
+	key = "regular_keybinds_not_just_yet_interaction",
 	get_module = function()
 		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }
 	end,
@@ -735,7 +755,8 @@ Handy.controls.register("regular_keybinds_not_just_yet_interaction", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_show_deck_preview", {
+Handy.controls.register({
+	key = "regular_keybinds_show_deck_preview",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_show_deck_preview, { Handy.cc.regular_keybinds }
 	end,

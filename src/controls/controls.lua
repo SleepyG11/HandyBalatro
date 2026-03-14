@@ -2,15 +2,12 @@ Handy.controls.dictionary = {}
 
 ---
 
-function Handy.controls.register(key, item)
+function Handy.controls.register(item)
 	item.get_module = item.get_module or function() end
 	item.update = item.update or function() end
 	item.can_execute = item.can_execute or Handy.controls.can_execute_control
-	-- item.update_state_panel = item.update_state_panel or function() end
 
-	item.key = key
-
-	Handy.controls.dictionary[key] = item
+	Handy.controls.dictionary[item.key] = item
 	return item
 end
 

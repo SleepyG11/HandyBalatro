@@ -1,4 +1,5 @@
-Handy.controls.register("regular_keybinds_run_info", {
+Handy.controls.register({
+	key = "regular_keybinds_run_info",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info, { Handy.cc.regular_keybinds }
 	end,
@@ -20,7 +21,8 @@ Handy.controls.register("regular_keybinds_run_info", {
 		end)
 	end,
 })
-Handy.controls.register("regular_keybinds_run_info_binds", {
+Handy.controls.register({
+	key = "regular_keybinds_run_info_binds",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info_blinds, { Handy.cc.regular_keybinds }
 	end,
@@ -44,7 +46,8 @@ Handy.controls.register("regular_keybinds_run_info_binds", {
 		end)
 	end,
 })
-Handy.controls.register("regular_keybinds_collection", {
+Handy.controls.register({
+	key = "regular_keybinds_collection",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_collection, { Handy.cc.regular_keybinds }
 	end,
@@ -65,7 +68,8 @@ Handy.controls.register("regular_keybinds_collection", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_options", {
+Handy.controls.register({
+	key = "regular_keybinds_options",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_options, { Handy.cc.regular_keybinds }
 	end,
@@ -86,7 +90,8 @@ Handy.controls.register("regular_keybinds_options", {
 		return true
 	end,
 })
-Handy.controls.register("regular_keybinds_view_deck", {
+Handy.controls.register({
+	key = "regular_keybinds_view_deck",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_view_deck, { Handy.cc.regular_keybinds }
 	end,
@@ -108,7 +113,8 @@ Handy.controls.register("regular_keybinds_view_deck", {
 		end)
 	end,
 })
-Handy.controls.register("regular_keybinds_view_lobby_info", {
+Handy.controls.register({
+	key = "regular_keybinds_view_lobby_info",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_lobby_info, { Handy.cc.regular_keybinds }
 	end,
@@ -133,7 +139,8 @@ Handy.controls.register("regular_keybinds_view_lobby_info", {
 		end)
 	end,
 })
-Handy.controls.register("regular_keybinds_mod_settings", {
+Handy.controls.register({
+	key = "regular_keybinds_mod_settings",
 	get_module = function()
 		return Handy.cc.regular_keybinds_mod_settings, { Handy.cc.regular_keybinds }
 	end,

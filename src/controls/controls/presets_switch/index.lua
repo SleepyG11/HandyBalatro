@@ -3,7 +3,8 @@ Handy.load_files({
 }, "src/controls/controls/presets_switch/")
 
 for _, index in ipairs({ 1, 2, 3, "next" }) do
-	Handy.controls.register("presets_switch_load_" .. index, {
+	Handy.controls.register({
+		key = "presets_switch_load_" .. index,
 		get_module = function(self)
 			return Handy.cc["presets_load_" .. index], { Handy.cc.presets }
 		end,

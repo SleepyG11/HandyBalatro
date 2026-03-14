@@ -24,7 +24,8 @@ Handy.load_files({
 
 ---
 
-Handy.controls.register("animation_skip_toggle_temp_disabled", {
+Handy.controls.register({
+	key = "animation_skip_toggle_temp_disabled",
 	get_module = function(self)
 		return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.cc.animation_skip }
 	end,
@@ -39,7 +40,8 @@ Handy.controls.register("animation_skip_toggle_temp_disabled", {
 		return true
 	end,
 })
-Handy.controls.register("animation_skip_increase", {
+Handy.controls.register({
+	key = "animation_skip_increase",
 	get_module = function(self)
 		return Handy.cc.animation_skip_increase, { Handy.cc.animation_skip }
 	end,
@@ -54,7 +56,8 @@ Handy.controls.register("animation_skip_increase", {
 		return true
 	end,
 })
-Handy.controls.register("animation_skip_decrease", {
+Handy.controls.register({
+	key = "animation_skip_decrease",
 	get_module = function(self)
 		return Handy.cc.animation_skip_decrease, { Handy.cc.animation_skip }
 	end,
