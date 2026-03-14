@@ -34,7 +34,7 @@ function Handy.UI.settings_speed_multiplier()
 					n = G.UIT.C,
 					config = {},
 					nodes = {
-						Handy.UI.CP.settings_simple_option_cycle(Handy.D.dictionary.speed_multiplier),
+						Handy.UI.CP.settings_simple_option_cycle(Handy.D.dictionary.speed_multiplier_current_value),
 					},
 				},
 				Handy.UI.CP.c_sep(0.8),
@@ -78,7 +78,7 @@ function Handy.UI.settings_animation_skip()
 					n = G.UIT.C,
 					config = { align = "cm" },
 					nodes = {
-						Handy.UI.CP.settings_simple_option_cycle(Handy.D.dictionary.animation_skip),
+						Handy.UI.CP.settings_simple_option_cycle(Handy.D.dictionary.animation_skip_current_value),
 					},
 				},
 				Handy.UI.CP.c_sep(0.8),

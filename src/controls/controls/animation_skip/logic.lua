@@ -118,8 +118,9 @@ Handy.animation_skip = {
 			local mp_check = Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
-			end
-			if Handy.animation_skip.temp_disabled then
+			elseif
+				Handy.animation_skip.temp_disabled or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
+			then
 				text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
 			end
 			state.items.change_animation_skip = {

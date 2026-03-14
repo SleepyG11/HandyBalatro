@@ -413,25 +413,33 @@ l({
 
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
-	simple_option_cycle = {
-		left_callback = function()
-			Handy.speed_multiplier.change(-1)
-		end,
-		right_callback = function()
-			Handy.speed_multiplier.change(1)
-		end,
-		get_values = function()
-			return {
-				ref_table = Handy.speed_multiplier,
-				ref_value = "value_text",
-				prefix = Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier") .. ": ",
-			}
-		end,
-		colour = G.C.CHIPS,
-	},
-
 	group = true,
 	items = {
+		{
+			key = "speed_multiplier_current_value",
+			get_module = function(self)
+				return Handy.cc.speed_multiplier
+			end,
+
+			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
+			simple_option_cycle = {
+				left_callback = function()
+					Handy.speed_multiplier.change(-1)
+				end,
+				right_callback = function()
+					Handy.speed_multiplier.change(1)
+				end,
+				get_values = function()
+					return {
+						ref_table = Handy.speed_multiplier,
+						ref_value = "value_text",
+						prefix = Handy.L.name_text("Handy_ConfigDictionary", "speed_multiplier") .. ": ",
+					}
+				end,
+				colour = G.C.CHIPS,
+			},
+		},
 		{
 			key = "speed_multiplier_default_value",
 			keywords = { "default value on startup game start launch" },
@@ -535,26 +543,33 @@ l({
 		return Handy.cc.animation_skip
 	end,
 
-	simple_option_cycle = {
-		left_callback = function()
-			Handy.animation_skip.change(-1)
-		end,
-		right_callback = function()
-			Handy.animation_skip.change(1)
-		end,
-		get_values = function()
-			return {
-				ref_table = Handy.animation_skip,
-				ref_value = "value_text",
-				prefix = Handy.L.name_text("Handy_ConfigDictionary", "animation_skip") .. ": ",
-			}
-		end,
-		colour = G.C.ORANGE,
-	},
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
 	group = true,
 	items = {
+		{
+			key = "animation_skip_current_value",
+			get_module = function(self)
+				return Handy.cc.animation_skip_default_value, { Handy.D.dictionary.animation_skip }
+			end,
+			simple_option_cycle = {
+				left_callback = function()
+					Handy.animation_skip.change(-1)
+				end,
+				right_callback = function()
+					Handy.animation_skip.change(1)
+				end,
+				get_values = function()
+					return {
+						ref_table = Handy.animation_skip,
+						ref_value = "value_text",
+						prefix = Handy.L.name_text("Handy_ConfigDictionary", "animation_skip") .. ": ",
+					}
+				end,
+				colour = G.C.ORANGE,
+			},
+			no_mp = Handy.animation_skip.is_disabled_by_mp,
+		},
 		{
 			key = "animation_skip_default_value",
 			keywords = { "default value on startup game start launch" },

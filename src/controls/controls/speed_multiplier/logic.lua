@@ -136,8 +136,9 @@ Handy.speed_multiplier = {
 			local mp_check = Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			if mp_check then
 				text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
-			end
-			if Handy.speed_multiplier.temp_disabled then
+			elseif
+				Handy.speed_multiplier.temp_disabled or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
+			then
 				text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
 			end
 			state.items.change_speed_multiplier = {

@@ -111,6 +111,7 @@ function Handy.UI.speed_n_animations_speed_tab_definition()
 						config = { align = "cm", r = 0.1 },
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_current_value),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_default_value),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_multiply),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_divide),
@@ -182,6 +183,7 @@ function Handy.UI.speed_n_animations_animations_tab_definition()
 						config = { align = "cm", r = 0.1 },
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_current_value),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_default_value),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_increase),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_decrease),

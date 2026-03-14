@@ -225,6 +225,10 @@ return {
 					"{C:attention}Everything{} - most animations removed; instant cards draw",
 				},
 			},
+			animation_skip_current_value = {
+				name = "Animation Skip: Current value",
+				text = {},
+			},
 			animation_skip_default_value = {
 				name = "Animation Skip: Game startup value",
 				text = {},
@@ -269,6 +273,10 @@ return {
 					"{C:attention}Event Queue{} to bypass limit",
 					"of 60 actions per second",
 				},
+			},
+			speed_multiplier_current_value = {
+				name = "Speed Multiplier: Current value",
+				text = {},
 			},
 			speed_multiplier_default_value = {
 				name = "Speed Multiplier: Game startup value",
@@ -916,7 +924,7 @@ return {
 					"- In-game keybinds",
 					"- More game speed",
 					"- Removing animations",
-					"- Enhanced gamepad support",
+					"- Gamepad support",
 					" ",
 					"- Controls can be assigned to {C:chips}any combination{}",
 					"  of keyboard, mouse or gamepad buttons",
