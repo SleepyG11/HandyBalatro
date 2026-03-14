@@ -6,7 +6,7 @@ local input_layer = {
 	layer = true,
 	global = true,
 	key = "input",
-	order = -1,
+	order = 0,
 	operator = "first",
 
 	stack = {},
@@ -16,7 +16,7 @@ local card_layer = {
 	layer = true,
 	global = true,
 	key = "card",
-	order = -1,
+	order = -0,
 	operator = "first",
 
 	stack = {},
@@ -26,7 +26,7 @@ local tag_layer = {
 	layer = true,
 	global = true,
 	key = "tag",
-	order = -1,
+	order = 0,
 	operator = "first",
 
 	stack = {},
@@ -36,7 +36,7 @@ local hold_layer = {
 	layer = true,
 	global = true,
 	key = "hold",
-	order = -1,
+	order = 0,
 	operator = "first",
 
 	stack = {},
@@ -46,7 +46,7 @@ local move_layer = {
 	layer = true,
 	global = true,
 	key = "move",
-	order = -1,
+	order = 0,
 	operator = "first",
 
 	stack = {},
@@ -192,4 +192,26 @@ function Handy.controls.call_layer(ctx, layer)
 	else
 		return should_stop or false
 	end
+end
+
+--
+
+function Handy.controls.print_stack(key)
+	local result = { "" }
+	local format_item = function(item, indent)
+		return string.format("%s[%s] %s", indent, item.order, item.key)
+	end
+	local process_layer
+	process_layer = function(item, indent)
+		table.insert(result, format_item(item, indent))
+		if item.stack then
+			for _, subitem in ipairs(item.stack) do
+				process_layer(subitem, indent .. "    ")
+			end
+		end
+	end
+	local layer = Handy.controls.global_layers[key]
+	Handy.controls.sort_controls(layer)
+	process_layer(layer, "")
+	return table.concat(result, "\n")
 end

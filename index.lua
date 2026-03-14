@@ -100,7 +100,6 @@ Handy.load_file("src/index.lua")
 -- TODO:
 -- 1. localization
 -- 2. keywords
--- 3. API for adding items to dictionary
 -- 4. Credits?
 -- 5. Cleanup code
 --- Insta actions

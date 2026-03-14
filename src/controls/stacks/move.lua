@@ -5,9 +5,11 @@ l({
 	key = "hand_selection",
 	operator = "all",
 	stack_path = "move",
+	order = 10,
 })
 
 c({
 	key = "hand_selection_insta_highlight",
 	stack_path = "move.hand_selection",
+	order = 100,
 })
