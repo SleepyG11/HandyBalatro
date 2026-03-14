@@ -3,6 +3,10 @@ Handy.controls.dictionary = {}
 ---
 
 function Handy.controls.register(item)
+	if Handy.controls.dictionary[item.key] then
+		return Handy.controls.dictionary[item.key]
+	end
+
 	item.get_module = item.get_module or function() end
 	item.update = item.update or function() end
 	item.can_execute = item.can_execute or Handy.controls.can_execute_control

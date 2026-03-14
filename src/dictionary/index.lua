@@ -18,6 +18,85 @@ Handy.dictionary = Handy.D
 
 --
 
+local order_counter = 1
+function Handy.D.register(item)
+	if Handy.D.dictionary[item.key] then
+		return Handy.D.dictionary[item.key]
+	end
+
+	Handy.D.dictionary_sorted = false
+	item.loc_loaded = false
+
+	if not item.order then
+		item.order = order_counter
+		order_counter = order_counter + 1
+	else
+		order_counter = math.max(item.order + 1, order_counter)
+	end
+
+	Handy.D.dictionary[item.key] = item
+	table.insert(Handy.D.list, item)
+	if item.checkbox then
+		if type(item.checkbox) ~= "table" then
+			item.checkbox = {}
+		end
+		table.insert(Handy.D.checkboxes, item)
+	end
+	if item.keybind then
+		if type(item.keybind) ~= "table" then
+			item.keybind = {}
+		end
+		table.insert(Handy.D.keybinds, item)
+	end
+	if item.option_cycle then
+		if type(item.option_cycle) ~= "table" then
+			item.option_cycle = {}
+		end
+		table.insert(Handy.D.option_cycles, item)
+	end
+	if item.simple_option_cycle then
+		if type(item.simple_option_cycle) ~= "table" then
+			item.simple_option_cycle = {}
+		end
+		table.insert(Handy.D.simple_option_cycles, item)
+	end
+	if item.slider then
+		if type(item.slider) ~= "table" then
+			item.slider = {}
+		end
+		table.insert(Handy.D.sliders, item)
+	end
+
+	item.get_module = item.get_module or function() end
+	item.parents = item.parents or {}
+
+	local keywords = item.keywords or {}
+	item.keywords_list = Handy.utils.table_concat(
+		(not keywords.replace and item.parent) and item.parent.keywords_list or {},
+		Handy.utils.string_words_split(Handy.utils.string_join_keywords(keywords))
+	)
+
+	if type(item.parent) == "string" then
+		item.parent = Handy.D.dictionary[item.parent]
+	end
+	if item.parent then
+		item.parents = Handy.utils.table_concat(item.parent.parents or {}, { item.parent })
+	end
+
+	if item.items then
+		table.insert(Handy.D.groups, item)
+		for index, subitem in ipairs(item.items) do
+			subitem.parent = item
+			subitem.parents = Handy.utils.table_concat(item.parents or {}, { item })
+			Handy.D.register(subitem)
+		end
+	else
+		table.insert(Handy.D.items, item)
+	end
+
+	return item
+end
+
 Handy.load_file("src/dictionary/items.lua")
 
 --
@@ -31,7 +110,6 @@ function Handy.D.sorter(a, b)
 	end
 	return a.order < b.order
 end
-
 function Handy.D.sort_dictionary()
 	for _, t in ipairs({
 		Handy.D.list,
@@ -53,6 +131,7 @@ end
 function Handy.D.searchable_items(items)
 	if not Handy.D.dictionary_sorted then
 		Handy.D.sort_dictionary()
+		Handy.D.load_localization()
 	end
 	local start_items = items or Handy.D.list
 	local result_items = {}
@@ -63,7 +142,6 @@ function Handy.D.searchable_items(items)
 	end
 	return result_items
 end
-
 function Handy.D.search(search_string, args)
 	args = args or {}
 	local items = args.items or Handy.D.searchable_items(Handy.D.list)
@@ -135,63 +213,46 @@ end
 
 --
 
-Handy.e_mitter.on("localization_load", function()
-	for k, v in pairs(Handy.D.dictionary) do
-		v.loc_loaded = false
-	end
-
+function Handy.D.load_localization()
 	local load_loc
 	load_loc = function(v)
-		if not v.loc_loaded then
-			v.loc_loaded = true
-			local temp_keywords = {}
+		if v.loc_loaded then
+			return
+		end
+		v.loc_loaded = true
+		local temp_keywords = {}
 
-			local function insert_keywords(t)
-				for _, word in ipairs(t or {}) do
-					temp_keywords[string.lower(word)] = true
-				end
+		local function insert_keywords(t)
+			for _, word in ipairs(t or {}) do
+				temp_keywords[string.lower(word)] = true
 			end
-			insert_keywords(v.keywords_list or {})
+		end
+		insert_keywords(v.keywords_list or {})
 
-			if v.checkbox then
-				if type(v.checkbox) ~= "table" then
-					v.checkbox = {}
-				end
-			end
-			if v.keybind then
-				if type(v.keybind) ~= "table" then
-					v.keybind = {}
-				end
-			end
-			if v.option_cycle then
-				if type(v.option_cycle) ~= "table" then
-					v.option_cycle = {}
-				end
-			end
-			if v.simple_option_cycle then
-				if type(v.simple_option_cycle) ~= "table" then
-					v.simple_option_cycle = {}
-				end
-			end
+		pcall(function()
+			local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.key] or {}
+			insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
+			insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
+		end)
 
-			pcall(function()
-				local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.key] or {}
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
-				insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
-			end)
-
-			v.result_keywords = ""
-			for _, parent in ipairs(v.parents or {}) do
-				load_loc(parent)
-				v.result_keywords = v.result_keywords .. " " .. parent.result_keywords
-			end
-			for tk, _ in pairs(temp_keywords) do
-				v.result_keywords = v.result_keywords .. " " .. tk
-			end
+		v.result_keywords = ""
+		for _, parent in ipairs(v.parents or {}) do
+			load_loc(parent)
+			v.result_keywords = v.result_keywords .. " " .. parent.result_keywords
+		end
+		for tk, _ in pairs(temp_keywords) do
+			v.result_keywords = v.result_keywords .. " " .. tk
 		end
 	end
 
 	for k, v in pairs(Handy.D.dictionary) do
 		load_loc(v)
 	end
+end
+
+Handy.e_mitter.on("localization_load", function()
+	for k, v in pairs(Handy.D.dictionary) do
+		v.loc_loaded = false
+	end
+	Handy.D.load_localization()
 end)

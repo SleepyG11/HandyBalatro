@@ -1,8 +1,4 @@
-local items_list = {}
-
-local function l(item)
-	table.insert(items_list, item)
-end
+local l = Handy.dictionary.register
 
 l({
 	key = "general",
@@ -14,7 +10,6 @@ l({
 		}
 	end,
 
-	group = true,
 	items = {
 		{
 			key = "handy",
@@ -83,7 +78,7 @@ l({
 l({
 	key = "gamepad",
 	keywords = { "gamepad controller" },
-	group = true,
+
 	items = {
 		{
 			key = "controller_sensitivity",
@@ -122,7 +117,7 @@ l({
 l({
 	key = "appearance",
 	keywords = { "appearance buttons button toggle toggles checkboxes checkbox" },
-	group = true,
+
 	items = {
 		{
 			key = "notifications_level",
@@ -194,7 +189,6 @@ l({
 		}
 	end,
 
-	group = true,
 	items = {
 		{
 			key = "me_in_mod_config",
@@ -241,7 +235,6 @@ l({
 l({
 	key = "updater",
 	keywords = { "auto mod update updating patch note notes patchnotes install" },
-	group = true,
 
 	get_module = function()
 		return Handy.cc.updater
@@ -302,7 +295,6 @@ l({
 		return Handy.cc.hand_selection
 	end,
 
-	group = true,
 	items = {
 		{
 			key = "hand_selection_mode",
@@ -413,7 +405,6 @@ l({
 
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
-	group = true,
 	items = {
 		{
 			key = "speed_multiplier_current_value",
@@ -545,7 +536,6 @@ l({
 
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
 
-	group = true,
 	items = {
 		{
 			key = "animation_skip_current_value",
@@ -670,7 +660,6 @@ l({
 
 	no_gamepad = true,
 
-	group = true,
 	items = {
 		{
 			key = "move_highlight_one_left",
@@ -742,7 +731,6 @@ l({
 		return Handy.cc.insta_actions
 	end,
 
-	group = true,
 	items = {
 		{
 			key = "insta_actions_trigger_mode",
@@ -850,7 +838,6 @@ l({
 		return Handy.cc.presets
 	end,
 
-	group = true,
 	items = {
 		{
 			key = "presets_load_1",
@@ -926,7 +913,6 @@ l({
 		only_holdable = true,
 	},
 
-	group = true,
 	items = {
 		{
 			key = "scoring_hold_any_moment",
@@ -946,12 +932,11 @@ l({
 	checkbox = true,
 	keywords = { "vanilla regular common default keybinds" },
 
-	group = true,
 	items = {
 		{
 			key = "regular_keybinds_group_game",
 			kywords = { "general game" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_restart",
@@ -1050,7 +1035,7 @@ l({
 		{
 			key = "regular_keybinds_group_hand",
 			keywords = { "hand" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_play",
@@ -1122,7 +1107,7 @@ l({
 		{
 			key = "regular_keybinds_group_round",
 			keywords = { "round" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_cash_out",
@@ -1175,7 +1160,7 @@ l({
 		{
 			key = "regular_keybinds_group_shop",
 			keywords = { "shop" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_skip_booster",
@@ -1220,7 +1205,7 @@ l({
 		},
 		{
 			key = "regular_keybinds_group_blind_select",
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_skip_blind",
@@ -1267,7 +1252,7 @@ l({
 		{
 			key = "regular_keybinds_group_swappable_menus",
 			keywords = { "ui menus panels menus" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_swappable_overlays_mode",
@@ -1350,7 +1335,7 @@ l({
 		{
 			key = "regular_keybinds_group_menus",
 			keywords = { "ui menus panels menus" },
-			group = true,
+
 			items = {
 				{
 					key = "regular_keybinds_show_deck_preview",
@@ -1419,7 +1404,6 @@ l({
 	checkbox = true,
 	dangerous = true,
 
-	group = true,
 	items = {
 		{
 			key = "dangerous_actions_sell_one",
@@ -1553,7 +1537,7 @@ l({
 -- 	end,
 -- 	checkbox = true,
 
--- 	group = true,
+--
 -- 	items = {
 -- 	},
 -- })
@@ -1561,13 +1545,11 @@ l({
 	key = "mp_extension",
 	keywords = { "multiplayer extension mp lobby bmp" },
 
-	group = true,
 	items = {
 		{
 			key = "mp_extension_current_lobby",
 			keywords = { "current lobby" },
 
-			group = true,
 			items = {
 				{
 					key = "mp_extension_enabled",
@@ -1750,7 +1732,6 @@ l({
 			key = "mp_extension_default_values",
 			keywords = { "default lobby values" },
 
-			group = true,
 			items = {
 				{
 					key = "mp_extension_enabled_default_value",
@@ -1829,67 +1810,3 @@ l({
 		},
 	},
 })
-
---
-
-local next_index = 1
-local process_item
-process_item = function(item)
-	if not item.key then
-		return
-	end
-	item.parents = item.parents or {}
-	Handy.D.dictionary[item.key] = item
-	table.insert(Handy.D.list, item)
-
-	item.get_module = item.get_module or function() end
-
-	local keywords = item.keywords or {}
-	item.keywords_list = Handy.utils.table_concat(
-		(not keywords.replace and item.parent) and item.parent.keywords_list or {},
-		Handy.utils.string_words_split(Handy.utils.string_join_keywords(keywords))
-	)
-
-	if item.checkbox then
-		table.insert(Handy.D.checkboxes, item)
-	end
-	if item.keybind then
-		table.insert(Handy.D.keybinds, item)
-	end
-	if item.option_cycle then
-		table.insert(Handy.D.option_cycles, item)
-	end
-	if item.simple_option_cycle then
-		table.insert(Handy.D.simple_option_cycles, item)
-	end
-	if item.slider then
-		table.insert(Handy.D.sliders, item)
-	end
-	if item.items then
-		table.insert(Handy.D.groups, item)
-		for index, subitem in ipairs(item.items) do
-			subitem.parent = item
-			subitem.parents = Handy.utils.table_concat(item.parents or {}, { item })
-			if not subitem.order then
-				subitem.order = next_index
-				next_index = next_index + 1
-			else
-				next_index = math.max(subitem.order + 1, next_index)
-			end
-			next_index = next_index + 1
-			process_item(subitem)
-		end
-	else
-		table.insert(Handy.D.items, item)
-	end
-end
-
-for index, item in ipairs(items_list) do
-	if not item.order then
-		item.order = next_index
-		next_index = next_index + 1
-	else
-		next_index = math.max(item.order + 1, next_index)
-	end
-	process_item(item)
-end
