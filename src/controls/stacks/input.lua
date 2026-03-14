@@ -3,7 +3,7 @@ local c = Handy.controls.register_control
 
 l({
 	key = "presets",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 10,
 })
@@ -33,7 +33,7 @@ c({
 
 l({
 	key = "speed_n_animations",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 20,
 })
@@ -92,7 +92,7 @@ c({
 
 l({
 	key = "hand_selection",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 30,
 })
@@ -116,7 +116,7 @@ c({
 
 l({
 	key = "insta_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 40,
 })
@@ -130,44 +130,44 @@ c({
 
 l({
 	key = "regular_keybinds",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 50,
 })
 
 l({
 	key = "hand_sorting",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 100,
 })
 l({
 	key = "hand_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 200,
 })
 l({
 	key = "shop_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 300,
 })
 l({
 	key = "blind_select_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 400,
 })
 l({
 	key = "menus",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 500,
 })
 l({
 	key = "game_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input.regular_keybinds",
 	order = 600,
 })
@@ -307,7 +307,7 @@ c({
 
 l({
 	key = "move_highlight",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 60,
 })
@@ -321,7 +321,7 @@ c({
 
 l({
 	key = "dangerous_actions",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 80,
 })
@@ -361,7 +361,7 @@ c({
 
 l({
 	key = "finish",
-	operator = "first",
+	operator = "until",
 	stack_path = "input",
 	order = 95,
 })

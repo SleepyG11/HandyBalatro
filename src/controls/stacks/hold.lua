@@ -3,26 +3,26 @@ local c = Handy.controls.register_control
 
 l({
 	key = "regular_keybinds",
-	operator = "all",
+	operator = "free",
 	stack_path = "hold",
 	order = 20,
 })
 
 l({
 	key = "hand_actions",
-	operator = "all",
+	operator = "free",
 	stack_path = "hold.regular_keybinds",
 	order = 100,
 })
 l({
 	key = "shop_actions",
-	operator = "all",
+	operator = "free",
 	stack_path = "hold.regular_keybinds",
 	order = 200,
 })
 l({
 	key = "game_actions",
-	operator = "all",
+	operator = "free",
 	stack_path = "hold.regular_keybinds",
 	order = 300,
 })
@@ -54,7 +54,7 @@ c({
 
 l({
 	key = "move_highlight",
-	operator = "all",
+	operator = "free",
 	stack_path = "hold",
 	order = 40,
 })

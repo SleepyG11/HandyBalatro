@@ -3,7 +3,7 @@ local c = Handy.controls.register_control
 
 l({
 	key = "hand_selection",
-	operator = "all",
+	operator = "free",
 	stack_path = "move",
 	order = 10,
 })

@@ -7,7 +7,7 @@ local input_layer = {
 	global = true,
 	key = "input",
 	order = 0,
-	operator = "first",
+	operator = "until",
 
 	stack = {},
 	dictionary = {},
@@ -17,7 +17,7 @@ local card_layer = {
 	global = true,
 	key = "card",
 	order = -0,
-	operator = "first",
+	operator = "until",
 
 	stack = {},
 	dictionary = {},
@@ -27,7 +27,7 @@ local tag_layer = {
 	global = true,
 	key = "tag",
 	order = 0,
-	operator = "first",
+	operator = "until",
 
 	stack = {},
 	dictionary = {},
@@ -37,7 +37,7 @@ local hold_layer = {
 	global = true,
 	key = "hold",
 	order = 0,
-	operator = "first",
+	operator = "until",
 
 	stack = {},
 	dictionary = {},
@@ -47,7 +47,7 @@ local move_layer = {
 	global = true,
 	key = "move",
 	order = 0,
-	operator = "first",
+	operator = "until",
 
 	stack = {},
 	dictionary = {},
@@ -66,7 +66,7 @@ Handy.controls.global_layer = {
 	key = "global",
 
 	order = -1,
-	operator = "first",
+	operator = "until",
 
 	stack = {
 		input_layer,
@@ -173,22 +173,40 @@ function Handy.controls.call_control(ctx, control)
 	return false
 end
 function Handy.controls.call_layer(ctx, layer)
-	local operator = layer.operator or "all"
-	local should_stop = false
+	-- Operators:
+	-- free = call all, always false
+	-- until = stop if one true, return true if so
+	-- while = stop if one false, return true if so
+	-- all = call all, return true if all true
+	-- none = call all, return true if all false
+	-- any = call all, return true if any true
+
+	local operator = layer.operator or "free"
+	local should_stop = (layer.operator == "all" or layer.operator == "while") and #layer.stack > 0
 
 	for _, item in ipairs(layer.stack) do
-		if operator == "first" and should_stop then
-			break
+		if operator == "until" and should_stop then
+			return true
+		elseif operator == "while" and not should_stop then
+			return true
 		end
+		local new_value
 		if item.layer then
-			should_stop = Handy.controls.call_layer(ctx, item) or should_stop or false
+			new_value = Handy.controls.call_layer(ctx, item) or should_stop or false
 		elseif item.control then
-			should_stop = Handy.controls.call_control(ctx, item) or should_stop or false
+			new_value = Handy.controls.call_control(ctx, item) or should_stop or false
+		end
+		if operator == "all" or operator == "while" then
+			should_stop = should_stop and new_value
+		else
+			should_stop = should_stop or new_value
 		end
 	end
 
-	if operator == "all" then
+	if operator == "free" then
 		return false
+	elseif operator == "none" then
+		return not should_stop
 	else
 		return should_stop or false
 	end
@@ -199,7 +217,13 @@ end
 function Handy.controls.print_stack(key)
 	local result = { "" }
 	local format_item = function(item, indent)
-		return string.format("%s[%s] %s", indent, item.order, item.key)
+		return string.format(
+			"%s[%s] %s %s",
+			indent,
+			item.order,
+			item.key,
+			item.operator and ("(" .. item.operator .. ")") or ""
+		)
 	end
 	local process_layer
 	process_layer = function(item, indent)

@@ -3,7 +3,7 @@ local c = Handy.controls.register_control
 
 l({
 	key = "hover",
-	operator = "first",
+	operator = "until",
 	stack_path = "card",
 	order = 10,
 })
@@ -25,7 +25,7 @@ c({
 
 l({
 	key = "click",
-	operator = "first",
+	operator = "until",
 	stack_path = "card",
 	order = 20,
 })
