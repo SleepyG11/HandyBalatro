@@ -10,7 +10,11 @@ Handy.D = {
 	option_cycles = {},
 	simple_option_cycles = {},
 	sliders = {},
+
+	dictionary_sorted = false,
 }
+
+Handy.dictionary = Handy.D
 
 --
 
@@ -28,14 +32,28 @@ function Handy.D.sorter(a, b)
 	return a.order < b.order
 end
 
-table.sort(Handy.D.list, Handy.D.sorter)
-table.sort(Handy.D.checkboxes, Handy.D.sorter)
-table.sort(Handy.D.keybinds, Handy.D.sorter)
-table.sort(Handy.D.option_cycles, Handy.D.sorter)
+function Handy.D.sort_dictionary()
+	for _, t in ipairs({
+		Handy.D.list,
+		Handy.D.groups,
+		Handy.D.items,
+		Handy.D.checkboxes,
+		Handy.D.keybinds,
+		Handy.D.option_cycles,
+		Handy.D.simple_option_cycles,
+		Handy.D.sliders,
+	}) do
+		table.sort(t, Handy.D.sorter)
+	end
+	Handy.D.dictionary_sorted = true
+end
 
 --
 
 function Handy.D.searchable_items(items)
+	if not Handy.D.dictionary_sorted then
+		Handy.D.sort_dictionary()
+	end
 	local start_items = items or Handy.D.list
 	local result_items = {}
 	for _, item in ipairs(start_items) do

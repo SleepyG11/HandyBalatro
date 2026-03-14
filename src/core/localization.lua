@@ -97,6 +97,8 @@ Handy.L = {
 	end,
 }
 
+Handy.localization = Handy.L
+
 -- This function is taken from SMODS
 Handy.L.localize_box = function(lines, args)
 	local function format_ui_value(value)
