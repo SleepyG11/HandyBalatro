@@ -99,7 +99,11 @@ function Handy.utils.alive_element(area)
 end
 
 function Handy.utils.restart_game()
-	if SMODS then
+	Handy.save_all_config()
+	if SMODS and SMODS.save_all_config then
+		SMODS.save_all_config()
+	end
+	if SMODS and SMODS.restart_game then
 		return SMODS.restart_game()
 	end
 	if ((G or {}).SOUND_MANAGER or {}).channel then

@@ -12,3 +12,8 @@ Handy.load_files({
 	"controller/index.lua",
 	"updater/index.lua",
 }, "src/core/")
+
+function Handy.save_all_config()
+	Handy.config.save()
+	Handy.presets.save()
+end

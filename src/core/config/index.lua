@@ -4,8 +4,10 @@ Handy.load_file("src/core/config/default_config.lua")
 -- Save/load
 
 Handy.config.save_event = nil
+Handy.config.save_blocker = nil
 
 function Handy.config.save()
+	Handy.config.save_blocker = true
 	if SMODS and SMODS.save_mod_config and Handy.current_mod then
 		Handy.current_mod.config = Handy.config.current
 		SMODS.save_mod_config(Handy.current_mod)
@@ -28,6 +30,7 @@ function Handy.config.load()
 	Handy.cc = Handy.config.current
 end
 function Handy.config.request_save(delay)
+	Handy.config.save_blocker = nil
 	if Handy.config.save_event and not Handy.config.save_event.complete then
 		Handy.config.save_event.time = G.TIMERS[Handy.config.save_event.timer]
 	else
@@ -40,7 +43,9 @@ function Handy.config.request_save(delay)
 			delay = delay or 1,
 			pause_force = true,
 			func = function()
-				Handy.config.save()
+				if not Handy.config.save_blocker then
+					Handy.config.save()
+				end
 				return true
 			end,
 		})

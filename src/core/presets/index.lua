@@ -6,8 +6,15 @@ Handy.load_files({
 
 --
 
-Handy.config.save_event = nil
+Handy.presets.save_event = nil
+Handy.presets.save_blocker = nil
 
+function Handy.presets.save()
+	Handy.presets.save_blocker = true
+	love.filesystem.createDirectory("config")
+	local serialized = "return " .. Handy.utils.serialize(Handy.presets.current)
+	love.filesystem.write("config/Handy_Presets.jkr", serialized)
+end
 function Handy.presets.load()
 	Handy.presets.current = Handy.utils.table_merge({}, Handy.presets.default)
 	local lovely_mod_presets = get_compressed("config/Handy_Presets.jkr")
@@ -15,12 +22,8 @@ function Handy.presets.load()
 		Handy.presets.current = Handy.utils.table_merge(Handy.presets.current, STR_UNPACK(lovely_mod_presets))
 	end
 end
-function Handy.presets.save()
-	love.filesystem.createDirectory("config")
-	local serialized = "return " .. Handy.utils.serialize(Handy.presets.current)
-	love.filesystem.write("config/Handy_Presets.jkr", serialized)
-end
 function Handy.presets.request_save(delay)
+	Handy.presets.save_blocker = nil
 	if Handy.presets.save_event and not Handy.presets.save_event.complete then
 		Handy.presets.save_event.time = G.TIMERS[Handy.presets.save_event.timer]
 	else
@@ -33,7 +36,9 @@ function Handy.presets.request_save(delay)
 			delay = delay or 1,
 			pause_force = true,
 			func = function()
-				Handy.presets.save()
+				if not Handy.presets.save_blocker then
+					Handy.presets.save()
+				end
 				return true
 			end,
 		})
