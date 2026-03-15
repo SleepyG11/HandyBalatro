@@ -77,7 +77,7 @@ function draw_card(...)
 	if Handy.animation_skip.should_skip_everything() then
 		Handy.ARGS.force_non_blocking_event = true
 		draw_card_ref(...)
-		Handy.ARGS.force_non_blocking_event = false
+		Handy.ARGS.force_non_blocking_event = nil
 		return
 	end
 	return draw_card_ref(...)
@@ -129,7 +129,7 @@ function level_up_hand(...)
 	elseif Handy.animation_skip.should_skip_animation() then
 		Handy.ARGS.force_non_blocking_event = true
 		level_up_hand_ref(...)
-		Handy.ARGS.force_non_blocking_event = false
+		Handy.ARGS.force_non_blocking_event = nil
 		return
 	end
 	return level_up_hand_ref(...)
@@ -182,8 +182,8 @@ G.FUNCS.start_run = function(...)
 		Handy.ARGS.skip_wipe_screen = true
 		Handy.ARGS.force_non_blocking_event = true
 		result = start_run_ref(...)
-		Handy.ARGS.skip_wipe_screen = false
-		Handy.ARGS.force_non_blocking_event = false
+		Handy.ARGS.skip_wipe_screen = nil
+		Handy.ARGS.force_non_blocking_event = nil
 	else
 		result = start_run_ref(...)
 	end

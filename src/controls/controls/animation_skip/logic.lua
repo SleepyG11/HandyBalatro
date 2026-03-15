@@ -5,7 +5,7 @@ Handy.animation_skip = {
 		["handy_config"] = true,
 	},
 	is_skippable_queue = function(queue)
-		return Handy.animation_skip.queues_to_skip[queue or "base"]
+		return not queue or Handy.animation_skip.queues_to_skip[queue]
 	end,
 	non_skippable_timers = {
 		["REAL"] = true,
