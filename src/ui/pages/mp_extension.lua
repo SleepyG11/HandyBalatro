@@ -111,7 +111,7 @@ end
 
 function Handy.UI.mp_extension_page()
 	local render = Handy.UI.mp_extension_page_UIBox
-	if Handy.__mp_extension_back_to_options then
+	if Handy.ARGS.mp_extension_back_to_options then
 		render = Handy.UI.mp_extension_page_back_to_options_UIBox
 	end
 	Handy.UI.data.rerender_uibox_func = render
@@ -130,8 +130,8 @@ G.FUNCS.handy_mp_extension = function(e)
 	Handy.UI.mp_extension_page()
 end
 G.FUNCS.handy_mp_extension_back_to_options = function(e)
-	Handy.__mp_extension_back_to_options = true
+	Handy.ARGS.mp_extension_back_to_options = true
 	Handy.UI.data.opened = true
 	Handy.UI.mp_extension_page()
-	Handy.__mp_extension_back_to_options = nil
+	Handy.ARGS.mp_extension_back_to_options = nil
 end

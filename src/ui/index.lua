@@ -15,8 +15,8 @@ function Handy.UI.cleanup(full)
 	end
 	G.E_MANAGER:clear_queue("handy_config")
 
-	Handy.__override_event_queue = nil
-	Handy.__use_gamespeed = nil
+	Handy.ARGS.event_queue_override = nil
+	Handy.ARGS.use_gamespeed = nil
 end
 function Handy.UI.check_for_cleanup(full)
 	if (not G.OVERLAY_MENU or not G.OVERLAY_MENU.is_handy_config) and Handy.UI.data.opened then

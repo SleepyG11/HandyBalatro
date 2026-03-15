@@ -16,24 +16,24 @@ end
 -- TODO: decide what to do with this one: rerendr somehow or leave it as rest of MP lobby options behave like this basically
 local old_lobby_options = G.UIDEF.create_UIBox_lobby_options
 function G.UIDEF.create_UIBox_lobby_options(...)
-	Handy.__insert_mp_lobby_tab = true
+	Handy.ARGS.insert_mp_lobby_tab = true
 	local r = old_lobby_options(...)
-	Handy.__insert_mp_lobby_tab = nil
+	Handy.ARGS.insert_mp_lobby_tab = nil
 	return r
 end
 
 local old_lobby_info = MP.UI.lobby_info
 function MP.UI.lobby_info(...)
-	Handy.__insert_mp_lobby_tab = true
+	Handy.ARGS.insert_mp_lobby_tab = true
 	local r = old_lobby_info(...)
-	Handy.__insert_mp_lobby_tab = nil
+	Handy.ARGS.insert_mp_lobby_tab = nil
 	return r
 end
 
 local old_create_tabs = create_tabs
 function create_tabs(args, ...)
-	if Handy.__insert_mp_lobby_tab then
-		Handy.__insert_mp_lobby_tab = nil
+	if Handy.ARGS.insert_mp_lobby_tab then
+		Handy.ARGS.insert_mp_lobby_tab = nil
 		table.insert(args.tabs, {
 			label = "Handy",
 			tab_definition_function = function()

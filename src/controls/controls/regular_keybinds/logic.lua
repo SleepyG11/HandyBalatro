@@ -213,7 +213,7 @@ Handy.regular_keybinds = {
 	restart_lock = nil,
 	bypass_restart = false,
 	can_restart = function()
-		return not Handy.b_is_mod_active() or Handy.regular_keybinds.bypass_restart
+		return not Handy.b_is_mod_active() or Handy.ARGS.bypass_restart
 	end,
 
 	show_deck_preview_hold = false,

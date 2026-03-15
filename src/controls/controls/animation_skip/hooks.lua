@@ -75,9 +75,9 @@ end
 local draw_card_ref = draw_card
 function draw_card(...)
 	if Handy.animation_skip.should_skip_everything() then
-		Handy.animation_skip.force_non_blocking = true
+		Handy.ARGS.force_non_blocking_event = true
 		draw_card_ref(...)
-		Handy.animation_skip.force_non_blocking = false
+		Handy.ARGS.force_non_blocking_event = false
 		return
 	end
 	return draw_card_ref(...)
@@ -102,7 +102,7 @@ function ease_hands_played(...)
 end
 local ease_dollars_ref = ease_dollars
 function ease_dollars(amount, instant, ...)
-	if Handy.__no_modify_ease_dollars then
+	if Handy.animation_skip.no_modify_ease_dollars then
 		return ease_dollars_ref(amount, instant, ...)
 	end
 	if Handy.animation_skip.should_skip_animation() then
@@ -127,35 +127,25 @@ function level_up_hand(...)
 		args[3] = true
 		return level_up_hand_ref(unpack(args))
 	elseif Handy.animation_skip.should_skip_animation() then
-		Handy.animation_skip.force_non_blocking = true
+		Handy.ARGS.force_non_blocking_event = true
 		level_up_hand_ref(...)
-		Handy.animation_skip.force_non_blocking = false
+		Handy.ARGS.force_non_blocking_event = false
 		return
 	end
 	return level_up_hand_ref(...)
 end
 
-local non_skippable_timers = {
-	["REAL"] = true,
-	["REAL_SHADER"] = true,
-	["UPTIME"] = true,
-}
-
-function Handy.animation_skip.is_skippable_timer(timer)
-	return not non_skippable_timers[timer or "TOTAL"]
-end
-
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, queue, ...)
-	if not queue or Handy.animation_skip.queues_to_skip[queue] then
+	if Handy.animation_skip.is_skippable_queue(queue) then
 		if Handy.animation_skip.mute_ease_dollars > 0 then
 			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
 		end
 		if not event.handy_never_modify then
-			if Handy.__override_event_queue then
-				queue = Handy.__override_event_queue
+			if Handy.ARGS.event_queue_override then
+				queue = Handy.ARGS.event_queue_override
 			end
-			if Handy.animation_skip.extract_func_from_event > 0 then
+			if Handy.animation_skip.extract_func_from_event > 0 and event.trigger ~= "ease" then
 				Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
 				event.func()
 				return
@@ -167,10 +157,10 @@ function EventManager:add_event(event, queue, ...)
 					event.delay = (event.trigger == "ease" and 0.0001 or 0)
 				end
 			else
-				if Handy.animation_skip.force_non_blocking then
+				if Handy.ARGS.force_non_blocking_event then
 					event.blocking = false
 				end
-				if Handy.animation_skip.force_non_blockable then
+				if Handy.ARGS.force_non_blockable_event then
 					event.blockable = false
 				end
 				if Handy.animation_skip.should_skip_everything() then
@@ -189,11 +179,11 @@ local start_run_ref = G.FUNCS.start_run
 G.FUNCS.start_run = function(...)
 	local result
 	if Handy.animation_skip.should_skip_everything() then
-		Handy.animation_skip.skip_wipe_screen = true
-		Handy.animation_skip.force_non_blocking = true
+		Handy.ARGS.skip_wipe_screen = true
+		Handy.ARGS.force_non_blocking_event = true
 		result = start_run_ref(...)
-		Handy.animation_skip.skip_wipe_screen = false
-		Handy.animation_skip.force_non_blocking = false
+		Handy.ARGS.skip_wipe_screen = false
+		Handy.ARGS.force_non_blocking_event = false
 	else
 		result = start_run_ref(...)
 	end
@@ -202,14 +192,14 @@ end
 
 local wipe_on_ref = G.FUNCS.wipe_on
 function G.FUNCS.wipe_on(...)
-	if Handy.animation_skip.skip_wipe_screen then
+	if Handy.ARGS.skip_wipe_screen then
 		return
 	end
 	return wipe_on_ref(...)
 end
 local wipe_off_ref = G.FUNCS.wipe_off
 function G.FUNCS.wipe_off(...)
-	if Handy.animation_skip.skip_wipe_screen then
+	if Handy.ARGS.skip_wipe_screen then
 		return
 	end
 	return wipe_off_ref(...)
@@ -237,7 +227,7 @@ Handy.e_mitter.on("steamodded_load", function()
 		local nuGC_ref = nuGC
 		function nuGC(time_budget, ...)
 			if G.STATE == G.STATES.HAND_PLAYED then
-				time_budget = 0.0333
+				time_budget = math.max(0.0333, time_budget)
 			end
 			return nuGC_ref(time_budget, ...)
 		end

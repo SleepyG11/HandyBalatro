@@ -396,10 +396,10 @@ Handy.controls.register({
 		self.last_hold = 0
 		local old_hold_value = G.CONTROLLER.held_key_times.r
 		G.CONTROLLER.held_key_times.r = 999
-		Handy.regular_keybinds.bypass_restart = true
+		Handy.ARGS.bypass_restart = true
 		G.CONTROLLER:key_hold_update("r", 0)
-		Handy.regular_keybinds.bypass_restart = nil
 		G.CONTROLLER.held_key_times.r = old_hold_value
+		Handy.ARGS.bypass_restart = nil
 		return true
 	end,
 })
@@ -427,14 +427,14 @@ Handy.controls.register({
 	execute = function()
 		local old_hold_value = G.CONTROLLER.held_key_times.r
 		G.CONTROLLER.held_key_times.r = 999
-		Handy.animation_skip.skip_wipe_screen = true
-		Handy.animation_skip.force_non_blocking = true
-		Handy.regular_keybinds.bypass_restart = true
+		Handy.ARGS.skip_wipe_screen = true
+		Handy.ARGS.force_non_blocking_event = true
+		Handy.ARGS.bypass_restart = true
 		G.CONTROLLER:key_hold_update("r", 0)
-		Handy.regular_keybinds.bypass_restart = nil
 		G.CONTROLLER.held_key_times.r = old_hold_value
-		Handy.animation_skip.skip_wipe_screen = false
-		Handy.animation_skip.force_non_blocking = false
+		Handy.ARGS.bypass_restart = nil
+		Handy.ARGS.skip_wipe_screen = nil
+		Handy.ARGS.force_non_blocking_event = nil
 		return true
 	end,
 })
@@ -493,16 +493,16 @@ Handy.controls.register({
 		end
 		if s then
 			Handy.regular_keybinds.reload_run_blocker = true
-			Handy.animation_skip.skip_wipe_screen = true
-			Handy.animation_skip.force_non_blocking = true
+			Handy.ARGS.skip_wipe_screen = true
+			Handy.ARGS.force_non_blocking_event = true
 			if in_menu then
 				G.FUNCS.go_to_menu()
 			end
 			G.SETTINGS.current_setup = "Continue"
 			G.SAVED_GAME = s
 			G.FUNCS.start_setup_run()
-			Handy.animation_skip.skip_wipe_screen = false
-			Handy.animation_skip.force_non_blocking = false
+			Handy.ARGS.skip_wipe_screen = nil
+			Handy.ARGS.force_non_blocking_event = nil
 			G.E_MANAGER:add_event(Event({
 				no_delete = true,
 				func = function()

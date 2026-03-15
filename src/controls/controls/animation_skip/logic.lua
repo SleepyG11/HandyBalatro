@@ -1,9 +1,20 @@
 -- None, Messages, Animation, Everything, Unsafe
 Handy.animation_skip = {
 	queues_to_skip = {
-		"base",
-		"handy_config",
+		["base"] = true,
+		["handy_config"] = true,
 	},
+	is_skippable_queue = function(queue)
+		return Handy.animation_skip.queues_to_skip[queue or "base"]
+	end,
+	non_skippable_timers = {
+		["REAL"] = true,
+		["REAL_SHADER"] = true,
+		["UPTIME"] = true,
+	},
+	is_skippable_timer = function(timer)
+		return not Handy.animation_skip.non_skippable_timers[timer or "TOTAL"]
+	end,
 
 	value = 1,
 	value_text = "",
@@ -11,6 +22,7 @@ Handy.animation_skip = {
 	immediate_event_queue = 0,
 	ease_dollars_buffer = 0,
 	dollars_buffer_cleared = false,
+	no_modify_ease_dollars = false,
 
 	force_non_blocking = false,
 	force_non_blockable = false,
@@ -173,9 +185,9 @@ Handy.e_mitter.on("update", function(dt)
 		Handy.animation_skip.dollars_buffer_cleared = false
 	end
 	if Handy.animation_skip.ease_dollars_buffer ~= 0 then
-		Handy.__no_modify_ease_dollars = true
+		Handy.animation_skip.no_modify_ease_dollars = true
 		ease_dollars(Handy.animation_skip.ease_dollars_buffer, true)
-		Handy.__no_modify_ease_dollars = nil
+		Handy.animation_skip.no_modify_ease_dollars = false
 		Handy.animation_skip.ease_dollars_buffer = 0
 	end
 end)

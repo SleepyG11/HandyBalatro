@@ -29,6 +29,8 @@ Handy = setmetatable({
 		["["] = "Left Bracket",
 		["]"] = "Right Bracket",
 	},
+
+	ARGS = {},
 }, {})
 
 function Handy.read_file(file)

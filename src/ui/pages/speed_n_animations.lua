@@ -1,6 +1,6 @@
 local function calculate(deck, hand, jokers)
-	Handy.__override_event_queue = "handy_config"
-	Handy.__use_gamespeed = true
+	Handy.ARGS.event_queue_override = "handy_config"
+	Handy.ARGS.use_gamespeed = true
 	Handy.UI.data.is_speed_n_animations_calculate = true
 	for i = 1, 5 do
 		Handy.UI.utils.draw_from_to(deck, hand)
@@ -448,8 +448,8 @@ G.FUNCS.handy_speed_n_animations = function(e)
 end
 G.FUNCS.handy_leave_speed_n_animations = function(e)
 	G.E_MANAGER:clear_queue("handy_config")
-	Handy.__override_event_queue = nil
-	Handy.__use_gamespeed = nil
+	Handy.ARGS.event_queue_override = nil
+	Handy.ARGS.use_gamespeed = nil
 	Handy.UI.data.is_speed_n_animations_calculate = nil
 	G.FUNCS.handy_back_to_options(e)
 	Handy.UI.data.speed_n_animations_preview = nil
@@ -461,8 +461,8 @@ function G.FUNCS.handy_speed_n_animations_stop_calculation(e, without_cleanup)
 		return
 	end
 	G.E_MANAGER:clear_queue("handy_config")
-	Handy.__override_event_queue = "handy_config"
-	Handy.__use_gamespeed = true
+	Handy.ARGS.event_queue_override = "handy_config"
+	Handy.ARGS.use_gamespeed = true
 	Handy.UI.data.is_speed_n_animations_calculate = nil
 	for i = 1, #d.hand.cards + 1 do
 		Handy.UI.utils.draw_from_to(d.hand, d.deck)
@@ -471,8 +471,8 @@ function G.FUNCS.handy_speed_n_animations_stop_calculation(e, without_cleanup)
 		G.E_MANAGER:add_event(Event({
 			pause_force = true,
 			func = function()
-				Handy.__override_event_queue = nil
-				Handy.__use_gamespeed = nil
+				Handy.ARGS.event_queue_override = nil
+				Handy.ARGS.use_gamespeed = nil
 				Handy.UI.data.is_speed_n_animations_calculate = nil
 				return true
 			end,
@@ -485,7 +485,7 @@ function G.FUNCS.handy_speed_n_animations_calculate(e)
 		return
 	end
 	G.FUNCS.handy_speed_n_animations_stop_calculation(e, true)
-	Handy.__use_gamespeed = true
+	Handy.ARGS.use_gamespeed = true
 	Handy.UI.utils.delay(0.2)
 	G.E_MANAGER:add_event(Event({
 		pause_force = true,

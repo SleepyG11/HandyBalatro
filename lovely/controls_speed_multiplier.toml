@@ -10,7 +10,7 @@ target = "game.lua"
 pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) - 2)'''
 position = "before"
 payload = '''
-if Handy.__use_gamespeed then self.SPEEDFACTOR = self.SETTINGS.GAMESPEED or 1 end
+if Handy.ARGS.use_gamespeed then self.SPEEDFACTOR = self.SETTINGS.GAMESPEED or 1 end
 '''
 match_indent = true
 overwrite = false
