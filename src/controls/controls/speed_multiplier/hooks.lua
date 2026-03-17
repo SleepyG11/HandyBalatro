@@ -32,6 +32,10 @@ local function update_manager(manager, preserve, progress, dt, forced, ...)
 	end
 end
 function EventManager:update(real_dt, forced, ...)
+	local old_queue_dt = self.queue_dt or (1 / 60)
+	if G.SCORING_COROUTINE then
+		self.queue_dt = math.max(1 / 6, self.queue_dt)
+	end
 	Handy.ARGS.previous_frame_timers = Handy.ARGS.previous_frame_timers or Handy.utils.table_shallow_copy(G.TIMERS)
 	local pft = Handy.ARGS.previous_frame_timers
 	local cft = Handy.ARGS.current_frame_timers
@@ -62,6 +66,7 @@ function EventManager:update(real_dt, forced, ...)
 
 					EMPTY(pft)
 					Handy.utils.table_shallow_merge(pft, G.TIMERS)
+					self.queue_dt = old_queue_dt
 
 					return
 				end
@@ -71,9 +76,13 @@ function EventManager:update(real_dt, forced, ...)
 		end
 	end
 
+	local r = old_em_update(self, real_dt, forced, ...)
+
 	EMPTY(pft)
 	Handy.utils.table_shallow_merge(pft, G.TIMERS)
-	return old_em_update(self, real_dt, forced, ...)
+	self.queue_dt = old_queue_dt
+
+	return r
 end
 
 local nuGC_ref = nuGC
