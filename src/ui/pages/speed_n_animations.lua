@@ -289,6 +289,8 @@ function Handy.UI.speed_n_animations_page_definition()
 				end
 				for i = 1, 15 do
 					local center = ((i - 1) % 5) < 3 and G.P_CENTERS.m_steel or G.P_CENTERS.m_gold
+					local old_viewed_back = G.GAME.viewed_back
+					G.GAME.viewed_back = Back(G.P_CENTERS.b_nebula)
 					local card1 = Card(
 						deck_area.VT.x + deck_area.VT.w / 2 - G.CARD_W / 2,
 						deck_area.VT.y,
@@ -302,6 +304,7 @@ function Handy.UI.speed_n_animations_page_definition()
 							bypass_back = G.P_CENTERS.b_nebula.pos,
 						}
 					)
+					G.GAME.viewed_back = old_viewed_back
 					card1:set_seal("Red", true, true)
 					deck_area:emplace(card1)
 				end
