@@ -83,10 +83,25 @@ return {
 			speed_multiplier_settings_toggle = {
 				name = "Speed multiplier: Toggle in settings",
 				text = {},
+				unlock = {
+					"Placed near Vanilla {C:attention}Game speed{} setting",
+				},
 			},
 			animation_skip_settings_toggle = {
 				name = "Animation skip: Toggle in settings",
 				text = {},
+				unlock = {
+					"Placed near Vanilla {C:attention}Game speed{} setting",
+				},
+			},
+			show_custom_pip = {
+				name = "Display keybinds on buttons",
+				text = {},
+				unlock = {
+					"Visually show keybinds on buttons",
+					"they activate",
+					"{C:inactive}(Play hand, Discard, Run info, Reroll, etc.){}",
+				},
 			},
 
 			updater = {
@@ -1297,6 +1312,12 @@ return {
 			handy_dangerous_actions_mass_sell_remove_mode = {
 				"Affect all cards",
 				"Affect all but target card",
+			},
+
+			handy_show_custom_pip_mode = {
+				"None",
+				"Only with Gamepad",
+				"Always",
 			},
 
 			handy_mp_extension_status_not_initialized = "Multiplayer Extension is NOT LOADED in this lobby",

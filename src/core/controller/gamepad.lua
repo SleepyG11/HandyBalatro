@@ -92,8 +92,19 @@ Handy.controller.remove_button_from_registry = function(e)
 	end
 end
 
+function Handy.controller.should_show_custom_pip()
+	local v = Handy.cc.show_custom_pip.value
+	if v == 1 then
+		return false
+	elseif v == 2 then
+		return Handy.controller.is_gamepad()
+	elseif v == 3 then
+		return true
+	end
+end
+
 Handy.controller.override_node_button = function(e)
-	if e.REMOVED then
+	if e.REMOVED or Handy.ARGS.no_pip_override then
 		return
 	end
 
@@ -101,11 +112,18 @@ Handy.controller.override_node_button = function(e)
 	local override = e.handy_gamepad_override
 	if override then
 		local new_button, new_button_arr
-		local is_replaced_button = Handy.b_is_mod_active() and Handy.controller.is_gamepad() and override.enabled_func()
+		local is_replaced_button = Handy.b_is_mod_active()
+			and Handy.controller.should_show_custom_pip()
+			and override.enabled_func()
 		if is_replaced_button then
 			-- Set buttons & array if it should be replaced
-			new_button, new_button_arr =
-				Handy.utils.first_non_empty_keys(override.module.keys_1_gamepad, override.module.keys_2_gamepad)
+			if Handy.controller.is_gamepad() then
+				new_button, new_button_arr =
+					Handy.utils.first_non_empty_keys(override.module.keys_1_gamepad, override.module.keys_2_gamepad)
+			else
+				new_button, new_button_arr =
+					Handy.utils.first_non_empty_keys(override.module.keys_1, override.module.keys_2)
+			end
 		else
 			-- Return to vanilla keys
 			new_button = nil
@@ -239,11 +257,16 @@ Handy.controller.override_node_button = function(e)
 			}
 			e.handy_gamepad_override = override
 
-			if Handy.b_is_mod_active() and Handy.controller.is_gamepad() and enabled_func() then
+			if Handy.b_is_mod_active() and Handy.controller.should_show_custom_pip() and enabled_func() then
 				Handy.controller.remove_button_from_registry(e)
 				e.config.focus_args.button = nil
-				override.prev_button, override.prev_buttons_array =
-					Handy.utils.first_non_empty_keys(module.keys_1_gamepad, module.keys_2_gamepad)
+				if Handy.controller.is_gamepad() then
+					override.prev_button, override.prev_buttons_array =
+						Handy.utils.first_non_empty_keys(module.keys_1_gamepad, module.keys_2_gamepad)
+				else
+					override.prev_button, override.prev_buttons_array =
+						Handy.utils.first_non_empty_keys(module.keys_1, module.keys_2)
+				end
 				override.render_array = true
 
 				if e.children.button_pip then
@@ -287,28 +310,11 @@ Handy.controller.override_node_button = function(e)
 
 	-- Display vanilla controller things if we mimic gamepad
 	if Handy.controller.is_gamepad() and not G.CONTROLLER.HID.controller then
-		if e.config.focus_args and not e.children.button_pip then
-			e.children.button_pip = UIBox({
-				definition = create_button_binding_pip({
-					button = e.config.focus_args.button,
-					scale = e.config.focus_args.scale,
-				}),
-				config = {
-					align = e.config.focus_args.orientation or "cr",
-					offset = e.config.focus_args.offset
-						or e.config.focus_args.orientation == "bm" and { x = 0, y = 0.02 }
-						or { x = 0.1, y = 0.02 },
-					major = e,
-					parent = e,
-					instance_type = "CARD",
-				},
-			})
-			e.children.button_pip.states.collide.can = false
-		end
-		if not e.config.focus_args and e.children.button_pip then
-			e.children.button_pip:remove()
-			e.children.button_pip = nil
-		end
+		G.CONTROLLER.HID.controller = true
+		Handy.ARGS.no_pip_override = true
+		G.FUNCS.set_button_pip(e)
+		G.CONTROLLER.HID.controller = nil
+		Handy.ARGS.no_pip_override = nil
 		return true
 	else
 		return false

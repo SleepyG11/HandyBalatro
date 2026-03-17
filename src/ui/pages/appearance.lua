@@ -31,6 +31,7 @@ function Handy.UI.appearance_page_definition()
 								},
 							},
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.notifications_level),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.show_custom_pip),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.hide_options_button),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_settings_toggle),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_settings_toggle),

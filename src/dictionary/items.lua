@@ -161,6 +161,24 @@ l({
 			},
 		},
 		{
+			key = "show_custom_pip",
+			keywords = {},
+			get_module = function()
+				return Handy.cc.show_custom_pip
+			end,
+			option_cycle = {
+				get_values = function()
+					return {
+						options = {
+							Handy.L.dictionary("handy_show_custom_pip_mode", 1),
+							Handy.L.dictionary("handy_show_custom_pip_mode", 2),
+							Handy.L.dictionary("handy_show_custom_pip_mode", 3),
+						},
+					}
+				end,
+			},
+		},
+		{
 			key = "speed_multiplier_settings_toggle",
 			keywords = { "settings config speed multiplier more speed toggle checkbox cycle" },
 			get_module = function(self)

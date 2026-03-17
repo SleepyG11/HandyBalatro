@@ -20,6 +20,9 @@ local default_config = {
 	advanced_mode = {
 		enabled = false,
 	},
+	show_custom_pip = {
+		value = 2,
+	},
 
 	-- Me
 	me_in_mod_config = {
