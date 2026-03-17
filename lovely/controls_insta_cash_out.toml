@@ -13,7 +13,7 @@ payload = '''
 Handy.regular_keybinds.can_skip_cashout = true
 '''
 match_indent = true
-overwrite = false
+
 
 [[patches]]
 [patches.pattern]
@@ -24,7 +24,7 @@ payload = '''
 if Handy.regular_keybinds.cashout_skipped and e.config.button then return end
 '''
 match_indent = true
-overwrite = false
+
 
 [[patches]]
 [patches.pattern]
@@ -36,6 +36,6 @@ Handy.regular_keybinds.cashout_skipped = false
 Handy.regular_keybinds.can_skip_cashout = false
 '''
 match_indent = true
-overwrite = false
+
 
 # Speed applied in controls_speed_multiplier.toml

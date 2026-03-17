@@ -12,5 +12,5 @@ position = "at"
 payload = '''
 Handy.regular_keybinds.show_deck_preview_hold
 '''
-overwrite = false
+
 times = 2

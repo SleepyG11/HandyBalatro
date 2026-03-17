@@ -133,4 +133,3 @@ if not args.button or not button_sprite_map[args.button] then
 end
 '''
 match_indent = true
-overwrite = false

@@ -13,7 +13,7 @@ payload = '''
 if Handy.ARGS.use_gamespeed then self.SPEEDFACTOR = self.SETTINGS.GAMESPEED or 1 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Apply multiplier to speed
 [[patches]]
@@ -25,20 +25,7 @@ payload = '''
 self.HANDY_REAL_SPEEDFACTOR = self.SPEEDFACTOR
 self.SPEEDFACTOR = self.SPEEDFACTOR * (Handy.speed_multiplier.get_value() or 1)
 if Handy.regular_keybinds.cashout_skipped and not Handy.b_is_in_multiplayer() then
-    self.SPEEDFACTOR = math.max(self.SPEEDFACTOR, 999)
+    self.SPEEDFACTOR = self.SPEEDFACTOR * 64
 end
 '''
 match_indent = true
-overwrite = false
-
-# E_MANAGER overclock
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''self.E_MANAGER:update(self.real_dt)'''
-position = "after"
-payload = '''
-Handy.speed_multiplier.accelerate_queue(self.E_MANAGER)
-'''
-match_indent = true
-overwrite = false

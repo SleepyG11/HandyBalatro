@@ -15,7 +15,7 @@ if parsedAction.action == "handyMPExtensionLobbyEnabled" then
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Set default values
 [[patches]]
@@ -27,7 +27,7 @@ payload = '''
 Handy.EXT.Multiplayer.set_local_enabled()
 '''
 match_indent = true
-overwrite = false
+
 
 # Rerender UI if MP lobby ui was rerendered
 [[patches]]
@@ -39,4 +39,3 @@ payload = '''
 Handy.UI.rerender(true)
 '''
 match_indent = true
-overwrite = false

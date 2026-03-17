@@ -15,7 +15,7 @@ if focused.config.focus_args.handy_cycle then
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Custom movement control
 [[patches]]
@@ -59,7 +59,7 @@ if (focused.config.focus_args.type == 'handy_dictionary_item' or focused.config.
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Correct focus movement on hand selection preview
 
@@ -78,7 +78,7 @@ elseif Handy.UI.data.hand_selection_preview_area and (dir == 'L' or dir == 'R') 
     if nu_rank ~= self.focused.target.rank then G.ARGS.focus_list[1] = {node = handy_area.cards[nu_rank]} end
 '''
 match_indent = true
-overwrite = false
+
 
 # Prevent button pip crash
 [[patches]]
@@ -98,7 +98,7 @@ if not args.button or not button_sprite_map[args.button] then
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Add ability to override chosen tab in create_tabs
 [[patches]]
@@ -111,7 +111,7 @@ if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_
 elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
 '''
 match_indent = true
-overwrite = false
+
 
 # Insert speed multiplier and animation skip in vanilla settings
 [[patches]]
@@ -124,7 +124,7 @@ Handy.UI.settings_speed_multiplier(),
 Handy.UI.settings_animation_skip(),
 '''
 match_indent = true
-overwrite = false
+
 
 # Add own timer for UI in config menu
 [[patches]]
@@ -136,4 +136,3 @@ payload = '''
 self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SPEEDFACTOR)
 '''
 match_indent = true
-overwrite = false

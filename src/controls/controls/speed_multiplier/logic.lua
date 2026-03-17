@@ -13,7 +13,8 @@ Handy.speed_multiplier = {
 
 	get_queue_retriggers_count = function()
 		if
-			Handy.speed_multiplier.temp_disabled
+			G.SCORING_COROUTINE
+			or Handy.speed_multiplier.temp_disabled
 			or not Handy.b_is_mod_active()
 			or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 			or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)

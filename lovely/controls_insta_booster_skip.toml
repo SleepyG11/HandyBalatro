@@ -13,4 +13,3 @@ payload = '''
 Handy.regular_keybinds.booster_pack_skipped = false
 '''
 match_indent = true
-overwrite = false

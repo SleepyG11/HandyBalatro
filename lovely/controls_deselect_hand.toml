@@ -13,4 +13,3 @@ payload = '''
 Handy.hand_selection.should_prevent_deselect() or
 '''
 match_indent = true
-overwrite = false

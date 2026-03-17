@@ -215,21 +215,11 @@ end
 ---
 
 Handy.e_mitter.on("steamodded_load", function()
-	-- Animation skip setup
 	local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
 	function SMODS.calculate_effect(effect, ...)
 		if Handy.animation_skip.should_skip_animation() then
 			effect.juice_card = nil
 		end
 		return smods_calculate_effect_ref(effect, ...)
-	end
-	if (SMODS.Mods and SMODS.Mods["Talisman"] or {}).can_load then
-		local nuGC_ref = nuGC
-		function nuGC(time_budget, ...)
-			if G.STATE == G.STATES.HAND_PLAYED then
-				time_budget = math.max(0.0333, time_budget)
-			end
-			return nuGC_ref(time_budget, ...)
-		end
 	end
 end)

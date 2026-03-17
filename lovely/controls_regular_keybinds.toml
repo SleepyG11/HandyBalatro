@@ -13,7 +13,7 @@ payload = '''
 Handy.regular_keybinds.on_shop_loaded()
 '''
 match_indent = true
-overwrite = false
+
 
 # Perform overlay menu swap
 [[patches]]
@@ -27,7 +27,7 @@ if Handy.regular_keybinds.swappable_overlay or Handy.UI.remove_overlay_offset th
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Handle game restart manually
 [[patches]]
@@ -38,5 +38,3 @@ position = "at"
 payload = '''
 if key == "r" and Handy.regular_keybinds.can_restart()
 '''
-match_indent = true
-overwrite = false
