@@ -1,4 +1,4 @@
-Handy.config = setmetatable({}, {})
+Handy.config = {}
 Handy.load_file("src/core/config/default_config.lua")
 
 -- Save/load

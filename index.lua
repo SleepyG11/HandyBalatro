@@ -5,7 +5,7 @@ to_number = to_number or function(x)
 	return tonumber(x)
 end
 
-Handy = setmetatable({
+Handy = {
 	---@diagnostic disable-next-line: undefined-global
 	NFS = (SMODS and SMODS.NFS) or NFS or require("handy/nativefs"),
 	---@diagnostic disable-next-line: undefined-global
@@ -31,7 +31,7 @@ Handy = setmetatable({
 	},
 
 	ARGS = {},
-}, {})
+}
 
 function Handy.read_file(file)
 	if Handy.LOCAL_PATH then

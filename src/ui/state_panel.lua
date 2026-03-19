@@ -1,4 +1,4 @@
-local state_panel = setmetatable({
+local state_panel = {
 	element = nil,
 
 	-- current value in seconds
@@ -7,7 +7,7 @@ local state_panel = setmetatable({
 	full_duration = 1.4,
 	-- duration in seconds when state panel is lose opacity
 	fade_duration = 0.5,
-}, {})
+}
 Handy.UI.state_panel = state_panel
 
 --

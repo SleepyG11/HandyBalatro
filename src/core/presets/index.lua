@@ -1,4 +1,4 @@
-Handy.presets = setmetatable({}, {})
+Handy.presets = {}
 Handy.load_files({
 	"default_config.lua",
 	"examples.lua",
