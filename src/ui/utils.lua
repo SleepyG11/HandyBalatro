@@ -586,3 +586,17 @@ function Handy.UI.utils.format_iso_date(iso, format)
 
 	return os.date(format, localTime)
 end
+
+function Handy.utils.parse_query(str)
+	local result = {}
+
+	for pair in string.gmatch(str, "([^&]+)") do
+		local key, value = pair:match("([^=]+)=([^=]+)")
+
+		if key and value then
+			result[key] = value
+		end
+	end
+
+	return result
+end

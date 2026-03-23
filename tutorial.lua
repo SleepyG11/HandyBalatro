@@ -147,16 +147,14 @@ local texts = {
 }
 
 local scenario = {
-	start = {
+	welcome = {
 		loc_txt = {
-			main = {
-				"Hello, Balatro player",
-				" ",
-				"I'm SleepyG11, creator of Handy.",
-				"Thank you for using my mod, I appreciating it a lot!",
-			},
+			main = {},
 		},
 		render = function(self)
+			local area = CardArea(0, 0, G.CARD_W, G.CARD_H, {
+				type = "title",
+			})
 			local card = Card(
 				0,
 				0,
@@ -166,70 +164,214 @@ local scenario = {
 				G.P_CENTERS.j_joker,
 				{ bypass_discovery_center = true, bypass_discovery_ui = true }
 			)
+			area:emplace(card)
 			card.no_ui = true
 			card.children.center.atlas = G.ASSET_ATLAS["handy_me_joker"]
 			card.children.center:set_sprite_pos({ x = 0, y = 0 })
 			card:start_materialize()
+			card:juice_up()
 			card.states.collide.can = false
 
 			Handy.UI.TUTORIAL.me = card
 
-			return {
-				{
-					n = G.UIT.R,
-					nodes = {
-						{
-							n = G.UIT.R,
-							config = {
-								align = "cm",
-								padding = 0.25,
-								colour = { 0, 0, 0, 0.1 },
-							},
-							nodes = {
-								{
-									n = G.UIT.C,
-									config = { align = "cm" },
-									nodes = {
-										{
-											n = G.UIT.O,
-											config = {
-												object = card,
-											},
+			local r = {
+				n = G.UIT.R,
+				config = { padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							padding = 0.25,
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.25,
+						},
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = area,
 										},
 									},
 								},
-								{
-									n = G.UIT.C,
-									config = { align = "cm" },
-									nodes = {
-										Handy.L.parse_lines(self.loc_txt.main, { default_col = G.C.UI.TEXT_LIGHT }),
-									},
+							},
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									Handy.L.parse_lines(self.loc_txt.main, { default_col = G.C.UI.TEXT_LIGHT }),
 								},
 							},
 						},
-						{
-							n = G.UIT.R,
-							nodes = {
-								UIBox_button({
-									label = { "Continue" },
-									scale = 0.3,
-									colour = G.C.CHIPS,
-								}),
-							},
+					},
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							padding = 0.25,
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.25,
+						},
+						nodes = {
+							UIBox_button({
+								label = { "Continue" },
+								-- scale = 0.3,
+								colour = G.C.CHIPS,
+								col = true,
+								button = "handy_tutorial_step",
+								ref_table = {
+									step_key = "tutorial_ask",
+								},
+							}),
 						},
 					},
 				},
+			}
+
+			return {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.CLEAR },
+				nodes = { r },
+			}
+		end,
+	},
+	tutorial_ask = {
+		loc_txt = {
+			main = {
+				"I want make sure that you will not get lost",
+				"in all features added in Handy, because there's A LOT of them.",
+				"So, I prepared a tutorial for you!",
+				" ",
+				"Or, if you already know all of this, you may skip it.",
+				"(I'm pretty sure you don't, I suggest stay for a bit with me)",
+			},
+		},
+		render = function(self)
+			local card = Handy.UI.TUTORIAL.me
+			card.area:remove_card(card)
+			local area = CardArea(0, 0, G.CARD_W, G.CARD_H, {
+				type = "title",
+			})
+			area:emplace(card)
+			card.states.collide.can = false
+
+			local r = {
+				n = G.UIT.R,
+				config = { padding = 0.1 },
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							padding = 0.25,
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.25,
+						},
+						nodes = {
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									{
+										n = G.UIT.O,
+										config = {
+											object = area,
+										},
+									},
+								},
+							},
+							{
+								n = G.UIT.C,
+								config = { align = "cm" },
+								nodes = {
+									Handy.L.parse_lines(self.loc_txt.main, { default_col = G.C.UI.TEXT_LIGHT }),
+								},
+							},
+						},
+					},
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							padding = 0.25,
+							colour = { 0, 0, 0, 0.1 },
+							r = 0.25,
+						},
+						nodes = {
+							UIBox_button({
+								label = { "Okay" },
+								-- scale = 0.3,
+								colour = G.C.CHIPS,
+								col = true,
+								button = "handy_tutorial_step",
+								ref_table = {
+									step_key = "tutorial_start",
+								},
+							}),
+							UIBox_button({
+								label = { "Continue" },
+								-- scale = 0.3,
+								colour = G.C.MULT,
+								col = true,
+								button = "handy_tutorial_step",
+								ref_table = {
+									step_key = "tutorial_skip",
+								},
+							}),
+						},
+					},
+				},
+			}
+			return {
+				n = G.UIT.ROOT,
+				config = { colour = G.C.CLEAR },
+				nodes = { r },
 			}
 		end,
 	},
 }
 
 function Handy.UI.TUTORIAL.test()
-	G.FUNCS.overlay_menu({
-		definition = create_UIBox_generic_options({
-			contents = {
-				scenario.start.render(),
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			{
+				n = G.UIT.O,
+				config = {
+					id = "handy_tutorial",
+					object = UIBox({
+						definition = scenario.welcome:render(),
+						config = {},
+					}),
+				},
 			},
-		}),
-	})
+		},
+	}
 end
+
+function Handy.UI.TUTORIAL.render_step(key)
+	local container = G.OVERLAY_MENU:get_UIE_by_ID("handy_tutorial")
+	if container then
+		local new_content = UIBox({
+			definition = scenario[key]:render(),
+			config = { parent = container },
+		})
+		container.config.object:remove()
+		container.config.object = new_content
+		container.config.object:recalculate()
+		container.UIBox:recalculate()
+		G.OVERLAY_MENU:recalculate()
+	end
+end
+
+function G.FUNCS.handy_tutorial_step(e)
+	local step = e.config.ref_table.step_key
+	Handy.UI.TUTORIAL.render_step(step)
+end
+
+return Handy.UI.TUTORIAL.test()

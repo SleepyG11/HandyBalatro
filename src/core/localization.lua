@@ -122,7 +122,48 @@ Handy.L.localize_box = function(lines, args)
 		if G.F_MOBILE_UI then
 			desc_scale = desc_scale * 1.5
 		end
-		if part.control.E then
+		if part.control.handy_dyna then
+			local _pop_in_rate, _custom_pop_in_duration = nil, nil
+			local _float, _silent, _pop_in, _bump, _spacing = nil, true, nil, nil, nil
+			local string_query = Handy.utils.parse_query(part.control.handy_dyna)
+			_float = string_query.float or false
+			_silent = string_query.silent or false
+			_pop_in = string_query.pop_in and tonumber(string_query.pop_in) or 0
+			_pop_in_rate = string_query.pop_in_rate and tonumber(string_query.pop_in_rate) or nil
+			_custom_pop_in_duration = string_query.pop_in_duration and tonumber(string_query.pop_in_duration) or nil
+			final_line[#final_line + 1] = {
+				n = G.UIT.C,
+				config = {
+					align = "m",
+					colour = part.control.X and loc_colour(part.control.X) or nil,
+					r = 0.05,
+					padding = 0.03,
+					res = 0.15,
+				},
+				nodes = {},
+			}
+			final_line[#final_line].nodes[1] = {
+				n = G.UIT.O,
+				config = {
+					object = DynaText({
+						string = { assembled_string },
+						colours = {
+							part.control.V and args.vars.colours[tonumber(part.control.V)]
+								or loc_colour(part.control.C or nil),
+						},
+						float = _float,
+						silent = _silent,
+						pop_in = _pop_in,
+						pop_in_rate = _pop_in_rate,
+						bump = _bump,
+						spacing = _spacing,
+						font = (tonumber(part.control.f) and G.FONTS[tonumber(part.control.f)]),
+						scale = 0.32 * (part.control.s and tonumber(part.control.s) or args.scale or 1) * desc_scale,
+						handy_pop_in_duration = _custom_pop_in_duration,
+					}),
+				},
+			}
+		elseif part.control.E then
 			local _float, _silent, _pop_in, _bump, _spacing = nil, true, nil, nil, nil
 			if part.control.E == "1" then
 				_float = true

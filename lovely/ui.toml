@@ -136,3 +136,36 @@ payload = '''
 self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SPEEDFACTOR)
 '''
 match_indent = true
+
+# Custom DynaText pop_in duration
+[[patches]]
+[patches.pattern]
+target = "engine/text.lua"
+pattern = '''if self.config.pop_out then'''
+position = "at"
+payload = '''
+if self.config.handy_pop_in_duration then
+    local prev_pop_in = letter.pop_in
+    local time_letter_exist = G.TIMERS.REAL - (self.config.pop_in or 0) - self.created_time
+    letter.pop_in = time_letter_exist*#self.string / self.config.handy_pop_in_duration - k + 1
+    letter.pop_in = math.min(1, math.max(letter.pop_in, self.config.min_cycle_time == 0 and 1 or 0))
+    if prev_pop_in <=0 and letter.pop_in > 0 and not self.silent and
+    (#self.string < 10 or k%2 == 0) then
+        if self.T.x > G.ROOM.T.w+2 or
+        self.T.y > G.ROOM.T.h+2 or
+        self.T.x <-2 or
+        self.T.y <-2 then else
+            play_sound('paper1', 0.45+0.05*math.random()+(0.3/#self.string)*k + (self.config.pitch_shift or 0))
+        end
+    end
+    if k == #self.strings[self.focused_string].letters and letter.pop_in >= 1 then
+        if #self.strings > 1 then
+            self.pop_delay = (G.TIMERS.REAL - self.config.pop_in - self.created_time + (self.config.pop_delay or 1.5))
+            self:pop_out(4)
+        else
+            self.config.pop_in = nil
+        end
+    end
+elseif self.config.pop_out then
+'''
+match_indent = true
