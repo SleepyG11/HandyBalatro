@@ -1,16 +1,3 @@
---- STEAMODDED HEADER
---- MOD_NAME: Handy
---- MOD_ID: Handy
---- MOD_AUTHOR: [SleepyG11]
---- MOD_DESCRIPTION: Quality of Life controls & keybinds
-
---- PRIORITY: 0
---- DISPLAY_NAME: Handy
---- PREFIX: handy
---- VERSION: 2.0.0~ALPHA-7b
-----------------------------------------------
-------------MOD CODE -------------------------
-
 if not SMODS or not SMODS.current_mod then
 	return
 end
