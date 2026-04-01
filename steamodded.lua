@@ -1,16 +1,3 @@
---- STEAMODDED HEADER
---- MOD_NAME: Handy
---- MOD_ID: Handy
---- MOD_AUTHOR: [SleepyG11]
---- MOD_DESCRIPTION: Quality of Life controls & keybinds
-
---- PRIORITY: 0
---- DISPLAY_NAME: Handy
---- PREFIX: handy
---- VERSION: 1.5.1o
-----------------------------------------------
-------------MOD CODE -------------------------
-
 if SMODS and SMODS.current_mod then
 	if SMODS.current_mod.path then
 		local function normalize_path(path)
@@ -69,6 +56,3 @@ so result mod directory should be %s
 		py = 32,
 	})
 end
-
-----------------------------------------------
-------------MOD CODE END----------------------

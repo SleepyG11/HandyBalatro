@@ -7,7 +7,9 @@
 	"prefix": "handy",
 	"main_file": "steamodded.lua",
 	"priority": 0,
-	"version": "1.5.1o",
+	"version": "1.5.1p",
 	"dependencies": [],
-	"allow_redistribution": true
+	"allow_redistribution": true,
+	"icon_path": "icon.png",
+	"icon_width": 32
 }
