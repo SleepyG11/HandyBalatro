@@ -164,7 +164,9 @@ return {
 
 			hand_selection = {
 				name = "Hand selection & Deselection",
-				text = {},
+				text = {
+					"Swipe to select, and more",
+				},
 			},
 			hand_selection_mode = {
 				name = "Hand selection implementation",
@@ -946,6 +948,14 @@ return {
 					"  and enabled/disabled in {C:chips}any moment{}",
 					"  without game restart or reloading a run",
 					"- Does {C:chips}not{} disables achievements",
+				},
+			},
+			tutorial_fake_alert = {
+				text = {
+					"This control is inactive until some",
+					"controls are enabled or other",
+					"conditions are met",
+					"{C:inactive}(They will be listed here){}",
 				},
 			},
 			missing_deps = {

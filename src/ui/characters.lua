@@ -207,11 +207,13 @@ end
 function Handy.UI.CHAR.remove(key)
 	if key then
 		local v = Handy.UI.CHAR.current[key]
-		v.sprite:remove()
-		v.sprite_box:remove()
-		v.box:remove()
+		if v then
+			v.sprite:remove()
+			v.sprite_box:remove()
+			v.box:remove()
 
-		v.parent["handy_char_" .. v.key] = nil
+			v.parent["handy_char_" .. v.key] = nil
+		end
 		Handy.UI.CHAR.current[key] = nil
 	else
 		for k, v in pairs(Handy.UI.CHAR.current) do

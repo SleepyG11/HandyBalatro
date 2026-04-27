@@ -17,13 +17,17 @@ function Handy.UI.load_atlas(asset)
 		assert(love.image.newImageData(file_data), ("Failed to initialize image data for Atlas %s"):format(asset.key))
 	local image = love.graphics.newImage(image_data, { mipmaps = true, dpiscale = G.SETTINGS.GRAPHICS.texture_scaling })
 
-	G.ASSET_ATLAS["handy_" .. asset.key] = {
+	local target = asset.frames and "ANIMATION_ATLAS" or "ASSET_ATLAS"
+
+	G[target]["handy_" .. asset.key] = {
 		key = "handy_" .. asset.key,
 		name = "handy_" .. asset.key,
 		image = image,
 		type = asset.type,
 		px = asset.px,
 		py = asset.py,
+		atlas_table = target,
+		frames = asset.frames,
 	}
 end
 
@@ -45,6 +49,13 @@ function Handy.UI.load_all_atlases()
 		path = "me_joker.png",
 		px = 71,
 		py = 95,
+	})
+	Handy.UI.load_atlas({
+		key = "hint_arrow",
+		path = "hint_arrow.png",
+		px = 24,
+		py = 72,
+		frames = 3,
 	})
 end
 

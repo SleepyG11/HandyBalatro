@@ -1,4 +1,4 @@
-function Handy.UI.get_config_tab_overall()
+function Handy.UI.overall_tab_UIBox()
 	local logo = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.2 },
@@ -223,9 +223,6 @@ function Handy.UI.get_config_tab_overall()
 		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, minh = 5, minw = 5, r = 0.25 },
 		nodes = { logo, buttons, buttons_2, compat_mode_message },
 	}
-end
-function Handy.UI.overall_tab_UIBox()
-	return Handy.UI.get_config_tab_overall()
 end
 
 function Handy.UI.overall_tab()
