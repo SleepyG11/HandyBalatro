@@ -19,13 +19,15 @@ end
 local create_uibox_options_ref = create_UIBox_options
 function create_UIBox_options()
 	local contents = create_uibox_options_ref()
-	local index = table.maxn(contents.nodes[1].nodes[1].nodes[1].nodes)
+    local target = contents.nodes[1].nodes[1].nodes[1].nodes
+	local index = table.maxn(target)
+    if MP and MP.LOBBY and MP.LOBBY.code and G.STAGE == G.STAGES.MAIN_MENU then
+        table.insert(target, index + 1, Handy.UI.get_mp_extension_button())
+        index = index + 1
+    end
 	if not Handy.current_mod or not Handy.cc.hide_options_button.enabled then
-		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, index + 1, Handy.UI.get_options_button())
+		table.insert(target, index + 1, Handy.UI.get_options_button())
 		index = index + 1
-	end
-	if MP and MP.LOBBY and MP.LOBBY.code and G.STAGE == G.STAGES.MAIN_MENU then
-		table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, index + 1, Handy.UI.get_mp_extension_button())
 	end
 	return contents
 end
