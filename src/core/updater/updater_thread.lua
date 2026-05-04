@@ -50,8 +50,30 @@ local function loveRecursivelyCopy(folder, saveDir)
 		end
 	end
 end
+local fetcher_buffer
 local function get_fetcher(use_smods)
-	return use_smods and require("SMODS.https") or require("https")
+    if fetcher_buffer ~= nil then return fetcher_buffer end
+
+    if use_smods then
+        local success, smods_fetcher = pcall(function()
+            return require("SMODS.https")
+        end)
+        if success and smods_fetcher then
+            fetcher_buffer = smods_fetcher
+            return smods_fetcher
+        end
+    end
+
+    local success, https_fetcher = pcall(function()
+        return require("https")
+    end)
+    if success and https_fetcher then
+        fetcher_buffer = https_fetcher
+        return https_fetcher
+    end
+
+    fetcher_buffer = false
+    return false
 end
 
 --
