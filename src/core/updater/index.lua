@@ -310,6 +310,7 @@ Handy.updater = {
 							.. " "
 							.. Handy.L.brackets(Handy.updater["new_version_" .. release_type]),
 						hold = false,
+						hold_duration = 1.5,
 						order = -1,
 					}
 					state.items.new_update_desc = {

@@ -201,9 +201,12 @@ function state_panel.update_opacity(dt, force)
 
 	state_panel.current_state.hold = false
 	for _, item in pairs(state_panel.current_state.items) do
+		if item.hold_duration and item.hold_duration > 0 then
+			item.hold_duration = item.hold_duration - dt
+			state_panel.current_state.hold = true
+		end
 		if item.hold then
 			state_panel.current_state.hold = true
-			break
 		end
 	end
 
@@ -217,6 +220,10 @@ function state_panel.update_opacity(dt, force)
 			math.min(1, math.max(0, (state_panel.full_duration - state_panel.duration) / state_panel.fade_duration))
 		for key, color in pairs(state_panel.C.DYN) do
 			color[4] = (state_panel.C.DYN_BASE_APLHA[key] or 1) * opacity
+		end
+		if opacity == 0 and state_panel.element then
+			state_panel.element:remove()
+			state_panel.element = nil
 		end
 	end
 end

@@ -19,7 +19,9 @@ function Handy.controller.should_prevent()
 end
 
 function Handy.controller.filter_context(ctx)
-	if Handy.controller.binding.get_current() then
+	if G.STATE == G.STATES.SPLASH then
+		ctx:stop_propagation()
+	elseif Handy.controller.binding.get_current() then
 		ctx:prevent_default()
 		ctx:stop_propagation()
 	elseif Handy.controller.should_prevent() then
