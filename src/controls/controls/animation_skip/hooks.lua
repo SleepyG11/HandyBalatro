@@ -135,6 +135,17 @@ function level_up_hand(...)
 	return level_up_hand_ref(...)
 end
 
+local add_round_eval_row_ref = add_round_eval_row
+function add_round_eval_row(...)
+	if Handy.animation_skip.should_skip_animation() then
+		Handy.ARGS.force_non_blocking_event = true
+		add_round_eval_row_ref(...)
+		Handy.ARGS.force_non_blocking_event = nil
+		return
+	end
+	add_round_eval_row_ref(...)
+end
+
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, queue, ...)
 	if Handy.animation_skip.is_skippable_queue(queue) then
