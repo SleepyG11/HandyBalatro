@@ -38,9 +38,7 @@ local console_open_timer = 0
 local function is_dp_console_opened()
 	return Handy.b_is_mod_active() and console_open_timer > G.TIMERS.UPTIME
 end
-local function b_is_dp_console_opened()
-	return Handy.buffered("v2_dp_is_console_opened", is_dp_console_opened)
-end
+local b_is_dp_console_opened = Handy.buffered("v2_dp_is_console_opened", is_dp_console_opened)
 local function update_dp_console_opened()
 	local dpconsole = get_dp_console()
 	if dpconsole and dpconsole.isConsoleFocused and dpconsole.isConsoleFocused() then
@@ -58,9 +56,7 @@ local function should_prevent_input()
 	end
 	return false
 end
-local function b_should_prevent_input()
-	return Handy.buffered("dp_prevent_if_ctrl", should_prevent_input)
-end
+local b_should_prevent_input = Handy.buffered("dp_prevent_if_ctrl", should_prevent_input)
 local function notify_about_prevented_input()
 	Handy.UI.state_panel.display(function(state)
 		state.items.dp_prevent = {
