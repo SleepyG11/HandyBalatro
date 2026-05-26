@@ -39,6 +39,7 @@ Handy.controls.register({
 	end,
 
 	only_holdable = true,
+	no_mp = true,
 
 	can_execute = function(self, args)
 		if Handy.UI.data.speed_n_animations_preview then

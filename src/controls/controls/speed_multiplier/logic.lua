@@ -52,6 +52,39 @@ Handy.speed_multiplier = {
 		end
 	end,
 
+	index_to_value = function(v)
+		-- -3 = 0.125
+		-- -2 = 0.25
+		-- -1 = 0.5
+		-- 0 = 1
+		-- 1 = 1.5 <- exception
+		-- 2 = 2
+		-- 3 = 4
+		-- 4 = 8
+		v = math.floor(v)
+		if v >= 2 then
+			return 2 ^ (v - 1)
+		end
+		if v == 1 then
+			return 1.5
+		end
+		if v == 0 then
+			return 1
+		end
+		return 2 ^ v
+	end,
+	value_to_index = function(v)
+		if v >= 2 then
+			return math.floor(math.log(v, 2) + 1)
+		end
+		if v == 1.5 then
+			return 1
+		end
+		if v == 1 then
+			return 0
+		end
+		return math.floor(math.log(v, 2))
+	end,
 	get_value = function()
 		if
 			Handy.speed_multiplier.temp_disabled
@@ -64,6 +97,10 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.get_limited_value()
 	end,
 	get_limited_value = function()
+		local min_value = 1 / (2 ^ 9)
+		if Handy.b_is_in_multiplayer() then
+			min_value = 1
+		end
 		local max_value = 2 ^ 18
 		if not Handy.speed_multiplier.is_uncapped() then
 			max_value = 2 ^ 9
@@ -72,10 +109,15 @@ Handy.speed_multiplier = {
 			force = true,
 		})
 		if mp_value then
-			max_value = math.max(1, math.min(2 ^ (mp_value - 1), max_value))
+			max_value = math.max(1, math.min(Handy.speed_multiplier.convert_value(mp_value), max_value))
 		end
 		if Handy.speed_multiplier.value > max_value then
 			Handy.speed_multiplier.value = max_value
+			Handy.speed_multiplier.queue_retriggers_count = 0
+			Handy.speed_multiplier.localize_value()
+		end
+		if Handy.speed_multiplier.value < min_value then
+			Handy.speed_multiplier.value = min_value
 			Handy.speed_multiplier.queue_retriggers_count = 0
 			Handy.speed_multiplier.localize_value()
 		end
@@ -96,8 +138,8 @@ Handy.speed_multiplier = {
 			Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 			and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_default_value)
 		then
-			local value = math.max(1, math.min(10, math.floor(Handy.cc.speed_multiplier_default_value.value) or 1))
-			Handy.speed_multiplier.value = 2 ^ (value - 1)
+			local value = math.max(1, math.min(11, math.floor(Handy.cc.speed_multiplier_default_value.value) or 1))
+			Handy.speed_multiplier.value = Handy.speed_multiplier.index_to_value(value - 1)
 		end
 		Handy.speed_multiplier.change(0)
 	end,
@@ -109,8 +151,8 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.change(-1)
 	end,
 	change = function(dx)
-		local multiplier = 2 ^ (dx or 0)
-		Handy.speed_multiplier.value = math.max(1 / (2 ^ 9), Handy.speed_multiplier.value * multiplier)
+		local index = Handy.speed_multiplier.value_to_index(Handy.speed_multiplier.value)
+		Handy.speed_multiplier.value = Handy.speed_multiplier.index_to_value(index + dx)
 		Handy.speed_multiplier.value = Handy.speed_multiplier.get_limited_value()
 		Handy.speed_multiplier.queue_retriggers_count = math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 		Handy.speed_multiplier.localize_value()

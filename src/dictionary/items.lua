@@ -463,6 +463,7 @@ l({
 					return {
 						options = {
 							"1x",
+							"1.5x",
 							"2x",
 							"4x",
 							"8x",
@@ -926,6 +927,7 @@ l({
 		return Handy.cc.scoring_hold
 	end,
 	checkbox = true,
+	no_mp = true,
 	keybind = {
 		allow_multiple = "advanced",
 		only_holdable = true,
