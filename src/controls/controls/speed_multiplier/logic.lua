@@ -109,11 +109,12 @@ Handy.speed_multiplier = {
 			force = true,
 		})
 		if mp_value then
-			max_value = math.max(1, math.min(Handy.speed_multiplier.convert_value(mp_value), max_value))
+			max_value = math.max(1, math.min(Handy.speed_multiplier.index_to_value(mp_value), max_value))
 		end
 		if Handy.speed_multiplier.value > max_value then
 			Handy.speed_multiplier.value = max_value
-			Handy.speed_multiplier.queue_retriggers_count = 0
+			Handy.speed_multiplier.queue_retriggers_count =
+				math.max(0, math.floor(Handy.speed_multiplier.value / 64) - 1)
 			Handy.speed_multiplier.localize_value()
 		end
 		if Handy.speed_multiplier.value < min_value then
@@ -121,7 +122,7 @@ Handy.speed_multiplier = {
 			Handy.speed_multiplier.queue_retriggers_count = 0
 			Handy.speed_multiplier.localize_value()
 		end
-		return math.min(Handy.speed_multiplier.value, max_value)
+		return Handy.speed_multiplier.value
 	end,
 	localize_value = function()
 		local current_value = Handy.speed_multiplier.value

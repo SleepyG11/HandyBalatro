@@ -69,6 +69,13 @@ Handy.animation_skip = {
 		end
 	end,
 
+	value_to_index = function(v)
+		return v - 1
+	end,
+	index_to_value = function(v)
+		return v + 1
+	end,
+
 	get_value = function()
 		if
 			Handy.animation_skip.temp_disabled
@@ -81,6 +88,7 @@ Handy.animation_skip = {
 		return Handy.animation_skip.get_limited_value()
 	end,
 	get_limited_value = function()
+		local min_value = 1
 		local max_value = 5
 		if not Handy.animation_skip.can_dangerous() then
 			max_value = 4
@@ -89,13 +97,17 @@ Handy.animation_skip = {
 			force = true,
 		})
 		if mp_value then
-			max_value = math.max(1, math.min(mp_value, max_value))
+			max_value = math.max(1, math.min(math.floor(mp_value), max_value))
 		end
 		if Handy.animation_skip.value > max_value then
 			Handy.animation_skip.value = max_value
 			Handy.animation_skip.localize_value()
 		end
-		return math.min(max_value, Handy.animation_skip.value)
+		if Handy.animation_skip.value < min_value then
+			Handy.animation_skip.value = min_value
+			Handy.animation_skip.localize_value()
+		end
+		return Handy.animation_skip.value
 	end,
 	localize_value = function()
 		Handy.animation_skip.value_text = Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.value)
@@ -105,8 +117,8 @@ Handy.animation_skip = {
 			Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 			and Handy.controls.is_module_enabled(Handy.cc.animation_skip_default_value)
 		then
-			Handy.animation_skip.value =
-				math.max(1, math.min(4, math.floor(Handy.cc.animation_skip_default_value.value) or 1))
+			local value = math.max(1, math.min(4, math.floor(Handy.cc.animation_skip_default_value.value) or 1))
+			Handy.animation_skip.value = Handy.animation_skip.index_to_value(value - 1)
 		end
 		Handy.animation_skip.change(0)
 	end,
@@ -154,7 +166,8 @@ Handy.animation_skip = {
 	end,
 
 	change = function(dx)
-		Handy.animation_skip.value = math.max(1, math.min(5, Handy.animation_skip.value + dx))
+		local index = Handy.animation_skip.value_to_index(Handy.animation_skip.value)
+		Handy.animation_skip.value = Handy.animation_skip.index_to_value(index + dx)
 		Handy.animation_skip.value = Handy.animation_skip.get_limited_value()
 		Handy.animation_skip.localize_value()
 		if dx ~= 0 then
