@@ -79,6 +79,12 @@ Handy.e_mitter.on("game_start", function()
 		return r
 	end
 
+	if MP.register_action then
+		MP.register_action("handyMPExtensionLobbyEnabled", function(parsedAction)
+			Handy.EXT.Multiplayer.process_action_setLobbyEnabled(parsedAction.enabled)
+		end)
+	end
+
 	local old_game_over = create_UIBox_game_over
 	function create_UIBox_game_over(...)
 		local ret = old_game_over(...)
