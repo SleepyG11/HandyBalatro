@@ -45,7 +45,7 @@ function Moveable:juice_up(...)
 end
 local delay_ref = delay
 function delay(...)
-	if Handy.animation_skip.should_skip_everything() then
+	if Handy.animation_skip.should_skip_animation() then
 		return
 	end
 	return delay_ref(...)
