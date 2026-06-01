@@ -33,11 +33,11 @@ Handy.insta_actions = {
 			use = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_use, { ctx = ctx }),
 		}
 	end,
-	get_target_card = function(item, context)
+	get_target_card = function(item, ctx)
 		local target_card
-		if context.card then
-			target_card = context.target
-		elseif context.input then
+		if ctx.card then
+			target_card = ctx.target
+		elseif ctx.input then
 			target_card = G.CONTROLLER.dragging.target or Handy.controller.card.get_context().hovered_current
 		end
 		if target_card and target_card.area and target_card.is and target_card:is(Card) then
@@ -45,11 +45,11 @@ Handy.insta_actions = {
 		end
 	end,
 
-	can_execute = function(item, args)
+	can_execute = function(item, ctx, args)
 		if Handy.insta_actions.action_blocker then
 			return false
 		end
-		local ctx = Handy.controls.resolve_control_context(item, args)
+		ctx = Handy.controls.resolve_control_context(item, ctx)
 		if not ctx then
 			return false
 		end
@@ -83,9 +83,8 @@ Handy.insta_actions = {
 		end
 		return true, { card = card }
 	end,
-	execute = function(item, args, data)
+	execute = function(item, ctx, args, data)
 		local target_card = data and data.card
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
 		if not ctx then
 			return false
 		end

@@ -22,15 +22,15 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.play_blocker
 			and G.STATE == G.STATES.SELECTING_HAND
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
 			end, { visible = true })
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.play_blocker = true
 		Handy.fake_events.execute_button(function()
 			return G.buttons:get_UIE_by_ID("play_button")
@@ -62,15 +62,15 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.discard_blocker
 			and G.STATE == G.STATES.SELECTING_HAND
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
 			end, { visible = true })
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.discard_blocker = true
 		Handy.fake_events.execute_button(function()
 			return G.buttons:get_UIE_by_ID("discard_button")
@@ -102,11 +102,11 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.change_sort("rank")
 		return true
 	end,
@@ -126,11 +126,11 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.change_sort("suit")
 		return true
 	end,
@@ -150,11 +150,11 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.change_sort(Handy.regular_keybinds.get_current_sorting(true))
 		return true
 	end,
@@ -176,16 +176,16 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.shop_reroll_blocker
 			and Handy.regular_keybinds.shop_loaded
 			and G.STATE == G.STATES.SHOP
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
 			end, { visible = true, require_exact_func = "can_reroll" })
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.shop_reroll_blocker = true
 		Handy.fake_events.execute_button(function()
 			return G.shop:get_UIE_by_ID("next_round_button").parent.children[2]
@@ -217,10 +217,10 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.shop_loaded
 			and G.STATE == G.STATES.SHOP
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.shop:get_UIE_by_ID("next_round_button")
 			end, { visible = true })
@@ -250,13 +250,13 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return G.GAME
 			and G.GAME.blind_on_deck
 			and G.blind_select
 			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
 			and G.STATE == G.STATES.BLIND_SELECT
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				local container = G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID(
 					"tag_" .. G.GAME.blind_on_deck
@@ -264,7 +264,7 @@ Handy.controls.register({
 				return container.states.visible and container.children[2]
 			end, { visible = true })
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.fake_events.execute_button(function()
 			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("tag_" .. G.GAME.blind_on_deck).children[2]
 		end)
@@ -287,18 +287,18 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return G.GAME
 			and G.GAME.blind_on_deck
 			and G.blind_select
 			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
 			and G.STATE == G.STATES.BLIND_SELECT
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
 			end)
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.fake_events.execute_button(function()
 			return G.blind_select_opts[string.lower(G.GAME.blind_on_deck)]:get_UIE_by_ID("select_blind_button")
 		end)
@@ -321,13 +321,13 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return G.GAME
 			and G.GAME.blind_on_deck
 			and G.blind_select
 			and G.GAME.round_resets.blind_choices[G.GAME.blind_on_deck]
 			and G.STATE == G.STATES.BLIND_SELECT
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.blind_prompt_box.UIRoot.children[3].children[1]
 			end, {
@@ -335,7 +335,7 @@ Handy.controls.register({
 				require_exact_func = "reroll_boss_button",
 			})
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.fake_events.execute_button(function()
 			return G.blind_prompt_box.UIRoot.children[3].children[1]
 		end)
@@ -361,8 +361,8 @@ Handy.controls.register({
 	hold_lock = false,
 	last_hold = 0,
 
-	can_execute = function(self, args)
-		local ctx = Handy.controls.resolve_control_context(self, args)
+	can_execute = function(self, ctx, args)
+		ctx = Handy.controls.resolve_control_context(self, ctx)
 
 		local is_hold, hold_duration = Handy.controls.is_module_keys_hold(Handy.cc.regular_keybinds_restart)
 		if not is_hold or hold_duration < self.last_hold then
@@ -378,8 +378,7 @@ Handy.controls.register({
 			or G.CONTROLLER.frame_buttonpress
 			or G.STAGE ~= G.STAGES.RUN
 			or (G.SETTINGS.paused and G.STATE ~= G.STATES.GAME_OVER)
-			or not Handy.controls.can_execute_control(self, {
-				ctx = ctx,
+			or not Handy.controls.can_execute_control(self, ctx, {
 				allow_any_context = true,
 				no_keybinds = true,
 			})
@@ -391,7 +390,7 @@ Handy.controls.register({
 
 		return self.last_hold > 0.7
 	end,
-	execute = function(self)
+	execute = function(self, ctx, args)
 		self.hold_lock = true
 		self.last_hold = 0
 		local old_hold_value = G.CONTROLLER.held_key_times.r
@@ -419,10 +418,10 @@ Handy.controls.register({
 	no_mp = true,
 	only_safe = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return G.STAGE == G.STAGES.RUN
 			and (not G.SETTINGS.paused or G.STATE == G.STATES.GAME_OVER)
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 	execute = function()
 		local old_hold_value = G.CONTROLLER.held_key_times.r
@@ -455,11 +454,11 @@ Handy.controls.register({
 	no_mp = true,
 	require_exact_keys = true,
 
-	can_execute = function(self, args)
-		return Handy.regular_keybinds.can_save_run(self, args, false)
+	can_execute = function(self, ctx, args)
+		return Handy.regular_keybinds.can_save_run(self, ctx, args, false)
 	end,
-	execute = function(self, args)
-		Handy.regular_keybinds.save_run(self, args)
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.save_run(self, ctx, args)
 		return true
 	end,
 })
@@ -479,10 +478,10 @@ Handy.controls.register({
 	no_mp = true,
 	only_safe = true,
 
-	can_execute = function(self, args)
-		return not Handy.regular_keybinds.reload_run_blocker and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return not Handy.regular_keybinds.reload_run_blocker and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function()
+	execute = function(self, ctx, args)
 		local in_menu = G.STAGE == G.STAGES.MAIN_MENU
 		local s = G.SAVED_GAME
 		if not s then
@@ -556,7 +555,7 @@ Handy.controls.register({
 	no_mp = true,
 	only_safe = true,
 
-	execute = function()
+	execute = function(self, ctx, args)
 		Handy.utils.restart_game()
 		return true
 	end,
@@ -574,7 +573,7 @@ Handy.controls.register({
 	trigger = "trigger",
 	require_exact_keys = true,
 
-	execute = function(self)
+	execute = function(self, ctx, args)
 		pcall(function()
 			local log_file_content = Handy.NFS.read(require("lovely").log_path)
 			if log_file_content and log_file_content ~= "" then
@@ -608,11 +607,11 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return FN
 			and FN.SIM
 			and FN.SIM.run
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check_button(function()
 				return G.HUD:get_UIE_by_ID("calculate_score_button")
 			end)
@@ -643,18 +642,18 @@ Handy.controls.register({
 	in_run = true,
 	no_stop_use = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.booster_pack_skipped
 			and G.booster_pack
 			and G.pack_cards
 			and G.pack_cards.cards
 			and G.pack_cards.cards[1]
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check({
 				func = G.FUNCS.can_skip_booster,
 			})
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.booster_pack_skipped = true
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -686,16 +685,16 @@ Handy.controls.register({
 
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_skip_cashout
 			and not Handy.regular_keybinds.cashout_skipped
 			and G.STATE == G.STATES.ROUND_EVAL
 			and not G.TAROT_INTERRUPT
 			and not G.PACK_INTERRUPT
 			and G.round_eval
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.regular_keybinds.cashout_skipped = true
 		stop_use()
 		G.E_MANAGER:add_event(Event({
@@ -737,7 +736,7 @@ Handy.controls.register({
 	no_stop_use = true,
 	in_run = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return G.FUNCS.njy_endround
 			and G.STATE == G.STATES.SELECTING_HAND
 			and G.buttons
@@ -746,7 +745,7 @@ Handy.controls.register({
 			and G.GAME.blind
 			and G.GAME.blind.chips
 			and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips)
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 	execute = function(self, args)
 		stop_use()

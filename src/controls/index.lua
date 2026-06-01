@@ -71,8 +71,7 @@ end
 
 ---
 
-function Handy.controls.resolve_control_context(item, args)
-	local ctx = Handy.controller.non_empty_context(args and args.ctx)
+function Handy.controls.resolve_control_context(item, ctx)
 	if not ctx then
 		return false, "empty_context"
 	end
@@ -109,7 +108,7 @@ function Handy.controls.resolve_control_context(item, args)
 	return ctx
 end
 
-function Handy.controls.can_execute_control(item, args)
+function Handy.controls.can_execute_control(item, ctx, args)
 	if type(item) == "string" then
 		item = Handy.controls.dictionary[item]
 	end
@@ -149,9 +148,9 @@ function Handy.controls.can_execute_control(item, args)
 		return false, "stop_use"
 	end
 
-	local ctx, ctx_error = args.ctx, nil
+	local ctx_error = nil
 	if ctx and not args.allow_any_context then
-		ctx, ctx_error = Handy.controls.resolve_control_context(item, args)
+		ctx, ctx_error = Handy.controls.resolve_control_context(item, ctx)
 		if ctx_error then
 			return false, ctx_error
 		end
@@ -194,12 +193,16 @@ function Handy.controls.can_execute_control(item, args)
 
 	return true, args.data
 end
-function Handy.controls.execute_control(key, args)
+function Handy.controls.execute_control(key, ctx, args)
+	ctx = Handy.controller.non_empty_context(ctx)
+	if not ctx then
+		return false, false, "empty_context"
+	end
 	local target = Handy.controls.dictionary[key]
 	local check_func = target and target.can_execute or Handy.controls.can_execute_control
-	local can_execute, leftover_data = check_func(target, args)
+	local can_execute, leftover_data = check_func(target, ctx, args or {})
 	if can_execute then
-		local execute_result = target.execute and target:execute(args, leftover_data) or false
+		local execute_result = target.execute and target:execute(ctx, args, leftover_data) or false
 		return execute_result, true, "ok"
 	else
 		return false, false, leftover_data or "unknown"

@@ -16,7 +16,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.speed_multiplier.toggle_temp_disabled()
 		return true
 	end,
@@ -32,7 +32,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.speed_multiplier.change(1)
 		return true
 	end,
@@ -48,7 +48,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.speed_multiplier.change(-1)
 		return true
 	end,

@@ -94,7 +94,7 @@ end
 function Handy.stack.call_control(ctx, control)
 	ctx = Handy.controller.non_empty_context(ctx)
 	if control and ctx then
-		local r = Handy.controls.execute_control(control.key, { ctx = ctx }) or false
+		local r = Handy.controls.execute_control(control.key, ctx) or false
 		return r
 	end
 	return false

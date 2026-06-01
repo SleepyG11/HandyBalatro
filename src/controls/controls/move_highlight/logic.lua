@@ -73,7 +73,7 @@ Handy.move_highlight = {
 		return 0.5 * math.pow(triggers_amount, 2 / 3)
 	end,
 
-	can_execute = function(item, args)
+	can_execute = function(item, ctx, args)
 		local area, is_preview = Handy.move_highlight.get_area()
 		if not area then
 			item.last_hold = 0
@@ -81,7 +81,7 @@ Handy.move_highlight = {
 			return false
 		end
 
-		local ctx = Handy.controls.resolve_control_context(item, args)
+		ctx = Handy.controls.resolve_control_context(item, ctx)
 		if
 			not ctx
 			or not Handy.controls.can_execute_control(item, {
@@ -128,7 +128,7 @@ Handy.move_highlight = {
 		end
 	end,
 
-	move = function(item, args, data)
+	move = function(item, ctx, args, data)
 		dat = data or {}
 		local area = data.area
 		local dx = data.dx

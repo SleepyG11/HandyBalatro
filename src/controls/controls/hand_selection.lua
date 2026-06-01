@@ -25,8 +25,8 @@ Handy.controls.register({
 	in_run = true,
 	no_stop_use = true,
 
-	can_execute = function(self, args)
-		local ctx = Handy.controls.resolve_control_context(self, args)
+	can_execute = function(self, ctx, args)
+		ctx = Handy.controls.resolve_control_context(self, ctx)
 		if not ctx then
 			return false
 		end
@@ -63,11 +63,10 @@ Handy.controls.register({
 			if
 				not (
 					not G.CONTROLLER.dragging.target
-					and Handy.controls.can_execute_control(self, {
+					and Handy.controls.can_execute_control(self, ctx, {
 						allow_not_in_run = true,
 						allow_stop_use = true,
 						allow_mod_inactive = true,
-						ctx = ctx,
 					})
 				)
 			then
@@ -82,9 +81,7 @@ Handy.controls.register({
 					and card.area.states.visible
 					and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
 					and not G.CONTROLLER.dragging.target
-					and Handy.controls.can_execute_control(self, {
-						ctx = ctx,
-					})
+					and Handy.controls.can_execute_control(self, ctx, args)
 				)
 			then
 				return false
@@ -93,7 +90,7 @@ Handy.controls.register({
 
 		return true, { card = card }
 	end,
-	execute = function(self, args, data)
+	execute = function(self, ctx, args, data)
 		local card = data and data.card
 		if not card then
 			return false
@@ -136,8 +133,8 @@ Handy.controls.register({
 	in_run = true,
 	no_stop_use = true,
 
-	can_execute = function(self, args)
-		local ctx = Handy.controls.resolve_control_context(self, args)
+	can_execute = function(self, ctx, args)
+		ctx = Handy.controls.resolve_control_context(self, ctx)
 		if not ctx then
 			return false
 		end
@@ -165,8 +162,7 @@ Handy.controls.register({
 			if
 				not (
 					preview_area.highlighted[1]
-					and Handy.controls.can_execute_control(self, {
-						ctx = ctx,
+					and Handy.controls.can_execute_control(self, ctx, {
 						allow_not_in_run = true,
 						allow_stop_use = true,
 						allow_mod_inactive = true,
@@ -186,8 +182,7 @@ Handy.controls.register({
 					and G.play
 					and G.play.cards
 					and #G.play.cards == 0
-					and Handy.controls.can_execute_control(self, {
-						ctx = ctx,
+					and Handy.controls.can_execute_control(self, ctx, {
 						allow_any_context = true,
 					})
 				)
@@ -198,7 +193,7 @@ Handy.controls.register({
 
 		return true, { area = preview_area or G.hand }
 	end,
-	execute = function(self, args, data)
+	execute = function(self, ctx, args, data)
 		local area = data and data.area
 		if not area then
 			return false
@@ -221,12 +216,11 @@ Handy.controls.register({
 	in_run = true,
 	no_stop_use = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		local preview_area = Handy.utils.alive_element(Handy.UI.data.hand_selection_preview_area)
 		if preview_area then
 			if
-				not Handy.controls.can_execute_control(self, {
-					ctx = args and args.ctx,
+				not Handy.controls.can_execute_control(self, ctx, {
 					allow_not_in_run = true,
 					allow_stop_use = true,
 					allow_mod_inactive = true,
@@ -240,7 +234,7 @@ Handy.controls.register({
 					G.STATE ~= G.STATES.HAND_PLAYED
 					and G.hand
 					and G.hand.states.visible
-					and Handy.controls.can_execute_control(self, args)
+					and Handy.controls.can_execute_control(self, ctx, args)
 				)
 			then
 				return false
@@ -249,7 +243,7 @@ Handy.controls.register({
 
 		return true, { area = preview_area or G.hand }
 	end,
-	execute = function(self, args, data)
+	execute = function(self, ctx, args, data)
 		local area = data and data.area
 		if not area then
 			return false

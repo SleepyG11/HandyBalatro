@@ -127,8 +127,8 @@ Handy.dangerous_actions = {
 		return false
 	end,
 
-	can_execute = function(remove, all_same, all, item, args)
-		local ctx = Handy.controls.resolve_control_context(item, args)
+	can_execute = function(remove, all_same, all, item, ctx, args)
+		ctx = Handy.controls.resolve_control_context(item, ctx)
 		if not ctx then
 			return false
 		end
@@ -177,8 +177,7 @@ Handy.dangerous_actions = {
 		end
 		return false
 	end,
-	execute = function(remove, all_same, all, item, args, data)
-		local ctx = Handy.controller.non_empty_context(args and args.ctx)
+	execute = function(remove, all_same, all, item, ctx, args, data)
 		if not ctx then
 			return false
 		end
@@ -257,20 +256,6 @@ Handy.dangerous_actions = {
 			return true
 		else
 			Handy.dangerous_actions.process_tag(tag, true)
-			return true
-		end
-	end,
-
-	show_notif = function(item, state, context, executed, key)
-		if executed then
-			local text = Handy.L.dictionary(key)
-			text = text .. " " .. Handy.L.variable("Handy_items_in_queue", { #Handy.dangerous_actions.sell_queue })
-			state.items[item.key] = {
-				text = text,
-				hold = not context.released,
-				order = 11,
-				dangerous = true,
-			}
 			return true
 		end
 	end,

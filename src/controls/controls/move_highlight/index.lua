@@ -26,7 +26,5 @@ Handy.controls.register({
 	last_hold = 0,
 
 	can_execute = Handy.move_highlight.can_execute,
-	execute = function(self, args, data)
-		return Handy.move_highlight.move(self, args, data)
-	end,
+	execute = Handy.move_highlight.move,
 })

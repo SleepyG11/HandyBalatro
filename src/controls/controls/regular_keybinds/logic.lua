@@ -124,7 +124,7 @@ Handy.regular_keybinds = {
 	end,
 
 	save_run_blocker = false,
-	can_save_run = function(item, args, check)
+	can_save_run = function(item, ctx, args, check)
 		if check then
 			return not not (
 				Handy.b_is_mod_active()
@@ -139,10 +139,10 @@ Handy.regular_keybinds = {
 			not Handy.regular_keybinds.save_run_blocker
 			and (G.STATE == G.STATES.SHOP or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.ROUND_EVAL)
 			and #G.E_MANAGER.queues.base < 2
-			and Handy.controls.can_execute_control(item, args)
+			and Handy.controls.can_execute_control(item, ctx, args)
 		)
 	end,
-	save_run = function(item, args)
+	save_run = function(item, ctx, args)
 		Handy.regular_keybinds.save_run_blocker = true
 		Handy.UI.state_panel.display(function(state)
 			state.items.misc_save_run = {
@@ -162,7 +162,7 @@ Handy.regular_keybinds = {
 							delay = 0.3,
 							timer = "REAL",
 							func = function()
-								if Handy.regular_keybinds.can_save_run(item, args, true) then
+								if Handy.regular_keybinds.can_save_run(item, ctx, args, true) then
 									save_run()
 									Handy.UI.state_panel.display(function(state)
 										state.items.misc_save_run = {

@@ -35,7 +35,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.animation_skip.toggle_temp_disabled()
 		return true
 	end,
@@ -51,7 +51,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.animation_skip.change(1)
 		return true
 	end,
@@ -67,7 +67,7 @@ Handy.controls.register({
 	},
 	trigger = "trigger",
 
-	execute = function(self, args, leftover_data)
+	execute = function(self, ctx, args)
 		Handy.animation_skip.change(-1)
 		return true
 	end,

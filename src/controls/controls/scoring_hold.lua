@@ -41,16 +41,15 @@ Handy.controls.register({
 	only_holdable = true,
 	no_mp = true,
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		if Handy.UI.data.speed_n_animations_preview then
-			return Handy.controls.can_execute_control(self, {
-				ctx = args and args.ctx,
+			return Handy.controls.can_execute_control(self, ctx, {
 				allow_mod_inactive = true,
 			})
 		else
 			return G.STAGE == G.STAGES.RUN
 				and (G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.SELECTING_HAND)
-				and Handy.controls.can_execute_control(self, args)
+				and Handy.controls.can_execute_control(self, ctx, args)
 		end
 	end,
 
