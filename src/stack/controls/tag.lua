@@ -5,7 +5,7 @@ l({
 	key = "hover",
 	operator = "until",
 	stack_path = "tag",
-	order = 20,
+	order = 1,
 })
 c({
 	key = "dangerous_actions_remove_one",
@@ -17,7 +17,7 @@ l({
 	key = "click",
 	operator = "until",
 	stack_path = "tag",
-	order = 40,
+	order = 2,
 })
 c({
 	key = "dangerous_actions_remove_all_same",
@@ -27,5 +27,5 @@ c({
 c({
 	key = "dangerous_actions_remove_all",
 	stack_path = "tag.click",
-	order = 200,
+	order = 101,
 })
