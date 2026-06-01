@@ -170,13 +170,7 @@ end
 --
 
 Handy.load_file("src/stack/globals.lua")
-Handy.load_files({
-	"card.lua",
-	"hold.lua",
-	"input.lua",
-	"move.lua",
-	"tag.lua",
-}, "src/stack/controls/")
+Handy.load_directory("src/stack/controls")
 
 --
 

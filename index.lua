@@ -33,12 +33,16 @@ Handy = {
 	ARGS = {},
 }
 
-function Handy.read_file(file)
+function Handy.get_fs()
 	if Handy.LOCAL_PATH then
-		return love.filesystem.read(Handy.LOCAL_PATH .. "/" .. file)
+		return love.filesystem, Handy.LOCAL_PATH .. "/"
 	else
-		return Handy.NFS.read(Handy.PATH .. "/" .. file)
+		return Handy.NFS, Handy.PATH .. "/"
 	end
+end
+function Handy.read_file(file)
+	local fs, start = Handy.get_fs()
+	return fs.read(start .. file)
 end
 function Handy.load_file(file)
 	return assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))()
@@ -46,6 +50,20 @@ end
 function Handy.load_files(files, prefix)
 	for _, file in pairs(files) do
 		Handy.load_file(prefix .. file)
+	end
+end
+function Handy.load_directory(path, recursive)
+	local fs, start = Handy.get_fs()
+	for _, file in ipairs(fs.getDirectoryItems(start .. path)) do
+		local partial_path = path .. "/" .. file
+		local info = fs.getInfo(start .. partial_path)
+		if info.type == "directory" then
+			if recursive then
+				Handy.load_directory(partial_path, recursive)
+			end
+		elseif info.type == "file" then
+			Handy.load_file(partial_path)
+		end
 	end
 end
 
