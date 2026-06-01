@@ -225,18 +225,12 @@ G.FUNCS.handy_setup_hover_popups = function(e)
 	e.states.hover.can = true
 	e.states.collide.can = true
 	function e:hover(...)
-		local res = {
+		local res = Handy.L.loc_vars(item, {
 			set = "Handy_ConfigDictionary",
 			key = item.key,
-		}
-		if item.loc_vars and type(item.loc_vars) == "function" then
-			local r = item:loc_vars()
-			res.vars = r.vars or res.vars
-			res.set = r.set or res.set
-			res.key = r.key or res.key
-		end
+		})
 		local success, loc_table = pcall(function()
-			return G.localization.descriptions["Handy_ConfigDictionary"][item.key].unlock_parsed
+			return G.localization.descriptions[res.set][res.key].unlock_parsed
 		end)
 		if success and loc_table and not self.children.handy_h_popup then
 			local lines_col = Handy.L.unlock(res.set, res.key, {

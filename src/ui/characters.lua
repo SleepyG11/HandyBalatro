@@ -534,7 +534,7 @@ local wipe_on_ref = G.FUNCS.wipe_on
 function G.FUNCS.wipe_on(...)
 	local r = wipe_on_ref(...)
 	if G.screenwipecard then
-		if Handy.cc.me_in_screenswipe.enabled and math.random() > 0.75 then
+		if Handy.cc.me_in_screenswipe.enabled and math.random() > 0.875 then
 			G.screenwipecard.children.front.states.visible = false
 			G.screenwipecard.children.center.atlas = G.ASSET_ATLAS["handy_me_joker"]
 			G.screenwipecard.children.center:set_sprite_pos({ x = 0, y = 0 })

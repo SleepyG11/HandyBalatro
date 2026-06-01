@@ -3,8 +3,13 @@ Handy.UI.__global_d_counter = 1
 ---
 
 function Handy.UI.CP.dictionary_item_info(item)
+	local res = Handy.L.loc_vars(item, {
+		set = "Handy_ConfigDictionary",
+		key = item.key,
+	})
+
 	local success, loc_table = pcall(function()
-		return G.localization.descriptions["Handy_ConfigDictionary"][item.key].unlock_parsed
+		return G.localization.descriptions[res.set][res.key].unlock_parsed
 	end)
 	local is_loc_loaded = success and loc_table and #loc_table > 0
 	if not (item.info_func or is_loc_loaded) then
@@ -72,7 +77,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 		opacity_mod = 0.25
 	end
 	if opacity then
-		opacity_mod = 0.1
+		opacity_mod = 0.05
 	end
 
 	if opacity_mod ~= 1 then
@@ -623,16 +628,10 @@ function Handy.UI.CP.dictionary_item(item, options)
 		colour = adjust_alpha(G.C.MULT, 0.1)
 	end
 
-	local res = {
+	local res = Handy.L.loc_vars(item, {
 		set = "Handy_ConfigDictionary",
 		key = item.key,
-	}
-	if item.loc_vars and type(item.loc_vars) == "function" then
-		local r = item:loc_vars()
-		res.vars = r.vars or res.vars
-		res.set = r.set or res.set
-		res.key = r.key or res.key
-	end
+	})
 
 	return {
 		n = G.UIT.R,
@@ -688,7 +687,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 								nodes = {
 									Handy.L.description(res.set, res.key, {
 										align = "c",
-										default_col = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.7),
+										default_col = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.6),
 										maxw = 4,
 										scale = 0.7,
 										minh = 0.3 * 0.7,

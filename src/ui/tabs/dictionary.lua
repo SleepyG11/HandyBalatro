@@ -324,7 +324,7 @@ local function is_mods_deps_resolved(item, quick)
 	local missing_reqs = {}
 	local conflicts = {}
 	for mod, operator in pairs(item.mods_deps) do
-		local mod_object = SMODS and SMODS.Mods and (SMODS.Mods[mod] or {})
+		local mod_object = SMODS and SMODS.Mods and SMODS.Mods[mod] or {}
 		local value = mod_object.can_load or false
 		local name = mod_object.name or mod
 		if type(operator) == "function" then
@@ -353,7 +353,16 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 		e.handy_alert_popup_setup = true
 
 		local module, deps = item:get_module()
-		if not (deps or item.dangerous or item.no_mp or item.no_gamepad or item.mods_deps or Handy.UI.data.tutorial_fake_alert) then
+		if
+			not (
+				deps
+				or item.dangerous
+				or item.no_mp
+				or item.no_gamepad
+				or item.mods_deps
+				or Handy.UI.data.tutorial_fake_alert
+			)
+		then
 			e.config.func = nil
 			return
 		end
@@ -367,14 +376,14 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 			if not self.children.handy_h_popup then
 				local lines = { n = G.UIT.C, config = { align = "cm" }, nodes = {} }
 
-                if Handy.UI.data.tutorial_fake_alert then
-                    local lines_col = Handy.L.description("Handy_Other", "tutorial_fake_alert", {
+				if Handy.UI.data.tutorial_fake_alert then
+					local lines_col = Handy.L.description("Handy_Other", "tutorial_fake_alert", {
 						align = "cm",
 					})
 					for _, l in ipairs(lines_col.nodes) do
 						table.insert(lines.nodes, l)
 					end
-                end
+				end
 
 				if item.no_gamepad and Handy.controller.is_gamepad() then
 					local lines_col = Handy.L.description("Handy_Other", "cant_use_with_gamepad", {
@@ -400,16 +409,10 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 						align = "cm",
 					})
 					for _, dep in ipairs(missing_list) do
-						local res = {
+						local res = Handy.L.loc_vars(dep, {
 							set = "Handy_ConfigDictionary",
 							key = dep.key,
-						}
-						if dep.loc_vars and type(dep.loc_vars) == "function" then
-							local r = dep:loc_vars()
-							res.vars = r.vars or res.vars
-							res.set = r.set or res.set
-							res.key = r.key or res.key
-						end
+						})
 						table.insert(lines_col.nodes, {
 							n = G.UIT.R,
 							config = { align = "cm" },
@@ -511,7 +514,11 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
 	local is_gamepad_fail = item.no_gamepad and Handy.controller.is_gamepad()
 	local is_mods_fail = item.mods_deps and not is_mods_deps_resolved(item, true)
-	local is_fail = Handy.UI.data.tutorial_fake_alert or is_mods_fail or is_mp_fail or is_gamepad_fail or not is_deps_resolved(item, true)
+	local is_fail = Handy.UI.data.tutorial_fake_alert
+		or is_mods_fail
+		or is_mp_fail
+		or is_gamepad_fail
+		or not is_deps_resolved(item, true)
 	if not is_fail and e.children.handy_alert then
 		e.children.handy_alert:remove()
 		e.children.handy_alert = nil

@@ -397,16 +397,10 @@ function Handy.UI.CP.small_option_cycle(item)
 		},
 	}
 
-	local res = {
+	local res = Handy.L.loc_vars(item, {
 		set = "Handy_ConfigDictionary",
 		key = item.key,
-	}
-	if item.loc_vars and type(item.loc_vars) == "function" then
-		local r = item:loc_vars()
-		res.vars = r.vars or res.vars
-		res.set = r.set or res.set
-		res.key = r.key or res.key
-	end
+	})
 
 	return {
 		n = G.UIT.R,

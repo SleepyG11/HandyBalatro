@@ -39,7 +39,9 @@ Handy.regular_keybinds = {
 			})
 		end
 		local open = function()
+			Handy.regular_keybinds.swappable_overlay_opening = true
 			func()
+			Handy.regular_keybinds.swappable_overlay_opening = nil
 			if G.OVERLAY_MENU then
 				Handy.regular_keybinds.current_swappable_overlay = key
 			end

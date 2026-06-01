@@ -97,8 +97,6 @@ function Handy.D.register(item)
 	return item
 end
 
-Handy.load_file("src/dictionary/items.lua")
-
 --
 
 function Handy.D.sorter(a, b)
@@ -256,3 +254,7 @@ Handy.e_mitter.on("localization_load", function()
 	end
 	Handy.D.load_localization()
 end)
+
+--
+
+Handy.load_file("src/dictionary/items.lua")

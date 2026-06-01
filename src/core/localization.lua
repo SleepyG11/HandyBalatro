@@ -27,13 +27,14 @@ Handy.L = {
 	end,
 
 	parse_lines = function(lines, args, config)
+		local align_overrides = args.align_overrides or {}
 		local result_nodes = {}
 		if lines then
-			for _, line in ipairs(lines) do
+			for index, line in ipairs(lines) do
 				local localized = Handy.L.localize_box(type(line) == "string" and loc_parse_string(line) or line, args)
 				table.insert(result_nodes, {
 					n = G.UIT.R,
-					config = { align = args.align, minh = args.minh },
+					config = { align = align_overrides[index] or args.align, minh = args.minh },
 					nodes = localized,
 				})
 			end
@@ -45,20 +46,23 @@ Handy.L = {
 		}
 	end,
 
-	parsed = function(set, key, parsed_fields, args, config)
-		local success, lines = pcall(function()
-			return G.localization.descriptions[set][key][parsed_fields]
+	parsed = function(set, key, field, args, config)
+		local success, lines, align_overrides = pcall(function()
+			local content = G.localization.descriptions[set][key]
+			local override_info = content.handy_override_align or {}
+			return content[field .. "_parsed"], override_info[field] or {}
 		end)
+		args.align_overrides = align_overrides or {}
 		return Handy.L.parse_lines(success and lines or {}, args, config)
 	end,
 	name = function(set, key, args, config)
-		return Handy.L.parsed(set, key, "name_parsed", args, config)
+		return Handy.L.parsed(set, key, "name", args, config)
 	end,
 	description = function(set, key, args, config)
-		return Handy.L.parsed(set, key, "text_parsed", args, config)
+		return Handy.L.parsed(set, key, "text", args, config)
 	end,
 	unlock = function(set, key, args, config)
-		return Handy.L.parsed(set, key, "unlock_parsed", args, config)
+		return Handy.L.parsed(set, key, "unlock", args, config)
 	end,
 
 	keys = function(key)
@@ -94,6 +98,16 @@ Handy.L = {
 
 	tab = function(key)
 		return localize(key, "handy_tabs")
+	end,
+
+	loc_vars = function(item, res)
+		if item.loc_vars and type(item.loc_vars) == "function" then
+			local r = item:loc_vars()
+			res.vars = r.vars or res.vars
+			res.set = r.set or res.set
+			res.key = r.key or res.key
+		end
+		return res
 	end,
 }
 

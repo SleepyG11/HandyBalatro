@@ -3,6 +3,10 @@ Handy.speed_multiplier = {
 	value_text = "1x",
 	queue_retriggers_count = 0,
 
+	max_speed = 2 ^ 18,
+	max_safe_speed = 2 ^ 9,
+	min_speed = 1 / (2 ^ 9),
+
 	throttle = false,
 
 	temp_disabled = false,
@@ -97,13 +101,13 @@ Handy.speed_multiplier = {
 		return Handy.speed_multiplier.get_limited_value()
 	end,
 	get_limited_value = function()
-		local min_value = 1 / (2 ^ 9)
+		local min_value = Handy.speed_multiplier.min_speed
 		if Handy.b_is_in_multiplayer() then
 			min_value = 1
 		end
-		local max_value = 2 ^ 18
+		local max_value = Handy.speed_multiplier.max_speed
 		if not Handy.speed_multiplier.is_uncapped() then
-			max_value = 2 ^ 9
+			max_value = Handy.speed_multiplier.max_safe_speed
 		end
 		local mp_value = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
 			force = true,
