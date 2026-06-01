@@ -21,6 +21,9 @@ Handy.dictionary.register({
 			get_module = function(self)
 				return Handy.cc.speed_multiplier
 			end,
+			get_deps = function(self)
+				return { self.parent }
+			end,
 
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
@@ -45,7 +48,10 @@ Handy.dictionary.register({
 			key = "speed_multiplier_default_value",
 			keywords = { "default value on startup game start launch" },
 			get_module = function(self)
-				return Handy.cc.speed_multiplier_default_value, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.speed_multiplier_default_value
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			checkbox = {
 				advanced = true,
@@ -82,7 +88,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.speed_multiplier_multiply, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.speed_multiplier_multiply
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 		},
@@ -97,7 +106,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.speed_multiplier_divide, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.speed_multiplier_divide
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 		},
@@ -112,7 +124,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.speed_multiplier_toggle_temp_disabled, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.speed_multiplier_toggle_temp_disabled
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 		},
@@ -131,7 +146,10 @@ Handy.dictionary.register({
 			end,
 
 			get_module = function(self)
-				return Handy.cc.dangerous_actions_speed_multiplier_uncap, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.dangerous_actions_speed_multiplier_uncap
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 		},

@@ -16,7 +16,10 @@ Handy.dictionary.register({
 			key = "scoring_hold_any_moment",
 			keywords = { "pause any moment" },
 			get_module = function(self)
-				return Handy.cc.scoring_hold_any_moment, { Handy.D.dictionary.scoring_hold }
+				return Handy.cc.scoring_hold_any_moment
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			checkbox = true,
 		},

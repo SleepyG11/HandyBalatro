@@ -13,6 +13,10 @@ Handy.dictionary.register({
 			get_module = function(self)
 				return Handy.cc.insta_actions_trigger_mode
 			end,
+			get_deps = function(self)
+				return { self.parent }
+			end,
+
 			option_cycle = {
 				save = true,
 				get_values = function()
@@ -34,7 +38,10 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.insta_actions_buy_or_sell, { Handy.D.dictionary.insta_actions }
+				return Handy.cc.insta_actions_buy_or_sell
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 
 			loc_vars = function()
@@ -53,7 +60,10 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.insta_actions_buy_n_sell, { Handy.D.dictionary.insta_actions }
+				return Handy.cc.insta_actions_buy_n_sell
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 
 			loc_vars = function()
@@ -72,7 +82,10 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.insta_actions_use, { Handy.D.dictionary.insta_actions }
+				return Handy.cc.insta_actions_use
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 
 			loc_vars = function()

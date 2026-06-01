@@ -68,6 +68,7 @@ function Handy.D.register(item)
 	end
 
 	item.get_module = item.get_module or function() end
+	item.get_deps = item.get_deps or function() end
 	item.parents = item.parents or {}
 
 	local keywords = item.keywords or {}

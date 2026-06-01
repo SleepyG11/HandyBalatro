@@ -22,7 +22,10 @@ Handy.dictionary.register({
 		{
 			key = "animation_skip_current_value",
 			get_module = function(self)
-				return Handy.cc.animation_skip_default_value, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_default_value
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			simple_option_cycle = {
 				left_callback = function()
@@ -46,7 +49,10 @@ Handy.dictionary.register({
 			key = "animation_skip_default_value",
 			keywords = { "default value on startup game start launch" },
 			get_module = function(self)
-				return Handy.cc.animation_skip_default_value, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_default_value
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			checkbox = {
 				advanced = true,
@@ -76,7 +82,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.animation_skip_increase, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_increase
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.animation_skip.is_disabled_by_mp,
 		},
@@ -91,7 +100,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.animation_skip_decrease, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_decrease
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.animation_skip.is_disabled_by_mp,
 		},
@@ -106,7 +118,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_toggle_temp_disabled
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.animation_skip.is_disabled_by_mp,
 		},
@@ -125,7 +140,10 @@ Handy.dictionary.register({
 			end,
 
 			get_module = function(self)
-				return Handy.cc.dangerous_actions_animation_skip_unsafe, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.dangerous_actions_animation_skip_unsafe
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 			no_mp = Handy.animation_skip.is_disabled_by_mp,
 		},

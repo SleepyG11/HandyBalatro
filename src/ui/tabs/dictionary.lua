@@ -287,7 +287,7 @@ G.FUNCS.handy_apply_dictionary_search = function(e)
 end
 
 local function is_deps_resolved(item, quick)
-	local module, deps = item:get_module()
+	local module, deps = item:get_module(), item:get_deps()
 	if not deps and not item.dangerous then
 		return true, {}
 	end
@@ -352,7 +352,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 	if not e.handy_alert_popup_setup then
 		e.handy_alert_popup_setup = true
 
-		local module, deps = item:get_module()
+		local deps = item:get_deps()
 		if
 			not (
 				deps

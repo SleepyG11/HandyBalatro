@@ -19,7 +19,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.presets_load_1, { Handy.D.dictionary.presets }
+				return Handy.cc.presets_load_1
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -34,7 +37,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.presets_load_2, { Handy.D.dictionary.presets }
+				return Handy.cc.presets_load_2
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -49,7 +55,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.presets_load_3, { Handy.D.dictionary.presets }
+				return Handy.cc.presets_load_3
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -64,7 +73,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.presets_load_next, { Handy.D.dictionary.presets }
+				return Handy.cc.presets_load_next
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 	},

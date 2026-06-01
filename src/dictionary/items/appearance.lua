@@ -59,7 +59,10 @@ Handy.dictionary.register({
 			key = "speed_multiplier_settings_toggle",
 			keywords = { "settings config speed multiplier more speed toggle checkbox cycle" },
 			get_module = function(self)
-				return Handy.cc.speed_multiplier_settings_toggle, { Handy.D.dictionary.speed_multiplier }
+				return Handy.cc.speed_multiplier_settings_toggle
+			end,
+			get_deps = function(self)
+				return { Handy.D.dictionary.speed_multiplier }
 			end,
 			checkbox = true,
 			no_mp = Handy.speed_multiplier.is_disabled_by_mp,
@@ -68,7 +71,10 @@ Handy.dictionary.register({
 			key = "animation_skip_settings_toggle",
 			keywords = { "settings config animation skip remove animations toggle checkbox cycle" },
 			get_module = function(self)
-				return Handy.cc.animation_skip_settings_toggle, { Handy.D.dictionary.animation_skip }
+				return Handy.cc.animation_skip_settings_toggle
+			end,
+			get_deps = function(self)
+				return { Handy.D.dictionary.animation_skip }
 			end,
 			checkbox = true,
 			no_mp = Handy.animation_skip.is_disabled_by_mp,

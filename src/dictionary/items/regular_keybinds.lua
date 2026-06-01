@@ -23,7 +23,10 @@ Handy.dictionary.register({
 						only_holdable = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_restart, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_restart
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					loc_vars = function()
 						return {
@@ -43,7 +46,10 @@ Handy.dictionary.register({
 						only_safe = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_quick_restart, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_quick_restart
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					loc_vars = function()
 						return {
@@ -62,7 +68,10 @@ Handy.dictionary.register({
 						allow_multiple = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_save_run, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_save_run
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					no_mp = true,
 				},
@@ -77,7 +86,10 @@ Handy.dictionary.register({
 						only_safe = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_reload_run, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_reload_run
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					no_mp = true,
 				},
@@ -92,7 +104,10 @@ Handy.dictionary.register({
 						only_safe = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_restart_game, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_restart_game
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					no_mp = true,
 				},
@@ -106,7 +121,10 @@ Handy.dictionary.register({
 						allow_multiple = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_copy_log_file, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_copy_log_file
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 				},
 			},
@@ -120,7 +138,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_play",
 					keywords = { "play hand" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_play, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_play
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -133,7 +154,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_discard",
 					keywords = { "discard hand" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_discard, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_discard
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -146,7 +170,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_change_sort_rank",
 					keywords = { "sort hand rank" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_sort_by_rank, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_sort_by_rank
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -159,7 +186,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_change_sort_suit",
 					keywords = { "sort hand suit" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_sort_by_suit, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_sort_by_suit
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -172,7 +202,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_toggle_sort",
 					keywords = { "sort hand rank suit toggle switch" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_toggle_sort, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_toggle_sort
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -192,7 +225,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_cash_out",
 					keywords = { "cash out cashout" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_cash_out, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_cash_out
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -207,6 +243,9 @@ Handy.dictionary.register({
 					get_module = function(self)
 						return Handy.cc.regular_keybinds_not_just_yet_interaction,
 							{ Handy.D.dictionary.regular_keybinds }
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -228,7 +267,10 @@ Handy.dictionary.register({
 						allow_multiple = true,
 					},
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_start_fantoms_preview
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					mods_deps = {
 						["Multiplayer"] = "required",
@@ -245,7 +287,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_skip_booster",
 					keywords = { "booster pack packs boosters skip" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_skip_booster, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_skip_booster
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -258,7 +303,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_reroll_shop",
 					keywords = { "reroll one more" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_reroll_shop, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_reroll_shop
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -271,7 +319,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_leave_shop",
 					keywords = { "go next leave shop" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_leave_shop, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_leave_shop
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -290,7 +341,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_skip_blind",
 					keywords = { "skip blind" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_skip_blind, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_skip_blind
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -303,7 +357,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_select_blind",
 					keywords = { "select start round blind" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_select_blind, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_select_blind
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -316,7 +373,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_reroll_boss",
 					keywords = { "reroll boss blind directors cut retcon director" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_reroll_boss, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_reroll_boss
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -337,8 +397,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_swappable_overlays_mode",
 					keywords = { "swappable menus mode hold to open release to close double press again" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_swappable_overlays_mode,
-							{ Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_swappable_overlays_mode
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					option_cycle = {
 						get_values = function()
@@ -356,7 +418,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_run_info",
 					keywords = { "run info poker hands" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_run_info, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_run_info
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -369,7 +434,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_run_info_blinds",
 					keywords = { "run info blinds current ante" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_run_info_blinds, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_run_info_blinds
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -383,7 +451,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_view_deck",
 					keywords = { "open view deck" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_view_deck, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_view_deck
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -397,7 +468,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_view_lobby_info",
 					keywords = { "multiplayer lobby info players" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_lobby_info, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_lobby_info
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -420,7 +494,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_show_deck_preview",
 					keywords = { "deck preview summary peek" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_show_deck_preview, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_show_deck_preview
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -434,7 +511,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_options",
 					keywords = { "game options esc escape menu" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_options, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_options
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -452,7 +532,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_collection",
 					keywords = { "collection menu" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_collection, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_collection
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",
@@ -466,7 +549,10 @@ Handy.dictionary.register({
 					key = "regular_keybinds_mod_settings",
 					keywords = { "handy mod settings config" },
 					get_module = function(self)
-						return Handy.cc.regular_keybinds_mod_settings, { Handy.D.dictionary.regular_keybinds }
+						return Handy.cc.regular_keybinds_mod_settings
+					end,
+					get_deps = function(self)
+						return { Handy.D.dictionary.regular_keybinds }
 					end,
 					keybind = {
 						allow_multiple = "advanced",

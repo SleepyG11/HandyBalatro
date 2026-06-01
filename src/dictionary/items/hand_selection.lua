@@ -33,6 +33,9 @@ Handy.dictionary.register({
 			get_module = function()
 				return Handy.cc.hand_selection_mode
 			end,
+			get_deps = function(self)
+				return { self.parent }
+			end,
 		},
 		{
 			key = "hand_selection_insta_highlight",
@@ -43,7 +46,10 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.hand_selection_insta_highlight, { Handy.D.dictionary.hand_selection }
+				return Handy.cc.hand_selection_insta_highlight
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 
 			loc_vars = function()
@@ -64,9 +70,12 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.hand_selection_insta_highlight_allow_deselect,
-					{ Handy.D.dictionary.hand_selection, Handy.D.dictionary.hand_selection_insta_highlight }
+				return Handy.cc.hand_selection_insta_highlight_allow_deselect
 			end,
+			get_deps = function(self)
+				return { self.parent, Handy.D.dictionary.hand_selection_insta_highlight }
+			end,
+
 			mods_deps = {
 				["BetterMouseAndGamepad"] = "conflict",
 			},
@@ -77,8 +86,10 @@ Handy.dictionary.register({
 			checkbox = true,
 
 			get_module = function(self)
-				return Handy.cc.hand_selection_combine_select_deselect,
-					{ Handy.D.dictionary.hand_selection, Handy.D.dictionary.hand_selection_insta_highlight }
+				return Handy.cc.hand_selection_combine_select_deselect
+			end,
+			get_deps = function(self)
+				return { self.parent, Handy.D.dictionary.hand_selection_insta_highlight }
 			end,
 			mods_deps = {
 				["BetterMouseAndGamepad"] = "conflict",
@@ -96,7 +107,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.hand_selection_deselect_hand, { Handy.D.dictionary.hand_selection }
+				return Handy.cc.hand_selection_deselect_hand
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 
 			loc_vars = function()
@@ -118,7 +132,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.hand_selection_entire_f_hand, { Handy.D.dictionary.hand_selection }
+				return Handy.cc.hand_selection_entire_f_hand
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 	},

@@ -22,7 +22,10 @@ Handy.dictionary.register({
 			},
 
 			get_module = function(self)
-				return Handy.cc.move_highlight_dx_one_left, { Handy.D.dictionary.move_highlight }
+				return Handy.cc.move_highlight_dx_one_left
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -36,7 +39,10 @@ Handy.dictionary.register({
 				advanced = true,
 			},
 			get_module = function(self)
-				return Handy.cc.move_highlight_dx_one_right, { Handy.D.dictionary.move_highlight }
+				return Handy.cc.move_highlight_dx_one_right
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -51,7 +57,10 @@ Handy.dictionary.register({
 				advanced = true,
 			},
 			get_module = function(self)
-				return Handy.cc.move_highlight_swap, { Handy.D.dictionary.move_highlight }
+				return Handy.cc.move_highlight_swap
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 		{
@@ -66,7 +75,10 @@ Handy.dictionary.register({
 				advanced = true,
 			},
 			get_module = function(self)
-				return Handy.cc.move_highlight_to_end, { Handy.D.dictionary.move_highlight }
+				return Handy.cc.move_highlight_to_end
+			end,
+			get_deps = function(self)
+				return { self.parent }
 			end,
 		},
 	},
