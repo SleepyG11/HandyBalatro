@@ -1,5 +1,5 @@
-local l = Handy.controls.register_layer
-local c = Handy.controls.register_control
+local l = Handy.stack.register_layer
+local c = Handy.stack.register_control
 
 l({
 	key = "hand_selection",

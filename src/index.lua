@@ -3,6 +3,7 @@ Handy.load_files({
 	"ui/index.lua",
 
 	"controls/index.lua",
+	"stack/index.lua",
 
 	"dictionary/index.lua",
 	"extensions/index.lua",
