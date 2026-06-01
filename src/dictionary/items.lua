@@ -14,4 +14,4 @@ Handy.load_files({
 	"regular_keybinds.lua",
 	"dangerous_actions.lua",
 	"mp_extension.lua",
-}, "src/dictionary/items/")
+}, "src/dictionary/controls/")
