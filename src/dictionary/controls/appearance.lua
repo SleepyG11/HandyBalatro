@@ -33,7 +33,7 @@ Handy.dictionary.register({
 				return Handy.cc.hide_options_button
 			end,
 			checkbox = true,
-			mods_deps = {
+			mod_deps = {
 				["Steamodded"] = "required",
 			},
 		},

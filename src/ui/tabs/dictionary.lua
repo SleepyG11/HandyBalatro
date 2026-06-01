@@ -316,14 +316,14 @@ local function is_deps_resolved(item, quick)
 	end
 	return not is_missing, missing_list
 end
-local function is_mods_deps_resolved(item, quick)
-	if not item.mods_deps then
+local function is_mod_deps_resolved(item, quick)
+	if not item.mod_deps then
 		return true, {}, {}
 	end
 
 	local missing_reqs = {}
 	local conflicts = {}
-	for mod, operator in pairs(item.mods_deps) do
+	for mod, operator in pairs(item.mod_deps) do
 		local mod_object = SMODS and SMODS.Mods and SMODS.Mods[mod] or {}
 		local value = mod_object.can_load or false
 		local name = mod_object.name or mod
@@ -359,7 +359,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 				or item.dangerous
 				or item.no_mp
 				or item.no_gamepad
-				or item.mods_deps
+				or item.mod_deps
 				or Handy.UI.data.tutorial_fake_alert
 			)
 		then
@@ -436,7 +436,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 					end
 				end
 
-				local is_mods_resolved, missing_reqs, conflicts = is_mods_deps_resolved(item)
+				local is_mods_resolved, missing_reqs, conflicts = is_mod_deps_resolved(item)
 				if not is_mods_resolved then
 					if missing_reqs and #missing_reqs > 0 then
 						local lines_col = Handy.L.description("Handy_Other", "missing_req_mods", {
@@ -513,7 +513,7 @@ G.FUNCS.handy_setup_dictionary_checkbox_alert = function(e)
 
 	local is_mp_fail = item.no_mp and Handy.disabled_in_mp_check(item.no_mp)
 	local is_gamepad_fail = item.no_gamepad and Handy.controller.is_gamepad()
-	local is_mods_fail = item.mods_deps and not is_mods_deps_resolved(item, true)
+	local is_mods_fail = item.mod_deps and not is_mod_deps_resolved(item, true)
 	local is_fail = Handy.UI.data.tutorial_fake_alert
 		or is_mods_fail
 		or is_mp_fail

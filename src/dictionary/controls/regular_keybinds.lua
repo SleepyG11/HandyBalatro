@@ -253,7 +253,7 @@ Handy.dictionary.register({
 					checkbox = {
 						advanced = true,
 					},
-					mods_deps = {
+					mod_deps = {
 						["NotJustYet"] = "required",
 					},
 				},
@@ -272,7 +272,7 @@ Handy.dictionary.register({
 					get_deps = function(self)
 						return { Handy.D.dictionary.regular_keybinds }
 					end,
-					mods_deps = {
+					mod_deps = {
 						["Multiplayer"] = "required",
 					},
 				},
@@ -479,7 +479,7 @@ Handy.dictionary.register({
 					checkbox = {
 						advanced = true,
 					},
-					mods_deps = {
+					mod_deps = {
 						["Multiplayer"] = "required",
 					},
 				},

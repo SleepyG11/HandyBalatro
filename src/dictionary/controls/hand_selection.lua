@@ -60,7 +60,7 @@ Handy.dictionary.register({
 				}
 			end,
 
-			mods_deps = {
+			mod_deps = {
 				["BetterMouseAndGamepad"] = "conflict",
 			},
 		},
@@ -76,7 +76,7 @@ Handy.dictionary.register({
 				return { self.parent, Handy.D.dictionary.hand_selection_insta_highlight }
 			end,
 
-			mods_deps = {
+			mod_deps = {
 				["BetterMouseAndGamepad"] = "conflict",
 			},
 		},
@@ -91,7 +91,7 @@ Handy.dictionary.register({
 			get_deps = function(self)
 				return { self.parent, Handy.D.dictionary.hand_selection_insta_highlight }
 			end,
-			mods_deps = {
+			mod_deps = {
 				["BetterMouseAndGamepad"] = "conflict",
 			},
 		},
