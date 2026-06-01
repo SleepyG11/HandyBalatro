@@ -266,9 +266,3 @@ function state_panel.update_state()
 		state_panel.new_state_changed = false
 	end
 end
-
---
-
-Handy.e_mitter.on("update", function(dt)
-	state_panel.update_opacity(dt)
-end)

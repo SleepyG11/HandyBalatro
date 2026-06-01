@@ -23,8 +23,13 @@ end
 local love_update_ref = love.update
 function love.update(dt, ...)
 	Handy.e_mitter.emit("update", dt)
+
+	local a, b, c, d = love_update_ref(dt, ...)
+
 	Handy.UI.state_panel.update_state()
-	return love_update_ref(dt, ...)
+	Handy.UI.state_panel.update_opacity(dt)
+
+	return a, b, c, d
 end
 
 local old_tag_generate_ui = Tag.generate_UI
