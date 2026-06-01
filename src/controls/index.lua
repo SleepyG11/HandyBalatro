@@ -117,6 +117,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		return false, "no_item"
 	end
 	args = args or {}
+	ctx = ctx or args.ctx
 
 	local module, deps = item:get_module()
 	module = Handy.m(module)

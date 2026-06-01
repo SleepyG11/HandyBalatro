@@ -60,13 +60,12 @@ Handy.insta_actions = {
 		local is_preview_card = card.handy_preview_insta_actions
 		local trigger_mode = Handy.cc.insta_actions_trigger_mode.value
 		if
-			not Handy.controls.can_execute_control(item, {
+			not Handy.controls.can_execute_control(item, ctx, {
 				no_keybinds = true,
 				allow_not_in_run = is_preview_card,
 				allow_stop_use = is_preview_card,
 				allow_mod_inactive = is_preview_card,
 				allow_any_context = true,
-				ctx = ctx,
 			})
 		then
 			return false
@@ -85,7 +84,7 @@ Handy.insta_actions = {
 	end,
 	execute = function(item, ctx, args, data)
 		local target_card = data and data.card
-		if not ctx then
+		if not target_card then
 			return false
 		end
 		local actions = Handy.insta_actions.get_actions(ctx and ctx.input and ctx or nil)

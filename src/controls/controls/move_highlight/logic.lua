@@ -84,12 +84,11 @@ Handy.move_highlight = {
 		ctx = Handy.controls.resolve_control_context(item, ctx)
 		if
 			not ctx
-			or not Handy.controls.can_execute_control(item, {
+			or not Handy.controls.can_execute_control(item, ctx, {
 				allow_not_in_run = is_preview,
 				allow_mod_inactive = is_preview,
 				no_keybinds = true,
 				allow_any_context = true,
-				ctx = ctx,
 			})
 		then
 			item.last_hold = 0

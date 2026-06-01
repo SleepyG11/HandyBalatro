@@ -8,17 +8,23 @@ Handy.controls.register({
 		input = true,
 	},
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
 			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "run_info_poker_hands", function()
-			Handy.fake_events.execute({
-				func = G.FUNCS.run_info,
-			})
-		end)
+	execute = function(self, ctx, args)
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(
+			self,
+			ctx,
+			args,
+			"run_info_poker_hands",
+			function()
+				Handy.fake_events.execute({
+					func = G.FUNCS.run_info,
+				})
+			end
+		)
 	end,
 })
 Handy.controls.register({
@@ -31,13 +37,13 @@ Handy.controls.register({
 		input = true,
 	},
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
 			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "run_info_blinds", function()
+	execute = function(self, ctx, args)
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, ctx, args, "run_info_blinds", function()
 			Handy.override_create_tabs_chosen_by_label = localize("b_blinds")
 			Handy.fake_events.execute({
 				func = G.FUNCS.run_info,
@@ -58,10 +64,10 @@ Handy.controls.register({
 
 	trigger = "trigger",
 
-	can_execute = function(self, args)
-		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.fake_events.execute({
 			func = G.FUNCS.your_collection,
 		})
@@ -80,10 +86,10 @@ Handy.controls.register({
 
 	trigger = "trigger",
 
-	can_execute = function(self, args)
-		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
+	execute = function(self, ctx, args)
 		Handy.fake_events.execute({
 			func = G.FUNCS.options,
 		})
@@ -100,13 +106,13 @@ Handy.controls.register({
 		input = true,
 	},
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
 			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "deck", function()
+	execute = function(self, ctx, args)
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, ctx, args, "deck", function()
 			Handy.fake_events.execute({
 				func = G.FUNCS.deck_info,
 			})
@@ -123,16 +129,16 @@ Handy.controls.register({
 		input = true,
 	},
 
-	can_execute = function(self, args)
+	can_execute = function(self, ctx, args)
 		return MP
 			and G.FUNCS.lobby_info
 			and Handy.b_is_in_multiplayer()
 			and (Handy.regular_keybinds.swappable_overlay or (not G.SETTINGS.paused and not G.OVERLAY_MENU))
 			and G.STAGE == G.STAGES.RUN
-			and Handy.controls.can_execute_control(self, args)
+			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 	execute = function(self, args)
-		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, args, "lobby_info", function()
+		return Handy.regular_keybinds.open_or_close_swappable_overlay(self, ctx, args, "lobby_info", function()
 			Handy.fake_events.execute({
 				func = G.FUNCS.lobby_info,
 			})
@@ -151,10 +157,10 @@ Handy.controls.register({
 
 	trigger = "trigger",
 
-	can_execute = function(self, args)
-		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, args)
+	can_execute = function(self, ctx, args)
+		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
 	end,
-	execute = function()
+	execute = function(self, ctx, args)
 		G.FUNCS.handy_options()
 		return true
 	end,

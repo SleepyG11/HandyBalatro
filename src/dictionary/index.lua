@@ -1,4 +1,4 @@
-Handy.D = {
+Handy.dictionary = {
 	list = {},
 	dictionary = {},
 
@@ -8,20 +8,20 @@ Handy.D = {
 	simple_option_cycles = {},
 	sliders = {},
 
-	dictionary_sorted = false,
+	sorted = false,
 }
 
-Handy.dictionary = Handy.D
+Handy.D = Handy.dictionary
 
 --
 
 local order_counter = 1
-function Handy.D.register(item)
-	if Handy.D.dictionary[item.key] then
-		return Handy.D.dictionary[item.key]
+function Handy.dictionary.register(item)
+	if Handy.dictionary.dictionary[item.key] then
+		return Handy.dictionary.dictionary[item.key]
 	end
 
-	Handy.D.dictionary_sorted = false
+	Handy.dictionary.sorted = false
 	item.loc_loaded = false
 
 	if not item.order then
@@ -31,37 +31,32 @@ function Handy.D.register(item)
 		order_counter = math.max(item.order + 1, order_counter)
 	end
 
-	Handy.D.dictionary[item.key] = item
-	table.insert(Handy.D.list, item)
+	Handy.dictionary.dictionary[item.key] = item
+	table.insert(Handy.dictionary.list, item)
 	if item.checkbox then
 		if type(item.checkbox) ~= "table" then
 			item.checkbox = {}
 		end
-		table.insert(Handy.D.checkboxes, item)
 	end
 	if item.keybind then
 		if type(item.keybind) ~= "table" then
 			item.keybind = {}
 		end
-		table.insert(Handy.D.keybinds, item)
 	end
 	if item.option_cycle then
 		if type(item.option_cycle) ~= "table" then
 			item.option_cycle = {}
 		end
-		table.insert(Handy.D.option_cycles, item)
 	end
 	if item.simple_option_cycle then
 		if type(item.simple_option_cycle) ~= "table" then
 			item.simple_option_cycle = {}
 		end
-		table.insert(Handy.D.simple_option_cycles, item)
 	end
 	if item.slider then
 		if type(item.slider) ~= "table" then
 			item.slider = {}
 		end
-		table.insert(Handy.D.sliders, item)
 	end
 
 	item.get_module = item.get_module or function() end
@@ -75,7 +70,7 @@ function Handy.D.register(item)
 	)
 
 	if type(item.parent) == "string" then
-		item.parent = Handy.D.dictionary[item.parent]
+		item.parent = Handy.dictionary.dictionary[item.parent]
 	end
 	if item.parent then
 		item.parents = Handy.utils.table_concat(item.parent.parents or {}, { item.parent })
@@ -87,7 +82,7 @@ function Handy.D.register(item)
 		for index, subitem in ipairs(item.items) do
 			subitem.parent = item
 			subitem.parents = Handy.utils.table_concat(item.parents or {}, { item })
-			Handy.D.register(subitem)
+			Handy.dictionary.register(subitem)
 		end
 	end
 
@@ -96,37 +91,43 @@ end
 
 --
 
-function Handy.D.sorter(a, b)
-	local a_p_order = a.parent and a.parent.order or 999999
-	local b_p_order = b.parent and b.parent.order or 999999
+function Handy.dictionary.sort_item(item)
+	item.result_order = Handy.dictionary.global_order
+	Handy.dictionary.global_order = Handy.dictionary.global_order + 1
 
-	if a_p_order ~= b_p_order then
-		return a_p_order < b_p_order
+	if item.items then
+		table.sort(item.items, function(a, b)
+			return (a.order or 0) < (b.order or 0)
+		end)
+		for _, child in ipairs(item.items) do
+			Handy.dictionary.sort_item(child)
+		end
 	end
-	return a.order < b.order
 end
-function Handy.D.sort_dictionary()
-	for _, t in ipairs({
-		Handy.D.list,
-		Handy.D.checkboxes,
-		Handy.D.keybinds,
-		Handy.D.option_cycles,
-		Handy.D.simple_option_cycles,
-		Handy.D.sliders,
-	}) do
-		table.sort(t, Handy.D.sorter)
+function Handy.dictionary.sort()
+	Handy.dictionary.global_order = 1
+	for _, item in ipairs(Handy.dictionary.list) do
+		item.result_order = nil
 	end
-	Handy.D.dictionary_sorted = true
+	for _, item in ipairs(Handy.dictionary.list) do
+		if not item.parent then
+			Handy.dictionary.sort_item(item)
+		end
+	end
+	table.sort(Handy.dictionary.list, function(a, b)
+		return a.result_order < b.result_order
+	end)
+	Handy.dictionary.sorted = true
 end
 
 --
 
-function Handy.D.searchable_items(items, args)
+function Handy.dictionary.searchable_items(items, args)
 	args = args or {}
-	if not Handy.D.dictionary_sorted then
-		Handy.D.sort_dictionary()
+	if not Handy.dictionary.sorted then
+		Handy.dictionary.sort()
 	end
-	local start_items = items or Handy.D.list
+	local start_items = items or Handy.dictionary.list
 	local result_items = {}
 	for _, item in ipairs(start_items) do
 		if item.no_search or (args.remove_parents and item.items and #item.items > 0) then
@@ -136,9 +137,9 @@ function Handy.D.searchable_items(items, args)
 	end
 	return result_items
 end
-function Handy.D.search(search_string, args)
+function Handy.dictionary.search(search_string, args)
 	args = args or {}
-	local items = args.items or Handy.D.searchable_items(Handy.D.list, args)
+	local items = args.items or Handy.dictionary.searchable_items(Handy.dictionary.list, args)
 	if not search_string or #search_string == 0 then
 		return items
 	end
@@ -184,7 +185,9 @@ function Handy.D.search(search_string, args)
 			table.insert(result, item)
 		end
 	end
-	table.sort(result, Handy.D.sorter)
+	table.sort(result, function(a, b)
+		return a.result_order < b.result_order
+	end)
 
 	return result
 end
@@ -211,8 +214,8 @@ end
 
 --
 
-function Handy.D.clear_keywords()
-	for k, v in pairs(Handy.D.dictionary) do
+function Handy.dictionary.clear_keywords()
+	for k, v in pairs(Handy.dictionary.dictionary) do
 		v.result_keywords = ""
 		v.temp_keywords = {}
 
@@ -221,7 +224,7 @@ function Handy.D.clear_keywords()
 		end
 	end
 end
-function Handy.D.process_keywords()
+function Handy.dictionary.process_keywords()
 	local load_loc
 	load_loc = function(v)
 		if v.loc_loaded then
@@ -242,14 +245,14 @@ function Handy.D.process_keywords()
 		end)
 	end
 
-	for k, v in pairs(Handy.D.dictionary) do
+	for k, v in pairs(Handy.dictionary.dictionary) do
 		v.loc_loaded = false
 	end
-	for k, v in pairs(Handy.D.dictionary) do
+	for k, v in pairs(Handy.dictionary.dictionary) do
 		load_loc(v)
 	end
 end
-function Handy.D.finish_keywords()
+function Handy.dictionary.finish_keywords()
 	local load_loc
 	load_loc = function(v)
 		if v.loc_loaded then
@@ -267,10 +270,10 @@ function Handy.D.finish_keywords()
 		end
 	end
 
-	for k, v in pairs(Handy.D.dictionary) do
+	for k, v in pairs(Handy.dictionary.dictionary) do
 		v.loc_loaded = false
 	end
-	for k, v in pairs(Handy.D.dictionary) do
+	for k, v in pairs(Handy.dictionary.dictionary) do
 		load_loc(v)
 	end
 end

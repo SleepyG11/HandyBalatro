@@ -59,36 +59,25 @@ Handy.controls.register({
 			return false
 		end
 
+		local result
 		if card.handy_insta_highlight_preview then
-			if
-				not (
-					not G.CONTROLLER.dragging.target
-					and Handy.controls.can_execute_control(self, ctx, {
-						allow_not_in_run = true,
-						allow_stop_use = true,
-						allow_mod_inactive = true,
-					})
-				)
-			then
-				return false
-			end
+			result = not G.CONTROLLER.dragging.target
+				and Handy.controls.can_execute_control(self, ctx, {
+					allow_not_in_run = true,
+					allow_stop_use = true,
+					allow_mod_inactive = true,
+				})
 		else
-			if
-				not (
-					G.STATE ~= G.STATES.HAND_PLAYED
-					and card.area
-					and card.area.states
-					and card.area.states.visible
-					and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
-					and not G.CONTROLLER.dragging.target
-					and Handy.controls.can_execute_control(self, ctx, args)
-				)
-			then
-				return false
-			end
+			result = G.STATE ~= G.STATES.HAND_PLAYED
+				and card.area
+				and card.area.states
+				and card.area.states.visible
+				and ((card.area.handy_allow_hand_selection or card.area.config.handy_allow_hand_selection) or (card.area == G.hand))
+				and not G.CONTROLLER.dragging.target
+				and Handy.controls.can_execute_control(self, ctx, args)
 		end
 
-		return true, { card = card }
+		return result, { card = card }
 	end,
 	execute = function(self, ctx, args, data)
 		local card = data and data.card

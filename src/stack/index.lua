@@ -1,7 +1,5 @@
 Handy.stack = {}
 
-local order_counter = 10000000000
-
 ---
 
 Handy.stack.dictionary = {}
@@ -13,6 +11,7 @@ Handy.stack.global_layer = {
 	key = "global",
 
 	order = -1,
+	result_order = -1,
 	operator = "until",
 
 	stack = {},
@@ -26,7 +25,7 @@ function Handy.stack.insert_into_stack(item)
 		return
 	end
 
-	Handy.stack.controls_sorted = false
+	Handy.stack.sorted = false
 
 	item.parent = target_layer
 	table.insert(target_layer.stack, item)
@@ -38,6 +37,7 @@ function Handy.stack.insert_into_stack(item)
 	return item
 end
 
+local order_counter = 1
 function Handy.stack.register_layer(layer)
 	if not layer then
 		return
@@ -52,6 +52,8 @@ function Handy.stack.register_layer(layer)
 	if not layer.order then
 		layer.order = order_counter
 		order_counter = order_counter + 1
+	else
+		order_counter = math.max(layer.order + 1, order_counter)
 	end
 
 	Handy.stack.insert_into_stack(layer)
@@ -69,6 +71,8 @@ function Handy.stack.register_control(control)
 	if not control.order then
 		control.order = order_counter
 		order_counter = order_counter + 1
+	else
+		order_counter = math.max(control.order + 1, order_counter)
 	end
 
 	Handy.stack.insert_into_stack(control)
@@ -78,15 +82,33 @@ end
 
 --
 
-function Handy.stack.sort_layer(layer)
-	table.sort(layer.stack, function(a, b)
-		return (a.order or 0) < (b.order or 0)
-	end)
-	for _, child in ipairs(layer.stack) do
-		if child.layer then
-			Handy.stack.sort_layer(child)
+function Handy.stack.sort_item(layer)
+	layer.result_order = Handy.stack.global_order
+	Handy.stack.global_order = Handy.stack.global_order + 1
+
+	if layer.stack then
+		table.sort(layer.stack, function(a, b)
+			return (a.order or 0) < (b.order or 0)
+		end)
+		for _, child in ipairs(layer.stack) do
+			Handy.stack.sort_item(child)
 		end
 	end
+end
+function Handy.stack.sort()
+	Handy.stack.global_order = 1
+	for _, item in ipairs(Handy.stack.list) do
+		item.result_order = nil
+	end
+	for _, item in ipairs(Handy.stack.list) do
+		if not item.parent or item.parent == Handy.stack.global_layer then
+			Handy.stack.sort_item(item)
+		end
+	end
+	table.sort(Handy.stack.list, function(a, b)
+		return a.result_order < b.result_order
+	end)
+	Handy.stack.sorted = true
 end
 
 --
@@ -162,7 +184,6 @@ function Handy.stack.print_stack(key)
 		end
 	end
 	local layer = Handy.stack.dictionary[key]
-	Handy.stack.sort(layer)
 	process_layer(layer, "")
 	return table.concat(result, "\n")
 end
@@ -175,9 +196,8 @@ Handy.load_directory("src/stack/controls")
 --
 
 local function process_controller_context(ctx)
-	if not Handy.stack.controls_sorted then
-		Handy.stack.sort_layer(Handy.stack.global_layer)
-		Handy.stack.controls_sorted = true
+	if not Handy.stack.sorted then
+		Handy.stack.sort()
 	end
 	Handy.stack.call_layer(ctx, Handy.stack.dictionary[ctx.type])
 end

@@ -134,13 +134,12 @@ Handy.dangerous_actions = {
 		end
 		local is_preview = Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area)
 		if
-			not Handy.controls.can_execute_control(item, {
+			not Handy.controls.can_execute_control(item, ctx, {
 				allow_mod_inactive = is_preview,
 				allow_no_stop_use = is_preview,
 				allow_mp = is_preview,
 				allow_not_in_run = is_preview,
 				allow_any_context = true,
-				ctx = ctx,
 				require_exact = true,
 			})
 		then
