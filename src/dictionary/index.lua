@@ -130,7 +130,6 @@ end
 function Handy.D.searchable_items(items)
 	if not Handy.D.dictionary_sorted then
 		Handy.D.sort_dictionary()
-		Handy.D.load_localization()
 	end
 	local start_items = items or Handy.D.list
 	local result_items = {}
@@ -212,49 +211,69 @@ end
 
 --
 
-function Handy.D.load_localization()
+function Handy.D.clear_keywords()
+	for k, v in pairs(Handy.D.dictionary) do
+		v.result_keywords = ""
+		v.temp_keywords = {}
+
+		for _, word in ipairs(v.keywords_list or {}) do
+			v.temp_keywords[string.lower(word)] = true
+		end
+	end
+end
+function Handy.D.process_keywords()
 	local load_loc
 	load_loc = function(v)
 		if v.loc_loaded then
 			return
 		end
 		v.loc_loaded = true
-		local temp_keywords = {}
 
 		local function insert_keywords(t)
 			for _, word in ipairs(t or {}) do
-				temp_keywords[string.lower(word)] = true
+				v.temp_keywords[string.lower(word)] = true
 			end
 		end
-		insert_keywords(v.keywords_list or {})
 
 		pcall(function()
 			local loc_table = G.localization.descriptions.Handy_ConfigDictionary[v.key] or {}
 			insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.name or {}))
 			insert_keywords(Handy.utils.split_loc_table_into_words(loc_table.text or {}))
 		end)
+	end
+
+	for k, v in pairs(Handy.D.dictionary) do
+		v.loc_loaded = false
+	end
+	for k, v in pairs(Handy.D.dictionary) do
+		load_loc(v)
+	end
+end
+function Handy.D.finish_keywords()
+	local load_loc
+	load_loc = function(v)
+		if v.loc_loaded then
+			return
+		end
+		v.loc_loaded = true
 
 		v.result_keywords = ""
 		for _, parent in ipairs(v.parents or {}) do
 			load_loc(parent)
 			v.result_keywords = v.result_keywords .. " " .. parent.result_keywords
 		end
-		for tk, _ in pairs(temp_keywords) do
+		for tk, _ in pairs(v.temp_keywords) do
 			v.result_keywords = v.result_keywords .. " " .. tk
 		end
 	end
 
 	for k, v in pairs(Handy.D.dictionary) do
+		v.loc_loaded = false
+	end
+	for k, v in pairs(Handy.D.dictionary) do
 		load_loc(v)
 	end
 end
-
-Handy.e_mitter.on("localization_load", function()
-	for k, v in pairs(Handy.D.dictionary) do
-		v.loc_loaded = false
-	end
-	Handy.D.load_localization()
-end)
 
 --
 
