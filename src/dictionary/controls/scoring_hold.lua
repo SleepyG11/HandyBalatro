@@ -10,18 +10,17 @@ Handy.dictionary.register({
 		allow_multiple = "advanced",
 		only_holdable = true,
 	},
+})
 
-	items = {
-		{
-			key = "scoring_hold_any_moment",
-			keywords = { "pause any moment" },
-			get_module = function(self)
-				return Handy.cc.scoring_hold_any_moment
-			end,
-			get_deps = function(self)
-				return { self.parent }
-			end,
-			checkbox = true,
-		},
-	},
+Handy.dictionary.register({
+	key = "scoring_hold_any_moment",
+	parent = "scoring_hold",
+	keywords = { "pause any moment" },
+	get_module = function(self)
+		return Handy.cc.scoring_hold_any_moment
+	end,
+	get_deps = function(self)
+		return { self.parent }
+	end,
+	checkbox = true,
 })

@@ -254,7 +254,9 @@ end
 
 function Handy.UI.dictionary_tab()
 	Handy.UI.data.dictionary = Handy.utils.table_shallow_merge({
-		items = Handy.D.searchable_items(Handy.D.items),
+		items = Handy.D.searchable_items(nil, {
+			remove_parents = true,
+		}),
 		search = "",
 		page = 1,
 	}, Handy.UI.data.dictionary or {})
@@ -272,7 +274,9 @@ end
 
 G.FUNCS.handy_clear_dictionary_search = function(e)
 	Handy.UI.data.dictionary = {
-		items = Handy.D.searchable_items(Handy.D.items),
+		items = Handy.D.searchable_items(nil, {
+			remove_parents = true,
+		}),
 		search = "",
 		page = 1,
 	}

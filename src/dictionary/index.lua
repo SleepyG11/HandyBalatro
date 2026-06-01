@@ -2,9 +2,6 @@ Handy.D = {
 	list = {},
 	dictionary = {},
 
-	groups = {},
-	items = {},
-
 	checkboxes = {},
 	keybinds = {},
 	option_cycles = {},
@@ -82,17 +79,16 @@ function Handy.D.register(item)
 	end
 	if item.parent then
 		item.parents = Handy.utils.table_concat(item.parent.parents or {}, { item.parent })
+		item.parent.items = item.parent.items or {}
+		table.insert(item.parent.items, item)
 	end
 
 	if item.items then
-		table.insert(Handy.D.groups, item)
 		for index, subitem in ipairs(item.items) do
 			subitem.parent = item
 			subitem.parents = Handy.utils.table_concat(item.parents or {}, { item })
 			Handy.D.register(subitem)
 		end
-	else
-		table.insert(Handy.D.items, item)
 	end
 
 	return item
@@ -112,8 +108,6 @@ end
 function Handy.D.sort_dictionary()
 	for _, t in ipairs({
 		Handy.D.list,
-		Handy.D.groups,
-		Handy.D.items,
 		Handy.D.checkboxes,
 		Handy.D.keybinds,
 		Handy.D.option_cycles,
@@ -127,14 +121,16 @@ end
 
 --
 
-function Handy.D.searchable_items(items)
+function Handy.D.searchable_items(items, args)
+	args = args or {}
 	if not Handy.D.dictionary_sorted then
 		Handy.D.sort_dictionary()
 	end
 	local start_items = items or Handy.D.list
 	local result_items = {}
 	for _, item in ipairs(start_items) do
-		if not item.no_search then
+		if item.no_search or (args.remove_parents and item.items and #item.items > 0) then
+		else
 			table.insert(result_items, item)
 		end
 	end
@@ -142,7 +138,7 @@ function Handy.D.searchable_items(items)
 end
 function Handy.D.search(search_string, args)
 	args = args or {}
-	local items = args.items or Handy.D.searchable_items(Handy.D.list)
+	local items = args.items or Handy.D.searchable_items(Handy.D.list, args)
 	if not search_string or #search_string == 0 then
 		return items
 	end
@@ -155,16 +151,20 @@ function Handy.D.search(search_string, args)
 	end
 
 	for _, item in ipairs(items) do
+		local found = true
 		for _, word in ipairs(input_words) do
-			if string.find(item.result_keywords or "", word, 1, true) then
-				matches[item.key] = item
-				if args.remove_parents then
-					while item.parent do
-						parents[item.parent.key] = true
-						item = item.parent
-					end
-				end
+			if not string.find(item.result_keywords or "", word, 1, true) then
+				found = false
 				break
+			end
+		end
+		if found then
+			matches[item.key] = item
+			if args.remove_parents then
+				while item.parent do
+					parents[item.parent.key] = true
+					item = item.parent
+				end
 			end
 		end
 	end
