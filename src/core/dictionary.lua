@@ -282,7 +282,3 @@ function Handy.dictionary.finish_keywords()
 		load_loc(v)
 	end
 end
-
---
-
-Handy.load_directory("src/dictionary/controls")

@@ -2,6 +2,16 @@ local l = Handy.stack.register_layer
 local c = Handy.stack.register_control
 
 l({
+	layer = true,
+	global = true,
+	key = "hold",
+	order = 0,
+	operator = "until",
+})
+
+---
+
+l({
 	key = "regular_keybinds",
 	operator = "free",
 	stack_path = "hold",

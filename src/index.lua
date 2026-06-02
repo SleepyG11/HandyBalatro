@@ -1,12 +1,6 @@
 Handy.load_files({
 	"core/index.lua",
 	"ui/index.lua",
-
-	"controls/index.lua",
-	"stack/index.lua",
-
-	"dictionary/index.lua",
-	"extensions/index.lua",
 }, "src/")
 
 local game_start_up_ref = Game.start_up
@@ -74,6 +68,13 @@ if CardArea.handle_card_limit then
 		return r
 	end
 end
+
+Handy.load_files({
+	"controls/index.lua",
+	"extensions/index.lua",
+}, "src/")
+Handy.load_directory("src/api/dictionary", true)
+Handy.load_directory("src/api/stack", true)
 
 -- Mod is ready, lets start!
 

@@ -195,11 +195,6 @@ end
 
 --
 
-Handy.load_file("src/stack/globals.lua")
-Handy.load_directory("src/stack/controls")
-
---
-
 local function process_controller_context(ctx)
 	if not Handy.stack.sorted then
 		Handy.stack.sort()
