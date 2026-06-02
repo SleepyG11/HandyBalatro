@@ -1,25 +1,22 @@
-local l = Handy.stack.register_layer
-local c = Handy.stack.register_control
-
-l({
-	layer = true,
-	global = true,
+Handy.stack.register({
 	key = "move",
-	order = 0,
 	operator = "until",
+	global = true,
+	order = 0,
 })
 
 ---
 
-l({
+Handy.stack.register({
 	key = "hand_selection",
 	operator = "free",
 	stack_path = "move",
 	order = 1,
 })
 
-c({
+Handy.stack.register({
 	key = "hand_selection_insta_highlight",
 	stack_path = "move.hand_selection",
 	order = 1,
+	control = true,
 })

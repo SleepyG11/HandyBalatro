@@ -6,7 +6,6 @@ Handy.stack.dictionary = {}
 Handy.stack.list = {}
 
 Handy.stack.global_layer = {
-	layer = true,
 	global = true,
 	key = "global",
 
@@ -19,65 +18,34 @@ Handy.stack.global_layer = {
 
 ---
 
-function Handy.stack.insert_into_stack(item)
-	local target_layer = item.global and Handy.stack.global_layer or Handy.stack.dictionary[item.stack_path]
-	if not target_layer then
-		return
+local order_counter = 1
+function Handy.stack.register(item)
+	item.stack_path = item.stack_path or ""
+	item.full_path = (item.stack_path == "" or item.global) and item.key or (item.stack_path .. "." .. item.key)
+	item.stack = item.stack or {}
+	item.operator = item.operator or "all"
+
+	if item.control == true then
+		item.control = item.key
 	end
 
-	Handy.stack.sorted = false
+	if not item.order then
+		item.order = order_counter
+		order_counter = order_counter + 1
+	else
+		order_counter = math.max(item.order + 1, order_counter)
+	end
 
+	local target_layer = item.global and Handy.stack.global_layer or Handy.stack.dictionary[item.stack_path]
 	item.parent = target_layer
 	table.insert(target_layer.stack, item)
-	item.full_path = (item.stack_path == "" or item.global) and item.key or (item.stack_path .. "." .. item.key)
 
 	Handy.stack.dictionary[item.full_path] = item
 	table.insert(Handy.stack.list, item)
 
+	Handy.stack.sorted = false
+
 	return item
-end
-
-local order_counter = 1
-function Handy.stack.register_layer(layer)
-	if not layer then
-		return
-	end
-
-	layer.layer = true
-	layer.stack = layer.stack or {}
-	layer.stack_path = layer.stack_path or ""
-
-	layer.operator = layer.operator or "all"
-
-	if not layer.order then
-		layer.order = order_counter
-		order_counter = order_counter + 1
-	else
-		order_counter = math.max(layer.order + 1, order_counter)
-	end
-
-	Handy.stack.insert_into_stack(layer)
-
-	return layer
-end
-function Handy.stack.register_control(control)
-	if not control then
-		return
-	end
-
-	control.control = true
-	control.stack_path = control.stack_path or ""
-
-	if not control.order then
-		control.order = order_counter
-		order_counter = order_counter + 1
-	else
-		order_counter = math.max(control.order + 1, order_counter)
-	end
-
-	Handy.stack.insert_into_stack(control)
-
-	return control
 end
 
 --
@@ -118,10 +86,10 @@ end
 
 --
 
-function Handy.stack.call_control(ctx, control)
+function Handy.stack.call_control(ctx, item)
 	ctx = Handy.controller.non_empty_context(ctx)
-	if control and ctx then
-		local r = Handy.controls.execute_control(control.key, ctx) or false
+	if item and ctx then
+		local r = Handy.controls.execute_control(item.control, ctx) or false
 		return r
 	end
 	return false
@@ -145,10 +113,10 @@ function Handy.stack.call_layer(ctx, layer)
 			return true
 		end
 		local new_value
-		if item.layer then
-			new_value = Handy.stack.call_layer(ctx, item) or should_stop or false
-		elseif item.control then
+		if item.control then
 			new_value = Handy.stack.call_control(ctx, item) or should_stop or false
+		else
+			new_value = Handy.stack.call_layer(ctx, item) or should_stop or false
 		end
 		if operator == "all" or operator == "while" then
 			should_stop = should_stop and new_value
