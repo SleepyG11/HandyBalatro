@@ -11,7 +11,7 @@ Handy.stack.global_layer = {
 	key = "global",
 
 	order = -1,
-	result_order = -1,
+	global_order = -1,
 	operator = "until",
 
 	stack = {},
@@ -82,31 +82,36 @@ end
 
 --
 
-function Handy.stack.sort_item(layer)
-	layer.result_order = Handy.stack.global_order
+function Handy.stack.sort_item(item)
+	item.global_order = Handy.stack.global_order
 	Handy.stack.global_order = Handy.stack.global_order + 1
 
-	if layer.stack then
-		table.sort(layer.stack, function(a, b)
+	if item.stack then
+		table.sort(item.stack, function(a, b)
 			return (a.order or 0) < (b.order or 0)
 		end)
-		for _, child in ipairs(layer.stack) do
+		for _, child in ipairs(item.stack) do
 			Handy.stack.sort_item(child)
 		end
 	end
 end
 function Handy.stack.sort()
 	Handy.stack.global_order = 1
+	local root_items = {}
 	for _, item in ipairs(Handy.stack.list) do
-		item.result_order = nil
-	end
-	for _, item in ipairs(Handy.stack.list) do
+		item.global_order = nil
 		if not item.parent or item.parent == Handy.stack.global_layer then
-			Handy.stack.sort_item(item)
+			table.insert(root_items, item)
 		end
 	end
+	table.sort(root_items, function(a, b)
+		return (a.order or 0) < (b.order or 0)
+	end)
+	for _, item in ipairs(root_items) do
+		Handy.stack.sort_item(item)
+	end
 	table.sort(Handy.stack.list, function(a, b)
-		return a.result_order < b.result_order
+		return a.global_order < b.global_order
 	end)
 	Handy.stack.sorted = true
 end

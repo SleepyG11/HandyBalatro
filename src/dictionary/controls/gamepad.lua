@@ -1,15 +1,19 @@
 Handy.dictionary.register({
 	key = "gamepad",
+	order = 2,
 	keywords = { "gamepad controller" },
 })
 
 Handy.dictionary.register({
 	key = "controller_sensitivity",
 	parent = "gamepad",
+	order = 1,
+
 	keywords = { "cursor sensitivity speed" },
 	get_module = function(self)
 		return Handy.cc.controller_sensitivity
 	end,
+
 	checkbox = {
 		callback = function()
 			Handy.controller_sensitivity.apply()
@@ -31,6 +35,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "swap_controller_cursor_stick",
 	parent = "gamepad",
+	order = 2,
+
 	keywords = { "stick sticks swap change" },
 	get_module = function(self)
 		return Handy.cc.swap_controller_cursor_stick
@@ -43,5 +49,6 @@ Handy.dictionary.register({
 			},
 		}
 	end,
+
 	checkbox = true,
 })

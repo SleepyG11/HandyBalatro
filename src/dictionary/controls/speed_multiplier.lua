@@ -1,33 +1,33 @@
 Handy.dictionary.register({
 	key = "speed_multiplier",
+	order = 7,
+
 	keywords = { "speed multiplier", "fast faster more speed accelerate acceleration increase decrease" },
-	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.speed_multiplier
 	end,
-
 	loc_vars = function(self)
 		return {
 			key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
 			vars = { "x128" },
 		}
 	end,
-
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
-	items = {},
+	checkbox = true,
 })
 
 Handy.dictionary.register({
 	key = "speed_multiplier_current_value",
 	parent = "speed_multiplier",
+	order = 1,
+
 	get_module = function(self)
 		return Handy.cc.speed_multiplier
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
-
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 
 	simple_option_cycle = {
@@ -50,6 +50,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "speed_multiplier_default_value",
 	parent = "speed_multiplier",
+	order = 2,
+
 	keywords = { "default value on startup game start launch" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_default_value
@@ -57,6 +59,8 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
 	checkbox = {
 		advanced = true,
 	},
@@ -79,19 +83,13 @@ Handy.dictionary.register({
 			}
 		end,
 	},
-	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
 })
 Handy.dictionary.register({
 	key = "speed_multiplier_multiply",
 	parent = "speed_multiplier",
-	keywords = { "increase" },
-	keybind = {
-		allow_multiple = true,
-	},
-	checkbox = {
-		advanced = true,
-	},
+	order = 3,
 
+	keywords = { "increase" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_multiply
 	end,
@@ -99,18 +97,20 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
-})
-Handy.dictionary.register({
-	key = "speed_multiplier_divide",
-	parent = "speed_multiplier",
-	keywords = { "decrease" },
+
 	keybind = {
 		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
+})
+Handy.dictionary.register({
+	key = "speed_multiplier_divide",
+	parent = "speed_multiplier",
+	order = 4,
 
+	keywords = { "decrease" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_divide
 	end,
@@ -118,18 +118,20 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
-})
-Handy.dictionary.register({
-	key = "speed_multiplier_toggle_temp_disabled",
-	parent = "speed_multiplier",
-	keywords = { "toggle", "temporary disable" },
+
 	keybind = {
 		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
+})
+Handy.dictionary.register({
+	key = "speed_multiplier_toggle_temp_disabled",
+	parent = "speed_multiplier",
+	order = 5,
 
+	keywords = { "toggle", "temporary disable" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_toggle_temp_disabled
 	end,
@@ -137,14 +139,21 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
+	keybind = {
+		allow_multiple = true,
+	},
+	checkbox = {
+		advanced = true,
+	},
 })
 Handy.dictionary.register({
 	key = "dangerous_actions_speed_multiplier_uncap",
 	parent = "speed_multiplier",
+	order = 6,
+
 	keywords = { "dangerous max speed uncap unsafe" },
 	dangerous = true,
-	checkbox = true,
-
 	loc_vars = function()
 		return {
 			vars = {
@@ -160,4 +169,6 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
+	checkbox = true,
 })

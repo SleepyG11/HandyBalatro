@@ -1,5 +1,7 @@
 Handy.dictionary.register({
 	key = "mp_extension",
+	order = 15,
+
 	keywords = { "multiplayer extension mp lobby bmp" },
 })
 
@@ -8,23 +10,15 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_current_lobby",
 	parent = "mp_extension",
+	order = 1,
+
 	keywords = { "current lobby" },
 })
 
 Handy.dictionary.register({
 	key = "mp_extension_enabled",
 	parent = "mp_extension_current_lobby",
-
-	checkbox = {
-		get_values = function()
-			return {
-				disabled = not Handy.b_is_in_multiplayer() or G.STAGE ~= G.STAGES.MAIN_MENU,
-			}
-		end,
-		callback = function()
-			Handy.EXT.Multiplayer.send_action_setEnabled()
-		end,
-	},
+	order = 1,
 
 	loc_vars = function()
 		return {
@@ -34,7 +28,6 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-
 	get_module = function(self)
 		return setmetatable({}, {
 			__index = function(t, k)
@@ -50,10 +43,22 @@ Handy.dictionary.register({
 			end,
 		})
 	end,
+
+	checkbox = {
+		get_values = function()
+			return {
+				disabled = not Handy.b_is_in_multiplayer() or G.STAGE ~= G.STAGES.MAIN_MENU,
+			}
+		end,
+		callback = function()
+			Handy.EXT.Multiplayer.send_action_setEnabled()
+		end,
+	},
 })
 Handy.dictionary.register({
 	key = "mp_extension_speed_multiplier_mode",
 	parent = "mp_extension_current_lobby",
+	order = 2,
 
 	get_module = function()
 		return setmetatable({}, {
@@ -74,6 +79,7 @@ Handy.dictionary.register({
 			end,
 		})
 	end,
+
 	option_cycle = {
 		get_values = function()
 			local _, is_forced = Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
@@ -106,6 +112,7 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_animation_skip_mode",
 	parent = "mp_extension_current_lobby",
+	order = 3,
 
 	get_module = function()
 		return setmetatable({}, {
@@ -126,6 +133,7 @@ Handy.dictionary.register({
 			end,
 		})
 	end,
+
 	option_cycle = {
 		get_values = function()
 			local _, is_forced = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
@@ -151,6 +159,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_dangerous_actions_mode",
 	parent = "mp_extension_current_lobby",
+	order = 4,
+
 	get_module = function()
 		return setmetatable({}, {
 			__index = function(t, k)
@@ -170,6 +180,7 @@ Handy.dictionary.register({
 			end,
 		})
 	end,
+
 	option_cycle = {
 		get_values = function()
 			local _, is_forced = Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", {
@@ -197,24 +208,31 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_default_values",
 	parent = "mp_extension",
+	order = 2,
+
 	keywords = { "default lobby values" },
 })
 
 Handy.dictionary.register({
 	key = "mp_extension_enabled_default_value",
 	parent = "mp_extension_default_values",
-	checkbox = true,
+	order = 1,
 
 	get_module = function(self)
 		return Handy.cc.mp_extension_enabled_default_value
 	end,
+
+	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "mp_extension_speed_multiplier_mode_default_value",
 	parent = "mp_extension_default_values",
+	order = 2,
+
 	get_module = function()
 		return Handy.cc.mp_extension_speed_multiplier_mode_default_value
 	end,
+
 	checkbox = true,
 	option_cycle = {
 		get_values = function()
@@ -239,9 +257,12 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_animation_skip_mode_default_value",
 	parent = "mp_extension_default_values",
+	order = 3,
+
 	get_module = function()
 		return Handy.cc.mp_extension_animation_skip_mode_default_value
 	end,
+
 	checkbox = true,
 	option_cycle = {
 		get_values = function()
@@ -260,9 +281,12 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "mp_extension_dangerous_actions_mode_default_value",
 	parent = "mp_extension_default_values",
+	order = 4,
+
 	get_module = function()
 		return Handy.cc.mp_extension_dangerous_actions_mode_default_value
 	end,
+
 	checkbox = true,
 	option_cycle = {
 		get_values = function()

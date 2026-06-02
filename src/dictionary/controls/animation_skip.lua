@@ -1,7 +1,8 @@
 Handy.dictionary.register({
 	key = "animation_skip",
+	order = 8,
+
 	keywords = { "animation skip", "faster remove no animations animation nopeus instant scoring game" },
-	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.animation_skip
 	end,
@@ -15,19 +16,24 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
+	checkbox = true,
 })
 
 Handy.dictionary.register({
 	key = "animation_skip_current_value",
 	parent = "animation_skip",
+	order = 1,
+
 	get_module = function(self)
 		return Handy.cc.animation_skip_default_value
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
 	simple_option_cycle = {
 		left_callback = function()
 			Handy.animation_skip.change(-1)
@@ -44,11 +50,12 @@ Handy.dictionary.register({
 		end,
 		colour = G.C.ORANGE,
 	},
-	no_mp = Handy.animation_skip.is_disabled_by_mp,
 })
 Handy.dictionary.register({
 	key = "animation_skip_default_value",
 	parent = "animation_skip",
+	order = 2,
+
 	keywords = { "default value on startup game start launch" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_default_value
@@ -56,6 +63,8 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
 	checkbox = {
 		advanced = true,
 	},
@@ -71,19 +80,13 @@ Handy.dictionary.register({
 			}
 		end,
 	},
-	no_mp = Handy.animation_skip.is_disabled_by_mp,
 })
 Handy.dictionary.register({
 	key = "animation_skip_increase",
 	parent = "animation_skip",
-	keywords = { "increase" },
-	keybind = {
-		allow_multiple = true,
-	},
-	checkbox = {
-		advanced = true,
-	},
+	order = 3,
 
+	keywords = { "increase" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_increase
 	end,
@@ -91,18 +94,20 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
-})
-Handy.dictionary.register({
-	key = "animation_skip_decrease",
-	parent = "animation_skip",
-	keywords = { "decrease" },
+
 	keybind = {
 		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
+})
+Handy.dictionary.register({
+	key = "animation_skip_decrease",
+	parent = "animation_skip",
+	order = 4,
 
+	keywords = { "decrease" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_decrease
 	end,
@@ -110,18 +115,20 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
-})
-Handy.dictionary.register({
-	key = "animation_skip_toggle_temp_disabled",
-	parent = "animation_skip",
-	keywords = { "toggle", "temporary disable" },
+
 	keybind = {
 		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
+})
+Handy.dictionary.register({
+	key = "animation_skip_toggle_temp_disabled",
+	parent = "animation_skip",
+	order = 5,
 
+	keywords = { "toggle", "temporary disable" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_toggle_temp_disabled
 	end,
@@ -129,14 +136,21 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
+	keybind = {
+		allow_multiple = true,
+	},
+	checkbox = {
+		advanced = true,
+	},
 })
 Handy.dictionary.register({
 	key = "dangerous_actions_animation_skip_unsafe",
 	parent = "animation_skip",
-	keywords = { "no animations", "dangerous unsafe remove all animations" },
-	checkbox = true,
-	dangerous = true,
+	order = 6,
 
+	keywords = { "no animations", "dangerous unsafe remove all animations" },
+	dangerous = true,
 	loc_vars = function()
 		return {
 			vars = {
@@ -144,7 +158,6 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-
 	get_module = function(self)
 		return Handy.cc.dangerous_actions_animation_skip_unsafe
 	end,
@@ -152,4 +165,6 @@ Handy.dictionary.register({
 		return { self.parent }
 	end,
 	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
+	checkbox = true,
 })

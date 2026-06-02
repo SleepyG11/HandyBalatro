@@ -1,25 +1,19 @@
 Handy.dictionary.register({
 	key = "hand_selection",
+	order = 6,
+
 	keywords = { "hand selection select cards card" },
-	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.hand_selection
 	end,
+
+	checkbox = true,
 })
 
 Handy.dictionary.register({
 	key = "hand_selection_mode",
 	parent = "hand_selection",
-	option_cycle = {
-		get_values = function()
-			return {
-				options = {
-					"Handy",
-					"Better Mouse and Gamepad",
-				},
-			}
-		end,
-	},
+	order = 1,
 
 	loc_vars = function(self)
 		return {
@@ -30,23 +24,30 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-
 	get_module = function()
 		return Handy.cc.hand_selection_mode
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
+	option_cycle = {
+		get_values = function()
+			return {
+				options = {
+					"Handy",
+					"Better Mouse and Gamepad",
+				},
+			}
+		end,
+	},
 })
 Handy.dictionary.register({
 	key = "hand_selection_insta_highlight",
 	parent = "hand_selection",
-	keywords = { "swipe hover drag slide insta highlight quick" },
-	keybind = {
-		allow_multiple = "advanced",
-	},
-	checkbox = true,
+	order = 2,
 
+	keywords = { "swipe hover drag slide insta highlight quick" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_insta_highlight
 	end,
@@ -61,17 +62,21 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-
 	mod_deps = {
 		["BetterMouseAndGamepad"] = "conflict",
 	},
+
+	keybind = {
+		allow_multiple = "advanced",
+	},
+	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "hand_selection_insta_highlight_allow_deselect",
 	parent = "hand_selection",
-	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight" },
-	checkbox = true,
+	order = 3,
 
+	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_insta_highlight_allow_deselect
 	end,
@@ -82,13 +87,15 @@ Handy.dictionary.register({
 	mod_deps = {
 		["BetterMouseAndGamepad"] = "conflict",
 	},
+
+	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "hand_selection_combine_select_deselect",
 	parent = "hand_selection",
-	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight combine combined" },
-	checkbox = true,
+	order = 4,
 
+	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight combine combined" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_combine_select_deselect
 	end,
@@ -98,26 +105,21 @@ Handy.dictionary.register({
 	mod_deps = {
 		["BetterMouseAndGamepad"] = "conflict",
 	},
+
+	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "hand_selection_deselect_hand",
 	parent = "hand_selection",
+	order = 5,
+
 	keywords = { "deselect hand vanilla unhighlight all cards" },
-
-	keybind = {
-		allow_multiple = "advanced",
-	},
-	checkbox = {
-		advanced = true,
-	},
-
 	get_module = function(self)
 		return Handy.cc.hand_selection_deselect_hand
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
-
 	loc_vars = function()
 		return {
 			vars = {
@@ -125,22 +127,31 @@ Handy.dictionary.register({
 			},
 		}
 	end,
-})
-Handy.dictionary.register({
-	key = "hand_selection_entire_f_hand",
-	parent = "hand_selection",
-	keywords = { "select all cards hand highlight entire card" },
+
 	keybind = {
-		allow_multiple = true,
+		allow_multiple = "advanced",
 	},
 	checkbox = {
 		advanced = true,
 	},
+})
+Handy.dictionary.register({
+	key = "hand_selection_entire_f_hand",
+	parent = "hand_selection",
+	order = 6,
 
+	keywords = { "select all cards hand highlight entire card" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_entire_f_hand
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
+	keybind = {
+		allow_multiple = true,
+	},
+	checkbox = {
+		advanced = true,
+	},
 })

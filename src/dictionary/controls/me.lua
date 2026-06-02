@@ -1,5 +1,7 @@
 Handy.dictionary.register({
 	key = "me",
+	order = 4,
+
 	keywords = { "me sleepy sleepyg11 g11 sprite girl tyan anime self insert author" },
 	loc_vars = function()
 		return {
@@ -11,6 +13,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "me_in_mod_config",
 	parent = "me",
+	order = 1,
+
 	get_module = function()
 		return Handy.cc.me_in_mod_config
 	end,
@@ -20,6 +24,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "me_in_game_over",
 	parent = "me",
+	order = 2,
+
 	get_module = function()
 		return Handy.cc.me_in_game_over
 	end,
@@ -29,6 +35,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "me_in_game_win",
 	parent = "me",
+	order = 3,
+
 	get_module = function()
 		return Handy.cc.me_in_game_win
 	end,
@@ -38,6 +46,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "me_in_screenswipe",
 	parent = "me",
+	order = 4,
+
 	get_module = function()
 		return Handy.cc.me_in_screenswipe
 	end,

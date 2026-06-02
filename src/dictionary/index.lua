@@ -92,7 +92,7 @@ end
 --
 
 function Handy.dictionary.sort_item(item)
-	item.result_order = Handy.dictionary.global_order
+	item.global_order = Handy.dictionary.global_order
 	Handy.dictionary.global_order = Handy.dictionary.global_order + 1
 
 	if item.items then
@@ -106,16 +106,21 @@ function Handy.dictionary.sort_item(item)
 end
 function Handy.dictionary.sort()
 	Handy.dictionary.global_order = 1
+	local root_items = {}
 	for _, item in ipairs(Handy.dictionary.list) do
-		item.result_order = nil
-	end
-	for _, item in ipairs(Handy.dictionary.list) do
+		item.global_order = nil
 		if not item.parent then
-			Handy.dictionary.sort_item(item)
+			table.insert(root_items, item)
 		end
 	end
+	table.sort(root_items, function(a, b)
+		return (a.order or 0) < (b.order or 0)
+	end)
+	for _, item in ipairs(root_items) do
+		Handy.dictionary.sort_item(item)
+	end
 	table.sort(Handy.dictionary.list, function(a, b)
-		return a.result_order < b.result_order
+		return a.global_order < b.global_order
 	end)
 	Handy.dictionary.sorted = true
 end
@@ -186,7 +191,7 @@ function Handy.dictionary.search(search_string, args)
 		end
 	end
 	table.sort(result, function(a, b)
-		return a.result_order < b.result_order
+		return a.global_order < b.global_order
 	end)
 
 	return result
@@ -280,4 +285,4 @@ end
 
 --
 
-Handy.load_file("src/dictionary/items.lua")
+Handy.load_directory("src/dictionary/controls")

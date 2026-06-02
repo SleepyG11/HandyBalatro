@@ -1,6 +1,7 @@
 Handy.dictionary.register({
 	key = "updater",
 	keywords = { "auto mod update updating patch note notes patchnotes install" },
+	order = 5,
 
 	get_module = function()
 		return Handy.cc.updater
@@ -12,6 +13,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "updater_target_release_type",
 	parent = "updater",
+	order = 1,
+
 	keywords = { "popup" },
 	get_module = function(self)
 		return Handy.cc.updater_release_type
@@ -19,6 +22,7 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
 	option_cycle = {
 		get_values = function()
 			return {
@@ -33,6 +37,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "updater_notify_about_new_update",
 	parent = "updater",
+	order = 2,
+
 	keywords = { "popup" },
 	get_module = function(self)
 		return Handy.cc.updater_notify_about_new_update
@@ -40,11 +46,14 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
 	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "updater_auto_install_new_update",
 	parent = "updater",
+	order = 3,
+
 	keywords = { "auto install" },
 	get_module = function(self)
 		return Handy.cc.updater_auto_install_new_update
@@ -52,11 +61,14 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
 	checkbox = true,
 })
 Handy.dictionary.register({
 	key = "updater_auto_restart_game_after_update",
 	parent = "updater",
+	order = 4,
+
 	keywords = { "auto restart" },
 	get_module = function(self)
 		return Handy.cc.updater_auto_restart_game_after_update
@@ -64,6 +76,7 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent, Handy.D.dictionary.updater_auto_install_new_update }
 	end,
-	checkbox = true,
 	colour = adjust_alpha(G.C.MULT, 0.1),
+
+	checkbox = true,
 })

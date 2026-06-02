@@ -1,15 +1,20 @@
 Handy.dictionary.register({
 	key = "insta_actions",
+	order = 10,
+
 	keywords = { "insta quick actions quick buy sell use" },
-	checkbox = true,
 	get_module = function(self)
 		return Handy.cc.insta_actions
 	end,
+
+	checkbox = true,
 })
 
 Handy.dictionary.register({
 	key = "insta_actions_trigger_mode",
 	parent = "insta_actions",
+	order = 1,
+
 	keywords = { "trigger mode" },
 	get_module = function(self)
 		return Handy.cc.insta_actions_trigger_mode
@@ -33,69 +38,72 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "insta_actions_buy_or_sell",
 	parent = "insta_actions",
-	keywords = { "buy or sell card cards" },
-	keybind = {
-		allow_multiple = "advanced",
-	},
-	checkbox = true,
+	order = 2,
 
+	keywords = { "buy or sell card cards" },
 	get_module = function(self)
 		return Handy.cc.insta_actions_buy_or_sell
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
-
 	loc_vars = function()
 		return {
 			vars = { Handy.L.name_text("Handy_ConfigDictionary", "insta_actions_trigger_mode") },
 			key = Handy.cc.insta_actions_trigger_mode.value == 2 and "insta_actions_buy_or_sell_alt" or nil,
 		}
 	end,
+
+	checkbox = true,
+	keybind = {
+		allow_multiple = "advanced",
+	},
 })
 Handy.dictionary.register({
 	key = "insta_actions_buy_n_sell",
 	parent = "insta_actions",
-	keywords = { "buy and sell buy n sell card cards" },
-	keybind = {
-		allow_multiple = "advanced",
-	},
-	checkbox = true,
+	order = 3,
 
+	keywords = { "buy and sell buy n sell card cards" },
 	get_module = function(self)
 		return Handy.cc.insta_actions_buy_n_sell
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
-
 	loc_vars = function()
 		return {
 			vars = { Handy.L.name_text("Handy_ConfigDictionary", "insta_actions_trigger_mode") },
 			key = Handy.cc.insta_actions_trigger_mode.value == 2 and "insta_actions_buy_n_sell_alt" or nil,
 		}
 	end,
-})
-Handy.dictionary.register({
-	key = "insta_actions_use",
-	parent = "insta_actions",
-	keywords = { "use consumables consumeables card cards" },
+
 	keybind = {
 		allow_multiple = "advanced",
 	},
 	checkbox = true,
+})
+Handy.dictionary.register({
+	key = "insta_actions_use",
+	parent = "insta_actions",
+	order = 4,
 
+	keywords = { "use consumables consumeables card cards" },
 	get_module = function(self)
 		return Handy.cc.insta_actions_use
 	end,
 	get_deps = function(self)
 		return { self.parent }
 	end,
-
 	loc_vars = function()
 		return {
 			vars = { Handy.L.name_text("Handy_ConfigDictionary", "insta_actions_trigger_mode") },
 			key = Handy.cc.insta_actions_trigger_mode.value == 2 and "insta_actions_use_alt" or nil,
 		}
 	end,
+
+	keybind = {
+		allow_multiple = "advanced",
+	},
+	checkbox = true,
 })

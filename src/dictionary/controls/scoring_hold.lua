@@ -1,11 +1,14 @@
 Handy.dictionary.register({
 	key = "scoring_hold",
+	order = 12,
+
 	keywords = { "scoring hold", "pause stop animations before during scoring" },
 	get_module = function(self)
 		return Handy.cc.scoring_hold
 	end,
-	checkbox = true,
 	no_mp = true,
+
+	checkbox = true,
 	keybind = {
 		allow_multiple = "advanced",
 		only_holdable = true,
@@ -15,6 +18,8 @@ Handy.dictionary.register({
 Handy.dictionary.register({
 	key = "scoring_hold_any_moment",
 	parent = "scoring_hold",
+	order = 1,
+
 	keywords = { "pause any moment" },
 	get_module = function(self)
 		return Handy.cc.scoring_hold_any_moment
@@ -22,5 +27,6 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+
 	checkbox = true,
 })
