@@ -1331,6 +1331,8 @@ return {
 			ph_handy_premade_presets = "Pre-made config presets",
 			ph_handy_custom_presets = "Custom config presets",
 
+			b_handy_mp_extension = "Multiplayer Extension",
+
 			b_handy_preset_save = "Save",
 			b_handy_preset_load = "Load",
 			b_handy_preset_clear = "Clear",

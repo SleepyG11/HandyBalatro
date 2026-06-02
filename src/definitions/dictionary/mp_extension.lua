@@ -51,7 +51,7 @@ Handy.dictionary.register({
 			}
 		end,
 		callback = function()
-			Handy.EXT.Multiplayer.send_action_setEnabled()
+			Handy.mp_extension.send_action_setEnabled()
 		end,
 	},
 })
@@ -72,7 +72,7 @@ Handy.dictionary.register({
 			end,
 			__newindex = function(t, k, v)
 				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
+				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
 				(lobby.config or {}).handy_speed_multiplier_mode = v
@@ -100,7 +100,7 @@ Handy.dictionary.register({
 					"256x",
 					"512x",
 				},
-				disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -126,7 +126,7 @@ Handy.dictionary.register({
 			end,
 			__newindex = function(t, k, v)
 				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
+				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
 				(lobby.config or {}).handy_animation_skip_mode = v
@@ -147,7 +147,7 @@ Handy.dictionary.register({
 					Handy.L.dictionary("handy_animation_skip_levels", 3),
 					Handy.L.dictionary("handy_animation_skip_levels", 4),
 				},
-				disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -173,7 +173,7 @@ Handy.dictionary.register({
 			end,
 			__newindex = function(t, k, v)
 				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.EXT.Multiplayer.can_change_lobby_settings() then
+				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
 				(lobby.config or {}).handy_dangerous_actions_mode = v
@@ -193,7 +193,7 @@ Handy.dictionary.register({
 					Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
 					-- Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
 				},
-				disabled = is_forced or not Handy.EXT.Multiplayer.can_change_lobby_settings(),
+				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -239,6 +239,8 @@ Handy.dictionary.register({
 			return {
 				options = {
 					"1x",
+					"1.25x",
+					"1.5x",
 					"2x",
 					"4x",
 					"8x",

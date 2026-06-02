@@ -15,6 +15,15 @@ Handy.speed_multiplier = {
 		return (lobby_config.handy_speed_multiplier_mode or 1) == 1
 	end,
 
+	exceptions = {
+		[1] = 1.25,
+		[2] = 1.5,
+	},
+	reverse_exceptions = {
+		[1.25] = 1,
+		[1.5] = 2,
+	},
+
 	get_queue_retriggers_count = function()
 		if
 			G.SCORING_COROUTINE
@@ -61,33 +70,28 @@ Handy.speed_multiplier = {
 		-- -2 = 0.25
 		-- -1 = 0.5
 		-- 0 = 1
-		-- 1 = 1.5 <- exception
-		-- 2 = 2
-		-- 3 = 4
-		-- 4 = 8
+		-- 1 = 1.25 <- exception
+		-- 2 = 1.5 <- exception
+		-- 3 = 2
+		-- 4 = 4
+		-- 5 = 8
 		v = math.floor(v)
-		if v >= 2 then
-			return 2 ^ (v - 1)
-		end
-		if v == 1 then
-			return 1.5
-		end
 		if v == 0 then
 			return 1
 		end
-		return 2 ^ v
+		if v >= 1 + #Handy.speed_multiplier.exceptions then
+			return 2 ^ (v - #Handy.speed_multiplier.exceptions)
+		end
+		return Handy.speed_multiplier.exceptions[v] or (2 ^ v)
 	end,
 	value_to_index = function(v)
-		if v >= 2 then
-			return math.floor(math.log(v, 2) + 1)
-		end
-		if v == 1.5 then
-			return 1
-		end
 		if v == 1 then
 			return 0
 		end
-		return math.floor(math.log(v, 2))
+		if v >= 2 then
+			return math.floor(math.log(v, 2)) + #Handy.speed_multiplier.exceptions
+		end
+		return Handy.speed_multiplier.reverse_exceptions[v] or math.floor(math.log(v, 2))
 	end,
 	get_value = function()
 		if

@@ -63,7 +63,7 @@ Handy.e_mitter.on("update", function()
 	dew[3] = G.C.DARK_EDITION[3]
 
 	local mp = Handy.UI.C.MP
-	local new_mp = mix_colours(G.C.RED, G.C.ORANGE, math.sin(G.TIMERS.REAL) * 0.2 + 0.8)
+	local new_mp = mix_colours(G.C.RED, G.C.ORANGE, math.sin(G.TIMERS.REAL * 2) * 0.2 + 0.75)
 	mp[1] = new_mp[1]
 	mp[2] = new_mp[2]
 	mp[3] = new_mp[3]

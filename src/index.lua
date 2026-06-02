@@ -80,10 +80,8 @@ Handy.load_files({
 	"controller_sensitivity.lua",
 	"scoring_hold.lua",
 	"hand_selection.lua",
+	"mp_extension.lua",
 }, "src/controls/")
-Handy.load_files({
-	"extensions/index.lua",
-}, "src/")
 Handy.load_directory("src/definitions/controls", true)
 Handy.load_directory("src/definitions/dictionary", true)
 Handy.load_directory("src/definitions/stack", true)

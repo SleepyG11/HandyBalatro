@@ -7,9 +7,18 @@ function Handy.UI.get_options_button()
 		func = "handy_updates_alert",
 	})
 end
+function Handy.UI.get_mod_button()
+	return UIBox_button({
+		label = { Handy.b_is_in_multiplayer() and "Handy [MP]" or "Handy" },
+		button = "handy_options",
+		minw = 5,
+		colour = G.C.CHIPS,
+		func = "handy_updates_alert",
+	})
+end
 function Handy.UI.get_mp_extension_button()
 	return UIBox_button({
-		label = { Handy.L.tab("MP Extension") },
+		label = { Handy.L.dictionary("b_handy_mp_extension") },
 		button = "handy_mp_extension_back_to_options",
 		minw = 5,
 		colour = Handy.UI.C.MP,
@@ -19,14 +28,14 @@ end
 local create_uibox_options_ref = create_UIBox_options
 function create_UIBox_options()
 	local contents = create_uibox_options_ref()
-    local target = contents.nodes[1].nodes[1].nodes[1].nodes
+	local target = contents.nodes[1].nodes[1].nodes[1].nodes
 	local index = table.maxn(target)
-    if MP and MP.LOBBY and MP.LOBBY.code and G.STAGE == G.STAGES.MAIN_MENU then
-        table.insert(target, index + 1, Handy.UI.get_mp_extension_button())
-        index = index + 1
-    end
+	if MP and MP.LOBBY and MP.LOBBY.code and G.STAGE == G.STAGES.MAIN_MENU then
+		table.insert(target, index + 1, Handy.UI.get_mp_extension_button())
+		index = index + 1
+	end
 	if not Handy.current_mod or not Handy.cc.hide_options_button.enabled then
-		table.insert(target, index + 1, Handy.UI.get_options_button())
+		table.insert(target, index + 1, Handy.UI.get_mod_button())
 		index = index + 1
 	end
 	return contents

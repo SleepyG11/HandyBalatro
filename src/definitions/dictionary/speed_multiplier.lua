@@ -69,6 +69,7 @@ Handy.dictionary.register({
 			return {
 				options = {
 					"1x",
+					"1.25x",
 					"1.5x",
 					"2x",
 					"4x",

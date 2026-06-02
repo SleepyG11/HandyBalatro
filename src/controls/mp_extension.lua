@@ -1,8 +1,8 @@
-Handy.EXT.Multiplayer = {
+Handy.mp_extension = {
 	loaded = false,
 }
 
-function Handy.EXT.Multiplayer.can_change_lobby_settings()
+function Handy.mp_extension.can_change_lobby_settings()
 	return G.STAGE == G.STAGES.MAIN_MENU
 		and MP
 		and MP.LOBBY
@@ -11,7 +11,7 @@ function Handy.EXT.Multiplayer.can_change_lobby_settings()
 		and MP.LOBBY.config
 		and MP.LOBBY.config.handy_allow_mp_extension
 end
-function Handy.EXT.Multiplayer.process_action_setLobbyEnabled(enabled)
+function Handy.mp_extension.process_action_setLobbyEnabled(enabled)
 	if not MP.LOBBY then
 		return
 	end
@@ -20,7 +20,7 @@ function Handy.EXT.Multiplayer.process_action_setLobbyEnabled(enabled)
 
 	Handy.UI.rerender(true)
 end
-function Handy.EXT.Multiplayer.send_action_setEnabled()
+function Handy.mp_extension.send_action_setEnabled()
 	if not MP.LOBBY then
 		return
 	end
@@ -33,21 +33,26 @@ function Handy.EXT.Multiplayer.send_action_setEnabled()
 
 	Handy.UI.rerender(true)
 end
-function Handy.EXT.Multiplayer.set_local_enabled()
+function Handy.mp_extension.set_local_enabled()
 	MP.LOBBY.handy_mp_extension_local_player_enabled =
 		Handy.controls.is_module_enabled(Handy.cc.mp_extension_enabled_default_value)
-	Handy.EXT.Multiplayer.send_action_setEnabled()
+	Handy.mp_extension.send_action_setEnabled()
 end
 
-Handy.e_mitter.on("game_start", function()
-	if not MP then
-		return
-	end
+function Handy.mp_extension.lobby_tab_UIBox()
+	return Handy.UI.mp_extension_page_definition()
+end
+function Handy.mp_extension.lobby_tab()
+	return {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = {
+			Handy.mp_extension.lobby_tab_UIBox(),
+		},
+	}
+end
 
-	Handy.EXT.Multiplayer.loaded = true
-
-	Handy.load_file("src/extensions/Multiplayer/ui.lua")
-
+function Handy.mp_extension.init()
 	local reset_lobby_config = MP.reset_lobby_config
 	function MP.reset_lobby_config(...)
 		local r = reset_lobby_config(...)
@@ -79,9 +84,14 @@ Handy.e_mitter.on("game_start", function()
 		return r
 	end
 
+	G.FUNCS.handy_set_mp_option_cycle = function(arg)
+		arg.cycle_config.handy_ref_table[arg.cycle_config.handy_ref_value] = arg.to_key
+		send_lobby_options()
+	end
+
 	if MP.register_action then
 		MP.register_action("handyMPExtensionLobbyEnabled", function(parsedAction)
-			Handy.EXT.Multiplayer.process_action_setLobbyEnabled(parsedAction.enabled)
+			Handy.mp_extension.process_action_setLobbyEnabled(parsedAction.enabled)
 		end)
 	end
 
@@ -102,6 +112,46 @@ Handy.e_mitter.on("game_start", function()
 		end
 		return ret
 	end
+
+	-- TODO: decide what to do with this one: rerendr somehow or leave it as rest of MP lobby options behave like this basically
+	local old_lobby_options = G.UIDEF.create_UIBox_lobby_options
+	function G.UIDEF.create_UIBox_lobby_options(...)
+		Handy.ARGS.insert_mp_lobby_tab = true
+		local r = old_lobby_options(...)
+		Handy.ARGS.insert_mp_lobby_tab = nil
+		return r
+	end
+
+	local old_lobby_info = MP.UI.lobby_info
+	function MP.UI.lobby_info(...)
+		Handy.ARGS.insert_mp_lobby_tab = true
+		local r = old_lobby_info(...)
+		Handy.ARGS.insert_mp_lobby_tab = nil
+		return r
+	end
+
+	local old_create_tabs = create_tabs
+	function create_tabs(args, ...)
+		if Handy.ARGS.insert_mp_lobby_tab then
+			Handy.ARGS.insert_mp_lobby_tab = nil
+			table.insert(args.tabs, {
+				label = "Handy",
+				tab_definition_function = function()
+					return Handy.mp_extension.lobby_tab()
+				end,
+			})
+		end
+		return old_create_tabs(args, ...)
+	end
+end
+
+Handy.e_mitter.on("game_start", function()
+	if not MP then
+		return
+	end
+
+	Handy.mp_extension.init()
+	Handy.mp_extension.loaded = true
 
 	Handy.e_mitter.on("update", function()
 		if not MP.LOBBY.code then
