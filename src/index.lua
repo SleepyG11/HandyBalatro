@@ -84,9 +84,9 @@ Handy.load_files({
 Handy.load_files({
 	"extensions/index.lua",
 }, "src/")
-Handy.load_directory("src/api/controls", true)
-Handy.load_directory("src/api/dictionary", true)
-Handy.load_directory("src/api/stack", true)
+Handy.load_directory("src/definitions/controls", true)
+Handy.load_directory("src/definitions/dictionary", true)
+Handy.load_directory("src/definitions/stack", true)
 
 -- Mod is ready, lets start!
 
