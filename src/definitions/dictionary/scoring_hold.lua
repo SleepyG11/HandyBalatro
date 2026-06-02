@@ -27,6 +27,7 @@ Handy.dictionary.register({
 	get_deps = function(self)
 		return { self.parent }
 	end,
+	no_mp = true,
 
 	checkbox = true,
 })
