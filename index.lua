@@ -31,6 +31,8 @@ Handy = {
 	},
 
 	ARGS = {},
+
+	fs_loaded_files = {},
 }
 
 function Handy.get_fs()
@@ -40,23 +42,37 @@ function Handy.get_fs()
 		return Handy.NFS, Handy.PATH .. "/"
 	end
 end
-function Handy.read_file(file)
-	local fs, start = Handy.get_fs()
-	return fs.read(start .. file)
+function Handy.wrap_fs_function(func_name)
+	return function(path, ...)
+		local fs, start = Handy.get_fs()
+		return fs[func_name](start .. path, ...)
+	end
 end
-function Handy.load_file(file)
-	return assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))()
+Handy.read_file = Handy.wrap_fs_function("read")
+Handy.get_file_info = Handy.wrap_fs_function("getInfo")
+Handy.get_directory_items = Handy.wrap_fs_function("getDirectoryItems")
+
+function Handy.load_file(file, force)
+	if Handy.fs_loaded_files[file] and not force then
+		return
+	end
+	Handy.fs_loaded_files[file] = { assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))() }
+	return unpack(Handy.fs_loaded_files[file])
 end
 function Handy.load_files(files, prefix)
 	for _, file in pairs(files) do
 		Handy.load_file(prefix .. file)
 	end
 end
+
 function Handy.load_directory(path, recursive)
-	local fs, start = Handy.get_fs()
-	for _, file in ipairs(fs.getDirectoryItems(start .. path)) do
+	local index_info = Handy.get_file_info(path .. "/index.lua")
+	if index_info and index_info.type == "file" then
+		Handy.load_file(path .. "/index.lua")
+	end
+	for _, file in ipairs(Handy.get_directory_items(path)) do
 		local partial_path = path .. "/" .. file
-		local info = fs.getInfo(start .. partial_path)
+		local info = Handy.get_file_info(partial_path)
 		if info.type == "directory" then
 			if recursive then
 				Handy.load_directory(partial_path, recursive)
@@ -100,9 +116,8 @@ if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 
 Handy mod installed incorrectly.
 
-To fix this, do one of the followings:
-- Update Lovely to 0.9.0 or newer
-- Make sure mod is not "nested" (folder in folder), like "/Mods/HandyBalatro/HandyBalatro"
+To fix this, do the followings:
+- Make sure mod is not "nested" (so there's no folder in folder like "/Mods/HandyBalatro/HandyBalatro")
 - Optionally, if mod in .zip archive, unzip it
 ]])
 		end
