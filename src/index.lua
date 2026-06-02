@@ -70,9 +70,21 @@ if CardArea.handle_card_limit then
 end
 
 Handy.load_files({
-	"controls/index.lua",
+	"speed_multiplier/index.lua",
+	"animation_skip/index.lua",
+	"presets_switch/index.lua",
+	"regular_keybinds/index.lua",
+	"move_highlight/index.lua",
+	"insta_actions/index.lua",
+	"dangerous_actions/index.lua",
+	"controller_sensitivity.lua",
+	"scoring_hold.lua",
+	"hand_selection.lua",
+}, "src/controls/")
+Handy.load_files({
 	"extensions/index.lua",
 }, "src/")
+Handy.load_directory("src/api/controls", true)
 Handy.load_directory("src/api/dictionary", true)
 Handy.load_directory("src/api/stack", true)
 

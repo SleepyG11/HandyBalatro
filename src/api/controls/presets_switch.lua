@@ -1,7 +1,3 @@
-Handy.load_files({
-	"logic.lua",
-}, "src/controls/controls/presets_switch/")
-
 for _, index in ipairs({ 1, 2, 3, "next" }) do
 	Handy.controls.register({
 		key = "presets_switch_load_" .. index,

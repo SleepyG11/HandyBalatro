@@ -100,3 +100,23 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
+
+--
+
+G.FUNCS.handy_show_example_state_panel = function(e)
+	local old_hover = e.hover
+	e.states.hover.can = true
+	e.states.collide.can = true
+	function e:hover(...)
+		Handy.UI.state_panel.display(function(state)
+			state.items.example = {
+				text = Handy.L.dictionary("handy_example_state_panel"),
+				hold = false,
+				order = -5,
+			}
+			return true
+		end)
+		return old_hover(self, ...)
+	end
+	e.config.func = e.config.handy_hover_set and "handy_setup_hover_popups" or "handy_noop"
+end

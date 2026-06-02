@@ -1,10 +1,3 @@
-Handy.load_files({
-	"logic.lua",
-	"hooks.lua",
-}, "src/controls/controls/speed_multiplier/")
-
----
-
 Handy.controls.register({
 	key = "speed_multiplier_toggle_temp_disabled",
 	get_module = function(self)

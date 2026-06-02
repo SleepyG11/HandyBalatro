@@ -5,10 +5,6 @@ Handy.controls.list = {}
 ---
 
 function Handy.controls.register(item)
-	if Handy.controls.dictionary[item.key] then
-		return Handy.controls.dictionary[item.key]
-	end
-
 	item.get_module = item.get_module or function() end
 	item.get_deps = item.get_deps or function() end
 	item.update = item.update or function() end
@@ -209,21 +205,6 @@ function Handy.controls.execute_control(key, ctx, args)
 		return false, false, leftover_data or "unknown"
 	end
 end
-
---
-
-Handy.load_files({
-	"speed_multiplier/index.lua",
-	"animation_skip/index.lua",
-	"presets_switch/index.lua",
-	"regular_keybinds/index.lua",
-	"move_highlight/index.lua",
-	"insta_actions/index.lua",
-	"dangerous_actions/index.lua",
-	"controller_sensitivity.lua",
-	"scoring_hold.lua",
-	"hand_selection.lua",
-}, "src/controls/controls/")
 
 --
 

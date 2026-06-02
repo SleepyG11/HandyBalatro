@@ -1,7 +1,3 @@
-Handy.load_files({
-	"logic.lua",
-}, "src/controls/controls/dangerous_actions/")
-
 -- One-by-one
 Handy.controls.register({
 	key = "dangerous_actions_sell_one",

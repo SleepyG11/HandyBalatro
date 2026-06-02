@@ -1,0 +1,153 @@
+Handy.controls.register({
+	key = "regular_keybinds_play",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_play, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	require_exact_keys = true,
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, ctx, args)
+		return not Handy.regular_keybinds.play_blocker
+			and G.STATE == G.STATES.SELECTING_HAND
+			and Handy.controls.can_execute_control(self, ctx, args)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("play_button")
+			end, { visible = true })
+	end,
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.play_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("play_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				Handy.regular_keybinds.play_blocker = false
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+Handy.controls.register({
+	key = "regular_keybinds_discard",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	require_exact_keys = true,
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, ctx, args)
+		return not Handy.regular_keybinds.discard_blocker
+			and G.STATE == G.STATES.SELECTING_HAND
+			and Handy.controls.can_execute_control(self, ctx, args)
+			and Handy.fake_events.check_button(function()
+				return G.buttons.states.visible and G.buttons:get_UIE_by_ID("discard_button")
+			end, { visible = true })
+	end,
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.discard_blocker = true
+		Handy.fake_events.execute_button(function()
+			return G.buttons:get_UIE_by_ID("discard_button")
+		end)
+		G.E_MANAGER:add_event(Event({
+			no_delete = true,
+			blocking = false,
+			func = function()
+				Handy.regular_keybinds.discard_blocker = false
+				return true
+			end,
+		}))
+		return true
+	end,
+})
+
+Handy.controls.register({
+	key = "regular_keybinds_change_sort_rank",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_sort_by_rank, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+	end,
+
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.change_sort("rank")
+		return true
+	end,
+})
+Handy.controls.register({
+	key = "regular_keybinds_change_sort_suit",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_sort_by_suit, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+	end,
+
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.change_sort("suit")
+		return true
+	end,
+})
+Handy.controls.register({
+	key = "regular_keybinds_toggle_sort",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_toggle_sort, { Handy.cc.regular_keybinds }
+	end,
+
+	context_types = {
+		input = true,
+	},
+
+	trigger = "trigger",
+
+	no_stop_use = true,
+	in_run = true,
+
+	can_execute = function(self, ctx, args)
+		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+	end,
+
+	execute = function(self, ctx, args)
+		Handy.regular_keybinds.change_sort(Handy.regular_keybinds.get_current_sorting(true))
+		return true
+	end,
+})
