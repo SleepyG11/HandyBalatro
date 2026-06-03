@@ -15,12 +15,11 @@ Handy.controls.register({
 	},
 
 	in_run = true,
-
 	trigger = "press",
 
 	triggers_count = 0,
 	last_hold = 0,
 
-	can_execute = Handy.move_highlight.can_execute,
-	execute = Handy.move_highlight.move,
+	can_execute = Handy.move_highlight.can_execute_control,
+	execute = Handy.move_highlight.execute_control,
 })
