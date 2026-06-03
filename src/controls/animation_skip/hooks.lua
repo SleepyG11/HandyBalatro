@@ -38,7 +38,7 @@ function card_eval_status_text(...)
 end
 local moveable_juice_up_ref = Moveable.juice_up
 function Moveable:juice_up(...)
-	if Handy.animation_skip.should_skip_animation() and not Handy.animation_skip.allow_juice_up then
+	if Handy.animation_skip.should_skip_animation() and not Handy.ARGS.allow_juice_up then
 		return
 	end
 	return moveable_juice_up_ref(self, ...)
@@ -56,7 +56,7 @@ function update_hand_text(config, vals, ...)
 		Handy.animation_skip.should_skip_everything()
 		or (G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation())
 	then
-		Handy.animation_skip.extract_func_from_event = 1
+		Handy.ARGS.extract_func_from_event = 1
 		config = config or {}
 		config.immediate = true
 		config.delay = 0
@@ -156,8 +156,8 @@ function EventManager:add_event(event, queue, ...)
 			if Handy.ARGS.event_queue_override then
 				queue = Handy.ARGS.event_queue_override
 			end
-			if Handy.animation_skip.extract_func_from_event > 0 and event.trigger ~= "ease" then
-				Handy.animation_skip.extract_func_from_event = Handy.animation_skip.extract_func_from_event - 1
+			if Handy.ARGS.extract_func_from_event > 0 and event.trigger ~= "ease" then
+				Handy.ARGS.extract_func_from_event = Handy.ARGS.extract_func_from_event - 1
 				event.func()
 				return
 			end
