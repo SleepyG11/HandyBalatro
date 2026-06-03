@@ -10,6 +10,6 @@ target = "engine/controller.lua"
 pattern = '''if (G.play and #G.play.cards > 0) or'''
 position = "after"
 payload = '''
-Handy.hand_selection.should_prevent_deselect() or
+Handy.hand_selection.should_prevent_vanilla_deselect() or
 '''
 match_indent = true
