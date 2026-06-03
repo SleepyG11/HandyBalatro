@@ -23,7 +23,7 @@ pattern = '''self.SPEEDFACTOR = self.SPEEDFACTOR + math.max(0, math.abs(G.ACC) -
 position = "after"
 payload = '''
 self.HANDY_REAL_SPEEDFACTOR = self.SPEEDFACTOR
-self.SPEEDFACTOR = self.SPEEDFACTOR * (Handy.speed_multiplier.get_value() or 1)
+self.SPEEDFACTOR = self.SPEEDFACTOR * (Handy.speed_multiplier.get_buffered_value() or 1)
 if Handy.regular_keybinds.cashout_skipped and not Handy.b_is_in_multiplayer() then
     self.SPEEDFACTOR = self.SPEEDFACTOR * 64
 end

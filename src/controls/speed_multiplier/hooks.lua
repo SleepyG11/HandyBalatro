@@ -41,7 +41,7 @@ function EventManager:update(real_dt, forced, ...)
 	local cft = Handy.ARGS.current_frame_timers
 
 	if real_dt > 0 then
-		local retriggers = Handy.speed_multiplier.get_queue_retriggers_count()
+		local _, retriggers = Handy.speed_multiplier.get_buffered_value()
 		if retriggers > 0 then
 			local total_updates = retriggers + 1
 			local partial_dt = real_dt / total_updates

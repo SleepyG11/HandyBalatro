@@ -154,6 +154,4 @@ Handy.load_file("src/index.lua")
 -- 1. mp_extension
 -- 2. insta_actions :skull:
 -- 3. dangerous_actions :skull: :again:
--- 4. speed_multiplier
--- 5. animation_skip
 -- 6. regular_keybinds

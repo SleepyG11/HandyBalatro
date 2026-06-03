@@ -149,14 +149,14 @@ end
 local event_manager_add_event_ref = EventManager.add_event
 function EventManager:add_event(event, queue, ...)
 	if Handy.animation_skip.is_skippable_queue(queue) then
-		if Handy.animation_skip.mute_ease_dollars > 0 then
+		if (Handy.animation_skip.mute_ease_dollars or 0) > 0 then
 			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
 		end
 		if not event.handy_never_modify then
 			if Handy.ARGS.event_queue_override then
 				queue = Handy.ARGS.event_queue_override
 			end
-			if Handy.ARGS.extract_func_from_event > 0 and event.trigger ~= "ease" then
+			if (Handy.ARGS.extract_func_from_event or 0) > 0 and event.trigger ~= "ease" then
 				Handy.ARGS.extract_func_from_event = Handy.ARGS.extract_func_from_event - 1
 				event.func()
 				return
