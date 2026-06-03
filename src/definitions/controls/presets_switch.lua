@@ -12,7 +12,7 @@ for _, index in ipairs({ 1, 2, 3, "next" }) do
 		require_exact_keys = true,
 
 		execute = function(self, ctx, args, data)
-			return Handy.presets_switch.execute(index)
+			return Handy.presets_switch.load_index(index)
 		end,
 	})
 end
