@@ -6,72 +6,6 @@ Handy.regular_keybinds = {
 
 	shop_loaded = false,
 
-	swappable_overlay = false,
-	current_swappable_overlay = nil,
-
-	toggle_swappable_overlay = function(b)
-		if b then
-			G.E_MANAGER:add_event(Event({
-				blockable = false,
-				blocking = false,
-				no_delete = true,
-				pause_force = true,
-				timer = "REAL",
-				func = function()
-					Handy.regular_keybinds.swappable_overlay = true
-					return true
-				end,
-			}))
-		else
-			Handy.regular_keybinds.swappable_overlay = false
-			Handy.regular_keybinds.current_swappable_overlay = nil
-		end
-	end,
-	open_or_close_swappable_overlay = function(item, ctx, args, key, func)
-		ctx = Handy.controls.resolve_control_context(item, ctx)
-		if not ctx then
-			return false
-		end
-		local swappable_mode = Handy.cc.regular_keybinds_swappable_overlays_mode.value
-		local close = function()
-			Handy.fake_events.execute({
-				func = G.FUNCS.exit_overlay_menu,
-			})
-		end
-		local open = function()
-			Handy.regular_keybinds.swappable_overlay_opening = true
-			func()
-			Handy.regular_keybinds.swappable_overlay_opening = nil
-			if G.OVERLAY_MENU then
-				Handy.regular_keybinds.current_swappable_overlay = key
-			end
-		end
-		if swappable_mode == 1 then
-			if ctx.trigger then
-				open()
-				return true
-			end
-		elseif swappable_mode == 2 then
-			if ctx.trigger then
-				if Handy.regular_keybinds.current_swappable_overlay == key then
-					close()
-				else
-					open()
-				end
-				return true
-			end
-		elseif swappable_mode == 3 then
-			if ctx.release then
-				if Handy.regular_keybinds.current_swappable_overlay == key then
-					close()
-				end
-			else
-				open()
-			end
-			return true
-		end
-	end,
-
 	get_current_sorting = function(opposite)
 		local hand_sorting = G.hand and G.hand.config.sort or "suit desc"
 		local sortings = { "rank", "suit" }
@@ -224,16 +158,3 @@ Handy.regular_keybinds = {
 	can_skip_cashout = false,
 	cashout_skipped = false,
 }
-
---
-
-Handy.e_mitter.on("game_load", function()
-	G.njy_keybind = nil
-	if MP and G.FUNCS.lobby_info then
-		local lobby_info_ref = G.FUNCS.lobby_info
-		function G.FUNCS.lobby_info(...)
-			Handy.regular_keybinds.toggle_swappable_overlay(true)
-			return lobby_info_ref(...)
-		end
-	end
-end)

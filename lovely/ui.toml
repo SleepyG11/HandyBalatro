@@ -134,3 +134,16 @@ payload = '''
 self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SPEEDFACTOR)
 '''
 match_indent = true
+
+# Add ability to remove overlay_menu sliding
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.OVERLAY_MENU = true'''
+position = "before"
+payload = '''
+if Handy.ARGS.remove_overlay_offset then
+    args.config.offset.y = 0
+end
+'''
+match_indent = true
