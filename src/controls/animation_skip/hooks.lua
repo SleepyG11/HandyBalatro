@@ -1,3 +1,4 @@
+-- Card messages
 local attention_text_ref = attention_text
 function attention_text(...)
 	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation() then
@@ -36,34 +37,14 @@ function card_eval_status_text(...)
 	end
 	return card_eval_status_text_ref(...)
 end
+
+-- Things juicing
 local moveable_juice_up_ref = Moveable.juice_up
 function Moveable:juice_up(...)
 	if Handy.animation_skip.should_skip_animation() and not Handy.ARGS.allow_juice_up then
 		return
 	end
 	return moveable_juice_up_ref(self, ...)
-end
-local delay_ref = delay
-function delay(...)
-	if Handy.animation_skip.should_skip_animation() then
-		return
-	end
-	return delay_ref(...)
-end
-local update_hand_text_ref = update_hand_text
-function update_hand_text(config, vals, ...)
-	if
-		Handy.animation_skip.should_skip_everything()
-		or (G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation())
-	then
-		Handy.ARGS.extract_func_from_event = 1
-		config = config or {}
-		config.immediate = true
-		config.delay = 0
-		config.blocking = false
-		vals.StatusText = nil
-	end
-	return update_hand_text_ref(config, vals, ...)
 end
 local juice_card_ref = juice_card
 function juice_card(...)
@@ -72,16 +53,17 @@ function juice_card(...)
 	end
 	return juice_card_ref(...)
 end
-local draw_card_ref = draw_card
-function draw_card(...)
-	if Handy.animation_skip.should_skip_everything() then
-		Handy.ARGS.force_non_blocking_event = true
-		draw_card_ref(...)
-		Handy.ARGS.force_non_blocking_event = nil
-		return
+Handy.e_mitter.on("steamodded_load", function()
+	local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
+	function SMODS.calculate_effect(effect, ...)
+		if Handy.animation_skip.should_skip_animation() then
+			effect.juice_card = nil
+		end
+		return smods_calculate_effect_ref(effect, ...)
 	end
-	return draw_card_ref(...)
-end
+end)
+
+-- Easings
 local ease_discard_ref = ease_discard
 function ease_discard(...)
 	if Handy.animation_skip.should_skip_everything() then
@@ -120,74 +102,39 @@ function ease_dollars(amount, instant, ...)
 		return ease_dollars_ref(amount, instant, ...)
 	end
 end
-local level_up_hand_ref = level_up_hand
-function level_up_hand(...)
-	if Handy.animation_skip.should_skip_everything() then
-		local args = { ... }
-		args[3] = true
-		return level_up_hand_ref(unpack(args))
-	elseif Handy.animation_skip.should_skip_animation() then
-		Handy.ARGS.force_non_blocking_event = true
-		level_up_hand_ref(...)
-		Handy.ARGS.force_non_blocking_event = nil
+
+-- Other
+local play_sound_ref = play_sound
+function play_sound(...)
+	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_everything() then
 		return
 	end
-	return level_up_hand_ref(...)
+	return play_sound_ref(...)
 end
-
-local add_round_eval_row_ref = add_round_eval_row
-function add_round_eval_row(...)
+local delay_ref = delay
+function delay(...)
 	if Handy.animation_skip.should_skip_animation() then
-		Handy.ARGS.force_non_blocking_event = true
-		add_round_eval_row_ref(...)
-		Handy.ARGS.force_non_blocking_event = nil
 		return
 	end
-	add_round_eval_row_ref(...)
+	return delay_ref(...)
 end
 
-local event_manager_add_event_ref = EventManager.add_event
-function EventManager:add_event(event, queue, ...)
-	if Handy.animation_skip.is_skippable_queue(queue) then
-		if (Handy.animation_skip.mute_ease_dollars or 0) > 0 then
-			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
-		end
-		if not event.handy_never_modify then
-			if Handy.ARGS.event_queue_override then
-				queue = Handy.ARGS.event_queue_override
-			end
-			if (Handy.ARGS.extract_func_from_event or 0) > 0 and event.trigger ~= "ease" then
-				Handy.ARGS.extract_func_from_event = Handy.ARGS.extract_func_from_event - 1
-				event.func()
-				return
-			end
-			if Handy.animation_skip.should_skip_unsafe() then
-				event.blocking = false
-				event.blockable = false
-				if Handy.animation_skip.is_skippable_timer(event.timer) then
-					event.delay = (event.trigger == "ease" and 0.0001 or 0)
-				end
-			else
-				if Handy.ARGS.force_non_blocking_event then
-					event.blocking = false
-				end
-				if Handy.ARGS.force_non_blockable_event then
-					event.blockable = false
-				end
-				if Handy.animation_skip.should_skip_everything() then
-					if Handy.animation_skip.is_skippable_timer(event.timer) then
-						event.delay = (event.delay or 0) * 0.01
-					end
-				end
-			end
-		end
+-- Cards drawing
+local draw_card_ref = draw_card
+function draw_card(...)
+	if Handy.animation_skip.should_skip_everything() then
+		local old_block = Handy.ARGS.force_non_blocking_event
+		Handy.ARGS.force_non_blocking_event = true
+		draw_card_ref(...)
+		Handy.ARGS.force_non_blocking_event = old_block
+		return
 	end
-	-- printCallerInfo()
-	return event_manager_add_event_ref(self, event, queue, ...)
+	return draw_card_ref(...)
 end
 
+-- Wipe screen
 local start_run_ref = G.FUNCS.start_run
-G.FUNCS.start_run = function(...)
+function G.FUNCS.start_run(...)
 	local result
 	if Handy.animation_skip.should_skip_everything() then
 		Handy.ARGS.skip_wipe_screen = true
@@ -200,7 +147,6 @@ G.FUNCS.start_run = function(...)
 	end
 	return result
 end
-
 local wipe_on_ref = G.FUNCS.wipe_on
 function G.FUNCS.wipe_on(...)
 	if Handy.ARGS.skip_wipe_screen then
@@ -215,22 +161,53 @@ function G.FUNCS.wipe_off(...)
 	end
 	return wipe_off_ref(...)
 end
-local play_sound_ref = play_sound
-function play_sound(...)
-	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_everything() then
+
+-- Hand level up
+local level_up_hand_ref = level_up_hand
+function level_up_hand(...)
+	if Handy.animation_skip.should_skip_everything() then
+		local args = { ... }
+		args[3] = true
+		return level_up_hand_ref(unpack(args))
+	elseif Handy.animation_skip.should_skip_animation() then
+		local old_block = Handy.ARGS.force_non_blocking_event
+		Handy.ARGS.force_non_blocking_event = true
+		level_up_hand_ref(...)
+		Handy.ARGS.force_non_blocking_event = old_block
 		return
 	end
-	return play_sound_ref(...)
+	return level_up_hand_ref(...)
+end
+local update_hand_text_ref = update_hand_text
+function update_hand_text(config, vals, ...)
+	if
+		Handy.animation_skip.should_skip_everything()
+		or (G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation())
+	then
+		Handy.ARGS.extract_func_from_event = 1
+		config = config or {}
+		config.immediate = true
+		config.delay = 0
+		config.blocking = false
+		vals = vals or {}
+		vals.StatusText = nil
+		local r = update_hand_text_ref(config, vals, ...)
+		Handy.ARGS.extract_func_from_event = nil
+		return r
+	else
+		return update_hand_text_ref(config, vals, ...)
+	end
 end
 
----
-
-Handy.e_mitter.on("steamodded_load", function()
-	local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
-	function SMODS.calculate_effect(effect, ...)
-		if Handy.animation_skip.should_skip_animation() then
-			effect.juice_card = nil
-		end
-		return smods_calculate_effect_ref(effect, ...)
+-- Cash Out
+local add_round_eval_row_ref = add_round_eval_row
+function add_round_eval_row(...)
+	if Handy.animation_skip.should_skip_animation() then
+		local old_block = Handy.ARGS.force_non_blocking_event
+		Handy.ARGS.force_non_blocking_event = true
+		add_round_eval_row_ref(...)
+		Handy.ARGS.force_non_blocking_event = old_block
+		return
 	end
-end)
+	add_round_eval_row_ref(...)
+end

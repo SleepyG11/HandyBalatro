@@ -147,6 +147,7 @@ end
 function Handy.animation_skip.should_skip_animation()
 	return Handy.animation_skip.get_buffered_value() >= 3
 end
+Handy.animation_skip.should_skip_animations = Handy.animation_skip.should_skip_animation
 function Handy.animation_skip.should_skip_everything()
 	return Handy.animation_skip.get_buffered_value() >= 4
 end

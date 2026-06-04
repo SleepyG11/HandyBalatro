@@ -43,7 +43,6 @@ end
 """
 match_indent = true
 
-
 # Vanilla empty events fix
 [[patches]]
 [patches.pattern]
@@ -52,7 +51,6 @@ pattern = "if effects[ii].card then"
 position = "at"
 payload = "if effects[ii].card and not Handy.animation_skip.should_skip_animation() then"
 match_indent = true
-
 
 # Allow juice up for juice_up_until
 [[patches]]
@@ -63,7 +61,6 @@ position = "at"
 payload = "func = (function() if eval_func(card) then if card and card.juice_up then Handy.ARGS.allow_juice_up = true; card:juice_up(0.1, 0.1); Handy.ARGS.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
 match_indent = true
 
-
 # Remove pack cards faster
 [[patches]]
 [patches.pattern]
@@ -72,7 +69,6 @@ pattern = "G.FUNCS.draw_from_hand_to_deck()"
 position = "before"
 payload = "if not Nopeus and G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
 match_indent = true
-
 
 # Mute ease_dollars to prevent sound explosion
 [[patches]]
@@ -83,15 +79,17 @@ position = "after"
 payload = "local handy_ease_muted = Handy.animation_skip.mute_ease_dollars > 0"
 match_indent = true
 
-
 [[patches]]
 [patches.pattern]
 target = 'functions/common_events.lua'
 pattern = "play_sound('coin1')"
 position = "at"
-payload = "if not handy_ease_muted then play_sound('coin1') end"
+payload = '''
+if not handy_ease_muted then
+play_sound('coin1')
+end
+'''
 match_indent = true
-
 
 # Fix blind chip dissolving
 [[patches]]
@@ -100,4 +98,57 @@ target = 'blind.lua'
 pattern = '''G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()'''
 position = "after"
 payload = "self.dissolve = 0"
+match_indent = true
+
+# Remove event used to check unlock for levelup
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+G.E_MANAGER:add_event(Event({
+    trigger = 'immediate',
+    func = (function() check_for_unlock{type = 'upgrade_hand', hand = hand, level = G.GAME.hands[hand].level} return true end)
+}))
+'''
+position = "before"
+payload = '''
+if Handy.animation_skip.should_skip_messages() then
+    Handy.ARGS.request_non_blocking_event = (Handy.ARGS.request_non_blocking_event or 0) + 1
+end
+'''
+match_indent = true
+
+# Speedup planets usage in SMODS
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+context.old_parameters = {}
+context.new_parameters = {}
+for i, parameter in ipairs(args.parameters) do
+'''
+position = "before"
+payload = '''
+local handy_old_non_blocking = Handy.ARGS.force_non_blocking_event
+local handy_old_instant = instant
+if Handy.animation_skip.should_skip_animation() then
+    instant = true
+elseif Handy.animation_skip.should_skip_messages() then
+    Handy.ARGS.force_non_blocking_event = true
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+if args.level_up then
+    context.old_level = G.GAME.hands[hand].level
+'''
+position = "before"
+payload = '''
+Handy.ARGS.force_non_blocking_event = handy_old_non_blocking
+instant = handy_old_instant
+'''
 match_indent = true
