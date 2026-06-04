@@ -95,11 +95,11 @@ Handy.controls.register({
 	in_run = true,
 
 	can_execute = function(self, ctx, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
 	execute = function(self, ctx, args)
-		Handy.regular_keybinds.change_sort("rank")
+		Handy.regular_keybinds.set_sorting(G.hand, "rank")
 		return true
 	end,
 })
@@ -119,11 +119,11 @@ Handy.controls.register({
 	in_run = true,
 
 	can_execute = function(self, ctx, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
 	execute = function(self, ctx, args)
-		Handy.regular_keybinds.change_sort("suit")
+		Handy.regular_keybinds.set_sorting(G.hand, "suit")
 		return true
 	end,
 })
@@ -143,11 +143,11 @@ Handy.controls.register({
 	in_run = true,
 
 	can_execute = function(self, ctx, args)
-		return G.STATE == G.STATES.SELECTING_HAND and Handy.controls.can_execute_control(self, ctx, args)
+		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 
 	execute = function(self, ctx, args)
-		Handy.regular_keybinds.change_sort(Handy.regular_keybinds.get_current_sorting(true))
+		Handy.regular_keybinds.set_next_sorting(G.hand)
 		return true
 	end,
 })
