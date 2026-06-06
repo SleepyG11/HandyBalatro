@@ -152,6 +152,6 @@ Handy.load_file("src/index.lua")
 
 -- TODO: cleanup
 -- 1. mp_extension
--- 2. insta_actions :skull:
+-- 2. insta_actions - playable consumeables
 -- 3. dangerous_actions :skull: :again:
 -- 6. regular_keybinds

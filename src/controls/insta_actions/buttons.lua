@@ -74,7 +74,7 @@ function Handy.insta_actions.crawl_for_use_and_sell_buttons(card, result, cleanu
 	end)
 
 	Handy.insta_actions.crawl(card_buttons_ui.UIRoot, "uas_", "use_and_sell", true, result)
-	if card.children.use_button then
+	if Handy.insta_actions.is_available_button_element(card.children.use_button) then
 		Handy.insta_actions.crawl(card.children.use_button.UIRoot, "uas_", "use_and_sell", true, result)
 	end
 	data.card_buttons_ui = card_buttons_ui

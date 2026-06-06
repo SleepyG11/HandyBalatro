@@ -26,7 +26,7 @@ Handy.controls.register({
 			return
 		end
 
-		local is_alt_mode = Handy.controller.is_gamepad() or trigger_mode == 2
+		local is_alt_mode = Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode.value == 2
 		if is_alt_mode then
 			return
 		end
