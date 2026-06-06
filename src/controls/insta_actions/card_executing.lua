@@ -93,7 +93,7 @@ function Handy.insta_actions.process_card(card, actions)
 	if not card or card.REMOVED or not card.is or not card:is(Card) then
 		return false
 	end
-	if card.ability and card.ability.handy_dangerous_actions_used then
+	if card.handy_dangerous_actions_used then
 		return true
 	end
 
