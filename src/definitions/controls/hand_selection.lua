@@ -4,14 +4,14 @@ Handy.controls.register({
 		return Handy.cc.hand_selection_insta_highlight, { Handy.cc.hand_selection }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
-		card = true,
+		card_hover = true,
 		move = true,
 	},
 
-	only_holdable = true,
-	in_run = true,
+	only_holdable_input = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = function(self, ctx, args)
@@ -33,9 +33,6 @@ Handy.controls.register({
 			else
 				return false
 			end
-		end
-		if ctx.card and not ctx.hover then
-			return false
 		end
 		if ctx.input and (ctx.key == "Left Mouse" or ctx.key == "(A)" or Handy.cc.hand_selection_mode.value ~= 1) then
 			return false
@@ -74,11 +71,11 @@ Handy.controls.register({
 		return Handy.cc.hand_selection_deselect_hand, { Handy.cc.hand_selection }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 	},
 
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = function(self, ctx, args)
@@ -131,12 +128,11 @@ Handy.controls.register({
 		return Handy.cc.hand_selection_entire_f_hand, { Handy.cc.hand_selection }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = function(self, ctx, args)

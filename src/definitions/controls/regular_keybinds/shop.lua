@@ -4,15 +4,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_reroll_shop, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.shop_reroll_blocker
@@ -45,15 +43,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_leave_shop, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.shop_loaded
@@ -77,14 +73,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_skip_booster, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_press = true,
 		hold = true,
 	},
-	trigger = "press",
 
 	require_exact_keys = true,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = function(self, ctx, args)

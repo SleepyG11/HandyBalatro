@@ -4,11 +4,9 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_collection, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	can_execute = function(self, ctx, args)
 		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
@@ -26,11 +24,9 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_options, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	can_execute = function(self, ctx, args)
 		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
@@ -48,11 +44,9 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_mod_settings, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	can_execute = function(self, ctx, args)
 		return not G.OVERLAY_MENU and Handy.controls.can_execute_control(self, ctx, args)
@@ -68,8 +62,8 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_show_deck_preview, { Handy.cc.regular_keybinds }
 	end,
 
-	in_run = true,
-	only_holdable = true,
+	only_in_run = true,
+	only_holdable_input = true,
 
 	update = function(self, dt)
 		if Handy.b_is_mod_active() and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds) then

@@ -4,14 +4,12 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_crash
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	dangerous = true,
-	only_safe = true,
+	only_safe_input = true,
 	no_mp = true,
 	require_exact_keys = true,
 
@@ -38,14 +36,12 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_stack_overflow
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	dangerous = true,
-	only_safe = true,
+	only_safe_input = true,
 	no_mp = true,
 	require_exact_keys = true,
 

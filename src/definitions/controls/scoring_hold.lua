@@ -4,9 +4,10 @@ Handy.controls.register({
 		return Handy.cc.scoring_hold
 	end,
 
-	only_holdable = true,
+	only_holdable_input = true,
 	no_mp = true,
 
+	-- TODO: use hold context
 	update = function(self, dt)
 		local t = Handy.scoring_hold.update_values(self)
 

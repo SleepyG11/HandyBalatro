@@ -4,10 +4,9 @@ Handy.controls.register({
 		return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.cc.animation_skip }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.animation_skip.toggle_temp_disabled()
@@ -20,10 +19,9 @@ Handy.controls.register({
 		return Handy.cc.animation_skip_increase, { Handy.cc.animation_skip }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.animation_skip.change(1)
@@ -36,10 +34,9 @@ Handy.controls.register({
 		return Handy.cc.animation_skip_decrease, { Handy.cc.animation_skip }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.animation_skip.change(-1)

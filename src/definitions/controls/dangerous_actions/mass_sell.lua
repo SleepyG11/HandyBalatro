@@ -5,7 +5,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_sell_one
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 	},
@@ -14,7 +14,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(false, false, false),
@@ -26,7 +26,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_remove_one
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 		tag = true,
@@ -36,7 +36,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(true, false, false),
@@ -50,7 +50,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_sell_all_same
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 	},
@@ -59,7 +59,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(false, true, false),
@@ -71,7 +71,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_remove_all_same
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 		tag = true,
@@ -81,7 +81,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(true, true, false),
@@ -95,7 +95,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_sell_all
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 	},
@@ -104,7 +104,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(false, false, true),
@@ -116,7 +116,7 @@ Handy.controls.register({
 		return Handy.cc.dangerous_actions_remove_all
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 		card = true,
 		tag = true,
@@ -126,7 +126,7 @@ Handy.controls.register({
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
-	in_run = true,
+	only_in_run = true,
 	no_stop_use = true,
 
 	can_execute = Handy.dangerous_actions.create_can_execute(true, false, true),

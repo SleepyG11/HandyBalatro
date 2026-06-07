@@ -87,8 +87,12 @@ local function create_input_context(input_type, raw_key, released, starting_hold
 
 		[action] = true,
 		[input_type] = true,
-		[input_type .. "_" .. action] = true,
-		[input_type .. "_trigger"] = trigger and true or nil,
+
+		["input_" .. input_type] = true,
+		["input_" .. action] = true,
+		["input_trigger"] = trigger and true or nil,
+		["input_" .. action .. "_" .. input_type] = true,
+		["input_trigger_" .. input_type] = trigger and true or nil,
 	})
 	return context
 end
@@ -158,6 +162,8 @@ local function create_card_context(action, card)
 		clicked_previous = card_context.clicked_previous,
 
 		target = card,
+
+		["card_" .. action] = true,
 	})
 
 	if action == "hover" then
@@ -243,6 +249,8 @@ local function create_tag_context(action, tag)
 		clicked_previous = tag_context.clicked_previous,
 
 		target = tag,
+
+		["tag_" .. action] = true,
 	})
 
 	if action == "hover" then
@@ -372,7 +380,7 @@ local function create_move_context(dx, dy)
 	dx = dx or 0
 	dy = dy or 0
 	local scale = G.TILESCALE and G.TILESCALE * G.TILESIZE or nil
-	return update_context_data(hold_context or create_empty_move_context(), {
+	return update_context_data(move_context or create_empty_move_context(), {
 		type = "move",
 		move = true,
 		none = not scale or (dx == 0 and dy == 0),

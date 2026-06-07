@@ -8,6 +8,10 @@ function Handy.controls.register(item)
 	item.get_module = item.get_module or function() end
 	item.get_deps = item.get_deps or function() end
 	item.update = item.update or function() end
+
+	item.before_can_execute = item.before_can_execute or function()
+		return true
+	end
 	item.can_execute = item.can_execute or Handy.controls.can_execute_control
 
 	Handy.controls.dictionary[item.key] = item
@@ -67,41 +71,78 @@ end
 
 ---
 
-function Handy.controls.resolve_control_context(item, ctx)
-	if not ctx then
-		return false, "empty_context"
+function Handy.controls.is_valid_input_context(item, ctx)
+	-- Back button
+	if not item.allow_back_input and ctx.back then
+		return false, "back_button"
 	end
-
-	if item.context_types then
-		local v = item.context_types[ctx.type]
-		if not v then
-			return false, "context_type_mismatch"
-		end
-		if type(v) == "table" then
-			if not ctx.input_type or not v[ctx.input_type] then
-				return false, "context_input_type_mismatch"
+	-- Non-safe button
+	if item.only_safe_input and not ctx.safe then
+		return false, "non_safe_button"
+	end
+	-- Non-holdable button
+	if item.only_holdable_input and not ctx.holdable then
+		return false, "non_holdable_button"
+	end
+	return true
+end
+function Handy.controls.is_valid_context(item, ctx)
+	if not ctx then
+		return false
+	end
+	if item.contexts then
+		-- 2 separate cases for optimization reasons
+		-- TODO: check does this even helps?
+		if ctx.hold then
+			if not item.contexts.hold then
+				return false
+			end
+		elseif ctx.move then
+			if not item.contexts.move then
+				return false
+			end
+		else
+			local found = false
+			for flag, _ in pairs(item.contexts) do
+				if ctx[flag] then
+					found = true
+					break
+				end
+			end
+			if not found then
+				return false
 			end
 		end
 	end
-	if ctx.input then
-		-- Back button (avoid usage of it, especially preventing)
-		if not item.allow_back and ctx.back then
-			return false, "back_button"
-		end
-		-- Non-safe button
-		if item.only_safe and not ctx.safe then
-			return false, "non_safe_button"
-		end
-		-- Non-holdable button
-		if item.only_holdable and not ctx.holdable then
-			return false, "non_holdable_button"
-		end
-		-- Check for press/release/trigger
-		if item.trigger and not ctx[item.trigger] then
-			return false, "trigger_mismatch"
-		end
+	if ctx.input and not Handy.controls.is_valid_input_context(item, ctx) then
+		return false
 	end
-	return ctx
+	return true
+end
+function Handy.controls.is_valid_state(item)
+	-- Mod active check
+	if item.allow_mod_inactive and not Handy.b_is_mod_active() then
+		return false
+	end
+	-- Dangerous check
+	if item.dangerous and not Handy.b_is_dangerous_actions_active() then
+		return false
+	end
+	-- In run check
+	if item.only_in_run and not Handy.b_is_in_run() then
+		return false
+	end
+	-- Stop use state check
+	if item.no_stop_use and Handy.b_is_stop_use() then
+		return false
+	end
+	return true
+end
+
+---
+
+function Handy.controls.resolve_control_context(item, ctx)
+	return Handy.controls.is_valid_context(item, ctx) and ctx or nil
 end
 
 function Handy.controls.can_execute_control(item, ctx, args)
@@ -137,7 +178,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		return false, "dangerous_disabled"
 	end
 	-- In run check
-	if not args.allow_not_in_run and item.in_run and not Handy.b_is_in_run() then
+	if not args.allow_not_in_run and item.only_in_run and not Handy.b_is_in_run() then
 		return false, "not_in_run"
 	end
 	-- Stop use state check
@@ -193,17 +234,23 @@ end
 function Handy.controls.execute_control(key, ctx, args)
 	ctx = Handy.controller.non_empty_context(ctx)
 	if not ctx then
-		return false, false, "empty_context"
+		return false, false
 	end
 	local target = Handy.controls.dictionary[key]
+	local before_check_func = target and target.before_can_execute or function(self, ctx, args)
+		return true
+	end
+	local before_can_execute = before_check_func(target, ctx, args)
+	if not before_can_execute then
+		return false, false
+	end
 	local check_func = target and target.can_execute or Handy.controls.can_execute_control
 	local can_execute, leftover_data = check_func(target, ctx, args or {})
-	if can_execute then
-		local execute_result = target.execute and target:execute(ctx, args, leftover_data) or false
-		return execute_result, true, "ok"
-	else
-		return false, false, leftover_data or "unknown"
+	if not can_execute then
+		return false, false
 	end
+	local execute_result = target.execute and target.execute(target, ctx, args, leftover_data) or false
+	return execute_result, true
 end
 
 --

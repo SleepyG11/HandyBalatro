@@ -4,15 +4,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_skip_blind, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return G.GAME
@@ -41,15 +39,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_select_blind, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return G.GAME
@@ -75,15 +71,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_reroll_boss, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return G.GAME

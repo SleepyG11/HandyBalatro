@@ -3,11 +3,13 @@ Handy.controls.register({
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_toggle_temp_disabled, { Handy.cc.speed_multiplier }
 	end,
+	get_deps = function(self)
+		return { Handy.cc.speed_multiplier }
+	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.speed_multiplier.toggle_temp_disabled()
@@ -19,11 +21,13 @@ Handy.controls.register({
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_multiply, { Handy.cc.speed_multiplier }
 	end,
+	get_deps = function(self)
+		return { Handy.cc.speed_multiplier }
+	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.speed_multiplier.change(1)
@@ -35,11 +39,13 @@ Handy.controls.register({
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_divide, { Handy.cc.speed_multiplier }
 	end,
+	get_deps = function(self)
+		return { Handy.cc.speed_multiplier }
+	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-	trigger = "trigger",
 
 	execute = function(self, ctx, args)
 		Handy.speed_multiplier.change(-1)

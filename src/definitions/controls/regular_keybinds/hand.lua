@@ -4,15 +4,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_play, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.play_blocker
@@ -44,15 +42,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.discard_blocker
@@ -85,14 +81,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_sort_by_rank, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)
@@ -109,14 +103,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_sort_by_suit, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)
@@ -133,14 +125,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_toggle_sort, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_change_sorting(G.hand) and Handy.controls.can_execute_control(self, ctx, args)

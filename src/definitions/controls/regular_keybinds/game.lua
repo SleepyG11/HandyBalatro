@@ -4,14 +4,14 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_restart, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
+	contexts = {
 		hold = true,
 	},
 
 	require_exact_keys = true,
 	no_mp = true,
-	in_run = true,
-	only_holdable = true,
+	only_in_run = true,
+	only_holdable_input = true,
 
 	hold_lock = false,
 	last_hold = 0,
@@ -63,15 +63,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_mp = true,
-	only_safe = true,
+	only_safe_input = true,
 
 	can_execute = function(self, ctx, args)
 		return G.STAGE == G.STAGES.RUN
@@ -98,14 +96,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_save_run, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 	no_mp = true,
 	require_exact_keys = true,
 
@@ -123,15 +119,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_reload_run, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_mp = true,
-	only_safe = true,
+	only_safe_input = true,
 
 	can_execute = function(self, ctx, args)
 		return not Handy.regular_keybinds.reload_run_blocker and Handy.controls.can_execute_control(self, ctx, args)
@@ -200,15 +194,13 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_restart_game, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
-
-	trigger = "trigger",
 
 	require_exact_keys = true,
 	no_mp = true,
-	only_safe = true,
+	only_safe_input = true,
 
 	execute = function(self, ctx, args)
 		Handy.utils.restart_game()
@@ -221,11 +213,10 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_copy_log_file, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
 	require_exact_keys = true,
 
 	execute = function(self, ctx, args)

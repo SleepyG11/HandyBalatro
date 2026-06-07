@@ -5,10 +5,9 @@ for _, index in ipairs({ 1, 2, 3, "next" }) do
 			return Handy.cc["presets_load_" .. index], { Handy.cc.presets }
 		end,
 
-		context_types = {
-			input = true,
+		contexts = {
+			input_trigger = true,
 		},
-		trigger = "trigger",
 		require_exact_keys = true,
 
 		execute = function(self, ctx, args, data)

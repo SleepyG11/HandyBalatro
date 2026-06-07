@@ -4,12 +4,10 @@ Handy.controls.register({
 		return Handy.cc.insta_actions
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 		card = true,
 	},
-
-	trigger = "trigger",
 
 	can_execute = Handy.insta_actions.can_execute,
 	execute = Handy.insta_actions.execute,

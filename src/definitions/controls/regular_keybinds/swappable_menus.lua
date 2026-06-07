@@ -4,7 +4,7 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_run_info, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 	},
 
@@ -24,7 +24,7 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_run_info_blinds, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 	},
 
@@ -46,7 +46,7 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_view_deck, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 	},
 
@@ -66,7 +66,7 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_lobby_info, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
+	contexts = {
 		input = true,
 	},
 

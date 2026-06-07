@@ -4,14 +4,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 	},
 
-	trigger = "trigger",
-
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return FN
@@ -35,13 +33,12 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
+		input_trigger = true,
 		hold = true,
 	},
-	trigger = "press",
 
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_skip_cashout
@@ -84,15 +81,14 @@ Handy.controls.register({
 		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }
 	end,
 
-	context_types = {
-		input = true,
+	contexts = {
 		hold = true,
+		input_press = true,
 	},
-	trigger = "press",
 
 	require_exact_keys = true,
 	no_stop_use = true,
-	in_run = true,
+	only_in_run = true,
 
 	can_execute = function(self, ctx, args)
 		return G.FUNCS.njy_endround
