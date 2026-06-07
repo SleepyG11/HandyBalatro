@@ -58,16 +58,17 @@ function Handy.regular_keybinds.toggle_swappable_overlay(key)
 	end
 	if not key then
 		Handy.regular_keybinds.current_swappable_overlay = nil
+	else
+		G.E_MANAGER:add_event(Event({
+			blockable = false,
+			blocking = false,
+			no_delete = true,
+			pause_force = true,
+			timer = "REAL",
+			func = function()
+				Handy.regular_keybinds.current_swappable_overlay = G.OVERLAY_MENU and key
+				return true
+			end,
+		}))
 	end
-	G.E_MANAGER:add_event(Event({
-		blockable = false,
-		blocking = false,
-		no_delete = true,
-		pause_force = true,
-		timer = "REAL",
-		func = function()
-			Handy.regular_keybinds.current_swappable_overlay = G.OVERLAY_MENU and key
-			return true
-		end,
-	}))
 end
