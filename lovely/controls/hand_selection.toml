@@ -1,0 +1,22 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Increase pitch of card selecting
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''
+if not silent then play_sound('cardSlide1') end
+'''
+position = "at"
+payload = '''
+if Handy.ARGS.increase_highlight_pitch then
+    if not silent then play_sound('cardSlide1', math.min(1.25, 1 + #self.highlighted * 0.015)) end
+else
+    if not silent then play_sound('cardSlide1') end
+end
+'''
+match_indent = true
+times = 3

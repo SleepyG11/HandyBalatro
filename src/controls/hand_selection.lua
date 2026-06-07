@@ -107,7 +107,9 @@ function Handy.hand_selection.select_card(card)
 		Handy.controls.is_module_enabled(Handy.cc.hand_selection_combine_select_deselect)
 		or (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
 	then
+		Handy.ARGS.increase_highlight_pitch = true
 		card:click()
+		Handy.ARGS.increase_highlight_pitch = nil
 	end
 	return true
 end

@@ -20,9 +20,10 @@ Handy = {
 		["1.4.1b_patched_select_blind_and_skip"] = true,
 		["1.5.0_update"] = true,
 		["1.5.1a_multiplayer_check"] = true,
-		["2.0.0_update"] = true,
+		["2.0.0_alpha_update"] = true,
 		["2.0.0_mp_extension"] = true,
 		["2.0.0_updater"] = true,
+		-- ["2.0.0_update"] = true,
 	},
 
 	keys_aliases = {
@@ -52,20 +53,20 @@ Handy.read_file = Handy.wrap_fs_function("read")
 Handy.get_file_info = Handy.wrap_fs_function("getInfo")
 Handy.get_directory_items = Handy.wrap_fs_function("getDirectoryItems")
 
-function Handy.load_file(file, force)
-	if Handy.fs_loaded_files[file] and not force then
-		return
+function Handy.load_file(file, nocache)
+	if Handy.fs_loaded_files[file] and not nocache then
+		return unpack(Handy.fs_loaded_files[file])
 	end
 	Handy.fs_loaded_files[file] = { assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))() }
 	return unpack(Handy.fs_loaded_files[file])
 end
-function Handy.load_files(files, prefix)
+function Handy.load_files(files, prefix, nocache)
 	for _, file in pairs(files) do
-		Handy.load_file(prefix .. file)
+		Handy.load_file(prefix .. file, nocache)
 	end
 end
 
-function Handy.load_directory(path, recursive)
+function Handy.load_directory(path, recursive, nocache)
 	local index_info = Handy.get_file_info(path .. "/index.lua")
 	if index_info and index_info.type == "file" then
 		Handy.load_file(path .. "/index.lua")
@@ -75,10 +76,10 @@ function Handy.load_directory(path, recursive)
 		local info = Handy.get_file_info(partial_path)
 		if info.type == "directory" then
 			if recursive then
-				Handy.load_directory(partial_path, recursive)
+				Handy.load_directory(partial_path, recursive, nocache)
 			end
 		elseif info.type == "file" then
-			Handy.load_file(partial_path)
+			Handy.load_file(partial_path, nocache)
 		end
 	end
 end
@@ -117,7 +118,7 @@ if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
 Handy mod installed incorrectly.
 
 To fix this, do the followings:
-- Make sure mod is not "nested" (so there's no folder in folder like "/Mods/HandyBalatro/HandyBalatro")
+- Make sure mod is not "nested" (so there's no "folder in folder" like "/Mods/HandyBalatro/HandyBalatro")
 - Optionally, if mod in .zip archive, unzip it
 ]])
 		end
@@ -153,5 +154,4 @@ Handy.load_file("src/index.lua")
 -- TODO: cleanup
 -- 1. mp_extension
 -- 2. insta_actions - playable consumeables
--- 3. dangerous_actions :skull: :again:
 -- 6. regular_keybinds

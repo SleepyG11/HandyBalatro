@@ -8,9 +8,8 @@ if not Handy then
 
 Handy mod installed incorrectly.
 
-To fix this, do one of the followings:
-- Update Lovely to 0.9.0 or newer
-- Make sure mod is not "nested" (folder in folder), like "/Mods/HandyBalatro/HandyBalatro"
+To fix this, do the followings:
+- Make sure mod is not "nested" (so there's no "folder in folder" like "/Mods/HandyBalatro/HandyBalatro")
 - Optionally, if mod in .zip archive, unzip it
 ]])
 end
