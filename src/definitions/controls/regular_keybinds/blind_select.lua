@@ -1,14 +1,17 @@
 Handy.controls.register({
 	key = "regular_keybinds_skip_blind",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_skip_blind, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_skip_blind
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -36,14 +39,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_select_blind",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_select_blind, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_select_blind
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -68,14 +74,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_reroll_boss",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_reroll_boss, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_reroll_boss
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 

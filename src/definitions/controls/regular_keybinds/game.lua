@@ -1,14 +1,17 @@
 Handy.controls.register({
 	key = "regular_keybinds_restart",
 	get_module = function()
-		return Handy.cc.regular_keybinds_restart, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_restart
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		hold = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_mp = true,
 	only_in_run = true,
 	only_holdable_input = true,
@@ -60,14 +63,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_quick_restart",
 	get_module = function()
-		return Handy.cc.regular_keybinds_quick_restart, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_quick_restart
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_mp = true,
 	only_safe_input = true,
 
@@ -93,7 +99,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_save_run",
 	get_module = function()
-		return Handy.cc.regular_keybinds_save_run, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_save_run
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -103,7 +112,7 @@ Handy.controls.register({
 	no_stop_use = true,
 	only_in_run = true,
 	no_mp = true,
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.regular_keybinds.can_save_run(self, ctx, args, false)
@@ -116,14 +125,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_reload_run",
 	get_module = function()
-		return Handy.cc.regular_keybinds_reload_run, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_reload_run
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_mp = true,
 	only_safe_input = true,
 
@@ -191,14 +203,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_restart_game",
 	get_module = function()
-		return Handy.cc.regular_keybinds_restart_game, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_restart_game
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_mp = true,
 	only_safe_input = true,
 
@@ -210,14 +225,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_copy_log_file",
 	get_module = function()
-		return Handy.cc.regular_keybinds_copy_log_file, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_copy_log_file
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	execute = function(self, ctx, args)
 		pcall(function()

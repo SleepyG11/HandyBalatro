@@ -11,7 +11,7 @@ Handy.controls.register({
 	dangerous = true,
 	only_safe_input = true,
 	no_mp = true,
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	execute = function()
 		local key_1, key_2 = "keys_1", "keys_2"
@@ -43,7 +43,7 @@ Handy.controls.register({
 	dangerous = true,
 	only_safe_input = true,
 	no_mp = true,
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	execute = function()
 		local t = {

@@ -1,7 +1,10 @@
 Handy.controls.register({
 	key = "regular_keybinds_run_info",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_run_info, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_run_info
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -21,7 +24,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_run_info_binds",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_run_info_blinds, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_run_info_blinds
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -43,7 +49,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_view_deck",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_view_deck, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_view_deck
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -63,7 +72,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_view_lobby_info",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_lobby_info, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_lobby_info
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {

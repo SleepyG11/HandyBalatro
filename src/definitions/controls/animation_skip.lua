@@ -1,7 +1,10 @@
 Handy.controls.register({
 	key = "animation_skip_toggle_temp_disabled",
 	get_module = function(self)
-		return Handy.cc.animation_skip_toggle_temp_disabled, { Handy.cc.animation_skip }
+		return Handy.cc.animation_skip_toggle_temp_disabled
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
 	end,
 
 	contexts = {
@@ -16,7 +19,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "animation_skip_increase",
 	get_module = function(self)
-		return Handy.cc.animation_skip_increase, { Handy.cc.animation_skip }
+		return Handy.cc.animation_skip_increase
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
 	end,
 
 	contexts = {
@@ -31,7 +37,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "animation_skip_decrease",
 	get_module = function(self)
-		return Handy.cc.animation_skip_decrease, { Handy.cc.animation_skip }
+		return Handy.cc.animation_skip_decrease
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
 	end,
 
 	contexts = {

@@ -10,7 +10,7 @@ Handy.controls.register({
 		card = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
@@ -32,7 +32,7 @@ Handy.controls.register({
 		tag = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
@@ -55,7 +55,7 @@ Handy.controls.register({
 		card = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
@@ -77,7 +77,7 @@ Handy.controls.register({
 		tag = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,
@@ -100,7 +100,7 @@ Handy.controls.register({
 		card = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_sell_disabled_in_mp,
@@ -122,7 +122,7 @@ Handy.controls.register({
 		tag = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 
 	dangerous = true,
 	no_mp = Handy.dangerous_actions.is_remove_disabled_in_mp,

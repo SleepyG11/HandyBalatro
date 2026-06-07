@@ -1,7 +1,10 @@
 Handy.controls.register({
 	key = "hand_selection_insta_highlight",
 	get_module = function(self)
-		return Handy.cc.hand_selection_insta_highlight, { Handy.cc.hand_selection }
+		return Handy.cc.hand_selection_insta_highlight
+	end,
+	get_deps = function(self)
+		return { Handy.cc.hand_selection }
 	end,
 
 	contexts = {
@@ -68,7 +71,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "hand_selection_deselect_hand",
 	get_module = function(self)
-		return Handy.cc.hand_selection_deselect_hand, { Handy.cc.hand_selection }
+		return Handy.cc.hand_selection_deselect_hand
+	end,
+	get_deps = function(self)
+		return { Handy.cc.hand_selection }
 	end,
 
 	contexts = {
@@ -125,7 +131,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "hand_selection_entire_f_hand",
 	get_module = function(self)
-		return Handy.cc.hand_selection_entire_f_hand, { Handy.cc.hand_selection }
+		return Handy.cc.hand_selection_entire_f_hand
+	end,
+	get_deps = function(self)
+		return { Handy.cc.hand_selection }
 	end,
 
 	contexts = {

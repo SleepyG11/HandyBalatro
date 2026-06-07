@@ -1,14 +1,17 @@
 Handy.controls.register({
 	key = "regular_keybinds_reroll_shop",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_reroll_shop, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_reroll_shop
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -40,14 +43,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_leave_shop",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_leave_shop, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_leave_shop
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -70,7 +76,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_skip_booster",
 	get_module = function()
-		return Handy.cc.regular_keybinds_skip_booster, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_skip_booster
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -78,7 +87,7 @@ Handy.controls.register({
 		hold = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	only_in_run = true,
 	no_stop_use = true,
 

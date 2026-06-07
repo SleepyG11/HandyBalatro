@@ -1,14 +1,17 @@
 Handy.controls.register({
 	key = "regular_keybinds_play",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_play, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_play
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -39,14 +42,17 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_discard",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_discard, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_discard
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
 		input_trigger = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -78,7 +84,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_change_sort_rank",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_sort_by_rank, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_sort_by_rank
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -100,7 +109,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_change_sort_suit",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_sort_by_suit, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_sort_by_suit
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -122,7 +134,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_toggle_sort",
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_toggle_sort, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_toggle_sort
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {

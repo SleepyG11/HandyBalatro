@@ -91,8 +91,6 @@ function Handy.controls.is_valid_context(item, ctx)
 		return false
 	end
 	if item.contexts then
-		-- 2 separate cases for optimization reasons
-		-- TODO: check does this even helps?
 		if ctx.hold then
 			if not item.contexts.hold then
 				return false
@@ -121,7 +119,7 @@ function Handy.controls.is_valid_context(item, ctx)
 end
 function Handy.controls.is_valid_state(item)
 	-- Mod active check
-	if item.allow_mod_inactive and not Handy.b_is_mod_active() then
+	if not item.allow_mod_inactive and not Handy.b_is_mod_active() then
 		return false
 	end
 	-- Dangerous check
@@ -146,57 +144,52 @@ function Handy.controls.resolve_control_context(item, ctx)
 end
 
 function Handy.controls.can_execute_control(item, ctx, args)
-	if type(item) == "string" then
-		item = Handy.controls.dictionary[item]
-	end
 	-- Cant execute nothing or non-executable
 	if not item then
-		return false, "no_item"
+		return false
 	end
 	args = args or {}
 	ctx = ctx or args.ctx
 
-	local module, deps = item:get_module()
-	module = Handy.m(module)
+	-- Mod active check
+	if not args.allow_mod_inactive and not item.allow_mod_inactive and not Handy.b_is_mod_active() then
+		return false
+	end
+	-- Dangerous keybind check
+	if not args.allow_dangerous and item.dangerous and not Handy.b_is_dangerous_actions_active() then
+		return false
+	end
+	-- In run check
+	if not args.allow_not_in_run and item.only_in_run and not Handy.b_is_in_run() then
+		return false
+	end
+	-- Stop use state check
+	if not args.allow_stop_use and item.no_stop_use and Handy.b_is_stop_use() then
+		return false
+	end
 
+	local module = Handy.m(item:get_module())
 	if not module then
-		return false, "no_module"
+		return false
 	end
 
 	local allow_disabled = args.allow_disabled or item.allow_disabled
 
 	-- Module inactive check
 	if not allow_disabled and not module.enabled then
-		return false, "module_disabled"
-	end
-	-- Mod active check
-	if not args.allow_mod_inactive and not item.allow_mod_inactive and not Handy.b_is_mod_active() then
-		return false, "mod_disabled"
-	end
-	-- Dangerous keybind check
-	if not args.allow_dangerous and item.dangerous and not Handy.b_is_dangerous_actions_active() then
-		return false, "dangerous_disabled"
-	end
-	-- In run check
-	if not args.allow_not_in_run and item.only_in_run and not Handy.b_is_in_run() then
-		return false, "not_in_run"
-	end
-	-- Stop use state check
-	if not args.allow_stop_use and item.no_stop_use and Handy.b_is_stop_use() then
-		return false, "stop_use"
+		return false
 	end
 
-	local ctx_error = nil
 	if ctx and not args.allow_any_context then
-		ctx, ctx_error = Handy.controls.resolve_control_context(item, ctx)
-		if ctx_error then
-			return false, ctx_error
+		ctx = Handy.controls.resolve_control_context(item, ctx)
+		if not ctx then
+			return false
 		end
 	end
 
 	-- MP check
 	if not args.allow_mp and item.no_mp and Handy.disabled_in_mp_check(item.no_mp) then
-		return false, "mp"
+		return false
 	end
 
 	-- Module keybinds check
@@ -204,32 +197,34 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		not args.no_keybinds
 		and not Handy.controls.is_module_keys_hold(module, {
 			ctx = ctx,
-			require_exact = item.require_exact_keys,
+			require_exact = item.require_exact_keys_input,
 			include_release = args.include_release,
 		})
 	then
-		return false, "keybinds_mismatch"
+		return false
 	end
 
-	deps = deps or {}
-	for _, dep in ipairs(deps) do
-		-- Deps enabled check
-		if not allow_disabled and not Handy.controls.is_module_enabled(dep) then
-			return false, "deps_disabled"
-		end
-		-- Deps keybinds check if needed (?)
-		if
-			not args.no_keybinds
-			and deps.with_keybinds
-			and not Handy.controls.is_module_keys_hold(dep, {
-				require_exact = dep.require_exact,
-			})
-		then
-			return false, "deps_keybinds_mismatch"
+	local deps = item:get_deps()
+	if deps then
+		for _, dep in ipairs(deps) do
+			-- Deps enabled check
+			if not allow_disabled and not Handy.controls.is_module_enabled(dep) then
+				return false
+			end
+			-- Deps keybinds check if needed (?)
+			if
+				not args.no_keybinds
+				and deps.with_keybinds
+				and not Handy.controls.is_module_keys_hold(dep, {
+					require_exact = dep.require_exact_keys_input,
+				})
+			then
+				return false
+			end
 		end
 	end
 
-	return true, args.data
+	return true
 end
 function Handy.controls.execute_control(key, ctx, args)
 	ctx = Handy.controller.non_empty_context(ctx)

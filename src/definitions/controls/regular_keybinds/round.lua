@@ -1,7 +1,10 @@
 Handy.controls.register({
 	key = "regular_keybinds_start_fantoms_preview",
 	get_module = function()
-		return Handy.cc.regular_keybinds_start_fantoms_preview, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_start_fantoms_preview
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -30,7 +33,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_cash_out",
 	get_module = function()
-		return Handy.cc.regular_keybinds_cash_out, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_cash_out
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -78,7 +84,10 @@ Handy.controls.register({
 Handy.controls.register({
 	key = "regular_keybinds_not_just_yet_interaction",
 	get_module = function()
-		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.cc.regular_keybinds }
+		return Handy.cc.regular_keybinds_not_just_yet_interaction
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
 	end,
 
 	contexts = {
@@ -86,7 +95,7 @@ Handy.controls.register({
 		input_press = true,
 	},
 
-	require_exact_keys = true,
+	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 

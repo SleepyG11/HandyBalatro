@@ -11,7 +11,7 @@ Handy.UI.data = {}
 
 function Handy.UI.cleanup(full)
 	if full then
-		Handy.UI.data = {}
+		EMPTY(Handy.UI.data)
 	end
 	G.E_MANAGER:clear_queue("handy_config")
 

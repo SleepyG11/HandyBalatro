@@ -302,16 +302,21 @@ function Handy.config.migrate(old_config, to)
 end
 
 -- Getting calculated module data
-
+Handy.config.modules_cache = {}
 function Handy.config.get_module(module)
 	if not module then
 		return nil
 	end
+	if Handy.config.modules_cache[module] then
+		return Handy.config.modules_cache[module]
+	end
+	local result = Handy.cc[module] or module
 	local override = Handy.get_module_override(module)
 	if override then
-		return Handy.utils.table_merge({}, module, override)
+		result = Handy.utils.table_merge({}, module, override)
 	end
-	return module
+	Handy.config.modules_cache[module] = result
+	return result
 end
 function Handy.get_module_override(module)
 	return nil
@@ -321,3 +326,7 @@ function Handy.m(module)
 end
 
 Handy.config.load()
+
+Handy.e_mitter.on("update", function(dt)
+	EMPTY(Handy.config.modules_cache)
+end)
