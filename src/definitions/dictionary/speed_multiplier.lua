@@ -8,7 +8,7 @@ Handy.dictionary.register({
 	end,
 	loc_vars = function(self)
 		return {
-			key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
+			-- key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
 			vars = { "x128" },
 		}
 	end,

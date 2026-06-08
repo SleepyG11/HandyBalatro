@@ -191,13 +191,6 @@ return {
 				text = {
 					"Select mod you used before",
 				},
-			},
-			-- [Left Mouse, Hand deselection]
-			hand_selection_mode_advanced = {
-				name = "Hand selection implementation",
-				text = {
-					"Select mod you used before",
-				},
 				unlock = {
 					"Affects how some nuances of",
 					"{C:attention}hand selection{} and {C:attention}deselection{} works",
@@ -325,13 +318,6 @@ return {
 				text = {
 					"Increase game speed",
 				},
-			},
-			-- [128x]
-			speed_multiplier_advanced = {
-				name = "Speed Multiplier",
-				text = {
-					"Increase game speed",
-				},
 				unlock = {
 					"As name suggests, {C:attention}multiplies{} game speed,",
 					"which means default value is always {C:attention}1x{}",
@@ -395,26 +381,18 @@ return {
 			move_highlight_one_left = {
 				name = { "Precise selection: One left" },
 				text = {},
-			},
-			-- []
-			move_highlight_one_left_advanced = {
-				name = { "Precise selection: One left" },
-				text = {},
 				unlock = {
-					"You can {C:attention}hold{} this keybind to keep moving",
+					"You can {C:attention}hold{} this keybind",
+					"to keep moving faster",
 				},
 			},
 			-- []
 			move_highlight_one_right = {
 				name = { "Precise selection: One right" },
 				text = {},
-			},
-			-- []
-			move_highlight_one_right_advanced = {
-				name = { "Precise selection: One right" },
-				text = {},
 				unlock = {
-					"You can {C:attention}hold{} this keybind to keep moving",
+					"You can {C:attention}hold{} this keybind",
+					"to keep moving faster",
 				},
 			},
 			-- []

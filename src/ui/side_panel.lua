@@ -18,67 +18,67 @@ function Handy.UI.attach_side_panel_content()
 					Handy.UI.CP.small_option_cycle(Handy.D.dictionary.keybinds_trigger_mode),
 				},
 			},
-			Handy.UI.CP.r_sep(0.1),
-			{
-				n = G.UIT.R,
-				config = { align = "cm", maxw = 2.8 },
-				nodes = {
-					Handy.UI.CP.c_sep(0.1),
-					{
-						n = G.UIT.C,
-						config = { align = "cl" },
-						nodes = {
-							{
-								n = G.UIT.R,
-								config = { align = "cr", maxw = 2 },
-								nodes = {
-									{
-										n = G.UIT.T,
-										config = {
-											text = Handy.L.dictionary("handy_advanced_mode"),
-											scale = 0.25,
-											colour = G.C.UI.TEXT_LIGHT,
-										},
-									},
-								},
-							},
-							Handy.UI.CP.r_sep(0.05),
-							{
-								n = G.UIT.R,
-								config = { align = "cr", maxw = 2 },
-								nodes = {
-									{
-										n = G.UIT.T,
-										config = {
-											text = Handy.L.dictionary("handy_advanced_mode_description"),
-											scale = 0.185,
-											colour = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.7),
-										},
-									},
-								},
-							},
-						},
-					},
-					{
-						n = G.UIT.C,
-						config = { align = "cr" },
-						nodes = {
-							create_toggle({
-								scale = 0.5,
-								ref_table = Handy.cc.advanced_mode,
-								ref_value = "enabled",
-								label = "",
-								w = 0,
-								label_scale = 0,
-								callback = function()
-									Handy.config.request_save()
-									Handy.UI.rerender(true)
-								end,
-							}),
-						},
-					},
-				},
-			},
+			-- Handy.UI.CP.r_sep(0.1),
+			-- {
+			-- 	n = G.UIT.R,
+			-- 	config = { align = "cm", maxw = 2.8 },
+			-- 	nodes = {
+			-- 		Handy.UI.CP.c_sep(0.1),
+			-- 		{
+			-- 			n = G.UIT.C,
+			-- 			config = { align = "cl" },
+			-- 			nodes = {
+			-- 				{
+			-- 					n = G.UIT.R,
+			-- 					config = { align = "cr", maxw = 2 },
+			-- 					nodes = {
+			-- 						{
+			-- 							n = G.UIT.T,
+			-- 							config = {
+			-- 								text = Handy.L.dictionary("handy_advanced_mode"),
+			-- 								scale = 0.25,
+			-- 								colour = G.C.UI.TEXT_LIGHT,
+			-- 							},
+			-- 						},
+			-- 					},
+			-- 				},
+			-- 				Handy.UI.CP.r_sep(0.05),
+			-- 				{
+			-- 					n = G.UIT.R,
+			-- 					config = { align = "cr", maxw = 2 },
+			-- 					nodes = {
+			-- 						{
+			-- 							n = G.UIT.T,
+			-- 							config = {
+			-- 								text = Handy.L.dictionary("handy_advanced_mode_description"),
+			-- 								scale = 0.185,
+			-- 								colour = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.7),
+			-- 							},
+			-- 						},
+			-- 					},
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 		{
+			-- 			n = G.UIT.C,
+			-- 			config = { align = "cr" },
+			-- 			nodes = {
+			-- 				create_toggle({
+			-- 					scale = 0.5,
+			-- 					ref_table = Handy.cc.advanced_mode,
+			-- 					ref_value = "enabled",
+			-- 					label = "",
+			-- 					w = 0,
+			-- 					label_scale = 0,
+			-- 					callback = function()
+			-- 						Handy.config.request_save()
+			-- 						Handy.UI.rerender(true)
+			-- 					end,
+			-- 				}),
+			-- 			},
+			-- 		},
+			-- 	},
+			-- },
 		},
 	}
 end
@@ -107,17 +107,15 @@ function Handy.UI.attach_side_panel()
 			},
 			nodes = {
 				{
-					n = G.UIT.C,
+					n = G.UIT.R,
 					config = {
 						align = "cm",
-						minh = 2.5,
 						r = 0.2,
-						padding = 0.1,
+						padding = 0.25,
 						minw = 2.85,
 						colour = G.C.L_BLACK,
 					},
-
-					nodes = { Handy.UI.CP.c_sep(1), Handy.UI.attach_side_panel_content(), Handy.UI.CP.c_sep(0) },
+					nodes = { Handy.UI.CP.c_sep(0.75), Handy.UI.attach_side_panel_content() },
 				},
 			},
 		},
@@ -125,7 +123,7 @@ function Handy.UI.attach_side_panel()
 			parent = p,
 			major = p,
 			align = "bri",
-			offset = { x = 3, y = -0.2 },
+			offset = { x = 3.1, y = -0.2 },
 		},
 	})
 	table.insert(p_draw_parent.children, 1, box)

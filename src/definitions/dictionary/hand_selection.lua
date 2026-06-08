@@ -17,7 +17,7 @@ Handy.dictionary.register({
 
 	loc_vars = function(self)
 		return {
-			key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
+			-- key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
 			vars = {
 				Handy.L.brackets(Handy.L.keys("Left Mouse")),
 				Handy.L.brackets(Handy.L.name_text("Handy_ConfigDictionary", "hand_selection_deselect_hand")),

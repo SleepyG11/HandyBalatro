@@ -63,10 +63,10 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 	local disabled = oc_values.disabled
 	-- If checkbox in advanced mode, display if we are in advanced more or module is not enabled
 	-- So user can enable it without toggling advanced mode
-	if item.checkbox.advanced and not (Handy.cc.advanced_mode.enabled or not module.enabled) then
-		opacity = true
-		disabled = true
-	end
+	-- if item.checkbox.advanced and not (Handy.cc.advanced_mode.enabled or not module.enabled) then
+	-- 	opacity = true
+	-- 	disabled = true
+	-- end
 
 	local check = Sprite(0, 0, 0.2, 0.2, G.ASSET_ATLAS["icons"], { x = 1, y = 0 })
 	check.states.drag.can = false
