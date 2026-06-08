@@ -138,7 +138,6 @@ Handy.load_file("src/index.lua")
 -- 2. keywords
 -- 4. Credits?
 -- 5. Cleanup code
---- Insta actions
 --- UI
 -- 10. touchscreen? (somehow)
 -- 11. UI for gamepad
@@ -149,7 +148,3 @@ Handy.load_file("src/index.lua")
 
 -- TODO: plans for v2.1
 -- 1. keymapper
-
--- TODO: cleanup
--- 1. mp_extension
--- 6. regular_keybinds
