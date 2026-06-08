@@ -152,5 +152,4 @@ Handy.load_file("src/index.lua")
 
 -- TODO: cleanup
 -- 1. mp_extension
--- 2. insta_actions - playable consumeables
 -- 6. regular_keybinds

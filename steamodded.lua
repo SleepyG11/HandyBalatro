@@ -31,9 +31,8 @@ setmetatable(Handy.current_mod, {
 	__index = function(t, k)
 		if k == "debug_info" then
 			local success, result = pcall(function()
-				local speed_value = Handy.speed_multiplier.get_value() ~= 1 and Handy.speed_multiplier.value_text
-					or "1x"
-				local acceleration_value = Handy.speed_multiplier.get_queue_retriggers_count() + 1
+				local speed, acceleration_value = Handy.speed_multiplier.get_value()
+				local speed_value = speed ~= 1 and Handy.speed_multiplier.value_text or "1x"
 				local debug_animation_levels = {
 					[1] = "None",
 					[2] = "Messages",
@@ -47,7 +46,7 @@ setmetatable(Handy.current_mod, {
 					["Speed Multiplier"] = string.format(
 						"%s | Event queue acceleration: %s | Animation Skip: %s",
 						speed_value,
-						acceleration_value,
+						acceleration_value + 1,
 						tostring(animation_value)
 					),
 				}
