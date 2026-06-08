@@ -99,7 +99,28 @@ function Handy.insta_actions.crawl_for_shop_buttons(card, result, cleanup, data)
 		end
 	end
 end
-function Handy.insta_actions.crawl_for_other_buttons(card, result, cleanup, data) end
+function Handy.insta_actions.crawl_for_other_buttons(card, result, cleanup, data)
+	-- Playable consumeables
+	if card.area == G.hand and card.ability.consumeable then
+		local success, element = pcall(function()
+			-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
+			return data.card_buttons_ui.UIRoot.children[1].children[2].children[1].children[1]
+		end)
+		if success and Handy.insta_actions.is_available_button_element(element) then
+			if element.config and (element.config.button or element.config.func) then
+				result["other_playable_consumeable"] = {
+					key = "other_playable_consumeable",
+					type = "other",
+					element = element,
+					func = element.config.func,
+					button = element.config.button,
+					action = element.config.handy_insta_action or nil,
+					playable_consumeable = true,
+				}
+			end
+		end
+	end
+end
 
 function Handy.insta_actions.collect_card_buttons(card, result, cleanup)
 	local data = {}
@@ -131,8 +152,6 @@ end
 ---
 
 function Handy.insta_actions.get_use_button(card, result, data)
-	-- TODO: playable consumeable
-
 	-- Prevent cards to be selected when usage is required:
 	-- Alchemical cards, Cines
 	-- Is this even needed?
@@ -145,23 +164,12 @@ function Handy.insta_actions.get_use_button(card, result, data)
 		end
 	end
 	local is_booster_pack_card = Handy.insta_actions.is_booster_pack_card(card)
-	return result.attach_buy_and_use
+	return result.other_playable_consumeable
+		or result.attach_buy_and_use
 		or result.uas_can_use_consumeable
 		or (not is_booster_pack_card and result.attach_use)
 		or result.shop_buy_and_use_button
 		or nil
-
-	-- if card.area == G.hand and card.ability.consumeable then
-	-- 	local success, playale_consumeable_button = pcall(function()
-	-- 		-- G.UIDEF.use_and_sell_buttons(G.hand.highlighted[1]).nodes[1].nodes[2].nodes[1].nodes[1]
-	-- 		return card_buttons_ui.UIRoot.children[1].children[2].children[1].children[1]
-	-- 	end)
-	-- 	if success and playale_consumeable_button then
-	-- 		target_button = playale_consumeable_button
-	-- 		is_custom_button = true
-	-- 		is_playable_consumeable = true
-	-- 	end
-	-- end
 end
 function Handy.insta_actions.get_sell_button(card, result, data)
 	for _, entry in pairs(result) do

@@ -57,7 +57,13 @@ function Handy.insta_actions.execute_card(card, buy_or_sell, use, only_sell)
 	end
 
 	if target_button then
-		-- TODO: playable consumeable
+		if target_button.playable_consumeable then
+			card.area:add_to_highlighted(card)
+			if not card.highlighted then
+				finish()
+				return false
+			end
+		end
 
 		local button = target_button.button
 		local check = not not target_button.action
@@ -81,7 +87,7 @@ function Handy.insta_actions.execute_card(card, buy_or_sell, use, only_sell)
 					return true
 				end,
 			}))
-			finish()
+			finish(target_button.playable_consumeable)
 			return true
 		end
 	end
