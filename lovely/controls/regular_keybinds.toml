@@ -16,6 +16,24 @@ match_indent = true
 
 # Handle game restart manually
 [[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''
+for k, v in pairs(self.held_keys) do
+    if v then self:key_hold_update(k, dt) end
+end
+'''
+position = "at"
+payload = '''
+Handy.ARGS.hold_update_from_controller = true
+for k, v in pairs(self.held_keys) do
+    if v then self:key_hold_update(k, dt) end
+end
+Handy.ARGS.hold_update_from_controller = nil
+'''
+match_indent = true
+
+[[patches]]
 [patches.regex]
 target = "engine/controller.lua"
 pattern = '''if key == "r" and not G.SETTINGS.paused'''

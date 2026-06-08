@@ -21,7 +21,10 @@ Handy.regular_keybinds = {
 	restart_lock = nil,
 	bypass_restart = false,
 	can_restart = function()
-		return not Handy.b_is_mod_active() or Handy.ARGS.bypass_restart
+		if Handy.ARGS.hold_update_from_controller then
+			return not Handy.b_is_mod_active() and not G.SETTINGS.paused
+		end
+		return true
 	end,
 
 	show_deck_preview_hold = false,

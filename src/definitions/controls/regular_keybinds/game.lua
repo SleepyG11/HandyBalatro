@@ -53,10 +53,8 @@ Handy.controls.register({
 		self.last_hold = 0
 		local old_hold_value = G.CONTROLLER.held_key_times.r
 		G.CONTROLLER.held_key_times.r = 999
-		Handy.ARGS.bypass_restart = true
 		G.CONTROLLER:key_hold_update("r", 0)
 		G.CONTROLLER.held_key_times.r = old_hold_value
-		Handy.ARGS.bypass_restart = nil
 		return true
 	end,
 })
@@ -87,10 +85,8 @@ Handy.controls.register({
 		G.CONTROLLER.held_key_times.r = 999
 		Handy.ARGS.skip_wipe_screen = true
 		Handy.ARGS.force_non_blocking_event = true
-		Handy.ARGS.bypass_restart = true
 		G.CONTROLLER:key_hold_update("r", 0)
 		G.CONTROLLER.held_key_times.r = old_hold_value
-		Handy.ARGS.bypass_restart = nil
 		Handy.ARGS.skip_wipe_screen = nil
 		Handy.ARGS.force_non_blocking_event = nil
 		return true
