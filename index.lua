@@ -140,7 +140,6 @@ Handy.load_file("src/index.lua")
 -- 5. Cleanup code
 --- Insta actions
 --- UI
--- 9. cutting-edge technology: scrollbar for patchnotes
 -- 10. touchscreen? (somehow)
 -- 11. UI for gamepad
 

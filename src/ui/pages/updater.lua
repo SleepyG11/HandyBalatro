@@ -20,8 +20,12 @@ function Handy.UI.updater_release_definition(release_type)
 
 	local body_lines = Handy.UI.utils.wrap_text(release.body, 100)
 
+	local scrolling_tech = SMODS and SMODS.GUI and SMODS.GUI.scrollbar
+
 	local patchnote_lines = {}
-	for _, line in ipairs(Handy.utils.table_slice(body_lines, 1, 12)) do
+	local lines_to_process = scrolling_tech and body_lines or Handy.utils.table_slice(body_lines, 1, 12)
+
+	for _, line in ipairs(lines_to_process) do
 		table.insert(patchnote_lines, {
 			n = G.UIT.R,
 			config = {
@@ -83,17 +87,105 @@ function Handy.UI.updater_release_definition(release_type)
 			},
 		},
 	}
-	local content = {
+	local content
+	if scrolling_tech then
+		local scrollbox = SMODS.UIScrollBox({
+			content = {
+				definition = {
+					n = G.UIT.ROOT,
+					config = { colour = G.C.CLEAR },
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = {},
+							nodes = patchnote_lines,
+						},
+					},
+				},
+				config = {},
+			},
+			overflow = {
+				node_config = {
+					maxh = 4.3,
+				},
+			},
+		})
+		content = {
+			n = G.UIT.R,
+			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = { align = "cm", minw = 13 },
+					nodes = {
+						{
+							n = G.UIT.O,
+							config = {
+								object = scrollbox,
+							},
+						},
+					},
+				},
+				SMODS.GUI.scrollbar({
+					ui_type = G.UIT.C,
+					scroll_collision_obj = scrollbox,
+					w = 0.25,
+					h = 4.3,
+					bg_colour = { 0, 0, 0, 0.15 },
+					knob_h = 0.25,
+					ref_table = scrollbox.scroll_progress,
+					ref_value = "y",
+				}),
+			},
+		}
+	else
+		content = {
+			n = G.UIT.R,
+			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1, minw = 13, minh = 4.5 },
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {},
+					nodes = patchnote_lines,
+				},
+			},
+		}
+	end
+
+	local open_button = {
 		n = G.UIT.R,
-		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1, minw = 13, minh = 4 },
+		config = { colour = { 0, 0, 0, 0.1 }, align = "cm", padding = 0.1, r = 0.25 },
 		nodes = {
 			{
 				n = G.UIT.C,
-				config = {},
-				nodes = patchnote_lines,
+				config = {
+					colour = G.C.BOOSTER,
+					r = 0.25,
+					padding = 0.15,
+					shadow = true,
+					minw = 3,
+					align = "cm",
+					ref_table = {
+						url = release.html_url,
+					},
+					hover = true,
+					button = "handy_open_release_page",
+				},
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = Handy.L.dictionary("b_handy_open_github"),
+							scale = 0.4,
+							colour = G.C.UI.TEXT_LIGHT,
+							shadow = true,
+						},
+					},
+				},
 			},
 		},
 	}
+
 	local footer = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.25 },
@@ -203,6 +295,7 @@ function Handy.UI.updater_release_definition(release_type)
 		nodes = {
 			header,
 			content,
+			open_button,
 			footer,
 		},
 	}
@@ -367,4 +460,7 @@ G.FUNCS.handy_updater_can_restart_game = function(e)
 end
 G.FUNCS.handy_restart_game = function()
 	Handy.utils.restart_game()
+end
+G.FUNCS.handy_open_release_page = function(e)
+	love.system.openURL(e.config.ref_table.url)
 end

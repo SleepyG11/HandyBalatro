@@ -1345,6 +1345,7 @@ return {
 			b_handy_search_placeholder = "Search...",
 			b_handy_search = "Search",
 			b_handy_clear = "Clear",
+			b_handy_open_github = "Open on GitHub",
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",
