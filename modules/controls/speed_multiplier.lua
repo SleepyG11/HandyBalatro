@@ -33,7 +33,7 @@ Handy.speed_multiplier = {
 					events_count = events_count + #v
 				end
 				if events_count > 1 then
-					queue:update(0, true)
+					queue:update(0)
 				else
 					break
 				end
