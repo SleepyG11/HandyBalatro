@@ -24,36 +24,60 @@ target = "engine/controller.lua"
 pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'press' then'''
 position = "before"
 payload = '''
-if (focused.config.focus_args.type == 'handy_dictionary_item' or focused.config.focus_args.handy_cycle) and input_type == 'press' then
-    local proto_choices = focused.UIBox:get_group(nil, focused.config.focus_args.handy_group or focused.config.group)
-    local choices = {}
-    for k, v in ipairs(proto_choices) do
-        if (v.config.button or v.config.hover or v == focused) and (not v.config.focus_args or v.config.focus_args.type ~= "none") then choices[#choices+1] = v end
-    end
-    -- print("custom focus arg", focused.config.focus_args.handy_group or focused.config.group, button, #choices)
+if focused.config.focus_args.type == "handy" then
+    if focused.config.focus_args.handy_dictionary and input_type == 'press' then
+        local proto_choices = focused.UIBox:get_group(nil, focused.config.group)
+        local choices = {}
+        for k, v in ipairs(proto_choices) do
+            if v == focused or (v.config.focus_args and v.config.focus_args.type == "handy")
+            then choices[#choices+1] = v end
+        end
 
-    for k, v in ipairs(choices) do
-        if v == focused then
-            -- print("Focused", k)
-            if (button == 'triggerleft') then 
-                local next_i = k ~= 1 and (k-1) or (#choices)
-                if focused.config.focus_args.no_loop and next_i > k then ret = nil
-                else
-                    self:snap_to({node = choices[next_i]})
-                    self:update_cursor()
-                    ret = true
+        for k, v in ipairs(choices) do
+            if v == focused then
+                if (button == "dpup" or button == "dpdown") then
+                    local current_index = tonumber(focused.config.group:sub(2))
+                    local next_index = button == "dpup" and (current_index - 1) or (current_index + 1)
+
+                    local new_proto_choices = focused.UIBox:get_group(nil, focused.config.group:sub(1, 1)..tostring(next_index))
+                    if #new_proto_choices > 0 then
+                        local new_choice_types = {}
+                        for k, v in ipairs(new_proto_choices) do
+                            if
+                                (v.config.focus_args and v.config.focus_args.type == "handy")
+                                and (v.config.focus_args.handy_dictionary and not new_choice_types[v.config.focus_args.handy_dictionary])
+                            then new_choice_types[v.config.focus_args.handy_dictionary] = v end
+                        end
+                        local result_target = new_choice_types[focused.config.focus_args.handy_dictionary]
+                        if not result_target and focused.config.focus_args.handy_dictionary == "control_2" then
+                            result_target = new_choice_types["control"]
+                        end
+                        if result_target then
+                            self:snap_to({node = result_target})
+                            self:update_cursor()
+                            ret = true
+                        end
+                    end
+                elseif (button == 'dpleft') then 
+                    local next_i = k ~= 1 and (k-1) or (#choices)
+                    if focused.config.focus_args.no_loop and next_i > k then ret = nil
+                    else
+                        self:snap_to({node = choices[next_i]})
+                        self:update_cursor()
+                        ret = true
+                    end
+                elseif (button == 'dpright') then 
+                    local next_i = k ~= #choices and (k+1) or (1)
+                    if focused.config.focus_args.no_loop and next_i < k then ret = nil
+                    else
+                        self:snap_to({node = choices[next_i]})
+                        self:update_cursor()
+                        ret = true
+                    end
                 end
-            elseif (button == 'triggerright') then 
-                local next_i = k ~= #choices and (k+1) or (1)
-                if focused.config.focus_args.no_loop and next_i < k then ret = nil
-                else
-                    self:snap_to({node = choices[next_i]})
-                    self:update_cursor()
-                    ret = true
-                end
+                break
+            else
             end
-            break
-        else
         end
     end
 end

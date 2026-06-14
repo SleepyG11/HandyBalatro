@@ -36,10 +36,9 @@ function Handy.UI.CP.module_keybind_button(module, key, options, additional_opti
 				only_safe = only_safe,
 				allow_multiple = allow_multiple,
 			},
-			focus_args = options.nav_wide and { nav = "wide", type = "handy_dictionary_item" }
-				or { type = "handy_dictionary_item" },
+			focus_args = options.focus_args,
+			group = options.group,
 			button = disabled and "handy_noop" or "handy_start_binding",
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{

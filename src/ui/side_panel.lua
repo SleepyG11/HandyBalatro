@@ -83,7 +83,7 @@ function Handy.UI.attach_side_panel_content()
 	}
 end
 function Handy.UI.attach_side_panel()
-	if not G.OVERLAY_MENU then
+	if not G.OVERLAY_MENU or Handy.controller.is_gamepad() then
 		return
 	end
 	local p, p_draw_parent

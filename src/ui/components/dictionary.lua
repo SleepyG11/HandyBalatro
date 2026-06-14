@@ -13,7 +13,23 @@ function Handy.UI.CP.dictionary_item_info(item)
 	end)
 	local is_loc_loaded = success and loc_table and #loc_table > 0
 	if not (item.info_func or is_loc_loaded) then
-		return nil
+		return {
+			n = G.UIT.C,
+			config = {
+				minh = 0.305,
+				maxh = 0.305,
+				minw = 0.305,
+				maxw = 0.305,
+				r = 0.1,
+				align = "cm",
+
+				focus_args = {
+					type = "handy",
+					handy_dictionary = "info",
+				},
+				group = "d" .. Handy.UI.__global_d_counter,
+			},
+		}
 	end
 
 	return {
@@ -34,10 +50,11 @@ function Handy.UI.CP.dictionary_item_info(item)
 			func = item.info_func or "handy_setup_hover_popups",
 			handy_item = item,
 
-			focus_args = { type = "handy_dictionary_item" },
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
-
-			id = "handy_item_info",
+			focus_args = {
+				type = "handy",
+				handy_dictionary = "info",
+			},
+			group = "d" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -94,7 +111,6 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 			focus_args = { funnel_from = true },
 			func = "handy_setup_dictionary_checkbox_alert",
 			handy_item = item,
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -132,9 +148,10 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 							func = "toggle",
 							focus_args = {
 								funnel_to = true,
-								type = "handy_dictionary_item",
-								handy_group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+								type = "handy",
+								handy_dictionary = "toggle",
 							},
+							group = "d" .. Handy.UI.__global_d_counter,
 						},
 						nodes = {
 							{ n = G.UIT.O, config = { object = check } },
@@ -158,7 +175,11 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 		n = G.UIT.C,
 		config = {},
 		nodes = {
-			Handy.UI.CP.module_keybind_button(module, key_1, options, { dangerous = item.dangerous }),
+			Handy.UI.CP.module_keybind_button(module, key_1, options, {
+				dangerous = item.dangerous,
+				focus_args = { type = "handy", handy_dictionary = "control" },
+				group = "d" .. Handy.UI.__global_d_counter,
+			}),
 			{
 				n = G.UIT.C,
 				config = { align = "cm", minw = 0.4, maxw = 0.4 },
@@ -169,7 +190,11 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 					},
 				},
 			} or nil,
-			Handy.UI.CP.module_keybind_button(module, key_2, options, { dangerous = item.dangerous }),
+			Handy.UI.CP.module_keybind_button(module, key_2, options, {
+				dangerous = item.dangerous,
+				focus_args = { type = "handy", handy_dictionary = "control_2" },
+				group = "d" .. Handy.UI.__global_d_counter,
+			}),
 		},
 	}
 end
@@ -196,8 +221,9 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 	args.l = "<"
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
-	args.focus_args.type = "cycle"
+	args.focus_args.type = "handy"
 	args.focus_args.handy_cycle = true
+	args.focus_args.handy_dictionary = "control"
 
 	local disabled = false
 
@@ -214,7 +240,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -372,8 +398,8 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	args.l = "<"
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
-	args.focus_args.type = "cycle"
-	args.focus_args.handy_cycle = true
+	args.focus_args.type = "handy"
+	args.focus_args.handy_dictionary = "control"
 
 	local disabled = #args.options < 2 or args.disabled
 	local pips = {}
@@ -404,7 +430,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -553,8 +579,8 @@ function Handy.UI.CP.dictionary_item_slider(item)
 			min_h = args.h,
 			r = 0.1,
 			colour = G.C.CLEAR,
-			focus_args = { type = "slider", handy_cycle = true },
-			group = "handy_dictionary_item" .. Handy.UI.__global_d_counter,
+			focus_args = { type = "handy", handy_slider = true, handy_dictionary = "control" },
+			group = "d" .. Handy.UI.__global_d_counter,
 		},
 		nodes = {
 			{
@@ -633,6 +659,143 @@ function Handy.UI.CP.dictionary_item(item, options)
 		key = item.key,
 	})
 
+	local left_side = {
+		n = G.UIT.C,
+		config = {
+			align = "c",
+			focus_args = {
+				type = "handy",
+				handy_dictionary = "name",
+				nav = "wide",
+			},
+			group = "d" .. Handy.UI.__global_d_counter,
+			hover = true,
+			func = item.info_func or "handy_setup_hover_popups",
+			handy_item = item,
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = { minw = 0.4, align = "c", minh = 0.305 },
+				nodes = {
+					item.checkbox and Handy.UI.CP.dictionary_item_checkbox(item) or {
+						n = G.UIT.C,
+						config = {
+							hover = true,
+							minw = 0.305,
+							minh = 0.305,
+							align = "cm",
+							r = 0.25,
+							focus_args = {
+								type = "handy",
+								handy_dictionary = "toggle",
+								nav = "wide",
+							},
+							group = "d" .. Handy.UI.__global_d_counter,
+						},
+					},
+				},
+			},
+			Handy.UI.CP.c_sep(0.1),
+			{
+				n = G.UIT.C,
+				config = {
+					align = "c",
+				},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							minw = 4,
+							maxw = 4,
+							align = "c",
+						},
+						nodes = {
+							Handy.L.name(res.set, res.key, {
+								align = "c",
+								default_col = G.C.UI.TEXT_LIGHT,
+								minw = 4,
+								maxw = 4,
+								vars = res.vars or {},
+								scale = 0.85,
+							}),
+						},
+					},
+					{
+						n = G.UIT.R,
+						config = {
+							maxw = 5.5,
+						},
+						nodes = {
+							Handy.L.description(res.set, res.key, {
+								align = "c",
+								default_col = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.6),
+								maxw = 4,
+								scale = 0.7,
+								minh = 0.3 * 0.7,
+								vars = res.vars or {},
+							}),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	local has_any_content = item.keybind or item.simple_option_cycle or item.option_cycle or item.slider
+
+	local right_side = {
+		n = G.UIT.C,
+		config = {
+			minw = 7.15,
+			align = "cm",
+		},
+		nodes = {
+			item.keybind and {
+				n = G.UIT.R,
+				nodes = {
+					Handy.UI.CP.dictionary_item_keybind(item) or nil,
+				},
+			} or nil,
+			item.simple_option_cycle and {
+				n = G.UIT.R,
+				align = "m",
+				nodes = {
+					Handy.UI.CP.dictionary_item_simple_option_cycle(item),
+				},
+			} or nil,
+			item.option_cycle and {
+				n = G.UIT.R,
+				align = "m",
+				nodes = {
+					Handy.UI.CP.dictionary_item_option_cycle(item),
+				},
+			} or nil,
+			item.slider and {
+				n = G.UIT.R,
+				align = "m",
+				nodes = {
+					Handy.UI.CP.dictionary_item_slider(item),
+				},
+			} or nil,
+			(not has_any_content) and {
+				n = G.UIT.R,
+				config = {
+					align = "cm",
+					minw = 7.1,
+					minh = 0.305,
+					r = 0.25,
+					hover = true,
+					focus_args = {
+						type = "handy",
+						handy_dictionary = "control",
+					},
+					group = "d" .. Handy.UI.__global_d_counter,
+				},
+			} or nil,
+		},
+	}
+
 	return {
 		n = G.UIT.R,
 		config = {
@@ -644,96 +807,9 @@ function Handy.UI.CP.dictionary_item(item, options)
 			{
 				n = G.UIT.R,
 				nodes = {
-					{
-						n = G.UIT.C,
-						config = { minw = 0.4, align = "c", minh = 0.305 },
-						nodes = {
-							item.checkbox and Handy.UI.CP.dictionary_item_checkbox(item) or nil,
-						},
-					},
-					Handy.UI.CP.c_sep(0.1),
-					{
-						n = G.UIT.C,
-						config = {
-							align = "c",
-							hover = true,
-							func = item.info_func or "handy_setup_hover_popups",
-							handy_item = item,
-						},
-						nodes = {
-							{
-								n = G.UIT.R,
-								config = {
-									minw = 4,
-									maxw = 4,
-									align = "c",
-								},
-								nodes = {
-									Handy.L.name(res.set, res.key, {
-										align = "c",
-										default_col = G.C.UI.TEXT_LIGHT,
-										minw = 4,
-										maxw = 4,
-										vars = res.vars or {},
-										scale = 0.85,
-									}),
-								},
-							},
-							{
-								n = G.UIT.R,
-								config = {
-									maxw = 5.5,
-								},
-								nodes = {
-									Handy.L.description(res.set, res.key, {
-										align = "c",
-										default_col = adjust_alpha(G.C.UI.TEXT_LIGHT, 0.6),
-										maxw = 4,
-										scale = 0.7,
-										minh = 0.3 * 0.7,
-										vars = res.vars or {},
-									}),
-								},
-							},
-						},
-					},
+					left_side,
 					Handy.UI.CP.c_sep(0.75),
-					{
-						n = G.UIT.C,
-						config = {
-							minw = 7.15,
-							align = "cm",
-						},
-						nodes = {
-							item.keybind and {
-								n = G.UIT.R,
-								nodes = {
-									Handy.UI.CP.dictionary_item_keybind(item) or nil,
-								},
-							} or nil,
-							item.simple_option_cycle and {
-								n = G.UIT.R,
-								align = "m",
-								nodes = {
-									Handy.UI.CP.dictionary_item_simple_option_cycle(item),
-								},
-							} or nil,
-							item.option_cycle and {
-								n = G.UIT.R,
-								align = "m",
-								nodes = {
-									Handy.UI.CP.dictionary_item_option_cycle(item),
-								},
-							} or nil,
-							item.slider and {
-								n = G.UIT.R,
-								align = "m",
-								nodes = {
-									Handy.UI.CP.dictionary_item_slider(item),
-								},
-							} or nil,
-						},
-					},
+					right_side,
 					{
 						n = G.UIT.C,
 						config = {
