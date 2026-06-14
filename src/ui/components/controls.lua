@@ -254,7 +254,7 @@ function Handy.UI.CP.small_option_cycle(item)
 	args.l = "<"
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
-	args.focus_args.type = "cycle"
+	args.focus_args.type = "handy"
 	args.focus_args.handy_cycle = true
 
 	local disabled = #args.options < 2

@@ -400,6 +400,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	args.focus_args = args.focus_args or {}
 	args.focus_args.type = "handy"
 	args.focus_args.handy_dictionary = "control"
+	args.focus_args.handy_cycle = true
 
 	local disabled = #args.options < 2 or args.disabled
 	local pips = {}

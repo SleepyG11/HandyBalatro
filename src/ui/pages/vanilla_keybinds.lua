@@ -224,6 +224,7 @@ function Handy.UI.vanilla_keybinds_page_definition()
 			create_tabs({
 				tabs = tabs,
 				colour = G.C.BOOSTER,
+				no_shoulders = true,
 			}),
 		},
 	}

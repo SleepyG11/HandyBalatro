@@ -19,6 +19,9 @@ function Handy.UI.CP.example_preset(key)
 					key = key,
 				},
 				button = "handy_apply_preset_key",
+				focus_args = {
+					nav = "wide",
+				},
 			}),
 			Handy.UI.CP.c_sep(0.1),
 			Handy.L.description("Handy_Preset", key, {

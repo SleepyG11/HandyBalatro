@@ -3,21 +3,8 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Make custom option cycles work on right direction
-[[patches]]
-[patches.pattern]
-target = "engine/controller.lua"
-pattern = '''focused.children[3]:click()'''
-position = "after"
-payload = '''
-if focused.config.focus_args.handy_cycle then
-    focused.children[5]:click()
-end
-'''
-match_indent = true
-
-
 # Custom movement control
+# Damn this thing sucks
 [[patches]]
 [patches.pattern]
 target = "engine/controller.lua"
@@ -25,6 +12,41 @@ pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'pre
 position = "before"
 payload = '''
 if focused.config.focus_args.type == "handy" then
+    if focused.config.focus_args.handy_slider then
+        if button == 'triggerleft' then
+            self.no_holdcap = true
+            if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                G.FUNCS.slider_descreet(focused.children[1], -dt*self.held_button_times[button]*0.6)
+            end
+            if input_type == 'press' then 
+                G.FUNCS.slider_descreet(focused.children[1], -0.01)
+            end
+            ret = true
+        end
+        if button == 'triggerright' then
+            self.no_holdcap = true
+            if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                G.FUNCS.slider_descreet(focused.children[1], dt*self.held_button_times[button]*0.6)
+            end
+            if input_type == 'press' then 
+                G.FUNCS.slider_descreet(focused.children[1], 0.01)
+            end
+            ret = true
+        end
+    end
+    if focused.config.focus_args.handy_cycle and input_type == 'press' then
+        if button == "triggerleft" then
+            focused.children[1]:click()
+            ret = true
+        elseif button == "triggerright" then
+            if focused.config.focus_args.handy_imitate_vanilla_cycle then
+                focused.children[3]:click()
+            else
+                focused.children[5]:click()
+            end
+            ret = true
+        end
+    end
     if focused.config.focus_args.handy_dictionary and input_type == 'press' then
         local proto_choices = focused.UIBox:get_group(nil, focused.config.group)
         local choices = {}

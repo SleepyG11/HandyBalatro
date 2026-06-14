@@ -126,6 +126,24 @@ function Handy.UI.dictionary_tab_UIBox()
 		},
 	})
 
+	local search_cycle_focus_args = { nav = "wide", handy_cycle = true, handy_imitate_vanilla_cycle = true }
+	local search_cycle = create_option_cycle({
+		options = options,
+		w = 3.5,
+		current_option = math.min(Handy.UI.data.dictionary.page or 1, max_page),
+		colour = G.C.RED,
+		no_pips = true,
+		focus_args = search_cycle_focus_args,
+		scale = 0.7,
+
+		opt_callback = "handy_change_ui_page",
+		handy_container_id = "handy_keybinds_dictionary_render",
+		handy_ref_table = Handy.UI.data.dictionary,
+		handy_ref_value = "page",
+		handy_page_definition = Handy.UI.dictionary_tab_page_UIBox,
+	})
+	search_cycle_focus_args.type = "handy"
+
 	local footer = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, r = 0.25 },
@@ -134,21 +152,7 @@ function Handy.UI.dictionary_tab_UIBox()
 				n = G.UIT.C,
 				config = { align = "cm" },
 				nodes = {
-					create_option_cycle({
-						options = options,
-						w = 3.5,
-						current_option = math.min(Handy.UI.data.dictionary.page or 1, max_page),
-						colour = G.C.RED,
-						no_pips = true,
-						focus_args = { nav = "wide" },
-						scale = 0.7,
-
-						opt_callback = "handy_change_ui_page",
-						handy_container_id = "handy_keybinds_dictionary_render",
-						handy_ref_table = Handy.UI.data.dictionary,
-						handy_ref_value = "page",
-						handy_page_definition = Handy.UI.dictionary_tab_page_UIBox,
-					}),
+					search_cycle,
 				},
 			},
 			{

@@ -34,6 +34,9 @@ function Handy.UI.overall_tab_UIBox()
 							shadow = true,
 							hover = true,
 							button = "handy_overall_toggle_mod",
+							focus_args = {
+								nav = "wide",
+							},
 						},
 						nodes = {
 							{
