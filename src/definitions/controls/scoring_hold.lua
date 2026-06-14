@@ -6,6 +6,7 @@ Handy.controls.register({
 
 	only_holdable_input = true,
 	no_mp = true,
+	only_in_run = true,
 
 	-- TODO: use hold context
 	update = function(self, dt)

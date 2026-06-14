@@ -167,7 +167,7 @@ Handy.controller.override_node_button = function(e)
 				override_key = "regular_keybinds_show_deck_preview"
 			end
 		elseif button == "triggerright" then
-			if e.config.button == "deck_info" then
+			if e.config.button == "deck_info" and G.deck and e.UIBox.parent == G.deck then
 				override_key = "regular_keybinds_view_deck"
 			end
 		elseif button == "y" then
