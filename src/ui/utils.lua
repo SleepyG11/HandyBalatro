@@ -391,7 +391,7 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 		end
 	end
 	local trigger = "before"
-	local no_sound, no_text, no_jiggle
+	local no_sound, no_text, no_jiggle, no_timing_event
 	delay = delay * 1.25
 	if Handy.animation_skip.should_skip_animation() then
 		trigger = "immediate"
@@ -401,6 +401,7 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 		no_jiggle = true
 		extra = extra or {}
 		extra.instant = true
+		no_timing_event = true
 	elseif Handy.animation_skip.should_skip_messages() then
 		trigger = "immediate"
 		delay = 0
@@ -448,6 +449,14 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 					return true
 				end,
 			}))
+			if not no_timing_event then
+				G.E_MANAGER:add_event(Event({ -- For more precise timings
+					timer = "HANDY_TOTAL",
+					func = function()
+						return true
+					end,
+				}))
+			end
 		end
 	end
 end
