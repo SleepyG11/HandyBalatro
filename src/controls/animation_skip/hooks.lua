@@ -4,38 +4,10 @@ function attention_text(...)
 	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_animation() then
 		return
 	end
-	return attention_text_ref(...)
-end
-local card_eval_status_text_ref = card_eval_status_text
-function card_eval_status_text(...)
-	local args = { ... }
-	local extra = args[6] or {}
-	if Handy.animation_skip.should_skip_animation() then
-		if extra and extra.playing_cards_created then
-			playing_card_joker_effects(extra.playing_cards_created)
-		end
-		return
-	elseif Handy.animation_skip.should_skip_messages() then
-		if not extra.no_juice then
-			if extra.instant then
-				args[1]:juice_up(0.6, 0.1)
-				G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-			else
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						args[1]:juice_up(0.6, 0.1)
-						G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-						return true
-					end,
-				}))
-			end
-		end
-		if extra and extra.playing_cards_created then
-			playing_card_joker_effects(extra.playing_cards_created)
-		end
+	if Handy.ARGS.prevent_attention_text then
 		return
 	end
-	return card_eval_status_text_ref(...)
+	return attention_text_ref(...)
 end
 
 -- Things juicing
@@ -107,6 +79,9 @@ end
 local play_sound_ref = play_sound
 function play_sound(...)
 	if G.STATE == G.STATES.HAND_PLAYED and Handy.animation_skip.should_skip_everything() then
+		return
+	end
+	if Handy.ARGS.prevent_play_sound then
 		return
 	end
 	return play_sound_ref(...)

@@ -285,25 +285,6 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 		if Handy.animation_skip.should_skip_animation() then
 			return
 		end
-		if Handy.animation_skip.should_skip_messages() then
-			extra = extra or {}
-			if not extra.no_juice then
-				if extra.instant then
-					card:juice_up(0.6, 0.1)
-					-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-				else
-					G.E_MANAGER:add_event(Event({
-						timer = "HANDY_TOTAL",
-						func = function()
-							card:juice_up(0.6, 0.1)
-							-- G.ROOM.jiggle = G.ROOM.jiggle + 0.7
-							return true
-						end,
-					}))
-				end
-			end
-			return
-		end
 	end
 	percent = percent or (0.9 + 0.2 * math.random())
 	if dir == "down" then
@@ -409,27 +390,48 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 			config.scale = 0.7
 		end
 	end
+	local trigger = "before"
+	local no_sound, no_text, no_jiggle
 	delay = delay * 1.25
+	if Handy.animation_skip.should_skip_animation() then
+		trigger = "immediate"
+		delay = 0
+		no_text = true
+		no_sound = true
+		no_jiggle = true
+		extra = extra or {}
+		extra.instant = true
+	elseif Handy.animation_skip.should_skip_messages() then
+		trigger = "immediate"
+		delay = 0
+		no_text = true
+	end
 
 	local _result = function()
 		if extrafunc then
 			extrafunc()
 		end
-		Handy.UI.utils.attention_text({
-			text = text,
-			scale = config.scale or 1,
-			hold = delay - 0.2,
-			backdrop_colour = colour,
-			align = card_aligned,
-			major = card,
-			offset = { x = 0, y = y_off },
-			timer = extra.timer or "HANDY_TOTAL",
-			no_skip = extra.no_skip,
-		})
-		play_sound(sound, 0.8 + percent * 0.2, volume)
+		if not no_text then
+			Handy.UI.utils.attention_text({
+				text = text,
+				scale = config.scale or 1,
+				hold = delay - 0.2,
+				backdrop_colour = colour,
+				align = card_aligned,
+				major = card,
+				offset = { x = 0, y = y_off },
+				timer = extra.timer or "HANDY_TOTAL",
+				no_skip = extra.no_skip,
+			})
+		end
+		if not no_sound then
+			play_sound(sound, 0.8 + percent * 0.2, volume)
+		end
 		if not extra or not extra.no_juice then
 			card:juice_up(0.6, 0.1)
-			G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+			if not no_jiggle then
+				G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+			end
 		end
 	end
 
@@ -438,7 +440,7 @@ function Handy.UI.utils.card_eval_status_text(card, eval_type, amt, percent, dir
 			_result()
 		else
 			G.E_MANAGER:add_event(Event({ --Add bonus chips from this card
-				trigger = "before",
+				trigger = trigger,
 				delay = delay,
 				timer = "HANDY_TOTAL",
 				func = function()
