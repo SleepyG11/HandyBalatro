@@ -148,3 +148,8 @@ Handy.load_file("src/index.lua")
 
 -- TODO: plans for v2.1
 -- 1. keymapper
+
+-- TODO: gamepad
+-- 2-step select for option cycles and sliders in dictionary
+-- figure out what to do with checkbox for speed/anims in game settings
+-- what to do with panel

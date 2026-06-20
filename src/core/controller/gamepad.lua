@@ -320,3 +320,12 @@ Handy.controller.override_node_button = function(e)
 		return false
 	end
 end
+
+local old_update_axis = Controller.update_axis
+function Controller:update_axis(...)
+	local interp, b, c, d = old_update_axis(self, ...)
+	if interp == "axis_cursor" then
+		Handy.UI.data.gamepad_focused_element = nil
+	end
+	return interp, b, c, d
+end

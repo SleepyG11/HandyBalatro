@@ -86,7 +86,6 @@ function Handy.UI.options_UIBox()
 					create_tabs({
 						tabs = tabs,
 						colour = G.C.BOOSTER,
-						no_shoulders = true,
 					}),
 				},
 			},

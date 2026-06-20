@@ -12,38 +12,15 @@ pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'pre
 position = "before"
 payload = '''
 if focused.config.focus_args.type == "handy" then
-    if focused.config.focus_args.handy_slider then
-        if button == 'triggerleft' then
-            self.no_holdcap = true
-            if input_type == 'hold' and self.held_button_times[button] > 0.2 then
-                G.FUNCS.slider_descreet(focused.children[1], -dt*self.held_button_times[button]*0.6)
-            end
-            if input_type == 'press' then 
-                G.FUNCS.slider_descreet(focused.children[1], -0.01)
-            end
-            ret = true
-        end
-        if button == 'triggerright' then
-            self.no_holdcap = true
-            if input_type == 'hold' and self.held_button_times[button] > 0.2 then
-                G.FUNCS.slider_descreet(focused.children[1], dt*self.held_button_times[button]*0.6)
-            end
-            if input_type == 'press' then 
-                G.FUNCS.slider_descreet(focused.children[1], 0.01)
-            end
+    if focused.config.focus_args.handy_slider and input_type == 'press' then
+        if button == 'a' then
+            Handy.UI.data.gamepad_focused_element = focused
             ret = true
         end
     end
     if focused.config.focus_args.handy_cycle and input_type == 'press' then
-        if button == "triggerleft" then
-            focused.children[1]:click()
-            ret = true
-        elseif button == "triggerright" then
-            if focused.config.focus_args.handy_imitate_vanilla_cycle then
-                focused.children[3]:click()
-            else
-                focused.children[5]:click()
-            end
+        if button == 'a' then
+            Handy.UI.data.gamepad_focused_element = focused
             ret = true
         end
     end
@@ -101,6 +78,63 @@ if focused.config.focus_args.type == "handy" then
             else
             end
         end
+    end
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if focused and focused.config.focus_args then'''
+position = "before"
+payload = '''
+if Handy.UI.data.gamepad_focused_element then
+    if Handy.UI.data.gamepad_focused_element.REMOVED then
+        Handy.UI.data.gamepad_focused_element = nil
+    elseif input_type == 'press' and button == "a" then
+        Handy.UI.data.gamepad_focused_element = nil
+        ret = true
+        focused = nil
+    else
+        focused = Handy.UI.data.gamepad_focused_element
+        if focused.config.focus_args.handy_slider then
+            if button == 'dpleft' then
+                self.no_holdcap = true
+                if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                    G.FUNCS.slider_descreet(focused.children[1], -dt*self.held_button_times[button]*0.6)
+                end
+                if input_type == 'press' then 
+                    G.FUNCS.slider_descreet(focused.children[1], -0.01)
+                end
+                ret = true
+            end
+            if button == 'dpright' then
+                self.no_holdcap = true
+                if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                    G.FUNCS.slider_descreet(focused.children[1], dt*self.held_button_times[button]*0.6)
+                end
+                if input_type == 'press' then 
+                    G.FUNCS.slider_descreet(focused.children[1], 0.01)
+                end
+                ret = true
+            end
+        end
+        if focused.config.focus_args.handy_cycle and input_type == 'press' then
+            if button == "dpleft" then
+                focused.children[1]:click()
+                ret = true
+            elseif button == "dpright" then
+                if focused.config.focus_args.handy_imitate_vanilla_cycle then
+                    focused.children[3]:click()
+                else
+                    focused.children[5]:click()
+                end
+                ret = true
+            end
+        end
+        ret = true
+        focused = nil
     end
 end
 '''
