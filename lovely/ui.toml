@@ -12,13 +12,13 @@ pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'pre
 position = "before"
 payload = '''
 if focused.config.focus_args.type == "handy" then
-    if focused.config.focus_args.handy_slider and input_type == 'press' then
+    if focused.config.focus_args.handy_slider and not focused.config.focus_args.handy_disabled and input_type == 'press' then
         if button == 'a' then
             Handy.UI.data.gamepad_focused_element = focused
             ret = true
         end
     end
-    if focused.config.focus_args.handy_cycle and input_type == 'press' then
+    if focused.config.focus_args.handy_cycle and not focused.config.focus_args.handy_disabled and input_type == 'press' then
         if button == 'a' then
             Handy.UI.data.gamepad_focused_element = focused
             ret = true

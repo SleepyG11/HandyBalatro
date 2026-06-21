@@ -1442,6 +1442,10 @@ return {
 			handy_release_type_pre_release = "Pre-release",
 
 			handy_smods_compat_mode = "Compat mode: loading from .zip archive require updated SMODS!",
+
+			handy_gamepad_2step_select = "to select",
+			handy_gamepad_2step_adjust = "to adjust",
+			handy_gamepad_2step_deselect = "to deselect",
 		},
 	},
 }

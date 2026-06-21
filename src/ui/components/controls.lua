@@ -80,7 +80,8 @@ function Handy.UI.CP.settings_simple_option_cycle(item)
 	args.l = "<"
 	args.r = ">"
 	args.focus_args = args.focus_args or {}
-	args.focus_args.type = "cycle"
+	args.focus_args.type = "handy"
+	args.focus_args.handy_cycle = true
 
 	local disabled = false
 
@@ -97,6 +98,7 @@ function Handy.UI.CP.settings_simple_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
+			func = "handy_gamepad_2step_control",
 		},
 		nodes = {
 			{

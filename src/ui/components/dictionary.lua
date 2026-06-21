@@ -225,7 +225,8 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 	args.focus_args.handy_cycle = true
 	args.focus_args.handy_dictionary = "control"
 
-	local disabled = false
+	local disabled = args.disabled or false
+	args.focus_args.handy_disabled = disabled
 
 	local callbacks = {
 		l = item_oc.left_callback or function() end,
@@ -241,6 +242,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
 			group = "d" .. Handy.UI.__global_d_counter,
+			func = not disabled and "handy_gamepad_2step_control" or nil,
 		},
 		nodes = {
 			{
@@ -403,6 +405,8 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	args.focus_args.handy_cycle = true
 
 	local disabled = #args.options < 2 or args.disabled
+	args.focus_args.handy_disabled = disabled
+
 	local pips = {}
 	for i = 1, #args.options do
 		pips[#pips + 1] = {
@@ -432,6 +436,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
 			group = "d" .. Handy.UI.__global_d_counter,
+			func = not args.disabled and "handy_gamepad_2step_control" or nil,
 		},
 		nodes = {
 			{
@@ -506,7 +511,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 								},
 							},
 							{ n = G.UIT.R, config = { align = "cm", minh = 0.025 }, nodes = {} },
-							not disabled and choice_pips or nil,
+							choice_pips,
 						},
 					},
 				},
@@ -580,8 +585,14 @@ function Handy.UI.CP.dictionary_item_slider(item)
 			min_h = args.h,
 			r = 0.1,
 			colour = G.C.CLEAR,
-			focus_args = { type = "handy", handy_slider = true, handy_dictionary = "control" },
+			focus_args = {
+				type = "handy",
+				handy_slider = true,
+				handy_dictionary = "control",
+				handy_disabled = args.disabled,
+			},
 			group = "d" .. Handy.UI.__global_d_counter,
+			func = "handy_gamepad_2step_control",
 		},
 		nodes = {
 			{
@@ -591,12 +602,13 @@ function Handy.UI.CP.dictionary_item_slider(item)
 					minw = args.w,
 					r = 0.1,
 					min_h = args.h,
-					collideable = true,
-					hover = true,
+					collideable = Handy.controller.device.real ~= "gamepad",
+					hover = Handy.controller.device.real ~= "gamepad",
 					colour = G.C.BLACK,
 					emboss = 0.05,
 					func = "slider",
 					refresh_movement = true,
+					focus_args = { type = "none" },
 				},
 				nodes = {
 					{
@@ -608,6 +620,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 							colour = args.colour,
 							ref_table = args,
 							refresh_movement = true,
+							focus_args = { type = "none" },
 						},
 					},
 				},
@@ -755,7 +768,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 			item.keybind and {
 				n = G.UIT.R,
 				nodes = {
-					Handy.UI.CP.dictionary_item_keybind(item) or nil,
+					Handy.UI.CP.dictionary_item_keybind(item),
 				},
 			} or nil,
 			item.simple_option_cycle and {
