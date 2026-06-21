@@ -64,6 +64,45 @@ local controller_overrides = {
 			}
 		end,
 	},
+	insta_actions_buy = {
+		scale = 0.925 * 0.45,
+		align = "tli",
+		offset = {
+			x = 0.3,
+			y = 0.05,
+		},
+		get_module = function()
+			return Handy.cc.insta_actions_buy_or_sell, {
+				Handy.cc.insta_actions,
+			}
+		end,
+	},
+	insta_actions_sell = {
+		scale = 0.925 * 0.45,
+		align = "tri",
+		offset = {
+			x = -0.3,
+			y = 0.05,
+		},
+		get_module = function()
+			return Handy.cc.insta_actions_buy_or_sell, {
+				Handy.cc.insta_actions,
+			}
+		end,
+	},
+	insta_actions_use = {
+		scale = 0.925 * 0.45,
+		align = "tli",
+		offset = {
+			x = 0.295,
+			y = 0.05,
+		},
+		get_module = function()
+			return Handy.cc.insta_actions_use, {
+				Handy.cc.insta_actions,
+			}
+		end,
+	},
 }
 
 Handy.controller.gamepad_patched_buttons = {}
@@ -207,24 +246,32 @@ Handy.controller.override_node_button = function(e)
 		-- 		end
 		-- 	end
 		elseif button == "leftshoulder" or button == "rightshoulder" then
-			-- if e.parent then
-			-- 	if e.parent.config.func and e.parent.config.ref_table then
-			-- 		local actions_map = {
-			-- 			["can_buy_and_use"] = "buy_and_use",
-			-- 			["can_buy"] = "buy",
-			-- 			["can_redeem"] = "buy",
-			-- 			["can_open"] = "buy",
-			-- 			["can_use_consumeable"] = "use",
-			-- 			["can_sell_card"] = "sell",
-			-- 		}
-			-- 		local action = actions_map[e.parent.config.func]
-			-- 		if action == "buy_and_use" or action == "use" then
-			-- 			override_key, override_module = "insta_action_use", Handy.cc.insta_use
-			-- 		elseif action == "sell" or action == "buy" then
-			-- 			override_key, override_module = "insta_action_buy_or_sell", Handy.cc.insta_buy_or_sell
-			-- 		end
-			-- 	end
-			-- end
+			if e.parent then
+				if
+					e.parent.config.func
+					and e.parent.config.ref_table
+					and e.parent.config.ref_table.is
+					and e.parent.config.ref_table:is(Card)
+				then
+					local actions_map = {
+						["can_buy_and_use"] = "buy_and_use",
+						["can_buy"] = "buy",
+						["can_redeem"] = "buy",
+						["can_open"] = "buy",
+						["can_use_consumeable"] = "use",
+						["can_sell_card"] = "sell",
+						["can_select_card"] = "buy",
+					}
+					local action = actions_map[e.parent.config.func]
+					if action == "buy_and_use" or action == "use" then
+						override_key = "insta_actions_use"
+					elseif action == "sell" then
+						override_key = "insta_actions_sell"
+					elseif action == "buy" then
+						override_key = "insta_actions_buy"
+					end
+				end
+			end
 		end
 		if override_key and controller_overrides[override_key] then
 			local definition = controller_overrides[override_key]

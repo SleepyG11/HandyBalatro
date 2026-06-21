@@ -150,4 +150,4 @@ Handy.load_file("src/index.lua")
 -- 1. keymapper
 
 -- TODO: gamepad
--- what to do with panel
+-- fix a weird edge case which allows focus move to side panel only on "down" press, not "right"

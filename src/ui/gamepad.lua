@@ -62,7 +62,7 @@ function Handy.UI.custom_button_pip(args)
 				},
 			})
 		end
-		local button_sprite = Handy.UI.create_gamepad_button_sprite(button, args.scale or 0.45)
+		local button_sprite = Handy.UI.create_gamepad_button_sprite(button, (args.scale or 0.45) * 1.1)
 		if button_sprite then
 			table.insert(cols, {
 				n = G.UIT.C,
@@ -85,7 +85,7 @@ function Handy.UI.custom_button_pip(args)
 						n = G.UIT.T,
 						config = {
 							text = button or "ERROR",
-							scale = (args.scale or 0.45) * 0.5,
+							scale = (args.scale or 0.45) * 0.5 * 1.1,
 							colour = G.C.UI.TEXT_LIGHT,
 						},
 					},
@@ -146,7 +146,7 @@ function Handy.UI.custom_button_pip(args)
 		config = {
 			align = "cm",
 			colour = { 0, 0, 0, 0.4 },
-			padding = 0.04,
+			padding = 0.02,
 			r = 0.1,
 			minw = 0.45,
 			minh = 0.301,
@@ -161,7 +161,8 @@ function Handy.UI.custom_button_pip(args)
 	}
 end
 
-function Handy.UI.gamepad_2step_control_select()
+function Handy.UI.gamepad_2step_control_select(scale)
+	scale = scale or 1
 	return {
 		n = G.UIT.ROOT,
 		config = {
@@ -174,21 +175,22 @@ function Handy.UI.gamepad_2step_control_select()
 			{
 				n = G.UIT.O,
 				config = {
-					object = Handy.UI.create_gamepad_button_sprite("(A)", 0.6),
+					object = Handy.UI.create_gamepad_button_sprite("(A)", 0.6 * scale),
 				},
 			},
 			{
 				n = G.UIT.T,
 				config = {
 					text = Handy.L.dictionary("handy_gamepad_2step_select"),
-					scale = 0.32,
+					scale = 0.32 * scale,
 					colour = G.C.UI.TEXT_LIGHT,
 				},
 			},
 		},
 	}
 end
-function Handy.UI.gamepad_2step_control_deselect()
+function Handy.UI.gamepad_2step_control_deselect(scale)
+	scale = scale or 1
 	return {
 		n = G.UIT.ROOT,
 		config = {
@@ -207,13 +209,13 @@ function Handy.UI.gamepad_2step_control_deselect()
 					{
 						n = G.UIT.O,
 						config = {
-							object = Handy.UI.create_gamepad_button_sprite("(Left)", 0.6),
+							object = Handy.UI.create_gamepad_button_sprite("(Left)", 0.6 * scale),
 						},
 					},
 					{
 						n = G.UIT.O,
 						config = {
-							object = Handy.UI.create_gamepad_button_sprite("(Right)", 0.6),
+							object = Handy.UI.create_gamepad_button_sprite("(Right)", 0.6 * scale),
 						},
 					},
 				},
@@ -222,7 +224,7 @@ function Handy.UI.gamepad_2step_control_deselect()
 				n = G.UIT.T,
 				config = {
 					text = Handy.L.dictionary("handy_gamepad_2step_adjust"),
-					scale = 0.32,
+					scale = 0.32 * scale,
 					colour = G.C.UI.TEXT_LIGHT,
 				},
 			},
@@ -230,14 +232,14 @@ function Handy.UI.gamepad_2step_control_deselect()
 			{
 				n = G.UIT.O,
 				config = {
-					object = Handy.UI.create_gamepad_button_sprite("(A)", 0.6),
+					object = Handy.UI.create_gamepad_button_sprite("(A)", 0.6 * scale),
 				},
 			},
 			{
 				n = G.UIT.T,
 				config = {
 					text = Handy.L.dictionary("handy_gamepad_2step_deselect"),
-					scale = 0.32,
+					scale = 0.32 * scale,
 					colour = G.C.UI.TEXT_LIGHT,
 				},
 			},
@@ -246,17 +248,19 @@ function Handy.UI.gamepad_2step_control_deselect()
 end
 
 function G.FUNCS.handy_gamepad_2step_control(e)
-	local should_display = e.states.focus.is and Handy.controller.is_gamepad()
+	local should_display = e.states.focus.is and Handy.controller.device.real == "gamepad"
 	if should_display then
+		local args = e.config.handy_2step_args
+		local scale = args and args.scale or 1
 		local is_selected = Handy.UI.data.gamepad_focused_element == e
 		local new_content
 		if not e.children.handy_gamepad_2step then
-			new_content = is_selected and Handy.UI.gamepad_2step_control_deselect()
-				or Handy.UI.gamepad_2step_control_select()
+			new_content = is_selected and Handy.UI.gamepad_2step_control_deselect(scale)
+				or Handy.UI.gamepad_2step_control_select(scale)
 		elseif is_selected and not e.children.handy_gamepad_2step.handy_display_selected then
-			new_content = Handy.UI.gamepad_2step_control_deselect()
+			new_content = Handy.UI.gamepad_2step_control_deselect(scale)
 		elseif not is_selected and e.children.handy_gamepad_2step.handy_display_selected then
-			new_content = Handy.UI.gamepad_2step_control_select()
+			new_content = Handy.UI.gamepad_2step_control_select(scale)
 		end
 		if new_content then
 			if e.children.handy_gamepad_2step then
@@ -265,8 +269,8 @@ function G.FUNCS.handy_gamepad_2step_control(e)
 			local element = UIBox({
 				definition = new_content,
 				config = {
-					align = "tm",
-					offset = {
+					align = args and args.align or "tm",
+					offset = args and args.offset or {
 						x = 0,
 						y = -0.1,
 					},

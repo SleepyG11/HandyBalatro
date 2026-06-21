@@ -996,9 +996,8 @@ return {
 				name = "Allow MP Extension: default value",
 				text = {},
 				unlock = {
-					"When you {C:attention}create or join a lobby{}, this value",
-					"will be set by default to determine do you want",
-					"{C:mult}Multiplayer Extension{} be enabled in this lobby",
+					"When you {C:attention}create or join a lobby{},",
+					"this value will be set by default",
 				},
 			},
 		},
@@ -1039,14 +1038,6 @@ return {
 					"- Does {C:chips}not{} disables achievements",
 				},
 			},
-			tutorial_fake_alert = {
-				text = {
-					"This control is inactive until some",
-					"controls are enabled or other",
-					"conditions are met",
-					"{C:inactive}(They will be listed here){}",
-				},
-			},
 			missing_deps = {
 				text = {
 					"This control is inactive until listed",
@@ -1055,12 +1046,12 @@ return {
 			},
 			cant_use_in_mp = {
 				text = {
-					"{C:mult}This control is disabled in Multiplayer{}",
+					"This control is disabled in {C:mult}Multiplayer{}",
 				},
 			},
 			cant_use_with_gamepad = {
 				text = {
-					"{C:mult}This control is disabled on {}{C:attention}Gamepad{}",
+					"This control is disabled on {C:attention}Gamepad{}",
 				},
 			},
 			missing_req_mods = {
@@ -1273,7 +1264,7 @@ return {
 			Handy_load_run_nothing_to_load = "No run to load",
 
 			Handy_prevented_by_debugplus = "Prevented by DebugPlus",
-			Handy_log_file_copied = "Lovely log file copied to buffer",
+			Handy_log_file_copied = "Lovely log file copied to clipboard",
 
 			Handy_updater_finish_success = "Release installed successfully",
 			Handy_updater_finish_no_fetcher = "No available API for requests",
@@ -1330,14 +1321,13 @@ return {
 			ph_handy_notif_quick_buy_n_sell = "Quick buy and immediately sell",
 			ph_handy_notif_unsafe_disabled = "Unsafe actions disabled in mod settings",
 			ph_handy_notif_unsafe_disabled_by_other_mod = "Unsafe actions disabled by other mod",
-			ph_handy_notif_unsafe = "[Unsafe] Bugs can appear!",
+			ph_handy_notif_unsafe = "[Unsafe]",
 			ph_handy_notif_insta_remove = "Instant REMOVE",
 			ph_handy_notif_insta_sell = "Instant sell",
 			ph_handy_notif_remove_all = "REMOVE ALL cards/tags in clicked area",
 			ph_handy_notif_sell_all = "Sell ALL cards in clicked area",
 			ph_handy_notif_remove_all_same = "REMOVE all copies of clicked card/tag",
 			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
-			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
 
 			ph_handy_notif_misc_save_run_start = "Starting run saving...",

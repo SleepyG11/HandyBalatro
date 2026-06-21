@@ -288,6 +288,12 @@ function Handy.UI.CP.small_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
+			func = "handy_gamepad_2step_control",
+			handy_2step_args = {
+				align = "tli",
+				offset = { x = 0, y = -0.6 },
+				scale = 0.8,
+			},
 		},
 		nodes = {
 			{
