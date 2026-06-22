@@ -1,6 +1,6 @@
 Handy.dictionary.register({
 	key = "updater",
-	keywords = { "auto mod update updating patch note notes patchnotes install" },
+	keywords = { "auto mod update updating patch note notes patchnotes install github" },
 	order = 5,
 
 	get_module = function()
@@ -15,7 +15,7 @@ Handy.dictionary.register({
 	parent = "updater",
 	order = 1,
 
-	keywords = { "popup" },
+	keywords = { "popup release" },
 	get_module = function(self)
 		return Handy.cc.updater_release_type
 	end,
@@ -39,7 +39,7 @@ Handy.dictionary.register({
 	parent = "updater",
 	order = 2,
 
-	keywords = { "popup" },
+	keywords = { "popup new update" },
 	get_module = function(self)
 		return Handy.cc.updater_notify_about_new_update
 	end,
@@ -69,7 +69,7 @@ Handy.dictionary.register({
 	parent = "updater",
 	order = 4,
 
-	keywords = { "auto restart" },
+	keywords = { "auto install restart" },
 	get_module = function(self)
 		return Handy.cc.updater_auto_restart_game_after_update
 	end,

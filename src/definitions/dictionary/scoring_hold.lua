@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "scoring_hold",
 	order = 12,
 
-	keywords = { "scoring hold", "pause stop animations before during scoring" },
+	keywords = { "scoring hold", "pause stop animations before during scoring mime tech" },
 	get_module = function(self)
 		return Handy.cc.scoring_hold
 	end,

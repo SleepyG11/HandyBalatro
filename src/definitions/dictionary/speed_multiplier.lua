@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "speed_multiplier",
 	order = 7,
 
-	keywords = { "speed multiplier", "fast faster more speed accelerate acceleration increase decrease" },
+	keywords = { "speed multiplier", "quick fast faster more speed accelerate acceleration increase decrease" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier
 	end,
@@ -90,7 +90,7 @@ Handy.dictionary.register({
 	parent = "speed_multiplier",
 	order = 3,
 
-	keywords = { "increase" },
+	keywords = { "increase speedup faster" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_multiply
 	end,
@@ -111,7 +111,7 @@ Handy.dictionary.register({
 	parent = "speed_multiplier",
 	order = 4,
 
-	keywords = { "decrease" },
+	keywords = { "decrease speeddown slower" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_divide
 	end,
@@ -132,7 +132,7 @@ Handy.dictionary.register({
 	parent = "speed_multiplier",
 	order = 5,
 
-	keywords = { "toggle", "temporary disable" },
+	keywords = { "toggle", "temporary disable temp enable disable" },
 	get_module = function(self)
 		return Handy.cc.speed_multiplier_toggle_temp_disabled
 	end,

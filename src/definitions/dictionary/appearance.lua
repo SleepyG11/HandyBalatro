@@ -1,7 +1,7 @@
 Handy.dictionary.register({
 	key = "appearance",
 	order = 3,
-	keywords = { "appearance buttons button toggle toggles checkboxes checkbox" },
+	keywords = { "appearance buttons button toggle toggles checkboxes checkbox visual" },
 })
 
 Handy.dictionary.register({
@@ -9,7 +9,7 @@ Handy.dictionary.register({
 	parent = "appearance",
 	order = 1,
 
-	keywords = { "notifications popup" },
+	keywords = { "notifications popup notification notif tooltip" },
 	get_module = function(self)
 		return Handy.cc.notifications_level
 	end,
@@ -36,7 +36,7 @@ Handy.dictionary.register({
 	parent = "appearance",
 	order = 2,
 
-	keywords = { "settings config mod blue button" },
+	keywords = { "options settings config mod blue button" },
 	get_module = function(self)
 		return Handy.cc.hide_options_button
 	end,
@@ -51,7 +51,7 @@ Handy.dictionary.register({
 	parent = "appearance",
 	order = 3,
 
-	keywords = {},
+	keywords = { "gamepad keys buttons button display" },
 	get_module = function()
 		return Handy.cc.show_custom_pip
 	end,

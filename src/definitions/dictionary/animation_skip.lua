@@ -86,7 +86,7 @@ Handy.dictionary.register({
 	parent = "animation_skip",
 	order = 3,
 
-	keywords = { "increase" },
+	keywords = { "increase up speedup faster fast" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_increase
 	end,
@@ -107,7 +107,7 @@ Handy.dictionary.register({
 	parent = "animation_skip",
 	order = 4,
 
-	keywords = { "decrease" },
+	keywords = { "decrease down slowdown slower slow" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_decrease
 	end,
@@ -128,7 +128,7 @@ Handy.dictionary.register({
 	parent = "animation_skip",
 	order = 5,
 
-	keywords = { "toggle", "temporary disable" },
+	keywords = { "toggle", "temporary disable temp enable disable" },
 	get_module = function(self)
 		return Handy.cc.animation_skip_toggle_temp_disabled
 	end,
@@ -149,7 +149,7 @@ Handy.dictionary.register({
 	parent = "animation_skip",
 	order = 6,
 
-	keywords = { "no animations", "dangerous unsafe remove all animations" },
+	keywords = { "no animation", "dangerous unsafe remove all animations instant fast" },
 	dangerous = true,
 	loc_vars = function()
 		return {

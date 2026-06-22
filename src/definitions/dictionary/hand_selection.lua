@@ -15,6 +15,7 @@ Handy.dictionary.register({
 	parent = "hand_selection",
 	order = 1,
 
+	keywords = { "better mouse and gamepad bmag" },
 	loc_vars = function(self)
 		return {
 			-- key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
@@ -47,7 +48,7 @@ Handy.dictionary.register({
 	parent = "hand_selection",
 	order = 2,
 
-	keywords = { "swipe hover drag slide insta highlight quick" },
+	keywords = { "select swipe hover drag slide insta highlight quick hand card cards" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_insta_highlight
 	end,
@@ -76,7 +77,7 @@ Handy.dictionary.register({
 	parent = "hand_selection",
 	order = 3,
 
-	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight" },
+	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight hand card cards" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_insta_highlight_allow_deselect
 	end,
@@ -95,7 +96,9 @@ Handy.dictionary.register({
 	parent = "hand_selection",
 	order = 4,
 
-	keywords = { "swipe hover drag slide insta highlight quick deselect unhighlight combine combined" },
+	keywords = {
+		"select swipe hover drag slide insta highlight quick deselect unhighlight combine combined hand card cards",
+	},
 	get_module = function(self)
 		return Handy.cc.hand_selection_combine_select_deselect
 	end,
@@ -113,7 +116,7 @@ Handy.dictionary.register({
 	parent = "hand_selection",
 	order = 5,
 
-	keywords = { "deselect hand vanilla unhighlight all cards" },
+	keywords = { "deselect unhighlight all hand card cards" },
 	get_module = function(self)
 		return Handy.cc.hand_selection_deselect_hand
 	end,

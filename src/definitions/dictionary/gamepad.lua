@@ -37,7 +37,7 @@ Handy.dictionary.register({
 	parent = "gamepad",
 	order = 2,
 
-	keywords = { "stick sticks swap change" },
+	keywords = { "stick sticks swap change cursor" },
 	get_module = function(self)
 		return Handy.cc.swap_controller_cursor_stick
 	end,

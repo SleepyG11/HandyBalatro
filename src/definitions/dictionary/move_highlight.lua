@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "move_highlight",
 	order = 9,
 
-	keywords = { "cards card selection highlight movement precise" },
+	keywords = { "cards card select move selection highlight movement precise" },
 	get_module = function(self)
 		return Handy.cc.move_highlight
 	end,

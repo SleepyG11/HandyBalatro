@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "insta_actions",
 	order = 10,
 
-	keywords = { "insta quick actions quick buy sell use" },
+	keywords = { "instant fast insta quick actions buy sell use" },
 	get_module = function(self)
 		return Handy.cc.insta_actions
 	end,
@@ -88,7 +88,7 @@ Handy.dictionary.register({
 	parent = "insta_actions",
 	order = 4,
 
-	keywords = { "use consumables consumeables card cards" },
+	keywords = { "use consumable consumables consumeable consumeables card cards" },
 	get_module = function(self)
 		return Handy.cc.insta_actions_use
 	end,

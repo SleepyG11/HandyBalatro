@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "regular_keybinds",
 	order = 13,
 
-	keywords = { "vanilla regular common default keybinds" },
+	keywords = { "basic vanilla regular common default keybinds" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds
 	end,
@@ -25,7 +25,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_game",
 	order = 1,
 
-	keywords = { "vanilla game restart" },
+	keywords = { "vanilla run game restart" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_restart
 	end,
@@ -52,7 +52,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_game",
 	order = 2,
 
-	keywords = { "vanilla quick game restart instant without animation no animations instant" },
+	keywords = { "vanilla fast quick run game restart instant without animation no animations instant" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_quick_restart
 	end,
@@ -122,7 +122,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_game",
 	order = 5,
 
-	keywords = { "restart game" },
+	keywords = { "restart game balatro" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_restart_game
 	end,
@@ -144,7 +144,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_game",
 	order = 6,
 
-	keywords = { "copy lovely log file get" },
+	keywords = { "copy lovely log file get logs files" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_copy_log_file
 	end,
@@ -255,7 +255,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_hand",
 	order = 5,
 
-	keywords = { "sort hand rank suit toggle switch" },
+	keywords = { "sort hand rank suit toggle switch next" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_toggle_sort
 	end,
@@ -306,7 +306,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_round",
 	order = 2,
 
-	keywords = { "not just jet notjustyet end round" },
+	keywords = { "not just yet notjustyet end round njy" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.D.dictionary.regular_keybinds }
 	end,
@@ -329,7 +329,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_round",
 	order = 3,
 
-	keywords = { "multiplayer mp score hand preview fantoms" },
+	keywords = { "multiplayer mp bmp score hand preview fantoms fantom calculate button calc" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_start_fantoms_preview
 	end,
@@ -383,7 +383,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_shop",
 	order = 2,
 
-	keywords = { "reroll one more" },
+	keywords = { "shop roll reroll one more" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_reroll_shop
 	end,
@@ -494,7 +494,7 @@ Handy.dictionary.register({
 	key = "regular_keybinds_group_swappable_menus",
 	parent = "regular_keybinds",
 	order = 6,
-	keywords = { "ui menus panels menus" },
+	keywords = { "ui menus panels" },
 })
 
 Handy.dictionary.register({
@@ -502,7 +502,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 1,
 
-	keywords = { "swappable menus mode hold to open release to close double press again" },
+	keywords = { "in game ingame swappable menus mode hold to open release to close double press again" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_swappable_overlays_mode
 	end,
@@ -527,7 +527,7 @@ Handy.dictionary.register({
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 2,
 
-	keywords = { "run info poker hands" },
+	keywords = { "run info poker hands pokerhands" },
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info
 	end,

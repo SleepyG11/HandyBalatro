@@ -2,7 +2,7 @@ Handy.dictionary.register({
 	key = "presets",
 	order = 11,
 
-	keywords = { "presets config layouts settings" },
+	keywords = { "presets config layouts settings configs" },
 	get_module = function(self)
 		return Handy.cc.presets
 	end,

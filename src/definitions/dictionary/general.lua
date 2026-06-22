@@ -76,7 +76,7 @@ Handy.dictionary.register({
 	parent = "general",
 	order = 4,
 
-	keywords = { "debug plus prevent intersections keybinds" },
+	keywords = { "debug plus prevent intersections keybind ctrl keybinds dp" },
 	get_module = function(self)
 		return Handy.cc.prevent_if_debugplus
 	end,
