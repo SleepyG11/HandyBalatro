@@ -136,18 +136,8 @@ Handy.load_file("src/index.lua")
 -- TODO:
 -- 1. localization
 -- 2. keywords
--- 4. Credits?
--- 5. Cleanup code
---- UI
--- 10. touchscreen? (somehow)
--- 11. UI for gamepad
-
--- TODO: check controls (controller & touchscreen)
--- insta actions - complicated
--- dangerous - complicated
+-- 3. touchscreen? (somehow)
+-- 4. fix a weird edge case which allows focus move to side panel only on "down" press, not "right"
 
 -- TODO: plans for v2.1
 -- 1. keymapper
-
--- TODO: gamepad
--- fix a weird edge case which allows focus move to side panel only on "down" press, not "right"

@@ -35,6 +35,7 @@ function Handy.scoring_hold.update_values(item)
 		t.is_hold = Handy.controls.can_execute_control(item, nil, {
 			allow_mod_inactive = true,
 			allow_mp = true,
+			allow_not_in_run = true,
 		})
 		t.is_hand_played = is_preview_hand_played
 		t.can_display = t.is_hold and not Handy.controller.should_prevent()

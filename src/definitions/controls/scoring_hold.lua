@@ -8,7 +8,6 @@ Handy.controls.register({
 	no_mp = true,
 	only_in_run = true,
 
-	-- TODO: use hold context
 	update = function(self, dt)
 		local t = Handy.scoring_hold.update_values(self)
 

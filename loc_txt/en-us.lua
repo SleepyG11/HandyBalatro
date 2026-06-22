@@ -174,7 +174,7 @@ return {
 			},
 			-- []
 			me_in_screenswipe = {
-				name = "...in screen swipe card",
+				name = "...in screen wipe card",
 				text = {},
 			},
 
@@ -1408,7 +1408,7 @@ return {
 
 			handy_show_custom_pip_mode = {
 				"None",
-				"Only with Gamepad",
+				"Gamepad only",
 				"Always",
 			},
 
