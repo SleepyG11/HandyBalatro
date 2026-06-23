@@ -101,7 +101,19 @@ local function key_sort(a, b)
 end
 
 function Handy.utils.sort_keys(t)
-	table.sort(t, key_sort)
+	local non_holdable = {}
+	local i = 1
+	while i <= #t do
+		if not Handy.controller.keys.is_holdable_key(t[i]) then
+			non_holdable[#non_holdable + 1] = t[i]
+			table.remove(t, i)
+		else
+			i = i + 1
+		end
+	end
+	for _, v in ipairs(non_holdable) do
+		t[#t + 1] = v
+	end
 	return t
 end
 

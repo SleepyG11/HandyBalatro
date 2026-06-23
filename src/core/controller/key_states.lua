@@ -163,26 +163,26 @@ local function get_key_hold_duration(key, args)
 	return hold_d
 end
 local function get_keys_hold_duration(keys, args)
-	local max_value = 0
+	keys = keys or {}
+	local min_value = 999
 	local is_empty = true
 
-	local is_present = not args.check_key
 	local check_key = args.check_key
 	if check_key and not args.no_aliases then
 		check_key = Handy.keys_aliases[key] or check_key
 	end
-	for _, key in ipairs(keys or {}) do
-		is_empty = false
-		if check_key and key == check_key then
-			is_present = true
-		end
+	if check_key and keys[#keys] ~= check_key then
+		return nil
+	end
+	for _, key in ipairs(keys) do
 		local hold_d = get_key_hold_duration(key, args)
 		if not hold_d then
 			return nil
 		end
-		max_value = math.max(max_value, hold_d)
+		is_empty = false
+		min_value = math.min(min_value, hold_d)
 	end
-	return is_present and not is_empty and max_value or nil
+	return not is_empty and min_value or nil
 end
 
 local function is_key_hold(keys, args)

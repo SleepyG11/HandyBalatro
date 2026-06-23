@@ -42,6 +42,21 @@ Handy.stack.register({
 ---
 
 Handy.stack.register({
+	key = "move_highlight",
+	operator = "until",
+	stack_path = "input",
+	order = 5,
+})
+Handy.stack.register({
+	key = "move_highlight",
+	stack_path = "input.move_highlight",
+	order = 1,
+	control = true,
+})
+
+---
+
+Handy.stack.register({
 	key = "speed_n_animations",
 	operator = "until",
 	stack_path = "input",
@@ -345,21 +360,6 @@ Handy.stack.register({
 	key = "regular_keybinds_quick_restart",
 	stack_path = "input.regular_keybinds.game_actions",
 	order = 5,
-	control = true,
-})
-
----
-
-Handy.stack.register({
-	key = "move_highlight",
-	operator = "until",
-	stack_path = "input",
-	order = 1,
-})
-Handy.stack.register({
-	key = "move_highlight",
-	stack_path = "input.move_highlight",
-	order = 1,
 	control = true,
 })
 
