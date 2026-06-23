@@ -2,6 +2,21 @@ Handy.speed_multiplier = {
 	max_speed = 2 ^ 18,
 	max_safe_speed = 2 ^ 9,
 	min_speed = 1 / (2 ^ 9),
+
+	selectable_options = {
+		"1x",
+		"1.25x",
+		"1.5x",
+		"2x",
+		"4x",
+		"8x",
+		"16x",
+		"32x",
+		"64x",
+		"128x",
+		"256x",
+		"512x",
+	},
 }
 
 --- Filters

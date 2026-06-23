@@ -87,19 +87,7 @@ Handy.dictionary.register({
 				force = true,
 			})
 			return {
-				options = {
-					"1x",
-					"1.5x",
-					"2x",
-					"4x",
-					"8x",
-					"16x",
-					"32x",
-					"64x",
-					"128x",
-					"256x",
-					"512x",
-				},
+				options = Handy.utils.table_shallow_copy(Handy.speed_multiplier.selectable_options),
 				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
 			}
 		end,
@@ -237,20 +225,7 @@ Handy.dictionary.register({
 	option_cycle = {
 		get_values = function()
 			return {
-				options = {
-					"1x",
-					"1.25x",
-					"1.5x",
-					"2x",
-					"4x",
-					"8x",
-					"16x",
-					"32x",
-					"64x",
-					"128x",
-					"256x",
-					"512x",
-				},
+				options = Handy.utils.table_shallow_copy(Handy.speed_multiplier.selectable_options),
 			}
 		end,
 		colour = G.C.CHIPS,
