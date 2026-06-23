@@ -135,14 +135,17 @@ function Handy.UI.dictionary_tab_UIBox()
 		no_pips = true,
 		focus_args = search_cycle_focus_args,
 		scale = 0.7,
+		id = "handy_dictionary_paginator",
 
 		opt_callback = "handy_change_ui_page",
 		handy_container_id = "handy_keybinds_dictionary_render",
 		handy_ref_table = Handy.UI.data.dictionary,
 		handy_ref_value = "page",
 		handy_page_definition = Handy.UI.dictionary_tab_page_UIBox,
+		handy_snap_to = "handy_dictionary_paginator",
 	})
 	search_cycle_focus_args.type = "handy"
+	search_cycle.nodes[1].config.func = "handy_gamepad_2step_control"
 
 	local footer = {
 		n = G.UIT.R,

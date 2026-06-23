@@ -484,10 +484,18 @@ function Handy.UI.change_ui_page(arg)
 				config = {
 					offset = { x = 0, y = 0 },
 					parent = object_container,
+					major = object_container,
 					align = "cm",
 				},
 			})
 			G.OVERLAY_MENU:recalculate()
+			G.OVERLAY_MENU:recalculate()
+			if arg.snap_to then
+				local node = object_container.UIBox:get_UIE_by_ID(arg.snap_to)
+				if node then
+					G.CONTROLLER:snap_to({ node = node })
+				end
+			end
 		end
 	end
 	Handy.utils.cleanup_dead_elements(G, "MOVEABLES")
@@ -499,5 +507,6 @@ G.FUNCS.handy_change_ui_page = function(arg)
 		container_id = arg.cycle_config.handy_container_id,
 		definition = arg.cycle_config.handy_page_definition,
 		to_key = arg.to_key,
+		snap_to = arg.cycle_config.handy_snap_to,
 	})
 end
