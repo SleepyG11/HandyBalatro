@@ -235,10 +235,6 @@ function init_localization(...)
 			local success, current_loc = pcall(function()
 				return Handy.load_file("loc_txt/" .. G.SETTINGS.language .. ".lua", true)
 			end)
-			-- local missing_keys = Handy.utils.deep_missing_keys(en_loc, current_loc)
-			-- for _, missing_key in ipairs(missing_keys) do
-			-- 	print("Missing key: " .. missing_key)
-			-- end
 			if success and current_loc then
 				Handy.utils.table_merge_objects(G.localization, current_loc)
 				Handy.D.process_keywords()
@@ -250,4 +246,19 @@ function init_localization(...)
 	Handy.D.finish_keywords()
 	Handy.e_mitter.emit("localization_load")
 	return result
+end
+
+function Handy.L.debug_print_missing_keys()
+	local en_loc = Handy.load_file("loc_txt/en-us.lua", true)
+	local success, current_loc = pcall(function()
+		return Handy.load_file("loc_txt/" .. G.SETTINGS.language .. ".lua", true)
+	end)
+	if success and current_loc then
+		local missing_keys = Handy.utils.table_missing_keys_deep(en_loc, current_loc)
+		for _, missing_key in ipairs(missing_keys) do
+			print("Missing key: " .. missing_key)
+		end
+	else
+		print("Not found localization for " .. G.SETTINGS.language)
+	end
 end
