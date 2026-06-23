@@ -140,6 +140,31 @@ end
 '''
 match_indent = true
 
+# custom colour for selected focused element
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = '''love.graphics.setColor(adjust_alpha(G.C.WHITE, 0.2*lw, true))'''
+position = "after"
+payload = '''
+if self == Handy.UI.data.gamepad_focused_element then
+    love.graphics.setColor(adjust_alpha(G.C.MONEY, 0.2*lw, true))
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = '''love.graphics.setColor(self.config.colour[4] > 0 and mix_colours(G.C.WHITE, self.config.colour, 0.8) or G.C.WHITE)'''
+position = "after"
+payload = '''
+if self == Handy.UI.data.gamepad_focused_element then
+    love.graphics.setColor(self.config.colour[4] > 0 and mix_colours(G.C.MONEY, self.config.colour, 0.8) or G.C.MONEY)
+end
+'''
+match_indent = true
+
 
 # Correct focus movement on hand selection preview
 [[patches]]
