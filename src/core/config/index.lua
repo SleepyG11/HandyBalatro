@@ -1,5 +1,6 @@
 Handy.config = {}
 Handy.load_file("src/core/config/default_config.lua")
+Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 
 -- Save/load
 
@@ -329,4 +330,8 @@ Handy.config.load()
 
 Handy.e_mitter.on("update", function(dt)
 	EMPTY(Handy.config.modules_cache)
+end)
+
+Handy.e_mitter.on("load", function()
+	Handy.config.load()
 end)
