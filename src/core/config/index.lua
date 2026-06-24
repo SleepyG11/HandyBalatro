@@ -326,7 +326,7 @@ function Handy.m(module)
 	return Handy.config.get_module(module)
 end
 
-Handy.config.load()
+--
 
 Handy.e_mitter.on("update", function(dt)
 	EMPTY(Handy.config.modules_cache)
