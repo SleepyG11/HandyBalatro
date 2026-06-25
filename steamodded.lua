@@ -2,7 +2,7 @@ if not SMODS or not SMODS.current_mod then
 	return
 end
 
-if not Handy then
+if not Handy or Handy.preflight then
 	error([[
 
 

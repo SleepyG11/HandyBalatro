@@ -15,6 +15,8 @@ Handy.load_files({
 	"controls.lua",
 	"dictionary.lua",
 	"stack.lua",
+
+	"api.lua",
 }, "src/core/")
 
 function Handy.save_all_config()

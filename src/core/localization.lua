@@ -226,21 +226,18 @@ end
 
 local init_localization_ref = init_localization
 function init_localization(...)
-	if not G.localization.__handy_injected then
-		Handy.D.clear_keywords()
-		local en_loc = Handy.load_file("loc_txt/en-us.lua", true)
-		Handy.utils.table_merge_objects(G.localization, en_loc)
-		Handy.D.process_keywords()
-		if G.SETTINGS.language ~= "en-us" then
-			local success, current_loc = pcall(function()
-				return Handy.load_file("loc_txt/" .. G.SETTINGS.language .. ".lua", true)
-			end)
-			if success and current_loc then
-				Handy.utils.table_merge_objects(G.localization, current_loc)
-				Handy.D.process_keywords()
-			end
+	Handy.D.clear_keywords()
+	local en_loc = Handy.load_file("loc_txt/en-us.lua", true)
+	Handy.utils.table_merge_objects(G.localization, en_loc)
+	Handy.D.process_keywords()
+	if G.SETTINGS.language ~= "en-us" then
+		local success, current_loc = pcall(function()
+			return Handy.load_file("loc_txt/" .. G.SETTINGS.language .. ".lua", true)
+		end)
+		if success and current_loc then
+			Handy.utils.table_merge_objects(G.localization, current_loc)
+			Handy.D.process_keywords()
 		end
-		G.localization.__handy_injected = true
 	end
 	local result = init_localization_ref(...)
 	Handy.D.finish_keywords()

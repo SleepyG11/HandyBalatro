@@ -33,7 +33,6 @@ Handy_main_file_path = "{{lovely_hack:patch_dir}}"
 '''
 match_indent = true
 
-
 # Fix a crash when mod loaded from archive on SMODS which doesnt support it
 [[patches]]
 [patches.pattern]

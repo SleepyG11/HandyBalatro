@@ -1075,6 +1075,8 @@ local old_default_v1 = {
 }
 
 Handy.config.default = default_config
+-- Shorthand for `Handy.config.default`
+Handy.cd = Handy.config.default
 Handy.config.old_defaults = {
 	[1] = old_default_v1,
 }

@@ -1,6 +1,8 @@
 Handy.config = {}
 Handy.load_file("src/core/config/default_config.lua")
 Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
+-- Shorthand for `Handy.config.current`
+Handy.cc = Handy.config.current
 
 -- Save/load
 
@@ -53,7 +55,7 @@ function Handy.config.request_save(delay)
 		Handy.config.save_event = event
 		G.E_MANAGER:add_event(event, "other", true)
 	end
-	Handy.e_mitter.emit("settings_save")
+	Handy.e_mitter.emit("config_save")
 end
 
 function Handy.config.actualize(config)
@@ -333,5 +335,8 @@ Handy.e_mitter.on("update", function(dt)
 end)
 
 Handy.e_mitter.on("load", function()
+	Handy.config.load()
+end)
+Handy.e_mitter.on("game_start", function()
 	Handy.config.load()
 end)

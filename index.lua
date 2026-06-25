@@ -23,6 +23,7 @@ Handy = {
 		["2.0.0_alpha_update"] = true,
 		["2.0.0_mp_extension"] = true,
 		["2.0.0_updater"] = true,
+		["2.0.0_api"] = true,
 		-- ["2.0.0_update"] = true,
 	},
 
