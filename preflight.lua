@@ -1,8 +1,10 @@
 Handy_Preflight = {
-	DefaultConfig = {},
-	Control = {},
-	Stack = {},
-	Dictionary = {},
+	API = {
+		DefaultConfig = {},
+		Control = {},
+		Stack = {},
+		Dictionary = {},
+	},
 }
 
 Handy = {
@@ -18,16 +20,16 @@ end
 
 function Handy.API.Control(args)
 	resolve_mod(args)
-	table.insert(Handy_Preflight.Control, args)
+	table.insert(Handy_Preflight.API.Control, args)
 end
 function Handy.API.Stack(args)
 	resolve_mod(args)
-	table.insert(Handy_Preflight.Stack, args)
+	table.insert(Handy_Preflight.API.Stack, args)
 end
 function Handy.API.Dictionary(args)
 	resolve_mod(args)
-	table.insert(Handy_Preflight.Dictionary, args)
+	table.insert(Handy_Preflight.API.Dictionary, args)
 end
 function Handy.API.DefaultConfig(config)
-	table.insert(Handy_Preflight.DefaultConfig, config)
+	table.insert(Handy_Preflight.API.DefaultConfig, config)
 end

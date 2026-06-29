@@ -6,6 +6,7 @@ Handy.load_files({
 	"fake_events.lua",
 	"flags.lua",
 	"localization.lua",
+	"me.lua",
 
 	"config/index.lua",
 	"presets/index.lua",

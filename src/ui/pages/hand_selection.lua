@@ -186,8 +186,7 @@ function Handy.UI.hand_selection_page_definition()
 					{ bypass_discovery_center = true, bypass_discovery_ui = true }
 				)
 				me.no_ui = true
-				me.children.center.atlas = G.ASSET_ATLAS["handy_me_joker"]
-				me.children.center:set_sprite_pos({ x = 0, y = 0 })
+				Handy.me.set_joker_center(me)
 				area:emplace(me)
 			end,
 		})

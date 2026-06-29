@@ -159,3 +159,16 @@ Handy.e_mitter.on("game_start", function()
 		end
 	end)
 end)
+
+Handy.e_mitter.on("game_start", function()
+	if MPAPI and MPAPI.create_account_avatar then
+		local old_create_avatar = MPAPI.create_account_avatar
+		function MPAPI.create_account_avatar(...)
+			local avatar_card = old_create_avatar(...)
+			if avatar_card and Handy.me.is_mp_user(MPAPI.connection_state.player_id) then
+				Handy.me.set_joker_center(avatar_card)
+			end
+			return avatar_card
+		end
+	end
+end)
