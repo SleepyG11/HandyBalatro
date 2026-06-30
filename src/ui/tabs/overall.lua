@@ -85,6 +85,7 @@ function Handy.UI.overall_tab_UIBox()
 				button = args.button or "handy_noop",
 				minw = 3.25,
 				maxw = 3.25,
+				minh = 0.8,
 				func = args.func or nil,
 			},
 			nodes = {

@@ -317,6 +317,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 												bump = true,
 												scale = args.text_scale,
 												non_recalc = true,
+												maxw = 5.5,
 											}),
 										},
 									},
@@ -505,6 +506,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 												bump = true,
 												scale = args.text_scale,
 												non_recalc = true,
+												maxw = 5.5,
 											}),
 										},
 									},
@@ -738,7 +740,8 @@ function Handy.UI.CP.dictionary_item(item, options)
 					{
 						n = G.UIT.R,
 						config = {
-							maxw = 5.5,
+							minw = 4,
+							maxw = 4,
 						},
 						nodes = {
 							Handy.L.description(res.set, res.key, {

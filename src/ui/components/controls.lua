@@ -362,6 +362,7 @@ function Handy.UI.CP.small_option_cycle(item)
 												bump = true,
 												scale = args.text_scale,
 												non_recalc = true,
+												maxw = 1.75,
 											}),
 										},
 									},
@@ -415,7 +416,7 @@ function Handy.UI.CP.small_option_cycle(item)
 		nodes = {
 			{
 				n = G.UIT.R,
-				config = { align = "cm" },
+				config = { align = "cm", maxw = 2.5 },
 				nodes = {
 					Handy.L.name(res.set, res.key, {
 						align = "cm",
