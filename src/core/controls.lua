@@ -9,9 +9,6 @@ function Handy.controls.register(item)
 	item.get_deps = item.get_deps or function() end
 	item.update = item.update or function() end
 
-	item.before_can_execute = item.before_can_execute or function()
-		return true
-	end
 	item.can_execute = item.can_execute or Handy.controls.can_execute_control
 
 	Handy.controls.dictionary[item.key] = item
@@ -232,13 +229,6 @@ function Handy.controls.execute_control(key, ctx, args)
 		return false, false
 	end
 	local target = Handy.controls.dictionary[key]
-	local before_check_func = target and target.before_can_execute or function(self, ctx, args)
-		return true
-	end
-	local before_can_execute = before_check_func(target, ctx, args)
-	if not before_can_execute then
-		return false, false
-	end
 	local check_func = target and target.can_execute or Handy.controls.can_execute_control
 	local can_execute, leftover_data = check_func(target, ctx, args or {})
 	if not can_execute then
