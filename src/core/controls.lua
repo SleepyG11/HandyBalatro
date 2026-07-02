@@ -68,7 +68,7 @@ end
 
 ---
 
-function Handy.controls.is_valid_input_context(item, ctx)
+function Handy.controls.is_valid_input_context(item, ctx, args)
 	-- Back button
 	if not item.allow_back_input and ctx.back then
 		return false, "back_button"
@@ -83,7 +83,7 @@ function Handy.controls.is_valid_input_context(item, ctx)
 	end
 	return true
 end
-function Handy.controls.is_valid_context(item, ctx)
+function Handy.controls.is_valid_context(item, ctx, args)
 	if not ctx then
 		return false
 	end
@@ -97,6 +97,9 @@ function Handy.controls.is_valid_context(item, ctx)
 				return false
 			end
 		else
+			if ctx.input and not Handy.controls.is_valid_input_context(item, ctx, args) then
+				return false
+			end
 			local found = false
 			for flag, _ in pairs(item.contexts) do
 				if ctx[flag] then
@@ -109,45 +112,10 @@ function Handy.controls.is_valid_context(item, ctx)
 			end
 		end
 	end
-	if ctx.input and not Handy.controls.is_valid_input_context(item, ctx) then
-		return false
-	end
 	return true
 end
-function Handy.controls.is_valid_state(item)
-	-- Mod active check
-	if not item.allow_mod_inactive and not Handy.b_is_mod_active() then
-		return false
-	end
-	-- Dangerous check
-	if item.dangerous and not Handy.b_is_dangerous_actions_active() then
-		return false
-	end
-	-- In run check
-	if item.only_in_run and not Handy.b_is_in_run() then
-		return false
-	end
-	-- Stop use state check
-	if item.no_stop_use and Handy.b_is_stop_use() then
-		return false
-	end
-	return true
-end
-
----
-
-function Handy.controls.resolve_control_context(item, ctx)
-	return Handy.controls.is_valid_context(item, ctx) and ctx or nil
-end
-
-function Handy.controls.can_execute_control(item, ctx, args)
-	-- Cant execute nothing or non-executable
-	if not item then
-		return false
-	end
+function Handy.controls.is_valid_state(item, ctx, args)
 	args = args or {}
-	ctx = ctx or args.ctx
-
 	-- Mod active check
 	if not args.allow_mod_inactive and not item.allow_mod_inactive and not Handy.b_is_mod_active() then
 		return false
@@ -164,21 +132,42 @@ function Handy.controls.can_execute_control(item, ctx, args)
 	if not args.allow_stop_use and item.no_stop_use and Handy.b_is_stop_use() then
 		return false
 	end
+	return true
+end
 
+---
+
+function Handy.controls.resolve_control_context(item, ctx, args)
+	return Handy.controls.is_valid_context(item, ctx, args) and ctx or nil
+end
+
+function Handy.controls.can_execute_control(item, ctx, args)
+	if not item then
+		return false
+	end
+	args = args or {}
+	ctx = ctx or args.ctx
+
+	-- Global state check
+	if not Handy.controls.is_valid_state(item, ctx, args) then
+		return false
+	end
+
+	-- Module resolving
 	local module = Handy.m(item:get_module())
 	if not module then
 		return false
 	end
 
-	local allow_disabled = args.allow_disabled or item.allow_disabled
-
 	-- Module inactive check
+	local allow_disabled = args.allow_disabled or item.allow_disabled
 	if not allow_disabled and not module.enabled then
 		return false
 	end
 
+	-- Context check
 	if ctx and not args.allow_any_context then
-		ctx = Handy.controls.resolve_control_context(item, ctx)
+		ctx = Handy.controls.resolve_control_context(item, ctx, args)
 		if not ctx then
 			return false
 		end
@@ -189,7 +178,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		return false
 	end
 
-	-- Module keybinds check
+	-- Keybinds check
 	if
 		not args.no_keybinds
 		and not Handy.controls.is_module_keys_hold(module, {
@@ -201,21 +190,12 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		return false
 	end
 
+	-- Deps check
 	local deps = item:get_deps()
 	if deps then
 		for _, dep in ipairs(deps) do
 			-- Deps enabled check
 			if not allow_disabled and not Handy.controls.is_module_enabled(dep) then
-				return false
-			end
-			-- Deps keybinds check if needed (?)
-			if
-				not args.no_keybinds
-				and deps.with_keybinds
-				and not Handy.controls.is_module_keys_hold(dep, {
-					require_exact = dep.require_exact_keys_input,
-				})
-			then
 				return false
 			end
 		end

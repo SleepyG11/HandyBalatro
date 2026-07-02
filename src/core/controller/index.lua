@@ -63,7 +63,10 @@ function Handy.controller.process_mouse_input(raw_key, released)
 	return Handy.controller.process_input("mouse", raw_key, released)
 end
 function Handy.controller.process_wheel_input(raw_key, released)
-	return Handy.controller.process_input("wheel", raw_key, released)
+	if released then
+		return
+	end
+	return Handy.controller.process_input("wheel", raw_key, false)
 end
 function Handy.controller.process_gamepad_input(raw_key, released)
 	return Handy.controller.process_input("gamepad", raw_key, released)
@@ -206,7 +209,7 @@ end)
 
 local wheel_moved_ref = love.wheelmoved or function() end
 function love.wheelmoved(x, y)
-	if Handy.controller.process_wheel_input(y > 0 and 1 or 2) then
+	if Handy.controller.process_wheel_input(y > 0 and 1 or 2, false) then
 		return
 	end
 	return wheel_moved_ref(x, y)
