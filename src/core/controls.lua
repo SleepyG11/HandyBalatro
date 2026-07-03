@@ -71,15 +71,15 @@ end
 function Handy.controls.is_valid_input_context(item, ctx, args)
 	-- Back button
 	if not item.allow_back_input and ctx.back then
-		return false, "back_button"
+		return false
 	end
 	-- Non-safe button
 	if item.only_safe_input and not ctx.safe then
-		return false, "non_safe_button"
+		return false
 	end
 	-- Non-holdable button
 	if item.only_holdable_input and not ctx.holdable then
-		return false, "non_holdable_button"
+		return false
 	end
 	return true
 end
@@ -166,7 +166,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 	end
 
 	-- Context check
-	if ctx and not args.allow_any_context then
+	if ctx and not args.allow_any_context and not item.allow_any_context then
 		ctx = Handy.controls.resolve_control_context(item, ctx, args)
 		if not ctx then
 			return false
