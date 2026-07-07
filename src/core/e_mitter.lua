@@ -1,5 +1,5 @@
 Handy.e_mitter = {}
-Handy.e_mitter.queues = {}
+Handy.e_mitter.queues = Handy_Preflight and Handy_Preflight.queues or {}
 
 function Handy.e_mitter.on(type, callback, args)
 	args = args or {}
