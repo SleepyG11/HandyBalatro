@@ -25,7 +25,7 @@ function Handy.stack.register(item)
 		item.key = item.control
 	end
 
-	item.items = {}
+	item.items = item.items or {}
 	item.operator = item.operator or "all"
 
 	if item.control == true then
@@ -39,24 +39,30 @@ function Handy.stack.register(item)
 		order_counter = math.max(item.order + 1, order_counter)
 	end
 
-	local target_layer
 	if item.global then
-		target_layer = Handy.stack.global_layer
+		item.parent = Handy.stack.global_layer
 	elseif type(item.parent) == "string" then
-		target_layer = Handy.stack.dictionary[item.parent]
-	elseif item.parent then
-		target_layer = item.parent
+		item.parent = Handy.stack.dictionary[item.parent]
 	end
 
-	item.parent = target_layer
-	table.insert(target_layer.items, item)
+	item.parents = Handy.utils.table_concat(item.parent.parents or {}, { item.parent })
+	item.parent.items = item.parent.items or {}
+	table.insert(item.parent.items, item)
 
-	item.full_key = item.global and item.key or (target_layer.full_key .. "." .. item.key)
+	item.full_key = item.global and item.key or (item.parent.full_key .. "." .. item.key)
 
 	Handy.stack.dictionary[item.full_key] = item
 	table.insert(Handy.stack.list, item)
 
 	Handy.stack.sorted = false
+
+	if item.items then
+		for index, subitem in ipairs(item.items) do
+			subitem.parent = item
+			subitem.parents = Handy.utils.table_concat(item.parents or {}, { item })
+			Handy.stack.register(subitem)
+		end
+	end
 
 	return item
 end
