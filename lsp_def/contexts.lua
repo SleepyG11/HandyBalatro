@@ -51,7 +51,7 @@
 ---@field type "input"
 ---@field input true
 ---@field raw_key string
----@field key string
+---@field key Handy.ButtonKey
 ---@field input_type Handy.InputType
 ---@field action Handy.InputAction
 ---@field trigger boolean Is action alignes with selected trigger mode

@@ -1,0 +1,127 @@
+---@meta
+
+---@alias Handy.MouseKey
+---| "Left Mouse"
+---| "Right Mouse"
+---| "Middle Mouse"
+---| "Mouse 4"
+---| "Mouse 5"
+
+---@alias Handy.WheelKey
+---| "Wheel Up"
+---| "Wheel Down"
+
+---@alias Handy.KeyboardKey
+---| "Escape"
+---| "Shift"
+---| "Ctrl"
+---| "Alt"
+---| "GUI" -- Windows button, or CMD for Mac
+---| "Enter"
+---| "Tab"
+---| "Backspace"
+---| "Num Lock"
+---| "Caps Lock"
+---| "Scroll Lock"
+---| "Left"
+---| "Right"
+---| "Up"
+---| "Down"
+---| "Backquote" -- `
+---| "Singlequote" -- '
+---| "Quote" -- "
+---| "Left Bracket" -- [
+---| "Right Bracket" -- ]
+---| "Printscreen"
+---| "Delete"
+---| "Home"
+---| "Insert"
+---| "End"
+---| "Pause"
+---| "Help"
+---| "Sysreq"
+---| "Menu"
+---| "Undo"
+---| "Mode"
+---| "Page Up"
+---| "Page Down"
+---| "Www"
+---| "Mail"
+---| "Calculator"
+---| "Computer"
+---| "Appsearch"
+---| "Apphome"
+---| "Appback"
+---| "Appforward"
+---| "Apprefresh"
+---| "Appbookmarks"
+---| "Currencyunit"
+---| "Application"
+---| "Power" -- What a heck
+---| "NUM 0"
+---| "NUM 1"
+---| "NUM 2"
+---| "NUM 3"
+---| "NUM 4"
+---| "NUM 5"
+---| "NUM 6"
+---| "NUM 7"
+---| "NUM 8"
+---| "NUM 9"
+---| "0"
+---| "1"
+---| "2"
+---| "3"
+---| "4"
+---| "5"
+---| "6"
+---| "7"
+---| "8"
+---| "9"
+---| "F1"
+---| "F2"
+---| "F3"
+---| "F4"
+---| "F5"
+---| "F6"
+---| "F7"
+---| "F8"
+---| "F9"
+---| "F10"
+---| "F11"
+---| "F12"
+---| string
+
+---@alias Handy.GamepadKey
+---| "(A)"
+---| "(B)"
+---| "(X)"
+---| "(Y)"
+---| "(Back)"
+---| "(Guide)"
+---| "(Start)"
+---| "(Up)"
+---| "(Down)"
+---| "(Left)"
+---| "(Right)"
+---| "Left Stick" -- Click
+---| "Right Stick" -- Click
+---| "Left Bumper" -- LB
+---| "Right Bumper" -- RB
+---| "Left Trigger" -- LT
+---| "Right Trigger" -- RT
+---| "First Paddle" -- P1
+---| "Second Paddle" -- P2
+---| "Third Paddle" -- P3
+---| "Fourth Paddle" -- P4
+---| "(Misc. Button)"
+
+---@alias Handy.TouchKey
+---| "Touchpad Press"
+
+---@alias Handy.ButtonKey
+---| Handy.MouseKey
+---| Handy.WheelKey
+---| Handy.KeyboardKey
+---| Handy.GamepadKey
+---| Handy.TouchKey
