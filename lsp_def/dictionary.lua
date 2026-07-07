@@ -32,6 +32,8 @@
 ---@field colour? table
 ---@field get_values? fun(self: Handy.DictionarySliderArgs): { ref_table?: table, ref_value?: string, disabled?: boolean } | nil
 
+---@alias Handy.DictionaryModDepsResolver fun(): boolean, string,  "required" | "conflict"
+
 ---@class Handy.Dictionary
 ---@field key string
 ---@field order? number
@@ -46,6 +48,7 @@
 ---@field parent? Handy.Dictionary
 ---@field parents? Handy.Dictionary[]
 ---@field items? Handy.Dictionary[]
+---@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
 
 ---@class Handy.CreateDictionaryArgs: Handy.Dictionary
 
