@@ -1,3 +1,5 @@
+-- TODO: remove all this metatable nonsense and use ref_table/ref_value stuff :alembic:
+
 Handy.dictionary.register({
 	key = "mp_extension",
 	order = 15,

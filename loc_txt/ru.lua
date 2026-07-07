@@ -312,7 +312,7 @@ return {
 				},
 			},
 
-			-- [x128]
+			-- [128x]
 			speed_multiplier = {
 				name = "Множитель скорости",
 				text = {

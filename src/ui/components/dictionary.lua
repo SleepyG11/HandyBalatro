@@ -132,7 +132,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 							ref_table = {
 								ref_table = module,
 								ref_value = "enabled",
-								active_colour = adjust_alpha(G.C.MULT, opacity_mod),
+								active_colour = adjust_alpha(item.checkbox.colour or G.C.MULT, opacity_mod),
 								inactive_colour = adjust_alpha(G.C.BLACK, opacity_mod),
 							},
 							colour = adjust_alpha(module.enabled and G.C.MULT or G.C.BLACK, opacity_mod),
@@ -165,6 +165,7 @@ end
 function Handy.UI.CP.dictionary_item_keybind(item)
 	local module = item:get_module()
 	local options = type(item.keybind) == "table" and item.keybind or {}
+	local kb_values = options.get_values and options:get_values() or {}
 
 	local key_1, key_2 = "keys_1", "keys_2"
 	if Handy.controller.is_gamepad() then
@@ -175,10 +176,11 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 		n = G.UIT.C,
 		config = {},
 		nodes = {
-			Handy.UI.CP.module_keybind_button(module, key_1, options, {
+			Handy.UI.CP.module_keybind_button(kb_values.ref_table or module, kb_values.ref_value_1 or key_1, options, {
 				dangerous = item.dangerous,
 				focus_args = { type = "handy", handy_dictionary = "control" },
 				group = "d" .. Handy.UI.__global_d_counter,
+				disabled = kb_values.disabled or false,
 			}),
 			{
 				n = G.UIT.C,
@@ -190,17 +192,18 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 					},
 				},
 			} or nil,
-			Handy.UI.CP.module_keybind_button(module, key_2, options, {
+			Handy.UI.CP.module_keybind_button(kb_values.ref_table or module, kb_values.ref_value_2 or key_2, options, {
 				dangerous = item.dangerous,
 				focus_args = { type = "handy", handy_dictionary = "control_2" },
 				group = "d" .. Handy.UI.__global_d_counter,
+				disabled = kb_values.disabled or false,
 			}),
 		},
 	}
 end
 function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 	local item_oc = item.simple_option_cycle
-	local oc_values = item_oc:get_values()
+	local oc_values = item_oc and item_oc:get_values() or {}
 
 	local args = {
 		w = 8.7,
@@ -211,6 +214,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 		ref_table = oc_values.ref_table,
 		ref_value = oc_values.ref_value,
 		prefix = nil,
+		disabled = oc_values.disabled,
 	}
 
 	args.colour = args.colour or G.C.RED
@@ -362,7 +366,7 @@ end
 function Handy.UI.CP.dictionary_item_option_cycle(item)
 	local module = item:get_module()
 	local item_oc = item.option_cycle
-	local oc_values = item_oc:get_values()
+	local oc_values = item_oc and item_oc:get_values() or {}
 
 	local args = {
 		w = 8.7,
@@ -554,7 +558,7 @@ end
 function Handy.UI.CP.dictionary_item_slider(item)
 	local module = item:get_module()
 	local item_sl = item.slider
-	local sl_values = item_sl.get_values and item_sl:get_values()
+	local sl_values = item_sl.get_values and item_sl:get_values() or {}
 
 	local args = {
 		label_scale = 0.35,
@@ -566,6 +570,8 @@ function Handy.UI.CP.dictionary_item_slider(item)
 		decimal_places = item_sl.decimal_places,
 		callback = "handy_slider",
 		handy_callback = item_sl.callback,
+		colour = item_sl.colour,
+		disabled = sl_values.disabled,
 	}
 
 	args.colour = args.colour or G.C.RED
@@ -608,7 +614,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 					hover = Handy.controller.device.real ~= "gamepad",
 					colour = G.C.BLACK,
 					emboss = 0.05,
-					func = "slider",
+					func = not args.disabled and "slider" or nil,
 					refresh_movement = true,
 					focus_args = { type = "none" },
 				},

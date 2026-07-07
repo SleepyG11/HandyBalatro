@@ -9,7 +9,7 @@ Handy.dictionary.register({
 	loc_vars = function(self)
 		return {
 			-- key = self.key .. (Handy.cc.advanced_mode.enabled and "_advanced" or ""),
-			vars = { "x128" },
+			vars = { "128x" },
 		}
 	end,
 	no_mp = Handy.speed_multiplier.is_disabled_by_mp,

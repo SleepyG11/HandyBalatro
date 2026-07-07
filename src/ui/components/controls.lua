@@ -11,7 +11,7 @@ function Handy.UI.CP.module_keybind_button(module, key, options, additional_opti
 	local can_bind_multiple = not not allow_multiple
 	-- or (allow_multiple == "advanced" and Handy.cc.advanced_mode.enabled)
 
-	local colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or (dangerous and G.C.MULT) or G.C.CHIPS
+	local colour = (disabled and G.C.UI.BACKGROUND_INACTIVE) or options.colour or (dangerous and G.C.MULT) or G.C.CHIPS
 	local button_text = Handy.L.keys(module[key])
 	local is_none = button_text == Handy.L.keys()
 
