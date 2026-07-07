@@ -28,7 +28,7 @@ end
 Handy.e_mitter.on("steamodded_load", function()
 	local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
 	function SMODS.calculate_effect(effect, ...)
-		if Handy.animation_skip.should_skip_animation() then
+		if effect and Handy.animation_skip.should_skip_animation() then
 			effect.juice_card = nil
 		end
 		return smods_calculate_effect_ref(effect, ...)
