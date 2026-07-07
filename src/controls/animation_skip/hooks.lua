@@ -38,32 +38,36 @@ end)
 -- Easings
 local ease_discard_ref = ease_discard
 function ease_discard(...)
-	if Handy.animation_skip.should_skip_everything() then
-		local args = { ... }
-		args[2] = true
-		return ease_discard_ref(unpack(args))
+	if Handy.animation_skip.should_skip_animation() then
+		local old_block = Handy.ARGS.force_non_blocking_event
+		Handy.ARGS.force_non_blocking_event = true
+		local r = ease_discard_ref(...)
+		Handy.ARGS.force_non_blocking_event = old_block
+		return r
 	end
 	return ease_discard_ref(...)
 end
 local ease_hands_played_ref = ease_hands_played
 function ease_hands_played(...)
-	if Handy.animation_skip.should_skip_everything() then
-		local args = { ... }
-		args[2] = true
-		return ease_hands_played_ref(unpack(args))
+	if Handy.animation_skip.should_skip_animation() then
+		local old_block = Handy.ARGS.force_non_blocking_event
+		Handy.ARGS.force_non_blocking_event = true
+		local r = ease_hands_played_ref(...)
+		Handy.ARGS.force_non_blocking_event = old_block
+		return r
 	end
 	return ease_hands_played_ref(...)
 end
 local ease_dollars_ref = ease_dollars
-function ease_dollars(amount, instant, ...)
+function ease_dollars(amount, ...)
 	if Handy.animation_skip.no_modify_ease_dollars then
-		return ease_dollars_ref(amount, instant, ...)
+		return ease_dollars_ref(amount, ...)
 	end
 	if Handy.animation_skip.should_skip_animation() then
 		Handy.animation_skip.ease_dollars_buffer = Handy.animation_skip.ease_dollars_buffer + amount
 		return
 	elseif Handy.animation_skip.should_skip_messages() then
-		local result = ease_dollars_ref(amount, instant, ...)
+		local result = ease_dollars_ref(amount, ...)
 		if Handy.animation_skip.mute_ease_dollars > 0 then
 			Handy.animation_skip.mute_ease_dollars = Handy.animation_skip.mute_ease_dollars - 1
 		else
@@ -71,7 +75,7 @@ function ease_dollars(amount, instant, ...)
 		end
 		return result
 	else
-		return ease_dollars_ref(amount, instant, ...)
+		return ease_dollars_ref(amount, ...)
 	end
 end
 
@@ -107,31 +111,18 @@ function draw_card(...)
 	return draw_card_ref(...)
 end
 
--- Wipe screen
-local start_run_ref = G.FUNCS.start_run
-function G.FUNCS.start_run(...)
-	local result
-	if Handy.animation_skip.should_skip_everything() then
-		Handy.ARGS.skip_wipe_screen = true
-		Handy.ARGS.force_non_blocking_event = true
-		result = start_run_ref(...)
-		Handy.ARGS.skip_wipe_screen = nil
-		Handy.ARGS.force_non_blocking_event = nil
-	else
-		result = start_run_ref(...)
-	end
-	return result
-end
 local wipe_on_ref = G.FUNCS.wipe_on
 function G.FUNCS.wipe_on(...)
-	if Handy.ARGS.skip_wipe_screen then
+	Handy.ARGS.skip_wipe_screen_request = Handy.ARGS.skip_wipe_screen or Handy.animation_skip.should_skip_everything()
+	if Handy.ARGS.skip_wipe_screen_request then
 		return
 	end
 	return wipe_on_ref(...)
 end
 local wipe_off_ref = G.FUNCS.wipe_off
 function G.FUNCS.wipe_off(...)
-	if Handy.ARGS.skip_wipe_screen then
+	if Handy.ARGS.skip_wipe_screen_request then
+		Handy.ARGS.skip_wipe_screen_request = nil
 		return
 	end
 	return wipe_off_ref(...)
