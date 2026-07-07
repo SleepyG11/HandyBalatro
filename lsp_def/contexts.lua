@@ -5,7 +5,7 @@
 ---@field propagation_stopped boolean
 ---@field prevent_default fun(self: Handy.PreventableContext)
 ---@field stop_propagation fun(self: Handy.PreventableContext)
----@field is_empty fun(self:  Handy.PreventableContext): boolean
+---@field is_empty fun(self: Handy.PreventableContext): boolean
 ---@field none? boolean
 
 --------------------------------

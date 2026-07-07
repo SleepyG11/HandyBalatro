@@ -8,21 +8,24 @@ Handy.stack.list = {}
 Handy.stack.global_layer = {
 	global = true,
 	key = "global",
+	full_key = "global",
 
 	order = -1,
 	global_order = -1,
 	operator = "until",
 
-	stack = {},
+	items = {},
 }
 
 ---
 
 local order_counter = 1
 function Handy.stack.register(item)
-	item.stack_path = item.stack_path or ""
-	item.full_path = (item.stack_path == "" or item.global) and item.key or (item.stack_path .. "." .. item.key)
-	item.stack = item.stack or {}
+	if not item.key and type(item.control) == "string" then
+		item.key = item.control
+	end
+
+	item.items = {}
 	item.operator = item.operator or "all"
 
 	if item.control == true then
@@ -36,11 +39,21 @@ function Handy.stack.register(item)
 		order_counter = math.max(item.order + 1, order_counter)
 	end
 
-	local target_layer = item.global and Handy.stack.global_layer or Handy.stack.dictionary[item.stack_path]
-	item.parent = target_layer
-	table.insert(target_layer.stack, item)
+	local target_layer
+	if item.global then
+		target_layer = Handy.stack.global_layer
+	elseif type(item.parent) == "string" then
+		target_layer = Handy.stack.dictionary[item.parent]
+	elseif item.parent then
+		target_layer = item.parent
+	end
 
-	Handy.stack.dictionary[item.full_path] = item
+	item.parent = target_layer
+	table.insert(target_layer.items, item)
+
+	item.full_key = item.global and item.key or (target_layer.full_key .. "." .. item.key)
+
+	Handy.stack.dictionary[item.full_key] = item
 	table.insert(Handy.stack.list, item)
 
 	Handy.stack.sorted = false
@@ -54,11 +67,11 @@ function Handy.stack.sort_item(item)
 	item.global_order = Handy.stack.global_order
 	Handy.stack.global_order = Handy.stack.global_order + 1
 
-	if item.stack then
-		table.sort(item.stack, function(a, b)
+	if item.items then
+		table.sort(item.items, function(a, b)
 			return (a.order or 0) < (b.order or 0)
 		end)
-		for _, child in ipairs(item.stack) do
+		for _, child in ipairs(item.items) do
 			Handy.stack.sort_item(child)
 		end
 	end
@@ -101,12 +114,11 @@ function Handy.stack.call_layer(ctx, layer)
 	-- while = stop if one false, return true if so
 	-- all = call all, return true if all true
 	-- none = call all, return true if all false
-	-- any = call all, return true if any true
 
 	local operator = layer.operator or "free"
-	local should_stop = (layer.operator == "all" or layer.operator == "while") and #layer.stack > 0
+	local should_stop = (layer.operator == "all" or layer.operator == "while") and #layer.items > 0
 
-	for _, item in ipairs(layer.stack) do
+	for _, item in ipairs(layer.items) do
 		if operator == "until" and should_stop then
 			return true
 		elseif operator == "while" and not should_stop then
@@ -139,24 +151,31 @@ end
 function Handy.stack.print_stack(key)
 	local result = { "" }
 	local format_item = function(item, indent)
-		return string.format(
+		local r = string.format(
 			"%s[%s] %s %s",
 			indent,
 			item.order,
 			item.key,
 			item.operator and ("(" .. item.operator .. ")") or ""
 		)
+		if item.control then
+			r = r .. " -> " .. item.control
+		end
+		return r
 	end
 	local process_layer
 	process_layer = function(item, indent)
 		table.insert(result, format_item(item, indent))
 		if item.stack then
-			for _, subitem in ipairs(item.stack) do
+			for _, subitem in ipairs(item.items) do
 				process_layer(subitem, indent .. "    ")
 			end
 		end
 	end
 	local layer = Handy.stack.dictionary[key]
+	if key == "global" then
+		layer = Handy.stack.global_layer
+	end
 	process_layer(layer, "")
 	return table.concat(result, "\n")
 end
