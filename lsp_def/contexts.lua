@@ -55,8 +55,8 @@
 ---@field input_type Handy.InputType
 ---@field action Handy.InputAction
 ---@field trigger boolean Is action alignes with selected trigger mode
----@field hold_duration number How long pressed button is held
----@field real_hold_duration number How long pressed button is held (excluding time in pause)
+---@field hold_duration number How long pressed button is held (excluding time in pause)
+---@field real_hold_duration number How long pressed button is held
 ---@field back boolean Is pressed key a Back key ([Escape] or [(Start)])
 ---@field safe boolean Is pressed key a safe key (non-safe keys are keys which considered essential for moving in game's UI, such as [Left Mouse] or gamepad buttons)
 ---@field holdable boolean Is pressed key can be holded ([Wheel Up] and [Wheel Down] cannot be holded)
@@ -117,8 +117,8 @@
 ---@class Handy.HoldContext: Handy.PreventableContext
 ---@field type "hold"
 ---@field hold true
----@field dt number
----@field real_dt number 0 if game paused
+---@field dt number 0 if game paused
+---@field real_dt number
 ---@field holded_size number Amount of keys hold
 ---@field keeped_alive boolean Indicated that context fired when all keys was released
 
