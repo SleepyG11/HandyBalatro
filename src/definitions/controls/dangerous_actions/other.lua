@@ -46,6 +46,15 @@ Handy.controls.register({
 	require_exact_keys_input = true,
 
 	execute = function()
+		print(
+			'Stack Overflow caused by "Crash a game: Stack Overflow" keybind in Handy v'
+				.. Handy.version
+				.. " ("
+				.. Handy.L.brackets(Handy.L.keys(Handy.cc.dangerous_actions_stack_overflow[key_1]))
+				.. " or "
+				.. Handy.L.brackets(Handy.L.keys(Handy.cc.dangerous_actions_stack_overflow[key_2]))
+				.. ")"
+		)
 		local t = {
 			a = 1,
 		}
