@@ -143,6 +143,72 @@ function Handy.mp_extension.init()
 		end
 		return old_create_tabs(args, ...)
 	end
+
+	-- Load states
+
+	function Handy.is_mp_lobby_extension_active()
+		local lobby, config = Handy.get_mp_lobby()
+		return lobby
+				and config
+				and config.handy_mp_extension
+				and config.handy_allow_mp_extension
+				and lobby.handy_mp_extension_all_players_enabled
+			or false
+	end
+	Handy.b_is_mp_lobby_extension_active =
+		Handy.buffered("is_mp_lobby_extension_active", Handy.is_mp_lobby_extension_active)
+
+	function Handy.is_in_multiplayer()
+		return not not (MP and MP.LOBBY and MP.LOBBY.code)
+	end
+	Handy.b_is_in_multiplayer = Handy.buffered("is_in_multiplayer", Handy.is_in_multiplayer)
+
+	function Handy.get_mp_lobby()
+		local lobby = Handy.b_is_in_multiplayer() and MP.LOBBY or nil
+		if not lobby or not lobby.config then
+			return nil, nil
+		end
+		return lobby, lobby.config
+	end
+
+	function Handy.disabled_in_mp_check(func, args)
+		local lobby, config = Handy.get_mp_lobby()
+		if not config then
+			return false
+		end
+
+		args = args or {}
+
+		if not (args and args.bypass_active) and not Handy.b_is_mp_lobby_extension_active() then
+			return true
+		end
+		if type(func) ~= "function" then
+			return true
+		end
+		return func(lobby, config)
+	end
+
+	function Handy.get_mp_lobby_config_value(ref_value, args)
+		local lobby, config = Handy.get_mp_lobby()
+
+		-- no lobby - no value
+		if not config then
+			return args and args.default_value, false
+		end
+
+		args = args or {}
+
+		-- not enabled - no value
+		if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
+			return args.default_value, false
+		end
+		-- have forced value - use it
+		if args.force and config[ref_value .. "_force"] then
+			return config[ref_value .. "_force"], true
+		end
+		-- return actual value
+		return config[ref_value] or default_value, false
+	end
 end
 
 Handy.e_mitter.on("game_start", function()
@@ -150,6 +216,7 @@ Handy.e_mitter.on("game_start", function()
 		return
 	end
 
+	-- Loading MP pre-1.0
 	Handy.mp_extension.init()
 	Handy.mp_extension.loaded = true
 
@@ -161,7 +228,12 @@ Handy.e_mitter.on("game_start", function()
 end)
 
 Handy.e_mitter.on("game_start", function()
-	if MPAPI and MPAPI.create_account_avatar then
+	if not MPAPI then
+		return
+	end
+
+	-- Loading MP post-1.0
+	if MPAPI.create_account_avatar then
 		local old_create_avatar = MPAPI.create_account_avatar
 		function MPAPI.create_account_avatar(...)
 			local avatar_card = old_create_avatar(...)

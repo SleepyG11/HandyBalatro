@@ -73,11 +73,11 @@ Handy.dictionary.register({
 				return r
 			end,
 			__newindex = function(t, k, v)
-				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
+				local lobby, config = Handy.get_mp_lobby()
+				if not config or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
-				(lobby.config or {}).handy_speed_multiplier_mode = v
+				config.handy_speed_multiplier_mode = v
 			end,
 		})
 	end,
@@ -115,11 +115,11 @@ Handy.dictionary.register({
 				return r
 			end,
 			__newindex = function(t, k, v)
-				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
+				local lobby, config = Handy.get_mp_lobby()
+				if not config or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
-				(lobby.config or {}).handy_animation_skip_mode = v
+				config.handy_animation_skip_mode = v
 			end,
 		})
 	end,
@@ -162,11 +162,11 @@ Handy.dictionary.register({
 				return r
 			end,
 			__newindex = function(t, k, v)
-				local lobby = Handy.get_mp_lobby()
-				if not lobby or not Handy.mp_extension.can_change_lobby_settings() then
+				local lobby, config = Handy.get_mp_lobby()
+				if not config or not Handy.mp_extension.can_change_lobby_settings() then
 					return
 				end
-				(lobby.config or {}).handy_dangerous_actions_mode = v
+				config.handy_dangerous_actions_mode = v
 			end,
 		})
 	end,

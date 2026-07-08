@@ -1,12 +1,12 @@
 function Handy.UI.mp_extension_page_definition()
 	local status_colour = G.C.RED
 	local status_key = "handy_mp_extension_status_disabled"
-	local lobby = Handy.get_mp_lobby()
-	if lobby then
-		if not (lobby.config or {}).handy_mp_extension then
+	local lobby, config = Handy.get_mp_lobby()
+	if lobby and config then
+		if not config.handy_mp_extension then
 			status_key = "handy_mp_extension_status_not_initialized"
 			status_colour = G.C.RED
-		elseif not (lobby.config or {}).handy_allow_mp_extension then
+		elseif not config.handy_allow_mp_extension then
 			status_key = "handy_mp_extension_status_disabled_by_ruleset"
 			status_colour = G.C.RED
 		elseif lobby.handy_mp_extension_all_players_enabled then
