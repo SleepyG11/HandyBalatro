@@ -1,11 +1,11 @@
 --- @meta
 
 ---@alias Handy.StackOperator
----| "free"
----| "all"
----| "none"
----| "while"
----| "until"
+---| "free" Call all, always return false, default value
+---| "all" Call all, return true if all true
+---| "none" Call all, return true if all false
+---| "while" Call in order, stop on first false, return true if so
+---| "until" Call in order, stop on first true, return true if so
 
 ---@class Handy.Stack
 ---@field key string
