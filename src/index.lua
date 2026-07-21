@@ -20,8 +20,7 @@ function love.update(dt, ...)
 
 	local a, b, c, d = love_update_ref(dt, ...)
 
-	Handy.UI.state_panel.update_state()
-	Handy.UI.state_panel.update_opacity(dt)
+	Handy.UI.state_panel.update(dt)
 
 	return a, b, c, d
 end

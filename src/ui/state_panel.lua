@@ -257,7 +257,7 @@ end
 
 --
 
-function state_panel.update_state()
+function state_panel.update(dt)
 	if state_panel.new_state_changed then
 		state_panel.previous_state = state_panel.current_state
 		state_panel.current_state = state_panel.new_state
@@ -265,4 +265,5 @@ function state_panel.update_state()
 		state_panel.new_state = state_panel.get_new_state()
 		state_panel.new_state_changed = false
 	end
+	state_panel.update_opacity(dt)
 end
