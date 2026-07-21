@@ -172,7 +172,7 @@ function Handy.stack.print_stack(key)
 	local process_layer
 	process_layer = function(item, indent)
 		table.insert(result, format_item(item, indent))
-		if item.stack then
+		if item.items then
 			for _, subitem in ipairs(item.items) do
 				process_layer(subitem, indent .. "    ")
 			end
