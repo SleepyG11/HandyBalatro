@@ -23,7 +23,7 @@ function Handy.controls.is_module_keys_hold(module, args)
 	if not module then
 		return false, 0, nil
 	end
-	args = args or {}
+	args = args or Handy.ARGS.global_empty_table
 
 	local key_tables = { module.keys_1 or {}, module.keys_2 or {} }
 	if Handy.controller.is_gamepad() then
@@ -115,7 +115,7 @@ function Handy.controls.is_valid_context(item, ctx, args)
 	return true
 end
 function Handy.controls.is_valid_state(item, ctx, args)
-	args = args or {}
+	args = args or Handy.ARGS.global_empty_table
 	-- Mod active check
 	if not args.allow_mod_inactive and not item.allow_mod_inactive and not Handy.b_is_mod_active() then
 		return false
@@ -145,7 +145,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 	if not item then
 		return false
 	end
-	args = args or {}
+	args = args or Handy.ARGS.global_empty_table
 	ctx = ctx or args.ctx
 
 	-- Global state check

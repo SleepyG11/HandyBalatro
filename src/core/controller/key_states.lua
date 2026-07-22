@@ -7,7 +7,7 @@ local real_keys_press = {}
 local real_keys_release = {}
 
 local function get_keys_hold_size(args)
-	args = args or {}
+	args = args or Handy.ARGS.global_empty_table
 	if args.include_release then
 		return Handy.utils.table_keys_count(keys_hold) + Handy.utils.table_keys_count(keys_release)
 	else
@@ -150,7 +150,7 @@ local function get_key_hold_duration(key, args)
 	if not key then
 		return nil
 	end
-	args = args or {}
+	args = args or Handy.ARGS.global_empty_table
 
 	if not args.no_aliases then
 		key = Handy.keys_aliases[key] or key

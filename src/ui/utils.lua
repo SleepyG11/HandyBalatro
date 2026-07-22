@@ -38,6 +38,7 @@ function Handy.UI.utils.card_area(options)
 		card_limit = options.card_limit or 5,
 		type = options.type or "hand",
 		highlight_limit = options.highlight_limit or 1,
+		collection = options.collection,
 	})
 	area.draw = function(self)
 		if not self.states.visible then

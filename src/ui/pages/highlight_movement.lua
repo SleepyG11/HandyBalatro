@@ -9,6 +9,7 @@ function Handy.UI.move_highlight_page_definition()
 		h = CAI.hand_H,
 		card_limit = 4,
 		highlight_limit = 1,
+        collection = true,
 		on_create = function(area)
 			for index, center in ipairs({
 				"j_greedy_joker",

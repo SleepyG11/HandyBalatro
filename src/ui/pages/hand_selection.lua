@@ -174,6 +174,7 @@ function Handy.UI.hand_selection_page_definition()
 			h = 0.95 * G.CARD_H,
 			card_limit = 1,
 			highlight_limit = 0,
+            collection = true,
 			on_create = function(area)
 				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, 1, 1)
 				local me = Card(

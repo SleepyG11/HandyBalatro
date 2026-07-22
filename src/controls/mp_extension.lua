@@ -177,9 +177,9 @@ function Handy.mp_extension.init()
 			return false
 		end
 
-		args = args or {}
+		args = args or Handy.ARGS.global_empty_table
 
-		if not (args and args.bypass_active) and not Handy.b_is_mp_lobby_extension_active() then
+		if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
 			return true
 		end
 		if type(func) ~= "function" then
@@ -196,7 +196,7 @@ function Handy.mp_extension.init()
 			return args and args.default_value, false
 		end
 
-		args = args or {}
+		args = args or Handy.ARGS.global_empty_table
 
 		-- not enabled - no value
 		if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then

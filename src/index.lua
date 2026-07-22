@@ -1,3 +1,5 @@
+Handy.ARGS.global_empty_table = {}
+
 Handy.load_files({
 	"core/index.lua",
 	"ui/index.lua",

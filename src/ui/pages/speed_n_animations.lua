@@ -261,6 +261,7 @@ function Handy.UI.speed_n_animations_page_definition()
 		h = CAI.jokers_H,
 		card_limit = 2,
 		highlight_limit = 0,
+        collection = true,
 	})
 	hand_area =
 		CardArea(G.ROOM.T.x + G.ROOM.T.w / 2, G.ROOM.T.h, CAI.hand_W, CAI.hand_H, { card_limit = 5, type = "play" })

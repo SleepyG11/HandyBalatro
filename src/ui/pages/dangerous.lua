@@ -82,11 +82,16 @@ function Handy.UI.dangerous_page_definition()
 		w = CAI.hand_W,
 		h = CAI.hand_H,
 		card_limit = 9,
-		highlight_limit = 1,
+		highlight_limit = 0,
+		collection = true,
 		on_create = function(area)
 			for i = 1, 3 do
 				local center = pseudorandom_element(G.P_CENTER_POOLS.Joker, pseudoseed("handy_" .. math.random()))
 					or G.P_CENTERS.j_rocket
+					or G.P_CENTERS.j_joker
+				if center == G.P_CENTERS.j_todo_list then
+					center = G.P_CENTERS.j_rocket or G.P_CENTERS.j_joker
+				end
 				for j = 1, 3 do
 					local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, (i - 1) * 3 + j, 9)
 					local card1 = Card(

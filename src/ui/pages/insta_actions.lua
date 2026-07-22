@@ -9,7 +9,11 @@ function Handy.UI.insta_actions_page_definition()
 	local create_cards = function(is_shop)
 		return function(area)
 			local joker_center = pseudorandom_element(G.P_CENTER_POOLS["Joker"], pseudoseed("handy_" .. math.random()))
+				or G.P_CENTERS.j_rocket
 				or G.P_CENTERS.j_joker
+			if joker_center == G.P_CENTERS.j_todo_list then
+				joker_center = G.P_CENTERS.j_rocket or G.P_CENTERS.j_joker
+			end
 			local planet_center = pseudorandom_element(
 				G.P_CENTER_POOLS["Consumeables"],
 				pseudoseed("handy_" .. math.random())
@@ -144,6 +148,7 @@ function Handy.UI.insta_actions_page_definition()
 		h = CAI.hand_H,
 		card_limit = 3,
 		highlight_limit = 0,
+		collection = true,
 		on_create = create_cards(false),
 	})
 	local shop_area = Handy.UI.utils.card_area({
@@ -151,6 +156,7 @@ function Handy.UI.insta_actions_page_definition()
 		h = CAI.shop_H,
 		card_limit = 3,
 		highlight_limit = 0,
+		collection = true,
 		on_create = create_cards(true),
 	})
 	local example_hand_row = {
