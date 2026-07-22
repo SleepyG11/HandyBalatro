@@ -44,7 +44,7 @@ setmetatable(Handy.current_mod, {
 				local animation_value = debug_animation_levels[anim_value] or anim_value
 				return {
 					["Speed Multiplier"] = string.format(
-						"%s | Event queue acceleration: %s | Animation Skip: %s",
+						"%s | Event queue acceleration: %s | Animations Skip: %s",
 						speed_value,
 						acceleration_value + 1,
 						tostring(animation_value)

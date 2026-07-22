@@ -26,7 +26,7 @@ function Handy.stack.register(item)
 	end
 
 	item.items = item.items or {}
-	item.operator = item.operator or "all"
+	item.operator = item.operator or "free"
 
 	if item.control == true then
 		item.control = item.key

@@ -10,6 +10,8 @@ Handy_Preflight = {
 
 Handy = {
 	preflight = true,
+
+	ARGS = {},
 }
 Handy.API = {
 	preflight = true,
@@ -18,7 +20,7 @@ Handy.API = {
 ---
 
 local function resolve_mod(args)
-	args.mod_id = args.mod_id or (SMODS and SMODS.current_mod and SMODS.current_mod.id)
+	args.mod_id = args.mod_id or Handy.ARGS.mod_id_override or (SMODS and SMODS.current_mod and SMODS.current_mod.id)
 end
 
 function Handy.API.Control(args)

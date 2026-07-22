@@ -68,10 +68,12 @@ if CardArea.handle_card_limit then
 	end
 end
 
+Handy.ARGS.mod_id_override = "Handy"
 Handy.load_directory("src/controls", true)
 Handy.load_directory("src/definitions/controls", true)
 Handy.load_directory("src/definitions/dictionary", true)
 Handy.load_directory("src/definitions/stack", true)
+Handy.ARGS.mod_id_override = nil
 
 -- Mod is ready, lets start!
 

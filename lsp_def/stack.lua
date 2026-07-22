@@ -26,6 +26,7 @@
 ---@field global? boolean
 
 --- Add stack layer - objects which determines in which conditions and order each control fires.
+--- See `stack_snalshot.txt` file for base mod stack structure
 --- @param args Handy.CreateStackArgs | table
 --- @return Handy.Stack
 function Handy.API.Stack(args) end
