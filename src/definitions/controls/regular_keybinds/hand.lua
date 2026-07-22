@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_play",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_play
@@ -39,7 +39,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_discard",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_discard
@@ -81,7 +81,7 @@ Handy.controls.register({
 	end,
 })
 
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_change_sort_rank",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_sort_by_rank
@@ -106,7 +106,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_change_sort_suit",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_sort_by_suit
@@ -131,7 +131,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_toggle_sort",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_toggle_sort

@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_collection",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_collection
@@ -21,7 +21,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_options",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_options
@@ -44,7 +44,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_mod_settings",
 	get_module = function()
 		return Handy.cc.regular_keybinds_mod_settings
@@ -65,7 +65,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_show_deck_preview",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_show_deck_preview
@@ -79,7 +79,7 @@ Handy.controls.register({
 
 	update = function(self, dt)
 		if Handy.b_is_mod_active() and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds) then
-			Handy.regular_keybinds.show_deck_preview_hold = self:can_execute()
+			Handy.regular_keybinds.show_deck_preview_hold = Handy.controls.can_execute_control(self)
 		else
 			Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
 		end

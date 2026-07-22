@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "move_highlight",
 	get_module = function()
 		return Handy.cc.move_highlight

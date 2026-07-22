@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "insta_actions",
 	get_module = function()
 		return Handy.cc.insta_actions

@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_reroll_shop",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_reroll_shop
@@ -40,7 +40,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_leave_shop",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_leave_shop
@@ -73,7 +73,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_skip_booster",
 	get_module = function()
 		return Handy.cc.regular_keybinds_skip_booster

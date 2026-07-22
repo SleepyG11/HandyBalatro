@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "animation_skip_toggle_temp_disabled",
 	get_module = function(self)
 		return Handy.cc.animation_skip_toggle_temp_disabled
@@ -16,7 +16,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "animation_skip_increase",
 	get_module = function(self)
 		return Handy.cc.animation_skip_increase
@@ -34,7 +34,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "animation_skip_decrease",
 	get_module = function(self)
 		return Handy.cc.animation_skip_decrease

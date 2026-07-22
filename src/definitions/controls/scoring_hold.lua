@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "scoring_hold",
 	get_module = function()
 		return Handy.cc.scoring_hold

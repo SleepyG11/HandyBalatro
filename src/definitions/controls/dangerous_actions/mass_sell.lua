@@ -1,5 +1,5 @@
 -- One-by-one
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_sell_one",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_one
@@ -20,7 +20,7 @@ Handy.controls.register({
 	can_execute = Handy.dangerous_actions.create_can_execute(false, false, false),
 	execute = Handy.dangerous_actions.create_execute(false, false, false),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_remove_one",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_one
@@ -44,7 +44,7 @@ Handy.controls.register({
 })
 
 -- All same
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_sell_all_same",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_all_same
@@ -65,7 +65,7 @@ Handy.controls.register({
 	can_execute = Handy.dangerous_actions.create_can_execute(false, true, false),
 	execute = Handy.dangerous_actions.create_execute(false, true, false),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_remove_all_same",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_all_same
@@ -89,7 +89,7 @@ Handy.controls.register({
 })
 
 -- All
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_sell_all",
 	get_module = function()
 		return Handy.cc.dangerous_actions_sell_all
@@ -110,7 +110,7 @@ Handy.controls.register({
 	can_execute = Handy.dangerous_actions.create_can_execute(false, false, true),
 	execute = Handy.dangerous_actions.create_execute(false, false, true),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_remove_all",
 	get_module = function()
 		return Handy.cc.dangerous_actions_remove_all

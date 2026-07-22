@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_run_info",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info
@@ -21,7 +21,7 @@ Handy.controls.register({
 		})
 	end),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_run_info_binds",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info_blinds
@@ -46,7 +46,7 @@ Handy.controls.register({
 		Handy.ARGS.override_create_tabs_chosen_by_label = nil
 	end),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_view_deck",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_view_deck
@@ -69,7 +69,7 @@ Handy.controls.register({
 		})
 	end),
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_view_lobby_info",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_lobby_info

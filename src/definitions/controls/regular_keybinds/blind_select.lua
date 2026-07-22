@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_skip_blind",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_skip_blind
@@ -36,7 +36,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_select_blind",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_select_blind
@@ -71,7 +71,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_reroll_boss",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_reroll_boss

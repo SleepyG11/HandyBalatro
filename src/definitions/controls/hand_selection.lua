@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "hand_selection_insta_highlight",
 	get_module = function(self)
 		return Handy.cc.hand_selection_insta_highlight
@@ -68,7 +68,7 @@ Handy.controls.register({
 		end
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "hand_selection_deselect_hand",
 	get_module = function(self)
 		return Handy.cc.hand_selection_deselect_hand
@@ -128,7 +128,7 @@ Handy.controls.register({
 		return Handy.hand_selection.deselect_hand(data.area)
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "hand_selection_entire_f_hand",
 	get_module = function(self)
 		return Handy.cc.hand_selection_entire_f_hand

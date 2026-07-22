@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_start_fantoms_preview",
 	get_module = function()
 		return Handy.cc.regular_keybinds_start_fantoms_preview
@@ -30,7 +30,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_cash_out",
 	get_module = function()
 		return Handy.cc.regular_keybinds_cash_out
@@ -81,7 +81,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_not_just_yet_interaction",
 	get_module = function()
 		return Handy.cc.regular_keybinds_not_just_yet_interaction

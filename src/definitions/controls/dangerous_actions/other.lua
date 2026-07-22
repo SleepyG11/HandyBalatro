@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_crash",
 	get_module = function()
 		return Handy.cc.dangerous_actions_crash
@@ -30,7 +30,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "dangerous_actions_stack_overflow",
 	get_module = function()
 		return Handy.cc.dangerous_actions_stack_overflow

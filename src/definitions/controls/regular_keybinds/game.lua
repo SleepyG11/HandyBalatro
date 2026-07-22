@@ -1,4 +1,4 @@
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_restart",
 	get_module = function()
 		return Handy.cc.regular_keybinds_restart
@@ -58,7 +58,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_quick_restart",
 	get_module = function()
 		return Handy.cc.regular_keybinds_quick_restart
@@ -92,7 +92,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_save_run",
 	get_module = function()
 		return Handy.cc.regular_keybinds_save_run
@@ -118,7 +118,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_reload_run",
 	get_module = function()
 		return Handy.cc.regular_keybinds_reload_run
@@ -196,7 +196,7 @@ Handy.controls.register({
 		return false
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_restart_game",
 	get_module = function()
 		return Handy.cc.regular_keybinds_restart_game
@@ -218,7 +218,7 @@ Handy.controls.register({
 		return true
 	end,
 })
-Handy.controls.register({
+Handy.API.Control({
 	key = "regular_keybinds_copy_log_file",
 	get_module = function()
 		return Handy.cc.regular_keybinds_copy_log_file
