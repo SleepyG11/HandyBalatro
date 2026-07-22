@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "presets",
 	order = 11,
 
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "presets_load_1",
 	parent = "presets",
 	order = 1,
@@ -24,14 +24,14 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		rerender = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "presets_load_2",
 	parent = "presets",
 	order = 2,
@@ -45,14 +45,14 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		rerender = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "presets_load_3",
 	parent = "presets",
 	order = 3,
@@ -66,14 +66,14 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		rerender = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "presets_load_next",
 	parent = "presets",
 	order = 4,
@@ -87,7 +87,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		rerender = true,
 	},
 	checkbox = {

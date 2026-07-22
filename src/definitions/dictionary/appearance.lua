@@ -1,10 +1,10 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "appearance",
 	order = 3,
 	keywords = { "appearance buttons button toggle toggles checkboxes checkbox visual" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "notifications_level",
 	parent = "appearance",
 	order = 1,
@@ -31,7 +31,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hide_options_button",
 	parent = "appearance",
 	order = 2,
@@ -46,7 +46,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "show_custom_pip",
 	parent = "appearance",
 	order = 3,
@@ -68,7 +68,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_settings_toggle",
 	parent = "appearance",
 	order = 4,
@@ -84,7 +84,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_settings_toggle",
 	parent = "appearance",
 	order = 5,

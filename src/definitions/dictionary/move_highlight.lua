@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "move_highlight",
 	order = 9,
 
@@ -11,7 +11,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "move_highlight_one_left",
 	parent = "move_highlight",
 	order = 1,
@@ -32,7 +32,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "move_highlight_one_right",
 	parent = "move_highlight",
 	order = 2,
@@ -53,7 +53,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "move_highlight_swap",
 	parent = "move_highlight",
 	order = 3,
@@ -75,7 +75,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "move_highlight_to_end",
 	parent = "move_highlight",
 	order = 4,

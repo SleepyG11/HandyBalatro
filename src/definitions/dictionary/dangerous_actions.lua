@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions",
 	order = 14,
 
@@ -11,7 +11,7 @@ Handy.dictionary.register({
 	dangerous = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_sell_one",
 	parent = "dangerous_actions",
 	order = 1,
@@ -28,7 +28,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_remove_one",
 	parent = "dangerous_actions",
 	order = 2,
@@ -45,7 +45,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_mass_sell_remove_mode",
 	parent = "dangerous_actions",
 	order = 3,
@@ -76,7 +76,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_sell_all_same",
 	parent = "dangerous_actions",
 	order = 4,
@@ -93,7 +93,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_remove_all_same",
 	parent = "dangerous_actions",
 	order = 5,
@@ -110,7 +110,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_sell_all",
 	parent = "dangerous_actions",
 	order = 6,
@@ -127,7 +127,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_remove_all",
 	parent = "dangerous_actions",
 	order = 7,
@@ -144,7 +144,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_crash",
 	parent = "dangerous_actions",
 	order = 8,
@@ -162,7 +162,7 @@ Handy.dictionary.register({
 		only_safe = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_stack_overflow",
 	parent = "dangerous_actions",
 	order = 9,

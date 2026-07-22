@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "updater",
 	keywords = { "auto mod update updating patch note notes patchnotes install github" },
 	order = 5,
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "updater_target_release_type",
 	parent = "updater",
 	order = 1,
@@ -34,7 +34,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "updater_notify_about_new_update",
 	parent = "updater",
 	order = 2,
@@ -49,7 +49,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "updater_auto_install_new_update",
 	parent = "updater",
 	order = 3,
@@ -64,7 +64,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "updater_auto_restart_game_after_update",
 	parent = "updater",
 	order = 4,

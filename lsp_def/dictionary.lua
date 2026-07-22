@@ -48,9 +48,24 @@
 ---@field parent? Handy.Dictionary
 ---@field parents? Handy.Dictionary[]
 ---@field items? Handy.Dictionary[]
+---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
 ---@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
 
----@class Handy.CreateDictionaryArgs: Handy.Dictionary
+---@class Handy.CreateDictionaryArgs
+---@field key string
+---@field order? number
+---@field keywords? string[]
+---@field get_module? fun(self: Handy.Dictionary): Handy.Config Config to use for check can control be executed by checking enabled status and/or keybinds
+---@field get_deps? fun(self: Handy.Dictionary): Handy.Dictionary[] | nil List of configs which needs to be active before control can be executed
+---@field checkbox? Handy.DictionaryCheckboxArgs | boolean
+---@field keybind? Handy.DictionaryKeybindArgs | boolean
+---@field option_cycle? Handy.DictionaryOptionCycleArgs | boolean
+---@field simple_option_cycle? Handy.DictionaryCheckboxArgs | boolean
+---@field slider? Handy.DictionarySliderArgs | boolean
+---@field parent? Handy.Dictionary | string
+---@field items? Handy.Dictionary[]
+---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
+---@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
 
 --- Add dictionary entry - object which represents configuration.<br/>
 --- * Resolves and displays all info from localization file

@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds",
 	order = 13,
 
@@ -12,7 +12,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_game",
 	parent = "regular_keybinds",
 	order = 1,
@@ -20,7 +20,7 @@ Handy.dictionary.register({
 	kywords = { "general game" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_restart",
 	parent = "regular_keybinds_group_game",
 	order = 1,
@@ -47,7 +47,7 @@ Handy.dictionary.register({
 		only_holdable = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_quick_restart",
 	parent = "regular_keybinds_group_game",
 	order = 2,
@@ -74,7 +74,7 @@ Handy.dictionary.register({
 		only_safe = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_save_run",
 	parent = "regular_keybinds_group_game",
 	order = 3,
@@ -95,7 +95,7 @@ Handy.dictionary.register({
 		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_reload_run",
 	parent = "regular_keybinds_group_game",
 	order = 4,
@@ -117,7 +117,7 @@ Handy.dictionary.register({
 		only_safe = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_restart_game",
 	parent = "regular_keybinds_group_game",
 	order = 5,
@@ -139,7 +139,7 @@ Handy.dictionary.register({
 		only_safe = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_copy_log_file",
 	parent = "regular_keybinds_group_game",
 	order = 6,
@@ -162,7 +162,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_hand",
 	parent = "regular_keybinds",
 	order = 2,
@@ -170,7 +170,7 @@ Handy.dictionary.register({
 	keywords = { "hand" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_play",
 	parent = "regular_keybinds_group_hand",
 	order = 1,
@@ -184,13 +184,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_discard",
 	parent = "regular_keybinds_group_hand",
 	order = 2,
@@ -204,13 +204,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_change_sort_rank",
 	parent = "regular_keybinds_group_hand",
 	order = 3,
@@ -224,13 +224,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_change_sort_suit",
 	parent = "regular_keybinds_group_hand",
 	order = 4,
@@ -244,13 +244,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_toggle_sort",
 	parent = "regular_keybinds_group_hand",
 	order = 5,
@@ -264,7 +264,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
@@ -273,7 +273,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_round",
 	parent = "regular_keybinds",
 	order = 3,
@@ -281,7 +281,7 @@ Handy.dictionary.register({
 	keywords = { "round" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_cash_out",
 	parent = "regular_keybinds_group_round",
 	order = 1,
@@ -295,20 +295,20 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_not_just_yet_interaction",
 	parent = "regular_keybinds_group_round",
 	order = 2,
 
 	keywords = { "not just yet notjustyet end round njy" },
 	get_module = function(self)
-		return Handy.cc.regular_keybinds_not_just_yet_interaction, { Handy.D.dictionary.regular_keybinds }
+		return Handy.cc.regular_keybinds_not_just_yet_interaction
 	end,
 	get_deps = function(self)
 		return { Handy.D.dictionary.regular_keybinds }
@@ -318,13 +318,13 @@ Handy.dictionary.register({
 	},
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_start_fantoms_preview",
 	parent = "regular_keybinds_group_round",
 	order = 3,
@@ -350,7 +350,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_shop",
 	parent = "regular_keybinds",
 	order = 4,
@@ -358,7 +358,7 @@ Handy.dictionary.register({
 	keywords = { "shop" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_skip_booster",
 	parent = "regular_keybinds_group_shop",
 	order = 1,
@@ -372,13 +372,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_reroll_shop",
 	parent = "regular_keybinds_group_shop",
 	order = 2,
@@ -392,13 +392,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_leave_shop",
 	parent = "regular_keybinds_group_shop",
 	order = 3,
@@ -412,7 +412,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
@@ -421,13 +421,13 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_blind_select",
 	parent = "regular_keybinds",
 	order = 5,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_skip_blind",
 	parent = "regular_keybinds_group_blind_select",
 	order = 1,
@@ -441,13 +441,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_select_blind",
 	parent = "regular_keybinds_group_blind_select",
 	order = 2,
@@ -461,13 +461,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_reroll_boss",
 	parent = "regular_keybinds_group_blind_select",
 	order = 3,
@@ -481,7 +481,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
@@ -490,14 +490,14 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_swappable_menus",
 	parent = "regular_keybinds",
 	order = 6,
 	keywords = { "ui menus panels" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_swappable_overlays_mode",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 1,
@@ -522,7 +522,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_run_info",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 2,
@@ -536,13 +536,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_run_info_blinds",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 3,
@@ -556,13 +556,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_view_deck",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 4,
@@ -576,13 +576,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_view_lobby_info",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 5,
@@ -599,7 +599,7 @@ Handy.dictionary.register({
 	},
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
@@ -608,7 +608,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_group_menus",
 	parent = "regular_keybinds",
 	order = 7,
@@ -616,7 +616,7 @@ Handy.dictionary.register({
 	keywords = { "ui menus panels menus" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_show_deck_preview",
 	parent = "regular_keybinds_group_menus",
 	order = 1,
@@ -630,14 +630,14 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		only_holdable = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_options",
 	parent = "regular_keybinds_group_menus",
 	order = 2,
@@ -656,13 +656,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_collection",
 	parent = "regular_keybinds_group_menus",
 	order = 3,
@@ -676,13 +676,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "regular_keybinds_mod_settings",
 	parent = "regular_keybinds_group_menus",
 	order = 4,
@@ -696,7 +696,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,

@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "insta_actions",
 	order = 10,
 
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "insta_actions_trigger_mode",
 	parent = "insta_actions",
 	order = 1,
@@ -35,7 +35,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "insta_actions_buy_or_sell",
 	parent = "insta_actions",
 	order = 2,
@@ -56,10 +56,10 @@ Handy.dictionary.register({
 
 	checkbox = true,
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "insta_actions_buy_n_sell",
 	parent = "insta_actions",
 	order = 3,
@@ -79,11 +79,11 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "insta_actions_use",
 	parent = "insta_actions",
 	order = 4,
@@ -103,7 +103,7 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = true,
 })

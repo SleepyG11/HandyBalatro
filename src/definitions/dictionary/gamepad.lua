@@ -1,10 +1,10 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "gamepad",
 	order = 2,
 	keywords = { "gamepad controller" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "controller_sensitivity",
 	parent = "gamepad",
 	order = 1,
@@ -32,7 +32,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "swap_controller_cursor_stick",
 	parent = "gamepad",
 	order = 2,

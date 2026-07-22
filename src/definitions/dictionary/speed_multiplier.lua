@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier",
 	order = 7,
 
@@ -17,7 +17,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_current_value",
 	parent = "speed_multiplier",
 	order = 1,
@@ -47,7 +47,7 @@ Handy.dictionary.register({
 		colour = G.C.CHIPS,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_default_value",
 	parent = "speed_multiplier",
 	order = 2,
@@ -72,7 +72,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_multiply",
 	parent = "speed_multiplier",
 	order = 3,
@@ -93,7 +93,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_divide",
 	parent = "speed_multiplier",
 	order = 4,
@@ -114,7 +114,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "speed_multiplier_toggle_temp_disabled",
 	parent = "speed_multiplier",
 	order = 5,
@@ -135,7 +135,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_speed_multiplier_uncap",
 	parent = "speed_multiplier",
 	order = 6,

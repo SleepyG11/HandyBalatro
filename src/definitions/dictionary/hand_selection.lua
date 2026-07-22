@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection",
 	order = 6,
 
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_mode",
 	parent = "hand_selection",
 	order = 1,
@@ -43,7 +43,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_insta_highlight",
 	parent = "hand_selection",
 	order = 2,
@@ -68,11 +68,11 @@ Handy.dictionary.register({
 	},
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_insta_highlight_allow_deselect",
 	parent = "hand_selection",
 	order = 3,
@@ -91,7 +91,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_combine_select_deselect",
 	parent = "hand_selection",
 	order = 4,
@@ -111,7 +111,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_deselect_hand",
 	parent = "hand_selection",
 	order = 5,
@@ -132,13 +132,13 @@ Handy.dictionary.register({
 	end,
 
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 	},
 	checkbox = {
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "hand_selection_entire_f_hand",
 	parent = "hand_selection",
 	order = 6,

@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "general",
 	order = 1,
 
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	end,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "handy",
 	parent = "general",
 	order = 1,
@@ -22,7 +22,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "keybinds_trigger_mode",
 	parent = "general",
 	order = 2,
@@ -43,7 +43,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "current_device",
 	parent = "general",
 	order = 3,
@@ -71,7 +71,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "prevent_if_debugplus",
 	parent = "general",
 	order = 4,

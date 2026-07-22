@@ -1,6 +1,6 @@
 -- TODO: remove all this metatable nonsense and use ref_table/ref_value stuff :alembic:
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension",
 	order = 15,
 
@@ -9,7 +9,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_current_lobby",
 	parent = "mp_extension",
 	order = 1,
@@ -17,7 +17,7 @@ Handy.dictionary.register({
 	keywords = { "current lobby" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_enabled",
 	parent = "mp_extension_current_lobby",
 	order = 1,
@@ -57,7 +57,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_speed_multiplier_mode",
 	parent = "mp_extension_current_lobby",
 	order = 2,
@@ -99,7 +99,7 @@ Handy.dictionary.register({
 		colour = G.C.CHIPS,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_animation_skip_mode",
 	parent = "mp_extension_current_lobby",
 	order = 3,
@@ -146,7 +146,7 @@ Handy.dictionary.register({
 		colour = G.C.ORANGE,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_dangerous_actions_mode",
 	parent = "mp_extension_current_lobby",
 	order = 4,
@@ -195,7 +195,7 @@ Handy.dictionary.register({
 
 --
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_default_values",
 	parent = "mp_extension",
 	order = 2,
@@ -203,7 +203,7 @@ Handy.dictionary.register({
 	keywords = { "default lobby values" },
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_enabled_default_value",
 	parent = "mp_extension_default_values",
 	order = 1,
@@ -214,7 +214,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_speed_multiplier_mode_default_value",
 	parent = "mp_extension_default_values",
 	order = 2,
@@ -233,7 +233,7 @@ Handy.dictionary.register({
 		colour = G.C.CHIPS,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_animation_skip_mode_default_value",
 	parent = "mp_extension_default_values",
 	order = 3,
@@ -257,7 +257,7 @@ Handy.dictionary.register({
 		colour = G.C.ORANGE,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "mp_extension_dangerous_actions_mode_default_value",
 	parent = "mp_extension_default_values",
 	order = 4,

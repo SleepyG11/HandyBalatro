@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip",
 	order = 8,
 
@@ -21,7 +21,7 @@ Handy.dictionary.register({
 	checkbox = true,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_current_value",
 	parent = "animation_skip",
 	order = 1,
@@ -51,7 +51,7 @@ Handy.dictionary.register({
 		colour = G.C.ORANGE,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_default_value",
 	parent = "animation_skip",
 	order = 2,
@@ -81,7 +81,7 @@ Handy.dictionary.register({
 		end,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_increase",
 	parent = "animation_skip",
 	order = 3,
@@ -102,7 +102,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_decrease",
 	parent = "animation_skip",
 	order = 4,
@@ -123,7 +123,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "animation_skip_toggle_temp_disabled",
 	parent = "animation_skip",
 	order = 5,
@@ -144,7 +144,7 @@ Handy.dictionary.register({
 		advanced = true,
 	},
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "dangerous_actions_animation_skip_unsafe",
 	parent = "animation_skip",
 	order = 6,

@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "scoring_hold",
 	order = 12,
 
@@ -10,12 +10,12 @@ Handy.dictionary.register({
 
 	checkbox = true,
 	keybind = {
-		allow_multiple = "advanced",
+		allow_multiple = true,
 		only_holdable = true,
 	},
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "scoring_hold_any_moment",
 	parent = "scoring_hold",
 	order = 1,

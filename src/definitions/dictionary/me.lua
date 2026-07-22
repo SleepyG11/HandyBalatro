@@ -1,4 +1,4 @@
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "me",
 	order = 4,
 
@@ -10,7 +10,7 @@ Handy.dictionary.register({
 	end,
 })
 
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "me_in_mod_config",
 	parent = "me",
 	order = 1,
@@ -21,7 +21,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "me_in_game_over",
 	parent = "me",
 	order = 2,
@@ -32,7 +32,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "me_in_game_win",
 	parent = "me",
 	order = 3,
@@ -43,7 +43,7 @@ Handy.dictionary.register({
 
 	checkbox = true,
 })
-Handy.dictionary.register({
+Handy.API.Dictionary({
 	key = "me_in_screenswipe",
 	parent = "me",
 	order = 4,
