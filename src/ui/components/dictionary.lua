@@ -75,7 +75,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 
 	local opacity = false
 
-	local module = item:get_module()
+	local module = Handy.config.get_module(item:get_module())
 	local oc_values = item.checkbox.get_values and item.checkbox:get_values() or {}
 	local disabled = oc_values.disabled
 	-- If checkbox in advanced mode, display if we are in advanced more or module is not enabled
@@ -163,7 +163,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 	}
 end
 function Handy.UI.CP.dictionary_item_keybind(item)
-	local module = item:get_module()
+	local module = Handy.config.get_module(item:get_module())
 	local options = type(item.keybind) == "table" and item.keybind or {}
 	local kb_values = options.get_values and options:get_values() or {}
 
@@ -364,7 +364,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 	return result
 end
 function Handy.UI.CP.dictionary_item_option_cycle(item)
-	local module = item:get_module()
+	local module = Handy.config.get_module(item:get_module())
 	local item_oc = item.option_cycle
 	local oc_values = item_oc and item_oc:get_values() or {}
 
@@ -556,7 +556,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 	} }
 end
 function Handy.UI.CP.dictionary_item_slider(item)
-	local module = item:get_module()
+	local module = Handy.config.get_module(item:get_module())
 	local item_sl = item.slider
 	local sl_values = item_sl.get_values and item_sl:get_values() or {}
 
