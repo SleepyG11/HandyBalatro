@@ -5,6 +5,16 @@ to_number = to_number or function(x)
 	return tonumber(x)
 end
 
+if Handy and not Handy.preflight then
+	error([[
+
+
+Handy mod installed twice.
+
+To fix this, make sure Mods folder have only one copy of mod.
+]])
+end
+
 Handy = {
 	---@diagnostic disable-next-line: undefined-global
 	NFS = (SMODS and SMODS.NFS) or NFS or require("handy/nativefs"),

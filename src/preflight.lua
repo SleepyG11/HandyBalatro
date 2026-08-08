@@ -99,3 +99,7 @@ function Handy.e_mitter.off(type, key)
 	end
 	return false
 end
+
+---
+
+function Handy.get_module_override(module) end
