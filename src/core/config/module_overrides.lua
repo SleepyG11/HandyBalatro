@@ -73,7 +73,7 @@ function Handy.module_overrides.process(module)
 
 	-- TODO: deprecate Handy.get_module_override old method
 	local override = processors[module] and processors[module](module) or Handy.get_module_override(module)
-	if override then
+	if override and override ~= module then
 		cache[module] = Handy.utils.table_shallow_merge({}, module, override)
 		return cache[module]
 	end
