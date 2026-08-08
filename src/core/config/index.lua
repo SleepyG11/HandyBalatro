@@ -1,5 +1,6 @@
 Handy.config = {}
 Handy.load_file("src/core/config/default_config.lua")
+Handy.load_file("src/core/config/module_overrides.lua")
 Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 -- Shorthand for `Handy.config.current`
 Handy.cc = Handy.config.current
@@ -9,7 +10,7 @@ Handy.cc = Handy.config.current
 Handy.config.save_event = nil
 Handy.config.save_blocker = nil
 
-function Handy.config.save()
+function Handy.config.save(supress_event)
 	Handy.config.save_blocker = true
 	if SMODS and SMODS.save_mod_config and Handy.current_mod then
 		Handy.current_mod.config = Handy.config.current
@@ -19,8 +20,11 @@ function Handy.config.save()
 		local serialized = "return " .. Handy.utils.serialize(Handy.config.current)
 		love.filesystem.write("config/Handy.jkr", serialized)
 	end
+	if not supress_event then
+		Handy.e_mitter.emit("config_save")
+	end
 end
-function Handy.config.load()
+function Handy.config.load(supress_event)
 	Handy.config.current = Handy.utils.table_merge({}, Handy.config.default)
 	local lovely_mod_config = get_compressed("config/Handy.jkr")
 	if lovely_mod_config then
@@ -31,6 +35,9 @@ function Handy.config.load()
 		)
 	end
 	Handy.cc = Handy.config.current
+	if not supress_event then
+		Handy.e_mitter.emit("config_load")
+	end
 end
 function Handy.config.request_save(delay)
 	Handy.config.save_blocker = nil
@@ -47,7 +54,7 @@ function Handy.config.request_save(delay)
 			pause_force = true,
 			func = function()
 				if not Handy.config.save_blocker then
-					Handy.config.save()
+					Handy.config.save(true)
 				end
 				return true
 			end,
@@ -304,38 +311,16 @@ function Handy.config.migrate(old_config, to)
 	return old_config
 end
 
--- Getting calculated module data
-Handy.config.modules_cache = {}
+--
+
 function Handy.config.get_module(module)
-	if not module then
-		return nil
-	end
-	if Handy.config.modules_cache[module] then
-		return Handy.config.modules_cache[module]
-	end
-	local result = Handy.cc[module] or module
-	local override = Handy.get_module_override(module)
-	if override then
-		result = Handy.utils.table_merge({}, module, override)
-	end
-	Handy.config.modules_cache[module] = result
-	return result
-end
-function Handy.get_module_override(module)
-	return nil
-end
-function Handy.m(module)
-	return Handy.config.get_module(module)
+	return module and Handy.module_overrides.process(module)
 end
 
 --
 
-Handy.e_mitter.on("update", function(dt)
-	EMPTY(Handy.config.modules_cache)
-end)
-
 Handy.e_mitter.on("load", function()
-	Handy.config.load()
+	Handy.config.load(true)
 end)
 Handy.e_mitter.on("game_start", function()
 	Handy.config.load()

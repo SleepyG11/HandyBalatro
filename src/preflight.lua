@@ -4,6 +4,7 @@ Handy_Preflight = {
 		Control = {},
 		Stack = {},
 		Dictionary = {},
+		ModuleOverride = {},
 	},
 	queues = {},
 }
@@ -37,6 +38,10 @@ function Handy.API.Dictionary(args)
 end
 function Handy.API.DefaultConfig(config)
 	table.insert(Handy_Preflight.API.DefaultConfig, config)
+end
+function Handy.API.ModuleOverride(args)
+	resolve_mod(args)
+	table.insert(Handy_Preflight.API.ModuleOverride, config)
 end
 
 ---

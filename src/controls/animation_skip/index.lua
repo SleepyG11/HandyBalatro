@@ -147,12 +147,16 @@ end
 function Handy.animation_skip.should_skip_animation()
 	return Handy.animation_skip.get_buffered_value() >= 3
 end
-Handy.animation_skip.should_skip_animations = Handy.animation_skip.should_skip_animation
 function Handy.animation_skip.should_skip_everything()
 	return Handy.animation_skip.get_buffered_value() >= 4
 end
 function Handy.animation_skip.should_skip_unsafe()
 	return Handy.animation_skip.get_buffered_value() >= 5
+end
+
+-- Aliases
+function Handy.animation_skip.should_skip_animations()
+	return Handy.animation_skip.should_skip_animation()
 end
 
 -- Value manipulation
@@ -228,6 +232,9 @@ Handy.e_mitter.on("game_start", function()
 end)
 Handy.e_mitter.on("localization_load", function()
 	Handy.animation_skip.localize_value()
+end)
+Handy.e_mitter.on("config_load", function()
+	Handy.animation_skip.change(0)
 end)
 Handy.e_mitter.on("config_save", function()
 	Handy.animation_skip.change(0)

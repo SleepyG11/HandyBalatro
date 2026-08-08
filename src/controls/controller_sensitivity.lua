@@ -15,3 +15,4 @@ Handy.controller_sensitivity = {
 
 Handy.e_mitter.on("game_start", Handy.controller_sensitivity.apply)
 Handy.e_mitter.on("config_save", Handy.controller_sensitivity.apply)
+Handy.e_mitter.on("config_load", Handy.controller_sensitivity.apply)
