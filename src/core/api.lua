@@ -20,10 +20,6 @@ function Handy.API.Dictionary(args)
 	resolve_mod(args)
 	return Handy.dictionary.register(args)
 end
-function Handy.API.ModuleOverride(args)
-	resolve_mod(args)
-	return Handy.module_overrides.register(args)
-end
 
 for k, inputs in pairs(Handy_Preflight and Handy_Preflight.API or {}) do
 	for _, input in ipairs(inputs) do

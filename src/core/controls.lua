@@ -58,7 +58,7 @@ function Handy.controls.is_module_keys_hold(module, args)
 	return false, 0, nil
 end
 function Handy.controls.is_module_enabled(module)
-	module = Handy.config.get_module(module)
+	module = Handy.config.resolve_module(module)
 	return module and module.enabled
 end
 
@@ -154,7 +154,7 @@ function Handy.controls.can_execute_control(item, ctx, args)
 	end
 
 	-- Module resolving
-	local module = Handy.config.get_module(item:get_module())
+	local module = Handy.config.resolve_module(item:get_module())
 	if not module then
 		return false
 	end

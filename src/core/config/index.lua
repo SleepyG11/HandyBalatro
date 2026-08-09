@@ -313,7 +313,7 @@ end
 
 --
 
-function Handy.config.get_module(module)
+function Handy.config.resolve_module(module)
 	return module and Handy.module_overrides.process(module)
 end
 
