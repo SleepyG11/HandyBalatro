@@ -147,6 +147,8 @@ function Handy.UI.dictionary_tab_UIBox()
 	search_cycle_focus_args.type = "handy"
 	search_cycle.nodes[1].config.func = "handy_gamepad_2step_control"
 
+	local create_input_func = SMODS and SMODS.GUI and SMODS.GUI.text_input or create_text_input
+
 	local footer = {
 		n = G.UIT.R,
 		config = { align = "cm", padding = 0.1, colour = { 0, 0, 0, 0.1 }, r = 0.25 },
@@ -177,13 +179,14 @@ function Handy.UI.dictionary_tab_UIBox()
 											n = G.UIT.ROOT,
 											config = { colour = G.C.CLEAR },
 											nodes = {
-												create_text_input({
+												create_input_func({
 													w = 4,
 													max_length = 32,
 													ref_table = Handy.UI.data.dictionary,
 													ref_value = "search",
-													extended_corpus = true,
+													font = G.FONTS[6],
 													id = "handy_dictionary_search",
+													multi_language = true,
 													prompt_text = localize("b_handy_search_placeholder"),
 													callback = function()
 														if not Handy.controller.is_gamepad() then
