@@ -366,6 +366,25 @@ Handy.API.Stack({
 --
 
 Handy.API.Stack({
+	key = "debug_things",
+	operator = "until",
+	parent = "input",
+	order = 500,
+})
+Handy.API.Stack({
+	control = "debug_things_reload_localization",
+	parent = "input.debug_things",
+	order = 1,
+})
+Handy.API.Stack({
+	control = "debug_things_reload_prototypes",
+	parent = "input.debug_things",
+	order = 2,
+})
+
+--
+
+Handy.API.Stack({
 	key = "finish",
 	operator = "until",
 	parent = "input",

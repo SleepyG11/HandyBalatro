@@ -48,7 +48,10 @@ function Handy.UI.dangerous_page_definition()
 
 	local result_tags_row = {}
 	for i = 1, 3 do
-		local tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, pseudoseed("handy_" .. math.random()))
+		local tag
+		pcall(function()
+			tag = pseudorandom_element(G.P_CENTER_POOLS.Tag, pseudoseed("handy_" .. math.random()))
+		end)
 		for j = 1, (i == 2 and 3 or 4) do
 			table.insert(result_tags_row, {
 				n = G.UIT.R,
@@ -85,12 +88,20 @@ function Handy.UI.dangerous_page_definition()
 		highlight_limit = 0,
 		collection = true,
 		on_create = function(area)
+			local fallbacks = {
+				"j_rocket",
+				"j_blueprint",
+				"j_castle",
+			}
 			for i = 1, 3 do
-				local center = pseudorandom_element(G.P_CENTER_POOLS.Joker, pseudoseed("handy_" .. math.random()))
-					or G.P_CENTERS.j_rocket
-					or G.P_CENTERS.j_joker
-				if center == G.P_CENTERS.j_todo_list then
-					center = G.P_CENTERS.j_rocket or G.P_CENTERS.j_joker
+				local center
+				pcall(function()
+					center = pseudorandom_element(G.P_CENTER_POOLS.Joker, pseudoseed("handy_" .. math.random()))
+						or G.P_CENTERS[fallbacks[i]]
+						or G.P_CENTERS.j_joker
+				end)
+				if not center or center == G.P_CENTERS.j_todo_list then
+					center = G.P_CENTERS[fallbacks[i]] or G.P_CENTERS.j_joker
 				end
 				for j = 1, 3 do
 					local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, (i - 1) * 3 + j, 9)

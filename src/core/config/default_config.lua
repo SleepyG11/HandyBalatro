@@ -584,6 +584,24 @@ local default_config = {
 		enabled = true,
 		value = 1,
 	},
+
+	debug_things = {
+		enabled = false,
+	},
+	debug_things_reload_localization = {
+		enabled = false,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
+	debug_things_reload_prototypes = {
+		enabled = false,
+		keys_1 = {},
+		keys_2 = {},
+		keys_1_gamepad = {},
+		keys_2_gamepad = {},
+	},
 }
 
 local old_default_v1 = {

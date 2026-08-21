@@ -169,6 +169,49 @@ function Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
 		},
 	}
 end
+function Handy.UI.vanilla_keybinds_debug_tab_definition()
+	local content = {
+		n = G.UIT.R,
+		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					colour = adjust_alpha(HEX("000000"), 0.1),
+					align = "cm",
+					r = 0.5,
+				},
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cm", r = 0.1 },
+						nodes = {
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.debug_things, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.debug_things_reload_localization),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.debug_things_reload_prototypes),
+							Handy.UI.CP.r_sep(0.1),
+							{
+								n = G.UIT.R,
+								config = { colour = adjust_alpha(G.C.MULT, 0.1), r = 0.25 },
+								nodes = {
+									Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions, { bg = true }),
+									Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_crash),
+									Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions_stack_overflow),
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	return {
+		n = G.UIT.C,
+		nodes = {
+			content,
+		},
+	}
+end
 
 function Handy.UI.get_vanilla_keybinds_tabs()
 	local result = {
@@ -196,6 +239,12 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 				return Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
 			end,
 		},
+		{
+			label = Handy.L.tab("Debug"),
+			tab_definition_function = function()
+				return Handy.UI.vanilla_keybinds_debug_tab_definition()
+			end,
+		},
 	}
 	for index, item in ipairs(result) do
 		local old_def = item.tab_definition_function
@@ -203,7 +252,7 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 			Handy.UI.data.vanilla_keybinds_page_tab_index = index
 			return {
 				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR, minh = 5, align = "cm" },
+				config = { colour = G.C.CLEAR, minh = 7, align = "cm" },
 				nodes = {
 					old_def(),
 				},

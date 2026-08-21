@@ -1000,6 +1000,20 @@ return {
 					"this value will be set by default",
 				},
 			},
+			debug_things = {
+				name = "Development & Debugging",
+				text = {},
+			},
+			debug_things_reload_localization = {
+				name = "Dev: Reload Localization",
+				text = {},
+				unlock = { "G:set_language();", "init_localization();" },
+			},
+			debug_things_reload_prototypes = {
+				name = "Dev: Reload Item Prototypes",
+				text = {},
+				unlock = { "G:set_language();", "G:init_item_prototypes();" },
+			},
 		},
 
 		Handy_Preset = {
@@ -1208,6 +1222,7 @@ return {
 			["Highlight movement"] = "Precise selection",
 			["Misc"] = "Miscellaneous",
 			["Dangerous"] = "Danger Zone",
+			["Debug"] = "Dev & Debug",
 
 			["Speed"] = "Speed",
 			["Animations"] = "Animations",
@@ -1334,6 +1349,9 @@ return {
 			ph_handy_notif_misc_save_run_saving = "Saving a run...",
 			ph_handy_notif_misc_save_run_saved = "Run saved",
 			ph_handy_notif_misc_save_run_interrupt = "Cannot save run right now",
+
+			poh_handy_notif_reload_localization = "Debug: Localization reloaded",
+			poh_handy_notif_reload_item_prototypes = "Debug: Item Prototypes reloaded",
 
 			handy_animation_skip_levels = {
 				[1] = "None",

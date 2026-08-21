@@ -999,6 +999,19 @@ return {
 					"это значение будет установлено по умолчанию",
 				},
 			},
+
+			debug_things = {
+				name = "Разработка & Дебаг",
+				text = {},
+			},
+			debug_things_reload_localization = {
+				name = "Dev: Reload Localization",
+				text = { "G:set_language(); init_localization();" },
+			},
+			debug_things_reload_prototypes = {
+				name = "Dev: Reload Item Prototypes",
+				text = { "G:set_language(); G:init_item_prototypes();" },
+			},
 		},
 
 		Handy_Preset = {

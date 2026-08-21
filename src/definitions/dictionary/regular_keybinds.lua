@@ -17,7 +17,7 @@ Handy.API.Dictionary({
 	parent = "regular_keybinds",
 	order = 1,
 
-	kywords = { "general game" },
+	keywords = { "general game" },
 })
 
 Handy.API.Dictionary({
