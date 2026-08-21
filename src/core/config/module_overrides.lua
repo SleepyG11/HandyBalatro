@@ -5,7 +5,7 @@ local cache = Handy.module_overrides.cache
 
 --
 
-Handy.get_module_override = Handy.get_module_override or function(module) end
+function Handy.get_module_override(module) end
 
 function Handy.module_overrides.process(module)
 	if cache[module] then

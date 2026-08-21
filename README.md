@@ -82,36 +82,37 @@ Include in button config definition field `handy_insta_action` with one of the f
 Mod and/or specific controls can be partially or fully disabled conditionally.
 
 ```lua
--- Disable controls such as mass sell, mass remove and crashing the game
-if Handy and Handy.is_dangerous_actions_active then
-    local funcRef = Handy.is_dangerous_actions_active
-    function Handy.is_dangerous_actions_active()
-        return not MyMod.only_safe_controls and funcRef()
-    end
-end
-```
-
-```lua
--- Disable mod entirely
-if Handy and Handy.is_mod_active then
-    local funcRef = Handy.is_mod_active
-    function Handy.is_mod_active()
-        return not MyMod.allow_only_vanilla_controls and funcRef()
-    end
-end
-```
-
-```lua
--- Disable specific control (in this example: [Speed Multiplier])
-if Handy and Handy.get_module_override then
-    local funcRef = Handy.get_module_override
-    function Handy.get_module_override(module)
-        if module == Handy.cc.speed_multiplier and not MyMod.allow_change_game_speed then
-            return {
-                enabled = false
-            }
+if Handy and Handy.e_mitter then
+    -- Apply all changes when mod and game fully ready
+    Handy.e_mitter.on("game_start", function()
+        -- Disable mod entirely
+        local mod_active_ref = Handy.is_mod_active
+        function Handy.is_mod_active()
+            return not MyMod.allow_only_vanilla_controls and mod_active_ref()
         end
-        return funcRef(module)
-    end
+
+        -- Disable controls such as mass sell and mass remove
+        local dangerous_active_red = Handy.is_dangerous_actions_active
+        function Handy.is_dangerous_actions_active()
+            return not MyMod.only_safe_controls and dangerous_active_red()
+        end
+
+        -- Disable specific control (in this example: [Speed Multiplier])
+        local module_override_ref = Handy.get_module_override
+        function Handy.get_module_override(module)
+            if module == Handy.cc.speed_multiplier and MyMod.only_vanilla_speed then
+                return {
+                    enabled = false
+                }
+            end
+            return module_override_ref(module)
+        end
+    end)
 end
 ```
+
+<hr/>
+
+Mod provides API for adding own controls and keybinds (including LSP).<br/>All base controls & keybinds utilize it. See `src/definitions` for examples.
+
+More info about how to use API soon™
