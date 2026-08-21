@@ -147,8 +147,7 @@ Handy.load_file("src/index.lua")
 -- TODO:
 -- 1. localization
 -- 2. touchscreen? (somehow)
--- 3. fix a weird edge case which allows focus move to side panel only on "down" press, not "right"
--- 4. Fully refactor MP
 
 -- TODO: plans for v2.1
 -- 1. keymapper
+-- 2. Fully refactor MP (accounting for 1.0.0)

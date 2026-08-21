@@ -224,6 +224,10 @@ function Handy.UI.dictionary_tab_UIBox()
 								minw = 1.75,
 								maxw = 1.75,
 								button = "handy_apply_dictionary_search",
+								focus_args = {
+									type = "handy",
+									handy_side_panel_bug = true,
+								},
 							}),
 						},
 					},

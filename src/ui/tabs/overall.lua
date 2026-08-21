@@ -87,6 +87,7 @@ function Handy.UI.overall_tab_UIBox()
 				maxw = 3.25,
 				minh = 0.8,
 				func = args.func or nil,
+				focus_args = args.focus_args or nil,
 			},
 			nodes = {
 				{
@@ -141,9 +142,23 @@ function Handy.UI.overall_tab_UIBox()
 								n = G.UIT.C,
 								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
-									b({ label = "Vanilla keybinds", button = "handy_vanilla_keybinds" }),
+									b({
+										label = "Vanilla keybinds",
+										button = "handy_vanilla_keybinds",
+										focus_args = {
+											type = "handy",
+											handy_side_panel_bug = true,
+										},
+									}),
 									Handy.UI.CP.r_sep(0.1),
-									b({ label = "Highlight movement", button = "handy_move_highlight" }),
+									b({
+										label = "Highlight movement",
+										button = "handy_move_highlight",
+										focus_args = {
+											type = "handy",
+											handy_side_panel_bug = true,
+										},
+									}),
 								},
 							},
 						},
@@ -189,7 +204,15 @@ function Handy.UI.overall_tab_UIBox()
 								n = G.UIT.C,
 								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
-									b({ label = "Dangerous", button = "handy_dangerous", colour = G.C.MULT }),
+									b({
+										label = "Dangerous",
+										button = "handy_dangerous",
+										colour = G.C.MULT,
+										focus_args = {
+											type = "handy",
+											handy_side_panel_bug = true,
+										},
+									}),
 								},
 							},
 						},

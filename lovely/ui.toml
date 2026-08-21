@@ -79,6 +79,13 @@ if focused.config.focus_args.type == "handy" then
             end
         end
     end
+    if focused.config.focus_args.handy_side_panel_bug and input_type == 'press' then
+        if button == 'dpright' and Handy.UI.data.side_panel_box then
+            self:snap_to({node = Handy.UI.data.side_panel_box:get_UIE_by_ID("handy_side_panel_target") })
+            self:update_cursor()
+            ret = true
+        end
+    end
 end
 '''
 match_indent = true

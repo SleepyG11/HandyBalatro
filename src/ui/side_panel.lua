@@ -7,7 +7,7 @@ function Handy.UI.attach_side_panel_content()
 				n = G.UIT.R,
 				config = { align = "cm" },
 				nodes = {
-					Handy.UI.CP.small_option_cycle(Handy.D.dictionary.current_device),
+					Handy.UI.CP.small_option_cycle(Handy.D.dictionary.current_device, "handy_side_panel_target"),
 				},
 			},
 			Handy.UI.CP.r_sep(0.1),
@@ -126,5 +126,6 @@ function Handy.UI.attach_side_panel()
 			offset = { x = 3.1, y = -0.2 },
 		},
 	})
+    Handy.UI.data.side_panel_box = box
 	table.insert(p_draw_parent.children, 1, box)
 end

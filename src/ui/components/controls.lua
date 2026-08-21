@@ -218,7 +218,7 @@ function Handy.UI.CP.settings_simple_option_cycle(item)
 		nodes = { result },
 	}
 end
-function Handy.UI.CP.small_option_cycle(item)
+function Handy.UI.CP.small_option_cycle(item, id)
 	local module = item:get_module()
 	local item_oc = item.option_cycle
 	local oc_values = item_oc:get_values()
@@ -237,6 +237,7 @@ function Handy.UI.CP.small_option_cycle(item)
 		ref_table = oc_values.ref_table or module,
 		ref_value = oc_values.ref_value or "value",
 		handy_callback = item_oc.callback,
+        id = id,
 	}
 	args.current_option = oc_values.current_option or args.ref_table[args.ref_value]
 
