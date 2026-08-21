@@ -1,0 +1,41 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Process server action
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''if parsedAction.action == "connected" then'''
+position = "before"
+payload = '''
+if parsedAction.action == "handyMPExtensionLobbyEnabled" then
+    Handy.mp_extension.process_action_setLobbyEnabled(parsedAction.enabled)
+end
+'''
+match_indent = true
+
+
+# Set default values
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''MP.LOBBY.code = code'''
+position = "after"
+payload = '''
+Handy.mp_extension.set_local_enabled()
+'''
+match_indent = true
+
+
+# Rerender UI if MP lobby ui was rerendered
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
+pattern = '''if different_decks_before ~= MP.LOBBY.config.different_decks then'''
+position = "before"
+payload = '''
+Handy.UI.rerender(true)
+'''
+match_indent = true

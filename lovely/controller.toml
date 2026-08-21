@@ -10,10 +10,10 @@ target = "main.lua"
 pattern = '''function love.mousepressed(x, y, button, touch)'''
 position = "after"
 payload = '''
-if Handy.controller.process_mouse(button, false, touch) then return end
+if Handy.controller.process_input(touch and "touch" or "mouse", button, false) then return end
 '''
 match_indent = true
-overwrite = false
+
 
 [[patches]]
 [patches.pattern]
@@ -21,10 +21,10 @@ target = "main.lua"
 pattern = '''function love.mousereleased(x, y, button)'''
 position = "after"
 payload = '''
-if Handy.controller.process_mouse(button, true) then return end
+if Handy.controller.process_mouse_input(button, true) then return end
 '''
 match_indent = true
-overwrite = false
+
 
 # Key listeners
 [[patches]]
@@ -33,10 +33,10 @@ target = "main.lua"
 pattern = '''function love.keypressed(key)'''
 position = "after"
 payload = '''
-if Handy.controller.process_key(key, false) then return end
+if Handy.controller.process_keyboard_input(key, false) then return end
 '''
 match_indent = true
-overwrite = false
+
 
 [[patches]]
 [patches.pattern]
@@ -44,10 +44,21 @@ target = "main.lua"
 pattern = '''function love.keyreleased(key)'''
 position = "after"
 payload = '''
-if Handy.controller.process_key(key, true) then return end
+if Handy.controller.process_keyboard_input(key, true) then return end
 '''
 match_indent = true
-overwrite = false
+
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.mousemoved(x, y, dx, dy, istouch)'''
+position = "after"
+payload = '''
+if Handy.controller.process_move(x, y, dx, dy, istouch) then return end
+'''
+match_indent = true
+
 
 # Handle card click
 [[patches]]
@@ -59,7 +70,7 @@ payload = '''
 if Handy.controller.process_card_click(self) then return end
 '''
 match_indent = true
-overwrite = false
+
 
 # Handle card hover
 [[patches]]
@@ -71,7 +82,7 @@ payload = '''
 if Handy.controller.process_card_hover(self) then return end
 '''
 match_indent = true
-overwrite = false
+
 
 # Handle card stop hover
 [[patches]]
@@ -80,33 +91,10 @@ target = "card.lua"
 pattern = '''function Card:stop_hover()'''
 position = "after"
 payload = '''
-if Handy.last_hovered_card == self then
-    Handy.last_hovered_card = nil
-    Handy.last_hovered_area = nil
-end
+if Handy.controller.process_card_stop_hover(self) then return end
 '''
 match_indent = true
-overwrite = false
 
-# Handle skip tag click
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''local tag_sprite_ui = _tag:generate_UI()'''
-position = "after"
-payload = '''
-local _handy_tag_click_target = _tag.tag_sprite
-if _handy_tag_click_target then
-    _handy_tag_click_target.states.click.can = true
-    local _handy_tag_click_ref = _handy_tag_click_target.click
-    function _handy_tag_click_target:click(...)
-        if Handy.controller.process_tag_click(_tag) then return end
-        return _handy_tag_click_ref(self, ...)
-    end
-end
-'''
-match_indent = true
-overwrite = false
 
 # Swap left/right stick cursor behaviour
 [[patches]]
@@ -115,25 +103,49 @@ target = "engine/controller.lua"
 pattern = '''local l_stick_y = self.GAMEPAD.object:getGamepadAxis('lefty')'''
 position = "after"
 payload = '''
-if Handy.controller.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
+if Handy.controls.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
     l_stick_x = self.GAMEPAD.object:getGamepadAxis('rightx')
     l_stick_y = self.GAMEPAD.object:getGamepadAxis('righty')
 end
 '''
 match_indent = true
-overwrite = false
 
-# Swap left/right stick cursor behaviour
+
 [[patches]]
 [patches.pattern]
 target = "engine/controller.lua"
 pattern = '''local r_stick_y = self.GAMEPAD.object:getGamepadAxis('righty')'''
 position = "after"
 payload = '''
-if Handy.controller.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
+if Handy.controls.is_module_enabled(Handy.cc.swap_controller_cursor_stick) then
     r_stick_x = self.GAMEPAD.object:getGamepadAxis('leftx')
     r_stick_y = self.GAMEPAD.object:getGamepadAxis('lefty')
 end
 '''
 match_indent = true
-overwrite = false
+
+
+# Prevent constant gamepad deselection on hand selection preview area
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end'''
+position = "at"
+payload = '''
+if not self.handy_prevent_gamepad_unhighlight then
+    if G.CONTROLLER.HID.controller and self ~= G.hand then self:unhighlight_all() end
+end
+'''
+match_indent = true
+
+
+# Override gamepad buttons
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.set_button_pip = function(e)'''
+position = "after"
+payload = '''
+if Handy.controller.override_node_button(e) then return end
+'''
+match_indent = true

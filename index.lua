@@ -2,193 +2,152 @@ to_big = to_big or function(x)
 	return x
 end
 to_number = to_number or function(x)
-	return x
-end
-is_big = is_big or function(x)
-	return false
+	return tonumber(x)
 end
 
-if not Handy then
-	Handy = setmetatable({
-		version = "1.5.1p",
+if Handy and not Handy.preflight then
+	error([[
 
-		last_clicked_area = nil,
-		last_clicked_card = nil,
 
-		last_hovered_area = nil,
-		last_hovered_card = nil,
+Handy mod installed twice.
 
-		modules = {},
+To fix this, make sure Mods folder have only one copy of mod.
+]])
+end
 
-		meta = {
-			["1.4.1b_patched_select_blind_and_skip"] = true,
-			["1.5.0_update"] = true,
-			["1.5.1a_multiplayer_check"] = true,
-		},
-	}, {})
+Handy = {
+	---@diagnostic disable-next-line: undefined-global
+	NFS = (SMODS and SMODS.NFS) or NFS or require("handy/nativefs"),
+	---@diagnostic disable-next-line: undefined-global
+	JSON = JSON or json or require("handy/json"),
+	---@diagnostic disable-next-line: undefined-global
+	PATH = Handy_main_file_path,
+	NEW_PATH = nil,
+	LOCAL_PATH = nil,
+	LOCAL_REAL_PATH = nil,
 
-	function Handy.is_stop_use()
-		return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0)
-	end
+	meta = {
+		["1.4.1b_patched_select_blind_and_skip"] = true,
+		["1.5.0_update"] = true,
+		["1.5.1a_multiplayer_check"] = true,
+		["2.0.0_alpha_update"] = true,
+		["2.0.0_mp_extension"] = true,
+		["2.0.0_updater"] = true,
+		["2.0.0_api"] = true,
+		["2.0.0_update"] = true,
+	},
 
-	function Handy.is_in_multiplayer()
-		return not not (MP and MP.LOBBY and MP.LOBBY.code)
-	end
+	keys_aliases = {
+		["["] = "Left Bracket",
+		["]"] = "Right Bracket",
+	},
 
-	function Handy.register_module(key, mod_module)
-		Handy.modules[key] = mod_module
-	end
+	ARGS = {},
 
-	--
+	fs_loaded_files = {},
+}
 
-	require("handy/utils")
-	require("handy/config")
-	require("handy/fake_events")
-	require("handy/controller")
-	require("handy/ui")
-	require("handy/presets")
-
-	require("handy/controls/presets_switch")
-	require("handy/controls/insta_cash_out")
-	require("handy/controls/insta_booster_skip")
-	require("handy/controls/deselect_hand")
-	require("handy/controls/show_deck_preview")
-	require("handy/controls/regular_keybinds")
-	require("handy/controls/insta_highlight")
-	require("handy/controls/insta_highlight_entire_f_hand")
-	require("handy/controls/insta_actions")
-	require("handy/controls/move_highlight")
-	require("handy/controls/speed_multiplier")
-	require("handy/controls/nopeus_interaction")
-	require("handy/controls/not_just_yet_interaction")
-	require("handy/controls/animation_skip")
-	require("handy/controls/scoring_hold")
-
-	require("handy/controls/dangerous_actions")
-
-	require("handy/controls/misc")
-
-	--
-
-	local init_localization_ref = init_localization
-	function init_localization(...)
-		if not G.localization.__handy_injected then
-			local en_loc = require("handy/localization/en-us")
-			Handy.utils.table_merge(G.localization, en_loc)
-			Handy.UI.cache_config_dictionary_search()
-			if G.SETTINGS.language ~= "en-us" then
-				local success, current_loc = pcall(function()
-					return require("handy/localization/" .. G.SETTINGS.language)
-				end)
-				-- local missing_keys = Handy.utils.deep_missing_keys(en_loc, current_loc)
-				-- for _, missing_key in ipairs(missing_keys) do
-				-- 	print("Missing key: " .. missing_key)
-				-- end
-				if success and current_loc then
-					Handy.utils.table_merge(G.localization, current_loc)
-					Handy.UI.cache_config_dictionary_search(true)
-				end
-			end
-			G.localization.__handy_injected = true
-		end
-		return init_localization_ref(...)
-	end
-
-	local card_area_emplace_ref = CardArea.emplace
-	function CardArea:emplace(...)
-		self.cards = self.cards or {}
-		return card_area_emplace_ref(self, ...)
-	end
-
-	local card_area_align_cards_ref = CardArea.align_cards
-	function CardArea:align_cards(...)
-		self.children = self.children or {}
-		return card_area_align_cards_ref(self, ...)
-	end
-
-	local game_start_up_ref = Game.start_up
-	function Game:start_up(...)
-		local result = game_start_up_ref(self, ...)
-		G.CONTROLLER.saved_axis_cursor_speed = G.CONTROLLER.axis_cursor_speed
-		G.CONTROLLER.axis_cursor_speed = G.CONTROLLER.saved_axis_cursor_speed * Handy.cc.controller_sensivity.mult
-		G.E_MANAGER:add_event(Event({
-			no_delete = true,
-			blocking = false,
-			func = function()
-				G.E_MANAGER:add_event(Event({
-					no_delete = true,
-					blocking = false,
-					func = function()
-						Handy.speed_multiplier.load_default_value()
-						Handy.animation_skip.load_default_value()
-						return true
-					end,
-				}))
-				return true
-			end,
-		}))
-		return result
-	end
-
-	--
-
-	function Handy.emplace_steamodded()
-		if Handy.current_mod then
-			return
-		end
-		Handy.current_mod = (Handy_Preload and Handy_Preload.current_mod) or SMODS.current_mod
-		Handy.UI.show_options_button = not Handy.cc.hide_options_button.enabled
-
-		-- Config tabs
-		Handy.current_mod.config_tab = function()
-			return Handy.UI.get_options_tabs()[1].tab_definition_function
-		end
-		Handy.current_mod.extra_tabs = function()
-			local result = Handy.UI.get_options_tabs()
-			table.remove(result, 1)
-			return result
-		end
-
-		-- NotJustYet
-		G.E_MANAGER:add_event(Event({
-			blocking = false,
-			func = function()
-				G.njy_keybind = nil
-				if MP and G.FUNCS.lobby_info then
-					local lobby_info_ref = G.FUNCS.lobby_info
-					function G.FUNCS.lobby_info(...)
-						Handy.regular_keybinds.toggle_swappable_overlay(true)
-						return lobby_info_ref(...)
-					end
-				end
-				return true
-			end,
-		}))
-
-		-- Animation skip setup
-		local smods_calculate_effect_ref = SMODS.calculate_effect or function() end
-		function SMODS.calculate_effect(effect, ...)
-			if Handy.animation_skip.should_skip_animation() then
-				effect.juice_card = nil
-			end
-			return smods_calculate_effect_ref(effect, ...)
-		end
-		if (SMODS.Mods and SMODS.Mods["Talisman"] or {}).can_load then
-			local nuGC_ref = nuGC
-			function nuGC(time_budget, ...)
-				if G.STATE == G.STATES.HAND_PLAYED then
-					time_budget = 0.0333
-				end
-				return nuGC_ref(time_budget, ...)
-			end
-		end
-
-		if Handy_Preload then
-			Handy_Preload = nil
-		end
-	end
-
-	if Handy_Preload then
-		Handy.emplace_steamodded()
+function Handy.get_fs()
+	if Handy.LOCAL_PATH then
+		return love.filesystem, Handy.LOCAL_PATH .. "/"
+	else
+		return Handy.NFS, Handy.PATH .. "/"
 	end
 end
+function Handy.wrap_fs_function(func_name)
+	return function(path, ...)
+		local fs, start = Handy.get_fs()
+		return fs[func_name](start .. path, ...)
+	end
+end
+Handy.read_file = Handy.wrap_fs_function("read")
+Handy.get_file_info = Handy.wrap_fs_function("getInfo")
+Handy.get_directory_items = Handy.wrap_fs_function("getDirectoryItems")
+
+function Handy.load_file(file, nocache)
+	if Handy.fs_loaded_files[file] and not nocache then
+		return unpack(Handy.fs_loaded_files[file])
+	end
+	Handy.fs_loaded_files[file] = { assert(load(Handy.read_file(file), '=[SMODS Handy "' .. file .. '"]'))() }
+	return unpack(Handy.fs_loaded_files[file])
+end
+function Handy.load_files(files, prefix, nocache)
+	for _, file in pairs(files) do
+		Handy.load_file(prefix .. file, nocache)
+	end
+end
+
+function Handy.load_directory(path, recursive, nocache)
+	local index_info = Handy.get_file_info(path .. "/index.lua")
+	if index_info and index_info.type == "file" then
+		Handy.load_file(path .. "/index.lua")
+	end
+	for _, file in ipairs(Handy.get_directory_items(path)) do
+		local partial_path = path .. "/" .. file
+		local info = Handy.get_file_info(partial_path)
+		if info.type == "directory" then
+			if recursive then
+				Handy.load_directory(partial_path, recursive, nocache)
+			end
+		elseif info.type == "file" then
+			Handy.load_file(partial_path, nocache)
+		end
+	end
+end
+
+if not Handy.NFS.getInfo(Handy.PATH .. "/src") then
+	local function normalize_path(path)
+		return path:gsub("\\+", "/"):gsub("/+", "/"):gsub("/$", "")
+	end
+
+	local save_folder = love.filesystem.getSaveDirectory()
+	local mods_folder = require("lovely").mod_dir
+
+	local normalized_mod_path = normalize_path(Handy.PATH)
+	local normalized_save_path = normalize_path(save_folder)
+	local normalized_mods_path = normalize_path(mods_folder)
+	local local_mod_folder = normalized_mod_path:sub(#normalized_save_path + 2)
+	local mod_folder = normalized_mod_path:sub(#normalized_mods_path + 2)
+
+	local new_local_path = "__SMODS_MOUNTS__/" .. mod_folder
+	love.filesystem.mount(local_mod_folder, new_local_path)
+
+	if not love.filesystem.getInfo(new_local_path .. "/src") then
+		local found = false
+		local folders = love.filesystem.getDirectoryItems(new_local_path)
+		for _, folder in ipairs(folders) do
+			if love.filesystem.getInfo(new_local_path .. "/" .. folder .. "/src") then
+				found = true
+				new_local_path = new_local_path .. "/" .. folder
+				break
+			end
+		end
+		if not found then
+			error([[
+
+
+Handy mod installed incorrectly.
+
+To fix this, do the followings:
+- Make sure mod is not "nested" (so there's no "folder in folder" like "/Mods/HandyBalatro/HandyBalatro")
+- Optionally, if mod in .zip archive, unzip it
+]])
+		end
+	end
+
+	Handy.LOCAL_REAL_PATH = local_mod_folder
+	Handy.LOCAL_PATH = new_local_path
+end
+
+Handy.mod_metadata = Handy.JSON.decode(Handy.read_file("metadata.json"))
+Handy.version = Handy.mod_metadata.version
+
+Handy.load_file("src/index.lua")
+
+-- TODO:
+-- 1. localization
+-- 2. touchscreen? (somehow)
+
+-- TODO: plans for v2.1
+-- 1. keymapper
+-- 2. Fully refactor MP (accounting for 1.0.0)

@@ -1,0 +1,89 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# MP 1.0 me inserting
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+pattern = '''
+if card and get_row_for_slot(existing_idx) then
+    card:set_ability(center)
+    card:juice_up(0.3, 0.3)
+end'''
+position = "at"
+payload = '''
+local handy_is_card_was_replaced = card and Handy.me.is_joker_center_replaced(card)
+if card and get_row_for_slot(existing_idx) then
+    card:set_ability(center)
+    card:juice_up(0.3, 0.3)
+end
+if card and get_row_for_slot(existing_idx) and Handy.me.is_mp_user(player_id) then
+    Handy.me.set_joker_center(card)
+    if not handy_is_card_was_replaced then
+        Handy.me.balaced()
+    end
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+pattern = '''
+G.E_MANAGER:add_event(Event({
+    trigger = 'after',
+    delay = 0.15,
+    func = function()
+        card:flip()
+        play_sound('card1')
+        card:juice_up(0.3, 0.3)
+        return true
+    end,
+}))
+'''
+position = "after"
+payload = '''
+if Handy.me.is_mp_user(player_id) then
+    Handy.me.set_joker_center(card)
+    G.E_MANAGER:add_event(Event({
+        blocking = false,
+        func = function()
+            Handy.me.balaced()
+            return true
+        end,
+    }))
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+pattern = '''
+local card = make_card(card_area, joker_key, is_empty)
+card_area:emplace(card, nil, is_empty)
+'''
+position = "after"
+payload = '''
+if Handy.me.is_mp_user(pid) then
+    Handy.me.set_joker_center(card)
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+pattern = '''
+local badge = create_badge('Player', MPAPI.C.MP_EDITION, G.C.WHITE, 1.2)
+'''
+position = "after"
+payload = '''
+if Handy.me.is_mp_user(player_data.id) then
+    UIBox({ definition = { n = G.UIT.ROOT, nodes = { badge } }, config = {} }):remove()
+    badge = create_badge('Jonh Handy :)', G.C.CHIPS, G.C.WHITE, 1.2)
+end
+'''
+match_indent = true

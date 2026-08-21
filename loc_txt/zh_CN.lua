@@ -1,579 +1,1011 @@
 return {
 	descriptions = {
-		-- For all checkboxes and popups, first var is keybind
-		-- Further mentioned vars starts from #2#
-		Handy_ConfigCheckbox = {
-			-- Vars: version, author
+		Handy_ConfigDictionary = {
+			general = {
+				name = "Handy v#1#，作者 #2#",
+				text = {},
+			},
 			handy = {
-				unlock = { "HandyBalatro v#2#", "作者 {C:white,E:2,s:1.15}#3#{}" },
+				name = "全局模组开关",
 				text = {
-					"取消勾选以禁用{C:attention}所有{}模组功能",
-					"{C:handy_secondary}(无需重启游戏){}",
+					"关闭此项将会停用所有模组功能",
 				},
+				unlock = {
+					"各项功能都可以{C:attention}随时{}开启/关闭",
+					"无需重启游戏",
+					"也无需重新加载对局",
+				},
+			},
+			keybinds_trigger_mode = {
+				name = "快捷键触发时机",
+				text = {},
+				unlock = {
+					"适用于大多数控制项",
+				},
+			},
+			current_device = {
+				name = "当前输入设备",
+				text = {},
+				unlock = {
+					"模组会为{C:attention}鼠标+键盘{}和{C:attention}手柄{}",
+					"分别保存独立的快捷键布局",
+					"并根据你当前使用的设备",
+					"自动在两套布局之间切换",
+					"{C:inactive}(当选择“#1#”时){}",
+				},
+			},
+			prevent_if_debugplus = {
+				name = "DebugPlus：防止冲突",
+				text = {},
+				unlock = {
+					"当按住{C:chips}#1#{}时，",
+					"不执行任何控制，避免与",
+					"DebugPlus 的控制产生冲突",
+					" ",
+					"需要在 DebugPlus 设置中启用",
+					"{C:attention}“CTRL for Keybinds”{}",
+					" ",
+					"{C:attention}副作用{}：会使带有",
+					"{C:chips}#1#{}的快捷键{C:mult}无法使用{}",
+				},
+			},
+			gamepad = {
+				name = "手柄设置",
+				text = {},
+			},
+			swap_controller_cursor_stick = {
+				name = "交换摇杆",
+				text = {},
+			},
+			controller_sensitivity = {
+				name = "手柄光标灵敏度",
+				text = {},
+			},
+			appearance = {
+				name = "外观",
+				text = {},
 			},
 			hide_options_button = {
-				unlock = { "在选项菜单中", "隐藏模组按钮" },
-				text = {
-					"{C:handy_secondary}仅在安装 Steamodded 时生效{}",
-				},
-			},
-			debugplus_prevent = {
-				unlock = { "DebugPlus：", "阻止操作" },
-				text = { "按住{C:chips}#2#{}时", "阻止任何 Handy 快捷键触发" },
-			},
-			regular_keybinds = {
-				unlock = { "常用快捷键" },
-				text = {
-					"为常用操作",
-					"设置快捷键",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
+				name = "在选项菜单中隐藏模组按钮",
+				text = {},
 				unlock = {
-					"{C:edition}快速选手牌{}",
-					"{C:handy_secondary,s:0.75}(拖拽、悬停、滑动){}",
-				},
-				text = {
-					"按住{C:chips}#1#{}并",
-					"悬停手牌即可选中",
+					"仅在存在 {C:attention}SMODS{} 时生效",
 				},
 			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				unlock = {
-					"{C:edition}快速选手牌{}",
-					"{C:handy_secondary,s:0.75}(拖拽、悬停、滑动){}",
-				},
-				text = {
-					"先在{C:attention}牌外{}按住{C:chips}#1#{}，",
-					"再悬停手牌即可选中",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				unlock = {
-					"快速取消",
-					"手牌选择",
-				},
-				text = {
-					"允许{C:edition}#2#{}",
-					"同时取消选择已选牌",
-				},
-			},
-			show_deck_preview = {
-				unlock = { "牌组预览" },
-				text = {
-					"按住{C:chips}#1#{}以",
-					"显示牌组预览",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand = {
-				unlock = { "取消选择手牌" },
-				text = {
-					"按{C:chips}#1#{}以",
-					"取消已选手牌",
-				},
-			},
-			insta_cash_out = {
-				unlock = { "快速结算" },
-				text = {
-					"按住/连击{C:chips}#1#{}以",
-					"加速结算阶段",
-				},
-			},
-			insta_booster_skip = {
-				unlock = { "快速跳过", "补充包" },
-				text = {
-					"按住/连击{C:chips}#1#{}以",
-					"跳过补充包",
-				},
-			},
-			move_highlight = {
-				unlock = { "移动高亮" },
-				text = {
-					"按{C:chips}#2#{}或{C:chips}#3#}在牌区移动高亮。",
-					"按住{C:chips}#4#}改为移动整牌。",
-					"按住{C:chips}#5#}移至首张/末张",
-					"",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell = {
-				unlock = { "快速买/卖" },
-				text = {
-					"使用{C:chips}#1#{}以",
-					"购买或出售卡牌",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell = {
-				unlock = { "快速先买后卖" },
-				text = {
-					"使用{C:chips}#1#{}以",
-					"先购买再立即",
-					"出售该卡",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use = {
-				unlock = { "快速使用" },
-				text = {
-					"使用{C:chips}#1#{}以",
-					"在可用时立即使用卡牌",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
-				unlock = { "Cryptid：使用", "上一次输入" },
-				text = {
-					"使用{C:chips}#1#{}以",
-					"在可用时以之前输入的值",
-					"使用代码卡",
-				},
-			},
-			not_just_yet_interaction = {
-				unlock = { "NotJustYet：", "结束回合" },
-				text = {
-					"按{C:chips}#1#{}以",
-					"立即结束本回合",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				unlock = { "游戏速度倍率" },
-				text = {
-					"按住{C:chips}#1#{}并使用",
-					"{C:chips}#2#{}/{C:chips}#3#{}以",
-					"放大/缩小游戏速度",
-				},
-			},
-			-- Vars: [Speed Multiplier]
-			speed_multiplier_no_hold = {
-				unlock = { "速度倍率：", "无需长按" },
-				text = {
-					"减少使用",
-					"#2#",
-					"所需的按键数量",
-				},
+			notifications_level = {
+				name = "提示级别",
+				text = {},
 			},
 			speed_multiplier_settings_toggle = {
-				unlock = { "速度倍率：", "在设置中切换" },
-				text = {
-					"在游戏设置中添加切换开关",
-				},
-			},
-			insta_highlight_entire_f_hand = {
-				unlock = { "高亮", "整手牌" },
-				text = {
-					"按{C:chips}#1#{}以",
-					"从左到右高亮所有手牌",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				unlock = { "Nopeus：", "快进" },
-				text = {
-					"按住{C:chips}#1#{}并使用",
-					"{C:chips}#2#{}/{C:chips}#3#{}以",
-					"增减快进设置",
-				},
-			},
-			-- Vars: [Nopeus: fast-forward]
-			nopeus_interaction_no_hold = {
-				unlock = { "Nopeus：", "无需长按" },
-				text = {
-					"减少使用",
-					"#2#",
-					"所需的按键数量",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
-			animation_skip = {
-				unlock = { "动画跳过" },
-				text = {
-					"按住{C:chips}#1#{}并使用",
-					"{C:chips}#2#{}/{C:chips}#3#{}以",
-					"增减动画跳过级别",
-				},
-			},
-			-- Vars: [Animation skip]
-			animation_skip_no_hold = {
-				unlock = { "动画跳过：", "无需长按" },
-				text = {
-					"减少使用",
-					"#2#",
-					"所需的按键数量",
+				name = "速度倍率：设置中显示开关",
+				text = {},
+				unlock = {
+					"位于原版{C:attention}游戏速度{}设置附近",
 				},
 			},
 			animation_skip_settings_toggle = {
-				unlock = { "动画跳过：", "在设置中切换" },
-				text = {
-					"在游戏设置中添加切换开关",
+				name = "动画跳过：设置中显示开关",
+				text = {},
+				unlock = {
+					"位于原版{C:attention}游戏速度{}设置附近",
 				},
 			},
-			scoring_hold = {
-				unlock = { "暂停计分", "动画" },
-				text = {
-					"按住{C:chips}#1#}以",
-					"在计算完手牌总分后",
-					"暂停计分动画",
+			show_custom_pip = {
+				name = "在按钮上不显示绑定的按键",
+				text = {},
+				unlock = {
+					"在对应的按钮上会显示其绑定的按键，",
+					"启用时",
+					"{C:inactive}(出牌、对局信息、重置等等){}",
 				},
 			},
-			scoring_hold_any_moment = {
-				unlock = { "暂停计分", "任意时刻" },
+			updater = {
+				name = "模组自动更新",
 				text = {
-					"允许#2#在",
-					"计分动画的",
-					"任意时刻暂停",
+					"我懂，Balatro 玩家多半都懒得手动更新",
 				},
 			},
-			dangerous_actions = {
-				unlock = { "危险操作" },
-				text = {
-					"启用不安全控制。它们以速度优先，",
-					"{C:mult}可能导致 bug 或崩溃！{}",
-					"",
+			updater_target_release_type = {
+				name = "目标版本类型",
+				text = {},
+			},
+			updater_notify_about_new_update = {
+				name = "发现新更新时通知",
+				text = {},
+				unlock = {
+					"你会在{C:attention}游戏启动时{}收到通知",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
-				unlock = { "快速出售" },
-				text = {
-					"按住{C:mult}#1#{}，",
-					"再按住{C:chips}#2#{}，",
-					"并悬停卡牌即可立即出售",
+			updater_auto_install_new_update = {
+				name = "自动安装新更新",
+				text = {},
+				unlock = {
+					"更新会在{C:attention}游戏启动时{}自动安装",
 				},
 			},
-			immediate_buy_and_sell_queue = {
-				unlock = { "出售队列" },
+			updater_auto_restart_game_after_update = {
+				name = "更新后自动重启游戏",
+				text = {},
+			},
+			me = {
+				name = "你好呀，是我！接下来我会一直跟着你……",
 				text = {
-					"仅在松开快捷键后",
-					"开始统一出售",
+					"立绘作者：{C:mult}#1#{}",
 				},
 			},
-			nopeus_unsafe = {
-				unlock = { "Nopeus：不安全", "快进" },
+			me_in_mod_config = {
+				name = "……出现在模组设置里",
 				text = {
-					"允许将快进设置",
-					"提高到{C:mult}不安全{}级别",
+					"这地方可是我亲手搭出来的！",
 				},
 			},
-			speed_multiplier_uncap = {
-				unlock = { "速度倍率：", "无上限" },
+			me_in_game_over = {
+				name = "……出现在游戏结束画面",
 				text = {
-					"允许将游戏速度",
-					"提高到极端值",
+					"输掉这一把不怪你！",
 				},
 			},
-			-- Vars: [Animation skip]
-			animation_skip_unsafe = {
-				unlock = { "动画跳过：", "不安全" },
+			me_in_game_win = {
+				name = "……出现在胜利画面",
 				text = {
-					"允许将设置",
-					"提高到{C:mult}#2#{}",
+					"来，一起庆祝这场胜利吧！",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				unlock = { "出售所有", "相同卡牌" },
+			me_in_handy_tag = {
+				name = "……也许会出现在别处！",
 				text = {
-					"按住{C:mult}#2#{}与{C:mult}#1#{}，",
-					"并点击卡牌以出售",
-					"其所有副本",
+					"我还没想好该把自己放在哪……",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				unlock = { "出售全部" },
+			me_in_screenswipe = {
+				name = "……出现在转场卡牌中",
 				text = {
-					"按住{C:mult}#1#{}以出售区域内{C:attention}所有{}",
-					"卡牌",
+					"我现在也是一张小丑牌啦！",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				unlock = { "移除*卡牌", "或跳过标签" },
-				text = {
-					"按住{C:mult}#1#{}以{C:attention,E:1}移除{}卡牌",
-					"{C:handy_secondary}(对跳过标签也生效){}",
+			hand_selection = {
+				name = "选牌与取消选牌",
+				text = {},
+			},
+			hand_selection_mode = {
+				name = "选牌实现方式",
+				text = {},
+				unlock = {
+					"会影响",
+					"{C:attention}选牌{}和{C:attention}取消选牌{}的部分细节",
+					"{C:inactive}(用于兼容其他模组的实现方式){}",
 				},
 			},
-			controller_swap_cursor_stick = {
-				unlock = { "手柄：交换", "光标摇杆" },
+			hand_selection_insta_highlight = {
+				name = {
+					"快速选牌",
+				},
 				text = {
-					"交换左右摇杆的",
-					"光标控制行为",
+					"拖动、悬停、划过都能选牌",
+				},
+				unlock = {
+					"若绑定到{C:chips}[鼠标左键]{}，",
+					"请先在{C:attention}卡牌外部{}按住鼠标，",
+					"再把光标划过卡牌进行选中",
+					"{C:inactive}(否则会直接选中一张卡牌){}",
 				},
 			},
-			controller_sensivity = {
-				unlock = { "手柄：调整", "光标灵敏度" },
-				text = {
-					"允许更改手柄",
-					"光标的灵敏度",
+			hand_selection_insta_highlight_allow_deselect = {
+				name = {
+					"快速取消选牌",
+				},
+				text = {},
+				unlock = {
+					"若第一张牌{C:attention}未{}被选中，就会{C:attention}选中{}",
+					"若第一张牌{C:attention}已{}被选中，就会{C:attention}取消选中{}",
 				},
 			},
-		},
-		Handy_ConfigPopup = {
-			debugplus_prevent = {
-				text = {
-					"需要安装{C:attention}DebugPlus{}并启用",
-					"{C:attention}CTRL for Keybinds{}选项才生效",
+			hand_selection_combine_select_deselect = {
+				name = {
+					"合并选牌/取消选牌",
+				},
+				text = {},
+				unlock = {
+					"若卡牌{C:attention}未{}被选中，则会{C:attention}选中{}",
+					"若卡牌{C:attention}已{}被选中，则会{C:attention}取消选中{}",
+					"{C:inactive}(同一次操作可同时处理两种情况){}",
 				},
 			},
-			regular_keybinds = {
-				text = {
-					"出牌、弃牌、手牌排序、",
-					"商店刷新、离开商店、选择盲注、",
-					"跳过盲注、查看牌组、对局信息",
+			hand_selection_deselect_hand = {
+				name = {
+					"取消手牌选中",
 				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
-				text = {
-					"若设置为{C:chips}#2#{}，",
-					"先在牌外开始长按，",
-					"再悬停即可高亮",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_gamepad = {
-				text = {
-					"对光标与移动方向键",
-					"均生效",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				text = {
-					"若非{C:chips}#2#{}键，",
-					"悬停牌时长按",
-					"同样可高亮",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE_gamepad = {
-				text = {
-					"对光标与移动方向键",
-					"均生效",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				text = {
-					"若首张未选中则执行选择，",
-					"若首张已选中则执行取消。",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand_desktop = {
-				text = {
-					"替换原版{C:chips}#2#{}",
-					"功能相同并可",
-					"重新绑定其他按键",
+				text = {},
+				unlock = {
+					"可{C:attention}替代{}原版的",
+					"{C:chips}#1#{}，用法完全一致",
 					" ",
-					"取消勾选以使用原版",
+					"若与{C:chips}#2#{}共用同一快捷键，",
+					"只会在{C:attention}未悬停{}卡牌时触发",
 				},
 			},
-			insta_cash_out = {
-				text = {
-					"长按将在可用时",
-					"立即触发",
+			hand_selection_entire_f_hand = {
+				name = {
+					"选满手牌",
+				},
+				text = {},
+				unlock = {
+					"从左到右",
+					"选中{C:attention}尽可能多{}的卡牌",
 				},
 			},
-			insta_booster_skip = {
+			animation_skip = {
+				name = "动画跳过",
 				text = {
-					"长按将在可用时",
-					"立即触发",
+					"跳过计分和其他游戏动画",
+				},
+				unlock = {
+					"可直接替代 {C:attention}Talisman{}、{C:attention}Saturn{}",
+					"或 {C:attention}Nopeus{} 中的同类功能",
+					" ",
+					"共有 4 个等级：",
+					"{C:chips}无{} - 不做改动",
+					"{C:chips}提示{} - 不显示 {C:mult}XMult{}、{C:attention}Again!{} 等触发提示",
+					"{C:attention}动画{} - 立即结算得分",
+					"{C:attention}全部{} - 移除大部分动画；抽牌也会立即完成",
+				},
+			},
+			animation_skip_default_value = {
+				name = "动画跳过：游戏初始值",
+				text = {},
+			},
+			animation_skip_increase = {
+				name = {
+					"动画跳过：调高一级",
+				},
+				text = {},
+			},
+			animation_skip_decrease = {
+				name = {
+					"动画跳过：调低一级",
+				},
+				text = {},
+			},
+			animation_skip_toggle_temp_disabled = {
+				name = {
+					"动画跳过：临时关闭",
+				},
+				text = {},
+				unlock = {
+					"可作为{C:attention}临时开关{}来使用",
+					"这样就不必每次都手动",
+					"调高/调低等级",
+				},
+			},
+			dangerous_actions_animation_skip_unsafe = {
+				name = {
+					"动画跳过：不安全",
+				},
+				text = {},
+				unlock = {
+					"允许将 {C:attention}#1#{} 调到 {C:mult}#2#{}",
+					" ",
+					"{C:mult}游戏的极限：一切都会立刻完成{}",
+				},
+			},
+			speed_multiplier = {
+				name = "速度倍率",
+				text = {
+					"提高游戏速度",
+				},
+				unlock = {
+					"顾名思义，就是把游戏速度{C:attention}乘上倍率{}，",
+					"所以默认值始终是 {C:attention}1x{}",
+					" ",
+					"从 {C:attention}128x{} 开始，还会加速",
+					"{C:attention}事件队列{}，以突破",
+					"每秒 60 次动作的限制",
+				},
+			},
+			speed_multiplier_default_value = {
+				name = "速度倍率：游戏初始默认值",
+				text = {},
+			},
+			speed_multiplier_multiply = {
+				name = {
+					"速度倍率：调高倍率",
+				},
+				text = {},
+			},
+			speed_multiplier_divide = {
+				name = {
+					"速度倍率：调低倍率",
+				},
+				text = {},
+			},
+			speed_multiplier_toggle_temp_disabled = {
+				name = {
+					"速度倍率：临时关闭",
+				},
+				text = {},
+				unlock = {
+					"可作为{C:attention}临时开关{}来使用",
+					"这样就不必每次都手动",
+					"调高/调低倍率",
+				},
+			},
+			dangerous_actions_speed_multiplier_uncap = {
+				name = {
+					"速度倍率：取消上限",
+				},
+				text = {},
+				unlock = {
+					"提高最大值 {C:chips}#1#{} 的上限",
+					" ",
+					"{C:mult}极高数值会严重拖垮性能{}",
 				},
 			},
 			move_highlight = {
+				name = "切换选中项",
 				text = {
-					"先选中区域内卡牌，",
-					"再使用所列控制",
+					"在大量卡牌中更精确地选牌",
 				},
-			},
-			move_highlight_gamepad = {
-				text = {
-					"{C:mult}对手柄无效{}",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				text = {
-					"游戏速度可在",
-					"{C:attention}#4#{}至{C:attention}#5#{}范围内调整",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				text = {
-					"需要{C:attention}Nopeus{}模组支持",
+				unlock = {
+					"当同一牌区里的牌",
+					"多到难以操作时特别有用",
 					" ",
-					"需在{C:attention}#4#{}页中",
-					"启用{C:mult}不安全{}选项",
+					"先在牌区中{C:attention}选中{}卡牌，",
+					"再使用下列操作",
 				},
 			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
-			animation_skip = {
+			move_highlight_one_left = {
+				name = {
+					"切换选中项：左移一张",
+				},
+				text = {},
+				unlock = {
+					"你可以{C:attention}按住{}此快捷键持续移动",
+				},
+			},
+			move_highlight_one_right = {
+				name = {
+					"切换选中项：右移一张",
+				},
+				text = {},
+				unlock = {
+					"你可以{C:attention}按住{}此快捷键持续移动",
+				},
+			},
+			move_highlight_swap = {
+				name = {
+					"切换选中项：改为移牌",
+				},
+				text = {},
+				unlock = {
+					"{C:attention}按住时{}，",
+					"移动的会是卡牌本身，而不是选中位置",
+					"{C:inactive}(并非在所有牌区都有效){}",
+				},
+			},
+			move_highlight_to_end = {
+				name = {
+					"切换选中项：移到最左/最右",
+				},
+				text = {},
+				unlock = {
+					"{C:attention}按住时{}，不再只是把选中项/卡牌",
+					"向左一张/向右一张移动，",
+					"而是直接移到最左/最右端",
+				},
+			},
+			presets = {
+				name = "配置预设",
 				text = {
-					"共 5 级动画跳过",
+					"可随时切换的整套配置方案",
+				},
+			},
+			presets_load_1 = {
+				name = {
+					"预设：加载预设 1",
+				},
+				text = {},
+			},
+			presets_load_2 = {
+				name = {
+					"预设：加载预设 2",
+				},
+				text = {},
+			},
+			presets_load_3 = {
+				name = {
+					"预设：加载预设 3",
+				},
+				text = {},
+			},
+			presets_load_next = {
+				name = {
+					"预设：加载下一个预设",
+				},
+				text = {},
+				unlock = {
+					"顺序：{C:attention}1{} -> {C:attention}2{} -> {C:attention}3{} -> {C:attention}1{}",
+					"会跳过空预设或已禁用的预设",
+				},
+			},
+			insta_actions = {
+				name = "快速买/卖/用牌",
+				text = {
+					"减少点击，让买牌、卖牌和使用卡牌都更方便",
+				},
+			},
+			insta_actions_trigger_mode = {
+				name = "买/卖/用牌模式",
+				text = {},
+			},
+			insta_actions_buy_or_sell = {
+				name = {
+					"快速买/卖卡牌",
+				},
+				text = {},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
 					" ",
-					"{C:attention}#4#{} - 默认行为",
-					"{C:attention}#5#{} - 隐藏“再来！”等文字与筹码提示",
-					"{C:attention}#6#{} - 瞬间计分，去除牌抖动",
-					"{C:attention}#7#{} - 移除多余动画，瞬间抽牌与重开",
-					"{C:mult}#8#{} - 极限：全部瞬间完成",
+					"{C:attention}按住{}快捷键并{C:attention}点击{}卡牌，",
+					"可购买{C:inactive}(商店){}、选择{C:inactive}(补充包){}",
+					"或出售{C:inactive}(小丑/消耗品槽位){}",
+				},
+			},
+			insta_actions_buy_or_sell_alt = {
+				name = {
+					"快速买/卖卡牌",
+				},
+				text = {},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
 					" ",
-					"需在{C:attention}#9#{}页中启用{C:mult}#8#{}",
+					"把光标悬停在卡牌上，或先选中卡牌后{C:attention}按下{}快捷键，",
+					"可购买{C:inactive}(商店){}、选择{C:inactive}(补充包){}",
+					"或出售{C:inactive}(小丑/消耗品槽位){}",
+				},
+			},
+			insta_actions_buy_n_sell = {
+				name = {
+					"即买即卖",
+				},
+				text = {
+					"买下后立刻卖出",
+				},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
+					" ",
+					"{C:attention}按住{}快捷键并{C:attention}点击{}卡牌，",
+					"可购买{C:inactive}(商店){}或选择{C:inactive}(补充包){}",
+					"然后立刻卖出",
+				},
+			},
+			insta_actions_buy_n_sell_alt = {
+				name = {
+					"即买即卖",
+				},
+				text = {
+					"买下后立刻卖出",
+				},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
+					" ",
+					"把光标悬停在卡牌上，或先选中卡牌后{C:attention}按下{}快捷键，",
+					"可购买{C:inactive}(商店){}或选择{C:inactive}(补充包){}",
+					"然后立刻卖出",
+				},
+			},
+			insta_actions_use = {
+				name = {
+					"快速使用卡牌",
+				},
+				text = {},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
+					" ",
+					"{C:attention}按住{}快捷键并{C:attention}点击{}卡牌，",
+					"可使用消耗牌{C:inactive}(若可用){}",
+				},
+			},
+			insta_actions_use_alt = {
+				name = {
+					"快速使用卡牌",
+				},
+				text = {},
+				unlock = {
+					"具体行为取决于 {C:attention}#1#{}",
+					" ",
+					"把光标悬停在卡牌上，或先选中卡牌后{C:attention}按下{}快捷键，",
+					"可使用消耗牌{C:inactive}(若可用){}",
 				},
 			},
 			scoring_hold = {
-				text = {
-					"在高倍速或跳过动画时",
-					"方便洗牌或查看",
-					"回合最终得分",
+				name = {
+					"暂停计分",
 				},
-			},
-			not_just_yet_interaction = {
-				text = {
-					"需要{C:attention}NotJustYet{}模组支持",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_desktop = {
-				text = {
-					"由{C:attention}#2#{}决定具体行为",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_gamepad = {
-				text = {
-					"替换原版{C:chips}#3#{}",
-					"功能相同并可",
-					"重新绑定其他按键",
+				text = {},
+				unlock = {
+					"允许在{C:attention}最终手牌得分{}",
+					"结算出来{C:attention}之前{}暂停动画",
 					" ",
-					"取消勾选以使用原版",
+					"方便在回合结束前调整小丑顺序",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell_desktop = {
-				text = {
-					"由{C:attention}#2#{}决定具体行为",
+			scoring_hold_any_moment = {
+				name = {
+					"暂停计分：任意时刻",
+				},
+				text = {},
+				unlock = {
+					"允许在计分的",
+					"{C:attention}任意时刻{}暂停动画",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_desktop = {
+			regular_keybinds = {
+				name = "常规与原版快捷键",
 				text = {
-					"由{C:attention}#2#{}决定具体行为",
+					"包含所有原版操作，及更多扩展功能",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_gamepad = {
-				text = {
-					"替换原版{C:chips}#3#{}",
-					"功能相同并可",
-					"重新绑定其他按键",
+			regular_keybinds_group_game = {
+				name = "游戏",
+				text = {},
+			},
+			regular_keybinds_restart = {
+				name = {
+					"重开对局",
+				},
+				text = {},
+				unlock = {
+					"可{C:attention}替代{}原版",
+					"{C:chips}#1#{}，效果完全一致",
+					"{C:inactive}(仍需按住快捷键){}",
+				},
+			},
+			regular_keybinds_quick_restart = {
+				name = {
+					"立即重开对局",
+				},
+				text = {},
+				unlock = {
+					"和原版重开一样，",
+					"但会{C:attention}跳过动画{}",
+					"并且立即触发",
+					"{C:inactive}(无需长按){}",
 					" ",
-					"取消勾选以使用原版",
+					"在{C:attention}游戏结束{}画面同样可用",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
+			regular_keybinds_save_run = {
+				name = {
+					"保存对局",
+				},
 				text = {
-					"需要{C:attention}Cryptid{}模组支持",
+					"就像自动存档，但能手动触发",
+				},
+				unlock = {
+					"游戏会在某些操作后自动保存",
+					"{C:inactive}(如出牌、弃牌、商店刷新){}",
 					" ",
-					"快捷使用代码卡并选择",
-					"{C:green}[输入上一次数值]{}的选项：",
-					"{C:green}://VARIABLE{}、{C:green}://CLASS{}、{C:green}://EXPLOIT{}",
+					"此快捷键允许你手动执行保存",
+				},
+			},
+			regular_keybinds_reload_run = {
+				name = {
+					"载入/重载对局",
+				},
+				text = {
+					"主菜单 -> 继续对局",
+				},
+				unlock = {
+					"模拟退出到主菜单",
+					"{C:inactive}(若当前不在主菜单){}",
+					"然后继续对局，",
+					"并{C:attention}跳过动画{}",
+				},
+			},
+			regular_keybinds_restart_game = {
+				name = "重启游戏",
+				text = {},
+			},
+			regular_keybinds_copy_log_file = {
+				name = {
+					"复制 Lovely 日志",
+				},
+				text = {},
+				unlock = {
+					"由于技术限制，日志会",
+					"以{C:attention}文本{}形式复制，而不是文件",
+				},
+			},
+			regular_keybinds_group_hand = {
+				name = "手牌",
+				text = {},
+			},
+			regular_keybinds_play = {
+				name = {
+					"出牌",
+				},
+				text = {},
+			},
+			regular_keybinds_discard = {
+				name = {
+					"弃牌",
+				},
+				text = {},
+			},
+			regular_keybinds_change_sort_rank = {
+				name = {
+					"按点数排序手牌",
+				},
+				text = {},
+			},
+			regular_keybinds_change_sort_suit = {
+				name = {
+					"按花色排序手牌",
+				},
+				text = {},
+			},
+			regular_keybinds_toggle_sort = {
+				name = {
+					"切换手牌排序",
+				},
+				text = {
+					"花色 > 点数 > 花色……",
+				},
+			},
+			regular_keybinds_group_round = {
+				name = "回合",
+				text = {},
+			},
+			regular_keybinds_start_fantoms_preview = {
+				name = {
+					"Fantom's Preview：计算分数",
+				},
+				text = {},
+			},
+			regular_keybinds_cash_out = {
+				name = {
+					"结算",
+				},
+				text = {},
+				unlock = {
+					"你可以提前{C:attention}按住{}快捷键，",
+					"一到可结算时就会",
+					"{C:attention}立刻{}跳过结算阶段",
+				},
+			},
+			regular_keybinds_not_just_yet_interaction = {
+				name = {
+					"NotJustYet：结束回合",
+				},
+				text = {},
+			},
+			regular_keybinds_group_shop = {
+				name = "商店",
+				text = {},
+			},
+			regular_keybinds_skip_booster = {
+				name = {
+					"跳过补充包",
+				},
+				text = {},
+				unlock = {
+					"你可以通过{C:attention}按住{}快捷键，",
+					"在可跳过时{C:attention}立刻{}跳过补充包",
 					" ",
-					"由{C:attention}#2#{}决定具体行为",
+					"{C:attention}持续按住{}快捷键，还能连续跳过",
+					"接连出现的多个{C:attention}补充包{}",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction_gamepad = {
+			regular_keybinds_reroll_shop = {
+				name = {
+					"刷新商店",
+				},
+				text = {},
+			},
+			regular_keybinds_leave_shop = {
+				name = {
+					"离开商店",
+				},
+				text = {},
+			},
+			regular_keybinds_group_blind_select = {
+				name = "盲注选择",
+				text = {},
+			},
+			regular_keybinds_skip_blind = {
+				name = {
+					"跳过盲注",
+				},
+				text = {},
+			},
+			regular_keybinds_select_blind = {
+				name = {
+					"选择盲注",
+				},
+				text = {},
+			},
+			regular_keybinds_reroll_boss = {
+				name = {
+					"重掷 Boss 盲注",
+				},
+				text = {},
+			},
+			regular_keybinds_group_menus = {
+				name = "菜单",
+				text = {},
+			},
+			regular_keybinds_mod_settings = {
+				name = {
+					"Handy：模组设置",
+				},
+				text = {},
+			},
+			regular_keybinds_show_deck_preview = {
+				name = {
+					"牌组预览",
+				},
+				text = {},
+				unlock = {
+					"效果和把鼠标悬停在牌组上时一样",
+				},
+			},
+			regular_keybinds_options = {
+				name = {
+					"选项",
+				},
+				text = {},
+				unlock = {
+					"与 {C:chips}[Escape]{} 键相同",
+				},
+			},
+			regular_keybinds_collection = {
+				name = {
+					"收藏",
+				},
+				text = {},
+			},
+			regular_keybinds_group_swappable_menus = {
+				name = "可切换菜单",
+				text = {},
+				unlock = {
+					"你可以使用快捷键",
+					"在这些菜单间直接切换，",
+					"{C:attention}无需先关闭{}当前菜单",
+				},
+			},
+			regular_keybinds_swappable_overlays_mode = {
+				name = "可切换菜单模式",
+				text = {},
+			},
+			regular_keybinds_run_info = {
+				name = {
+					"对局信息：牌型",
+				},
+				text = {},
+			},
+			regular_keybinds_run_info_blinds = {
+				name = {
+					"对局信息：盲注",
+				},
+				text = {},
+			},
+			regular_keybinds_view_deck = {
+				name = {
+					"查看牌组",
+				},
+				text = {},
+			},
+			regular_keybinds_view_lobby_info = {
+				name = {
+					"多人：房间信息",
+				},
+				text = {},
+			},
+			dangerous_actions = {
+				name = "危险操作",
 				text = {
-					"需要{C:attention}Cryptid{}模组支持",
+					"东西太多、手动处理太麻烦时",
+				},
+			},
+			dangerous_actions_sell_one = {
+				name = {
+					"立即出售",
+				},
+				text = {},
+				unlock = {
+					"{C:attention}按住{}快捷键，并开始{C:attention}划过{}",
+					"你想出售的卡牌",
 					" ",
-					"快捷使用代码卡并选择",
-					"{C:green}[输入上一次数值]{}的选项：",
-					"{C:green}://VARIABLE{}、{C:green}://CLASS{}、{C:green}://EXPLOIT{}",
+					"{C:attention}按住{}期间，被划过的项目",
+					"都会加入队列",
+					"在{C:attention}松开{}快捷键后，会统一出售",
 				},
 			},
-			insta_highlight_entire_f_hand = {
-				text = {
-					"从左到右选中",
-					"最大数量的手牌",
+			dangerous_actions_remove_one = {
+				name = {
+					"立即移除",
 				},
-			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
 				text = {
-					"按住{C:mult}#3#{}与{C:chips}#4#{}，",
-					"并悬停卡牌即可立即出售",
+					"对跳过标签同样有效",
 				},
-			},
-			immediate_buy_and_sell_queue = {
-				text = {
-					"松开后才统一出售，{C:mult}[即时出售]{}",
-					"选牌更精准但稍慢",
-					"",
-					"",
-					"",
-				},
-			},
-			immediate_buy_and_sell_queue_gamepad = {
-				text = {
-					"松开后才统一出售，{C:mult}[即时出售]{}",
-					"选牌更精准但稍慢",
-					"",
-					"",
-					"",
+				unlock = {
+					"{C:attention}按住{}快捷键，并开始{C:attention}划过{}",
+					"你想{C:mult}移除{}的卡牌/跳过标签",
 					" ",
-					"{C:attention}手柄下始终启用{}",
+					"{C:attention}按住{}期间，被划过的项目",
+					"都会加入队列",
+					"在{C:attention}松开{}快捷键后，会统一{C:mult}移除{}",
+					"{C:inactive}(绕过所有检查，且不返还金钱){}",
 				},
 			},
-			speed_multiplier_uncap = {
-				text = {
-					"{C:mult}会严重影响性能{}",
+			dangerous_actions_mass_sell_remove_mode = {
+				name = "批量出售/移除模式",
+				text = {},
+				unlock = {
+					"适用于以下功能：",
+					"{C:mult}[立即出售/移除所有同名]{}",
+					"以及 {C:mult}[立即出售/移除全部]{}",
 				},
 			},
-			nopeus_unsafe = {
+			dangerous_actions_sell_all_same = {
+				name = {
+					"立即出售所有同名",
+				},
+				text = {},
+				unlock = {
+					"{C:attention}按住{}快捷键并{C:attention}点击{}",
+					"你想出售的卡牌",
+				},
+			},
+			dangerous_actions_remove_all_same = {
+				name = {
+					"立即移除所有同名",
+				},
 				text = {
-					"需要{C:attention}Nopeus{}模组支持",
+					"对跳过标签同样有效",
+				},
+				unlock = {
+					"{C:attention}按住{}快捷键并{C:attention}点击{}",
+					"你想{C:mult}移除{}的卡牌/跳过标签",
+					"{C:inactive}(绕过所有检查，且不返还金钱){}",
+				},
+			},
+			dangerous_actions_sell_all = {
+				name = {
+					"立即出售全部",
+				},
+				text = {},
+				unlock = {
+					"{C:attention}按住{}快捷键并{C:attention}点击{}",
+					"你想出售的卡牌",
+				},
+			},
+			dangerous_actions_remove_all = {
+				name = {
+					"立即移除全部",
+				},
+				text = {
+					"对跳过标签同样有效",
+				},
+				unlock = {
+					"{C:attention}按住{}快捷键并{C:attention}点击{}",
+					"你想{C:mult}移除{}的卡牌/跳过标签",
+					"{C:inactive}(绕过所有检查，且不返还金钱){}",
+				},
+			},
+			dangerous_actions_crash = {
+				name = {
+					"让游戏崩溃",
+				},
+				text = {},
+				unlock = {
+					"{C:mult}就是字面意思{}",
+				},
+			},
+			dangerous_actions_stack_overflow = {
+				name = {
+					"让游戏崩溃：栈溢出",
+				},
+				text = {},
+				unlock = {
+					"{C:mult}就是字面意思{}",
+					"{C:mult}游戏会卡死并/或自行退出{}",
+				},
+			},
+			misc = {
+				name = "杂项",
+				text = {},
+			},
+			mp_extension = {
+				name = {
+					"多人扩展",
+				},
+				text = {
+					"Handy × Multiplayer 联动扩展",
+				},
+			},
+			mp_extension_current_lobby = {
+				name = {
+					"多人扩展：当前房间设置",
+				},
+				text = {},
+			},
+			mp_extension_enabled = {
+				name = "允许多人扩展",
+				text = {},
+				unlock = {
+					"勾选此项后，{C:attention}你{}便同意",
+					"在当前房间启用 {C:mult}多人扩展{}",
 					" ",
-					"即使未勾选，也可在游戏设置中",
-					"正常开启{C:mult}不安全{}选项",
+					"只有房间内{C:attention}所有{}玩家都启用后，",
+					"像 {C:chips}#1#{} 和 {C:attention}#2#{} 这样的功能",
+					"才会对房间内{C:attention}所有{}玩家生效",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				text = {
-					"按住{C:mult}#3#{}与{C:mult}#4#{}，",
-					"并点击卡牌以出售其所有副本",
+			mp_extension_speed_multiplier_mode = {
+				name = "速度倍率：房间最大值",
+				text = {},
+				unlock = {
+					"你仍需{C:attention}手动{}把数值调高",
+					"{C:inactive}(通过快捷键或设置中的开关/选项){}",
+					" ",
+					"房间只会限制{C:attention}上限{}",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				text = {
-					"按住{C:mult}#2#{}与{C:mult}#3#{}，",
-					"并点击卡牌以出售区域内{C:attention}所有{}卡牌",
+			mp_extension_animation_skip_mode = {
+				name = "动画跳过：房间最大值",
+				text = {},
+				unlock = {
+					"你仍需{C:attention}手动{}把数值调高",
+					"{C:inactive}(通过快捷键或设置中的开关/选项){}",
+					" ",
+					"房间只会限制{C:attention}上限{}",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				text = {
-					"按住时点击卡牌或跳过标签将{C:attention,E:1}移除{}而非出售",
-					" ",
-					"按住{C:mult}#2#{}、{C:mult}#3#{}与{C:chips}#4#{}",
-					"并悬停卡牌以{C:attention,E:1}移除{}（同样进入队列）",
-					" ",
-					"按住{C:mult}#2#{}、{C:mult}#3#{}与{C:mult}#5#{}",
-					"并点击卡牌或跳过标签以{C:attention,E:1}移除{}其所有副本",
-					" ",
-					"按住{C:mult}#2#{}、{C:mult}#3#{}与{C:mult}#6#{}，",
-					"并点击卡牌或跳过标签以{C:attention,E:1}移除{C:attention}全部{}",
+			mp_extension_dangerous_actions_mode = {
+				name = "危险操作：房间模式",
+				text = {},
+				unlock = {
+					"允许启用部分{C:mult}危险操作{}",
+				},
+			},
+			mp_extension_default_values = {
+				name = {
+					"多人扩展：默认房间设置",
+				},
+				text = {},
+			},
+			mp_extension_speed_multiplier_mode_default_value = {
+				name = "速度倍率：房间默认最大值",
+				text = {},
+				unlock = {
+					"当你{C:attention}创建房间{}时，",
+					"此值会作为默认值设置",
+				},
+			},
+			mp_extension_animation_skip_mode_default_value = {
+				name = "动画跳过：房间默认最大值",
+				text = {},
+				unlock = {
+					"当你{C:attention}创建房间{}时，",
+					"此值会作为默认值设置",
+				},
+			},
+			mp_extension_dangerous_actions_mode_default_value = {
+				name = "危险操作：房间默认模式",
+				text = {},
+				unlock = {
+					"当你{C:attention}创建房间{}时，",
+					"此值会作为默认值设置",
+				},
+			},
+			mp_extension_enabled_default_value = {
+				name = "允许多人扩展：默认值",
+				text = {},
+				unlock = {
+					"当你{C:attention}创建或加入房间{}时，",
+					"会默认采用此值，以决定你是否要",
+					"在当前房间启用{C:mult}多人扩展{}",
 				},
 			},
 		},
@@ -581,25 +1013,94 @@ return {
 			["default"] = {
 				name = "默认",
 				text = {
-					"模组默认控制方案",
+					"模组默认配置",
 				},
 			},
 			["better_mouse_and_gamepad"] = {
-				name = "增强鼠标与手柄",
+				name = "Better Mouse and Gamepad",
 				text = {
-					"类似 Better Mouse and Gamepad 模组的控制方案",
+					"更接近Mod Better Mouse and Gamepad 的控制方案",
+				},
+			},
+			["full_default"] = {
+				name = "重置为默认",
+				text = {
+					"完全重置为默认配置",
+				},
+			},
+		},
+		Handy_Other = {
+			overall_title = {
+				text = {
+					"- 滑过即可选牌",
+					"- 游戏内快捷键",
+					"- 更高的游戏速度",
+					"- 移除多余动画",
+					"- 更完善的手柄支持",
+					" ",
+					"- 所有操作都可绑定到{C:chips}任意组合{}",
+					"  的键盘、鼠标或手柄按键上",
+					"  还能{C:chips}随时{}开启/关闭",
+					"  无需重启游戏或重新载入对局",
+					"- {C:chips}不会{}禁用成就",
+				},
+			},
+			missing_deps = {
+				text = {
+					"需先启用以下功能，",
+					"此项才会生效：",
+				},
+			},
+			cant_use_in_mp = {
+				text = {
+					"{C:mult}此项在多人模式中不可用{}",
+				},
+			},
+			cant_use_with_gamepad = {
+				text = {
+					"{C:mult}此项在{}{C:attention}手柄{}上不可用",
+				},
+			},
+			missing_req_mods = {
+				text = {
+					"此项需要以下模组才能使用：",
+				},
+			},
+			conflict_mods = {
+				text = {
+					"此项因与以下模组冲突而无法启用：",
+				},
+			},
+			mp_lobby_require_all_hint = {
+				text = {
+					"以下所有房间设置仅在",
+					"{C:attention}全部{}房间成员都安装了 {C:chips}Handy v2.0{} 或更新版本时生效",
+				},
+			},
+			better_mouse_and_gamepad_in_hand_selection = {
+				text = {
+					"{C:mult,s:1.5}哎呀……{}",
+					" ",
+					"看来你装了 {C:attention}Better Mouse and Gamepad{}。",
+					"我这边有一个{C:mult}坏消息{}和一个{C:green}好消息{}。",
+					" ",
+					"{C:mult}坏消息{}是，{C:attention}BMaG{} 会完全接管 {C:chips}Handy{} 的选牌逻辑，",
+					"还会让一些按键输入失效，例如",
+					"{C:chips}[滚轮上/下]{}、{C:chips}[鼠标 3]{}、{C:chips}[鼠标右键]{} 等。",
+					" ",
+					"{C:green}好消息{}是，{C:chips}Handy{} 已经把它的功能做得{C:inactive,s:0.75}差不多{}了",
+					"所以你就算卸载 {C:attention}BMaG{}，也几乎不会损失什么。",
+					" ",
+					"当然，你也可以继续{C:attention}两个模组一起用{}，大多数情况下也不会出问题。",
+					"{s:0.8}虽然我个人不太喜欢这种搭配，但用什么模组，还是你说了算。{}",
 				},
 			},
 		},
 	},
 	misc = {
 		handy_keybinds = {
-			-- 未绑定按键
-			["None"] = "无",
-			-- 无法识别的按键
-			["Unknown"] = "未知",
-
-			-- 鼠标
+			None = "无",
+			Unknown = "未知",
 			["Left Mouse"] = "鼠标左键",
 			["Right Mouse"] = "鼠标右键",
 			["Middle Mouse"] = "鼠标中键",
@@ -607,64 +1108,52 @@ return {
 			["Mouse 5"] = "鼠标侧键2",
 			["Wheel Up"] = "滚轮上",
 			["Wheel Down"] = "滚轮下",
-
-			-- 控制键
-			["Escape"] = "Esc",
-			["Shift"] = "Shift",
-			["Ctrl"] = "Ctrl",
-			["Alt"] = "Alt",
-			["GUI"] = "Win/Cmd",
-			["Enter"] = "回车",
-			["Tab"] = "Tab",
-			["Backspace"] = "退格",
+			Escape = "Esc",
+			Shift = "Shift",
+			Ctrl = "Ctrl",
+			Alt = "Alt",
+			GUI = "Win/Cmd",
+			Enter = "回车",
+			Tab = "Tab",
+			Backspace = "退格",
 			["Num Lock"] = "数字锁",
 			["Caps Lock"] = "大写锁",
 			["Scroll Lock"] = "滚动锁",
-
-			-- 方向键
-			["Left"] = "←",
-			["Right"] = "→",
-			["Up"] = "↑",
-			["Down"] = "↓",
-
-			-- 符号键
-			["Backquote"] = "`",
-			["Singlequote"] = "'",
-			["Quote"] = '"',
+			Left = "←",
+			Right = "→",
+			Up = "↑",
+			Down = "↓",
+			Backquote = "`",
+			Singlequote = "'",
+			Quote = "\"",
 			["Left Bracket"] = "[",
 			["Right Bracket"] = "]",
-
-			-- 功能键
-			["Printscreen"] = "PrintScreen",
-			["Delete"] = "Delete",
-			["Home"] = "Home",
-			["Insert"] = "Insert",
-			["End"] = "End",
-			["Pause"] = "Pause",
-			["Help"] = "Help",
-			["Sysreq"] = "SysRq",
-			["Menu"] = "Menu",
-			["Undo"] = "Undo",
-			["Mode"] = "Mode",
+			Printscreen = "PrintScreen",
+			Delete = "Delete",
+			Home = "Home",
+			Insert = "Insert",
+			End = "End",
+			Pause = "Pause",
+			Help = "Help",
+			Sysreq = "SysRq",
+			Menu = "Menu",
+			Undo = "Undo",
+			Mode = "Mode",
 			["Page Up"] = "PgUp",
 			["Page Down"] = "PgDn",
-
-			-- 冷门多媒体键
-			["Www"] = "WWW",
-			["Mail"] = "邮件",
-			["Calculator"] = "计算器",
-			["Computer"] = "电脑",
-			["Appsearch"] = "应用搜索",
-			["Apphome"] = "应用首页",
-			["Appback"] = "应用后退",
-			["Appforward"] = "应用前进",
-			["Apprefresh"] = "应用刷新",
-			["Appbookmarks"] = "应用书签",
-			["Currencyunit"] = "货币符号",
-			["Application"] = "应用",
-			["Power"] = "电源",
-
-			-- 手柄按键
+			Www = "WWW",
+			Mail = "邮件",
+			Calculator = "计算器",
+			Computer = "电脑",
+			Appsearch = "应用搜索",
+			Apphome = "应用首页",
+			Appback = "应用后退",
+			Appforward = "应用前进",
+			Apprefresh = "应用刷新",
+			Appbookmarks = "应用书签",
+			Currencyunit = "货币符号",
+			Application = "应用",
+			Power = "电源",
 			["(A)"] = "(A)",
 			["(B)"] = "(B)",
 			["(X)"] = "(X)",
@@ -672,22 +1161,16 @@ return {
 			["(Back)"] = "(返回)",
 			["(Guide)"] = "(导航)",
 			["(Start)"] = "(开始)",
-
-			-- 手柄方向（左摇杆当方向键）
 			["(Up)"] = "(上)",
 			["(Down)"] = "(下)",
 			["(Left)"] = "(左)",
 			["(Right)"] = "(右)",
-
-			-- 摇杆、扳机、肩键
 			["Left Stick"] = "左摇杆按下",
 			["Right Stick"] = "右摇杆按下",
 			["Left Bumper"] = "LB",
 			["Right Bumper"] = "RB",
 			["Left Trigger"] = "LT",
 			["Right Trigger"] = "RT",
-
-			-- 未支持的手柄拨片
 			["First Paddle"] = "拨片1",
 			["Second Paddle"] = "拨片2",
 			["Third Paddle"] = "拨片3",
@@ -695,204 +1178,203 @@ return {
 			["(Misc. Button)"] = "杂项键",
 			["Touchpad Press"] = "触摸板点击",
 		},
-
-		handy_keybind_labels = {
-			play_hand = "出牌",
-			discard = "弃牌",
-			toggle_sort = "切换排序",
-			sort_by_rank = "按点数排序",
-			sort_by_suit = "按花色排序",
-			deselect_hand = "取消选择",
-			cash_out = "兑现",
-			not_just_yet_end_round = "NotJustYet：结束回合",
-			skip_booster = "跳过补充包",
-			reroll_shop = "商店刷新",
-			leave_shop = "离开商店",
-			skip_blind = "跳过盲注",
-			select_blind = "选择盲注",
-			reroll_boss = "Roll Boss",
-			run_info_hands = "对局信息：牌型",
-			run_info_blinds = "对局信息：盲注",
-			lobby_info = "多人游戏：大厅信息",
-			view_deck = "查看牌组",
-			deck_preview = "牌组预览",
-			quick_highlight = "快速选牌",
-			quick_buy_or_sell = "快速买/卖",
-			quick_buy_n_sell = "快速先买后卖",
-			quick_use = "快速使用",
-			highlight_entire_f_hand = "高亮整手牌",
-			cryptid_code_use_last_interaction = "Cryptid：使用上次输入",
-			speed_multiplier = "速度倍率",
-			speed_multiplier_multiply = "速度倍率：乘",
-			speed_multiplier_divide = "速度倍率：除",
-			nopeus_interaction = "Nopeus：快进",
-			nopeus_interaction_increase = "Nopeus：增加",
-			nopeus_interaction_decrease = "Nopeus：减少",
-			animation_skip = "动画跳过",
-			animation_skip_increase = "动画跳过：增加",
-			animation_skip_decrease = "动画跳过：减少",
-			move_highlight_one_left = "高亮左移1",
-			move_highlight_one_right = "高亮右移1",
-			move_highlight_move_card = "移动卡牌",
-			move_highlight_to_end = "移至首/末",
-
-			dangerous_modifier = "“危险”修饰键",
-			dangerous_all_same_modifier = "“所有副本”修饰键",
-			dangerous_all_modifier = "“全部”修饰键",
-			dangerous_remove_modifier = "“移除”修饰键",
-
-			scoring_hold = "暂停计分动画",
-
-			presets_load_1 = "加载预设1",
-			presets_load_2 = "加载预设2",
-			presets_load_3 = "加载预设3",
-			presets_load_next = "加载下一预设",
-
-			misc_open_mod_settings = "打开模组设置",
-			misc_crash = "故意崩溃游戏",
-			misc_save_run = "保存对局",
-			misc_quick_restart = "快速重开",
-			misc_start_fantoms_preview = "Fantom 预览：计算",
-		},
-
-		handy_keybind_sections = {
-			hand = "手牌",
-			round = "回合",
-			shop = "商店",
-			blinds = "盲注",
-			menus = "菜单",
-			quick_actions = "快速操作",
-			gamespeed = "游戏速度",
-			animations = "动画",
-			highlight_movement = "高亮移动",
-			shop_and_blinds = "商店与盲注",
-			gamespeed_and_animations = "速度与动画",
-			hand_selection = "选牌",
-			presets = "预设",
-			dangerous_actions = "危险操作",
-			misc = "杂项",
-		},
-
 		handy_tabs = {
-			["Overall"] = "通用与原键",
-			["Quick"] = "快速操作",
-			["Keybinds"] = "常用快捷键",
-			["Keybinds 2"] = "其它快捷键",
-			["Dangerous"] = "危险区域",
-			["Presets"] = "预设",
-			["Keybinds Paginated"] = "快捷键",
-			["Search"] = "搜索",
+			Overall = "总览",
+			Presets = "预设",
+			Search = "搜索",
+			General = "通用",
+			["Fast hand selection"] = "快速选牌",
+			["Speed & Animations"] = "速度与动画",
+			["Vanilla keybinds"] = "原版快捷键",
+			["Quick buy/sell/use"] = "快速买/卖/用牌",
+			["Highlight movement"] = "切换选中项",
+			Misc = "杂项",
+			Dangerous = "危险区",
+			Speed = "速度",
+			Animations = "动画",
+			Hold = "暂停",
+			Round = "回合",
+			["Hand & Round"] = "手牌/回合",
+			["Shop & Blind Select"] = "商店/盲注",
+			Game = "游戏",
+			Menus = "菜单",
+			["MP Extension"] = "多人扩展",
+			Updater = "模组更新",
+			["Updater Settings"] = "设置",
 		},
-
 		v_dictionary = {
+			Handy_version_by = "v#1#，作者 #2#",
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] 或 [#2#]",
-			Handy_items_in_queue = "[队列中 #1#]",
+			Handy_items_in_queue = "[队列中：#1#]",
+			Handy_temp_disabled = "[已禁用]",
+			Handy_disabled_in_mp = "[已被多人模式禁用]",
 			Handy_gamespeed_multiplier = "游戏速度倍率：#1#",
 			Handy_event_queue_retriggers_amount = "事件队列加速：#1#",
-			Handy_nopeus_fastforward = "Nopeus 快进：#1#",
 			Handy_animation_skip = "动画跳过：#1#",
 			Handy_skip_booster_pack = "跳过补充包",
-
 			Handy_scoring_hold = "暂停计分动画",
-
+			Handy_scoring_hold_hand_score = "手牌得分：[#1#]",
 			Handy_hand_sorting = "手牌排序：#1#",
-
 			Handy_preset_index = "预设 #1#",
+			Handy_preset_saved = "预设 #1# [#2#] 已保存",
 			Handy_preset_loaded = "已加载预设 #1# [#2#]",
 			Handy_preset_empty = "预设 #1# [#2#] 为空",
 			Handy_preset_disabled = "预设 #1# [#2#] 已禁用",
+			Handy_preset_example_loaded = "已加载官方预设 [#1#]",
 			Handy_preset_nothing_to_load = "没有可加载的预设",
-
-			Handy_overall_guide_button = "可在“#1#”页为每个操作绑定鼠标、滚轮或键盘。",
-			Handy_overall_guide_gamepad = "可在“#1#”页为每个操作绑定手柄按键。",
-			Handy_popups_guide = "悬停控件可查看更多信息。",
-			Handy_popups_guide_gamepad = "在控件之间移动可查看更多信息。",
-			Handy_search_guide = "使用“#1#”页进行搜索。",
-			Handy_keybinds_guide_desktop = "点击按钮后按下任意键即可绑定；#1# 清除绑定。",
-			Handy_keybinds_guide_gamepad = "在按钮上 #2# 后按下任意键即可绑定；#1# 清除绑定。",
-			Handy_presets_guide = "预设——可随时应用的配置与键位集合。",
-			Handy_danger_zone_guide = "*移除卡牌/标签——不经检查、效果、触发或退款直接删除。",
-
-			Handy_default_value = "#1#: 游戏启动值",
+			Handy_binding_canceled = "绑定已取消",
+			Handy_binding_cancel_reason_no_safe = "此处不能绑定 #1#，以防止“软锁”",
+			Handy_binding_cancel_reason_no_hold = "此处不能绑定 #1#，因为它不支持长按",
+			Handy_binding_cancel_reason_multiple_no_hold = "组合中不能包含多个不支持长按的按键",
+			Handy_binding_finished = "绑定完成：#1#",
+			Handy_binding_progress = "绑定中：#1#",
+			Handy_binding_esc_hint = "按下 #1# 保存",
+			Handy_binding_guide = "按下按键即可将其加入组合",
+			Handy_reload_run_done = "对局已重新载入",
+			Handy_reload_run_nothing_to_load = "没有可重载的对局",
+			Handy_load_run_done = "对局已载入",
+			Handy_load_run_nothing_to_load = "没有可载入的对局",
+			Handy_prevented_by_debugplus = "已被 DebugPlus 阻止",
+			Handy_log_file_copied = "Lovely 日志已复制到剪贴板",
+			Handy_updater_finish_success = "版本安装成功",
+			Handy_updater_finish_no_fetcher = "没有可用的请求 API",
+			Handy_updater_finish_no_connection = "网络连接不可用",
+			Handy_updater_finish_invalid_server_response = "服务器响应无效",
+			Handy_updater_finish_no_release = "未找到可用版本",
+			Handy_updater_finish_check_request_failed = "无法检查可用版本",
+			Handy_updater_finish_cannot_write_zip = "无法保存版本文件",
+			Handy_updater_finish_download_request_failed = "无法下载版本",
+			Handy_updater_finish_cannot_unzip = "无法解压版本文件",
+			Handy_updater_finish_cannot_move_files = "无法安装版本文件",
+			Handy_updater_finish_no_data_to_replace = "没有可安装的版本文件",
+			Handy_updater_finish_description = "请重启游戏以应用更改",
+			Handy_updater_progress_getting_releases = "正在获取版本列表……",
+			Handy_updater_progress_downloading_release = "正在下载版本……",
+			Handy_updater_progress_unzipping_archive = "正在解压版本……",
+			Handy_updater_progress_installing_files = "正在安装版本……",
+			Handy_new_pre_release_available = "有新的预发布版本可用",
+			Handy_new_stable_available = "有新的稳定版可用",
+			Handy_new_release_description = "前往模组设置查看详情并下载",
+			Handy_updater_auto_restart = "正在重启游戏以应用更改……",
 		},
-
 		dictionary = {
 			handy_or = "或",
-
+			handy_disabled = "已禁用",
+			handy_mod_enabled = "模组已启用",
+			handy_mod_disabled = "模组已禁用",
+			handy_example_state_panel = "这里会显示各种提示",
 			ph_handy_premade_presets = "官方预设",
 			ph_handy_custom_presets = "自定义预设",
-
 			b_handy_preset_save = "保存",
 			b_handy_preset_load = "加载",
 			b_handy_preset_clear = "清空",
-
 			handy_preset_name_placeholder = "预设名称",
-
-			b_handy_notif_quick = "快速操作",
+			b_handy_notif_quick = "Handy 操作",
 			b_handy_notif_dangerous = "危险操作",
-
 			b_handy_search_placeholder = "搜索…",
 			b_handy_search = "搜索",
 			b_handy_clear = "清除",
-			ph_handy_search_no_results = "试试关键词：“speed”“动画”“sale”等。不支持输入中文",
-
-			ph_handy_notif_quick_use = "快速使用",
-			ph_handy_notif_quick_buy_or_sell = "快速买/卖",
-			ph_handy_notif_quick_buy_n_sell = "快速先买后卖",
-			ph_handy_notif_unsafe_disabled = "模组设置中已关闭不安全选项",
-			ph_handy_notif_unsafe_disabled_by_other_mod = "被其他模组禁用不安全选项",
-			ph_handy_notif_unsafe = "[不安全] 可能出现 bug！",
-			ph_handy_notif_insta_remove = "瞬间 移除",
-			ph_handy_notif_insta_sell = "瞬间出售",
-			ph_handy_notif_remove_all = "移除区域内 全部 卡牌/标签",
-			ph_handy_notif_sell_all = "出售区域内 全部 卡牌",
-			ph_handy_notif_remove_all_same = "移除点击卡牌/标签的 所有副本",
-			ph_handy_notif_sell_all_same = "出售点击卡牌的 所有副本",
-			ph_handy_notif_nopeus_unsafe_disabled = "模组设置中已关闭不安全选项",
-			ph_handy_notif_animation_skip_unsafe_disabled = "模组设置中已关闭不安全选项",
-			ph_handy_notif_cannot_bind_non_holdable = "此处无法绑定滚轮",
-			ph_handy_notif_cannot_bind_non_safe = "此处无法绑定该按键",
-
+			ph_handy_notif_quick_use = "快速用牌",
+			ph_handy_notif_quick_buy_or_sell = "快速买/卖卡牌",
+			ph_handy_notif_quick_buy_n_sell = "即买即卖",
+			ph_handy_notif_unsafe_disabled = "模组设置中已禁用不安全操作",
+			ph_handy_notif_unsafe_disabled_by_other_mod = "其他模组已禁用不安全操作",
+			ph_handy_notif_unsafe = "[不安全] 可能会出现 Bug！",
+			ph_handy_notif_insta_remove = "立即移除",
+			ph_handy_notif_insta_sell = "立即出售",
+			ph_handy_notif_remove_all = "移除所点区域内的全部卡牌/标签",
+			ph_handy_notif_sell_all = "出售所点区域内的全部卡牌",
+			ph_handy_notif_remove_all_same = "移除所点卡牌/标签的全部副本",
+			ph_handy_notif_sell_all_same = "出售所点卡牌的全部副本",
+			ph_handy_notif_nopeus_unsafe_disabled = "模组设置中已禁用不安全操作",
+			ph_handy_notif_animation_skip_unsafe_disabled = "模组设置中已禁用不安全操作",
 			ph_handy_notif_misc_save_run_start = "开始保存对局…",
 			ph_handy_notif_misc_save_run_saving = "正在保存对局…",
 			ph_handy_notif_misc_save_run_saved = "对局已保存",
 			ph_handy_notif_misc_save_run_interrupt = "当前无法保存对局",
-
 			handy_animation_skip_levels = {
-				[1] = "无",
-				[2] = "消息",
-				[3] = "动画",
-				[4] = "所有",
-				[5] = "不安全",
+				["1"] = "无",
+				["2"] = "提示",
+				["3"] = "动画",
+				["4"] = "所有",
+				["5"] = "不安全",
+			},
+			handy_modals_start_calculation = {
+				"开始",
+				"计算",
+			},
+			handy_modals_stop_calculation = {
+				"停止",
+				"计算",
+			},
+			handy_modals_preview_description = "可通过预览查看设置效果",
+			handy_modals_move_highlight_preview_description = "可通过预览测试这些操作",
+			ph_handy_dangerous_actions_sell_one = "卖一张",
+			ph_handy_dangerous_actions_remove_one = "移除一张",
+			ph_handy_dangerous_actions_sell_all_same = "卖掉所有同名",
+			ph_handy_dangerous_actions_remove_all_same = "移除所有同名",
+			ph_handy_dangerous_actions_sell_all = "全部卖掉",
+			ph_handy_dangerous_actions_remove_all = "全部移除",
+			handy_keybinds_trigger_mode_press = "按下时触发",
+			handy_keybinds_trigger_mode_release = "松开时触发",
+			handy_current_device_auto = "自动",
+			handy_current_device_keyboard = "鼠标 + 键盘",
+			handy_current_device_gamepad = "手柄",
+			handy_notification_level_none = "无",
+			handy_notification_level_dangerous = "仅危险操作",
+			handy_notification_level_essential = "重要提示",
+			handy_notification_level_all = "全部提示",
+			handy_buy_sell_use_mode_hold_n_click = "按住快捷键 + 点击卡牌",
+			handy_buy_sell_use_mode_hover_n_press = "悬停/选中卡牌 + 按下快捷键",
+			handy_advanced_mode = "高级模式",
+			handy_advanced_mode_description = "更多控制与信息",
+			k_handy_preview_sell = "出售",
+			k_handy_preview_buy = "购买",
+			k_handy_preview_use = "使用",
+			k_handy_preview_buy_n_use = "购买并使用",
+			k_handy_preview_buy_n_sell = "即买即卖",
+			k_handy_preview_remove = "移除",
+			handy_mp_speed_multiplier_mode = "速度倍率：房间最大值",
+			handy_mp_animation_skip_mode = "动画跳过：房间最大值",
+			handy_mp_dangerous_actions_mode = "危险操作：房间模式",
+			handy_mp_dangerous_actions_modes = {
+				"已禁用",
+				"仅批量出售",
+				"批量出售与移除",
+			},
+			handy_regular_keybinds_swappable_overlays_mode = {
+				"按下打开",
+				"按下打开 / 再按一次关闭",
+				"按住打开 / 松开关闭",
+			},
+			handy_dangerous_actions_mass_sell_remove_mode = {
+				"作用于全部卡牌",
+				"作用于除目标卡外的所有卡牌",
 			},
 
-			b_handy_info_popups_level_select = "信息弹窗级别",
-			handy_info_popups_level_opt = {
-				[1] = "无",
-				[2] = "仅危险",
-				[3] = "功能相关",
-				[4] = "全部",
+			handy_show_custom_pip_mode = {
+				"无",
+				"仅手柄",
+				"总是",
 			},
-
-			b_handy_keybinds_trigger_mode_select = "快捷键触发模式",
-			handy_keybinds_trigger_mode_opt = {
-				[1] = "按下触发",
-				[2] = "松开触发",
-			},
-
-			b_handy_buy_sell_use_mode_select = "买/卖/用模式",
-			handy_buy_sell_use_mode_opt = {
-				[1] = "长按+点击卡牌",
-				[2] = "悬停卡牌+按键",
-			},
-
-			b_handy_device_select = "输入设备",
-			handy_device_opt = {
-				[1] = "自动",
-				[2] = "鼠标+键盘",
-				[3] = "手柄",
-			},
+			handy_mp_extension_status_not_initialized = "此房间中的多人扩展尚未加载",
+			handy_mp_extension_status_disabled = "此房间中的多人扩展已被你禁用",
+			handy_mp_extension_status_disabled_by_ruleset = "此房间中的多人扩展已被规则集禁用",
+			handy_mp_extension_status_disabled_by_other_player = "此房间中的多人扩展已被其他玩家禁用",
+			handy_mp_extension_status_enabled = "此房间中的多人扩展已启用",
+			handy_updater_no_release_found = "未找到版本数据",
+			handy_updater_status_no_data = "没有版本数据",
+			handy_updater_status_current_version = "当前版本",
+			handy_updater_status_already_installed = "已安装 - 重启游戏生效",
+			handy_updater_status_busy = "请稍候……",
+			handy_updater_status_ready_for_installation = "可开始安装",
+			handy_updater_status_new_version_available = "有新版本可用",
+			b_handy_install = "安装",
+			b_handy_restart_game = "重启游戏",
+			handy_release_type_stable = "稳定版",
+			handy_release_type_pre_release = "预发布版",
+			handy_smods_compat_mode = "兼容模式：从 .zip 压缩包加载需要较新的 SMODS！",
 		},
 	},
 }

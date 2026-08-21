@@ -1,0 +1,111 @@
+Get stack snapshot: `Handy.stack.print_stack("global")`
+Format: [order] layer_key (operator) -> control_key
+Operators:
+  - "free"  Call all, always return false, default value
+  - "all"   Call all, return true if all true
+  - "none"  Call all, return true if all false
+  - "while" Call in order, stop on first false, return true if so
+  - "until" Call in order, stop on first true, return true if so
+
+[-1] global (until)
+    [0] card (until)
+        [1] hover (until)
+            [1] hand_selection_insta_highlight (free) -> hand_selection_insta_highlight
+            [100] dangerous_actions_sell_one (free) -> dangerous_actions_sell_one
+            [101] dangerous_actions_remove_one (free) -> dangerous_actions_remove_one
+        [2] click (until)
+            [100] dangerous_actions_sell_all_same (free) -> dangerous_actions_sell_all_same
+            [101] dangerous_actions_remove_all_same (free) -> dangerous_actions_remove_all_same
+            [102] dangerous_actions_sell_all (free) -> dangerous_actions_sell_all
+            [103] dangerous_actions_remove_all (free) -> dangerous_actions_remove_all
+            [110] insta_actions (free) -> insta_actions
+    [0] hold (until)
+        [1] regular_keybinds (free)
+            [1] hand_actions (free)
+                [10] regular_keybinds_not_just_yet_interaction (free) -> regular_keybinds_not_just_yet_interaction
+            [2] shop_actions (free)
+                [10] regular_keybinds_cash_out (free) -> regular_keybinds_cash_out
+                [11] regular_keybinds_skip_booster (free) -> regular_keybinds_skip_booster
+            [3] game_actions (free)
+                [1000] regular_keybinds_restart (free) -> regular_keybinds_restart
+        [10] move_highlight (free)
+            [1] move_highlight (free) -> move_highlight
+    [0] input (until)
+        [1] presets (until)
+            [1] presets_switch_load_1 (free) -> presets_switch_load_1
+            [2] presets_switch_load_2 (free) -> presets_switch_load_2
+            [3] presets_switch_load_3 (free) -> presets_switch_load_3
+            [4] presets_switch_load_next (free) -> presets_switch_load_next
+        [5] move_highlight (until)
+            [1] move_highlight (free) -> move_highlight
+        [10] speed_n_animations (until)
+            [1] temp_disable (any)
+                [1] speed_multiplier_toggle_temp_disabled (free) -> speed_multiplier_toggle_temp_disabled
+                [2] animation_skip_toggle_temp_disabled (free) -> animation_skip_toggle_temp_disabled
+            [2] increase (any)
+                [1] speed_multiplier_increase (free) -> speed_multiplier_increase
+                [2] animation_skip_increase (free) -> animation_skip_increase
+            [3] decrease (any)
+                [1] speed_multiplier_decrease (free) -> speed_multiplier_decrease
+                [2] animation_skip_decrease (free) -> animation_skip_decrease
+        [11] hand_selection (until)
+            [1] hand_selection_insta_highlight (free) -> hand_selection_insta_highlight
+            [2] hand_selection_deselect_hand (free) -> hand_selection_deselect_hand
+            [3] hand_selection_entire_f_hand (free) -> hand_selection_entire_f_hand
+        [12] insta_actions (until)
+            [1] insta_actions (free) -> insta_actions
+        [20] regular_keybinds (until)
+            [1] hand_sorting (until)
+                [1] regular_keybinds_change_sort_rank (free) -> regular_keybinds_change_sort_rank
+                [2] regular_keybinds_change_sort_suit (free) -> regular_keybinds_change_sort_suit
+                [3] regular_keybinds_toggle_sort (free) -> regular_keybinds_toggle_sort
+            [2] hand_actions (until)
+                [1] regular_keybinds_discard (free) -> regular_keybinds_discard
+                [2] regular_keybinds_play (free) -> regular_keybinds_play
+                [3] regular_keybinds_not_just_yet_interaction (free) -> regular_keybinds_not_just_yet_interaction
+            [3] shop_actions (until)
+                [1] regular_keybinds_cash_out (free) -> regular_keybinds_cash_out
+                [2] regular_keybinds_skip_booster (free) -> regular_keybinds_skip_booster
+                [3] regular_keybinds_reroll_shop (free) -> regular_keybinds_reroll_shop
+                [4] regular_keybinds_leave_shop (free) -> regular_keybinds_leave_shop
+            [4] blind_select_actions (until)
+                [1] regular_keybinds_reroll_boss (free) -> regular_keybinds_reroll_boss
+                [2] regular_keybinds_skip_blind (free) -> regular_keybinds_skip_blind
+                [3] regular_keybinds_select_blind (free) -> regular_keybinds_select_blind
+            [5] menus (until)
+                [1] regular_keybinds_run_info (free) -> regular_keybinds_run_info
+                [2] regular_keybinds_run_info_binds (free) -> regular_keybinds_run_info_binds
+                [3] regular_keybinds_view_deck (free) -> regular_keybinds_view_deck
+                [4] regular_keybinds_view_lobby_info (free) -> regular_keybinds_view_lobby_info
+                [5] regular_keybinds_collection (free) -> regular_keybinds_collection
+                [6] regular_keybinds_options (free) -> regular_keybinds_options
+                [7] regular_keybinds_mod_settings (free) -> regular_keybinds_mod_settings
+            [6] game_actions (until)
+                [1] regular_keybinds_start_fantoms_preview (free) -> regular_keybinds_start_fantoms_preview
+                [2] regular_keybinds_copy_log_file (free) -> regular_keybinds_copy_log_file
+                [3] regular_keybinds_save_run (free) -> regular_keybinds_save_run
+                [4] regular_keybinds_reload_run (free) -> regular_keybinds_reload_run
+                [5] regular_keybinds_quick_restart (free) -> regular_keybinds_quick_restart
+        [100] dangerous_actions (until)
+            [1] dangerous_actions_sell_one (free) -> dangerous_actions_sell_one
+            [2] dangerous_actions_remove_one (free) -> dangerous_actions_remove_one
+            [3] dangerous_actions_sell_all_same (free) -> dangerous_actions_sell_all_same
+            [4] dangerous_actions_remove_all_same (free) -> dangerous_actions_remove_all_same
+            [5] dangerous_actions_sell_all (free) -> dangerous_actions_sell_all
+            [6] dangerous_actions_remove_all (free) -> dangerous_actions_remove_all
+        [500] debug_things (until)
+            [1] debug_things_reload_localization (free) -> debug_things_reload_localization
+            [2] debug_things_reload_prototypes (free) -> debug_things_reload_prototypes
+        [1000] finish (until)
+            [1] dangerous_actions_crash (free) -> dangerous_actions_crash
+            [2] dangerous_actions_stack_overflow (free) -> dangerous_actions_stack_overflow
+            [3] regular_keybinds_restart_game (free) -> regular_keybinds_restart_game
+    [0] move (until)
+        [1] hand_selection (free)
+            [1] hand_selection_insta_highlight (free) -> hand_selection_insta_highlight
+    [0] tag (until)
+        [1] hover (until)
+            [100] dangerous_actions_remove_one (free) -> dangerous_actions_remove_one
+        [2] click (until)
+            [100] dangerous_actions_remove_all_same (free) -> dangerous_actions_remove_all_same
+            [101] dangerous_actions_remove_all (free) -> dangerous_actions_remove_all

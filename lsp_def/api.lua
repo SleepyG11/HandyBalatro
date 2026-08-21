@@ -1,0 +1,3 @@
+--- @meta
+
+Handy.API = {}

@@ -3,29 +3,192 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Draw UI
+# Custom movement control
+# Damn this thing sucks
 [[patches]]
 [patches.pattern]
-target = "game.lua"
-pattern = '''self.GAME = saveTable and saveTable.GAME or self:init_game_object()'''
-position = "after"
+target = "engine/controller.lua"
+pattern = '''if focused.config.focus_args.type == 'cycle' and input_type == 'press' then'''
+position = "before"
 payload = '''
-Handy.UI.init()
-'''
-match_indent = true
-overwrite = false
+if focused.config.focus_args.type == "handy" then
+    if focused.config.focus_args.handy_slider and not focused.config.focus_args.handy_disabled and input_type == 'press' then
+        if button == 'a' then
+            Handy.UI.data.gamepad_focused_element = focused
+            ret = true
+        end
+    end
+    if focused.config.focus_args.handy_cycle and not focused.config.focus_args.handy_disabled and input_type == 'press' then
+        if button == 'a' then
+            Handy.UI.data.gamepad_focused_element = focused
+            ret = true
+        end
+    end
+    if focused.config.focus_args.handy_dictionary and input_type == 'press' then
+        local proto_choices = focused.UIBox:get_group(nil, focused.config.group)
+        local choices = {}
+        for k, v in ipairs(proto_choices) do
+            if v == focused or (v.config.focus_args and v.config.focus_args.type == "handy")
+            then choices[#choices+1] = v end
+        end
 
-# Override gamepad buttons
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''G.FUNCS.set_button_pip = function(e)'''
-position = "after"
-payload = '''
-if Handy.controller.override_node_button(e) then return end
+        for k, v in ipairs(choices) do
+            if v == focused then
+                if (button == "dpup" or button == "dpdown") then
+                    local current_index = tonumber(focused.config.group:sub(2))
+                    local next_index = button == "dpup" and (current_index - 1) or (current_index + 1)
+
+                    local new_proto_choices = focused.UIBox:get_group(nil, focused.config.group:sub(1, 1)..tostring(next_index))
+                    if #new_proto_choices > 0 then
+                        local new_choice_types = {}
+                        for k, v in ipairs(new_proto_choices) do
+                            if
+                                (v.config.focus_args and v.config.focus_args.type == "handy")
+                                and (v.config.focus_args.handy_dictionary and not new_choice_types[v.config.focus_args.handy_dictionary])
+                            then new_choice_types[v.config.focus_args.handy_dictionary] = v end
+                        end
+                        local result_target = new_choice_types[focused.config.focus_args.handy_dictionary]
+                        if not result_target and focused.config.focus_args.handy_dictionary == "control_2" then
+                            result_target = new_choice_types["control"]
+                        end
+                        if result_target then
+                            self:snap_to({node = result_target})
+                            self:update_cursor()
+                            ret = true
+                        end
+                    end
+                elseif (button == 'dpleft') then 
+                    local next_i = k ~= 1 and (k-1) or (#choices)
+                    if focused.config.focus_args.no_loop and next_i > k then ret = nil
+                    else
+                        self:snap_to({node = choices[next_i]})
+                        self:update_cursor()
+                        ret = true
+                    end
+                elseif (button == 'dpright') then 
+                    local next_i = k ~= #choices and (k+1) or (1)
+                    if focused.config.focus_args.no_loop and next_i < k then ret = nil
+                    else
+                        self:snap_to({node = choices[next_i]})
+                        self:update_cursor()
+                        ret = true
+                    end
+                end
+                break
+            else
+            end
+        end
+    end
+    if focused.config.focus_args.handy_side_panel_bug and input_type == 'press' then
+        if button == 'dpright' and Handy.UI.data.side_panel_box then
+            self:snap_to({node = Handy.UI.data.side_panel_box:get_UIE_by_ID("handy_side_panel_target") })
+            self:update_cursor()
+            ret = true
+        end
+    end
+end
 '''
 match_indent = true
-overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if focused and focused.config.focus_args then'''
+position = "before"
+payload = '''
+if Handy.UI.data.gamepad_focused_element then
+    if Handy.UI.data.gamepad_focused_element.REMOVED then
+        Handy.UI.data.gamepad_focused_element = nil
+    elseif input_type == 'press' and button == "a" then
+        Handy.UI.data.gamepad_focused_element = nil
+        ret = true
+        focused = nil
+    else
+        focused = Handy.UI.data.gamepad_focused_element
+        if focused.config.focus_args.handy_slider then
+            if button == 'dpleft' then
+                self.no_holdcap = true
+                if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                    G.FUNCS.slider_descreet(focused.children[1], -dt*self.held_button_times[button]*0.6)
+                end
+                if input_type == 'press' then 
+                    G.FUNCS.slider_descreet(focused.children[1], -0.01)
+                end
+                ret = true
+            end
+            if button == 'dpright' then
+                self.no_holdcap = true
+                if input_type == 'hold' and self.held_button_times[button] > 0.2 then
+                    G.FUNCS.slider_descreet(focused.children[1], dt*self.held_button_times[button]*0.6)
+                end
+                if input_type == 'press' then 
+                    G.FUNCS.slider_descreet(focused.children[1], 0.01)
+                end
+                ret = true
+            end
+        end
+        if focused.config.focus_args.handy_cycle and input_type == 'press' then
+            if button == "dpleft" then
+                focused.children[1]:click()
+                ret = true
+            elseif button == "dpright" then
+                if focused.config.focus_args.handy_imitate_vanilla_cycle then
+                    focused.children[3]:click()
+                else
+                    focused.children[5]:click()
+                end
+                ret = true
+            end
+        end
+        ret = true
+        focused = nil
+    end
+end
+'''
+match_indent = true
+
+# custom colour for selected focused element
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = '''love.graphics.setColor(adjust_alpha(G.C.WHITE, 0.2*lw, true))'''
+position = "after"
+payload = '''
+if self == Handy.UI.data.gamepad_focused_element then
+    love.graphics.setColor(adjust_alpha(G.C.MONEY, 0.2*lw, true))
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = '''love.graphics.setColor(self.config.colour[4] > 0 and mix_colours(G.C.WHITE, self.config.colour, 0.8) or G.C.WHITE)'''
+position = "after"
+payload = '''
+if self == Handy.UI.data.gamepad_focused_element then
+    love.graphics.setColor(self.config.colour[4] > 0 and mix_colours(G.C.MONEY, self.config.colour, 0.8) or G.C.MONEY)
+end
+'''
+match_indent = true
+
+
+# Correct focus movement on hand selection preview
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''if nu_rank ~= self.focused.target.rank then G.ARGS.focus_list[1] = {node = G.hand.cards[nu_rank]} end'''
+position = "after"
+payload = '''
+elseif Handy.UI.data.hand_selection_preview_area and (dir == 'L' or dir == 'R') and self.focused.target and self.focused.target:is(Card) and self.focused.target.area == Handy.UI.data.hand_selection_preview_area then 
+    local handy_area = Handy.UI.data.hand_selection_preview_area
+    local nu_rank = self.focused.target.rank + (dir == 'L' and -1 or 1)
+    if nu_rank > #handy_area.cards then nu_rank = 1 end
+    if nu_rank == 0 then nu_rank = #handy_area.cards end
+    if nu_rank ~= self.focused.target.rank then G.ARGS.focus_list[1] = {node = handy_area.cards[nu_rank]} end
+'''
+match_indent = true
+
 
 # Prevent button pip crash
 [[patches]]
@@ -45,7 +208,7 @@ if not args.button or not button_sprite_map[args.button] then
 end
 '''
 match_indent = true
-overwrite = false
+
 
 # Add ability to override chosen tab in create_tabs
 [[patches]]
@@ -54,11 +217,11 @@ target = "functions/UI_definitions.lua"
 pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
 position = "before"
 payload = '''
-if Handy.override_create_tabs_chosen then v.chosen = k == Handy.override_create_tabs_chosen
-elseif Handy.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.override_create_tabs_chosen_by_label end
+if Handy.ARGS.override_create_tabs_chosen then v.chosen = k == Handy.ARGS.override_create_tabs_chosen
+elseif Handy.ARGS.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.ARGS.override_create_tabs_chosen_by_label end
 '''
 match_indent = true
-overwrite = false
+
 
 # Insert speed multiplier and animation skip in vanilla settings
 [[patches]]
@@ -67,8 +230,32 @@ target = "functions/UI_definitions.lua"
 pattern = '''create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),'''
 position = "before"
 payload = '''
-Handy.UI.CD.speed_multiplier.settings_option_cycle({ compress = true }),
-Handy.UI.CD.animation_skip.settings_option_cycle({ compress = true }),
+Handy.UI.settings_speed_multiplier(),
+Handy.UI.settings_animation_skip(),
 '''
 match_indent = true
-overwrite = false
+
+
+# Add own timer for UI in config menu
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.TIMERS.TOTAL = self.TIMERS.TOTAL + dt*(self.SPEEDFACTOR)'''
+position = "after"
+payload = '''
+self.TIMERS.HANDY_TOTAL = (self.TIMERS.HANDY_TOTAL or 0) + self.real_dt*(self.SPEEDFACTOR)
+'''
+match_indent = true
+
+# Add ability to remove overlay_menu sliding
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.OVERLAY_MENU = true'''
+position = "before"
+payload = '''
+if Handy.ARGS.remove_overlay_offset then
+    args.config.offset.y = 0
+end
+'''
+match_indent = true

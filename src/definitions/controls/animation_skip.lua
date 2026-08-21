@@ -1,0 +1,54 @@
+Handy.API.Control({
+	key = "animation_skip_toggle_temp_disabled",
+	get_module = function(self)
+		return Handy.cc.animation_skip_toggle_temp_disabled
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
+	end,
+
+	contexts = {
+		input_trigger = true,
+	},
+
+	execute = function(self, ctx, args)
+		Handy.animation_skip.toggle_temp_disabled()
+		return true
+	end,
+})
+Handy.API.Control({
+	key = "animation_skip_increase",
+	get_module = function(self)
+		return Handy.cc.animation_skip_increase
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
+	end,
+
+	contexts = {
+		input_trigger = true,
+	},
+
+	execute = function(self, ctx, args)
+		Handy.animation_skip.change(1)
+		return true
+	end,
+})
+Handy.API.Control({
+	key = "animation_skip_decrease",
+	get_module = function(self)
+		return Handy.cc.animation_skip_decrease
+	end,
+	get_deps = function(self)
+		return { Handy.cc.animation_skip }
+	end,
+
+	contexts = {
+		input_trigger = true,
+	},
+
+	execute = function(self, ctx, args)
+		Handy.animation_skip.change(-1)
+		return true
+	end,
+})

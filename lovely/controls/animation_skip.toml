@@ -1,0 +1,222 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Juice Issues Patch from https://github.com/MathIsFun0/Talisman/blob/main/lovely.toml
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() card:juice_up(0.7);return true end)"
+position = "at"
+payload = "func = (function() if card and card.juice_up then card:juice_up(0.7) end;return true end)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if card then card:juice_up(0.8, 0.5) end"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.8, 0.5) end"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "card:juice_up(0.6, 0.1)"
+position = "at"
+payload = "if card and card.juice_up then card:juice_up(0.6, 0.1) end"
+match_indent = true
+
+# Money buffer
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))"
+position = "at"
+payload = """
+if not Handy.animation_skip.should_skip_messages() then
+  G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+else
+  Handy.animation_skip.request_dollars_buffer_reset()
+end
+"""
+match_indent = true
+
+# Vanilla empty events fix
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = "if effects[ii].card then"
+position = "at"
+payload = "if effects[ii].card and not Handy.animation_skip.should_skip_animation() then"
+match_indent = true
+
+# Allow juice up for juice_up_until
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then Handy.ARGS.allow_juice_up = true; card:juice_up(0.1, 0.1); Handy.ARGS.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+
+# Remove pack cards faster
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = "G.FUNCS.draw_from_hand_to_deck()"
+position = "before"
+payload = "if not Nopeus and G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
+match_indent = true
+
+# Mute ease_dollars to prevent sound explosion
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "function ease_dollars(mod, instant)"
+position = "after"
+payload = "local handy_ease_muted = Handy.animation_skip.mute_ease_dollars > 0"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "play_sound('coin1')"
+position = "at"
+payload = '''
+if not handy_ease_muted then
+play_sound('coin1')
+end
+'''
+match_indent = true
+
+# Fix blind chip dissolving
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''G.HUD_blind:get_UIE_by_ID("HUD_blind_count"):juice_up()'''
+position = "after"
+payload = "self.dissolve = 0"
+match_indent = true
+
+# Remove event used to check unlock for levelup
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+G.E_MANAGER:add_event(Event({
+    trigger = 'immediate',
+    func = (function() check_for_unlock{type = 'upgrade_hand', hand = hand, level = G.GAME.hands[hand].level} return true end)
+}))
+'''
+position = "before"
+payload = '''
+if Handy.animation_skip.should_skip_messages() then
+    Handy.ARGS.request_non_blocking_event = (Handy.ARGS.request_non_blocking_event or 0) + 1
+end
+'''
+match_indent = true
+
+# Speedup planets usage in SMODS
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+context.old_parameters = {}
+context.new_parameters = {}
+for i, parameter in ipairs(args.parameters) do
+'''
+position = "before"
+payload = '''
+local handy_old_non_blocking = Handy.ARGS.force_non_blocking_event
+local handy_old_instant = instant
+if Handy.animation_skip.should_skip_animation() then
+    instant = true
+elseif Handy.animation_skip.should_skip_messages() then
+    Handy.ARGS.force_non_blocking_event = true
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+if args.level_up then
+    context.old_level = G.GAME.hands[hand].level
+'''
+position = "before"
+payload = '''
+Handy.ARGS.force_non_blocking_event = handy_old_non_blocking
+instant = handy_old_instant
+'''
+match_indent = true
+
+# card_eval_status_text shenanigans
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+if amt > 0 or amt < 0 then
+'''
+position = "before"
+payload = '''
+if Handy.animation_skip.should_skip_animation() then
+    extra = extra or {}
+    extra.delay = 0
+    delay = 0
+    trigger = "immediate"
+    extra.instant = true
+    extra.handy_no_attention_text = true
+    extra.handy_no_play_sound = true
+    extra.handy_no_jiggle = true
+elseif Handy.animation_skip.should_skip_messages() then
+    extra = extra or {}
+    extra.delay = 0
+    delay = 0
+    trigger = "immediate"
+    extra.handy_no_attention_text = true
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+if extrafunc then extrafunc() end
+'''
+position = "before"
+payload = '''
+local handy_old_jiggle
+if extra then
+    if extra.handy_no_jiggle then
+        handy_old_jiggle = G.ROOM.jiggle
+    end
+    if extra.handy_no_attention_text then
+        Handy.ARGS.prevent_attention_text = true
+    end
+    if extra.handy_no_play_sound then
+        Handy.ARGS.prevent_play_sound = true
+    end
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+if not extra or not extra.no_juice then
+    if card and card.juice_up then card:juice_up(0.6, 0.1) end
+    G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+end
+'''
+position = "after"
+payload = '''
+Handy.ARGS.prevent_attention_text = nil
+Handy.ARGS.prevent_play_sound = nil
+G.ROOM.jiggle = handy_old_jiggle or G.ROOM.jiggle
+'''
+match_indent = true

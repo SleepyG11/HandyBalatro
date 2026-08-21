@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Load modules into threads
+
+[[patches]]
+[patches.module]
+source = "src/libs/json.lua"
+before = '=[SMODS Handy "threads/updater"]'
+name = "handy/json"
+
+[[patches]]
+[patches.module]
+source = "src/libs/nativefs.lua"
+before = '=[SMODS Handy "threads/updater"]'
+name = "handy/nativefs"

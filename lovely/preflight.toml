@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -2147483648
+
+[[patches]]
+[patches.module]
+source = 'src/preflight.lua'
+before = 'main.lua'
+name = 'handy/preflight'
+
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "prepend"
+sources = ["preflight.lua"]

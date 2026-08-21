@@ -1,0 +1,30 @@
+Handy.API.Control({
+	key = "insta_actions",
+	get_module = function()
+		return Handy.cc.insta_actions
+	end,
+
+	contexts = {
+		input_trigger = true,
+		card_click = true,
+	},
+
+	can_execute = Handy.insta_actions.can_execute,
+	execute = Handy.insta_actions.execute,
+
+	update = function(self, dt)
+		local is_alt_mode = Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode.value == 2
+		if is_alt_mode then
+			return
+		end
+
+		if
+			Handy.b_is_mod_active()
+			and Handy.b_is_in_run()
+			and Handy.controller.key_states.get_hold_size() > 0
+			and Handy.controls.is_module_enabled(Handy.cc.insta_actions)
+		then
+			Handy.insta_actions.show_notif(Handy.insta_actions.get_actions())
+		end
+	end,
+})

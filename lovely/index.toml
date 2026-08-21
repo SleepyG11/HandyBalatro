@@ -1,0 +1,45 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+[[patches]]
+[patches.module]
+source = 'src/libs/nativefs.lua'
+before = 'main.lua'
+name = 'handy/nativefs'
+
+[[patches]]
+[patches.module]
+source = 'src/libs/json.lua'
+before = 'main.lua'
+name = 'handy/json'
+
+# Init
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["index.lua"]
+
+# Resolving mod path
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.run()'''
+position = "before"
+payload = '''
+Handy_main_file_path = "{{lovely_hack:patch_dir}}"
+'''
+match_indent = true
+
+# Fix a crash when mod loaded from archive on SMODS which doesnt support it
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''return string.format("\n\nError exists in %s in file '%s'%s at line %d", SMODS.Mods[modID].name, fileName:sub(2, -2), line_message, line)'''
+position = "at"
+payload = '''
+return string.format("\n\nError exists in %s in file '%s'%s at line %d", SMODS.Mods[modID] and SMODS.Mods[modID].name or modID, fileName:sub(2, -2), line_message, line)
+'''
+match_indent = true

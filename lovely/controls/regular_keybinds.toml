@@ -1,0 +1,43 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# A point where we can leave shop
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if math.abs(G.shop.T.y - G.shop.VT.y) < 3 then'''
+position = "after"
+payload = '''
+Handy.regular_keybinds.on_shop_loaded()
+'''
+match_indent = true
+
+# Handle game restart manually
+[[patches]]
+[patches.pattern]
+target = "engine/controller.lua"
+pattern = '''
+for k, v in pairs(self.held_keys) do
+    if v then self:key_hold_update(k, dt) end
+end
+'''
+position = "at"
+payload = '''
+Handy.ARGS.hold_update_from_controller = true
+for k, v in pairs(self.held_keys) do
+    if v then self:key_hold_update(k, dt) end
+end
+Handy.ARGS.hold_update_from_controller = nil
+'''
+match_indent = true
+
+[[patches]]
+[patches.regex]
+target = "engine/controller.lua"
+pattern = '''if key == "r" and not G.SETTINGS.paused'''
+position = "at"
+payload = '''
+if key == "r" and Handy.regular_keybinds.can_restart()
+'''

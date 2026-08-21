@@ -1,818 +1,1453 @@
 return {
 	descriptions = {
-		-- For all checkboxes and popups, first var is keybind
-		-- Further mentioned vars starts from #2#
-		Handy_ConfigCheckbox = {
-			-- Vars: version, author
+		Handy_ConfigDictionary = {
+			-- [Version, Author]
+			general = {
+				name = "Handy v#1# от #2#",
+				text = {},
+			},
+
+			-- []
 			handy = {
-				unlock = { "HandyBalatro v#2#", "от {C:white,E:2,s:1.15}#3#{}" },
+				name = "Глобальный переключатель мода",
 				text = {
-					"Снимите галочку чтобы выключить {C:attention}ВСЕ{} функции мода",
-					"{C:handy_secondary}(без необходимости перезапускать игру){}",
+					"Снимите флажок, чтобы отключить ВСЕ функции мода",
+				},
+				unlock = {
+					"Любое управление можно включать/отключать",
+					"в {C:attention}любой момент{} без",
+					"перезапуска игры или перезагрузки забега",
 				},
 			},
+
+			-- []
+			keybinds_trigger_mode = {
+				name = "Режим срабатывания биндов",
+				text = {},
+			},
+			-- [Auto]
+			current_device = {
+				name = "Устройство ввода",
+				text = { "Мышь + клавиатура или геймпад" },
+				unlock = {
+					"Мод использует отдельные раскладки биндов",
+					"для {C:attention}мыши + клавиатуры{} и {C:attention}геймпада{}",
+					"и переключается между ними в зависимости",
+					"от того, каким устройством вы пользуетесь сейчас",
+					"{C:inactive}(если выбран мод «#1#»){}",
+				},
+			},
+			-- [Ctrl]
+			prevent_if_debugplus = {
+				name = "DebugPlus: предотвращать пересечения",
+				text = {},
+				unlock = {
+					"Не выполнять действия, пока удерживается {C:chips}#1#{}",
+					"чтобы избежать пересечений с",
+					"управлением {C:attention}DebugPlus{}",
+					" ",
+					'Требует, чтобы {C:attention}"CTRL for Keybinds"{} был',
+					"включён в настройках мода",
+					" ",
+					"Побочный эффект: бинды",
+					"с кнопкой {C:chips}#1#{} станут {C:mult}недоступны{}",
+				},
+			},
+
+			-- []
+			gamepad = {
+				name = "Настройки геймпада",
+				text = {},
+			},
+			-- [Right stick, Left stick]
+			swap_controller_cursor_stick = {
+				name = "Геймпад: поменять стик курсора",
+				text = {},
+				unlock = {
+					"По умолчанию {C:chips}#1#{} активирует",
+					"встроенный игровой курсор.",
+					" ",
+					"Эта настройка переключает его на {C:chips}#2#{}",
+				},
+			},
+			-- []
+			controller_sensitivity = {
+				name = "Геймпад: чувствительность курсора",
+				text = {},
+			},
+
+			-- []
+			appearance = {
+				name = "Внешний вид",
+				text = {},
+			},
+			-- []
 			hide_options_button = {
-				unlock = { "Спрятать кнопку", "в меню настроек" },
-				text = {
-					"{C:handy_secondary}Только если установлен Steamodded{}",
-				},
+				name = "Скрыть кнопку мода в настройках",
+				text = {},
 			},
-			debugplus_prevent = {
-				unlock = { "DebugPlus:", "перехват управления" },
-				text = {
-					"Не использовать назнчения Handy",
-					"пока удерж. {C:chips}#2#{}",
-				},
+			-- []
+			notifications_level = {
+				name = "Уведомления",
+				text = {},
 			},
-			regular_keybinds = {
-				unlock = { "Основные", "назначения" },
-				text = {
-					"Используйте назначения для",
-					"основных игровых действий",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
-				unlock = {
-					"{C:edition}Быстрое выделение руки{}",
-					"{C:handy_secondary}(свайп, наведение, перетаскивание){}",
-				},
-				text = {
-					"Удерж. {C:chips}#1#{} и",
-					"наводитесь на карты чтобы выделить их",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				unlock = {
-					"{C:edition}Быстрое выделение руки{}",
-					"{C:handy_secondary}(свайп, наведение, перетаскивание){}",
-				},
-				text = {
-					"Начните удерж. {C:chips}#1#{} {C:attention}НА ПУСТОМ МЕСТЕ{},",
-					"а затем наводитесь на карты чтобы выделить их",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				unlock = {
-					"Быстрое снятие",
-					"выделения",
-				},
-				text = {
-					"{C:edition}#2#{} также",
-					"будет и снимать выделение с карт",
-				},
-			},
-			show_deck_preview = {
-				unlock = { "Предпросмотр колоды" },
-				text = {
-					"Удерж. {C:chips}#1#{} чтобы",
-					"показать предпросмотр колоды",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand = {
-				unlock = { "Снять выделение руки" },
-				text = {
-					"Нажмите {C:chips}#1#{} чтобы",
-					"снять выделение со всех карт в руке",
-				},
-			},
-			insta_cash_out = {
-				unlock = { "Быстрый кэшаут" },
-				text = {
-					"Нажмите/удерж. {C:chips}#1#{} чтобы",
-					"ускорить кэшаут (переход в магазин)",
-				},
-			},
-			insta_booster_skip = {
-				unlock = { "Быстрый пропуск", "бустерных наборов" },
-				text = {
-					"Нажмите/удерж. {C:chips}#1#{} чтобы",
-					"пропустить бустерный набор",
-				},
-			},
-			move_highlight = {
-				unlock = { "Передвижение", "выделения" },
-				text = {
-					"Нажмите {C:chips}#2#{} или {C:chips}#3#{}",
-					"чтоб передвигать выделение в области.",
-					"Удерж. {C:chips}#4#{} чтобы двигать карту.",
-					"Удерж. {C:chips}#5#{} чтобы передвинуть к первой/последней карте",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell = {
-				unlock = { "Быстрая покупка", "или продажа" },
-				text = {
-					"Используйте {C:chips}#1#{} чтобы",
-					"купить или продать карту",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell = {
-				unlock = { "Быстрая", "покупка-и-продажа" },
-				text = {
-					"Используйте {C:chips}#1#{} чтобы",
-					"купить карту и сразу же",
-					"её продать",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use = {
-				unlock = { "Быстрое", "использование" },
-				text = {
-					"Используйте {C:chips}#1#{} чтобы",
-					"использовать карту, если возможно",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
-				unlock = { "Cryptid: использовать", "предыдущее значение" },
-				text = {
-					"Используйте {C:chips}#1#{} чтобы",
-					"использовать Код-карту, если возможно,",
-					"с предыдущим введённым значением",
-				},
-			},
-			not_just_yet_interaction = {
-				unlock = { "NotJustYet:", "закончить раунд" },
-				text = {
-					"Нажмите {C:chips}#1#{} чтобы",
-					"закончить раунд",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				unlock = { "Множитель скорости" },
-				text = {
-					"Нажмите {C:chips}#1#{} и",
-					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
-					"умножить/поделить скорость игры",
-				},
-			},
-			-- Vars: [Speed Multiplier]
-			speed_multiplier_no_hold = {
-				unlock = { "Множитель скорости:", "без удержания" },
-				text = {
-					"Уменьшает кол-во",
-					"необходимых клавиш для",
-					"#2#",
-				},
-			},
+			-- []
 			speed_multiplier_settings_toggle = {
-				unlock = { "Множитель скорости:", "перекл. в настройках" },
-				text = {
-					"Добавить переключатель в настройки игры",
+				name = "Множитель скорости: переключатель в настройках",
+				text = {},
+				unlock = {
+					"Размещено рядом с ванильной настройкой {C:attention}Скорость игры{}",
 				},
 			},
-			insta_highlight_entire_f_hand = {
-				unlock = { "Выделить", "всю руку" },
-				text = {
-					"Нажмите {C:chips}#1#{} чтобы",
-					"выделить всю руку",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				unlock = { "Nopeus:", "fast-forward" },
-				text = {
-					"Удерж. {C:chips}#1#{} и",
-					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
-					"увеличить/уменьшить настройку fast-forward",
-				},
-			},
-			-- Vars: [Nopeus: fast-forward]
-			nopeus_interaction_no_hold = {
-				unlock = { "Nopeus:", "без удержания" },
-				text = {
-					"Уменьшает кол-во",
-					"необходимых клавиш для",
-					"#2#",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
-			animation_skip = {
-				unlock = { "Пропуск анимаций" },
-				text = {
-					"Удерж. {C:chips}#1#{} и",
-					"{C:chips}#2#{}/{C:chips}#3#{} чтобы",
-					"увеличить/уменьшить пропуск анимаций",
-				},
-			},
-			-- Vars: [Animation skip]
-			animation_skip_no_hold = {
-				unlock = { "Пропуск анимаций:", "без удержания" },
-				text = {
-					"Уменьшает кол-во",
-					"необходимых клавиш для",
-					"#2#",
-				},
-			},
+			-- []
 			animation_skip_settings_toggle = {
-				unlock = { "Пропуск анимаций:", "перекл. в настройках" },
-				text = {
-					"Добавить переключатель в настройки игры",
+				name = "Пропуск анимаций: переключатель в настройках",
+				text = {},
+				unlock = {
+					"Размещено рядом с ванильной настройкой {C:attention}Скорость игры{}",
 				},
 			},
-			scoring_hold = {
-				unlock = { "Пауза анимации", "подсчёта" },
-				text = {
-					"Удерж. {C:chips}#1#{} чтобы",
-					"приостановить анимацию подсчёта",
-					"после подсчёта фишек руки",
+			-- []
+			show_custom_pip = {
+				name = "Показывать бинды на кнопках",
+				text = {},
+				unlock = {
+					"Визуально показывать бинды на",
+					"кнопках, которые они активируют",
+					"{C:inactive}(Сыграть руку, Сбросить, Инфо забега, Реролл и т. д.){}",
 				},
 			},
-			scoring_hold_any_moment = {
-				unlock = { "Пауза подсчёта", "в любой момент" },
-				text = {
-					"Позволяет #2#",
-					"приостанавливать в любой",
-					"момент анимации подсчёта",
+
+			-- []
+			updater = {
+				name = "Автообновление мода",
+				text = { "Я знаю, что тебе лень" },
+			},
+			-- []
+			updater_target_release_type = {
+				name = "Целевой релиз",
+				text = {},
+			},
+			-- []
+			updater_notify_about_new_update = {
+				name = "Уведомлять о новом обновлении",
+				text = {},
+				unlock = {
+					"Вы увидите уведомление при {C:attention}запуске игры{}",
 				},
 			},
-			dangerous_actions = {
-				unlock = { "Небезопасные действия" },
-				text = {
-					"Включить опасные функции. Они созданы",
-					"с приоритетом на скорость, что",
-					"{C:mult}может вызывать баги или краши!{}",
+			-- []
+			updater_auto_install_new_update = {
+				name = "Автоматически устанавливать обновление",
+				text = {},
+				unlock = {
+					"Обновление будет установлено при {C:attention}запуске игры{}",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
-				unlock = { "Моментальная", "продажа" },
+			-- []
+			updater_auto_restart_game_after_update = {
+				name = "Автоматически перезапускать игру после обновления",
+				text = {},
+			},
+
+			-- [@lord.ruby]
+			me = {
+				name = "Привет, это Я! Я буду следовать за тобой...",
 				text = {
-					"Удерж. {C:mult}#1#{},",
-					"удерж. {C:chips}#2#{},",
-					"и наводитесь на карты",
-					"чтобы продать их",
+					"Арт: {C:mult}#1#{}",
 				},
 			},
-			speed_multiplier_uncap = {
-				unlock = { "Множитель скорости:", "убрать лимит" },
+			-- []
+			me_in_mod_config = {
+				name = "...в настройках мода",
+				text = {},
+			},
+			-- []
+			me_in_game_over = {
+				name = "...на экране проигрыша",
+				text = {},
+			},
+			-- []
+			me_in_game_win = {
+				name = "...на экране победы",
+				text = {},
+			},
+			-- []
+			me_in_screenswipe = {
+				name = "...на карте перехода экрана",
+				text = {},
+			},
+
+			-- []
+			hand_selection = {
+				name = "Выбор и снятие выбора карт",
 				text = {
-					"Позволяет увеличиват скорость игры",
-					"до огромных значений",
+					"Выбор свайпом и многое другое",
 				},
 			},
-			immediate_buy_and_sell_queue = {
-				unlock = { "Очередь продажи" },
+			-- [Left Mouse, Hand deselection]
+			hand_selection_mode = {
+				name = "Реализация выбора руки",
 				text = {
-					"Начинать продавать карты только",
-					"после отпускания клавиши",
+					"Выберите мод, которым пользовались раньше",
+				},
+				unlock = {
+					"Влияет на некоторые нюансы того, как",
+					"работают {C:attention}выбор{} и {C:attention}снятие выбора{} карт в руке",
+					"при использовании клавиши, отличной от {C:chips}#1#{}",
+					"и/или если {C:chips}#2#{} имеет тот же бинд:",
+					" ",
+					"{C:attention}Handy{} — выбирать сразу, нельзя снять выбор",
+					"{C:attention}BMaG{} — выбирать после движения, снимать выбор при отпускании",
 				},
 			},
-			nopeus_unsafe = {
-				unlock = { "Nopeus: unsafe", "fast-forward" },
+			-- [Left mouse]
+			hand_selection_insta_highlight = {
+				name = { "Быстрый выбор карт в руке" },
 				text = {
-					"Позволять увеличивать fast-forward",
-					"настройку до {C:mult}Unsafe{}",
+					"Тяните, наведите, свайпайте или скользите, чтобы выбрать",
 				},
-			},
-			-- Vars: [Animation skip]
-			animation_skip_unsafe = {
-				unlock = { "Пропуск анимаций:", "небезопасно" },
-				text = {
-					"Позволяет увеличивать пропуск",
-					"анимаций до {C:mult}#2#{}",
-				},
-			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				unlock = { "Продать все", "копии карты" },
-				text = {
-					"Удерж. {C:mult}#2#{},",
-					"удерж. {C:mult}#1#{},",
-					"и кликните на карту чтобы",
-					"продать все её копии",
-				},
-			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				unlock = { "Продать ВСЕ" },
-				text = {
-					"Удерж. {C:mult}#1#{} чтобы",
-					"продать {C:attention}ВСЕ{} карты в области",
-				},
-			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				unlock = { "УДАЛИТЬ* карты", "или тэги" },
-				text = {
-					"Удерж. {C:mult}#1#{} чтобы",
-					"{C:attention,E:1}УДАЛИТЬ{} карты {C:handy_secondary}(или тэги){}",
-				},
-			},
-			controller_swap_cursor_stick = {
-				unlock = { "Контроллер: поменять", "поведение стиков" },
-				text = {
-					"Поменять местами поведение",
-					"Левого и Правого стиков",
-				},
-			},
-			controller_sensivity = {
-				unlock = { "Контроллер:", "чувствительность курсора" },
-				text = {
-					"Разрешить настраивать",
-					"чувствительность курсора контроллера",
-				},
-			},
-		},
-		Handy_ConfigPopup = {
-			debugplus_prevent = {
-				text = {
-					"Требуется мод {C:attention}DebugPlus{} и включённая",
-					"настройка {C:attention}CTRL for Keybinds{}",
-				},
-			},
-			regular_keybinds = {
-				text = {
-					"Сыграть или сбросить руку, сортировка руки",
-					"Обновить или покинуть магазин, Информация о забеге",
-					"Пропустить или выбрать блайнд, Просмотр колоды",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
-				text = {
+				unlock = {
 					"Если назначено на {C:chips}#1#{},",
-					"начните удерж. {C:attention}НА ПУСТОМ МЕСТЕ{}",
-					"а затем наводитесь на карты чтобы выделить их",
+					"начните удерживание {C:attention}ВНЕ{} карт",
+					"а затем наведите на них, чтобы выбрать",
+					"{C:inactive}(иначе вы схватите карту){}",
 				},
 			},
-			-- Vars: [Left Mouse]
-			insta_highlight_gamepad = {
+			-- []
+			hand_selection_insta_highlight_allow_deselect = {
+				name = { "Быстрое снятие выбора карт" },
+				text = {},
+				unlock = {
+					"{C:inactive}Когда вы наводите на карты:{}",
+					"Если {C:attention}первая{} карта {C:mult}не была{} выбрана — {C:chips}выбирать{} карты",
+					"Если {C:attention}первая{} карта {C:chips}была{} выбрана — {C:mult}снимать выбор{} с карт",
+				},
+			},
+			-- []
+			hand_selection_combine_select_deselect = {
+				name = { "Совмещённый выбор и снятие выбора" },
+				text = {},
+				unlock = {
+					"{C:inactive}Когда вы наводите на карты:{}",
+					"Если карта {C:mult}не{} выбрана — {C:chips}выбрать{} её",
+					"Если карта {C:chips}выбрана{} — {C:mult}снять выбор{}",
+				},
+			},
+			-- [Right mouse]
+			hand_selection_deselect_hand = {
+				name = { "Снять выбор с руки" },
 				text = {
-					"Работает и для курсора, и для выделения",
-					"с помощью кнопок движения",
+					"Ванильный #1#",
 				},
 			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				text = {
-					"Для назначений кроме {C:chips}#2#{},",
-					"можно начинать удерживать клавишу",
-					"пока наводишься на карту тоже",
+			-- []
+			hand_selection_entire_f_hand = {
+				name = { "Выбрать всю руку" },
+				text = {},
+				unlock = {
+					"Выбрать {C:attention}максимально возможное{} количество",
+					"карт слева направо",
 				},
 			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE_gamepad = {
-				text = {
-					"Работает и для курсора, и для выделения",
-					"с помощью кнопок движения",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				text = {
-					"Выделять карты, если первая не была выделена.",
-					"Снимать выделение, если первая карта была выделена.",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand_desktop = {
-				text = {
-					"Заменяет ванильный {C:chips}#2#{}",
-					"но работает идентично и может",
-					"быть переназначен на другую кнопку",
-					" ",
-					"Снимите галочку чтобы использовать",
-					"ванильное управление",
-				},
-			},
-			insta_cash_out = {
-				text = {
-					"Удерживание кнопки активирует функцию",
-					"сразу же как она станет доступна",
-				},
-			},
-			insta_booster_skip = {
-				text = {
-					"Удерживание кнопки активирует функцию",
-					"сразу же как она станет доступна",
-				},
-			},
-			move_highlight = {
-				text = {
-					"Сначала выделите карту, с которой",
-					"хотите взаимодействовать",
-				},
-			},
-			move_highlight_gamepad = {
-				text = {
-					"{C:mult}Не действует на геймпаде{}",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				text = {
-					"Скорость игры может быть изменена",
-					"от {C:attention}#4#{} до {C:attention}#5#{}",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				text = {
-					"Требуется мод {C:attention}Nopeus{}",
-					" ",
-					"{C:mult}Unsafe{} значение должно быть",
-					"включено во вкладке {C:attention}#4#{}",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+
+			-- [None, Messages, Animations, Everything]
 			animation_skip = {
+				name = "Пропуск анимаций",
 				text = {
-					"5 уровней пропуска анимации",
+					"Убрать анимации подсчёта и другие игровые анимации",
+				},
+				unlock = {
+					"Прямая замена такой же функции",
+					"из модов вроде {C:attention}Talisman{}, {C:attention}Saturn{} или {C:attention}Nopeus{}",
 					" ",
-					"{C:attention}#4#{} - стандартное поведение гры",
-					"{C:attention}#5#{} - убраны тексты над картами ({C:attention}Ещё раз!{} and {C:chips}+Фишки{})",
-					"{C:attention}#6#{} - моментальный подсчёт, убраны анимации карт",
-					"{C:attention}#7#{} - убраны ненужные анимации, моментальное доставание карт и рестарт",
-					"{C:mult}#8#{} - абсолютный лимит игры: всё моментально",
-					" ",
-					"{C:mult}#8#{} значение должно быть включено во вкладке {C:attention}#9#{}",
+					"Имеет 4 уровня:",
+					"{C:chips}#1#{} — без изменений",
+					"{C:chips}#2#{} — без {C:mult}XMult{}, {C:attention}Ещё раз!{} и других сообщений срабатывания",
+					"{C:attention}#3#{} — мгновенный подсчёт",
+					"{C:attention}#4#{} — большинство анимаций убрано; мгновенная доборка карт",
+				},
+				handy_override_align = {
+					unlock = {
+						[5] = "cl",
+						[6] = "cl",
+						[7] = "cl",
+						[8] = "cl",
+					},
 				},
 			},
+			-- []
+			animation_skip_current_value = {
+				name = "Пропуск анимаций: текущее значение",
+				text = {},
+			},
+			-- []
+			animation_skip_default_value = {
+				name = "Пропуск анимаций: значение при запуске игры",
+				text = {},
+			},
+			-- []
+			animation_skip_increase = {
+				name = { "Пропуск анимаций: увеличить" },
+				text = {},
+			},
+			-- []
+			animation_skip_decrease = {
+				name = { "Пропуск анимаций: уменьшить" },
+				text = {},
+			},
+			-- []
+			animation_skip_toggle_temp_disabled = {
+				name = { "Пропуск анимаций: вкл/выкл" },
+				text = {},
+			},
+			-- [Unsafe]
+			dangerous_actions_animation_skip_unsafe = {
+				name = { "Пропуск анимаций: небезопасно" },
+				text = {},
+				unlock = {
+					"Разрешить увеличение до уровня {C:mult}#1#{}",
+					" ",
+					"{C:mult}Абсолютный предел игры: всё моментальное{}",
+				},
+			},
+
+			-- [128x]
+			speed_multiplier = {
+				name = "Множитель скорости",
+				text = {
+					"Увеличить скорость игры",
+				},
+				unlock = {
+					"Как следует из названия, {C:attention}умножает{} скорость игры,",
+					"поэтому значение по умолчанию всегда {C:attention}1x{}",
+					" ",
+					"Начиная с {C:attention}#1#{}, ускоряет",
+					"{C:attention}очередь анимаций{}, чтобы обойти лимит",
+					"в 60 действий в секунду",
+				},
+			},
+			-- []
+			speed_multiplier_current_value = {
+				name = "Множитель скорости: текущее значение",
+				text = {},
+			},
+			-- []
+			speed_multiplier_default_value = {
+				name = "Множитель скорости: значение при запуске игры",
+				text = {},
+			},
+			-- []
+			speed_multiplier_multiply = {
+				name = { "Множитель скорости: увеличить" },
+				text = {},
+			},
+			-- []
+			speed_multiplier_divide = {
+				name = { "Множитель скорости: уменьшить" },
+				text = {},
+			},
+			-- []
+			speed_multiplier_toggle_temp_disabled = {
+				name = { "Множитель скорости: переключить" },
+				text = {},
+			},
+			-- [x200k]
+			dangerous_actions_speed_multiplier_uncap = {
+				name = { "Множитель скорости: снять лимит" },
+				text = {},
+				unlock = {
+					"Повышает максимальный лимит скорости до {C:mult}#1#{}",
+					" ",
+					"{C:mult}Сильно влияет на производительность на очень больших значениях{}",
+				},
+			},
+
+			-- []
+			move_highlight = {
+				name = "Точный выбор",
+				text = {
+					"Точный выбор и перемещение карт",
+				},
+				unlock = {
+					"Полезно для управления картами, когда",
+					"их много в одной области",
+					" ",
+					"{C:attention}Выберите{} карту в области",
+					"а затем используйте перечисленные действия",
+				},
+			},
+			-- []
+			move_highlight_one_left = {
+				name = { "Точный выбор: на одну влево" },
+				text = {},
+				unlock = {
+					"Можно {C:attention}удерживать{} этот бинд",
+					"чтобы перемещаться быстрее",
+				},
+			},
+			-- []
+			move_highlight_one_right = {
+				name = { "Точный выбор: на одну вправо" },
+				text = {},
+				unlock = {
+					"Можно {C:attention}удерживать{} этот бинд",
+					"чтобы перемещаться быстрее",
+				},
+			},
+			-- []
+			move_highlight_swap = {
+				name = { "Точный выбор: переместить карту" },
+				text = {},
+				unlock = {
+					"{C:attention}Пока удерживается{}, сама карта",
+					"будет перемещаться вместо выделения",
+				},
+			},
+			-- []
+			move_highlight_to_end = {
+				name = { "Точный выбор: переместить в конец" },
+				text = {},
+				unlock = {
+					"Пока {C:attention}удерживается{}, вместо перемещения выделения/карты",
+					"{C:attention}на одну влево/вправо{} будет перемещение к",
+					"соответственно {C:attention}самой левой/самой правой{} позиции",
+				},
+			},
+
+			-- []
+			presets = {
+				name = "Пресеты конфигурации",
+				text = {
+					"Конфигурации, между которыми легко переключаться",
+				},
+			},
+			-- []
+			presets_load_1 = {
+				name = { "Пресеты: загрузить пресет 1" },
+				text = {},
+			},
+			-- []
+			presets_load_2 = {
+				name = { "Пресеты: загрузить пресет 2" },
+				text = {},
+			},
+			-- []
+			presets_load_3 = {
+				name = { "Пресеты: загрузить пресет 3" },
+				text = {},
+			},
+			-- []
+			presets_load_next = {
+				name = { "Пресеты: загрузить следующий пресет" },
+				text = { "1 -> 2 -> 3 -> 1" },
+				unlock = {
+					"Пропускает пустые или отключённые пресеты",
+				},
+			},
+
+			-- []
+			insta_actions = {
+				name = "Быстро купить/продать/использовать",
+				text = {
+					"Экономьте клики и используйте карты быстрее",
+				},
+			},
+			-- []
+			insta_actions_trigger_mode = {
+				name = "Режим купить/продать/использовать",
+				text = {},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_or_sell = {
+				name = { "Быстро купить/продать карту" },
+				text = {},
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} по карте",
+					"чтобы купить {C:inactive}(из магазина){} или выбрать {C:inactive}(из бустер-пака){}",
+					"или продать {C:inactive}(из слотов джокеров/расходников){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_or_sell_alt = {
+				name = { "Быстро купить/продать карту" },
+				text = {},
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Наведите/схватите{} карту и {C:attention}нажмите{} бинд",
+					"чтобы купить {C:inactive}(из магазина){} или выбрать {C:inactive}(из бустер-пака){}",
+					"или продать {C:inactive}(из слотов джокеров/расходников){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_n_sell = {
+				name = { "Быстро купить и продать карту" },
+				text = { "Купить и сразу же продать" },
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} по карте",
+					"чтобы купить {C:inactive}(из магазина){} или выбрать {C:inactive}(из бустер-пака){}",
+					"и {C:attention}сразу продать{} после этого",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_n_sell_alt = {
+				name = { "Быстро купить и продать карту" },
+				text = { "Купить и сразу после этого продать" },
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Наведите/схватите{} карту и {C:attention}нажмите{} бинд",
+					"чтобы купить {C:inactive}(из магазина){} или выбрать {C:inactive}(из бустер-пака){}",
+					"и {C:attention}сразу продать{} после этого",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_use = {
+				name = { "Быстро использовать карту" },
+				text = {},
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} карту",
+					"чтобы использовать её {C:inactive}(если возможно){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_use_alt = {
+				name = { "Быстро использовать карту" },
+				text = {},
+				unlock = {
+					"{C:attention}#1#{} определяет использование",
+					" ",
+					"{C:attention}Наведите/схватите{} карту и {C:attention}нажмите{} бинд",
+					"чтобы использовать её {C:inactive}(если возможно){}",
+				},
+			},
+			-- insta_actions_cryptid_code_use_last_interaction = {
+			-- 	name = { 'Cryptid: Code card\'s "Use previous"' },
+			-- 	text = {},
+			-- 	unlock = {
+			-- 		"Applicable only for cards from {C:attention}Cryptid{}:",
+			-- 		"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+			-- 		" ",
+			-- 		"Usage determined by {C:attention}#1#{}",
+			-- 		" ",
+			-- 		"{C:attention}Hold{} keybind and {C:attention}click{} card",
+			-- 		'to execute "Use previous" option',
+			-- 	},
+			-- },
+			-- insta_actions_cryptid_code_use_last_interaction_alt = {
+			-- 	name = { 'Cryptid: Code card\'s "Use previous"' },
+			-- 	text = {},
+			-- 	unlock = {
+			-- 		"Applicable only for cards from {C:attention}Cryptid{}:",
+			-- 		"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+			-- 		" ",
+			-- 		"Usage determined by {C:attention}#1#{}",
+			-- 		" ",
+			-- 		"{C:attention}Hover/grab{} card and {C:attention}press{} keybind",
+			-- 		'to execute "Use previous" option',
+			-- 	},
+			-- },
+
+			-- []
 			scoring_hold = {
-				text = {
-					"Полезно для перемещения джокеров или",
-					"просмотра очков перед концом раунда",
-					"на высокой скорости игры или с",
-					"выключенными анимациями",
-				},
-			},
-			not_just_yet_interaction = {
-				text = {
-					"Требуется мод {C:attention}NotJustYet{}",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_desktop = {
-				text = {
-					"Использование определяет",
-					"{C:attention}#2#{}",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_gamepad = {
-				text = {
-					"Заменяет ванильный {C:chips}#3#{}",
-					"но работает идентично и может",
-					"быть переназначен на другую кнопку",
+				name = { "Удержание анимации подсчёта" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{}, чтобы поставить анимации подсчёта на паузу",
+					"{C:attention}до{} расчёта итоговых очков руки",
 					" ",
-					"Снимите галочку чтобы использовать",
-					"ванильное управление",
+					"Полезно для перестановки джокеров перед концом раунда",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell_desktop = {
-				text = {
-					"Использование определяет",
-					"{C:attention}#2#{}",
+			-- []
+			scoring_hold_any_moment = {
+				name = { "Удержание анимации подсчёта: любой момент" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{}, чтобы поставить анимации подсчёта на паузу",
+					"в {C:attention}любой момент{} подсчёта",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_desktop = {
+
+			-- []
+			regular_keybinds = {
+				name = "Стандартные и ванильные бинды",
 				text = {
-					"Использование определяет",
-					"{C:attention}#2#{}",
+					"Все действия из базовой игры и не только",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_gamepad = {
+
+			-- []
+			regular_keybinds_group_game = {
+				name = "Забег",
+				text = {},
+			},
+			-- [R]
+			regular_keybinds_restart = {
+				name = { "Перезапустить забег" },
+				text = { "Ванильный #1#" },
+			},
+			-- [R]
+			regular_keybinds_quick_restart = {
+				name = { "Мгновенный перезапуск забега" },
+				text = { "Ванильный #1#, но мгновенно" },
+				unlock = {
+					"Работает также с экрана {C:attention}Проигрыша{}",
+				},
+			},
+			-- []
+			regular_keybinds_save_run = {
+				name = { "Сохранить забег" },
 				text = {
-					"Заменяет ванильный {C:chips}#3#{}",
-					"но работает идентично и может",
-					"быть переназначен на другую кнопку",
+					"Автосохранение, но вручную",
+				},
+				unlock = {
+					"Игра автоматически сохраняет забег после некоторых действий",
+					"{C:inactive}(например: сыграть руку, сбросить, реролл магазина){}",
 					" ",
-					"Снимите галочку чтобы использовать",
-					"ванильное управление",
+					"Этот бинд позволяет сделать это вручную",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
+			-- []
+			regular_keybinds_reload_run = {
+				name = { "Загрузить забег" },
 				text = {
-					"Требуется мод {C:attention}Cryptid{}",
+					"Главное меню -> Продолжить забег",
+				},
+				unlock = {
+					"Имитирует выход в главное меню",
+					"а затем продолжение забега",
+					"с {C:attention}пропущенной анимацией{}",
+				},
+			},
+			-- []
+			regular_keybinds_restart_game = {
+				name = "Перезапустить Balatro",
+				text = {},
+			},
+			-- []
+			regular_keybinds_copy_log_file = {
+				name = { "Скопировать лог Lovely" },
+				text = {},
+				unlock = {
+					"Из-за технических ограничений лог",
+					"копируется {C:attention}как текст{}, а не как файл",
+				},
+			},
+
+			-- []
+			regular_keybinds_group_hand = {
+				name = "Рука",
+				text = {},
+			},
+			-- []
+			regular_keybinds_play = {
+				name = { "Сыграть руку" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_discard = {
+				name = { "Сбросить руку" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_change_sort_rank = {
+				name = { "Сортировать руку по рангу" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_change_sort_suit = {
+				name = { "Сортировать руку по масти" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_toggle_sort = {
+				name = { "Переключить сортировку руки" },
+				text = { "Масть > Ранг > Масть..." },
+			},
+
+			-- []
+			regular_keybinds_group_round = {
+				name = "Раунд",
+				text = {},
+			},
+			-- []
+			regular_keybinds_start_fantoms_preview = {
+				name = { "Fantom's Preview: рассчитать очки руки" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_cash_out = {
+				name = { "Обналичить" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{} бинд, чтобы пропустить",
+					"как только это станет доступно",
+				},
+			},
+			-- []
+			regular_keybinds_not_just_yet_interaction = {
+				name = { "NotJustYet: завершить раунд" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_shop = {
+				name = "Магазин",
+				text = {},
+			},
+			-- []
+			regular_keybinds_skip_booster = {
+				name = { "Пропустить бустер-пак" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{} бинд, чтобы пропустить бустер-пак",
+					"как только это станет доступно",
 					" ",
-					"Использует Код-карту и выбирает вариант",
-					"{C:green}[Input previous value]{} для таких карт как:",
-					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:attention}Продолжайте удерживать{} бинд, чтобы пропустить несколько",
+					"бустер-паков {C:attention}подряд{}",
+				},
+			},
+			-- []
+			regular_keybinds_reroll_shop = {
+				name = { "Реролл магазина" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_leave_shop = {
+				name = { "Покинуть магазин" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_group_blind_select = {
+				name = "Выбор блайнда",
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_skip_blind = {
+				name = { "Пропустить блайнд" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_select_blind = {
+				name = { "Выбрать блайнд" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_reroll_boss = {
+				name = { "Реролл босс-блайнда" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_menus = {
+				name = "Меню",
+				text = {},
+			},
+			-- []
+			regular_keybinds_mod_settings = {
+				name = { "Handy: настройки мода" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_show_deck_preview = {
+				name = { "Предпросмотр колоды" },
+				text = { "Тоже самое что и при наведении на колоду" },
+			},
+			-- [Escape]
+			regular_keybinds_options = {
+				name = { "Настройки" },
+				text = { "То же, что #1#" },
+			},
+			-- []
+			regular_keybinds_collection = {
+				name = { "Коллекция" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_swappable_menus = {
+				name = "Внутриигровые меню",
+				text = {},
+				unlock = {
+					"Можно перемещаться между меню с помощью",
+					"биндов {C:attention}не закрывая{} их",
+				},
+			},
+			-- []
+			regular_keybinds_swappable_overlays_mode = {
+				name = "Режим внутриигровых меню",
+				text = {},
+			},
+			-- []
+			regular_keybinds_run_info = {
+				name = { "Инфо забега: покерные руки" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_run_info_blinds = {
+				name = { "Инфо забега: блайнды" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_view_deck = {
+				name = { "Открыть колоду" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_view_lobby_info = {
+				name = { "Multiplayer: информация лобби" },
+				text = {},
+			},
+
+			-- []
+			dangerous_actions = {
+				name = "Опасные действия",
+				text = {
+					"Когда в забеге полный завал",
+				},
+			},
+			-- []
+			dangerous_actions_sell_one = {
+				name = { "Мгновенная продажа" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и начните {C:attention}наводить{}",
+					"на карты, которые хотите продать",
 					" ",
-					"Использование определяет",
-					"{C:attention}#2#{}",
+					"Пока {C:attention}удерживаете{}, объекты под курсором добавляются в список",
+					"При {C:attention}отпускании{} все они будут проданы",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction_gamepad = {
-				text = {
-					"Требуется мод {C:attention}Cryptid{}",
+			-- []
+			dangerous_actions_remove_one = {
+				name = { "Мгновенное удаление" },
+				text = { "Также работает с тегами" },
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и начните {C:attention}наводить{}",
+					"на карты/теги, которые хотите {C:mult}удалить{}",
 					" ",
-					"Использует Код-карту и выбирает вариант",
-					"{C:green}[Input previous value]{} для таких карт как:",
-					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"Пока {C:attention}удерживаете{}, объекты под курсором добавляются в список",
+					"При {C:attention}отпускании{} все они будут {C:mult}удалены{}",
+					"{C:inactive}(обходит все проверки, без возврата средств){}",
 				},
 			},
-			insta_highlight_entire_f_hand = {
-				text = {
-					"Выбирает максимальное количество",
-					"карт в руке, слева направо",
+			-- [Instant sell all same, Instant REMOVE all same, Instant sell all, Instant REMOVE ALL]
+			dangerous_actions_mass_sell_remove_mode = {
+				name = "Режим массовой продажи/удаления",
+				text = {},
+				unlock = {
+					"Применяется к действиям:",
+					"{C:mult}#1#{}",
+					"{C:mult}#2#{}",
+					"{C:mult}#3#{}",
+					"{C:mult}#4#{}",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
-				text = {
-					"Удерж. {C:mult}#3#{}, {C:chips}#4#{},",
-					"и наводитесь на карты чтобы сразу же их продать",
+			-- []
+			dangerous_actions_sell_all_same = {
+				name = { "Мгновенно продать все такие же" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} карту",
+					"которую хотите продать",
 				},
 			},
-			immediate_buy_and_sell_queue = {
-				text = {
-					"{C:mult}[Моментальная продажа]{} будет продавать не сразу же;",
-					"наведённые карты будут добавлены в список, и все",
-					"они будут проданы только когда отпустится кнопка",
+			-- []
+			dangerous_actions_remove_all_same = {
+				name = { "Мгновенно удалить все такие же" },
+				text = { "Также работает с тегами пропуска" },
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} карту/тег",
+					"которые хотите {C:mult}удалить{}",
+					"{C:inactive}(обходит все проверки, без возврата средств){}",
+				},
+			},
+			-- []
+			dangerous_actions_sell_all = {
+				name = { "Мгновенно продать ВСЁ" },
+				text = {},
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} карту",
+					"которую хотите продать",
+				},
+			},
+			-- []
+			dangerous_actions_remove_all = {
+				name = { "Мгновенно удалить ВСЁ" },
+				text = { "Также работает с тегами пропуска" },
+				unlock = {
+					"{C:attention}Удерживайте{} бинд и {C:attention}кликните{} карту/тег",
+					"которые хотите {C:mult}удалить{}",
+					"{C:inactive}(обходит все проверки, без возврата средств){}",
+				},
+			},
+			-- []
+			dangerous_actions_crash = {
+				name = { "Крашнуть игру" },
+				text = {},
+				unlock = {
+					"{C:mult}Буквально{}",
+				},
+			},
+			-- []
+			dangerous_actions_stack_overflow = {
+				name = { "Крашнуть игру: Stack Overflow" },
+				text = {},
+				unlock = {
+					"{C:mult}Буквально{}",
+					"{C:mult}Игра зависнет и/или закроется сама{}",
+				},
+			},
+
+			-- []
+			misc = {
+				name = "Разное",
+				text = {},
+			},
+
+			-- []
+			mp_extension = {
+				name = { "Multiplayer Аддон" },
+				text = { "Функции, специфичные для мультиплеера" },
+			},
+
+			-- []
+			mp_extension_current_lobby = {
+				name = { "MP Аддон: текущие настройки лобби" },
+				text = {},
+			},
+			-- [Speed multiplier, Animations skip]
+			mp_extension_enabled = {
+				name = "Разрешить MP Аддон",
+				text = {},
+				unlock = {
+					"Включая этот флажок, {C:attention}ВЫ{} разрешаете",
+					"включить {C:mult}MP Аддон{} в этом лобби",
 					" ",
-					"Более удобное, но менее быстрое",
+					"Только если у {C:attention}ВСЕХ{} игроков в лобби оно включено,",
+					"действия вроде {C:chips}#1#{} и {C:attention}#2#{}",
+					"станут доступны для {C:attention}ВСЕХ{} игроков в лобби",
 				},
 			},
-			immediate_buy_and_sell_queue_gamepad = {
-				text = {
-					"{C:mult}[Моментальная продажа]{} будет продавать не сразу же;",
-					"наведённые карты будут добавлены в список, и все",
-					"они будут проданы только когда отпустится кнопка",
-					" ",
-					"Более удобное, но менее быстрое",
-					" ",
-					"{C:attention}Всегда активно на геймпаде{}",
+			-- []
+			mp_extension_speed_multiplier_mode = {
+				name = "Множитель скорости: максимум в лобби",
+				text = {},
+			},
+			-- []
+			mp_extension_animation_skip_mode = {
+				name = "Пропуск анимаций: максимум в лобби",
+				text = {},
+			},
+			-- []
+			mp_extension_dangerous_actions_mode = {
+				name = "Опасные действия: режим лобби",
+				text = {},
+				unlock = {
+					"Разрешает включать некоторые {C:mult}опасные действия{}",
+					"для массовой продажи",
 				},
 			},
-			speed_multiplier_uncap = {
-				text = {
-					"{C:mult}Очень сильно влияет на производительность{}",
+
+			-- []
+			mp_extension_default_values = {
+				name = { "MP Аддон: настройки лобби по умолчанию" },
+				text = {},
+			},
+			-- []
+			mp_extension_speed_multiplier_mode_default_value = {
+				name = "Множитель скорости: стандартный максимум лобби",
+				text = {},
+				unlock = {
+					"Когда вы {C:attention}создаёте лобби{},",
+					"это значение будет установлено по умолчанию",
 				},
 			},
-			nopeus_unsafe = {
-				text = {
-					"Требуется мод {C:attention}Nopeus{}",
-					" ",
-					"Даже если галочка снята, {C:mult}Unsafe{} опция",
-					"может быть включена нормально через настройки",
+			-- []
+			mp_extension_animation_skip_mode_default_value = {
+				name = "Пропуск анимаций: стандартный максимум лобби",
+				text = {},
+				unlock = {
+					"Когда вы {C:attention}создаёте лобби{},",
+					"это значение будет установлено по умолчанию",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				text = {
-					"Удерж. {C:mult}#3#{}, {C:mult}#4#{},",
-					"и нажмите на карту чтобы продать все её копии",
+			-- []
+			mp_extension_dangerous_actions_mode_default_value = {
+				name = "Опасные действия: стандартный режим лобби",
+				text = {},
+				unlock = {
+					"Когда вы {C:attention}создаёте лобби{},",
+					"это значение будет установлено по умолчанию",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				text = {
-					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
-					"и нажмите на карту чтобы продать {C:attention}ВСЕ{} карты в области",
+			-- []
+			mp_extension_enabled_default_value = {
+				name = "Разрешить MP Аддон: значение по умолчанию",
+				text = {},
+				unlock = {
+					"Когда вы {C:attention}создаёте лобби или присоединяетесь к нему{},",
+					"это значение будет установлено по умолчанию",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				text = {
-					"При удерж. карты {C:attention}или тэги{} будут {C:attention,E:1}УДАЛЕНЫ{}",
-					" ",
-					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
-					"{C:chips}#4#{} и наводитесь на карты",
-					"чтобы {C:attention,E:1}УДАЛИТЬ{} их (очередь тоже работает)",
-					" ",
-					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
-					"{C:mult}#5#{} и нажмите на карту {C:attention}или тэг{}",
-					"чтобы {C:attention,E:1}УДАЛИТЬ{} все их копии",
-					" ",
-					"Удерж. {C:mult}#2#{}, {C:mult}#3#{},",
-					"{C:mult}#6#{}, и нажмите на карту {C:attention}или тэг{}",
-					"чтобы {C:attention,E:1}УДАЛИТЬ{} их {C:attention}ВСЕ{}",
-				},
+
+			debug_things = {
+				name = "Разработка & Дебаг",
+				text = {},
+			},
+			debug_things_reload_localization = {
+				name = "Dev: Reload Localization",
+				text = { "G:set_language(); init_localization();" },
+			},
+			debug_things_reload_prototypes = {
+				name = "Dev: Reload Item Prototypes",
+				text = { "G:set_language(); G:init_item_prototypes();" },
 			},
 		},
+
 		Handy_Preset = {
 			["default"] = {
 				name = "По умолчанию",
 				text = {
-					"Назначения мода по умолчанию",
+					"Управление мода по умолчанию",
 				},
 			},
 			["better_mouse_and_gamepad"] = {
 				name = "Better Mouse and Gamepad",
 				text = {
-					"Управления подобны моду Better Mouse and Gamepad",
+					"Управление, похожее на мод Better Mouse and Gamepad",
+				},
+			},
+			["full_default"] = {
+				name = "Сбросить по умолчанию",
+				text = {
+					"Полный сброс конфигурации по умолчанию",
+				},
+			},
+		},
+		Handy_Other = {
+			overall_title = {
+				text = {
+					"- Свайпайте, чтобы выделять карты",
+					"- Внутриигровые бинды",
+					"- Увеличенная скорость игры",
+					"- Удаление анимаций",
+					"- Поддержка геймпада",
+					" ",
+					"- Управление можно назначить на {C:chips}любую комбинацию{}",
+					"  клавиш клавиатуры, мыши или кнопок геймпада",
+					"  и включать/отключать в {C:chips}любой момент{}",
+					"  без перезапуска игры или перезагрузки забега",
+					"- {C:chips}Не{} отключает достижения",
+				},
+			},
+			missing_deps = {
+				text = {
+					"Это действие неактивно, пока перечисленные",
+					"настройки не включены:",
+				},
+			},
+			cant_use_in_mp = {
+				text = {
+					"Это действие отключено в {C:mult}мультиплеере{}",
+				},
+			},
+			cant_use_with_gamepad = {
+				text = {
+					"Это действие отключено на {C:attention}геймпаде{}",
+				},
+			},
+			missing_req_mods = {
+				text = {
+					"Для работы этого действия требуются другие моды:",
+				},
+			},
+			conflict_mods = {
+				text = {
+					"Это действие неактивно из-за других модов:",
+				},
+			},
+			mp_lobby_require_all_hint = {
+				text = {
+					"Все перечисленные настройки лобби действуют только когда",
+					"у {C:attention}ВСЕХ{} участников лобби установлен {C:chips}Handy v2.0{} или новее",
+				},
+			},
+			better_mouse_and_gamepad_in_hand_selection = {
+				text = {
+					"{C:mult,s:1.5}Упс...{}",
+					" ",
+					"Похоже, установлен {C:attention}Better Mouse and Gamepad{}.",
+					"У меня для вас 2 новости: {C:mult}плохая{} и {C:green}хорошая{}.",
+					" ",
+					"{C:mult}Плохая новость{}: {C:attention}BMaG{} полностью переопределяет выделение карт в руке",
+					"от {C:chips}Handy{} и ломает ввод для кнопок вроде",
+					"{C:chips}[Wheel Up/Down]{}, {C:chips}[Mouse 3]{}, {C:chips}[Right Mouse]{} и других.",
+					" ",
+					"{C:green}Хорошая новость{}: в {C:chips}Handy{} реализованы {C:inactive,s:0.75}почти{} все его действия",
+					"поэтому можно удалить {C:attention}BMaG{} и ничего не потерять.",
+					" ",
+					"Или можно продолжить использовать {C:attention}оба мода{}, и в основном всё будет нормально.",
+					"{s:0.8}Хоть мне это и не нравится, кто я такой, чтобы указывать, какими модами пользоваться?{}",
 				},
 			},
 		},
 	},
 	misc = {
+		-- You don't need to translate all of them, only necessary ones
 		handy_keybinds = {
+			-- No button assigned
+			["None"] = "Нет",
+			-- Button which cannot be recognized
+			["Unknown"] = "Неизвестно",
+
+			-- Mouse
+			["Left Mouse"] = "Левая кнопка мыши",
+			["Right Mouse"] = "Правая кнопка мыши",
+			["Middle Mouse"] = "Средняя кнопка мыши",
+			["Mouse 4"] = "Кнопка мыши 4",
+			["Mouse 5"] = "Кнопка мыши 5",
+			["Wheel Up"] = "Колесо вверх",
+			["Wheel Down"] = "Колесо вниз",
+			-- Controls
+			["Escape"] = "Escape",
+			["Shift"] = "Shift",
+			["Ctrl"] = "Ctrl",
+			["Alt"] = "Alt",
+			["GUI"] = "GUI", -- Windows button, or CMD for Mac
+			["Enter"] = "Enter",
+			["Tab"] = "Tab",
+			["Backspace"] = "Backspace",
+			["Num Lock"] = "Num Lock",
+			["Caps Lock"] = "Caps Lock",
+			["Scroll Lock"] = "Scroll Lock",
+			-- Arrow keys
 			["Left"] = "Влево",
 			["Right"] = "Вправо",
 			["Up"] = "Вверх",
-			["Down"] = "Сниз",
-			["Left Mouse"] = "ЛКМ",
-			["Right Mouse"] = "ПКМ",
-			["Middle Mouse"] = "СКМ",
-			["Wheel Up"] = "Колёсико Вверх",
-			["Wheel Down"] = "Колёсико Вниз",
-			["Space"] = "Пробел",
-			["None"] = "Нет",
-			["Unknown"] = "Неизв.",
-		},
-		handy_keybind_labels = {
-			play_hand = "Сыграть руку",
-			discard = "Сбросить руку",
-			toggle_sort = "Переключить сортировку",
-			sort_by_rank = "Сортировать по старшинству",
-			sort_by_suit = "Сортировать по масти",
-			deselect_hand = "Убрать выделение руки",
-			cash_out = "Кэшаут (перейти в магазин)",
-			not_just_yet_end_round = "NotJustYet: закончить раунд",
-			skip_booster = "Пропустить бустерный набор",
-			reroll_shop = "Обновить магазин",
-			leave_shop = "Покинуть магазин",
-			skip_blind = "Пропустить блайнд",
-			select_blind = "Выбрать блайнд",
-			reroll_boss = "Переброс босс-блайнда",
-			run_info_hands = "Информация о забеге: покерные руки",
-			run_info_blinds = "Информация о забеге: блайнды",
-			lobby_info = "Мультиплеер: лобби инфо",
-			view_deck = "Открыть колоду",
-			deck_preview = "Превью колоды",
-			quick_highlight = "Быстрое выделение",
-			quick_buy_or_sell = "Быстрая покупка/продажа",
-			quick_buy_n_sell = "Быстрая покупка-и-продажа",
-			quick_use = "Быстрое использование",
-			highlight_entire_f_hand = "Выделить всю руку",
-			cryptid_code_use_last_interaction = "Cryptid: использовать предыдущий ввод",
-			speed_multiplier = "Множитель скорости",
-			speed_multiplier_multiply = "Множитель скорости: Умножить",
-			speed_multiplier_divide = "Множитель скорости: Поделить",
-			nopeus_interaction = "Nopeus: fast-forward",
-			nopeus_interaction_increase = "Nopeus: Увеличить",
-			nopeus_interaction_decrease = "Nopeus: Уменьшить",
-			animation_skip = "Пропуск анимаций",
-			animation_skip_increase = "Пропуск анимаций: Увеличить",
-			animation_skip_decrease = "Пропуск анимаций: Уменьшить",
-			move_highlight_one_left = "Передвинуть один налево",
-			move_highlight_one_right = "Передвинуть один направо",
-			move_highlight_move_card = "Передвигать карту",
-			move_highlight_to_end = "Передвинуть на край области",
-			scoring_hold = "Пауза анимации подсчёта",
+			["Down"] = "Вниз",
+			-- Symbols
+			["Backquote"] = "Обратная кавычка", -- `
+			["Singlequote"] = "Апостроф", -- '
+			["Quote"] = "Кавычка", -- "
+			["Left Bracket"] = "Левая скобка", -- [
+			["Right Bracket"] = "Правая скобка", -- ]
+			-- Weird buttons
+			["Printscreen"] = "Print Screen",
+			["Delete"] = "Delete",
+			["Home"] = "Home",
+			["Insert"] = "Insert",
+			["End"] = "End",
+			["Pause"] = "Pause",
+			["Help"] = "Help",
+			["Sysreq"] = "SysRq",
+			["Menu"] = "Menu",
+			["Undo"] = "Undo",
+			["Mode"] = "Mode",
+			["Page Up"] = "Page Up",
+			["Page Down"] = "Page Down",
+			-- Very weird buttons, did they exist in 21th century?
+			["Www"] = "WWW",
+			["Mail"] = "Почта",
+			["Calculator"] = "Калькулятор",
+			["Computer"] = "Компьютер",
+			["Appsearch"] = "Поиск приложения",
+			["Apphome"] = "Домой приложения",
+			["Appback"] = "Назад приложения",
+			["Appforward"] = "Вперёд приложения",
+			["Apprefresh"] = "Обновить приложение",
+			["Appbookmarks"] = "Закладки приложения",
+			["Currencyunit"] = "Единица валюты",
+			["Application"] = "Приложение",
+			["Power"] = "Питание", -- What a heck
 
-			dangerous_modifier = '"Опасный" модификатор',
-			dangerous_all_same_modifier = '"Все копии" модификатор',
-			dangerous_all_modifier = '"ВСЕ" модификатор',
-			dangerous_remove_modifier = '"УДАЛИТЬ" модификатор',
+			-- Gamepad: buttons
+			["(A)"] = "(A)",
+			["(B)"] = "(B)",
+			["(X)"] = "(X)",
+			["(Y)"] = "(Y)",
+			["(Back)"] = "(Назад)",
+			["(Guide)"] = "(Меню)",
+			["(Start)"] = "(Старт)",
+			-- Gamepad: directions
+			-- In Balatro, Left Stick movement treated as direction buttons
+			["(Up)"] = "(Вверх)",
+			["(Down)"] = "(Вниз)",
+			["(Left)"] = "(Влево)",
+			["(Right)"] = "(Вправо)",
+			-- Gamepad: sticks, triggers, bumpers and paddles
+			["Left Stick"] = "Левый стик", -- Click
+			["Right Stick"] = "Правый стик", -- Click
+			["Left Bumper"] = "Левый бампер", -- LB
+			["Right Bumper"] = "Правый бампер", -- RB
+			["Left Trigger"] = "Левый триггер", -- LT
+			["Right Trigger"] = "Правый триггер", -- RT
+			-- Not supported by current LOVE engine version
+			["First Paddle"] = "Первый лепесток", -- P1
+			["Second Paddle"] = "Второй лепесток", -- P2
+			["Third Paddle"] = "Третий лепесток", -- P3
+			["Fourth Paddle"] = "Четвёртый лепесток", -- P4
+			["(Misc. Button)"] = "(Доп. кнопка)",
+			-- Gamepad: touchpad
+			["Touchpad Press"] = "Нажатие тачпада",
 
-			presets_load_1 = "Загрузить профиль 1",
-			presets_load_2 = "Загрузить профиль 2",
-			presets_load_3 = "Загрузить профиль 3",
-			presets_load_next = "Загрузить след. профиль",
-
-			misc_open_mod_settings = "Открыть настройки мода",
-			misc_crash = "Крашнуть игру",
-			misc_save_run = "Сохранить игру",
-			misc_quick_restart = "Быстрый рестарт",
-			misc_start_fantoms_preview = "Fantom's Preview: Расчёт",
-		},
-		handy_keybind_sections = {
-			hand = "Рука",
-			round = "Раунд",
-			shop = "Магазин",
-			blinds = "Блайнды",
-			menus = "Меню",
-			quick_actions = "Быстрые действия",
-			gamespeed = "Скорость игры",
-			animations = "Анимации",
-			highlight_movement = "Передвижение выделения",
-			shop_and_blinds = "Магазин и блайнды",
-			gamespeed_and_animations = "Скорость игры и анимации",
-			hand_selection = "Выделение руки",
-			presets = "Профили",
-			dangerous_actions = "Опасные действия",
-			misc = "Прочее",
+			-- Not listed here, but can be added if you ever need:
+			-- All english letters uppercase, (Q, W, E, R, T, Y...)
+			-- All numbers (1, 2, 3...0)
+			-- All F keys (F1, F2, F3...)
+			-- All NUM keys (NUM 0 ... NUM 9, NUM Enter, NUM +, NUM -, NUM *, NUM /, NUM .)
+			-- Other symbols (. ; / \ - + etc)
 		},
 		handy_tabs = {
-			["Overall"] = "Основные & Ванилла",
-			["Quick"] = "Быстрые действия",
-			["Keybinds"] = "Основные назначения",
-			["Keybinds 2"] = "Другие назначения",
-			["Dangerous"] = "Опасная зона",
-			["Presets"] = "Профили",
-			["Keybinds Paginated"] = "Назначения",
+			["Overall"] = "Общее",
+			["Presets"] = "Пресеты",
 			["Search"] = "Поиск",
+
+			["General"] = "Общее",
+			["Fast hand selection"] = "Выделение руки",
+			["Speed & Animations"] = "Скорость и анимации",
+			["Vanilla keybinds"] = "Бинды",
+			["Quick buy/sell/use"] = "Купить, продать и использовать",
+			["Highlight movement"] = "Точный выбор",
+			["Misc"] = "Разное",
+			["Dangerous"] = "Опасная зона",
+
+			["Speed"] = "Скорость",
+			["Animations"] = "Анимации",
+			["Hold"] = "Удержание",
+			["Round"] = "Раунд",
+			["Hand & Round"] = "Рука/раунд",
+			["Shop & Blind Select"] = "Магазин/блайнды",
+			["Game"] = "Игра",
+			["Menus"] = "Меню",
+			["MP Extension"] = "Мультиплеер",
+
+			["Updater"] = "Обновления мода",
+			["Updater Settings"] = "Настройки",
 		},
 		v_dictionary = {
+			Handy_version_by = "v#1# от #2#",
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] или [#2#]",
 			Handy_items_in_queue = "[#1# в очереди]",
-			Handy_gamespeed_multiplier = "Множитель скорости: #1#",
-			Handy_event_queue_retriggers_amount = "Множитель игровых действий: #1#",
-			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
+			Handy_temp_disabled = "[отключено]",
+			Handy_disabled_in_mp = "[отключено мультиплеером]",
+
+			Handy_gamespeed_multiplier = "Множитель скорости игры: #1#",
+			Handy_event_queue_retriggers_amount = "Ускорение очереди анимаций: #1#",
 			Handy_animation_skip = "Пропуск анимаций: #1#",
-			Handy_skip_booster_pack = "Пропустить бустерный набор",
+
+			Handy_skip_booster_pack = "Пропустить бустер-пак",
 
 			Handy_scoring_hold = "Пауза анимации подсчёта",
+			Handy_scoring_hold_hand_score = "Очки руки: [#1#]",
 
 			Handy_hand_sorting = "Сортировка руки: #1#",
 
-			Handy_preset_index = "Профиль #1#",
-			Handy_preset_loaded = "Профиль #1# [#2#] загружен",
-			Handy_preset_empty = "Профиль #1# [#2#] пуст",
-			Handy_preset_disabled = "Профиль #1# [#2#] выключен",
-			Handy_preset_nothing_to_load = "Нет профилей для загрузки",
+			Handy_preset_index = "Пресет #1#",
+			Handy_preset_saved = "Пресет #1# [#2#] сохранён",
+			Handy_preset_loaded = "Пресет #1# [#2#] загружен",
+			Handy_preset_empty = "Пресет #1# [#2#] пуст",
+			Handy_preset_disabled = "Пресет #1# [#2#] отключён",
+			Handy_preset_example_loaded = "Готовый пресет [#1#] загружен",
+			Handy_preset_nothing_to_load = "Нет пресетов для загрузки",
 
-			Handy_overall_guide_button = 'Каждая настройка может быть назначена на мышь, колёсико мыши или клавиатуру во вкладке "#1#".',
-			Handy_overall_guide_gamepad = 'Каждая настройка может быть назначена на любую кнопку геймпада во вкладке "#1#".',
-			Handy_popups_guide = "Наводитесь на настройки чтобы узнать о них больше.",
-			Handy_popups_guide_gamepad = "Перемещайтесь между настройками чтобы узнать о них больше.",
-			Handy_search_guide = 'Используйте вкладку "#1#" для поиска.',
-			Handy_keybinds_guide_desktop = "Нажмите на кнопку и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
-			Handy_keybinds_guide_gamepad = "#2# и следующее введённое нажатие будет назначено. #1# чтобы убрать.",
-			Handy_presets_guide = "Профиль - набор настроек и назначений, которые могут быть загружены в любой момент",
-			Handy_danger_zone_guide = "*УДАЛИТЬ карту/тэг - убрать без каких-либо проверок, эффектов, триггеров или возврата денег..",
+			Handy_binding_canceled = "Назначение отменено",
+			Handy_binding_cancel_reason_no_safe = "Нельзя назначить #1# здесь, чтобы избежать софтлока",
+			Handy_binding_cancel_reason_no_hold = "Нельзя назначить #1# здесь, так как эту клавишу нельзя удерживать",
+			Handy_binding_cancel_reason_multiple_no_hold = "Комбинация не может содержать несколько неудерживаемых клавиш",
+			Handy_binding_finished = "Назначение завершено: #1#",
+			Handy_binding_progress = "Назначение: #1#",
+			Handy_binding_esc_hint = "Нажмите #1#, чтобы сохранить",
+			Handy_binding_guide = "Нажимайте клавиши, чтобы добавить их в комбинацию",
 
-			Handy_default_value = "#1#: значение по старте игры",
+			Handy_reload_run_done = "Забег перезагружен",
+			Handy_reload_run_nothing_to_load = "Нет забега для перезагрузки",
+			Handy_load_run_done = "Забег загружен",
+			Handy_load_run_nothing_to_load = "Нет забега для загрузки",
+
+			Handy_prevented_by_debugplus = "Предотвращено DebugPlus",
+			Handy_log_file_copied = "Файл лога Lovely скопирован в буфер обмена",
+
+			Handy_updater_finish_success = "Релиз успешно установлен",
+			Handy_updater_finish_no_fetcher = "Нет доступного API для запросов",
+			Handy_updater_finish_no_connection = "Нет подключения к интернету",
+			Handy_updater_finish_invalid_server_response = "Некорректный ответ сервера",
+			Handy_updater_finish_no_release = "Релиз не найден",
+			Handy_updater_finish_check_request_failed = "Не удалось проверить доступные релизы",
+			Handy_updater_finish_cannot_write_zip = "Не удалось сохранить файлы релиза",
+			Handy_updater_finish_download_request_failed = "Не удалось скачать релиз",
+			Handy_updater_finish_cannot_unzip = "Не удалось распаковать файлы релиза",
+			Handy_updater_finish_cannot_move_files = "Не удалось установить файлы релиза",
+			Handy_updater_finish_no_data_to_replace = "Нет файлов релиза для установки",
+			Handy_updater_finish_description = "Перезапустите игру, чтобы применить изменения",
+
+			Handy_updater_progress_getting_releases = "Получение релизов...",
+			Handy_updater_progress_downloading_release = "Скачивание релиза...",
+			Handy_updater_progress_unzipping_archive = "Распаковка релиза...",
+			Handy_updater_progress_installing_files = "Установка релиза...",
+
+			Handy_new_pre_release_available = "Доступен новый предрелиз",
+			Handy_new_stable_available = "Доступен новый стабильный релиз",
+			Handy_new_release_description = "Откройте настройки мода для подробностей и скачивания",
+			Handy_updater_auto_restart = "Перезапуск игры для применения изменений...",
 		},
 		dictionary = {
 			handy_or = "или",
+			handy_disabled = "Отключено",
+			handy_mod_enabled = "Мод включён",
+			handy_mod_disabled = "Мод отключён",
 
-			ph_handy_premade_presets = "Пре-созданные профили",
-			ph_handy_custom_presets = "Пользовательские профили",
+			handy_example_state_panel = "Здесь отображаются разные уведомления",
+
+			ph_handy_premade_presets = "Готовые пресеты конфигурации",
+			ph_handy_custom_presets = "Пользовательские пресеты конфигурации",
+
+			b_handy_mp_extension = "Multiplayer Аддон",
 
 			b_handy_preset_save = "Сохранить",
 			b_handy_preset_load = "Загрузить",
 			b_handy_preset_clear = "Очистить",
 
-			handy_preset_name_placeholder = "Название профиля",
+			handy_preset_name_placeholder = "Название пресета",
 
-			b_handy_notif_quick = "Быстрые действия",
+			b_handy_notif_quick = "Действия Handy",
 			b_handy_notif_dangerous = "Опасные действия",
 
 			b_handy_search_placeholder = "Поиск...",
-			b_handy_search = "Искать",
+			b_handy_search = "Поиск",
 			b_handy_clear = "Очистить",
-			ph_handy_search_no_results = 'Используйте ключевые слова (на английском), такие как "more speed", "animations", "sell" и др.',
+			b_handy_open_github = "Открыть на GitHub",
 
-			ph_handy_notif_quick_use = "Быстрое использование",
-			ph_handy_notif_quick_buy_or_sell = "Быстрая покупка или продажа",
-			ph_handy_notif_quick_buy_n_sell = "Быстрая покупка и моментальная продажа",
-			ph_handy_notif_unsafe_disabled = "Небезопасные функции выключены в настройках мода",
-			ph_handy_notif_unsafe_disabled_by_other_mod = "Небезопасные функции выключены другим модом",
-			ph_handy_notif_unsafe = "[Небезопасно] Возможны баги!",
-			ph_handy_notif_insta_remove = "Моментальное УДАЛЕНИЕ",
-			ph_handy_notif_insta_sell = "Моментальная продажа",
-			ph_handy_notif_remove_all = "УДАЛИТЬ ВСЕ карты/тэги в кликнутой зоне",
-			ph_handy_notif_sell_all = "Продать ВСЕ карты в кликнутой зоне",
-			ph_handy_notif_remove_all_same = "УДАЛИТЬ все копии кликнутой карты/тэга",
-			ph_handy_notif_sell_all_same = "Продать все копии кликнутой карты",
-			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe вариант выключен в настройках мода",
-			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасное значение выключено в настройках мода",
-			ph_handy_notif_cannot_bind_non_holdable = "Нельзя назначить колёсико мыши здесь",
-			ph_handy_notif_cannot_bind_non_safe = "Нельзя назначить эту кнопку здесь",
+			ph_handy_notif_quick_use = "Быстро использовать",
+			ph_handy_notif_quick_buy_or_sell = "Быстро купить или продать",
+			ph_handy_notif_quick_buy_n_sell = "Быстро купить и сразу продать",
+			ph_handy_notif_unsafe_disabled = "Небезопасные действия отключены в настройках мода",
+			ph_handy_notif_unsafe_disabled_by_other_mod = "Небезопасные действия отключены другим модом",
+			ph_handy_notif_unsafe = "[Небезопасно]",
+			ph_handy_notif_insta_remove = "Мгновенно УДАЛИТЬ",
+			ph_handy_notif_insta_sell = "Мгновенная продажа",
+			ph_handy_notif_remove_all = "УДАЛИТЬ ВСЕ карты/теги в выбранной области",
+			ph_handy_notif_sell_all = "Продать ВСЕ карты в выбранной области",
+			ph_handy_notif_remove_all_same = "УДАЛИТЬ все копии выбранной карты/тега",
+			ph_handy_notif_sell_all_same = "Продать все копии выбранной карты",
+			ph_handy_notif_animation_skip_unsafe_disabled = "Небезопасная опция отключена в настройках мода",
 
-			ph_handy_notif_misc_save_run_start = "Старт сохранения...",
-			ph_handy_notif_misc_save_run_saving = "Сохранение...",
-			ph_handy_notif_misc_save_run_saved = "Сохранено",
-			ph_handy_notif_misc_save_run_interrupt = "Нельзя сохраниться сейчас",
+			ph_handy_notif_misc_save_run_start = "Начинаю сохранение забега...",
+			ph_handy_notif_misc_save_run_saving = "Сохранение забега...",
+			ph_handy_notif_misc_save_run_saved = "Забег сохранён",
+			ph_handy_notif_misc_save_run_interrupt = "Сейчас нельзя сохранить забег",
 
 			handy_animation_skip_levels = {
 				[1] = "Нет",
-				[2] = "Надписи карт",
+				[2] = "Сообщения",
 				[3] = "Анимации",
 				[4] = "Все",
 				[5] = "Небезопасно",
 			},
 
-			b_handy_info_popups_level_select = "Уровень нотификаций",
-			handy_info_popups_level_opt = {
-				[1] = "Выкл.",
-				[2] = "Только небезопасные",
-				[3] = "Основные",
-				[4] = "Все",
+			handy_modals_start_calculation = {
+				"Начать",
+				"расчёт",
 			},
-			b_handy_keybinds_trigger_mode_select = "Режим триггера кнопок",
-			handy_keybinds_trigger_mode_opt = {
-				[1] = "При нажатии",
-				[2] = "При отпускании",
+			handy_modals_stop_calculation = {
+				"Остановить",
+				"расчёт",
 			},
-			b_handy_buy_sell_use_mode_select = "Режим покупки/продажи/использования",
-			handy_buy_sell_use_mode_opt = {
-				[1] = "Удерж. кнопку + Нажать карту",
-				[2] = "Навести карту + Нажать кнопку",
+			handy_modals_preview_description = "Используйте предпросмотр, чтобы увидеть эффект настроек",
+			handy_modals_move_highlight_preview_description = "Используйте предпросмотр, чтобы проверить управление",
+
+			ph_handy_dangerous_actions_sell_one = "Продать одну",
+			ph_handy_dangerous_actions_remove_one = "Удалить одну",
+			ph_handy_dangerous_actions_sell_all_same = "Продать все такие же",
+			ph_handy_dangerous_actions_remove_all_same = "Удалить все такие же",
+			ph_handy_dangerous_actions_sell_all = "Продать ВСЁ",
+			ph_handy_dangerous_actions_remove_all = "Удалить ВСЁ",
+
+			handy_keybinds_trigger_mode_press = "При нажатии клавиши",
+			handy_keybinds_trigger_mode_release = "При отпускании клавиши",
+
+			handy_current_device_auto = "Авто",
+			handy_current_device_keyboard = "Мышь + клавиатура",
+			handy_current_device_gamepad = "Геймпад",
+
+			handy_notification_level_none = "Нет",
+			handy_notification_level_dangerous = "Только опасные",
+			handy_notification_level_essential = "Основные",
+			handy_notification_level_all = "Все",
+
+			handy_buy_sell_use_mode_hold_n_click = "Удерживать клавишу + кликнуть карту",
+			handy_buy_sell_use_mode_hover_n_press = "Навести или схватить карту + нажать клавишу",
+
+			handy_advanced_mode = "Расширенный режим",
+			handy_advanced_mode_description = "Больше контроля и информации",
+
+			k_handy_preview_sell = "Продать",
+			k_handy_preview_buy = "Купить",
+			k_handy_preview_use = "Использовать",
+			k_handy_preview_buy_n_use = "Купить и использовать",
+			k_handy_preview_buy_n_sell = "Купить и продать",
+			k_handy_preview_remove = "УДАЛИТЬ",
+
+			handy_mp_speed_multiplier_mode = "Множитель скорости: максимум в лобби",
+			handy_mp_animation_skip_mode = "Пропуск анимаций: максимум в лобби",
+			handy_mp_dangerous_actions_mode = "Опасные действия: режим лобби",
+			handy_mp_dangerous_actions_modes = {
+				"Отключено",
+				"Массовая продажа",
+				"Массовая продажа и удаление",
 			},
 
-			b_handy_device_select = "Устройство ввода",
-			handy_device_opt = {
-				[1] = "Автоматически",
-				[2] = "Мышь + Клавиатура",
-				[3] = "Геймпад",
+			handy_regular_keybinds_swappable_overlays_mode = {
+				"Нажать, чтобы открыть",
+				"Нажать, чтобы открыть / нажать снова, чтобы закрыть",
+				"Удерживать, чтобы открыть / отпустить, чтобы закрыть",
 			},
+
+			handy_dangerous_actions_mass_sell_remove_mode = {
+				"Затрагивать все карты",
+				"Затрагивать все, кроме целевой карты",
+			},
+
+			handy_show_custom_pip_mode = {
+				"Нет",
+				"Только геймпад",
+				"Всегда",
+			},
+
+			handy_mp_extension_status_not_initialized = "Расширение мультиплеера НЕ ЗАГРУЖЕНО в этом лобби",
+			handy_mp_extension_status_disabled = "Расширение мультиплеера в этом лобби ОТКЛЮЧЕНО ВАМИ",
+			handy_mp_extension_status_disabled_by_ruleset = "Расширение мультиплеера в этом лобби ОТКЛЮЧЕНО НАБОРОМ ПРАВИЛ",
+			handy_mp_extension_status_disabled_by_other_player = "Расширение мультиплеера в этом лобби ОТКЛЮЧЕНО ДРУГИМИ игроками",
+			handy_mp_extension_status_enabled = "Расширение мультиплеера в этом лобби ВКЛЮЧЕНО",
+
+			handy_updater_no_release_found = "Данные релиза не найдены",
+			handy_updater_status_no_data = "Нет данных релиза",
+			handy_updater_status_current_version = "Текущая версия",
+			handy_updater_status_already_installed = "Установлено — перезапустите игру",
+			handy_updater_status_busy = "Пожалуйста, подождите...",
+			handy_updater_status_ready_for_installation = "Готово к установке",
+			handy_updater_status_new_version_available = "Доступна новая версия",
+			b_handy_install = "Установить",
+			b_handy_restart_game = "Перезапустить игру",
+
+			handy_release_type_stable = "Стабильный",
+			handy_release_type_pre_release = "Предрелиз",
+
+			handy_smods_compat_mode = "Режим совместимости: загрузка из .zip-архива требует обновлённый SMODS!",
+
+			handy_gamepad_2step_select = "для выбора",
+			handy_gamepad_2step_adjust = "для настройки",
+			handy_gamepad_2step_deselect = "для снятия выбора",
 		},
 	},
 }

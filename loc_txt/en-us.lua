@@ -1,582 +1,1021 @@
 return {
 	descriptions = {
-		-- For all checkboxes and popups, first var is keybind
-		-- Further mentioned vars starts from #2#
-		Handy_ConfigCheckbox = {
-			-- Vars: version, author
+		Handy_ConfigDictionary = {
+			-- [Version, Author]
+			general = {
+				name = "Handy v#1# by #2#",
+				text = {},
+			},
+
+			-- []
 			handy = {
-				unlock = { "HandyBalatro v#2#", "by {C:white,E:2,s:1.15}#3#{}" },
+				name = "Global mod toggle",
 				text = {
-					"Uncheck to disable {C:attention}ALL{} mod features",
-					"{C:handy_secondary}(no restart required){}",
+					"Uncheck to disable ALL mod features",
+				},
+				unlock = {
+					"Any controls can be enabled/disabled",
+					"in {C:attention}any moment{} without",
+					"game restart or reloading a run",
 				},
 			},
+
+			-- []
+			keybinds_trigger_mode = {
+				name = "Keybinds trigger mode",
+				text = {},
+			},
+			-- [Auto]
+			current_device = {
+				name = "Input device",
+				text = { "Mouse + Keyboard, or Gamepad" },
+				unlock = {
+					"Mod uses separate layout of keybinds",
+					"for {C:attention}Mouse + Keyboard{} and {C:attention}Gamepad{}",
+					"and switches between them depending",
+					"on what device you're currently using",
+					'{C:inactive}(if "#1#" mod is selected){}',
+				},
+			},
+			-- [Ctrl]
+			prevent_if_debugplus = {
+				name = "DebugPlus: Prevent intersections",
+				text = {},
+				unlock = {
+					"Do not execute any controls when {C:chips}#1#{}",
+					"is hold to prevent intersecting with",
+					"{C:attention}DebugPlus{} controls",
+					" ",
+					'Require {C:attention}"CTRL for Keybinds"{} to be',
+					"enabled in mod settings",
+					" ",
+					"As side effect, makes keybinds",
+					"with {C:chips}#1#{} button {C:mult}unusable{}",
+				},
+			},
+
+			-- []
+			gamepad = {
+				name = "Gamepad settings",
+				text = {},
+			},
+			-- [Right stick, Left stick]
+			swap_controller_cursor_stick = {
+				name = "Gamepad: Swap cursor stick",
+				text = {},
+				unlock = {
+					"By default, {C:chips}#1#{} activates",
+					"built-in game cursor.",
+					" ",
+					"This setting switches it to {C:chips}#2#{}",
+				},
+			},
+			-- []
+			controller_sensitivity = {
+				name = "Gamepad: Cursor sensitivity",
+				text = {},
+			},
+
+			-- []
+			appearance = {
+				name = "Appearance",
+				text = {},
+			},
+			-- []
 			hide_options_button = {
-				unlock = { "Hide mod button", "in options menu" },
-				text = {
-					"{C:handy_secondary}Only when Steamodded installed{}",
-				},
+				name = "Hide mod button in options",
+				text = {},
 			},
-			debugplus_prevent = {
-				unlock = { "DebugPlus:", "prevent actions" },
-				text = { "Prevent any Handy keybinds", "when {C:chips}#2#{} is hold" },
+			-- []
+			notifications_level = {
+				name = "Notifications",
+				text = {},
 			},
-			regular_keybinds = {
-				unlock = { "Regular keybinds" },
-				text = {
-					"Use keybinds for",
-					"common game actions",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
-				unlock = {
-					"{C:edition}Fast hand selection{}",
-					"{C:handy_secondary,s:0.75}(drag, hover, swipe, slide){}",
-				},
-				text = {
-					"Hold {C:chips}#1#{} and",
-					"hover cards in hand to select them",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				unlock = {
-					"{C:edition}Fast hand selection{}",
-					"{C:handy_secondary,s:0.75}(drag, hover, swipe, slide){}",
-				},
-				text = {
-					"Start hold {C:chips}#1#{} {C:attention}OUTSIDE{} of cards,",
-					"and then hover them in hand to select",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				unlock = {
-					"Fast hand",
-					"deselection",
-				},
-				text = {
-					"Allow {C:edition}#2#{}",
-					"to deselect cards aswell",
-				},
-			},
-			show_deck_preview = {
-				unlock = { "Deck preview" },
-				text = {
-					"Hold {C:chips}#1#{} to",
-					"show deck preview",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand = {
-				unlock = { "Deselect hand" },
-				text = {
-					"Press {C:chips}#1#{} to",
-					"deselect cards in hand",
-				},
-			},
-			insta_cash_out = {
-				unlock = { "Quick cash out" },
-				text = {
-					"Press/hold {C:chips}#1#{} to",
-					"speed up Cash Out stage",
-				},
-			},
-			insta_booster_skip = {
-				unlock = { "Quick skip", "booster pack" },
-				text = {
-					"Press/hold {C:chips}#1#{} to",
-					"skip booster pack",
-				},
-			},
-			move_highlight = {
-				unlock = { "Move highlight" },
-				text = {
-					"Press {C:chips}#2#{} or {C:chips}#3#{}",
-					"to move highlight in card area.",
-					"Hold {C:chips}#4#{} to move card instead.",
-					"Hold {C:chips}#5#{} to move to first/last card",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell = {
-				unlock = { "Quick buy/sell" },
-				text = {
-					"Use {C:chips}#1#{} to",
-					"buy or sell card",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell = {
-				unlock = { "Quick buy'n'sell" },
-				text = {
-					"Use {C:chips}#1#{} to",
-					"buy card and sell",
-					"immediately after",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use = {
-				unlock = { "Quick use" },
-				text = {
-					"Use {C:chips}#1#{} to",
-					"use card if possible",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
-				unlock = { "Cryptid: use", "previous input" },
-				text = {
-					"Use {C:chips}#1#{} to",
-					"use Code card if possible with",
-					"previously inputted value",
-				},
-			},
-			not_just_yet_interaction = {
-				unlock = { "NotJustYet:", "end round" },
-				text = {
-					"Press {C:chips}#1#{} to",
-					"end round",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				unlock = { "Speed multiplier" },
-				text = {
-					"Hold {C:chips}#1#{} and",
-					"{C:chips}#2#{}/{C:chips}#3#{} to",
-					"multiply/divide game speed",
-				},
-			},
-			-- Vars: [Speed Multiplier]
-			speed_multiplier_no_hold = {
-				unlock = { "Speed multiplier:", "No hold" },
-				text = {
-					"Decrease amount of",
-					"keybinds needed to use",
-					"#2#",
-				},
-			},
+			-- []
 			speed_multiplier_settings_toggle = {
-				unlock = { "Speed multiplier:", "toggle in settings" },
-				text = {
-					"Add toggle in game settings",
+				name = "Speed Multiplier: Toggle in settings",
+				text = {},
+				unlock = {
+					"Placed near Vanilla {C:attention}Game speed{} setting",
 				},
 			},
-			insta_highlight_entire_f_hand = {
-				unlock = { "Highlight", "entire hand" },
-				text = {
-					"Press {C:chips}#1#{} to",
-					"highlight entire hand",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				unlock = { "Nopeus:", "fast-forward" },
-				text = {
-					"Hold {C:chips}#1#{} and",
-					"{C:chips}#2#{}/{C:chips}#3#{} to",
-					"increase/decrease fast-forward setting",
-				},
-			},
-			-- Vars: [Nopeus: fast-forward]
-			nopeus_interaction_no_hold = {
-				unlock = { "Nopeus:", "No hold" },
-				text = {
-					"Decrease amount of",
-					"keybinds needed to use",
-					"#2#",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
-			animation_skip = {
-				unlock = { "Animation skip" },
-				text = {
-					"Hold {C:chips}#1#{} and",
-					"{C:chips}#2#{}/{C:chips}#3#{} to",
-					"increase/decrease animation skip",
-				},
-			},
-			-- Vars: [Animation skip]
-			animation_skip_no_hold = {
-				unlock = { "Animation skip:", "No hold" },
-				text = {
-					"Decrease amount of",
-					"keybinds needed to use",
-					"#2#",
-				},
-			},
+			-- []
 			animation_skip_settings_toggle = {
-				unlock = { "Animation skip:", "toggle in settings" },
-				text = {
-					"Add toggle in game settings",
+				name = "Animations Skip: Toggle in settings",
+				text = {},
+				unlock = {
+					"Placed near Vanilla {C:attention}Game speed{} setting",
 				},
 			},
-			scoring_hold = {
-				unlock = { "Pause scoring", "animation" },
-				text = {
-					"Hold {C:chips}#1#{} to",
-					"pause scoring animation after",
-					"counting total hand score",
+			-- []
+			show_custom_pip = {
+				name = "Display keybinds on buttons",
+				text = {},
+				unlock = {
+					"Visually show keybinds on",
+					"buttons they activate",
+					"{C:inactive}(Play hand, Discard, Run info, Reroll, etc.){}",
 				},
 			},
-			scoring_hold_any_moment = {
-				unlock = { "Pause scoring", "in any moment" },
-				text = {
-					"Allow #2# to",
-					"pause in any moment of",
-					"scoring animation",
+
+			-- []
+			updater = {
+				name = "Mod auto-updating",
+				text = { "I know you're lazy" },
+			},
+			-- []
+			updater_target_release_type = {
+				name = "Target release",
+				text = {},
+			},
+			-- []
+			updater_notify_about_new_update = {
+				name = "Notify about new update",
+				text = {},
+				unlock = {
+					"You'll see notification on {C:attention}game startup{}",
 				},
 			},
-			dangerous_actions = {
-				unlock = { "Dangerous actions" },
-				text = {
-					"Enable unsafe controls. They're",
-					"designed to be speed-first, which",
-					"{C:mult}can cause bugs or crashes!{}",
+			-- []
+			updater_auto_install_new_update = {
+				name = "Auto-install new update",
+				text = {},
+				unlock = {
+					"Update will be installed on {C:attention}game startup{}",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
-				unlock = { "Instant sell" },
+			-- []
+			updater_auto_restart_game_after_update = {
+				name = "Auto-restart a game after update",
+				text = {},
+			},
+
+			-- [@lord.ruby]
+			me = {
+				name = "Hello, that's Me! I'll follow you...",
 				text = {
-					"Hold {C:mult}#1#{},",
-					"hold {C:chips}#2#{},",
-					"and hover card to sell it",
+					"Art by {C:mult}#1#{}",
 				},
 			},
-			immediate_buy_and_sell_queue = {
-				unlock = { "Sell queue" },
+			-- []
+			me_in_mod_config = {
+				name = "...in mod config",
+				text = {},
+			},
+			-- []
+			me_in_game_over = {
+				name = "...in game over screen",
+				text = {},
+			},
+			-- []
+			me_in_game_win = {
+				name = "...in game win screen",
+				text = {},
+			},
+			-- []
+			me_in_screenswipe = {
+				name = "...in screen wipe card",
+				text = {},
+			},
+
+			-- []
+			hand_selection = {
+				name = "Hand selection & Deselection",
 				text = {
-					"Start selling cards only when",
-					"keybind was released",
+					"Swipe to select, and more",
 				},
 			},
-			nopeus_unsafe = {
-				unlock = { "Nopeus: unsafe", "fast-forward" },
+			-- [Left Mouse, Hand deselection]
+			hand_selection_mode = {
+				name = "Hand selection implementation",
 				text = {
-					"Allow increase fast-forward",
-					"setting to {C:mult}Unsafe{}",
+					"Select mod you used before",
 				},
-			},
-			speed_multiplier_uncap = {
-				unlock = { "Speed multiplier:", "uncap" },
-				text = {
-					"Allow increase game speed",
-					"to insane values",
-				},
-			},
-			-- Vars: [Animation skip]
-			animation_skip_unsafe = {
-				unlock = { "Animation skip:", "unsafe" },
-				text = {
-					"Allow increase",
-					"setting to {C:mult}#2#{}",
-				},
-			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				unlock = { "Sell all", "card copies" },
-				text = {
-					"Hold {C:mult}#2#{}, hold {C:mult}#1#{},",
-					"and click on card to sell",
-					"all of their copies",
-				},
-			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				unlock = { "Sell ALL" },
-				text = {
-					"Hold {C:mult}#1#{} to sell {C:attention}ALL{}",
-					"cards in area instead",
-				},
-			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				unlock = { "REMOVE* cards", "or skip tags" },
-				text = {
-					"Hold {C:mult}#1#{} to {C:attention,E:1}REMOVE{} cards",
-					"{C:handy_secondary}(works for skip tags){}",
-				},
-			},
-			controller_swap_cursor_stick = {
-				unlock = { "Controller: swap", "cursor stick" },
-				text = {
-					"Swap behaviour of",
-					"Left and Right Sticks",
-				},
-			},
-			controller_sensivity = {
-				unlock = { "Controller: adjust", "cursor sensitivity" },
-				text = {
-					"Allow to change sensitivity",
-					"of controller's cursor",
-				},
-			},
-		},
-		Handy_ConfigPopup = {
-			debugplus_prevent = {
-				text = {
-					"Require mod {C:attention}DebugPlus{} and enabled",
-					"{C:attention}CTRL for Keybinds{} option to work",
-				},
-			},
-			regular_keybinds = {
-				text = {
-					"Play hand, Discard, hand sorting,",
-					"Reroll shop, Leave shop, Select blind,",
-					"Skip blind, View deck, Run info",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight = {
-				text = {
-					"If key set to {C:chips}#2#{},",
-					"start holding key {C:attention}OUTSIDE{} of cards",
-					"and then hover them to highlight",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_gamepad = {
-				text = {
-					"Works both for cursor and movement",
-					"via direction buttons",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE = {
-				text = {
-					"For keys other than {C:chips}#2#{},",
-					"start holding keybind while hover",
-					"a card will work as well",
-				},
-			},
-			-- Vars: [Left Mouse]
-			insta_highlight_OUTSIDE_gamepad = {
-				text = {
-					"Works both for cursor and movement",
-					"via direction buttons",
-				},
-			},
-			-- Vars: [Fast hand selection]
-			insta_unhighlight = {
-				text = {
-					"Select cards if first card was not selected.",
-					"Deselect cards if first card was selected.",
-				},
-			},
-			-- Vars: [Right Mouse]
-			deselect_hand_desktop = {
-				text = {
-					"Replaces vanilla {C:chips}#2#{}",
-					"but works the same and",
-					"can be reassigned to other key",
+				unlock = {
+					"Affects how some nuances of",
+					"{C:attention}hand selection{} and {C:attention}deselection{} works",
+					"when using key other that {C:chips}#1#{}",
+					"and/or {C:chips}#2#{} have same keybind:",
 					" ",
-					"Uncheck to use vanilla control",
+					"{C:attention}Handy{} - select immediately, cannot deselect",
+					"{C:attention}BMaG{} - select only after move, deselect on release",
 				},
 			},
-			insta_cash_out = {
+			-- [Left mouse]
+			hand_selection_insta_highlight = {
+				name = { "Fast hand selection" },
 				text = {
-					"Holding a keybind will trigger it",
-					"as soon as it will be available",
+					"Drag, hover, swipe, slide to select",
+				},
+				unlock = {
+					"When assigned to {C:chips}#1#{},",
+					"start holding {C:attention}OUTSIDE{} of cards",
+					"and then hover them to select",
+					"{C:inactive}(because otherwise you'll grab a card){}",
 				},
 			},
-			insta_booster_skip = {
+			-- []
+			hand_selection_insta_highlight_allow_deselect = {
+				name = { "Fast hand deselection" },
+				text = {},
+				unlock = {
+					"{C:inactive}When you hover cards:{}",
+					"If {C:attention}first{} card {C:mult}wasn't{} selected, {C:chips}select{} cards",
+					"If {C:attention}first{} card {C:chips}was{} selected, {C:mult}deselect{} cards",
+				},
+			},
+			-- []
+			hand_selection_combine_select_deselect = {
+				name = { "Combined select & deselect" },
+				text = {},
+				unlock = {
+					"{C:inactive}When you hover cards:{}",
+					"If card {C:mult}isn't{} selected, {C:chips}select{} it",
+					"If card {C:chips}is{} selected, {C:mult}deselect{} it",
+				},
+			},
+			-- [Right mouse]
+			hand_selection_deselect_hand = {
+				name = { "Deselect hand" },
 				text = {
-					"Holding a keybind will trigger it",
-					"as soon as it will be available",
+					"Vanilla #1#",
 				},
 			},
-			move_highlight = {
-				text = {
-					"Select card in area and",
-					"then use listed controls",
+			-- []
+			hand_selection_entire_f_hand = {
+				name = { "Select entire hand" },
+				text = {},
+				unlock = {
+					"Select {C:attention}max possible{} amount",
+					"of cards, from left to right",
 				},
 			},
-			move_highlight_gamepad = {
-				text = {
-					"{C:mult}Have no effect on gamepad{}",
-				},
-			},
-			-- Vars: [keybind for Multiply], [keybind for Divide], min value, max value
-			speed_multiplier = {
-				text = {
-					"Game speed can be changed in",
-					"range from {C:attention}#4#{} to {C:attention}#5#{}",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab]
-			nopeus_interaction = {
-				text = {
-					"Required mod {C:attention}Nopeus{} to work",
-					" ",
-					"{C:mult}Unsafe{} option must be",
-					"enabled in {C:attention}#4#{} tab",
-				},
-			},
-			-- Vars: [keybind for Increase], [keybind for Decrease], [Danger zone tab], None, Messages, Animations, Everything, Unsafe, [Danger zone tab]
+
+			-- [None, Messages, Animations, Everything]
 			animation_skip = {
+				name = "Animations Skip",
 				text = {
-					"5 levels of animation skip are present",
+					"Remove scoring and other game animations",
+				},
+				unlock = {
+					"Direct replacement of same feature",
+					"from mods like {C:attention}Talisman{}, {C:attention}Saturn{} or {C:attention}Nopeus{}",
 					" ",
-					"{C:attention}#4#{} - default game behaviour",
-					"{C:attention}#5#{} - removed card texts like {C:attention}Again!{} and {C:chips}+Chips{}",
-					"{C:attention}#6#{} - instant scoring, removed cards wiggling",
-					"{C:attention}#7#{} - removed unnecessary animations, instant cards draw and restart",
-					"{C:mult}#8#{} - game's absolute limit: everything instant",
-					" ",
-					"{C:mult}#8#{} option must be enabled in {C:attention}#9#{} tab",
+					"Has 4 levels:",
+					"{C:chips}#1#{} - no changes",
+					"{C:chips}#2#{} - no {C:mult}XMult{}, {C:attention}Again!{} and other trigger messages",
+					"{C:attention}#3#{} - instant scoring",
+					"{C:attention}#4#{} - most animations removed; instant cards draw",
+				},
+				handy_override_align = {
+					unlock = {
+						[5] = "cl",
+						[6] = "cl",
+						[7] = "cl",
+						[8] = "cl",
+					},
 				},
 			},
+			-- []
+			animation_skip_current_value = {
+				name = "Animations Skip: Current value",
+				text = {},
+			},
+			-- []
+			animation_skip_default_value = {
+				name = "Animations Skip: Game startup value",
+				text = {},
+			},
+			-- []
+			animation_skip_increase = {
+				name = { "Animations Skip: Increase" },
+				text = {},
+			},
+			-- []
+			animation_skip_decrease = {
+				name = { "Animations Skip: Decrease" },
+				text = {},
+			},
+			-- []
+			animation_skip_toggle_temp_disabled = {
+				name = { "Animations Skip: Toggle" },
+				text = {},
+			},
+			-- [Unsafe]
+			dangerous_actions_animation_skip_unsafe = {
+				name = { "Animations Skip: Unsafe" },
+				text = {},
+				unlock = {
+					"Allow increase to level {C:mult}#1#{}",
+					" ",
+					"{C:mult}Game's absolute limit: everything is instant{}",
+				},
+			},
+
+			-- [128x]
+			speed_multiplier = {
+				name = "Speed Multiplier",
+				text = {
+					"Increase game speed",
+				},
+				unlock = {
+					"As name suggests, {C:attention}multiplies{} game speed,",
+					"which means default value is always {C:attention}1x{}",
+					" ",
+					"Starting from {C:attention}#1#{}, accelerates",
+					"{C:attention}Event Queue{} to bypass limit",
+					"of 60 actions per second",
+				},
+			},
+			-- []
+			speed_multiplier_current_value = {
+				name = "Speed Multiplier: Current value",
+				text = {},
+			},
+			-- []
+			speed_multiplier_default_value = {
+				name = "Speed Multiplier: Game startup value",
+				text = {},
+			},
+			-- []
+			speed_multiplier_multiply = {
+				name = { "Speed Multiplier: Increase" },
+				text = {},
+			},
+			-- []
+			speed_multiplier_divide = {
+				name = { "Speed Multiplier: Decrease" },
+				text = {},
+			},
+			-- []
+			speed_multiplier_toggle_temp_disabled = {
+				name = { "Speed Multiplier: Toggle" },
+				text = {},
+			},
+			-- [x200k]
+			dangerous_actions_speed_multiplier_uncap = {
+				name = { "Speed Multiplier: Uncap" },
+				text = {},
+				unlock = {
+					"Increases max speed limit up to {C:mult}#1#{}",
+					" ",
+					"{C:mult}Tanks performance on very high values{}",
+				},
+			},
+
+			-- []
+			move_highlight = {
+				name = "Precise selection",
+				text = {
+					"Precise cards selection & movement",
+				},
+				unlock = {
+					"Useful for managing cards when there's",
+					"a lot of them in one card area",
+					" ",
+					"{C:attention}Select{} card in card area",
+					"and then use listed controls",
+				},
+			},
+			-- []
+			move_highlight_one_left = {
+				name = { "Precise selection: One left" },
+				text = {},
+				unlock = {
+					"You can {C:attention}hold{} this keybind",
+					"to keep moving faster",
+				},
+			},
+			-- []
+			move_highlight_one_right = {
+				name = { "Precise selection: One right" },
+				text = {},
+				unlock = {
+					"You can {C:attention}hold{} this keybind",
+					"to keep moving faster",
+				},
+			},
+			-- []
+			move_highlight_swap = {
+				name = { "Precise selection: Move card" },
+				text = {},
+				unlock = {
+					"{C:attention}While held{}, card itself",
+					"will be moved instead",
+				},
+			},
+			-- []
+			move_highlight_to_end = {
+				name = { "Precise selection: Move to end" },
+				text = {},
+				unlock = {
+					"While {C:attention}held{}, instead of moving selection/card",
+					"{C:attention}one left/one right{}, will be moved to",
+					"{C:attention}leftmost/rightmost{} position respectively",
+				},
+			},
+
+			-- []
+			presets = {
+				name = "Config presets",
+				text = {
+					"Config layouts easy to switch between",
+				},
+			},
+			-- []
+			presets_load_1 = {
+				name = { "Presets: Load preset 1" },
+				text = {},
+			},
+			-- []
+			presets_load_2 = {
+				name = { "Presets: Load preset 2" },
+				text = {},
+			},
+			-- []
+			presets_load_3 = {
+				name = { "Presets: Load preset 3" },
+				text = {},
+			},
+			-- []
+			presets_load_next = {
+				name = { "Presets: Load next preset" },
+				text = { "1 -> 2 -> 3 -> 1" },
+				unlock = {
+					"Skips empty or disabled presets",
+				},
+			},
+
+			-- []
+			insta_actions = {
+				name = "Quick Buy/Sell/Use",
+				text = {
+					"Save clicks and use cards faster",
+				},
+			},
+			-- []
+			insta_actions_trigger_mode = {
+				name = "Buy/Sell/Use mode",
+				text = {},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_or_sell = {
+				name = { "Quick Buy/Sell card" },
+				text = {},
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hold{} keybind and {C:attention}click{} on a card",
+					"to buy {C:inactive}(from shop){}, select {C:inactive}(from booster pack){}",
+					"or sell {C:inactive}(from joker/consumable slots){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_or_sell_alt = {
+				name = { "Quick Buy/Sell card" },
+				text = {},
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hover/grab{} card and {C:attention}press{} keybind",
+					"to buy {C:inactive}(from shop){}, select {C:inactive}(from booster pack){}",
+					"or sell {C:inactive}(from joker/consumable slots){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_n_sell = {
+				name = { "Quick Buy'n'Sell card" },
+				text = { "Buy and Sell immediately after" },
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hold{} keybind and {C:attention}click{} on a card",
+					"to buy {C:inactive}(from shop){} or select {C:inactive}(from booster pack){}",
+					"and {C:attention}sell immediately{} after",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_buy_n_sell_alt = {
+				name = { "Quick Buy'n'Sell card" },
+				text = { "Buy and Sell immediately after" },
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hover/grab{} card and {C:attention}press{} keybind",
+					"to buy {C:inactive}(from shop){} or select {C:inactive}(from booster pack){}",
+					"and {C:attention}sell immediately{} after",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_use = {
+				name = { "Quick Use card" },
+				text = {},
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hold{} keybind and {C:attention}click{} card",
+					"to use it {C:inactive}(if possible){}",
+				},
+			},
+			-- [Buy/Sell/Use mode]
+			insta_actions_use_alt = {
+				name = { "Quick Use card" },
+				text = {},
+				unlock = {
+					"Usage determined by {C:attention}#1#{}",
+					" ",
+					"{C:attention}Hover/grab{} card and {C:attention}press{} keybind",
+					"to use it {C:inactive}(if possible){}",
+				},
+			},
+			-- insta_actions_cryptid_code_use_last_interaction = {
+			-- 	name = { 'Cryptid: Code card\'s "Use previous"' },
+			-- 	text = {},
+			-- 	unlock = {
+			-- 		"Applicable only for cards from {C:attention}Cryptid{}:",
+			-- 		"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+			-- 		" ",
+			-- 		"Usage determined by {C:attention}#1#{}",
+			-- 		" ",
+			-- 		"{C:attention}Hold{} keybind and {C:attention}click{} card",
+			-- 		'to execute "Use previous" option',
+			-- 	},
+			-- },
+			-- insta_actions_cryptid_code_use_last_interaction_alt = {
+			-- 	name = { 'Cryptid: Code card\'s "Use previous"' },
+			-- 	text = {},
+			-- 	unlock = {
+			-- 		"Applicable only for cards from {C:attention}Cryptid{}:",
+			-- 		"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+			-- 		" ",
+			-- 		"Usage determined by {C:attention}#1#{}",
+			-- 		" ",
+			-- 		"{C:attention}Hover/grab{} card and {C:attention}press{} keybind",
+			-- 		'to execute "Use previous" option',
+			-- 	},
+			-- },
+
+			-- []
 			scoring_hold = {
-				text = {
-					"Useful for shuffling jokers or checking",
-					"a score before end of round on",
-					"high game speed or skipped animations",
-				},
-			},
-			not_just_yet_interaction = {
-				text = {
-					"Required mod {C:attention}NotJustYet{} to work",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_desktop = {
-				text = {
-					"Usage determined by {C:attention}#2#{}",
-				},
-			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_or_sell_gamepad = {
-				text = {
-					"Replaces vanilla {C:chips}#3#{}",
-					"but works the same and",
-					"can be reassigned to other key",
+				name = { "Scoring hold" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} to pause scoring animations",
+					"{C:attention}before{} final hand score is calculated",
 					" ",
-					"Uncheck to use vanilla control",
+					"Useful for shuffling jokers before round end",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_buy_n_sell_desktop = {
-				text = {
-					"Usage determined by {C:attention}#2#{}",
+			-- []
+			scoring_hold_any_moment = {
+				name = { "Scoring hold: Any moment of scoring" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} to pause scoring animations",
+					"in {C:attention}any moment{} of scoring",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_desktop = {
+
+			-- []
+			regular_keybinds = {
+				name = "Regular & Vanilla keybinds",
 				text = {
-					"Usage determined by {C:attention}#2#{}",
+					"All controls from base game, and more",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			insta_use_gamepad = {
+
+			-- []
+			regular_keybinds_group_game = {
+				name = "Game",
+				text = {},
+			},
+			-- [R]
+			regular_keybinds_restart = {
+				name = { "Restart run" },
+				text = { "Vanilla #1#" },
+			},
+			-- [R]
+			regular_keybinds_quick_restart = {
+				name = { "Instant run restart" },
+				text = { "Vanilla #1# but instant" },
+				unlock = {
+					"Works from {C:attention}Game Over{} screen too",
+				},
+			},
+			-- []
+			regular_keybinds_save_run = {
+				name = { "Save run" },
 				text = {
-					"Replaces vanilla {C:chips}#3#{}",
-					"but works the same and",
-					"can be reassigned to other key",
+					"Autosave but manual",
+				},
+				unlock = {
+					"Game autosave run after some actions",
+					"{C:inactive}(like Play hand, Discard, Shop reroll){}",
 					" ",
-					"Uncheck to use vanilla control",
+					"This keybind allows to do this manually",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction = {
+			-- []
+			regular_keybinds_reload_run = {
+				name = { "Load run" },
 				text = {
-					"Required mod {C:attention}Cryptid{} to work",
+					"Main menu -> Continue run",
+				},
+				unlock = {
+					"Simulates exiting to Main Menu",
+					"and then Continuing run",
+					"with {C:attention}skipped animation{}",
+				},
+			},
+			-- []
+			regular_keybinds_restart_game = {
+				name = "Restart Balatro",
+				text = {},
+			},
+			-- []
+			regular_keybinds_copy_log_file = {
+				name = { "Copy Lovely log" },
+				text = {},
+				unlock = {
+					"Due to technical limitations, log",
+					"copied {C:attention}as text{}, not as file",
+				},
+			},
+
+			-- []
+			regular_keybinds_group_hand = {
+				name = "Hand",
+				text = {},
+			},
+			-- []
+			regular_keybinds_play = {
+				name = { "Play hand" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_discard = {
+				name = { "Discard hand" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_change_sort_rank = {
+				name = { "Sort hand by Rank" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_change_sort_suit = {
+				name = { "Sort hand by Suit" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_toggle_sort = {
+				name = { "Switch hand sorting" },
+				text = { "Suit > Rank > Suit..." },
+			},
+
+			-- []
+			regular_keybinds_group_round = {
+				name = "Round",
+				text = {},
+			},
+			-- []
+			regular_keybinds_start_fantoms_preview = {
+				name = { "Fantom's Preview: Calculate score" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_cash_out = {
+				name = { "Cash out" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} keybind to skip Cash Out",
+					"as soon as it became available",
+				},
+			},
+			-- []
+			regular_keybinds_not_just_yet_interaction = {
+				name = { "NotJustYet: End round" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_shop = {
+				name = "Shop",
+				text = {},
+			},
+			-- []
+			regular_keybinds_skip_booster = {
+				name = { "Skip Booster pack" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} keybind to skip Booster pack",
+					"as soon as it became available",
 					" ",
-					"Shortcut for using a code card and selecting",
-					"{C:green}[Input previous value]{} option for:",
-					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"{C:attention}Keep holding{} keybind to skip multiple",
+					"Booster packs {C:attention}back to back{}",
+				},
+			},
+			-- []
+			regular_keybinds_reroll_shop = {
+				name = { "Reroll shop" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_leave_shop = {
+				name = { "Leave shop" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_group_blind_select = {
+				name = "Blind Select",
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_skip_blind = {
+				name = { "Skip blind" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_select_blind = {
+				name = { "Select blind" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_reroll_boss = {
+				name = { "Reroll Boss blind" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_menus = {
+				name = "Menus",
+				text = {},
+			},
+			-- []
+			regular_keybinds_mod_settings = {
+				name = { "Handy: Mod settings" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_show_deck_preview = {
+				name = { "Deck preview" },
+				text = { "Same as hovering a deck" },
+			},
+			-- [Escape]
+			regular_keybinds_options = {
+				name = { "Options" },
+				text = { "Same as #1#" },
+			},
+			-- []
+			regular_keybinds_collection = {
+				name = { "Collection" },
+				text = {},
+			},
+
+			-- []
+			regular_keybinds_group_swappable_menus = {
+				name = "In-Game Menus",
+				text = {},
+				unlock = {
+					"You can move between menus",
+					"by using keybinds",
+					"{C:attention}without closing{} them first",
+				},
+			},
+			-- []
+			regular_keybinds_swappable_overlays_mode = {
+				name = "In-Game Menus mode",
+				text = {},
+			},
+			-- []
+			regular_keybinds_run_info = {
+				name = { "Run info: Poker hands" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_run_info_blinds = {
+				name = { "Run info: Blinds" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_view_deck = {
+				name = { "Open Deck" },
+				text = {},
+			},
+			-- []
+			regular_keybinds_view_lobby_info = {
+				name = { "Multiplayer: Lobby info" },
+				text = {},
+			},
+
+			-- []
+			dangerous_actions = {
+				name = "Dangerous actions",
+				text = {
+					"When there's too much stuff to handle",
+				},
+			},
+			-- []
+			dangerous_actions_sell_one = {
+				name = { "Instant sell" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} keybind and start {C:attention}hovering{}",
+					"cards you want to sell",
 					" ",
-					"Usage determined by {C:attention}#2#{}",
+					"While {C:attention}holding{}, hovered items added to list",
+					"On {C:attention}release{}, all of them will be sold",
 				},
 			},
-			-- Vars: Buy/Sell/Use mode
-			cryptid_code_use_last_interaction_gamepad = {
-				text = {
-					"Required mod {C:attention}Cryptid{} to work",
+			-- []
+			dangerous_actions_remove_one = {
+				name = { "Instant remove" },
+				text = { "Also works on Skip tags" },
+				unlock = {
+					"{C:attention}Hold{} keybind and start {C:attention}hovering{}",
+					"cards/skip tags you want to {C:mult}remove{}",
 					" ",
-					"Shortcut for using a code card and selecting",
-					"{C:green}[Input previous value]{} option for:",
-					"{C:green}://VARIABLE{}, {C:green}://CLASS{}, {C:green}://EXPLOIT{}",
+					"While {C:attention}holding{}, hovered items added to list",
+					"On {C:attention}release{}, all of them will be {C:mult}removed{}",
+					"{C:inactive}(bypasses all checks, no refund){}",
 				},
 			},
-			insta_highlight_entire_f_hand = {
-				text = {
-					"Select max possible amount of cards",
-					"in hand, from left to right",
+			-- [Instant sell all same, Instant REMOVE all same, Instant sell all, Instant REMOVE ALL]
+			dangerous_actions_mass_sell_remove_mode = {
+				name = "Mass Sell/Remove mode",
+				text = {},
+				unlock = {
+					"Applied to controls:",
+					"{C:mult}#1#{}",
+					"{C:mult}#2#{}",
+					"{C:mult}#3#{}",
+					"{C:mult}#4#{}",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], [Quick buy/sell], ["Dangerous" modifier]
-			immediate_buy_and_sell = {
-				text = {
-					"Hold {C:mult}#3#{}, {C:chips}#4#{},",
-					"and hover cards to sell them immediately",
+			-- []
+			dangerous_actions_sell_all_same = {
+				name = { "Instant sell all same" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} keybind and {C:attention}click{} card",
+					"you want to sell",
 				},
 			},
-			immediate_buy_and_sell_queue = {
-				text = {
-					"Instead of selling immediately, {C:mult}[Instant sell]{}",
-					"will put all hovered cards in a list and",
-					"all of them will be sold after keybind release",
+			-- []
+			dangerous_actions_remove_all_same = {
+				name = { "Instant remove all same" },
+				text = { "Also works on Skip tags" },
+				unlock = {
+					"{C:attention}Hold{} keybind and {C:attention}click{} card/skip tag",
+					"you want to {C:mult}remove{}",
+					"{C:inactive}(bypasses all checks, no refund){}",
+				},
+			},
+			-- []
+			dangerous_actions_sell_all = {
+				name = { "Instant sell ALL" },
+				text = {},
+				unlock = {
+					"{C:attention}Hold{} keybind and {C:attention}click{} card",
+					"you want to sell",
+				},
+			},
+			-- []
+			dangerous_actions_remove_all = {
+				name = { "Instant remove ALL" },
+				text = { "Also works on Skip tags" },
+				unlock = {
+					"{C:attention}Hold{} keybind and {C:attention}click{} card/skip tag",
+					"you want to {C:mult}remove{}",
+					"{C:inactive}(bypasses all checks, no refund){}",
+				},
+			},
+			-- []
+			dangerous_actions_crash = {
+				name = { "Crash the game" },
+				text = {},
+				unlock = {
+					"{C:mult}Literally{}",
+				},
+			},
+			-- []
+			dangerous_actions_stack_overflow = {
+				name = { "Crash the game: Stack overflow" },
+				text = {},
+				unlock = {
+					"{C:mult}Literally{}",
+					"{C:mult}Game will freeze and/or exit itself{}",
+				},
+			},
+
+			-- []
+			misc = {
+				name = "Miscellaneous",
+				text = {},
+			},
+
+			-- []
+			mp_extension = {
+				name = { "Multiplayer Extension" },
+				text = { "Multiplayer-specific features" },
+			},
+
+			-- []
+			mp_extension_current_lobby = {
+				name = { "MP Extension: current lobby options" },
+				text = {},
+			},
+			-- [Speed multiplier, Animations skip]
+			mp_extension_enabled = {
+				name = "Allow Multiplayer Extension",
+				text = {},
+				unlock = {
+					"By enabling this checkbox, {C:attention}YOU{} allow to",
+					"{C:mult}Multiplayer Extension{} be enabled in this lobby",
 					" ",
-					"Allow more precise cards selection, but slower",
+					"Only when {C:attention}ALL{} players in lobby have it enabled,",
+					"controls such {C:chips}#1#{} and {C:attention}#2#{}",
+					"became available to use for {C:attention}ALL{} players in lobby",
 				},
 			},
-			immediate_buy_and_sell_queue_gamepad = {
-				text = {
-					"Instead of selling immediately, {C:mult}[Instant sell]{}",
-					"will put all hovered cards in a list and",
-					"all of them will be sold after keybind release",
-					" ",
-					"Allow more precise cards selection, but slower",
-					" ",
-					"{C:attention}Always active on gamepad{}",
+			-- []
+			mp_extension_speed_multiplier_mode = {
+				name = "Speed Multiplier: lobby max value",
+				text = {},
+			},
+			-- []
+			mp_extension_animation_skip_mode = {
+				name = "Animations Skip: lobby max value",
+				text = {},
+			},
+			-- []
+			mp_extension_dangerous_actions_mode = {
+				name = "Dangerous Actions: lobby mode",
+				text = {},
+				unlock = {
+					"Allow to enable some {C:mult}Dangerous Actions{}",
+					"for mass selling",
 				},
 			},
-			speed_multiplier_uncap = {
-				text = {
-					"{C:mult}Drastically hurts performance{}",
+
+			-- []
+			mp_extension_default_values = {
+				name = { "MP Extension: default lobby options" },
+				text = {},
+			},
+			-- []
+			mp_extension_speed_multiplier_mode_default_value = {
+				name = "Speed Multiplier: lobby default max value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
 				},
 			},
-			nopeus_unsafe = {
-				text = {
-					"Required mod {C:attention}Nopeus{} to work",
-					" ",
-					"Even if this unchecked, {C:mult}Unsafe{} option",
-					"can be set normally via game settings",
+			-- []
+			mp_extension_animation_skip_mode_default_value = {
+				name = "Animations Skip: lobby default max value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
 				},
 			},
-			-- Vars: [keybind for Quick buy/sell], ["Dangerous" modifier], ["All copies" modifier]
-			sell_all_same = {
-				text = {
-					"Hold {C:mult}#3#{}, {C:mult}#4#{},",
-					"and click on card to sell all of their copies",
+			-- []
+			mp_extension_dangerous_actions_mode_default_value = {
+				name = "Dangerous Actions: lobby default mode",
+				text = {},
+				unlock = {
+					"When you {C:attention}create a lobby{},",
+					"this value will be set by default",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["Sell ALL" modifier]
-			sell_all = {
-				text = {
-					"Hold {C:mult}#2#{}, {C:mult}#3#{},",
-					"and click on card to sell {C:attention}ALL{} cards in area",
+			-- []
+			mp_extension_enabled_default_value = {
+				name = "Allow MP Extension: default value",
+				text = {},
+				unlock = {
+					"When you {C:attention}create or join a lobby{},",
+					"this value will be set by default",
 				},
 			},
-			-- Vars: ["Dangerous" modifier], ["REMOVE" modifier], [Quick buy/sell], ["All copies" modifier], ["ALL" modifier]
-			card_remove = {
-				text = {
-					"When hold, instead of selling cards {C:attention}or skip tags{} will be {C:attention,E:1}REMOVED{}",
-					" ",
-					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:chips}#4#{}",
-					"and hover cards to {C:attention,E:1}REMOVE{} them (queue also applied)",
-					" ",
-					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#5#{}",
-					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} all of their copies",
-					" ",
-					"Hold {C:mult}#2#{}, {C:mult}#3#{}, {C:mult}#6#{},",
-					"and click on card {C:attention}or skip tag{} to {C:attention,E:1}REMOVE{} {C:attention}ALL{} of them",
-				},
+			debug_things = {
+				name = "Development & Debugging",
+				text = {},
+			},
+			debug_things_reload_localization = {
+				name = "Dev: Reload Localization",
+				text = {},
+				unlock = { "G:set_language();", "init_localization();" },
+			},
+			debug_things_reload_prototypes = {
+				name = "Dev: Reload Item Prototypes",
+				text = {},
+				unlock = { "G:set_language();", "G:init_item_prototypes();" },
 			},
 		},
+
 		Handy_Preset = {
 			["default"] = {
 				name = "Default",
@@ -588,6 +1027,79 @@ return {
 				name = "Better Mouse and Gamepad",
 				text = {
 					"Controls similar to Better Mouse and Gamepad mod",
+				},
+			},
+			["full_default"] = {
+				name = "Reset to Default",
+				text = {
+					"Full configuration reset to default",
+				},
+			},
+		},
+		Handy_Other = {
+			overall_title = {
+				text = {
+					"- Swipe to select cards",
+					"- In-game keybinds",
+					"- More game speed",
+					"- Removing animations",
+					"- Gamepad support",
+					" ",
+					"- Controls can be assigned to {C:chips}any combination{}",
+					"  of keyboard, mouse or gamepad buttons",
+					"  and enabled/disabled in {C:chips}any moment{}",
+					"  without game restart or reloading a run",
+					"- Does {C:chips}not{} disables achievements",
+				},
+			},
+			missing_deps = {
+				text = {
+					"This control is inactive until listed",
+					"controls is enabled:",
+				},
+			},
+			cant_use_in_mp = {
+				text = {
+					"This control is disabled in {C:mult}Multiplayer{}",
+				},
+			},
+			cant_use_with_gamepad = {
+				text = {
+					"This control is disabled on {C:attention}Gamepad{}",
+				},
+			},
+			missing_req_mods = {
+				text = {
+					"This control require other mods to work:",
+				},
+			},
+			conflict_mods = {
+				text = {
+					"This control is inactive due to other mods:",
+				},
+			},
+			mp_lobby_require_all_hint = {
+				text = {
+					"All listed lobby settings have effect only when",
+					"{C:attention}ALL{} lobby members have {C:chips}Handy v2.0{} or newer installed",
+				},
+			},
+			better_mouse_and_gamepad_in_hand_selection = {
+				text = {
+					"{C:mult,s:1.5}Ooopsie...{}",
+					" ",
+					"Looks like {C:attention}Better Mouse and Gamepad{} is installed.",
+					"I have 2 news for you: {C:mult}Bad{} and {C:green}Good{}.",
+					" ",
+					"{C:mult}Bad news{} is {C:attention}BMaG{} overrides {C:chips}Handy{}'s hand selection entirely",
+					"and breaks input for buttons such as",
+					"{C:chips}[Wheel Up/Down]{}, {C:chips}[Mouse 3]{}, {C:chips}[Right Mouse]{} and more.",
+					" ",
+					"{C:green}Good news{} is {C:chips}Handy{} has {C:inactive,s:0.75}almost{} all controls implemented from it",
+					"so you can uninstall {C:attention}BMaG{} and don't lose anything.",
+					" ",
+					"Or, you can continue use {C:attention}both mods{} and mostly you're fine.",
+					"{s:0.8}Despite me not liking it, who am I to tell you which mods to use?{}",
 				},
 			},
 		},
@@ -697,128 +1209,113 @@ return {
 			-- All NUM keys (NUM 0 ... NUM 9, NUM Enter, NUM +, NUM -, NUM *, NUM /, NUM .)
 			-- Other symbols (. ; / \ - + etc)
 		},
-		handy_keybind_labels = {
-			play_hand = "Play hand",
-			discard = "Discard",
-			toggle_sort = "Toggle sort",
-			sort_by_rank = "Sort by rank",
-			sort_by_suit = "Sort by suit",
-			deselect_hand = "Deselect hand",
-			cash_out = "Cash out",
-			not_just_yet_end_round = "NotJustYet: end round",
-			skip_booster = "Skip booster pack",
-			reroll_shop = "Shop reroll",
-			leave_shop = "Leave shop",
-			skip_blind = "Skip blind",
-			select_blind = "Select blind",
-			reroll_boss = "Reroll boss",
-			run_info_hands = "Run info: poker hands",
-			run_info_blinds = "Run info: blinds",
-			lobby_info = "Multiplayer: Lobby info",
-			view_deck = "View deck",
-			deck_preview = "Deck preview",
-			quick_highlight = "Fast hand selection",
-			quick_buy_or_sell = "Quick buy/sell",
-			quick_buy_n_sell = "Quick buy'n'sell",
-			quick_use = "Quick use",
-			highlight_entire_f_hand = "Highlight entire hand",
-			cryptid_code_use_last_interaction = "Cryptid: use previous input",
-			speed_multiplier = "Speed multiplier",
-			speed_multiplier_multiply = "Speed multiplier: Multiply",
-			speed_multiplier_divide = "Speed multiplier: Divide",
-			nopeus_interaction = "Nopeus: fast-forward",
-			nopeus_interaction_increase = "Nopeus: Increase",
-			nopeus_interaction_decrease = "Nopeus: Decrease",
-			animation_skip = "Animation skip",
-			animation_skip_increase = "Animation skip: Increase",
-			animation_skip_decrease = "Animation skip: Decrease",
-			move_highlight_one_left = "Move one left",
-			move_highlight_one_right = "Move one right",
-			move_highlight_move_card = "Move card",
-			move_highlight_to_end = "Move to end",
-
-			dangerous_modifier = '"Dangerous" modifier',
-			dangerous_all_same_modifier = '"All copies" modifier',
-			dangerous_all_modifier = '"ALL" modifier',
-			dangerous_remove_modifier = '"REMOVE" modifier',
-
-			scoring_hold = "Pause scoring animation",
-
-			presets_load_1 = "Load preset 1",
-			presets_load_2 = "Load preset 2",
-			presets_load_3 = "Load preset 3",
-			presets_load_next = "Load next preset",
-
-			misc_open_mod_settings = "Open mod settings",
-			misc_crash = "Crash a game",
-			misc_save_run = "Save run",
-			misc_quick_restart = "Quick restart",
-			misc_start_fantoms_preview = "Fantom's Preview: Calculate",
-		},
-		handy_keybind_sections = {
-			hand = "Hand",
-			round = "Round",
-			shop = "Shop",
-			blinds = "Blinds",
-			menus = "Menus",
-			quick_actions = "Quick actions",
-			gamespeed = "Game speed",
-			animations = "Animations",
-			highlight_movement = "Highlight movement",
-			shop_and_blinds = "Shop and Blinds",
-			gamespeed_and_animations = "Game speed and animations",
-			hand_selection = "Hand selection",
-			presets = "Presets",
-			dangerous_actions = "Dangerous actions",
-			misc = "Miscellaneous",
-		},
 		handy_tabs = {
-			["Overall"] = "General & Vanilla",
-			["Quick"] = "Quick actions",
-			["Keybinds"] = "Regular keybinds",
-			["Keybinds 2"] = "Other keybinds",
-			["Dangerous"] = "Danger zone",
+			["Overall"] = "General",
 			["Presets"] = "Presets",
-			["Keybinds Paginated"] = "Keybinds",
 			["Search"] = "Search",
+
+			["General"] = "General",
+			["Fast hand selection"] = "Hand selection",
+			["Speed & Animations"] = "Speed & Animations",
+			["Vanilla keybinds"] = "Keybinds",
+			["Quick buy/sell/use"] = "Buy, Sell & Use",
+			["Highlight movement"] = "Precise selection",
+			["Misc"] = "Miscellaneous",
+			["Dangerous"] = "Danger Zone",
+			["Debug"] = "Dev & Debug",
+
+			["Speed"] = "Speed",
+			["Animations"] = "Animations",
+			["Hold"] = "Hold",
+			["Round"] = "Round",
+			["Hand & Round"] = "Hand/Round",
+			["Shop & Blind Select"] = "Shop/Blinds",
+			["Game"] = "Game",
+			["Menus"] = "Menus",
+			["MP Extension"] = "Multiplayer",
+
+			["Updater"] = "Mod updates",
+			["Updater Settings"] = "Settings",
 		},
 		v_dictionary = {
+			Handy_version_by = "v#1# by #2#",
 			Handy_module_keys_single = "[#1#]",
 			Handy_module_keys_or = "[#1#] or [#2#]",
 			Handy_items_in_queue = "[#1# in queue]",
+			Handy_temp_disabled = "[disabled]",
+			Handy_disabled_in_mp = "[disabled by Multiplayer]",
+
 			Handy_gamespeed_multiplier = "Game speed multiplier: #1#",
 			Handy_event_queue_retriggers_amount = "Event queue acceleration: #1#",
-			Handy_nopeus_fastforward = "Nopeus fast-forward: #1#",
-			Handy_animation_skip = "Animation skip: #1#",
+			Handy_animation_skip = "Animations skip: #1#",
+
 			Handy_skip_booster_pack = "Skip booster pack",
 
 			Handy_scoring_hold = "Pause scoring animation",
+			Handy_scoring_hold_hand_score = "Hand score: [#1#]",
 
 			Handy_hand_sorting = "Hand sorting: #1#",
 
 			Handy_preset_index = "Preset #1#",
+			Handy_preset_saved = "Preset #1# [#2#] saved",
 			Handy_preset_loaded = "Preset #1# [#2#] loaded",
 			Handy_preset_empty = "Preset #1# [#2#] is empty",
 			Handy_preset_disabled = "Preset #1# [#2#] is disabled",
+			Handy_preset_example_loaded = "Pre-made preset [#1#] loaded",
 			Handy_preset_nothing_to_load = "No presets to load",
 
-			Handy_overall_guide_button = 'Each control can be assigned to mouse button, mouse wheel or keyboard key in "#1#" tab.',
-			Handy_overall_guide_gamepad = 'Each control can be assigned to any gamepad buttons in "#1#" tab.',
-			Handy_popups_guide = "Hover controls to see more info about them.",
-			Handy_popups_guide_gamepad = "Move between controls to see more info about them.",
-			Handy_search_guide = 'Use "#1#" tab for search.',
-			Handy_keybinds_guide_desktop = "Click on a button and next inputted key will be assigned. #1# to unbind.",
-			Handy_keybinds_guide_gamepad = "#2# on a button and next inputted key will be assigned. #1# to unbind.",
-			Handy_presets_guide = "Preset - set of configs and keybinds which can be applied in any time",
-			Handy_danger_zone_guide = "*REMOVE card/tag - delete without any checks, effects, triggers or money refunds.",
+			Handy_binding_canceled = "Binding canceled",
+			Handy_binding_cancel_reason_no_safe = 'Cannot assign #1# here to prevent "softlock"',
+			Handy_binding_cancel_reason_no_hold = 'Cannot assign #1# here since it cannot be "holded"',
+			Handy_binding_cancel_reason_multiple_no_hold = "Combination cannot contain multiple non-holdable keys",
+			Handy_binding_finished = "Binding finished: #1#",
+			Handy_binding_progress = "Binding: #1#",
+			Handy_binding_esc_hint = "Press #1# to save",
+			Handy_binding_guide = "Press keys to add them to combination",
 
-			Handy_default_value = "#1#: game startup value",
+			Handy_reload_run_done = "Run reloaded",
+			Handy_reload_run_nothing_to_load = "No run to reload",
+			Handy_load_run_done = "Run loaded",
+			Handy_load_run_nothing_to_load = "No run to load",
+
+			Handy_prevented_by_debugplus = "Prevented by DebugPlus",
+			Handy_log_file_copied = "Lovely log file copied to clipboard",
+
+			Handy_updater_finish_success = "Release installed successfully",
+			Handy_updater_finish_no_fetcher = "No available API for requests",
+			Handy_updater_finish_no_connection = "Missing interner connection",
+			Handy_updater_finish_invalid_server_response = "Invalid server response",
+			Handy_updater_finish_no_release = "No release found",
+			Handy_updater_finish_check_request_failed = "Cannot check available releases",
+			Handy_updater_finish_cannot_write_zip = "Cannot save release files",
+			Handy_updater_finish_download_request_failed = "Cannot download release",
+			Handy_updater_finish_cannot_unzip = "Cannot extract release files",
+			Handy_updater_finish_cannot_move_files = "Cannot install release files",
+			Handy_updater_finish_no_data_to_replace = "No release files to install",
+			Handy_updater_finish_description = "Restart a game to apply changes",
+
+			Handy_updater_progress_getting_releases = "Getting releases...",
+			Handy_updater_progress_downloading_release = "Downloading release...",
+			Handy_updater_progress_unzipping_archive = "Unzipping release...",
+			Handy_updater_progress_installing_files = "Installing release...",
+
+			Handy_new_pre_release_available = "New Pre-release available",
+			Handy_new_stable_available = "New Stable release available",
+			Handy_new_release_description = "Go to mod settings for details and download",
+			Handy_updater_auto_restart = "Restarting a game to apply changes...",
 		},
 		dictionary = {
 			handy_or = "or",
+			handy_disabled = "Disabled",
+			handy_mod_enabled = "Mod enabled",
+			handy_mod_disabled = "Mod disabled",
 
-			ph_handy_premade_presets = "Pre-made presets",
-			ph_handy_custom_presets = "Custom presets",
+			handy_example_state_panel = "Various notifications displayed here",
+
+			ph_handy_premade_presets = "Pre-made config presets",
+			ph_handy_custom_presets = "Custom config presets",
+
+			b_handy_mp_extension = "Multiplayer Extension",
 
 			b_handy_preset_save = "Save",
 			b_handy_preset_load = "Load",
@@ -826,35 +1323,35 @@ return {
 
 			handy_preset_name_placeholder = "Preset name",
 
-			b_handy_notif_quick = "Quick actions",
+			b_handy_notif_quick = "Handy actions",
 			b_handy_notif_dangerous = "Dangerous actions",
 
 			b_handy_search_placeholder = "Search...",
 			b_handy_search = "Search",
 			b_handy_clear = "Clear",
-			ph_handy_search_no_results = 'Use keywords like "more speed", "animations", "sell" etc.',
+			b_handy_open_github = "Open on GitHub",
 
 			ph_handy_notif_quick_use = "Quick use",
 			ph_handy_notif_quick_buy_or_sell = "Quick buy or sell",
 			ph_handy_notif_quick_buy_n_sell = "Quick buy and immediately sell",
 			ph_handy_notif_unsafe_disabled = "Unsafe actions disabled in mod settings",
 			ph_handy_notif_unsafe_disabled_by_other_mod = "Unsafe actions disabled by other mod",
-			ph_handy_notif_unsafe = "[Unsafe] Bugs can appear!",
+			ph_handy_notif_unsafe = "[Unsafe]",
 			ph_handy_notif_insta_remove = "Instant REMOVE",
 			ph_handy_notif_insta_sell = "Instant sell",
 			ph_handy_notif_remove_all = "REMOVE ALL cards/tags in clicked area",
 			ph_handy_notif_sell_all = "Sell ALL cards in clicked area",
 			ph_handy_notif_remove_all_same = "REMOVE all copies of clicked card/tag",
 			ph_handy_notif_sell_all_same = "Sell all copies of clicked card",
-			ph_handy_notif_nopeus_unsafe_disabled = "Unsafe option disabled in mod settings",
 			ph_handy_notif_animation_skip_unsafe_disabled = "Unsafe option disabled in mod settings",
-			ph_handy_notif_cannot_bind_non_holdable = "Cannot bind mouse wheel here",
-			ph_handy_notif_cannot_bind_non_safe = "Cannot bind this button here",
 
 			ph_handy_notif_misc_save_run_start = "Starting run saving...",
 			ph_handy_notif_misc_save_run_saving = "Saving a run...",
 			ph_handy_notif_misc_save_run_saved = "Run saved",
 			ph_handy_notif_misc_save_run_interrupt = "Cannot save run right now",
+
+			poh_handy_notif_reload_localization = "Debug: Localization reloaded",
+			poh_handy_notif_reload_item_prototypes = "Debug: Item Prototypes reloaded",
 
 			handy_animation_skip_levels = {
 				[1] = "None",
@@ -864,30 +1361,99 @@ return {
 				[5] = "Unsafe",
 			},
 
-			b_handy_info_popups_level_select = "Info popups level",
-			handy_info_popups_level_opt = {
-				[1] = "None",
-				[2] = "Dangerous only",
-				[3] = "Features-related",
-				[4] = "All",
+			handy_modals_start_calculation = {
+				"Start",
+				"calculation",
 			},
-			b_handy_keybinds_trigger_mode_select = "Keybinds trigger mode",
-			handy_keybinds_trigger_mode_opt = {
-				[1] = "On key press",
-				[2] = "On key release",
+			handy_modals_stop_calculation = {
+				"Stop",
+				"calculation",
 			},
-			b_handy_buy_sell_use_mode_select = "Buy/Sell/Use mode",
-			handy_buy_sell_use_mode_opt = {
-				[1] = "Hold key + Click card",
-				[2] = "Hover card + Press key",
+			handy_modals_preview_description = "Use preview to see settings effect",
+			handy_modals_move_highlight_preview_description = "Use preview to test controls",
+
+			ph_handy_dangerous_actions_sell_one = "Sell one",
+			ph_handy_dangerous_actions_remove_one = "Remove one",
+			ph_handy_dangerous_actions_sell_all_same = "Sell all same",
+			ph_handy_dangerous_actions_remove_all_same = "Remove all same",
+			ph_handy_dangerous_actions_sell_all = "Sell ALL",
+			ph_handy_dangerous_actions_remove_all = "Remove ALL",
+
+			handy_keybinds_trigger_mode_press = "On key press",
+			handy_keybinds_trigger_mode_release = "On key release",
+
+			handy_current_device_auto = "Auto",
+			handy_current_device_keyboard = "Mouse + Keyboard",
+			handy_current_device_gamepad = "Gamepad",
+
+			handy_notification_level_none = "None",
+			handy_notification_level_dangerous = "Dangerous only",
+			handy_notification_level_essential = "Essential",
+			handy_notification_level_all = "All",
+
+			handy_buy_sell_use_mode_hold_n_click = "Hold key + Click card",
+			handy_buy_sell_use_mode_hover_n_press = "Hover or grab card + Press key",
+
+			handy_advanced_mode = "Advanced mode",
+			handy_advanced_mode_description = "More control & info",
+
+			k_handy_preview_sell = "Sell",
+			k_handy_preview_buy = "Buy",
+			k_handy_preview_use = "Use",
+			k_handy_preview_buy_n_use = "Buy & Use",
+			k_handy_preview_buy_n_sell = "Buy & Sell",
+			k_handy_preview_remove = "REMOVE",
+
+			handy_mp_speed_multiplier_mode = "Speed Multiplier: lobby max value",
+			handy_mp_animation_skip_mode = "Animations Skip: lobby max value",
+			handy_mp_dangerous_actions_mode = "Dangerous Actions: lobby mode",
+			handy_mp_dangerous_actions_modes = {
+				"Disabled",
+				"Mass sell",
+				"Mass sell & remove",
 			},
 
-			b_handy_device_select = "Input device",
-			handy_device_opt = {
-				[1] = "Auto",
-				[2] = "Mouse + Keyboard",
-				[3] = "Gamepad",
+			handy_regular_keybinds_swappable_overlays_mode = {
+				"Press to open",
+				"Press to open / Press again to close",
+				"Hold to open / Release to close",
 			},
+
+			handy_dangerous_actions_mass_sell_remove_mode = {
+				"Affect all cards",
+				"Affect all but target card",
+			},
+
+			handy_show_custom_pip_mode = {
+				"None",
+				"Gamepad only",
+				"Always",
+			},
+
+			handy_mp_extension_status_not_initialized = "Multiplayer Extension is NOT LOADED in this lobby",
+			handy_mp_extension_status_disabled = "Multiplayer Extension in this lobby is DISABLED by YOU",
+			handy_mp_extension_status_disabled_by_ruleset = "Multiplayer Extension in this lobby is DISABLED by RULESET",
+			handy_mp_extension_status_disabled_by_other_player = "Multiplayer Extension in this lobby is DISABLED by OTHER players",
+			handy_mp_extension_status_enabled = "Multiplayer Extension in this lobby is ENABLED",
+
+			handy_updater_no_release_found = "No release data found",
+			handy_updater_status_no_data = "No release data",
+			handy_updater_status_current_version = "Current version",
+			handy_updater_status_already_installed = "Installed - Restart a game",
+			handy_updater_status_busy = "Please wait...",
+			handy_updater_status_ready_for_installation = "Ready for installation",
+			handy_updater_status_new_version_available = "New version available",
+			b_handy_install = "Install",
+			b_handy_restart_game = "Restart game",
+
+			handy_release_type_stable = "Stable",
+			handy_release_type_pre_release = "Pre-release",
+
+			handy_smods_compat_mode = "Compat mode: loading from .zip archive require updated SMODS!",
+
+			handy_gamepad_2step_select = "to select",
+			handy_gamepad_2step_adjust = "to adjust",
+			handy_gamepad_2step_deselect = "to deselect",
 		},
 	},
 }

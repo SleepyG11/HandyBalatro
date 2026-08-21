@@ -1,0 +1,135 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# All fixes here taken from SMODS
+
+## Remove incorrect check for Moveable alignment change
+# Moveable:align_to_major()
+[[patches]]
+[patches.regex]
+target = 'engine/moveable.lua'
+pattern = '''
+(?<indent>[\t ]*)if +self\.alignment\.prev_offset\.x == self\.alignment\.offset\.x[\s\S]*?return end
+'''
+position = 'at'
+payload = 'if not self.alignment.type_list then return end'
+line_prepend = '$indent'
+
+## multiple text input fix
+# create_text_input()
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''args.current_prompt_text = '''''
+position = 'after'
+payload = '''args.id = args.id or "text_input"'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''ui_letters[#ui_letters+1] = {n=G.UIT.T, config={ref_table = args, ref_value = 'current_prompt_text', scale = args.text_scale, colour = lighten(copy_table(args.colour), 0.4), id = 'prompt'}}'''
+position = 'at'
+payload = '''ui_letters[#ui_letters+1] = {n=G.UIT.T, config={ref_table = args, ref_value = 'current_prompt_text', scale = args.text_scale, colour = lighten(copy_table(args.colour), 0.4), id = args.id..'_prompt'}}'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''ui_letters[i] = {n=G.UIT.T, config={ref_table = text.letters, ref_value = i, scale = args.text_scale, colour = G.C.UI.TEXT_LIGHT, id = 'letter_'..i}}'''
+position = 'at'
+payload = '''ui_letters[i] = {n=G.UIT.T, config={ref_table = text.letters, ref_value = i, scale = args.text_scale, colour = G.C.UI.TEXT_LIGHT, id = args.id..'_letter_'..i}}'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''ui_letters[#ui_letters+1] = {n=G.UIT.B, config={r = 0.03,w=0.1, h=0.4, colour = position_text_colour, id = 'position', func = 'flash'}}'''
+position = 'at'
+payload = '''ui_letters[#ui_letters+1] = {n=G.UIT.B, config={r = 0.03,w=0, h=0.4, colour = position_text_colour, id = args.id..'_position', func = 'flash'}}'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''{n=G.UIT.C, config={align = "cm", draw_layer = 1, colour = G.C.CLEAR}, nodes = {'''
+position = 'at'
+payload = '''{n=G.UIT.C, config={align = "cm", colour = G.C.CLEAR}, nodes = {'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''{n=G.UIT.C, config={id = 'text_input', align = "cm", padding = 0.05, r = 0.1, draw_layer = 2, hover = true, colour = args.colour,minw = args.w, min_h = args.h, button = 'select_text_input', shadow = true}, nodes={'''
+position = 'at'
+payload = '''{n=G.UIT.C, config={id = args.id, align = "cm", padding = 0.05, r = 0.1, hover = true, colour = args.colour,minw = args.w, min_h = args.h, button = 'select_text_input', shadow = true}, nodes={'''
+match_indent = true
+
+# G.FUNCS.select_text_input
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.CONTROLLER.text_input_hook = e.children[1].children[1]'''
+position = 'after'
+payload = '''G.CONTROLLER.text_input_id = e.config.id'''
+match_indent = true
+
+# G.FUNCS.paste_seed
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.CONTROLLER.text_input_hook = e.UIBox:get_UIE_by_ID('text_input').children[1].children[1]'''
+position = 'after'
+payload = """G.CONTROLLER.text_input_id = 'text_input'"""
+match_indent = true
+
+# G.FUNCS.flash
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''if G.CONTROLLER.text_input_hook then'''
+position = 'at'
+payload = '''if G.CONTROLLER.text_input_hook and G.CONTROLLER.text_input_id == e.config.id:sub(1,string.len(G.CONTROLLER.text_input_id)) then'''
+match_indent = true
+
+# TRANSPOSE_TEXT_INPUT()
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''if hook.children[i].config.id == 'position' then'''
+position = 'at'
+payload = '''if hook.children[i].config.id == G.CONTROLLER.text_input_id..'_position' then'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''local real_letter = hook.children[position_child+dir].config.id:sub(1, 7) == 'letter_' and hook.children[position_child+dir].config.text ~= '''''
+position = 'at'
+payload = '''local real_letter = hook.children[position_child+dir].config.id:sub(1, 8+string.len(G.CONTROLLER.text_input_id)) == G.CONTROLLER.text_input_id..'_letter_' and hook.children[position_child+dir].config.text ~= '''''
+match_indent = true
+
+# GET_TEXT_FROM_INPUT()
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''if hook.children[i].config and hook.children[i].config.id:sub(1, 7) == 'letter_' and hook.children[i].config.text ~= '' then'''
+position = 'at'
+payload = '''if hook.children[i].config and hook.children[i].config.id:sub(1, 8+string.len(G.CONTROLLER.text_input_id)) == G.CONTROLLER.text_input_id..'_letter_' and hook.children[i].config.text ~= '' then'''
+match_indent = true
+
+# Prevent button pip crash
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''local BUTTON_SPRITE = Sprite(0,0,args.scale or 0.45,args.scale or 0.45,G.ASSET_ATLAS["gamepad_ui"],'''
+position = "before"
+payload = '''
+if not args.button or not button_sprite_map[args.button] then
+    return {
+        n = G.UIT.ROOT,
+        config = { align = "cm", colour = G.C.CLEAR },
+        nodes = {
+            { n = G.UIT.O, config = { object = Moveable() } },
+        },
+    }
+end
+'''
+match_indent = true
