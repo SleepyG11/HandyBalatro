@@ -261,7 +261,7 @@ function Handy.UI.speed_n_animations_page_definition()
 		h = CAI.jokers_H,
 		card_limit = 2,
 		highlight_limit = 0,
-        collection = true,
+		collection = true,
 	})
 	hand_area =
 		CardArea(G.ROOM.T.x + G.ROOM.T.w / 2, G.ROOM.T.h, CAI.hand_W, CAI.hand_H, { card_limit = 5, type = "play" })
@@ -307,6 +307,8 @@ function Handy.UI.speed_n_animations_page_definition()
 					)
 					G.GAME.viewed_back = old_viewed_back
 					card1:set_seal("Red", true, true)
+					card1.facing = "back"
+					card1.sprite_facing = "back"
 					deck_area:emplace(card1)
 				end
 				return true
