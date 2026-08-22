@@ -10,6 +10,7 @@ Handy.API.Control({
 	contexts = {
 		input_trigger = true,
 	},
+	require_exact_keys_input = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.debug_things.can_use_debug() and Handy.controls.can_execute_control(self, ctx, args)
@@ -32,6 +33,7 @@ Handy.API.Control({
 	contexts = {
 		input_trigger = true,
 	},
+	require_exact_keys_input = true,
 
 	can_execute = function(self, ctx, args)
 		return Handy.debug_things.can_use_debug() and Handy.controls.can_execute_control(self, ctx, args)

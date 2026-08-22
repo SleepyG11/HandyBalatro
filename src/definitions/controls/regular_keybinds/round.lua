@@ -95,7 +95,6 @@ Handy.API.Control({
 		input_press = true,
 	},
 
-	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 

@@ -11,7 +11,6 @@ Handy.API.Control({
 		input_trigger = true,
 	},
 
-	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -49,7 +48,6 @@ Handy.API.Control({
 		input_trigger = true,
 	},
 
-	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
@@ -84,7 +82,6 @@ Handy.API.Control({
 		input_trigger = true,
 	},
 
-	require_exact_keys_input = true,
 	no_stop_use = true,
 	only_in_run = true,
 
