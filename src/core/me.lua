@@ -8,8 +8,13 @@ function Handy.me.set_joker_center(card)
 	if card.children.front then
 		card.children.front.states.visible = false
 	end
-	card.children.center.atlas = atlas
-	card.children.center:set_sprite_pos(pos)
+    if card.children.center then card.children.center:remove() end
+	card.children.center = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, atlas, pos)
+	card.children.center.states.hover = card.states.hover
+	card.children.center.states.click = card.states.click
+	card.children.center.states.drag = card.states.drag
+	card.children.center.states.collide.can = false
+	card.children.center:set_role({ major = card, role_type = "Glued", draw_major = card })
 	return card
 end
 function Handy.me.is_joker_center_replaced(card)
