@@ -136,10 +136,12 @@ Handy.updater = {
 				Handy.updater.last_check_updates_time = G.TIMERS.REAL
 				Handy.updater.set_state(Handy.updater.STATES.IDLE)
 				if releases and releases.success then
+					Handy.updater.last_check_error = nil
 					Handy.updater.releases = releases
 					Handy.updater.update_versions()
 					callback(nil, releases)
 				else
+					Handy.updater.last_check_error = releases and releases.message or "fetcher_error"
 					callback("fetch_error")
 				end
 			end)

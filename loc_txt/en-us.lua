@@ -1288,6 +1288,7 @@ return {
 			Handy_updater_finish_success = "Release installed successfully",
 			Handy_updater_finish_no_fetcher = "No available API for requests",
 			Handy_updater_finish_no_connection = "Missing interner connection",
+			Handy_updater_finish_fetcher_error = "Unexpected error",
 			Handy_updater_finish_invalid_server_response = "Invalid server response",
 			Handy_updater_finish_no_release = "No release found",
 			Handy_updater_finish_check_request_failed = "Cannot check available releases",

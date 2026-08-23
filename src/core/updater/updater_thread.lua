@@ -52,28 +52,30 @@ local function loveRecursivelyCopy(folder, saveDir)
 end
 local fetcher_buffer
 local function get_fetcher(use_smods)
-    if fetcher_buffer ~= nil then return fetcher_buffer end
+	if fetcher_buffer ~= nil then
+		return fetcher_buffer
+	end
 
-    if use_smods then
-        local success, smods_fetcher = pcall(function()
-            return require("SMODS.https")
-        end)
-        if success and smods_fetcher then
-            fetcher_buffer = smods_fetcher
-            return smods_fetcher
-        end
-    end
+	if use_smods then
+		local success, smods_fetcher = pcall(function()
+			return require("SMODS.https")
+		end)
+		if success and smods_fetcher then
+			fetcher_buffer = smods_fetcher
+			return smods_fetcher
+		end
+	end
 
-    local success, https_fetcher = pcall(function()
-        return require("https")
-    end)
-    if success and https_fetcher then
-        fetcher_buffer = https_fetcher
-        return https_fetcher
-    end
+	local success, https_fetcher = pcall(function()
+		return require("https")
+	end)
+	if success and https_fetcher then
+		fetcher_buffer = https_fetcher
+		return https_fetcher
+	end
 
-    fetcher_buffer = false
-    return false
+	fetcher_buffer = false
+	return false
 end
 
 --
@@ -86,17 +88,25 @@ local function get_latest_releases(use_smods)
 			message = "no_fetcher",
 		}
 	end
-	local code, response, headers
+	local success, code, response, headers
 	local url = "https://api.github.com/repos/SleepyG11/HandyBalatro/releases?per_page=5"
 	local is_redirect = false
 
 	repeat
-		code, response, headers = fetcher.request(url, {
-			method = "GET",
-			headers = {
-				["User-Agent"] = "Mozilla/5.0",
-			},
-		})
+		success, code, response, headers = pcall(function()
+			return fetcher.request(url, {
+				method = "GET",
+				headers = {
+					["User-Agent"] = "Mozilla/5.0",
+				},
+			})
+		end)
+		if not success then
+			return {
+				success = false,
+				message = "fetcher_error",
+			}
+		end
 		is_redirect = code >= 300 and code < 400
 		if is_redirect then
 			url = headers["location"]
@@ -133,17 +143,25 @@ local function get_latest_releases(use_smods)
 		end
 
 		if not latest_stable then
-			local code, response, headers
+			local success, code, response, headers
 			local url = "https://api.github.com/repos/SleepyG11/HandyBalatro/releases/latest"
 			local is_redirect = false
 
 			repeat
-				code, response, headers = fetcher.request(url, {
-					method = "GET",
-					headers = {
-						["User-Agent"] = "Mozilla/5.0",
-					},
-				})
+				success, code, response, headers = pcall(function()
+					return fetcher.request(url, {
+						method = "GET",
+						headers = {
+							["User-Agent"] = "Mozilla/5.0",
+						},
+					})
+				end)
+				if not success then
+					return {
+						success = false,
+						message = "fetcher_error",
+					}
+				end
 				is_redirect = code >= 300 and code < 400
 				if is_redirect then
 					url = headers["location"]
@@ -185,15 +203,23 @@ local function download_release(url, use_smods)
 		}
 	end
 
-	local code, response, headers
+	local success, code, response, headers
 	local is_redirect = false
 	repeat
-		code, response, headers = fetcher.request(url, {
-			method = "GET",
-			headers = {
-				["User-Agent"] = "Mozilla/5.0",
-			},
-		})
+		success, code, response, headers = pcall(function()
+			return fetcher.request(url, {
+				method = "GET",
+				headers = {
+					["User-Agent"] = "Mozilla/5.0",
+				},
+			})
+		end)
+		if not success then
+			return {
+				success = false,
+				message = "fetcher_error",
+			}
+		end
 		is_redirect = code >= 300 and code < 400
 		if is_redirect then
 			url = headers["location"]

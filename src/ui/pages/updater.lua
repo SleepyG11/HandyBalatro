@@ -7,11 +7,33 @@ function Handy.UI.updater_release_definition(release_type)
 			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.5 },
 			nodes = {
 				{
-					n = G.UIT.T,
-					config = {
-						text = Handy.L.dictionary("handy_updater_no_release_found"),
-						scale = 0.5,
-						colour = mix_colours(G.C.MULT, G.C.UI.TEXT_LIGHT, 0.5),
+					n = G.UIT.R,
+					config = { align = "cm" },
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = Handy.L.dictionary("handy_updater_no_release_found"),
+								scale = 0.5,
+								colour = mix_colours(G.C.MULT, G.C.UI.TEXT_LIGHT, 0.5),
+							},
+						},
+					},
+				},
+				{
+					n = G.UIT.R,
+					config = { align = "cm" },
+					nodes = {
+						{
+							n = G.UIT.T,
+							config = {
+								text = Handy.L.variable(
+									"Handy_updater_finish_" .. (Handy.updater.last_check_error or "fetcher_error")
+								),
+								scale = 0.32,
+								colour = mix_colours(G.C.MULT, G.C.UI.TEXT_LIGHT, 0.5),
+							},
+						},
 					},
 				},
 			},

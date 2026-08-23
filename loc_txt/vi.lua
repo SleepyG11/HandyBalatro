@@ -1288,6 +1288,7 @@ return {
 			Handy_updater_finish_success = "Hoàn thành cài đặt phiên bản",
 			Handy_updater_finish_no_fetcher = "Không có sẵn API để gửi yêu cầu",
 			Handy_updater_finish_no_connection = "Thiếu kết nối internet",
+			Handy_updater_finish_fetcher_error = "Lỗi không mong muốn",
 			Handy_updater_finish_invalid_server_response = "Phản hồi máy chủ không hợp lệ",
 			Handy_updater_finish_no_release = "Không tìm thấy phiên bản",
 			Handy_updater_finish_check_request_failed = "Không thể kiểm tra phiên bản có sẵn",

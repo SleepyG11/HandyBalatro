@@ -1280,6 +1280,7 @@ return {
 
 			Handy_updater_finish_success = "Релиз успешно установлен",
 			Handy_updater_finish_no_fetcher = "Нет доступного API для запросов",
+			Handy_updater_finish_fetcher_error = "Неизвестная ошибка",
 			Handy_updater_finish_no_connection = "Нет подключения к интернету",
 			Handy_updater_finish_invalid_server_response = "Некорректный ответ сервера",
 			Handy_updater_finish_no_release = "Релиз не найден",
