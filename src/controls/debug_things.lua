@@ -14,7 +14,7 @@ function Handy.debug_things.reload_localization()
 	end
 	Handy.UI.state_panel.display(function(state)
 		state.items.debug_things_reload_localization = {
-			text = Handy.L.dictionary("poh_handy_notif_reload_localization"),
+			text = Handy.L.dictionary("ph_handy_notif_reload_localization"),
 			hold = false,
 			order = 0,
 		}
@@ -28,7 +28,7 @@ function Handy.debug_things.reload_prototypes()
 	G:init_item_prototypes()
 	Handy.UI.state_panel.display(function(state)
 		state.items.debug_things_reload_localization = {
-			text = Handy.L.dictionary("poh_handy_notif_reload_item_prototypes"),
+			text = Handy.L.dictionary("ph_handy_notif_reload_item_prototypes"),
 			hold = false,
 			order = 0,
 		}
