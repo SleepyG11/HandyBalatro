@@ -30,14 +30,33 @@ Handy.API.Control({
 				end
 				local ds = math.sqrt(ctx.sdx * ctx.sdx + ctx.sdy * ctx.sdy)
 				Handy.hand_selection.first_card_travel_distance = Handy.hand_selection.first_card_travel_distance + ds
-				if Handy.hand_selection.first_card_travel_distance < 0.1 then
+				if
+					Handy.hand_selection.first_card_travel_distance
+					< Handy.hand_selection.first_card_travel_min_distance
+				then
 					return false
+				end
+			elseif Handy.hand_selection.should_interpolate() then
+				local preview_area = Handy.hand_selection.get_preview_area()
+				local area = preview_area or G.hand
+				local is_any, touched_cards = Handy.hand_selection.interpolate(ctx, area)
+				if
+					is_any
+					and Handy.controls.can_execute_control(self, ctx, {
+						allow_any_context = true,
+						allow_not_in_run = preview_area,
+						allow_stop_use = preview_area,
+						allow_mod_inactive = preview_area,
+					})
+				then
+					return true, { cards = touched_cards }
 				end
 			else
 				return false
 			end
-		end
-		if ctx.input and (ctx.key == "Left Mouse" or ctx.key == "(A)" or Handy.cc.hand_selection_mode.value ~= 1) then
+		elseif
+			ctx.input and (ctx.key == "Left Mouse" or ctx.key == "(A)" or Handy.cc.hand_selection_mode.value ~= 1)
+		then
 			return false
 		end
 
@@ -58,7 +77,16 @@ Handy.API.Control({
 		end
 	end,
 	execute = function(self, ctx, args, data)
-		return Handy.hand_selection.select_card(data.card)
+		if data.cards then
+			local r = false
+			for _, card in ipairs(data.cards) do
+				r = Handy.hand_selection.select_card(card) or r
+			end
+			return r
+		end
+		if data.card then
+			return Handy.hand_selection.select_card(data.card)
+		end
 	end,
 
 	update = function(self, dt)

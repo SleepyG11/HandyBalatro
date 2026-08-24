@@ -1,6 +1,11 @@
 Handy.hand_selection = {
 	first_card_highlighted = nil,
 	first_card_travel_distance = 0,
+	first_card_travel_min_distance = 0.1,
+	interpolation_min_distance = 0.35,
+	interpolation_min_spacing = 0.35,
+	interpolation_max_count = 10,
+	interpolation_max_dt = 1 / 40,
 }
 
 --
@@ -104,12 +109,62 @@ function Handy.hand_selection.select_card(card)
 	end
 
 	if
-		Handy.controls.is_module_enabled(Handy.cc.hand_selection_combine_select_deselect)
-		or (not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
+		(not not card.highlighted == not not Handy.hand_selection.first_card_highlighted)
+		or (
+			not Handy.hand_selection.should_interpolate()
+			and Handy.controls.is_module_enabled(Handy.cc.hand_selection_combine_select_deselect)
+		)
 	then
 		Handy.ARGS.increase_highlight_pitch = true
 		card:click()
 		Handy.ARGS.increase_highlight_pitch = nil
 	end
 	return true
+end
+
+function Handy.hand_selection.should_interpolate()
+	return G.CONTROLLER.HID.touch or G.real_dt > Handy.hand_selection.interpolation_max_dt
+end
+
+-- Inspired by idea from fork by C0mputery
+function Handy.hand_selection.interpolate(ctx, area)
+	if not area then
+		return false
+	end
+	local is_any = false
+	local ds = math.sqrt(ctx.sdx * ctx.sdx + ctx.sdy * ctx.sdy)
+	local touched_cards
+	if
+		ds > Handy.hand_selection.interpolation_min_distance
+		and area:collides_with_point({
+			x = G.CURSOR.T.x + ctx.sdx,
+			y = G.CURSOR.T.y + ctx.sdy,
+		})
+	then
+		touched_cards = {}
+		local sample_count = math.ceil(ds / Handy.hand_selection.interpolation_min_spacing)
+		sample_count = math.max(1, math.min(Handy.hand_selection.interpolation_max_count, sample_count))
+
+		for sample_index = 1, sample_count do
+			local fraction = 1 - sample_index / sample_count
+			local point = {
+				x = G.CURSOR.T.x + ctx.sdx * fraction,
+				y = G.CURSOR.T.y + ctx.sdy * fraction,
+			}
+
+			for i = #area.cards, 1, -1 do
+				local card = area.cards[i]
+
+				if card:collides_with_point(point) then
+					if not touched_cards[card] and Handy.hand_selection.can_select_card(card) then
+						is_any = true
+						touched_cards[card] = true
+						table.insert(touched_cards, card)
+					end
+					break
+				end
+			end
+		end
+	end
+	return is_any, touched_cards
 end
