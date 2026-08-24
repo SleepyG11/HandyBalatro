@@ -123,7 +123,7 @@ function Handy.hand_selection.select_card(card)
 end
 
 function Handy.hand_selection.should_interpolate()
-	return G.CONTROLLER.HID.touch or G.real_dt > Handy.hand_selection.interpolation_max_dt
+	return G.CONTROLLER.HID.touch or (G.real_dt or 0) > Handy.hand_selection.interpolation_max_dt
 end
 
 -- Inspired by idea from fork by C0mputery
