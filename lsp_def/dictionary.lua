@@ -32,7 +32,8 @@
 ---@field colour? table
 ---@field get_values? fun(self: Handy.DictionarySliderArgs): { ref_table?: table, ref_value?: string, disabled?: boolean } | nil
 
----@alias Handy.DictionaryModDepsResolver fun(): boolean, string,  "required" | "conflict"
+---@alias Handy.DictionaryModDepsOperator "required" | "conflict" | "optional"
+---@alias Handy.DictionaryModDepsResolver fun(): boolean, string,  Handy.DictionaryModDepsOperator
 
 ---@class Handy.Dictionary
 ---@field key string
@@ -50,7 +51,7 @@
 ---@field parents? Handy.Dictionary[]
 ---@field items? Handy.Dictionary[]
 ---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
----@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
+---@field mod_deps? table<string, Handy.DictionaryModDepsOperator | Handy.DictionaryModDepsResolver>
 
 ---@class Handy.CreateDictionaryArgs
 ---@field key string
@@ -66,7 +67,7 @@
 ---@field parent? Handy.Dictionary | string
 ---@field items? Handy.Dictionary[]
 ---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
----@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
+---@field mod_deps? table<string, "required" | "conflict" | "optional" | Handy.DictionaryModDepsResolver>
 
 --- Add dictionary entry - object which represents configuration.<br/>
 --- * Resolves and displays all info from localization file

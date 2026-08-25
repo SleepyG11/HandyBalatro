@@ -12,7 +12,6 @@ Handy.API.Control({
 	},
 
 	require_exact_keys_input = true,
-	no_mp = true,
 	only_in_run = true,
 	only_holdable_input = true,
 
@@ -210,7 +209,6 @@ Handy.API.Control({
 	},
 
 	require_exact_keys_input = true,
-	no_mp = true,
 	only_safe_input = true,
 
 	execute = function(self, ctx, args)

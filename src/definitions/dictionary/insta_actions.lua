@@ -8,6 +8,9 @@ Handy.API.Dictionary({
 	end,
 
 	checkbox = true,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 })
 
 Handy.API.Dictionary({
@@ -34,6 +37,9 @@ Handy.API.Dictionary({
 			}
 		end,
 	},
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 })
 Handy.API.Dictionary({
 	key = "insta_actions_buy_or_sell",
@@ -58,6 +64,9 @@ Handy.API.Dictionary({
 	keybind = {
 		allow_multiple = true,
 	},
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 })
 Handy.API.Dictionary({
 	key = "insta_actions_buy_n_sell",
@@ -82,6 +91,9 @@ Handy.API.Dictionary({
 		allow_multiple = true,
 	},
 	checkbox = true,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 })
 Handy.API.Dictionary({
 	key = "insta_actions_use",
@@ -106,4 +118,7 @@ Handy.API.Dictionary({
 		allow_multiple = true,
 	},
 	checkbox = true,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 })

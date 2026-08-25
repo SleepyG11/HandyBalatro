@@ -37,7 +37,6 @@ Handy.API.Dictionary({
 			vars = { Handy.L.brackets(Handy.L.keys("R")) },
 		}
 	end,
-	no_mp = true,
 
 	checkbox = {
 		advanced = true,
@@ -129,7 +128,6 @@ Handy.API.Dictionary({
 	get_deps = function(self)
 		return { Handy.D.dictionary.regular_keybinds }
 	end,
-	no_mp = true,
 
 	checkbox = {
 		advanced = true,
@@ -595,7 +593,8 @@ Handy.API.Dictionary({
 		return { Handy.D.dictionary.regular_keybinds }
 	end,
 	mod_deps = {
-		["Multiplayer"] = "required",
+		["Multiplayer"] = "optional",
+		["MultiplayerAPI"] = "optional",
 	},
 
 	keybind = {

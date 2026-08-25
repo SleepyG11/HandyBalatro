@@ -71,6 +71,9 @@ Handy.API.Dictionary({
 		allow_multiple = true,
 	},
 	checkbox = true,
+	no_mp = function(self, lobby, config, state)
+		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+	end,
 })
 Handy.API.Dictionary({
 	key = "hand_selection_insta_highlight_allow_deselect",
@@ -90,6 +93,9 @@ Handy.API.Dictionary({
 	},
 
 	checkbox = true,
+	no_mp = function(self, lobby, config, state)
+		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+	end,
 })
 Handy.API.Dictionary({
 	key = "hand_selection_combine_select_deselect",
@@ -110,6 +116,9 @@ Handy.API.Dictionary({
 	},
 
 	checkbox = true,
+	no_mp = function(self, lobby, config, state)
+		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+	end,
 })
 Handy.API.Dictionary({
 	key = "hand_selection_deselect_hand",
@@ -157,4 +166,7 @@ Handy.API.Dictionary({
 	checkbox = {
 		advanced = true,
 	},
+	no_mp = function(self, lobby, config, state)
+		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+	end,
 })
