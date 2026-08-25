@@ -40,6 +40,7 @@
 ---@field keywords? string[]
 ---@field get_module? fun(self: Handy.Dictionary): Handy.Config Config to use for check can control be executed by checking enabled status and/or keybinds
 ---@field get_deps? fun(self: Handy.Dictionary): Handy.Dictionary[] | nil List of configs which needs to be active before control can be executed
+---@field no_mp? boolean | fun(lobby: table, config: table, state?: table): boolean Check for Multiplayer. If returned `true`, control will be marked as disabled in MP
 ---@field checkbox? Handy.DictionaryCheckboxArgs
 ---@field keybind? Handy.DictionaryKeybindArgs
 ---@field option_cycle? Handy.DictionaryOptionCycleArgs

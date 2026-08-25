@@ -1,4 +1,7 @@
-local mp_api = {}
+local mp_api = {
+	empty_config = {},
+	empty_state = {},
+}
 Handy.MP.current = mp_api
 
 -- Loading MP post-1.0
@@ -23,10 +26,10 @@ function mp_api.get_lobby()
 	return (lobby and lobby.code and lobby) or nil
 end
 function mp_api.get_config(lobby)
-	return nil
+	return lobby and mp_api.empty_config
 end
 function mp_api.get_game_state(lobby)
-	return nil
+	return lobby and mp_api.empty_state
 end
 
 -- lobby, config, game_state

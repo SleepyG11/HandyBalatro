@@ -16,7 +16,7 @@
 ---@field only_in_run? boolean Prevent executing if player isn't in game state or game is paused (checks for `G.STAGES.RUN` and not `G.SETTINGS.paused`)
 ---@field no_stop_use? boolean Prevent executing if player cannot do actions right now (checks `G.GAME.STOP_USE` and G.CONTROLLER.locked)
 ---@field dangerous? boolean Prevent executing if [Dangerous actions] cannot be executed right now
----@field no_mp? boolean | fun(self: Handy.Control, lobby: table, config: table): boolean Check for Multiplayer. If returned `true`, control will not be executed in MP lobby
+---@field no_mp? boolean | fun(lobby: table, config: table, state?: table): boolean Check for Multiplayer. If returned `true`, control will not be executed in MP lobby
 ---@field can_execute? fun(self: Handy.Control, ctx: Handy.AnyContext, args: table): boolean | nil, any Check can control be executed. As second return, data can be passed to `execute`
 ---@field execute? fun(self: Handy.Control, ctx: Handy.AnyContext, args: table, data: any): boolean | nil Control logic execution. Returned boolean indicated is execution was successful. `data` is value passed by `can_execute`
 ---@field update? fun(self: Handy.Control, dt: number) Update function. Runs every frame regardless of game state or control checks

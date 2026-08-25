@@ -157,7 +157,7 @@ function mp_pre_release.get_config(lobby)
 	return lobby and lobby.config
 end
 function mp_pre_release.get_game_state(lobby)
-	return MP.GAME
+	return lobby and MP.GAME
 end
 
 function mp_pre_release.get_current()

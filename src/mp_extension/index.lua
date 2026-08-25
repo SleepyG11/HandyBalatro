@@ -20,7 +20,7 @@ end
 
 function Handy.disabled_in_mp_check(func, args)
 	local lobby, config, state = Handy.get_mp_lobby()
-	if not config then
+	if not lobby or not config then
 		return false
 	end
 
@@ -70,3 +70,12 @@ Handy.e_mitter.on("game_start", function()
 	end
 	Handy.ARGS.mod_id_override = nil
 end)
+
+--
+
+function Handy.MP.is_speedrun_mode(lobby, config, state)
+	return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+end
+function Handy.MP.is_pvp_mode(lobby, config, state)
+	return Handy.MP.mod_type == "pre_release"
+end
