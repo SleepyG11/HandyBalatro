@@ -13,7 +13,7 @@ function Handy.UI.mp_extension_page_definition()
 				nodes = {
 					{
 						n = G.UIT.C,
-						config = { align = "cm", r = 0.1 },
+						config = { align = "cm", r = 0.1, padding = 1, minh = 5 },
 						nodes = {
 							{
 								n = G.UIT.R,
@@ -24,15 +24,14 @@ function Handy.UI.mp_extension_page_definition()
 									colour = { 0, 0, 0, 0.1 },
 								},
 								nodes = {
-									{
-										n = G.UIT.T,
-										config = {
-											text = "Install Multiplayer too see settings related to it",
-											scale = 0.35,
-											colour = G.C.UI.TEXT_LIGHT,
-											shadow = true,
-										},
-									},
+									Handy.L.description("Handy_Other", "mp_extension_empty", {
+										default_col = G.C.UI.TEXT_LIGHT,
+										align = "cm",
+										scale = 1.25,
+										vars = {},
+									}, {
+										padding = 0.25,
+									}),
 								},
 							},
 						},

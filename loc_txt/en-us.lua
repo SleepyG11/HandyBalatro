@@ -1106,6 +1106,13 @@ return {
 					"{s:0.8}Despite me not liking it, who am I to tell you which mods to use?{}",
 				},
 			},
+			mp_extension_empty = {
+				text = {
+					"Install {C:mult}Multiplayer{} to get",
+					"additional settings here",
+					"{C:inactive}1.0 features is Work in Progress{}",
+				},
+			},
 		},
 	},
 	misc = {

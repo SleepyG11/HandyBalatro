@@ -79,7 +79,7 @@ function Handy.speed_multiplier.get_limited_value()
 		force = true,
 	})
 	if mp_value then
-		max_value = math.max(1, math.min(Handy.speed_multiplier.index_to_value(mp_value), max_value))
+		max_value = math.max(1, math.min(Handy.speed_multiplier.index_to_value(mp_value - 1), max_value))
 	end
 	if Handy.speed_multiplier.value > max_value then
 		Handy.speed_multiplier.value = max_value

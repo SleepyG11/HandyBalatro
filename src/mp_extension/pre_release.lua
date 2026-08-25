@@ -193,6 +193,13 @@ Handy.API.Dictionary({
 })
 
 Handy.API.Dictionary({
+	key = "mp_extension_current_lobby",
+	parent = "mp_extension",
+	order = 1,
+
+	keywords = { "current lobby" },
+})
+Handy.API.Dictionary({
 	key = "mp_extension_enabled",
 	parent = "mp_extension_current_lobby",
 	order = 1,
@@ -228,7 +235,7 @@ Handy.API.Dictionary({
 			}
 		end,
 		callback = function()
-			Handy.mp_extension.send_action_setEnabled()
+			mp_pre_release.send_action_setEnabled()
 		end,
 	},
 })
@@ -249,7 +256,7 @@ Handy.API.Dictionary({
 			end,
 			__newindex = function(t, k, v)
 				local lobby, config = Handy.get_mp_lobby()
-				if not config or not Handy.mp_extension.can_change_lobby_settings() then
+				if not config or not mp_pre_release.can_change_lobby_settings() then
 					return
 				end
 				config.handy_speed_multiplier_mode = v
@@ -265,7 +272,7 @@ Handy.API.Dictionary({
 			})
 			return {
 				options = Handy.utils.table_shallow_copy(Handy.speed_multiplier.selectable_options),
-				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
+				disabled = is_forced or not mp_pre_release.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -291,7 +298,7 @@ Handy.API.Dictionary({
 			end,
 			__newindex = function(t, k, v)
 				local lobby, config = Handy.get_mp_lobby()
-				if not config or not Handy.mp_extension.can_change_lobby_settings() then
+				if not config or not mp_pre_release.can_change_lobby_settings() then
 					return
 				end
 				config.handy_animation_skip_mode = v
@@ -312,7 +319,7 @@ Handy.API.Dictionary({
 					Handy.L.dictionary("handy_animation_skip_levels", 3),
 					Handy.L.dictionary("handy_animation_skip_levels", 4),
 				},
-				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
+				disabled = is_forced or not mp_pre_release.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -338,7 +345,7 @@ Handy.API.Dictionary({
 			end,
 			__newindex = function(t, k, v)
 				local lobby, config = Handy.get_mp_lobby()
-				if not config or not Handy.mp_extension.can_change_lobby_settings() then
+				if not config or not mp_pre_release.can_change_lobby_settings() then
 					return
 				end
 				config.handy_dangerous_actions_mode = v
@@ -358,7 +365,7 @@ Handy.API.Dictionary({
 					Handy.L.dictionary("handy_mp_dangerous_actions_modes", 2),
 					-- Handy.L.dictionary("handy_mp_dangerous_actions_modes", 3),
 				},
-				disabled = is_forced or not Handy.mp_extension.can_change_lobby_settings(),
+				disabled = is_forced or not mp_pre_release.can_change_lobby_settings(),
 			}
 		end,
 		callback = function()
@@ -374,6 +381,17 @@ Handy.API.Dictionary({
 	order = 2,
 
 	keywords = { "default lobby values" },
+})
+Handy.API.Dictionary({
+	key = "mp_extension_enabled_default_value",
+	parent = "mp_extension_default_values",
+	order = 1,
+
+	get_module = function(self)
+		return Handy.cc.mp_extension_enabled_default_value
+	end,
+
+	checkbox = true,
 })
 Handy.API.Dictionary({
 	key = "mp_extension_speed_multiplier_mode_default_value",
