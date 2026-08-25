@@ -16,6 +16,40 @@ if MPAPI.create_account_avatar then
 	end
 end
 
+if SPDRN then
+	local old_create_options = SPDRN.create_run_options
+	function SPDRN.create_run_options(...)
+		local contents = old_create_options(...)
+		local target = contents.nodes[1].nodes[1].nodes[1].nodes[1].nodes
+		local index = table.maxn(target)
+		-- if false and G.STAGE == G.STAGES.MAIN_MENU then
+		-- 	table.insert(target, index + 1, {
+		-- 		n = G.UIT.R,
+		-- 		config = {
+		-- 			padding = 0.08,
+		-- 		},
+		-- 		nodes = {
+		-- 			Handy.UI.get_mp_extension_button(),
+		-- 		},
+		-- 	})
+		-- 	index = index + 1
+		-- end
+		if not Handy.current_mod or not Handy.cc.hide_options_button.enabled then
+			table.insert(target, index + 1, {
+				n = G.UIT.R,
+				config = {
+					padding = 0.08,
+				},
+				nodes = {
+					Handy.UI.get_mod_button(),
+				},
+			})
+			index = index + 1
+		end
+		return contents
+	end
+end
+
 function mp_api.is_in_lobby()
 	local lobby = MPAPI.get_current_lobby()
 	return not not (lobby and lobby.code)
