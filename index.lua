@@ -27,6 +27,8 @@ Handy = {
 	LOCAL_REAL_PATH = nil,
 
 	meta = {
+		thunderstore_release = true,
+
 		["1.4.1b_patched_select_blind_and_skip"] = true,
 		["1.5.0_update"] = true,
 		["1.5.1a_multiplayer_check"] = true,

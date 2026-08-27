@@ -1246,6 +1246,7 @@ return {
 			["MP Extension"] = "Multiplayer",
 
 			["Updater"] = "Mod updates",
+			["Thunderstore"] = "Thunderstore",
 			["Updater Settings"] = "Settings",
 		},
 		v_dictionary = {

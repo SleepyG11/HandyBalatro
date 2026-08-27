@@ -95,7 +95,7 @@ function Handy.UI.overall_tab_UIBox()
 					config = {
 						text = Handy.L.tab(args.label),
 						scale = 0.35,
-						colour = G.C.UI.TEXT_LIGHT,
+						colour = args.text_colour or G.C.UI.TEXT_LIGHT,
 						shadow = true,
 					},
 				},
@@ -191,10 +191,15 @@ function Handy.UI.overall_tab_UIBox()
 								n = G.UIT.C,
 								config = { minw = 3.25, maxw = 3.25 },
 								nodes = {
-									b({
+									Handy.updater and b({
 										label = "Updater",
 										button = "handy_updater",
 										colour = G.C.CHIPS,
+										func = "handy_updates_alert",
+									}) or b({
+										label = "Thunderstore",
+										button = "handy_open_thunderstore_page",
+										colour = HEX("24ffab"),
 										func = "handy_updates_alert",
 									}),
 								},
@@ -280,4 +285,8 @@ G.FUNCS.handy_overall_toggle_mod = function(e)
 		Handy.UI.CHAR.set_sprite_pos("me", "scary")
 		Handy.UI.CHAR.jump("me")
 	end
+end
+
+G.FUNCS.handy_open_thunderstore_page = function()
+	love.system.openURL("https://thunderstore.io/c/balatro/p/SleepyG11/Handy")
 end

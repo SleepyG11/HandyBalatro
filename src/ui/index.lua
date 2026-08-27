@@ -101,7 +101,6 @@ Handy.load_files({
 	"characters.lua",
 	"side_panel.lua",
 	"game_settings.lua",
-	-- "tutorial.lua",
 	"options.lua",
 	"gamepad.lua",
 }, "src/ui/")

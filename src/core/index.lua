@@ -11,7 +11,6 @@ Handy.load_files({
 	"config/index.lua",
 	"presets/index.lua",
 	"controller/index.lua",
-	"updater/index.lua",
 
 	"controls.lua",
 	"dictionary.lua",
@@ -19,6 +18,10 @@ Handy.load_files({
 
 	"api.lua",
 }, "src/core/")
+
+if not Handy.meta.thunderstore_release then
+	Handy.load_file("src/core/updater/index.lua")
+end
 
 function Handy.save_all_config()
 	Handy.config.save()

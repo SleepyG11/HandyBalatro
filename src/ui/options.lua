@@ -182,6 +182,9 @@ Handy.e_mitter.on("steamodded_load", function()
 end)
 
 G.FUNCS.handy_updates_alert = function(e)
+	if not Handy.updater then
+		return
+	end
 	local release_type = e.config.ref_table and e.config.ref_table.handy_release_type
 	if release_type then
 		local release_info = Handy.updater.get_release_info(release_type)
