@@ -205,6 +205,30 @@ function Handy.UI.updater_release_definition(release_type)
 					},
 				},
 			},
+			{
+				n = G.UIT.C,
+				config = {
+					colour = HEX("24ffab"),
+					r = 0.25,
+					padding = 0.15,
+					shadow = true,
+					minw = 3,
+					align = "cm",
+					hover = true,
+					button = "handy_open_thunderstore_page",
+				},
+				nodes = {
+					{
+						n = G.UIT.T,
+						config = {
+							text = Handy.L.tab("Thunderstore"),
+							scale = 0.4,
+							colour = G.C.UI.TEXT_LIGHT,
+							shadow = true,
+						},
+					},
+				},
+			},
 		},
 	}
 

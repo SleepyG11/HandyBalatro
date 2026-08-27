@@ -19,7 +19,8 @@ Handy.load_files({
 	"api.lua",
 }, "src/core/")
 
-if not Handy.meta.thunderstore_release then
+-- For Thunderstore release, updater fully removed
+if Handy.get_file_info("src/core/updater/index.lua") then
 	Handy.load_file("src/core/updater/index.lua")
 end
 

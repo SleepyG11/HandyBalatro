@@ -1,3 +1,7 @@
+if not Handy.updater then
+	return
+end
+
 Handy.API.Dictionary({
 	key = "updater",
 	keywords = { "auto mod update updating patch note notes patchnotes install github" },
