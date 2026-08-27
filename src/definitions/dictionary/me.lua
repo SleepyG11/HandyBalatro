@@ -5,7 +5,7 @@ Handy.API.Dictionary({
 	keywords = { "me sleepy sleepyg11 g11 sprite girl tyan anime self insert author" },
 	loc_vars = function()
 		return {
-			vars = { "@lord.ruby" },
+			vars = { "@crimson_seraphim" },
 		}
 	end,
 })
