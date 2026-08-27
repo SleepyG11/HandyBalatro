@@ -72,7 +72,7 @@ Handy.API.Dictionary({
 	},
 	checkbox = true,
 	no_mp = function(self, lobby, config, state)
-		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
 	end,
 })
 Handy.API.Dictionary({
@@ -94,7 +94,7 @@ Handy.API.Dictionary({
 
 	checkbox = true,
 	no_mp = function(self, lobby, config, state)
-		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
 	end,
 })
 Handy.API.Dictionary({
@@ -117,7 +117,7 @@ Handy.API.Dictionary({
 
 	checkbox = true,
 	no_mp = function(self, lobby, config, state)
-		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
 	end,
 })
 Handy.API.Dictionary({
@@ -167,6 +167,6 @@ Handy.API.Dictionary({
 		advanced = true,
 	},
 	no_mp = function(self, lobby, config, state)
-		return Handy.MP.mod_type == "mp_api" and SPDRN and lobby.mod_id == SPDRN.id
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
 	end,
 })

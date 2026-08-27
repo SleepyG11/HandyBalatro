@@ -22,7 +22,10 @@ Handy.speed_multiplier = {
 --- Filters
 
 function Handy.speed_multiplier.is_disabled_by_mp(lobby, lobby_config)
-	return (lobby_config.handy_speed_multiplier_mode or 1) == 1
+	return Handy.get_mp_lobby_config_value("handy_speed_multiplier_mode", {
+		default_value = 1,
+		force = true,
+	}) == 1
 end
 function Handy.speed_multiplier.is_uncapped()
 	return Handy.b_is_dangerous_actions_active()

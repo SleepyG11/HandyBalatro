@@ -15,7 +15,10 @@ function Handy.dangerous_actions.get_preview_area()
 	return Handy.utils.alive_element(Handy.UI.data.dangerous_actions_preview_area)
 end
 function Handy.dangerous_actions.is_sell_disabled_in_mp(lobby, lobby_config)
-	return (lobby_config.handy_dangerous_actions_mode or 1) <= 1
+	return Handy.get_mp_lobby_config_value("handy_dangerous_actions_mode", {
+		default_value = 1,
+		force = true,
+	}) <= 1
 end
 function Handy.dangerous_actions.is_remove_disabled_in_mp(lobby, lobby_config)
 	return true
@@ -184,77 +187,79 @@ end
 
 ---
 
-function Handy.dangerous_actions.show_notif()
-	Handy.UI.state_panel.display(function(state)
-		local holded = nil
-		local append_queue = false
-		if
-			Handy.dangerous_actions.get_preview_area()
-			or (Handy.b_is_mod_active() and Handy.b_is_dangerous_actions_active() and Handy.b_is_in_run())
-		then
-			if not Handy.controller.binding.get_current() then
-				for index, item_key in ipairs(Handy.dangerous_actions.items) do
-					local item = Handy.controls.dictionary[item_key]
-					local module = item:get_module()
-					if Handy.controls.is_enabled_module_keys_hold(module, {
-						require_exact = true,
-					}) then
-						holded = item
-						if index < 3 then
-							append_queue = true
-						end
-						break
+function Handy.dangerous_actions.notif_func(state)
+	local holded = nil
+	local append_queue = false
+	if
+		Handy.dangerous_actions.get_preview_area()
+		or (Handy.b_is_mod_active() and Handy.b_is_dangerous_actions_active() and Handy.b_is_in_run())
+	then
+		if not Handy.controller.binding.get_current() then
+			for index, item_key in ipairs(Handy.dangerous_actions.items) do
+				local item = Handy.controls.dictionary[item_key]
+				local module = item:get_module()
+				if Handy.controls.is_enabled_module_keys_hold(module, {
+					require_exact = true,
+				}) then
+					holded = item
+					if index < 3 then
+						append_queue = true
 					end
+					break
 				end
 			end
 		end
-		if holded then
-			if not Handy.cc.dangerous_actions.enabled then
-				state.items.prevented_dangerous_actions = {
-					text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled"),
-					hold = false,
-					order = 99999999,
-				}
-				return true
-			elseif not Handy.b_is_dangerous_actions_active() then
-				state.items.prevented_dangerous_actions = {
-					text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled_by_other_mod"),
-					hold = false,
-					order = 99999999,
-				}
-				return true
-			else
-				local text = Handy.L.dictionary("ph_handy_" .. holded.key)
-				local queue = Handy.dangerous_actions.get_preview_area() and Handy.dangerous_actions.queues.preview
-					or Handy.dangerous_actions.queues.game
+	end
+	if holded then
+		if not Handy.cc.dangerous_actions.enabled then
+			state.items.prevented_dangerous_actions = {
+				text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled"),
+				hold = false,
+				order = 99999999,
+			}
+			return true
+		elseif not Handy.b_is_dangerous_actions_active() then
+			state.items.prevented_dangerous_actions = {
+				text = Handy.L.dictionary("ph_handy_notif_unsafe_disabled_by_other_mod"),
+				hold = false,
+				order = 99999999,
+			}
+			return true
+		else
+			local text = Handy.L.dictionary("ph_handy_" .. holded.key)
+			local queue = Handy.dangerous_actions.get_preview_area() and Handy.dangerous_actions.queues.preview
+				or Handy.dangerous_actions.queues.game
 
-				if append_queue then
-					text = text .. " " .. Handy.L.variable("Handy_items_in_queue", {
-						#queue,
-					})
-				end
-				state.items.dangerous_actions = {
-					text = text,
-					hold = true,
-					order = 11,
-					dangerous = true,
-					level = 2,
-				}
-				state.items.dangerous_hint = {
-					text = Handy.L.dictionary("ph_handy_notif_unsafe"),
-					dangerous = true,
-					hold = true,
-					order = 99999999,
-					level = 2,
-				}
-				return true
+			if append_queue then
+				text = text .. " " .. Handy.L.variable("Handy_items_in_queue", {
+					#queue,
+				})
 			end
-		elseif state.items.dangerous_actions and state.items.dangerous_actions.hold then
-			state.items.dangerous_actions.hold = false
-			state.items.dangerous_hint.hold = false
+			state.items.dangerous_actions = {
+				text = text,
+				hold = true,
+				order = 11,
+				dangerous = true,
+				level = 2,
+			}
+			state.items.dangerous_hint = {
+				text = Handy.L.dictionary("ph_handy_notif_unsafe"),
+				dangerous = true,
+				hold = true,
+				order = 99999999,
+				level = 2,
+			}
 			return true
 		end
-	end, nil, 2)
+	elseif state.items.dangerous_actions and state.items.dangerous_actions.hold then
+		state.items.dangerous_actions.hold = false
+		state.items.dangerous_hint.hold = false
+		return true
+	end
+end
+
+function Handy.dangerous_actions.show_notif()
+	Handy.UI.state_panel.display(Handy.dangerous_actions.notif_func, nil, 2)
 end
 
 ---

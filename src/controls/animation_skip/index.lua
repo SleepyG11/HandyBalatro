@@ -8,7 +8,10 @@ Handy.animation_skip = {
 -- Filters
 
 function Handy.animation_skip.is_disabled_by_mp(lobby, lobby_config)
-	return lobby_config.handy_animation_skip_mode == 1
+	return Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
+		default_value = 1,
+		force = true,
+	}) == 1
 end
 function Handy.animation_skip.can_dangerous()
 	return Handy.b_is_dangerous_actions_active()

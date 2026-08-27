@@ -221,7 +221,7 @@ end
 --
 
 Handy.e_mitter.on("update", function(dt)
-	for _, item in pairs(Handy.controls.dictionary) do
+	for _, item in ipairs(Handy.controls.list) do
 		item:update(dt)
 	end
 end)

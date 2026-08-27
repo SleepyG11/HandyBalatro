@@ -26,9 +26,6 @@ function Handy.disabled_in_mp_check(func, args)
 
 	args = args or Handy.ARGS.global_empty_table
 
-	if not args.bypass_active and not Handy.b_is_mp_lobby_extension_active() then
-		return true
-	end
 	if type(func) ~= "function" then
 		return true
 	end
