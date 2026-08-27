@@ -18,5 +18,6 @@ jobs:
                   name: Handy
                   version: ${{ github.ref_name }}
                   community: balatro
+                  repo: thunderstore.io
                   categories: |
                       mods
