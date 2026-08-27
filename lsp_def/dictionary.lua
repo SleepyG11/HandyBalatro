@@ -32,7 +32,8 @@
 ---@field colour? table
 ---@field get_values? fun(self: Handy.DictionarySliderArgs): { ref_table?: table, ref_value?: string, disabled?: boolean } | nil
 
----@alias Handy.DictionaryModDepsResolver fun(): boolean, string,  "required" | "conflict"
+---@alias Handy.DictionaryModDepsOperator "required" | "conflict" | "optional"
+---@alias Handy.DictionaryModDepsResolver fun(): boolean, string,  Handy.DictionaryModDepsOperator
 
 ---@class Handy.Dictionary
 ---@field key string
@@ -40,6 +41,7 @@
 ---@field keywords? string[]
 ---@field get_module? fun(self: Handy.Dictionary): Handy.Config Config to use for check can control be executed by checking enabled status and/or keybinds
 ---@field get_deps? fun(self: Handy.Dictionary): Handy.Dictionary[] | nil List of configs which needs to be active before control can be executed
+---@field no_mp? boolean | fun(lobby: table, config: table, state?: table): boolean Check for Multiplayer. If returned `true`, control will be marked as disabled in MP
 ---@field checkbox? Handy.DictionaryCheckboxArgs
 ---@field keybind? Handy.DictionaryKeybindArgs
 ---@field option_cycle? Handy.DictionaryOptionCycleArgs
@@ -49,7 +51,7 @@
 ---@field parents? Handy.Dictionary[]
 ---@field items? Handy.Dictionary[]
 ---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
----@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
+---@field mod_deps? table<string, Handy.DictionaryModDepsOperator | Handy.DictionaryModDepsResolver>
 
 ---@class Handy.CreateDictionaryArgs
 ---@field key string
@@ -65,7 +67,7 @@
 ---@field parent? Handy.Dictionary | string
 ---@field items? Handy.Dictionary[]
 ---@field loc_vars? fun(self: Handy.Dictionary): { set?: string, key?: string, vars?: table }
----@field mod_deps? table<string, "required" | "conflict" | Handy.DictionaryModDepsResolver>
+---@field mod_deps? table<string, "required" | "conflict" | "optional" | Handy.DictionaryModDepsResolver>
 
 --- Add dictionary entry - object which represents configuration.<br/>
 --- * Resolves and displays all info from localization file

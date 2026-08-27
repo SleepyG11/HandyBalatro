@@ -75,6 +75,7 @@ Handy.load_directory("src/controls", true)
 Handy.load_directory("src/definitions/controls", true)
 Handy.load_directory("src/definitions/dictionary", true)
 Handy.load_directory("src/definitions/stack", true)
+Handy.load_file("src/mp_extension/index.lua")
 Handy.ARGS.mod_id_override = nil
 
 -- Mod is ready, lets start!

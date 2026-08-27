@@ -16,6 +16,9 @@ Handy.API.Control({
 	only_holdable_input = true,
 	only_in_run = true,
 	no_stop_use = true,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config.state)
+	end,
 
 	can_execute = function(self, ctx, args)
 		ctx = Handy.controls.resolve_control_context(self, ctx)
@@ -47,6 +50,7 @@ Handy.API.Control({
 						allow_not_in_run = preview_area,
 						allow_stop_use = preview_area,
 						allow_mod_inactive = preview_area,
+						allow_mp = preview_area,
 					})
 				then
 					return true, { cards = touched_cards }
@@ -70,6 +74,7 @@ Handy.API.Control({
 				allow_not_in_run = is_preview,
 				allow_stop_use = is_preview,
 				allow_mod_inactive = is_preview,
+				allow_mp = preview_area,
 				allow_any_context = true,
 			})
 		then
@@ -189,5 +194,8 @@ Handy.API.Control({
 	end,
 	execute = function(self, ctx, args, data)
 		return Handy.hand_selection.select_entire_hand(data.area)
+	end,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config.state)
 	end,
 })

@@ -83,15 +83,14 @@ Handy.API.Control({
 	},
 
 	can_execute = function(self, ctx, args)
-		return MP
-			and G.FUNCS.lobby_info
+		return (G.FUNCS.mpapi_show_lobby_info or G.FUNCS.lobby_info)
 			and Handy.b_is_in_multiplayer()
 			and Handy.regular_keybinds.can_execute_swappable_overlay()
 			and Handy.controls.can_execute_control(self, ctx, args)
 	end,
 	execute = Handy.regular_keybinds.create_swappable_overlay_execute("lobby_info", function()
 		Handy.fake_events.execute({
-			func = G.FUNCS.lobby_info,
+			func = (G.FUNCS.mpapi_show_lobby_info or G.FUNCS.lobby_info),
 		})
 	end),
 })

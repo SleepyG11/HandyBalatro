@@ -6,10 +6,11 @@ priority = -1
 # MP 1.0 me inserting
 [[patches]]
 [patches.pattern]
-target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+target = '''=[SMODS MultiplayerAPI "ui/lobby_card_grid.lua"]'''
 pattern = '''
 if card and get_row_for_slot(existing_idx) then
     card:set_ability(center)
+    card:set_debuff(MPAPI._is_player_debuffed(lobby, player_data))
     card:juice_up(0.3, 0.3)
 end'''
 position = "at"
@@ -17,6 +18,7 @@ payload = '''
 local handy_is_card_was_replaced = card and Handy.me.is_joker_center_replaced(card)
 if card and get_row_for_slot(existing_idx) then
     card:set_ability(center)
+    card:set_debuff(MPAPI._is_player_debuffed(lobby, player_data))
     card:juice_up(0.3, 0.3)
 end
 if card and get_row_for_slot(existing_idx) and Handy.me.is_mp_user(player_id) then
@@ -30,7 +32,7 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+target = '''=[SMODS MultiplayerAPI "ui/lobby_card_grid.lua"]'''
 pattern = '''
 G.E_MANAGER:add_event(Event({
     trigger = 'after',
@@ -60,7 +62,7 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
+target = '''=[SMODS MultiplayerAPI "ui/lobby_card_grid.lua"]'''
 pattern = '''
 local card = make_card(card_area, joker_key, is_empty)
 card_area:emplace(card, nil, is_empty)
@@ -77,13 +79,13 @@ match_indent = true
 [patches.pattern]
 target = '''=[SMODS MultiplayerAPI "ui/lobby.lua"]'''
 pattern = '''
-local badge = create_badge('Player', MPAPI.C.MP_EDITION, G.C.WHITE, 1.2)
+local badges = { create_badge('Player', MPAPI.C.MP_EDITION, G.C.WHITE, 1.2) }
 '''
 position = "after"
 payload = '''
 if Handy.me.is_mp_user(player_data.id) then
-    UIBox({ definition = { n = G.UIT.ROOT, nodes = { badge } }, config = {} }):remove()
-    badge = create_badge('Jonh Handy :)', G.C.CHIPS, G.C.WHITE, 1.2)
+    UIBox({ definition = { n = G.UIT.ROOT, nodes = { badges[1] } }, config = {} }):remove()
+    badges[1] = create_badge('Jonh Handy :)', G.C.CHIPS, G.C.WHITE, 1.2)
 end
 '''
 match_indent = true

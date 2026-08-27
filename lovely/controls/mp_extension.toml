@@ -11,7 +11,7 @@ pattern = '''if parsedAction.action == "connected" then'''
 position = "before"
 payload = '''
 if parsedAction.action == "handyMPExtensionLobbyEnabled" then
-    Handy.mp_extension.process_action_setLobbyEnabled(parsedAction.enabled)
+    Handy.MP.current.process_action_setLobbyEnabled(parsedAction.enabled)
 end
 '''
 match_indent = true
@@ -24,7 +24,7 @@ target = '''=[SMODS Multiplayer "networking/action_handlers.lua"]'''
 pattern = '''MP.LOBBY.code = code'''
 position = "after"
 payload = '''
-Handy.mp_extension.set_local_enabled()
+Handy.MP.current.set_local_enabled()
 '''
 match_indent = true
 

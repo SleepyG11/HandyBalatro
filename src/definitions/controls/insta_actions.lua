@@ -11,6 +11,9 @@ Handy.API.Control({
 
 	can_execute = Handy.insta_actions.can_execute,
 	execute = Handy.insta_actions.execute,
+	no_mp = function(lobby, config, state)
+		return Handy.MP.is_speedrun_mode(lobby, config, state)
+	end,
 
 	update = function(self, dt)
 		local is_alt_mode = Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode.value == 2

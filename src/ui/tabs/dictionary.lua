@@ -341,6 +341,8 @@ local function is_mod_deps_resolved(item, quick)
 
 	local missing_reqs = {}
 	local conflicts = {}
+	local optional_missing = {}
+	local at_least_one_optional_resolved = false
 	for mod, operator in pairs(item.mod_deps) do
 		local mod_object = SMODS and SMODS.Mods and SMODS.Mods[mod] or {}
 		local value = mod_object.can_load or false
@@ -358,6 +360,16 @@ local function is_mod_deps_resolved(item, quick)
 			if quick then
 				return false
 			end
+		elseif operator == "optional" then
+			if value then
+				at_least_one_optional_resolved = true
+			end
+			table.insert(optional_missing, { id = mod, name = name })
+		end
+	end
+	if not at_least_one_optional_resolved then
+		for _, m in ipairs(optional_missing) do
+			table.insert(missing_reqs, m)
 		end
 	end
 	return #missing_reqs == 0 and #conflicts == 0, missing_reqs, conflicts

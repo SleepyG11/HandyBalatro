@@ -70,7 +70,7 @@ function Handy.animation_skip.get_limited_value()
 		force = true,
 	})
 	if mp_value then
-		max_value = math.max(1, math.min(math.floor(mp_value), max_value))
+		max_value = math.max(1, math.min(math.floor(Handy.animation_skip.index_to_value(mp_value - 1)), max_value))
 	end
 	if Handy.animation_skip.value > max_value then
 		Handy.animation_skip.value = max_value

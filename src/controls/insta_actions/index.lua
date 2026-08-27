@@ -98,6 +98,7 @@ function Handy.insta_actions.can_execute(item, ctx, args)
 			allow_stop_use = is_preview_card,
 			allow_mod_inactive = is_preview_card,
 			allow_any_context = true,
+			allow_mp = is_preview_card,
 		})
 	then
 		return true, { card = card }
