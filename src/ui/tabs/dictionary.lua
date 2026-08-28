@@ -188,6 +188,7 @@ function Handy.UI.dictionary_tab_UIBox()
 													id = "handy_dictionary_search",
 													multi_language = true,
 													prompt_text = localize("b_handy_search_placeholder"),
+													extended_corpus = true,
 													callback = function()
 														if not Handy.controller.is_gamepad() then
 															G.FUNCS.handy_apply_dictionary_search()
