@@ -136,3 +136,15 @@ function Handy.utils.restart_game()
 		love.event.quit()
 	end
 end
+
+-- Ha-ha, math is fun
+function Handy.utils.log2(x)
+	assert(x > 0, "x must be greater than 0")
+	local m, e = math.frexp(x)
+
+	if m == 0.5 then
+		return e - 1
+	end
+
+	return math.log(x) * 1.4426950408889634074 -- 1/ln(2)
+end

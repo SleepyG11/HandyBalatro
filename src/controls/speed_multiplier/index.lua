@@ -183,12 +183,12 @@ function Handy.speed_multiplier.value_to_index(v)
 		return 0
 	end
 	if v >= 2 then
-		return math.floor(math.log(v, 2)) + #Handy.speed_multiplier.exceptions
+		return math.floor(Handy.utils.log2(v)) + #Handy.speed_multiplier.exceptions
 	end
 	if Handy.speed_multiplier.reverse_exceptions[v] then
 		return Handy.speed_multiplier.reverse_exceptions[v]
 	end
-	return math.floor(math.log(v, 2))
+	return math.floor(Handy.utils.log2(v))
 end
 
 --- Value manipulation
