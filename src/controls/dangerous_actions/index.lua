@@ -197,10 +197,11 @@ function Handy.dangerous_actions.notif_func(state)
 		if not Handy.controller.binding.get_current() then
 			for index, item_key in ipairs(Handy.dangerous_actions.items) do
 				local item = Handy.controls.dictionary[item_key]
-				local module = item:get_module()
-				if Handy.controls.is_enabled_module_keys_hold(module, {
-					require_exact = true,
-				}) then
+				if
+					Handy.controls.is_enabled_module_keys_hold(item:get_module(), {
+						require_exact = true,
+					})
+				then
 					holded = item
 					if index < 3 then
 						append_queue = true

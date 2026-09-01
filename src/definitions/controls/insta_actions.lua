@@ -16,6 +16,9 @@ Handy.API.Control({
 	end,
 
 	update = function(self, dt)
+		if not Handy.UI.state_panel.can_display(4) then
+			return
+		end
 		local is_alt_mode = Handy.controller.is_gamepad() or Handy.cc.insta_actions_trigger_mode.value == 2
 		if is_alt_mode then
 			return

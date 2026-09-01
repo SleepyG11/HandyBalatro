@@ -5,10 +5,11 @@ Handy.insta_actions = {
 ---
 
 function Handy.insta_actions.get_actions(ctx)
+	local args = { ctx = ctx }
 	return {
-		buy_n_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_n_sell, { ctx = ctx }),
-		buy_or_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_or_sell, { ctx = ctx }),
-		use = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_use, { ctx = ctx }),
+		buy_n_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_n_sell, args),
+		buy_or_sell = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_buy_or_sell, args),
+		use = Handy.controls.is_enabled_module_keys_hold(Handy.cc.insta_actions_use, args),
 	}
 end
 function Handy.insta_actions.get_target_card(item, ctx)
@@ -32,7 +33,15 @@ function Handy.insta_actions.show_notif(actions)
 	Handy.UI.state_panel.display(function(state)
 		local result = false
 
-		if actions.use then
+		if actions.buy_n_sell then
+			state.items.quick_buy_n_sell = {
+				text = Handy.L.dictionary("ph_handy_notif_quick_buy_n_sell"),
+				hold = false,
+				order = 12,
+				level = 4,
+			}
+			result = true
+		elseif actions.use then
 			state.items.insta_use = {
 				text = Handy.L.dictionary("ph_handy_notif_quick_use"),
 				hold = false,
@@ -40,21 +49,11 @@ function Handy.insta_actions.show_notif(actions)
 				level = 4,
 			}
 			result = true
-		end
-		if actions.buy_or_sell then
+		elseif actions.buy_or_sell then
 			state.items.quick_buy_and_sell = {
 				text = Handy.L.dictionary("ph_handy_notif_quick_buy_or_sell"),
 				hold = false,
 				order = 11,
-				level = 4,
-			}
-			result = true
-		end
-		if actions.buy_n_sell then
-			state.items.quick_buy_n_sell = {
-				text = Handy.L.dictionary("ph_handy_notif_quick_buy_n_sell"),
-				hold = false,
-				order = 12,
 				level = 4,
 			}
 			result = true

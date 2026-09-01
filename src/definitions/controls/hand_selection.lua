@@ -95,6 +95,9 @@ Handy.API.Control({
 	end,
 
 	update = function(self, dt)
+		if Handy.hand_selection.first_card_highlighted == nil then
+			return
+		end
 		if not Handy.controls.is_module_keys_hold(Handy.cc.hand_selection_insta_highlight) then
 			Handy.hand_selection.first_card_highlighted = nil
 			Handy.hand_selection.first_card_travel_distance = 0

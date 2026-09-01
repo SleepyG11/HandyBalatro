@@ -190,13 +190,14 @@ function Handy.controls.can_execute_control(item, ctx, args)
 		return false
 	end
 
-	-- Deps check
-	local deps = item:get_deps()
-	if deps then
-		for _, dep in ipairs(deps) do
-			-- Deps enabled check
-			if not allow_disabled and not Handy.controls.is_module_enabled(dep) then
-				return false
+	-- Deps enabled check
+	if not allow_disabled then
+		local deps = item:get_deps()
+		if deps then
+			for _, dep in ipairs(deps) do
+				if not Handy.controls.is_module_enabled(dep) then
+					return false
+				end
 			end
 		end
 	end

@@ -232,8 +232,12 @@ state_panel.update_opacity(0, true)
 
 --
 
+function state_panel.can_display(level)
+	return Handy.cc.notifications_level.value >= level
+end
+
 function state_panel.display(state_func, mode, level)
-	if level and Handy.cc.notifications_level.value < level then
+	if level and not state_panel.can_display(level) then
 		return
 	end
 	mode = mode or "update"

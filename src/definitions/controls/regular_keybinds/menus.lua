@@ -78,8 +78,15 @@ Handy.API.Control({
 	only_holdable_input = true,
 
 	update = function(self, dt)
-		if Handy.b_is_mod_active() and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds) then
-			Handy.regular_keybinds.show_deck_preview_hold = Handy.controls.can_execute_control(self)
+		if
+			Handy.b_is_mod_active()
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds)
+			and Handy.controls.is_module_enabled(Handy.cc.regular_keybinds_show_deck_preview)
+		then
+			Handy.regular_keybinds.show_deck_preview_hold = Handy.controls.can_execute_control(self, nil, {
+				allow_mod_inactive = true,
+				allow_disabled = true,
+			})
 		else
 			Handy.regular_keybinds.show_deck_preview_hold = not not G.CONTROLLER.held_buttons.triggerleft
 		end

@@ -105,12 +105,12 @@ function Handy.insta_actions.process_card(card, actions)
 
 	if Handy.insta_actions.is_preview_card(card) then
 		-- TODO: preview for code card (maybe later)
-		if actions.use then
+		if actions.buy_n_sell then
+			card:handy_preview_buy_n_sell()
+		elseif actions.use then
 			card:handy_preview_use()
 		elseif actions.buy_or_sell then
 			card:handy_preview_buy_or_sell()
-		elseif actions.buy_n_sell then
-			card:handy_preview_buy_n_sell()
 		else
 			return false
 		end
