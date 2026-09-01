@@ -1,6 +1,6 @@
 Handy.API.Dictionary({
 	key = "dangerous_actions",
-	order = 14,
+	order = 100,
 
 	keywords = { "dangerous unsafe" },
 	get_module = function(self)
