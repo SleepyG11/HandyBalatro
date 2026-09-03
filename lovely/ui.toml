@@ -214,14 +214,28 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
+pattern = '''local tab_buttons = {}'''
 position = "before"
 payload = '''
-if Handy.ARGS.override_create_tabs_chosen then v.chosen = k == Handy.ARGS.override_create_tabs_chosen
-elseif Handy.ARGS.override_create_tabs_chosen_by_label then v.chosen = v.label == Handy.ARGS.override_create_tabs_chosen_by_label end
+local handy_chosen_override = nil
+for k, v in ipairs(args.tabs) do
+    if
+        (Handy.ARGS.override_create_tabs_chosen == k)
+        or (v.label and v.label == Handy.ARGS.override_create_tabs_chosen_by_label)
+    then handy_chosen_override = k end
+end
 '''
 match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if v.chosen then args.current = {k = k, v = v} end'''
+position = "before"
+payload = '''
+if handy_chosen_override then v.chosen = k == handy_chosen_override end
+'''
+match_indent = true
 
 # Insert speed multiplier and animation skip in vanilla settings
 [[patches]]
