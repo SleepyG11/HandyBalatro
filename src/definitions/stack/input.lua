@@ -267,34 +267,39 @@ Handy.API.Stack({
 	order = 1,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_run_info_binds",
+	control = "regular_keybinds_run_info_blinds",
 	parent = "input.regular_keybinds.menus",
 	order = 2,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_view_deck",
+	control = "regular_keybinds_run_info_vouchers",
 	parent = "input.regular_keybinds.menus",
 	order = 3,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_view_lobby_info",
+	control = "regular_keybinds_view_deck",
 	parent = "input.regular_keybinds.menus",
 	order = 4,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_collection",
+	control = "regular_keybinds_view_lobby_info",
 	parent = "input.regular_keybinds.menus",
 	order = 5,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_options",
+	control = "regular_keybinds_collection",
 	parent = "input.regular_keybinds.menus",
 	order = 6,
 })
 Handy.API.Stack({
-	control = "regular_keybinds_mod_settings",
+	control = "regular_keybinds_options",
 	parent = "input.regular_keybinds.menus",
 	order = 7,
+})
+Handy.API.Stack({
+	control = "regular_keybinds_mod_settings",
+	parent = "input.regular_keybinds.menus",
+	order = 8,
 })
 
 Handy.API.Stack({

@@ -799,6 +799,11 @@ return {
 				text = {},
 			},
 			-- []
+			regular_keybinds_run_info_vouchers = {
+				name = { "T.tin Trận này: Voucher" },
+				text = {},
+			},
+			-- []
 			regular_keybinds_view_deck = {
 				name = { "Mở Bộ Bài" },
 				text = {},

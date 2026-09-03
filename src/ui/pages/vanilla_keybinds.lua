@@ -105,6 +105,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_swappable_overlays_mode),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info_blinds),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_run_info_vouchers),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_deck),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.regular_keybinds_view_lobby_info),
 							Handy.UI.CP.r_sep(0.1),

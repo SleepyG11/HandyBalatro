@@ -797,6 +797,10 @@ return {
 				name = { "Инфо забега: блайнды" },
 				text = {},
 			},
+			regular_keybinds_run_info_vouchers = {
+				name = { "Инфо забега: ваучеры" },
+				text = {},
+			},
 			-- []
 			regular_keybinds_view_deck = {
 				name = { "Открыть колоду" },

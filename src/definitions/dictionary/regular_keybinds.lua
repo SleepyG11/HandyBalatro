@@ -561,6 +561,26 @@ Handy.API.Dictionary({
 	},
 })
 Handy.API.Dictionary({
+	key = "regular_keybinds_run_info_vouchers",
+	parent = "regular_keybinds_group_swappable_menus",
+	order = 3,
+
+	keywords = { "run info vouchers" },
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_run_info_vouchers
+	end,
+	get_deps = function(self)
+		return { Handy.D.dictionary.regular_keybinds }
+	end,
+
+	keybind = {
+		allow_multiple = true,
+	},
+	checkbox = {
+		advanced = true,
+	},
+})
+Handy.API.Dictionary({
 	key = "regular_keybinds_view_deck",
 	parent = "regular_keybinds_group_swappable_menus",
 	order = 4,

@@ -798,6 +798,10 @@ return {
 				name = { "Run info: Blinds" },
 				text = {},
 			},
+			regular_keybinds_run_info_vouchers = {
+				name = { "Run info: Vouchers" },
+				text = {},
+			},
 			-- []
 			regular_keybinds_view_deck = {
 				name = { "Open Deck" },

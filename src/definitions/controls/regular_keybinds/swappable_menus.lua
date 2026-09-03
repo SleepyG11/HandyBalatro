@@ -22,7 +22,7 @@ Handy.API.Control({
 	end),
 })
 Handy.API.Control({
-	key = "regular_keybinds_run_info_binds",
+	key = "regular_keybinds_run_info_blinds",
 	get_module = function(self)
 		return Handy.cc.regular_keybinds_run_info_blinds
 	end,
@@ -40,6 +40,31 @@ Handy.API.Control({
 	end,
 	execute = Handy.regular_keybinds.create_swappable_overlay_execute("run_info_blinds", function()
 		Handy.ARGS.override_create_tabs_chosen_by_label = localize("b_blinds")
+		Handy.fake_events.execute({
+			func = G.FUNCS.run_info,
+		})
+		Handy.ARGS.override_create_tabs_chosen_by_label = nil
+	end),
+})
+Handy.API.Control({
+	key = "regular_keybinds_run_info_vouchers",
+	get_module = function(self)
+		return Handy.cc.regular_keybinds_run_info_vouchers
+	end,
+	get_deps = function(self)
+		return { Handy.cc.regular_keybinds }
+	end,
+
+	contexts = {
+		input = true,
+	},
+
+	can_execute = function(self, ctx, args)
+		return Handy.regular_keybinds.can_execute_swappable_overlay()
+			and Handy.controls.can_execute_control(self, ctx, args)
+	end,
+	execute = Handy.regular_keybinds.create_swappable_overlay_execute("run_info_vouchers", function()
+		Handy.ARGS.override_create_tabs_chosen_by_label = localize("b_vouchers")
 		Handy.fake_events.execute({
 			func = G.FUNCS.run_info,
 		})
