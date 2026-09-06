@@ -306,6 +306,14 @@ function Handy.config.migrate(old_config, to)
 				module.key_2_gamepad = nil
 			end
 		end
+
+		if #new_config.insta_actions_buy_or_sell.keys_1_gamepad == 0 then
+			new_config.insta_actions_buy_or_sell.keys_1_gamepad = { "Left Bumper" }
+		end
+		if #new_config.insta_actions_use.keys_1_gamepad == 0 then
+			new_config.insta_actions_use.keys_1_gamepad = { "Right Bumper" }
+		end
+
 		return new_config
 	end
 	return old_config
