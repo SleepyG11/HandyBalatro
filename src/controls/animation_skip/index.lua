@@ -145,9 +145,15 @@ end
 -- Levels
 
 function Handy.animation_skip.should_skip_messages()
+	if Talisman and Talisman.config_file and Talisman.config_file.disable_anims then
+		return true
+	end
 	return Handy.animation_skip.get_buffered_value() >= 2
 end
 function Handy.animation_skip.should_skip_animation()
+	if Talisman and Talisman.config_file and Talisman.config_file.disable_anims then
+		return true
+	end
 	return Handy.animation_skip.get_buffered_value() >= 3
 end
 function Handy.animation_skip.should_skip_everything()

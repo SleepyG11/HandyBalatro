@@ -42,6 +42,16 @@ else
 end
 """
 match_indent = true
+# If Talisman installed
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end"
+position = "at"
+payload = """
+if (not Talisman.config_file.disable_anims and not Handy.animation_skip.should_skip_messages()) then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
+"""
+match_indent = true
 
 # Vanilla empty events fix
 [[patches]]
@@ -51,12 +61,28 @@ pattern = "if effects[ii].card then"
 position = "at"
 payload = "if effects[ii].card and not Handy.animation_skip.should_skip_animation() then"
 match_indent = true
+# If Talisman installed
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = "if effects[ii].card then"
+position = "at"
+payload = "if effects[ii].card and (not Talisman.config_file.disable_anims and not Handy.animation_skip.should_skip_animation()) then"
+match_indent = true
 
 # Allow juice up for juice_up_until
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = "func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+position = "at"
+payload = "func = (function() if eval_func(card) then if card and card.juice_up then Handy.ARGS.allow_juice_up = true; card:juice_up(0.1, 0.1); Handy.ARGS.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
+match_indent = true
+# If Talisman installed
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "func = (function() if eval_func(card) then if card and card.juice_up then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
 position = "at"
 payload = "func = (function() if eval_func(card) then if card and card.juice_up then Handy.ARGS.allow_juice_up = true; card:juice_up(0.1, 0.1); Handy.ARGS.allow_juice_up = false; end;juice_card_until(card, eval_func, nil, 0.8) end return true end)"
 match_indent = true
