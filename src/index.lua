@@ -27,6 +27,12 @@ function love.update(dt, ...)
 	return a, b, c, d
 end
 
+local old_quit = love.event.quit
+function love.event.quit(...)
+	Handy.e_mitter.emit("quit", ...)
+	old_quit(...)
+end
+
 local old_tag_generate_ui = Tag.generate_UI
 function Tag:generate_UI(...)
 	local t = self

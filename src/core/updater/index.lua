@@ -360,9 +360,7 @@ Handy.e_mitter.on("update", function()
 	end
 end)
 
-local old_quit = love.event.quit
-function love.event.quit(...)
+Handy.e_mitter.on("quit", function()
 	https_updater_input:push({ kill = true })
 	https_updater_thread:wait()
-	old_quit(...)
-end
+end)
