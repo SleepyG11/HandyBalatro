@@ -84,6 +84,12 @@ Handy.load_directory("src/definitions/stack", true)
 Handy.load_file("src/mp_extension/index.lua")
 Handy.ARGS.mod_id_override = nil
 
+Handy.e_mitter.on("quit", function()
+	if Handy.ARGS.save_on_quit then
+		Handy.config.save(true)
+	end
+end)
+
 -- Mod is ready, lets start!
 
 Handy.e_mitter.emit("load")

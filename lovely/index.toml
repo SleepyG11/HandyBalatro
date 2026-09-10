@@ -43,3 +43,32 @@ payload = '''
 return string.format("\n\nError exists in %s in file '%s'%s at line %d", SMODS.Mods[modID] and SMODS.Mods[modID].name or modID, fileName:sub(2, -2), line_message, line)
 '''
 match_indent = true
+
+# Emit quit event when game is crashed
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''if e == "quit" then'''
+position = "after"
+payload = '''
+pcall(function() Handy.e_mitter.emit("quit") end)
+'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/crash_handler.lua"]'''
+pattern = '''if e == "quit" then'''
+position = "after"
+payload = '''
+pcall(function() Handy.e_mitter.emit("quit") end)
+'''
+match_indent = true
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/preflight/sharedUI.lua"]'''
+pattern = '''if e == "quit" then'''
+position = "after"
+payload = '''
+pcall(function() Handy.e_mitter.emit("quit") end)
+'''
+match_indent = true

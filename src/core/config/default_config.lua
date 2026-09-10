@@ -110,6 +110,10 @@ local default_config = {
 		enabled = true,
 		value = 1,
 	},
+	speed_multiplier_load_value = {
+		enabled = false,
+		value = 1,
+	},
 	speed_multiplier_settings_toggle = {
 		enabled = true,
 	},
@@ -141,6 +145,10 @@ local default_config = {
 	},
 	animation_skip_default_value = {
 		enabled = true,
+		value = 1,
+	},
+	animation_skip_load_value = {
+		enabled = false,
 		value = 1,
 	},
 	animation_skip_settings_toggle = {

@@ -287,6 +287,14 @@ return {
 				text = {},
 			},
 			-- []
+			animation_skip_load_value = {
+				name = "Animations Skip: Keep between reloads",
+				text = {},
+				unlock = {
+					"Overrides game startup value",
+				},
+			},
+			-- []
 			animation_skip_increase = {
 				name = { "Animations Skip: Increase" },
 				text = {},
@@ -336,6 +344,14 @@ return {
 			speed_multiplier_default_value = {
 				name = "Speed Multiplier: Game startup value",
 				text = {},
+			},
+			-- []
+			speed_multiplier_load_value = {
+				name = "Speed Multiplier: Keep between reloads",
+				text = {},
+				unlock = {
+					"Overrides game startup value",
+				},
 			},
 			-- []
 			speed_multiplier_multiply = {

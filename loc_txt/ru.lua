@@ -287,6 +287,15 @@ return {
 				text = {},
 			},
 			-- []
+			animation_skip_load_value = {
+				name = "Пропуск анимаций: сохр. между запусками",
+				text = {},
+				unlock = {
+					"В приоритете над значением",
+					"при запуске игры",
+				},
+			},
+			-- []
 			animation_skip_increase = {
 				name = { "Пропуск анимаций: увеличить" },
 				text = {},
@@ -336,6 +345,15 @@ return {
 			speed_multiplier_default_value = {
 				name = "Множитель скорости: значение при запуске игры",
 				text = {},
+			},
+			-- []
+			speed_multiplier_load_value = {
+				name = "Множитель скорости: сохр. между запусками",
+				text = {},
+				unlock = {
+					"В приоритете над значением",
+					"при запуске игры",
+				},
 			},
 			-- []
 			speed_multiplier_multiply = {

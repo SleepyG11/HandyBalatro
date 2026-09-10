@@ -73,9 +73,27 @@ Handy.API.Dictionary({
 	},
 })
 Handy.API.Dictionary({
-	key = "speed_multiplier_multiply",
+	key = "speed_multiplier_load_value",
 	parent = "speed_multiplier",
 	order = 3,
+
+	keywords = { "save keep value on game reload restart" },
+	get_module = function(self)
+		return Handy.cc.speed_multiplier_load_value
+	end,
+	get_deps = function(self)
+		return { self.parent }
+	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
+	checkbox = {
+		advanced = true,
+	},
+})
+Handy.API.Dictionary({
+	key = "speed_multiplier_multiply",
+	parent = "speed_multiplier",
+	order = 4,
 
 	keywords = { "increase speedup faster" },
 	get_module = function(self)
@@ -96,7 +114,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "speed_multiplier_divide",
 	parent = "speed_multiplier",
-	order = 4,
+	order = 5,
 
 	keywords = { "decrease speeddown slower" },
 	get_module = function(self)
@@ -117,7 +135,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "speed_multiplier_toggle_temp_disabled",
 	parent = "speed_multiplier",
-	order = 5,
+	order = 6,
 
 	keywords = { "toggle", "temporary disable temp enable disable" },
 	get_module = function(self)
@@ -138,7 +156,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "dangerous_actions_speed_multiplier_uncap",
 	parent = "speed_multiplier",
-	order = 6,
+	order = 7,
 
 	keywords = { "dangerous max speed uncap unsafe" },
 	dangerous = true,

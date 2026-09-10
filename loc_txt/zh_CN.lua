@@ -254,6 +254,13 @@ return {
 				name = "动画跳过：游戏初始值",
 				text = {},
 			},
+			animation_skip_load_value = {
+				name = "动画跳过：重新加载后保留",
+				text = {},
+				unlock = {
+					"覆盖游戏初始值",
+				},
+			},
 			animation_skip_increase = {
 				name = {
 					"动画跳过：调高一级",
@@ -1125,7 +1132,7 @@ return {
 			Down = "↓",
 			Backquote = "`",
 			Singlequote = "'",
-			Quote = "\"",
+			Quote = '"',
 			["Left Bracket"] = "[",
 			["Right Bracket"] = "]",
 			Printscreen = "PrintScreen",

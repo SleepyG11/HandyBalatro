@@ -3,6 +3,12 @@ Handy.animation_skip = {
 	ease_dollars_buffer = 0,
 	no_modify_ease_dollars = false,
 	mute_ease_dollars = 0,
+
+	NONE = 1,
+	MESSAGES = 2,
+	ANIMATIONS = 3,
+	EVERYTHING = 4,
+	UNSAFE = 5,
 }
 
 -- Filters
@@ -64,16 +70,16 @@ function Handy.animation_skip.localize_value()
 	Handy.animation_skip.value_text = Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.value)
 end
 function Handy.animation_skip.get_limited_value()
-	local min_value = 1
-	local max_value = 5
+	local min_value = Handy.animation_skip.NONE
+	local max_value = Handy.animation_skip.UNSAFE
 	if not Handy.animation_skip.can_dangerous() then
-		max_value = 4
+		max_value = Handy.animation_skip.EVERYTHING
 	end
 	local mp_value = Handy.get_mp_lobby_config_value("handy_animation_skip_mode", {
 		force = true,
 	})
 	if mp_value then
-		max_value = math.max(1, math.min(math.floor(Handy.animation_skip.index_to_value(mp_value - 1)), max_value))
+		max_value = Handy.utils.clamp(1, math.floor(Handy.animation_skip.index_to_value(mp_value - 1)), max_value)
 	end
 	if Handy.animation_skip.value > max_value then
 		Handy.animation_skip.value = max_value
@@ -92,7 +98,7 @@ function Handy.animation_skip.get_value()
 		or Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 		or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)
 	then
-		return 1
+		return Handy.animation_skip.NONE
 	end
 	return Handy.animation_skip.get_limited_value()
 end
@@ -106,7 +112,7 @@ end
 function Handy.animation_skip.show_notif(dx)
 	dx = dx or 0
 	local value = Handy.animation_skip.get_value()
-	local is_dangerous = value == 5
+	local is_dangerous = value == Handy.animation_skip.UNSAFE
 	local level = (is_dangerous and not Handy.animation_skip.temp_disabled) and 2 or 3
 
 	Handy.UI.state_panel.display(function(state)
@@ -123,7 +129,7 @@ function Handy.animation_skip.show_notif(dx)
 			order = 4,
 			dangerous = is_dangerous,
 		}
-		if not Handy.animation_skip.can_dangerous() and dx > 0 and value == (5 - 1) then
+		if not Handy.animation_skip.can_dangerous() and dx > 0 and value == Handy.animation_skip.EVERYTHING then
 			state.items.prevent_animation_skip_unsafe = {
 				text = Handy.L.dictionary("ph_handy_notif_animation_skip_unsafe_disabled"),
 				hold = false,
@@ -148,19 +154,19 @@ function Handy.animation_skip.should_skip_messages()
 	if Talisman and Talisman.config_file and Talisman.config_file.disable_anims then
 		return true
 	end
-	return Handy.animation_skip.get_buffered_value() >= 2
+	return Handy.animation_skip.get_buffered_value() >= Handy.animation_skip.MESSAGES
 end
 function Handy.animation_skip.should_skip_animation()
 	if Talisman and Talisman.config_file and Talisman.config_file.disable_anims then
 		return true
 	end
-	return Handy.animation_skip.get_buffered_value() >= 3
+	return Handy.animation_skip.get_buffered_value() >= Handy.animation_skip.ANIMATIONS
 end
 function Handy.animation_skip.should_skip_everything()
-	return Handy.animation_skip.get_buffered_value() >= 4
+	return Handy.animation_skip.get_buffered_value() >= Handy.animation_skip.EVERYTHING
 end
 function Handy.animation_skip.should_skip_unsafe()
-	return Handy.animation_skip.get_buffered_value() >= 5
+	return Handy.animation_skip.get_buffered_value() >= Handy.animation_skip.UNSAFE
 end
 
 -- Aliases
@@ -186,12 +192,22 @@ function Handy.animation_skip.decrease()
 	Handy.animation_skip.change(-1)
 end
 function Handy.animation_skip.load_default_value()
-	if
-		Handy.controls.is_module_enabled(Handy.cc.animation_skip)
-		and Handy.controls.is_module_enabled(Handy.cc.animation_skip_default_value)
-	then
-		local value = math.max(1, math.min(4, math.floor(Handy.cc.animation_skip_default_value.value) or 1))
-		Handy.animation_skip.value = Handy.animation_skip.index_to_value(value - 1)
+	if Handy.controls.is_module_enabled(Handy.cc.animation_skip) then
+		local max_index = Handy.animation_skip.value_to_index(Handy.animation_skip.EVERYTHING)
+		local min_index = Handy.animation_skip.value_to_index(Handy.animation_skip.NONE)
+		local load_value
+		if Handy.controls.is_module_enabled(Handy.cc.animation_skip_default_value) then
+			load_value = math.floor(Handy.cc.animation_skip_default_value.value) or 1
+			load_value = load_value - 1
+		end
+		if Handy.controls.is_module_enabled(Handy.cc.animation_skip_load_value) then
+			load_value = math.floor(Handy.cc.animation_skip_load_value.value) or 1
+			load_value = load_value - 1
+		end
+		if load_value then
+			Handy.animation_skip.value =
+				Handy.animation_skip.index_to_value(Handy.utils.clamp(min_index, load_value, max_index))
+		end
 	end
 	Handy.animation_skip.change(0)
 end
@@ -247,4 +263,12 @@ Handy.e_mitter.on("config_load", function()
 end)
 Handy.e_mitter.on("config_save", function()
 	Handy.animation_skip.change(0)
+end)
+Handy.e_mitter.on("quit", function()
+	-- Plus one because value is 0-indexed and option_cycle is 1-indexed
+	local value = Handy.animation_skip.value_to_index(Handy.animation_skip.value) + 1
+	if value ~= Handy.cc.animation_skip_load_value.value then
+		Handy.cc.animation_skip_load_value.value = value
+		Handy.ARGS.save_on_quit = true
+	end
 end)

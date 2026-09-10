@@ -72,19 +72,37 @@ Handy.API.Dictionary({
 		get_values = function()
 			return {
 				options = {
-					Handy.L.dictionary("handy_animation_skip_levels", 1),
-					Handy.L.dictionary("handy_animation_skip_levels", 2),
-					Handy.L.dictionary("handy_animation_skip_levels", 3),
-					Handy.L.dictionary("handy_animation_skip_levels", 4),
+					Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.NONE),
+					Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.MESSAGES),
+					Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.ANIMATIONS),
+					Handy.L.dictionary("handy_animation_skip_levels", Handy.animation_skip.EVERYTHING),
 				},
 			}
 		end,
 	},
 })
 Handy.API.Dictionary({
-	key = "animation_skip_increase",
+	key = "animation_skip_load_value",
 	parent = "animation_skip",
 	order = 3,
+
+	keywords = { "save keep value on game reload restart" },
+	get_module = function(self)
+		return Handy.cc.animation_skip_load_value
+	end,
+	get_deps = function(self)
+		return { self.parent }
+	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
+	checkbox = {
+		advanced = true,
+	},
+})
+Handy.API.Dictionary({
+	key = "animation_skip_increase",
+	parent = "animation_skip",
+	order = 4,
 
 	keywords = { "increase up speedup faster fast" },
 	get_module = function(self)
@@ -105,7 +123,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "animation_skip_decrease",
 	parent = "animation_skip",
-	order = 4,
+	order = 5,
 
 	keywords = { "decrease down slowdown slower slow" },
 	get_module = function(self)
@@ -126,7 +144,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "animation_skip_toggle_temp_disabled",
 	parent = "animation_skip",
-	order = 5,
+	order = 6,
 
 	keywords = { "toggle", "temporary disable temp enable disable" },
 	get_module = function(self)
@@ -147,7 +165,7 @@ Handy.API.Dictionary({
 Handy.API.Dictionary({
 	key = "dangerous_actions_animation_skip_unsafe",
 	parent = "animation_skip",
-	order = 6,
+	order = 7,
 
 	keywords = { "no animation", "dangerous unsafe remove all animations instant fast" },
 	dangerous = true,

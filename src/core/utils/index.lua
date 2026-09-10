@@ -148,3 +148,7 @@ function Handy.utils.log2(x)
 
 	return math.log(x) * 1.4426950408889634074 -- 1/ln(2)
 end
+
+function Handy.utils.clamp(min, v, max)
+	return math.max(min, math.min(max, v))
+end

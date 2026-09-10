@@ -211,13 +211,22 @@ function Handy.speed_multiplier.divide()
 	Handy.speed_multiplier.change(-1)
 end
 function Handy.speed_multiplier.load_default_value()
-	if
-		Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
-		and Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_default_value)
-	then
-		local max_index = 9 + #Handy.speed_multiplier.exceptions
-		local value = math.max(1, math.min(max_index, math.floor(Handy.cc.speed_multiplier_default_value.value) or 1))
-		Handy.speed_multiplier.value = Handy.speed_multiplier.index_to_value(value - 1)
+	if Handy.controls.is_module_enabled(Handy.cc.speed_multiplier) then
+		local max_index = Handy.speed_multiplier.value_to_index(512)
+		local min_index = Handy.speed_multiplier.value_to_index(1 / 512)
+		local load_value
+		if Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_default_value) then
+			load_value = math.floor(Handy.cc.speed_multiplier_default_value.value) or 1
+			load_value = load_value - 1
+		end
+		if Handy.controls.is_module_enabled(Handy.cc.speed_multiplier_load_value) then
+			load_value = math.floor(Handy.cc.speed_multiplier_load_value.value) or 1
+			load_value = load_value - 1
+		end
+		if load_value then
+			Handy.speed_multiplier.value =
+				Handy.speed_multiplier.index_to_value(Handy.utils.clamp(min_index, load_value, max_index))
+		end
 	end
 	Handy.speed_multiplier.change(0)
 end
@@ -286,4 +295,12 @@ Handy.e_mitter.on("config_load", function()
 end)
 Handy.e_mitter.on("config_save", function()
 	Handy.speed_multiplier.change(0)
+end)
+Handy.e_mitter.on("quit", function()
+	-- Plus one because value is 0-indexed and option_cycle is 1-indexed
+	local value = Handy.speed_multiplier.value_to_index(Handy.speed_multiplier.value) + 1
+	if value ~= Handy.cc.speed_multiplier_load_value.value then
+		Handy.cc.speed_multiplier_load_value.value = value
+		Handy.ARGS.save_on_quit = true
+	end
 end)

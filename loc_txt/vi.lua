@@ -287,6 +287,14 @@ return {
 				text = {},
 			},
 			-- []
+			animation_skip_load_value = {
+				name = "Bỏ Qua Hoạt Ảnh: Giữ nguyên giữa các lần tải lại",
+				text = {},
+				unlock = {
+					"Ghi đè giá trị khởi chạy trò chơi",
+				},
+			},
+			-- []
 			animation_skip_increase = {
 				name = { "Bỏ Qua Hoạt Ảnh: Tăng" },
 				text = {},
