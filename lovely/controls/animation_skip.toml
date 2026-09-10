@@ -49,7 +49,7 @@ target = "card.lua"
 pattern = "if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end"
 position = "at"
 payload = """
-if (not Talisman.config_file.disable_anims and not Handy.animation_skip.should_skip_messages()) then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
+if (not Talisman.config_file.disable_anims and not Handy.animation_skip.should_skip_messages()) then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else Handy.animation_skip.request_dollars_buffer_reset() end
 """
 match_indent = true
 
