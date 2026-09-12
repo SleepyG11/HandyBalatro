@@ -106,6 +106,7 @@ function Handy.utils.restart_game()
 	if SMODS and SMODS.restart_game then
 		return SMODS.restart_game()
 	end
+
 	if ((G or {}).SOUND_MANAGER or {}).channel then
 		G.SOUND_MANAGER.channel:push({
 			type = "kill",
@@ -121,20 +122,9 @@ function Handy.utils.restart_game()
 			type = "kill",
 		})
 	end
-	if require("lovely").reload_patches then
-		assert(require("lovely").reload_patches())
-		love.event.quit("restart")
-	else
-		if love.system.getOS() ~= "OS X" then
-			love.thread.newThread("os.execute(...)\n"):start('"' .. arg[-2] .. '" ' .. table.concat(arg, " "))
-		else
-			os.execute(
-				'sh "/Users/$USER/Library/Application Support/Steam/steamapps/common/Balatro/run_lovely_macos.sh" &'
-			)
-		end
 
-		love.event.quit()
-	end
+	assert(require("lovely").reload_patches())
+	love.event.quit("restart")
 end
 
 -- Ha-ha, math is fun
