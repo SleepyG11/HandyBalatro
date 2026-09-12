@@ -177,3 +177,19 @@ function add_round_eval_row(...)
 	end
 	add_round_eval_row_ref(...)
 end
+
+if Talisman then
+	local old_is_calc = Talisman.no_anims_calculating or function() end
+	function Talisman.no_anims_calculating(...)
+		return old_is_calc(...) or (Handy.animation_skip.should_skip_animation() and Talisman.scoring_coroutine)
+	end
+
+	local old_is_calc_misc = Talisman.no_anims_calculating_misc or function() end
+	function Talisman.no_anims_calculating_misc(...)
+		return old_is_calc_misc(...)
+			or (
+				Handy.animation_skip.should_skip_animation()
+				and (Talisman.current_calc.joker or Talisman.current_calc.score or Talisman.current_calc.card)
+			)
+	end
+end
