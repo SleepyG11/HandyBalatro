@@ -8,7 +8,9 @@ function Handy.me.set_joker_center(card)
 	if card.children.front then
 		card.children.front.states.visible = false
 	end
-    if card.children.center then card.children.center:remove() end
+	if card.children.center then
+		card.children.center:remove()
+	end
 	card.children.center = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, atlas, pos)
 	card.children.center.states.hover = card.states.hover
 	card.children.center.states.click = card.states.click
@@ -22,7 +24,7 @@ function Handy.me.is_joker_center_replaced(card)
 end
 
 function Handy.me.is_mp_user(id)
-	return id == "1ec9cf03-5c91-4284-80cd-bf959cce5a58"
+	return id == "1ec9cf03-5c91-4284-80cd-bf959cce5a58" or id == "d5641725-6683-4656-8499-cbb669be2701"
 end
 function Handy.me.balanced(volume_mult)
 	volume_mult = volume_mult or 1
