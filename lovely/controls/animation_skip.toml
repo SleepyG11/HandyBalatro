@@ -93,7 +93,15 @@ match_indent = true
 target = 'functions/button_callbacks.lua'
 pattern = "G.FUNCS.draw_from_hand_to_deck()"
 position = "before"
-payload = "if not Nopeus and G.pack_cards then G.pack_cards:remove(); G.pack_cards = nil; end"
+payload = '''
+if 
+    not Nopeus and G.pack_cards
+    and (Handy.animation_skip.should_skip_animations() or (Handy.speed_multiplier.get_value() > 64))
+then
+    G.pack_cards:remove(); G.pack_cards.states.visible = false; G.pack_cards.draw = function() end; G.pack_cards.update = function() end;
+    G.E_MANAGER:add_event(Event({ blocking = false, func = function() G.pack_cards = nil; return true end }))
+end
+'''
 match_indent = true
 
 # Mute ease_dollars to prevent sound explosion

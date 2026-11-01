@@ -94,6 +94,7 @@ Handy.API.Control({
 			and G.pack_cards
 			and G.pack_cards.cards
 			and G.pack_cards.cards[1]
+			and (not SMODS or SMODS.OPENED_BOOSTER)
 			and Handy.controls.can_execute_control(self, ctx, args)
 			and Handy.fake_events.check({
 				func = G.FUNCS.can_skip_booster,
@@ -105,9 +106,14 @@ Handy.API.Control({
 			func = function()
 				G.E_MANAGER:add_event(Event({
 					func = function()
-						Handy.fake_events.execute({
-							func = G.FUNCS.skip_booster,
-						})
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								Handy.fake_events.execute({
+									func = G.FUNCS.skip_booster,
+								})
+								return true
+							end,
+						}))
 						return true
 					end,
 				}))
@@ -117,3 +123,13 @@ Handy.API.Control({
 		return true
 	end,
 })
+
+if SMODS then
+	local last_booster
+	Handy.e_mitter.on("update", function()
+		if last_booster ~= SMODS.OPENED_BOOSTER and last_booster ~= nil then
+			Handy.regular_keybinds.booster_pack_skipped = nil
+		end
+		last_booster = SMODS.OPENED_BOOSTER
+	end)
+end
