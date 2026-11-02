@@ -1,0 +1,48 @@
+name: Publish to Nexus Mods
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Package version (example: 2.0.1)'
+                required: true
+                type: string
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Prepare package
+              run: |
+                  mkdir -p .release-staging/HandyBalatro
+
+                  rsync -a \
+                    --exclude='.git/' \
+                    --exclude='.github/' \
+                    --exclude='.release-staging/' \
+                    --exclude='.vscode/' \
+                    ./ .release-staging/HandyBalatro/
+
+                  cp -a .github/release-assets/. .release-staging/
+
+            - name: Create archive
+              run: |
+                  cd .release-staging
+                  zip -r "../Handy-v${{ inputs.version }}.zip" .
+
+            - name: Upload to Nexus Mods
+              uses: Nexus-Mods/upload-action@v1.0.0-beta.9
+              with:
+                  api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+                  file_id: ${{ vars.NEXUSMODS_FILE_ID }}
+                  filename: Handy-v${{ inputs.version }}.zip
+                  version: ${{ inputs.version }}
+                  display_name: Handy
+                  category: main
+                  archive_existing_version: true
+                  update_mod_version: true
+                  primary_mod_manager_download: true
