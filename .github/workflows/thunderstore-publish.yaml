@@ -28,6 +28,7 @@ jobs:
                   name: Handy
                   version: ${{ inputs.version }}
                   community: balatro
+                  repo: thunderstore.io
                   categories: |
                       mods
                       qol
