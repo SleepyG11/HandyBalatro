@@ -1,0 +1,45 @@
+name: Upload mod archive to release
+
+on:
+    release:
+        types: [published]
+
+permissions:
+    contents: write
+
+jobs:
+    package:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Prepare package
+              run: |
+                  mkdir -p .release-staging/HandyBalatro
+
+                  rsync -a \
+                    --exclude='.git/' \
+                    --exclude='.github/' \
+                    --exclude='.release-staging/' \
+                    --exclude='.vscode/' \
+                    ./ .release-staging/HandyBalatro/
+
+                  cp -a .github/release-assets/. .release-staging/
+
+            - name: Create archive
+              env:
+                  VERSION: ${{ github.event.release.tag_name }}
+              run: |
+                  cd .release-staging
+                  zip -r "../Handy-${VERSION}.zip" .
+
+            - name: Upload archive
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  VERSION: ${{ github.event.release.tag_name }}
+              run: |
+                  gh release upload "$VERSION" \
+                    "Handy-${VERSION}.zip" \
+                    --clobber

@@ -1,0 +1,25 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 99999999
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''boot_timer('splash prep', 'end',1)'''
+position = "after"
+payload = '''
+if not Handy then
+    error([[
+
+
+Handy mod installed incorrectly.
+
+To fix this, do the followings:
+- Make sure mod is not "nested" (so there's no "folder in folder" like "/Mods/HandyBalatro/HandyBalatro")
+- Optionally, if mod in .zip archive, unzip it
+]])
+end
+'''
+match_indent = true
+overwrite = false
