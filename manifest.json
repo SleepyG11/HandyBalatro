@@ -3,5 +3,5 @@
 	"description": "Quality of Life controls and keybinds for Balatro",
 	"version_number": "2.0.8",
 	"website_url": "https://github.com/SleepyG11/HandyBalatro",
-	"dependencies": ["Thunderstore-lovely-0.10.0"]
+	"dependencies": []
 }
