@@ -92,3 +92,14 @@ function nuGC(time_budget, ...)
 	end
 	return nuGC_ref(time_budget, ...)
 end
+
+local old_play_sound = play_sound
+function play_sound(code, pitch, vol, ...)
+	if G.STATE == G.STATES.HAND_PLAYED and not G.SETTINGS.paused then
+		local _, retriggers = Handy.speed_multiplier.get_buffered_value()
+		if retriggers > 0 then
+			vol = (vol or 1) / math.pow(math.max(retriggers + 1, 16), 0.3)
+		end
+	end
+	return old_play_sound(code, pitch, vol, ...)
+end
