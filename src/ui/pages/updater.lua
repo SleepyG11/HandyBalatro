@@ -2,6 +2,7 @@ function Handy.UI.updater_release_definition(release_type)
 	local release_info = Handy.updater.get_release_info(release_type)
 	local release = release_info.release
 	if not release then
+		local error_key = Handy.updater.last_check_error or "no_release"
 		return {
 			n = G.UIT.C,
 			config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.5 },
@@ -27,9 +28,7 @@ function Handy.UI.updater_release_definition(release_type)
 						{
 							n = G.UIT.T,
 							config = {
-								text = Handy.L.variable(
-									"Handy_updater_finish_" .. (Handy.updater.last_check_error or "fetcher_error")
-								),
+								text = Handy.L.variable("Handy_updater_finish_" .. error_key),
 								scale = 0.32,
 								colour = mix_colours(G.C.MULT, G.C.UI.TEXT_LIGHT, 0.5),
 							},
@@ -409,17 +408,18 @@ function Handy.UI.get_updater_tabs()
 			end,
 		},
 	}
+
 	for index, item in ipairs(result) do
 		local old_def = item.tab_definition_function
 		item.tab_definition_function = function()
 			Handy.UI.data.updater_page_tab_index = index
-			if index == 1 then
+			if item.handy_release_type == "stable" then
 				Handy.UI.CHAR.jump("me")
 				Handy.UI.CHAR.set_sprite_pos("me", "happy")
-			elseif index == 2 then
+			elseif item.handy_release_type == "pre_release" then
 				Handy.UI.CHAR.jump("me")
 				Handy.UI.CHAR.set_sprite_pos("me", "scary")
-			elseif index == 3 then
+			else
 				Handy.UI.CHAR.set_sprite_pos("me", "default")
 			end
 			return {
