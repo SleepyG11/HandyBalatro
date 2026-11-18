@@ -253,7 +253,7 @@ function Handy.UI.get_vanilla_keybinds_tabs()
 			Handy.UI.data.vanilla_keybinds_page_tab_index = index
 			return {
 				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR, minh = 7, align = "cm" },
+				config = { colour = G.C.CLEAR, minh = 7.25, align = "cm" },
 				nodes = {
 					old_def(),
 				},
