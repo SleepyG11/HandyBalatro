@@ -251,6 +251,7 @@ function Handy.UI.insta_actions_page_definition()
 		},
 	}
 
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -281,6 +282,7 @@ function Handy.UI.insta_actions_page_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 
 	return {
 		n = G.UIT.C,

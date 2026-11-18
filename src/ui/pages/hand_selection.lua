@@ -3,6 +3,7 @@ local is_bmag_present = function()
 end
 
 function Handy.UI.hand_selection_page_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -34,6 +35,7 @@ function Handy.UI.hand_selection_page_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 
 	if not is_bmag_present() then
 		local CAI = {
@@ -174,7 +176,7 @@ function Handy.UI.hand_selection_page_definition()
 			h = 0.95 * G.CARD_H,
 			card_limit = 1,
 			highlight_limit = 0,
-            collection = true,
+			collection = true,
 			on_create = function(area)
 				local pos = Handy.UI.utils.calc_card_pos(area, G.CARD_W, G.CARD_H, 1, 1)
 				local me = Card(

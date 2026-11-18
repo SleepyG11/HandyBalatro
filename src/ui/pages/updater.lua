@@ -346,6 +346,7 @@ function Handy.UI.updater_release_definition(release_type)
 	}
 end
 function Handy.UI.updater_settings_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -373,7 +374,7 @@ function Handy.UI.updater_settings_definition()
 			},
 		},
 	}
-
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		config = { align = "cm" },

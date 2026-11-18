@@ -1,4 +1,4 @@
-Handy.UI.__global_d_counter = 1
+Handy.ARGS.dictionary_item_group_counter = 1
 
 ---
 
@@ -27,7 +27,7 @@ function Handy.UI.CP.dictionary_item_info(item)
 					type = "handy",
 					handy_dictionary = "info",
 				},
-				group = "d" .. Handy.UI.__global_d_counter,
+				group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 			},
 		}
 	end
@@ -54,7 +54,7 @@ function Handy.UI.CP.dictionary_item_info(item)
 				type = "handy",
 				handy_dictionary = "info",
 			},
-			group = "d" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 		},
 		nodes = {
 			{
@@ -151,7 +151,7 @@ function Handy.UI.CP.dictionary_item_checkbox(item)
 								type = "handy",
 								handy_dictionary = "toggle",
 							},
-							group = "d" .. Handy.UI.__global_d_counter,
+							group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 						},
 						nodes = {
 							{ n = G.UIT.O, config = { object = check } },
@@ -179,7 +179,7 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 			Handy.UI.CP.module_keybind_button(kb_values.ref_table or module, kb_values.ref_value_1 or key_1, options, {
 				dangerous = item.dangerous,
 				focus_args = { type = "handy", handy_dictionary = "control" },
-				group = "d" .. Handy.UI.__global_d_counter,
+				group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 				disabled = kb_values.disabled or false,
 			}),
 			{
@@ -195,7 +195,7 @@ function Handy.UI.CP.dictionary_item_keybind(item)
 			Handy.UI.CP.module_keybind_button(kb_values.ref_table or module, kb_values.ref_value_2 or key_2, options, {
 				dangerous = item.dangerous,
 				focus_args = { type = "handy", handy_dictionary = "control_2" },
-				group = "d" .. Handy.UI.__global_d_counter,
+				group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 				disabled = kb_values.disabled or false,
 			}),
 		},
@@ -245,7 +245,7 @@ function Handy.UI.CP.dictionary_item_simple_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
-			group = "d" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 			func = not disabled and "handy_gamepad_2step_control" or nil,
 		},
 		nodes = {
@@ -440,7 +440,7 @@ function Handy.UI.CP.dictionary_item_option_cycle(item)
 			colour = G.C.CLEAR,
 			id = args.id and (not args.label and args.id or nil) or nil,
 			focus_args = args.focus_args,
-			group = "d" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 			func = not args.disabled and "handy_gamepad_2step_control" or nil,
 		},
 		nodes = {
@@ -599,7 +599,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 				handy_dictionary = "control",
 				handy_disabled = args.disabled,
 			},
-			group = "d" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 			func = "handy_gamepad_2step_control",
 		},
 		nodes = {
@@ -663,7 +663,7 @@ function Handy.UI.CP.dictionary_item_slider(item)
 end
 
 function Handy.UI.CP.dictionary_item(item, options)
-	Handy.UI.__global_d_counter = Handy.UI.__global_d_counter + 1
+	Handy.ARGS.dictionary_item_group_counter = Handy.ARGS.dictionary_item_group_counter + 1
 	options = options or {}
 	local colour
 	if options.colour then
@@ -671,9 +671,15 @@ function Handy.UI.CP.dictionary_item(item, options)
 	elseif item.colour then
 		colour = item.colour
 	elseif options.bg then
-		colour = item.dangerous and adjust_alpha(G.C.MULT, 0.2) or adjust_alpha(HEX("000000"), 0.1)
+		colour = item.dangerous and adjust_alpha(G.C.MULT, 0.2) or { 0, 0, 0, 0.1 }
+		if Handy.ARGS.dictionary_item_bg_counter then
+			Handy.ARGS.dictionary_item_bg_counter = 1
+		end
 	elseif options.dangerous_bg and item.dangerous or (item.checkbox and item.checkbox.dangerous) then
 		colour = adjust_alpha(G.C.MULT, 0.1)
+	elseif Handy.ARGS.dictionary_item_bg_counter then
+		colour = Handy.ARGS.dictionary_item_bg_counter % 2 == 0 and { 1, 1, 1, 0.02 } or nil
+		Handy.ARGS.dictionary_item_bg_counter = Handy.ARGS.dictionary_item_bg_counter + 1
 	end
 
 	local res = Handy.L.loc_vars(item, {
@@ -690,7 +696,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 				handy_dictionary = "name",
 				nav = "wide",
 			},
-			group = "d" .. Handy.UI.__global_d_counter,
+			group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 			hover = true,
 			func = item.info_func or "handy_setup_hover_popups",
 			handy_item = item,
@@ -713,7 +719,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 								handy_dictionary = "toggle",
 								nav = "wide",
 							},
-							group = "d" .. Handy.UI.__global_d_counter,
+							group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 						},
 					},
 				},
@@ -813,7 +819,7 @@ function Handy.UI.CP.dictionary_item(item, options)
 						type = "handy",
 						handy_dictionary = "control",
 					},
-					group = "d" .. Handy.UI.__global_d_counter,
+					group = "d" .. Handy.ARGS.dictionary_item_group_counter,
 				},
 			} or nil,
 		},

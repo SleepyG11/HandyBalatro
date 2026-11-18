@@ -3,6 +3,7 @@ local keybinds_per_page = 7
 --
 
 function Handy.UI.dictionary_tab_page_UIBox()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local page = Handy.UI.data.dictionary.page or 1
 	local initial_items = Handy.UI.data.dictionary.items or {}
 
@@ -86,6 +87,7 @@ function Handy.UI.dictionary_tab_page_UIBox()
 			Handy.UI.CP.dictionary_item(item, { dangerous_bg = not current_target.config.handy_dangerous })
 		)
 	end
+	Handy.ARGS.dictionary_item_bg_counter = nil
 
 	return {
 		n = G.UIT.ROOT,

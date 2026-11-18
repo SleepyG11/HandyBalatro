@@ -94,6 +94,7 @@ end
 --
 
 function Handy.UI.speed_n_animations_speed_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -127,6 +128,7 @@ function Handy.UI.speed_n_animations_speed_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -135,6 +137,7 @@ function Handy.UI.speed_n_animations_speed_tab_definition()
 	}
 end
 function Handy.UI.speed_n_animations_hold_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -159,6 +162,7 @@ function Handy.UI.speed_n_animations_hold_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -167,6 +171,7 @@ function Handy.UI.speed_n_animations_hold_tab_definition()
 	}
 end
 function Handy.UI.speed_n_animations_animations_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -200,6 +205,7 @@ function Handy.UI.speed_n_animations_animations_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -235,7 +241,7 @@ function Handy.UI.get_speed_n_animations_tabs()
 			Handy.UI.data.speed_n_animations_tab_index = index
 			return {
 				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR, minh = 4, align = "cm" },
+				config = { colour = G.C.CLEAR, minh = 4.55, align = "cm" },
 				nodes = {
 					old_def(),
 				},

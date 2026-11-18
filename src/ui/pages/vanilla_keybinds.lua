@@ -1,4 +1,5 @@
 function Handy.UI.vanilla_keybinds_round_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -33,6 +34,7 @@ function Handy.UI.vanilla_keybinds_round_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -41,6 +43,7 @@ function Handy.UI.vanilla_keybinds_round_tab_definition()
 	}
 end
 function Handy.UI.vanilla_keybinds_game_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -72,6 +75,7 @@ function Handy.UI.vanilla_keybinds_game_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -80,6 +84,7 @@ function Handy.UI.vanilla_keybinds_game_tab_definition()
 	}
 end
 function Handy.UI.vanilla_keybinds_menus_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -120,6 +125,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -128,6 +134,7 @@ function Handy.UI.vanilla_keybinds_menus_tab_definition()
 	}
 end
 function Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -163,6 +170,7 @@ function Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {
@@ -171,6 +179,7 @@ function Handy.UI.vanilla_keybinds_shop_n_blind_select_tab_definition()
 	}
 end
 function Handy.UI.vanilla_keybinds_debug_tab_definition()
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -206,6 +215,7 @@ function Handy.UI.vanilla_keybinds_debug_tab_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 	return {
 		n = G.UIT.C,
 		nodes = {

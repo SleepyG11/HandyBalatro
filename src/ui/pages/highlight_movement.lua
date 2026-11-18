@@ -9,7 +9,7 @@ function Handy.UI.move_highlight_page_definition()
 		h = CAI.hand_H,
 		card_limit = 4,
 		highlight_limit = 1,
-        collection = true,
+		collection = true,
 		on_create = function(area)
 			for index, center in ipairs({
 				"j_greedy_joker",
@@ -73,6 +73,7 @@ function Handy.UI.move_highlight_page_definition()
 		},
 	}
 
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local content = {
 		n = G.UIT.R,
 		config = { align = "cm", colour = { 0, 0, 0, 0.1 }, r = 0.25, padding = 0.1 },
@@ -100,6 +101,7 @@ function Handy.UI.move_highlight_page_definition()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 
 	return {
 		n = G.UIT.C,
