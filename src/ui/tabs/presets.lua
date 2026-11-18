@@ -215,6 +215,7 @@ function Handy.UI.presets_tab_UIBox()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = 1
 	local keybinds = {
 		n = G.UIT.R,
 		config = { align = "cm" },
@@ -242,6 +243,7 @@ function Handy.UI.presets_tab_UIBox()
 			},
 		},
 	}
+	Handy.ARGS.dictionary_item_bg_counter = nil
 
 	return {
 		n = G.UIT.C,
