@@ -46,7 +46,7 @@ setmetatable(Handy.current_mod, {
 					["Speed Multiplier"] = string.format(
 						"%s | Event queue acceleration: %s | Animations Skip: %s",
 						speed_value,
-						acceleration_value + 1,
+						Handy.UI.utils.format_number(acceleration_value + 1),
 						tostring(animation_value)
 					),
 				}

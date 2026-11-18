@@ -62,9 +62,9 @@ end
 function Handy.speed_multiplier.localize_value()
 	local current_value = Handy.speed_multiplier.value
 	if current_value >= 1 then
-		Handy.speed_multiplier.value_text = tostring(current_value)
+		Handy.speed_multiplier.value_text = Handy.UI.utils.format_number(current_value)
 	else
-		Handy.speed_multiplier.value_text = "1/" .. tostring(1 / current_value)
+		Handy.speed_multiplier.value_text = "1/" .. Handy.UI.utils.format_number(1 / current_value)
 	end
 	Handy.speed_multiplier.value_text = Handy.speed_multiplier.value_text .. "x"
 	return Handy.speed_multiplier.value_text
@@ -144,7 +144,7 @@ function Handy.speed_multiplier.show_notif()
 		if retriggers_amount > 0 then
 			state.items.change_queue_retriggers_count = {
 				text = Handy.L.variable("Handy_event_queue_retriggers_amount", {
-					retriggers_amount + 1,
+					Handy.UI.utils.format_number(retriggers_amount + 1),
 				}),
 				hold = false,
 				order = 5.1,

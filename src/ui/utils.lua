@@ -599,6 +599,13 @@ function Handy.UI.utils.format_iso_date(iso, format)
 	return os.date(format, localTime)
 end
 
+function Handy.UI.utils.format_number(value)
+	local formatted = string.format("%.1f", value)
+	local integer, decimal = formatted:match("^(%-?%d+)%.(%d)$")
+	integer = integer:reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+	return integer .. (decimal ~= "0" and "." .. decimal or "")
+end
+
 function Handy.utils.parse_query(str)
 	local result = {}
 
