@@ -300,7 +300,7 @@ return {
 				text = {},
 				unlock = {
 					"Automatically disable feature",
-					"outside of round and/or hand scoring",
+					"outside of round or hand scoring",
 				},
 			},
 			-- []
@@ -368,7 +368,7 @@ return {
 				text = {},
 				unlock = {
 					"Automatically disable feature",
-					"outside of round and/or hand scoring",
+					"outside of round or hand scoring",
 				},
 			},
 			-- []
