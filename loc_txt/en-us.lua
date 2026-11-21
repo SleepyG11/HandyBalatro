@@ -1286,6 +1286,7 @@ return {
 			["Updater"] = "Mod updates",
 			["Thunderstore"] = "Thunderstore",
 			["Updater Settings"] = "Settings",
+			["Speed n Animations More"] = "More",
 		},
 		v_dictionary = {
 			Handy_version_by = "v#1# by #2#",

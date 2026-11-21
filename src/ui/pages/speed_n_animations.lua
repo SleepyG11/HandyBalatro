@@ -241,7 +241,7 @@ function Handy.UI.get_speed_n_animations_tabs()
 			end,
 		},
 		{
-			label = Handy.L.tab("Hold"),
+			label = Handy.L.tab("Speed n Animations More"),
 			tab_definition_function = function()
 				return Handy.UI.speed_n_animations_hold_tab_definition()
 			end,
@@ -253,7 +253,7 @@ function Handy.UI.get_speed_n_animations_tabs()
 			Handy.UI.data.speed_n_animations_tab_index = index
 			return {
 				n = G.UIT.ROOT,
-				config = { colour = G.C.CLEAR, minh = 4.55, align = "cm" },
+				config = { colour = G.C.CLEAR, minh = 4.8, align = "cm" },
 				nodes = {
 					old_def(),
 				},
