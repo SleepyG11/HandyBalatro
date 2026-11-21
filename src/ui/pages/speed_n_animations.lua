@@ -118,10 +118,7 @@ function Handy.UI.speed_n_animations_speed_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_multiply),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_divide),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_toggle_temp_disabled),
-							Handy.UI.CP.dictionary_item(
-								Handy.D.dictionary.dangerous_actions_speed_multiplier_uncap,
-								{ bg = true }
-							),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_active_states),
 						},
 					},
 				},
@@ -156,6 +153,24 @@ function Handy.UI.speed_n_animations_hold_tab_definition()
 						nodes = {
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.scoring_hold, { bg = true }),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.scoring_hold_any_moment),
+							Handy.UI.CP.r_sep(0.1),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.appearance, { bg = true }),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.speed_multiplier_settings_toggle),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_settings_toggle),
+							Handy.UI.CP.r_sep(0.1),
+							{
+								n = G.UIT.R,
+								config = { colour = adjust_alpha(G.C.MULT, 0.1), r = 0.25 },
+								nodes = {
+									Handy.UI.CP.dictionary_item(Handy.D.dictionary.dangerous_actions, { bg = true }),
+									Handy.UI.CP.dictionary_item(
+										Handy.D.dictionary.dangerous_actions_speed_multiplier_uncap
+									),
+									Handy.UI.CP.dictionary_item(
+										Handy.D.dictionary.dangerous_actions_animation_skip_unsafe
+									),
+								},
+							},
 						},
 					},
 				},
@@ -195,10 +210,7 @@ function Handy.UI.speed_n_animations_animations_tab_definition()
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_increase),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_decrease),
 							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_toggle_temp_disabled),
-							Handy.UI.CP.dictionary_item(
-								Handy.D.dictionary.dangerous_actions_animation_skip_unsafe,
-								{ bg = true }
-							),
+							Handy.UI.CP.dictionary_item(Handy.D.dictionary.animation_skip_active_states),
 						},
 					},
 				},

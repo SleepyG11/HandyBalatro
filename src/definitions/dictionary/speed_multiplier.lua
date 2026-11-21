@@ -154,9 +154,34 @@ Handy.API.Dictionary({
 	},
 })
 Handy.API.Dictionary({
-	key = "dangerous_actions_speed_multiplier_uncap",
+	key = "speed_multiplier_active_states",
 	parent = "speed_multiplier",
 	order = 7,
+
+	keywords = { "auto toggle automatic during round hand only" },
+	get_module = function(self)
+		return Handy.cc.speed_multiplier_active_states
+	end,
+	get_deps = function(self)
+		return { self.parent }
+	end,
+	no_mp = Handy.speed_multiplier.is_disabled_by_mp,
+
+	checkbox = {
+		advanced = true,
+	},
+	option_cycle = {
+		get_values = function()
+			return {
+				options = Handy.L.dictionary("handy_speed_multiplier_active_states"),
+			}
+		end,
+	},
+})
+Handy.API.Dictionary({
+	key = "dangerous_actions_speed_multiplier_uncap",
+	parent = "speed_multiplier",
+	order = 8,
 
 	keywords = { "dangerous max speed uncap unsafe" },
 	dangerous = true,

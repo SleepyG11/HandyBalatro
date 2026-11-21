@@ -163,9 +163,34 @@ Handy.API.Dictionary({
 	},
 })
 Handy.API.Dictionary({
-	key = "dangerous_actions_animation_skip_unsafe",
+	key = "animation_skip_active_states",
 	parent = "animation_skip",
 	order = 7,
+
+	keywords = { "auto toggle automatic during round hand only" },
+	get_module = function(self)
+		return Handy.cc.animation_skip_active_states
+	end,
+	get_deps = function(self)
+		return { self.parent }
+	end,
+	no_mp = Handy.animation_skip.is_disabled_by_mp,
+
+	checkbox = {
+		advanced = true,
+	},
+	option_cycle = {
+		get_values = function()
+			return {
+				options = Handy.L.dictionary("handy_animation_skip_active_states"),
+			}
+		end,
+	},
+})
+Handy.API.Dictionary({
+	key = "dangerous_actions_animation_skip_unsafe",
+	parent = "animation_skip",
+	order = 8,
 
 	keywords = { "no animation", "dangerous unsafe remove all animations instant fast" },
 	dangerous = true,

@@ -5,7 +5,7 @@ Handy.speed_multiplier = {
 
 	selectable_options = {
 		"1x",
-		"1.25x",
+		"1.2x",
 		"1.5x",
 		"2x",
 		"4x",
@@ -16,6 +16,21 @@ Handy.speed_multiplier = {
 		"128x",
 		"256x",
 		"512x",
+	},
+
+	active_states = {
+		[1] = {},
+		[2] = {
+			[G.STATES.SELECTING_HAND] = true,
+			[G.STATES.HAND_PLAYED] = true,
+			[G.STATES.DRAW_TO_HAND] = true,
+			[G.STATES.NEW_ROUND] = true,
+		},
+		[3] = {
+			[G.STATES.HAND_PLAYED] = true,
+			[G.STATES.DRAW_TO_HAND] = true,
+			[G.STATES.NEW_ROUND] = true,
+		},
 	},
 }
 
@@ -31,6 +46,13 @@ function Handy.speed_multiplier.is_uncapped()
 	return Handy.b_is_dangerous_actions_active()
 		and not Handy.b_is_in_multiplayer()
 		and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_speed_multiplier_uncap)
+end
+function Handy.speed_multiplier.is_active_state()
+	if Handy.UI.data.speed_n_animations_preview or Handy.cc.speed_multiplier_active_states.value == 1 then
+		return true
+	end
+	local state = Handy.speed_multiplier.active_states[Handy.cc.speed_multiplier_active_states.value]
+	return state[G.TAROT_INTERRUPT or G.STATE] or false
 end
 
 --- Value
@@ -101,6 +123,7 @@ end
 function Handy.speed_multiplier.get_value()
 	if
 		Handy.speed_multiplier.temp_disabled
+		or not Handy.speed_multiplier.is_active_state()
 		or not Handy.b_is_mod_active()
 		or Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp)
 		or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)

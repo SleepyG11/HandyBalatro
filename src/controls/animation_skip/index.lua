@@ -9,6 +9,21 @@ Handy.animation_skip = {
 	ANIMATIONS = 3,
 	EVERYTHING = 4,
 	UNSAFE = 5,
+
+	active_states = {
+		[1] = {},
+		[2] = {
+			[G.STATES.SELECTING_HAND] = true,
+			[G.STATES.HAND_PLAYED] = true,
+			[G.STATES.DRAW_TO_HAND] = true,
+			[G.STATES.NEW_ROUND] = true,
+		},
+		[3] = {
+			[G.STATES.HAND_PLAYED] = true,
+			[G.STATES.DRAW_TO_HAND] = true,
+			[G.STATES.NEW_ROUND] = true,
+		},
+	},
 }
 
 -- Filters
@@ -23,6 +38,13 @@ function Handy.animation_skip.can_dangerous()
 	return Handy.b_is_dangerous_actions_active()
 		and not Handy.b_is_in_multiplayer()
 		and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_animation_skip_unsafe)
+end
+function Handy.animation_skip.is_active_state()
+	if Handy.UI.data.speed_n_animations_preview or Handy.cc.animation_skip_active_states.value == 1 then
+		return true
+	end
+	local state = Handy.animation_skip.active_states[Handy.cc.animation_skip_active_states.value]
+	return state[G.TAROT_INTERRUPT or G.STATE] or false
 end
 
 Handy.animation_skip.queues_to_skip = {
@@ -94,6 +116,7 @@ end
 function Handy.animation_skip.get_value()
 	if
 		Handy.animation_skip.temp_disabled
+		or not Handy.animation_skip.is_active_state()
 		or not Handy.b_is_mod_active()
 		or Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 		or not Handy.controls.is_module_enabled(Handy.cc.animation_skip)

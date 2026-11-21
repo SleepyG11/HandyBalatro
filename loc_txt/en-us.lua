@@ -295,6 +295,15 @@ return {
 				},
 			},
 			-- []
+			animation_skip_active_states = {
+				name = "Animation Skip: Active states",
+				text = {},
+				unlock = {
+					"Automatically disable feature",
+					"outside of round and/or hand scoring",
+				},
+			},
+			-- []
 			animation_skip_increase = {
 				name = { "Animations Skip: Increase" },
 				text = {},
@@ -351,6 +360,15 @@ return {
 				text = {},
 				unlock = {
 					"Overrides game startup value",
+				},
+			},
+			-- []
+			speed_multiplier_active_states = {
+				name = "Speed Multiplier: Active states",
+				text = {},
+				unlock = {
+					"Automatically disable feature",
+					"outside of round and/or hand scoring",
 				},
 			},
 			-- []
@@ -1487,6 +1505,17 @@ return {
 			handy_gamepad_2step_select = "to select",
 			handy_gamepad_2step_adjust = "to adjust",
 			handy_gamepad_2step_deselect = "to deselect",
+
+			handy_speed_multiplier_active_states = {
+				"Always active",
+				"During round only",
+				"During scoring only",
+			},
+			handy_animation_skip_active_states = {
+				"Always active",
+				"During round only",
+				"During scoring only",
+			},
 		},
 	},
 }
