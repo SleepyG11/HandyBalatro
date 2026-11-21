@@ -152,6 +152,19 @@ function Handy.animation_skip.show_notif(dx)
 			order = 4,
 			dangerous = is_dangerous,
 		}
+		if Handy.cc.animation_skip_active_states.value > 1 then
+			state.items.animation_skip_active_state = {
+				text = Handy.L.brackets(
+					Handy.L.dictionary(
+						"handy_animation_skip_active_states",
+						Handy.cc.animation_skip_active_states.value
+					)
+				),
+				hold = false,
+				order = 4.025,
+				dangerous = is_dangerous,
+			}
+		end
 		if not Handy.animation_skip.can_dangerous() and dx > 0 and value == Handy.animation_skip.EVERYTHING then
 			state.items.prevent_animation_skip_unsafe = {
 				text = Handy.L.dictionary("ph_handy_notif_animation_skip_unsafe_disabled"),

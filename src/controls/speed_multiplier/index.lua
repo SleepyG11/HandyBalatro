@@ -170,7 +170,20 @@ function Handy.speed_multiplier.show_notif()
 					Handy.UI.utils.format_number(retriggers_amount + 1),
 				}),
 				hold = false,
-				order = 5.1,
+				order = 5.025,
+			}
+		end
+		if Handy.cc.speed_multiplier_active_states.value > 1 then
+			state.items.speed_multiplier_active_state = {
+				text = Handy.L.brackets(
+					Handy.L.dictionary(
+						"handy_speed_multiplier_active_states",
+						Handy.cc.speed_multiplier_active_states.value
+					)
+				),
+				hold = false,
+				order = 5.05,
+				dangerous = is_dangerous,
 			}
 		end
 		return true

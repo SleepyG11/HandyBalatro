@@ -9,7 +9,7 @@ function Handy.UI.settings_speed_multiplier()
 			n = G.UIT.R,
 			config = { align = "cm" },
 			nodes = {
-				Handy.UI.CP.c_sep(1.825),
+				Handy.UI.CP.c_sep(1.85),
 				{
 					n = G.UIT.C,
 					config = {},
@@ -61,7 +61,7 @@ function Handy.UI.settings_animation_skip()
 			n = G.UIT.R,
 			config = { align = "cm" },
 			nodes = {
-				Handy.UI.CP.c_sep(1.825),
+				Handy.UI.CP.c_sep(1.85),
 				{
 					n = G.UIT.C,
 					config = { align = "cm" },
