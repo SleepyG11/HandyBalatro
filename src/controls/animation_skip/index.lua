@@ -40,7 +40,11 @@ function Handy.animation_skip.can_dangerous()
 		and Handy.controls.is_module_enabled(Handy.cc.dangerous_actions_animation_skip_unsafe)
 end
 function Handy.animation_skip.is_active_state()
-	if Handy.UI.data.speed_n_animations_preview or Handy.cc.animation_skip_active_states.value == 1 then
+	if
+		Handy.UI.data.speed_n_animations_preview
+		or Handy.cc.animation_skip_active_states.value == 1
+		or Handy.animation_skip.hand_was_played
+	then
 		return true
 	end
 	local state = Handy.animation_skip.active_states[Handy.cc.animation_skip_active_states.value]

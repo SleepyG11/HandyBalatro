@@ -254,3 +254,24 @@ Handy.ARGS.prevent_play_sound = nil
 G.ROOM.jiggle = handy_old_jiggle or G.ROOM.jiggle
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+inc_career_stat('c_hands_played', 1)
+'''
+position = "before"
+payload = '''
+Handy.animation_skip.hand_was_played = true
+G.E_MANAGER:add_event(Event({
+    trigger = 'immediate',
+    blocking = false,
+    no_delete = true,
+    func = function()
+        Handy.animation_skip.hand_was_played = nil
+        return true
+    end
+}))
+'''
+match_indent = true
