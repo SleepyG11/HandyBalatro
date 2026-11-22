@@ -147,14 +147,17 @@ function Handy.speed_multiplier.show_notif()
 		and not Handy.speed_multiplier.temp_disabled
 	local level = is_dangerous and 2 or 3
 	Handy.UI.state_panel.display(function(state)
+		local is_disabled = false
 		local text = Handy.L.variable("Handy_gamespeed_multiplier", { Handy.speed_multiplier.value_text })
 
 		if Handy.disabled_in_mp_check(Handy.speed_multiplier.is_disabled_by_mp) then
 			text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
+			is_disabled = true
 		elseif
 			Handy.speed_multiplier.temp_disabled or not Handy.controls.is_module_enabled(Handy.cc.speed_multiplier)
 		then
 			text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+			is_disabled = true
 		end
 
 		state.items.change_speed_multiplier = {
@@ -173,7 +176,7 @@ function Handy.speed_multiplier.show_notif()
 				order = 5.025,
 			}
 		end
-		if Handy.cc.speed_multiplier_active_states.value > 1 then
+		if not is_disabled and Handy.cc.speed_multiplier_active_states.value > 1 then
 			state.items.speed_multiplier_active_state = {
 				text = Handy.L.brackets(
 					Handy.L.dictionary(

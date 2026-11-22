@@ -143,12 +143,15 @@ function Handy.animation_skip.show_notif(dx)
 	local level = (is_dangerous and not Handy.animation_skip.temp_disabled) and 2 or 3
 
 	Handy.UI.state_panel.display(function(state)
+		local is_disabled = false
 		local text = Handy.L.variable("Handy_animation_skip", { Handy.animation_skip.value_text })
 		local mp_check = Handy.disabled_in_mp_check(Handy.animation_skip.is_disabled_by_mp)
 		if mp_check then
 			text = text .. " " .. Handy.L.variable("Handy_disabled_in_mp")
+			is_disabled = true
 		elseif Handy.animation_skip.temp_disabled or not Handy.controls.is_module_enabled(Handy.cc.animation_skip) then
 			text = text .. " " .. Handy.L.variable("Handy_temp_disabled")
+			is_disabled = true
 		end
 		state.items.change_animation_skip = {
 			text = text,
@@ -156,7 +159,7 @@ function Handy.animation_skip.show_notif(dx)
 			order = 4,
 			dangerous = is_dangerous,
 		}
-		if Handy.cc.animation_skip_active_states.value > 1 then
+		if not is_disabled and Handy.cc.animation_skip_active_states.value > 1 then
 			state.items.animation_skip_active_state = {
 				text = Handy.L.brackets(
 					Handy.L.dictionary(
